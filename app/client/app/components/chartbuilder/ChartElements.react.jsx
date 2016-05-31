@@ -172,10 +172,10 @@ let ChartElementsType = React.createClass({
                 {...this.props}>
                 
                     {this.props.type == 'reporting_organisation' ? 
-                        <ModalButton name="Your organisation not here?" className="not-here" closeButton="Close">
+                        <ModalButton name="Your organisation not listed?" className="not-here" closeButton="Close">
                             <div className="modal-inside">
-                                <h6>Your organisation not here?</h6>
-                                <p>If your organisation reports data to the IATI registry and is not listed here, there might be no transactions in your data or we might have trouble parsing your transactions. Please contact us with with your organisation identifier for more information on <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a>.</p>
+                                <h6>Your organisation not listed?</h6>
+                                <p>If your organisation reports data to the IATI registry and is not listed here, there may be no transactions in your data or we may have trouble parsing your transactions. Please contact us with with your organisation identifier for more information on <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a>.</p>
                             </div>
                         </ModalButton>
                      : null}
