@@ -1,0 +1,15 @@
+server {
+	listen 80;
+        server_name dev.iatistudio.com;
+        location / {
+		# auth_basic "Restricted";
+		# auth_basic_user_file /etc/nginx/.htpasswd;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+		proxy_pass http://localhost:2000;
+	}
+
+	location /static/ {
+		alias /home/oipa/IATI-STUDIO/app/public/;
+	}
+}

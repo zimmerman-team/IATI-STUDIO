@@ -1,0 +1,43 @@
+/public/*.js
+/public/*.json
+/public/*.svg
+/public/js/*
+/public/css/*
+/public/bower_components/
+/public/bundle.js
+
+/server/config/config.js
+/server/config/oauth.js
+
+*.min.js
+*.min.css
+*.map
+*.swp
+
+# drywall
+public/drywall/vendor/*
+
+# python
+__pycache__/
+**/*.py[cod]
+
+# js
+frontend/app/config.js
+
+# django
+db.sqlite3
+migrations
+local_settings.py
+
+# npm
+node_modules
+npm-debug.log*
+
+# coverage
+.coverage
+htmlcov/
+
+# vim files
+tags
+Session.vim
+

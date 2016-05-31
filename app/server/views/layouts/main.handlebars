@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>IATI Studio | Beta release 1.1</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="stylesheet" href="css/app.css" /> -->
+    </head>
+    <body>
+        <!--[if lt IE 9]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        {{#if user}}
+            <script>
+                var user = {{{user}}}
+            </script>
+        {{/if}}
+
+        <div id="app"></div>
+ 
+        <script src="static/bundle.js"></script>
+        <script src="https://use.typekit.net/wim8txg.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+        <script>
+          function loadCSS(href){
+            var ss = window.document.createElement('link'),
+                ref = window.document.getElementsByTagName('head')[0];
+
+            ss.rel = 'stylesheet';
+            ss.href = href;
+            ss.media = 'only x';
+
+            ref.parentNode.insertBefore(ss, ref);
+
+            setTimeout( function(){
+              ss.media = 'all';
+            },0);
+          }
+          loadCSS('https://fonts.googleapis.com/icon?family=Material+Icons');
+          loadCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css');
+        </script>
+
+    </body>
+</html>
+

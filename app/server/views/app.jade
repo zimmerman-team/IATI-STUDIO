@@ -1,0 +1,72 @@
+
+doctype html
+//if lt IE 7
+  html.no-js.lt-ie9.lt-ie8.lt-ie7  
+//if IE 7
+  html.no-js.lt-ie9.lt-ie8  
+//if IE 8
+  html.no-js.lt-ie9  
+// [if gt IE 8] <!
+html.no-js(lang='en')
+  // <![endif]
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title IATI Studio | Beta release 1.1
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='icon', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/favicon.ico', type='image/x-icon')
+    link(rel='apple-touch-icon', sizes='144x144', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon-144x144.png')
+    link(rel='apple-touch-icon', sizes='114x114', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon-114x114.png')
+    link(rel='apple-touch-icon', sizes='72x72', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon-72x72.png')
+    link(rel='apple-touch-icon', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon.png')
+  body
+    //if lt IE 9
+      p.browsehappy
+        | You are using an 
+        strong outdated
+        |  browser. Please 
+        a(href='http://browsehappy.com/') upgrade your browser
+        |  to improve your experience.
+    script.
+        var INITIAL_STATE = !{JSON.stringify(INITIAL_STATE)};
+
+    #app
+
+    script(src='/static/app.bundle.js')
+
+    script(src='https://use.typekit.net/wim8txg.js')
+    script.
+      try{Typekit.load({ async: true });}catch(e){}
+
+    script.
+      function loadCSS(href){
+      var ss = window.document.createElement('link'),
+      ref = window.document.getElementsByTagName('head')[0];
+      ss.rel = 'stylesheet';
+      ss.href = href;
+      ss.media = 'only x';
+      ref.parentNode.insertBefore(ss, ref);
+      setTimeout( function(){
+      ss.media = 'all';
+      },0);
+      }
+      loadCSS('https://fonts.googleapis.com/icon?family=Material+Icons');
+      loadCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css');
+
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-72615514-2', 'auto');
+      ga('send', 'pageview');
+
+    script(type='text/javascript').
+      var _vwo_code=(function(){
+      var account_id=242000,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=false,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();

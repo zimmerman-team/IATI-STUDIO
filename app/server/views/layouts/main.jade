@@ -1,0 +1,48 @@
+
+doctype html
+//if lt IE 7
+  html.no-js.lt-ie9.lt-ie8.lt-ie7  
+//if IE 7
+  html.no-js.lt-ie9.lt-ie8  
+//if IE 8
+  html.no-js.lt-ie9  
+// [if gt IE 8] <!
+html.no-js(lang='en')
+  // <![endif]
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title IATI Studio | Prototype chartbuilder
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+  body
+    //if lt IE 9
+      p.browsehappy
+        | You are using an 
+        strong outdated
+        |  browser. Please 
+        a(href='http://browsehappy.com/') upgrade your browser
+        |  to improve your experience.
+    script.
+        var user = !{user}
+    #app
+    script(src='static/bundle.js')
+
+    script(src='https://use.typekit.net/wim8txg.js')
+    script.
+      try{Typekit.load({ async: true });}catch(e){}
+
+    script.
+      function loadCSS(href){
+      var ss = window.document.createElement('link'),
+      ref = window.document.getElementsByTagName('head')[0];
+      ss.rel = 'stylesheet';
+      ss.href = href;
+      ss.media = 'only x';
+      ref.parentNode.insertBefore(ss, ref);
+      setTimeout( function(){
+      ss.media = 'all';
+      },0);
+      }
+      loadCSS('https://fonts.googleapis.com/icon?family=Material+Icons');
+      loadCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css');
