@@ -116,6 +116,7 @@ export const PublicChart = props => {
                 items={items}
                 chartProps={visualization.chartProps}
                 noTimeline={noTimeline}
+                currency={visualization.currency}
             />
             { noLegend ? null :
             <div className="legend row" style={{fontFamily:'proxima-nova, sans-serif'}}>
