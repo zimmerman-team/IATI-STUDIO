@@ -172,7 +172,7 @@ let CollectionList = React.createClass({
                         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
                             {_.isEmpty(visualizationsSorted) ? 
                                 <div className="columns small-12 empty-message">
-                                    <p>Your library is currently empty. Start visualising some data using the menu on the left.</p>
+                                    <p>Your library is currently empty. Create a chart by using the menu on the left.</p>
                                 </div>
                             : null }
                         </ReactCSSTransitionGroup>
