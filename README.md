@@ -23,8 +23,7 @@ IATI is a global aid transparency standard and it makes information about aid sp
 * Web Site:         [IATI Studio](https://www.iatistudio.com/)
 * OIPA:             [OIPA] (https://github.com/zimmerman-zimmerman/OIPA)
 * Authors:          [Zimmerman & Zimmerman ](https://www.zimmermanzimmerman.nl/)
-* License:          [Non-Profit Open Software License version 3.0 (NPOSL-3.0)
-](https://opensource.org/licenses/NPOSL-3.0)
+* License:          [Needs Thinking]
 * Github Repo:      https://github.com/zimmerman-zimmerman/IATI-STUDIO//
 * Bug Tracker:      https://github.com/zimmerman-zimmerman/IATI-STUDIO//issues
 * Documentation:    https://github.com/zimmerman-zimmerman/IATI-STUDIO//wiki
@@ -33,9 +32,7 @@ IATI is a global aid transparency standard and it makes information about aid sp
 
 #### Licensing
 --------
-IATI Studio serves as a web service-layer that connects to [OIPA](https://github.com/zimmerman-zimmerman/OIPA). OIPA is licensed under the AGPLV3 license and can be used accordingly. IATI Studio is licensed under [Non-Profit Open Software License 3.0 (NPOSL-3.0)](https://opensource.org/licenses/NPOSL-3.0), which in short means you can:
-
-Re-use IATI Studio any way you see fit, providing you are a not-for-profit organization that derives no revenue whatsoever from the distribution of the Original Work or Derivative Works.
+Needs thinking
 
 
 
