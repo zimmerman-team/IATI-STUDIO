@@ -18,7 +18,7 @@ import SideBar from './ChartSideBar.react.jsx'
 import { ChartLoader } from '../components/general/Loaders.react.jsx'
 
 import { ChartName } from '../components/chartbuilder/ChartConfiguration.react.jsx'
-import { DraftEditor } from '../components/general/Input.react.jsx'
+import { DraftEditor, RichEditor } from '../components/general/Input.react.jsx'
 
 import { toggleMainMenu, clientError } from '../actions/sync'
 import { YetAnotherLoader } from '../components/general/Loaders.react.jsx'
@@ -295,7 +295,7 @@ let ChartBuilder = React.createClass({
     },
 
     saveChart: function() {
-        this.refs.description.save()
+        //this.refs.description.save()
     },
 
     //joyride stuff
@@ -353,7 +353,7 @@ let ChartBuilder = React.createClass({
                                 createVisualization={this.props.createVisualization}
                                 forkVisualization={this.props.forkVisualization}
                                 updateVisualization={this.props.updateVisualization}
-                                saveChart={this.saveChart}
+                                //saveChart={this.saveChart}
                             />
                         </div>
 
@@ -406,7 +406,7 @@ let ChartBuilder = React.createClass({
                                 <div className="row description">
                                     <div className="columns small-12">
                                         <h3 className="chart-step">Add chart description</h3>
-                                        <DraftEditor saveDescription={this.saveDescription} defaultContent={visualization.description} ref="description"/>
+                                        <RichEditor saveDescription={this.saveDescription} defaultContent={visualization.description}/>
                                     </div>
                                 </div>
                             </div>

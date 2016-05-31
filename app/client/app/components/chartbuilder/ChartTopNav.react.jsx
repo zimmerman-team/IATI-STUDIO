@@ -26,7 +26,7 @@ export const ChartTopControls = withRouter(
             createVisualization: PropTypes.func.isRequired,
             updateVisualization: PropTypes.func.isRequired,
             forkVisualization: PropTypes.func.isRequired,
-            saveChart: PropTypes.func.isRequired,
+            //saveChart: PropTypes.func.isRequired,
             clientError: PropTypes.func.isRequired,
         },
 
@@ -90,7 +90,7 @@ export const ChartTopControls = withRouter(
                     <div className="columns small-12">
                         <div className="action-wrap">
                             <div className="button-group">
-                                <TopNavItem title="Save" className="save"  materialIcon="save" onClick={this.props.saveChart}/>
+                                <TopNavItem title="Save" className="save"  materialIcon="save"/>
                                 <TopNavItem title="Preview" materialIcon="visibility" onClick={this.openPreviewPage.bind(this, visualization._id)} />
                                 <TopNavItem disabled={!visualization.public} title="Public page" materialIcon="public" onClick={this.openPublicPage.bind(this, visualization._id)} />
                                 <TopNavItem title={visualization.public ? "Published" : "Publish"} materialIcon={visualization.public ? "check" : "publish"} onClick={this.publishChartToggle} published={visualization.public} className="publish"/>

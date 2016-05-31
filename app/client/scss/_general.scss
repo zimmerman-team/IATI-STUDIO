@@ -761,6 +761,7 @@ label {
     .toolbar {
         background:lighten($light-bg,2%);
         border-bottom:1px solid $medium-gray;
+        @extend .clearfix;
         button {
             //border-right:1px solid $medium-gray;
             padding:.6rem;
@@ -812,6 +813,27 @@ label {
         padding-left:1rem;
         padding-top:1rem;
         color:$dark-gray;
+    }
+    .RichEditor-controls {
+        float: left;
+        &:first-of-type {
+            border-right:1px solid $medium-gray;
+        }
+    }
+    .RichEditor-styleButton {
+        cursor: pointer;
+        display: inline-block;
+        padding:.1rem .5rem;
+        i {
+            font-size: 1.4rem;
+            line-height: 1.7;
+        }
+        &.RichEditor-activeButton, &:hover {
+            color:$primary-color;
+            i {
+                color:$primary-color;
+            }
+        }
     }
 }
 
