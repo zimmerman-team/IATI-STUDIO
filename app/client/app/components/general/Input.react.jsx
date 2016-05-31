@@ -29,10 +29,10 @@ export const DraftEditor = React.createClass({
         }
 
         let ContentSt = convertFromRaw(content)
-        let contentState = ContentState.createFromBlockArray(ContentSt)
+        //let contentState = ContentState.createFromBlockArray(ContentSt)
 
         this.setState({
-            editorState: EditorState.createWithContent(contentState)
+            editorState: EditorState.createWithContent(contentSt)
         })
     },
     componentWillMount: function() {
