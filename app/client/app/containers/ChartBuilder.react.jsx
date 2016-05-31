@@ -113,17 +113,7 @@ function loadData(props) {
 let ChartBuilder = React.createClass({
 
     componentDidMount: function() {
-        setTimeout(() => {
-            this.setState({ // wat is deze..
-                ready: true
-            })
-        }, 1000)
-        this.addSteps(steps);
-
-    },
-
-    componentDidUpdate: function(prevProps, prevState) {
-        if (!prevState.ready && this.state.ready && this.state.joyride) {
+        if (this.state.joyride) {
             this.refs.joyride.start(true)
         }
     },
@@ -285,7 +275,7 @@ let ChartBuilder = React.createClass({
 
     saveDescription: function(value) {
         let { visualization } = this.props
-        this.props.updateVisualization(visualization, { description: value }, 'save')
+        this.props.updateVisualization(visualization, { description: value })
     },
 
     saveTitle: function(e) {
@@ -311,26 +301,9 @@ let ChartBuilder = React.createClass({
     //joyride stuff
     getInitialState: function() {
         return {
-            ready: false,
-            steps: [],
+            steps: steps,
             joyride: this.props.uiState.joyride,
         }
-    },
-    addSteps: function (steps) {
-        let joyride = this.refs.joyride;
-
-        if (!Array.isArray(steps)) {
-            steps = [steps];
-        }
-
-        if (!steps.length) {
-            return false;
-        }
-
-        this.setState(function(currentState) {
-            currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
-            return currentState;
-        });
     },
 
     completeCallback: function() {

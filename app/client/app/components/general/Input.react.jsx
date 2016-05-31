@@ -3,9 +3,6 @@ import React, { PropTypes } from 'react'
 import Textarea from 'react-textarea-autosize'
 
 import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, Entity, ContentState} from 'draft-js'
-
-//import RichTextEditor from 'react-rte';
-
 import numeral from 'numeral'
 
 export const DraftEditor = React.createClass({
@@ -17,7 +14,9 @@ export const DraftEditor = React.createClass({
         }
     },
     componentWillReceiveProps: function(nextProps) {
-        let content = nextProps.defaultContent
+    },
+    componentWillMount: function() {
+        let content = this.props.defaultContent
 
         if (typeof content == 'string'){
             let emptyContentState = ContentState.createFromText('');
@@ -32,11 +31,9 @@ export const DraftEditor = React.createClass({
         //let contentState = ContentState.createFromBlockArray(ContentSt)
 
         this.setState({
-            editorState: EditorState.createWithContent(contentSt)
+            editorState: EditorState.createWithContent(ContentSt)
         })
-    },
-    componentWillMount: function() {
-       this.timedSave = _.debounce(this.save,5000)
+        this.timedSave = _.debounce(this.save,500)
     },
     onChange: function(editorState) {
         this.setState({editorState})
@@ -57,7 +54,6 @@ export const DraftEditor = React.createClass({
         this.onChange(RichUtils.toggleBlockType(this.state.editorState, block))
     },
     onStyleBlockSelect: function(event) {
-        console.log(event.target.value)
         this.onChange(RichUtils.toggleBlockType(this.state.editorState, event.target.value))
     },
     save: function() {
@@ -71,17 +67,12 @@ export const DraftEditor = React.createClass({
     },
     render: function() {
         let blockStyles = [
-            { style : 'paragraph', name : 'Paragraph' },
-            // { style : 'header-one', name : 'Header 1' },
-            // { style : 'header-two', name : 'Header 2' },
-            { style : 'header-three', name : 'Header' },
-            // { style : 'header-four', name : 'Header 4' },
-            // { style : 'header-five', name : 'Header 5' },
-            // { style : 'header-six', name : 'Header 6' },
-            { style : 'blockquote', name : 'Block quote' },
+            { style : 'unstyled', label : 'Paragraph' },
+            { style : 'header-three', label : 'Header' },
+            { style : 'blockquote', label : 'Block quote' },
         ]
         let codeOptions = blockStyles.map(c => (
-            <option key={c.style} value={c.style}>{ c.name }</option>
+            <option key={c.style} value={c.style}>{ c.label }</option>
         ))
         const selection = this.state.editorState.getSelection();
         const blockType = this.state.editorState
