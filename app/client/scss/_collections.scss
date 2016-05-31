@@ -31,6 +31,35 @@
 			transform:translateY(0);
 			@include card(1);
 		}
+		&.public {
+			.published {
+				position:absolute;
+				top:0;
+				right:0;
+				width: 0;
+			    height: 0;
+			    padding-left:3.5rem;
+			    padding-top: 3.5rem;
+			    overflow: hidden;
+			    &:after {
+				    content: "";
+				    display: block;
+				    width: 0;
+				    height: 0;
+				    margin-left:-500px;
+				    margin-top:-500px;
+				    border-left: 500px solid transparent;
+				    border-top: 500px solid $success-color;
+				}
+				i {
+					position:absolute;
+					top:.4rem;
+					right:.3rem;
+					color:$white;
+					font-size: 1.3rem;
+				}
+			}
+		}
 	}
 	header {
 		height:5rem;

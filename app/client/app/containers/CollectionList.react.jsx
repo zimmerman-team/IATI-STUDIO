@@ -163,6 +163,7 @@ let CollectionList = React.createClass({
                                             dateCreated={item.created} 
                                             lastUpdated={item.last_updated}
                                             forkVisualization={this.props.forkVisualization}
+                                            public={item.public}
                                         />
                                     )
                                 })

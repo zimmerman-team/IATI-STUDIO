@@ -28,10 +28,10 @@ export const CollectionCard = React.createClass({
             title,
             description,
             dateCreated,
-            lastUpdated
+            lastUpdated,
         } = this.props
 
-        let cardClass = classNames('card', this.props.type, this.props.type_detail)
+        let cardClass = classNames('card', this.props.type, this.props.type_detail, {public: this.props.public})
         let headerImage = this.props.image ? {backgroundImage: 'url(' + this.props.image + ')'} : null
 
         let updateDate = moment(lastUpdated).format("D MMM YYYY [at] HH:mm")
@@ -41,6 +41,7 @@ export const CollectionCard = React.createClass({
             	<div className={cardClass}>
                     <Link to={`/chartbuilder/${id}`} className="no-color">
                 		<header style={headerImage}>
+                        {this.props.public ? <div className="published"><i className="material-icons">public</i></div> : null }
                 		</header>
                 		<section className="content">
                             <h5>{title ? title : 'Untitled'}</h5>
