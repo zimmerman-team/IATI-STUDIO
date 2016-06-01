@@ -33,6 +33,7 @@ import {
     RESET_ERROR_MESSAGE,
     CLIENT_ERROR,
     INITIAL_PARAMS,
+    EDIT_ACTIVE,
 } from './actions/sync'
 
 import * as ActionTypes from './actions/async'
@@ -168,6 +169,17 @@ function requestCount(state={}, action) {
         }
     }
     return state
+}
+
+function saveState(state={ editing: false }, action) {
+    switch(action.type) {
+        case EDIT_ACTIVE:
+            return Object.assign({}, state, {
+                editing: action.show,
+            })
+        default:
+            return state
+    }
 }
 
 function loadState(state={ loadingItems: true, loadingContext: true, loadingChart: false, loadingAllViz: true}, action) {
@@ -533,6 +545,7 @@ const rootReducer = combineReducers({
     contextFilters,
     itemFilters,
     navState,
+    saveState,
     loadState,
     requestCount,
     notificationCenter,

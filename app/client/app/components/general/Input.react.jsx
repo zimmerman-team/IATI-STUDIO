@@ -5,10 +5,12 @@ import Textarea from 'react-textarea-autosize'
 import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, Entity, ContentState } from 'draft-js'
 import numeral from 'numeral'
 import Immutable from 'immutable'
+import { connect } from 'react-redux'
+import { setEditState } from '../../actions/sync'
 
 const {Map} = Immutable
 
-export class RichEditor extends React.Component {
+class RichEditor extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,6 +20,9 @@ export class RichEditor extends React.Component {
 
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => {
+            if (!this.props.editing) {
+                this.props.setEditState(true)
+            }
             this.setState({editorState})
             this.timedSave()
         }
@@ -44,13 +49,14 @@ export class RichEditor extends React.Component {
         this.setState({
             editorState: EditorState.createWithContent(cs),
         })
-        this.timedSave = _.debounce(this.save,500)
+        this.timedSave = _.debounce(this.save,1000)
     }
 
     save() {
         const content = this.state.editorState.getCurrentContent()
         let rawContentState = convertToRaw(content)
         this.props.saveDescription(rawContentState)
+        this.props.setEditState(false)
     }
 
     _handleKeyCommand(command) {
@@ -122,6 +128,20 @@ export class RichEditor extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state, props) {
+    const { 
+        saveState,
+    } = state
+
+    return {
+        editing: saveState.editing,
+    }
+}
+
+export default connect(mapStateToProps, {
+    setEditState
+})(RichEditor)
 
 // Custom overrides for "code" style.
 const styleMap = {
@@ -219,9 +239,7 @@ const InlineStyleControls = (props) => {
 };
 
 
-
-
-export const DraftEditor = React.createClass({
+/*export const DraftEditor = React.createClass({
     getInitialState: function() {     
         return {
             editorState: EditorState.createEmpty(),
@@ -319,7 +337,7 @@ export const DraftEditor = React.createClass({
             </div>
         )
     }
-})
+})*/
 
 const Input = React.createClass({
 

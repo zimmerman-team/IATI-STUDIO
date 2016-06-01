@@ -208,6 +208,7 @@ export const ChartName = compose(
         <InputText
             placeholder="Enter a name" 
             onChange={props.onChange} 
+            onInput={props.onEdit}
             value={props.name}
             className="box jr-name"
             maxLength={256}

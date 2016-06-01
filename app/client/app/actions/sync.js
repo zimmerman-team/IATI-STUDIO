@@ -76,6 +76,19 @@ export function toggleMainMenu(bool){
 }
 
 /*
+Save state
+*/
+
+export const EDIT_ACTIVE = 'EDIT_ACTIVE'
+
+export function setEditState(bool){
+    return {
+        type: EDIT_ACTIVE,
+        show: bool,
+    }
+}
+
+/*
 Notifications
 */
 
@@ -161,4 +174,3 @@ export function setLoadStateAllViz(bool) {
         show:bool,
     }
 }
-

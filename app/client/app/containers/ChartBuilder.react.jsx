@@ -13,14 +13,14 @@ import store from '../app'
 import { ChartTypeSelector, ChartSteps, ChartStyleControls, ChartPlaceholder } from '../components/chartbuilder/ChartConfiguration.react.jsx'
 import { Chart } from '../components/chartbuilder/Chart.react.jsx'
 import { ChartLegend, ChartFilters } from '../components/chartbuilder/ChartLegend.react.jsx'
-import { ChartTopControls } from '../components/chartbuilder/ChartTopNav.react.jsx'
+import ChartTopControls from '../components/chartbuilder/ChartTopNav.react.jsx'
 import SideBar from './ChartSideBar.react.jsx'
 import { ChartLoader } from '../components/general/Loaders.react.jsx'
 
 import { ChartName } from '../components/chartbuilder/ChartConfiguration.react.jsx'
-import { DraftEditor, RichEditor } from '../components/general/Input.react.jsx'
+import RichEditor from '../components/general/Input.react.jsx'
 
-import { toggleMainMenu, clientError } from '../actions/sync'
+import { toggleMainMenu, clientError, setEditState, maxItemsReached } from '../actions/sync'
 import { YetAnotherLoader } from '../components/general/Loaders.react.jsx'
 
 
@@ -41,11 +41,6 @@ import {
     getContextFilters,
     updateUserUI,
 } from '../actions/async'
-
-import { 
-    maxItemsReached,
-} from '../actions/sync'
-
 
 const chartColors = ['#8bc34a','#009688','#03a9f4','#3f51b5','#9c27b0','#f44336','#673ab7','#e91e63','#607d8b','#795548','#ff9800','#ffeb3b','#ff5722','#ffc107','#cddc39','#4caf50','#00bcd4','#2196f3','#9e9e9e','#000000','#0d47a1','#1a237e','#311b92','#4a148c','#880e4f','#b71c1c','#827717','#33691e','#1b5e20','#004d40','#006064','#01579b','#263238','#3e2723','#bf360c','#e65100','#ff6f00','#f57f17']
 
@@ -282,6 +277,12 @@ let ChartBuilder = React.createClass({
         let { visualization } = this.props
         let title = e.target.value
         this.props.updateVisualization(visualization, { name: title })
+        this.props.setEditState(false)
+    },
+    editTitle: function() {
+        if (!this.props.editing) {
+            this.props.setEditState(true)
+        }
     },
 
     toggleInterpolation: function(interpolate) {
@@ -294,11 +295,6 @@ let ChartBuilder = React.createClass({
         let { visualization } = this.props
     },
 
-    saveChart: function() {
-        //this.refs.description.save()
-    },
-
-    //joyride stuff
     getInitialState: function() {
         return {
             steps: steps,
@@ -353,7 +349,6 @@ let ChartBuilder = React.createClass({
                                 createVisualization={this.props.createVisualization}
                                 forkVisualization={this.props.forkVisualization}
                                 updateVisualization={this.props.updateVisualization}
-                                //saveChart={this.saveChart}
                             />
                         </div>
 
@@ -364,7 +359,7 @@ let ChartBuilder = React.createClass({
                                     <div className="columns small-12"> 
                                         <h3 className="chart-step title">Add chart title</h3>
                                         <div className="tour-button show-for-small-only"><a onClick={this.startTour}><i className="material-icons">help</i> Give me a tour</a></div>
-                                        <ChartName onChange={_.debounce(this.saveTitle, 1000)} name={visualization.name} ref="chartName" />
+                                        <ChartName onChange={_.debounce(this.saveTitle, 1000)} name={visualization.name} onEdit={this.editTitle} />
                                     </div>
                                 </div>
                             
@@ -406,7 +401,7 @@ let ChartBuilder = React.createClass({
                                 <div className="row description">
                                     <div className="columns small-12">
                                         <h3 className="chart-step">Add chart description</h3>
-                                        <RichEditor saveDescription={this.saveDescription} defaultContent={visualization.description}/>
+                                        <RichEditor saveDescription={this.saveDescription} defaultContent={visualization.description} />
                                     </div>
                                 </div>
                             </div>
@@ -448,6 +443,7 @@ function mapStateToProps(state, props) {
     const { 
         loadState,
         contextFilters,
+        //saveState,
         entities: {
             itemFilters
         }
@@ -462,6 +458,7 @@ function mapStateToProps(state, props) {
         itemFilters: itemFilters,
         loadingChart: loadState.loadingChart,
         uiState: state.user.uiState,
+        //editing: saveState.editing,
     }
 }
 
@@ -484,5 +481,6 @@ export default connect(mapStateToProps, {
     maxItemsReached,
     updateUserUI,
     clientError,
+    setEditState
 })(ChartBuilder)
 
