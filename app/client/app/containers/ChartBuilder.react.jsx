@@ -271,13 +271,14 @@ let ChartBuilder = React.createClass({
     saveDescription: function(value) {
         let { visualization } = this.props
         this.props.updateVisualization(visualization, { description: value })
+            .then( this.props.setEditState(false) )
     },
 
     saveTitle: function(e) {
         let { visualization } = this.props
         let title = e.target.value
         this.props.updateVisualization(visualization, { name: title })
-        this.props.setEditState(false)
+            .then( this.props.setEditState(false) )
     },
     editTitle: function() {
         if (!this.props.editing) {

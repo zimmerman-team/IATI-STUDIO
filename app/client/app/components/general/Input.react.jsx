@@ -56,7 +56,6 @@ class RichEditor extends React.Component {
         const content = this.state.editorState.getCurrentContent()
         let rawContentState = convertToRaw(content)
         this.props.saveDescription(rawContentState)
-        this.props.setEditState(false)
     }
 
     _handleKeyCommand(command) {
