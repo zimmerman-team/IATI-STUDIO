@@ -9,6 +9,7 @@ import store from '../../app'
 import { Link } from 'react-router'
 
 import { toggleMainMenu } from '../../actions/sync'
+import onClickOutside from 'react-onclickoutside'
 
 export const AddButton = React.createClass({
     getInitialState: function() {
@@ -53,9 +54,6 @@ export const SearchBox = React.createClass({
 })
 
 export const UserBox = React.createClass({
-    mixins: [
-        require('react-onclickoutside')
-    ],
     getInitialState: function() {
         return {
             expanded: false,
@@ -63,10 +61,11 @@ export const UserBox = React.createClass({
     },
     expandMenu: function(e) {
         e.preventDefault()
-        this.setState({ expanded: !this.state.expanded })
+        console.log('cal')
+        this.setState({ expanded: !this.state.expanded  })
     },
-    handleClickOutside: function(evt) {
-        this.setState({ expanded: false })
+    handleClickOutside: function(e) { 
+        this.setState({ expanded: !this.state.expanded  })
     },
     render: function() {
         let menuClass = classNames('userbox', {
@@ -74,20 +73,30 @@ export const UserBox = React.createClass({
         })
         return (
             <div className={menuClass}>
-                <a onClick={this.expandMenu}>
+                <a onClick={this.expandMenu} className="open-menu">
                     <span className="message">{this.props.firstName} {this.props.lastName}</span>
                     <img src={this.props.avatar} />
                     <i className="material-icons">keyboard_arrow_down</i>
                 </a>
-                <div className="user-menu">
-                    <ul>
-                        {/*<li><a href="#/user/settings" onClick={this.handleClickOutside}>Settings</a></li>*/}
-                        <li><Link to="/user/profile" onClick={this.handleClickOutside}>Profile</Link></li>
-                        <li><a href="/auth/logout">Logout</a></li>
-                        <li><a href="https://www.iatistudio.com">Back to the shop</a></li>
-                    </ul>
-                </div>
+                <UserMenu disableOnClickOutside={!this.state.expanded} handleClickOutside={this.handleClickOutside} outsideClickIgnoreClass="open-menu"/>
             </div>
         )
     }
 })
+
+const UserMenu = onClickOutside(React.createClass({
+    handleClickOutside: function(e) {
+        this.props.handleClickOutside(e)
+    },
+    render: function() {
+        return (
+            <div className="user-menu">
+                <ul>
+                    <li><Link to="/user/profile">Profile</Link></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                    <li><a href="https://www.iatistudio.com">Back to the shop</a></li>
+                </ul>
+            </div>
+        )
+    }
+}))

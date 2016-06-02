@@ -11,6 +11,8 @@ import { changeOrder } from '../../actions/sync'
 
 import GeminiScrollbar from 'react-gemini-scrollbar'
 
+import onClickOutside from 'react-onclickoutside'
+
 export const ButtonList = React.createClass({
     /*
      * A list of accordions, acting as containers
@@ -73,7 +75,7 @@ export const NestedButtonList = React.createClass({
     }
 })
 
-export const NestedButtonListItem = React.createClass({
+export const NestedButtonListItem = onClickOutside(React.createClass({
     /*
      * A button list with an extra nested levels in the form of a div with an additional back button
     */
@@ -88,10 +90,6 @@ export const NestedButtonListItem = React.createClass({
 
         onClick: PropTypes.func,
     },
-
-    mixins: [
-        require('react-onclickoutside')
-    ],
 
     getInitialState: function() {
         return {
@@ -114,7 +112,8 @@ export const NestedButtonListItem = React.createClass({
     },
 
     handleClickOutside: function(e) {
-        if( !this.props.loadState.loadingChart && !e.target.className.match( /(react-datepicker|modal)/ ) && e.target.parentNode.className.indexOf('modal') == -1 ) {
+        var target = typeof e.target.className === 'string' ? e.target.className : ''
+        if(target.indexOf('datepicker') == -1) {
             this.setState({ active: false })
         }
     },
@@ -124,24 +123,41 @@ export const NestedButtonListItem = React.createClass({
         let { title, length } = this.props
         let {liClass, hrefClass, divClass } = this.props
         let divWrapClass = classNames(divClass, 'nav-wrap secondary')
-        let linkClass = classNames(hrefClass, {active: this.state.active})
+        let linkClass = classNames(hrefClass, {'active open-submenu': this.state.active})
         //let slideDirection = this.props.from == "items" ? "slide" : "slide-right"
         return (
             <li className={liClass}>
                 <Link to="/" onClick={this.onClickFwd} className={linkClass}>{length} {title}</Link>
                 <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={500} transitionLeaveTimeout={500}> 
                     { active ?
-                        <GeminiScrollbar autoshow={true} forceGemini={false} className={divWrapClass}>
-                            <a className="close" onClick={this.handleClickOutside}><i className="material-icons">close</i></a>
-                            { this.props.children }
-                        </GeminiScrollbar>
+                        <SubMenu
+                            disableOnClickOutside={!active} 
+                            handleClickOutside={this.handleClickOutside} 
+                            className={divWrapClass} 
+                            onClickClose={this.onClickFwd} 
+                            children={this.props.children} 
+                            outsideClickIgnoreClass="open-submenu" />
                     : null
                     }
                 </ReactCSSTransitionGroup>
             </li>
         )
     }
-})
+}))
+
+const SubMenu = onClickOutside(React.createClass({
+    handleClickOutside: function(e) {
+        this.props.handleClickOutside(e)
+    },
+    render: function(){
+        return (
+            <GeminiScrollbar autoshow={true} forceGemini={false} className={this.props.className}>
+                <a className="close" onClick={this.props.onClickClose}><i className="material-icons">close</i></a>
+                { this.props.children }
+            </GeminiScrollbar>
+        )
+    }
+}))
 
 export const Checkbox = (props) => (
     <div>

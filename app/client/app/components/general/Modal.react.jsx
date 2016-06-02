@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
+import onClickOutside from 'react-onclickoutside'
+
 const RenderInBody = React.createClass({
 
   componentDidMount: function() {
@@ -53,10 +55,6 @@ export const ModalButton = React.createClass({
         buttonProps: React.PropTypes.element, // TODO: Allow spread on button - 2016-01-28
     },
 
-    mixins: [
-        require('react-onclickoutside')
-    ],
-
     toggleModal: function() {
         this.setState({ opened: !this.state.opened })
     },
@@ -64,12 +62,6 @@ export const ModalButton = React.createClass({
     performAction: function(){
         this.props.action()
         this.setState({opened: false})
-    },
-
-    handleClickOutside: function(e) {
-        if (e.target.parentNode.className == 'modal-container') {
-            this.setState({opened: false})
-        }
     },
 
     render: function() {
@@ -83,15 +75,15 @@ export const ModalButton = React.createClass({
                         </ReactCSSTransitionGroup>
                         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={600} transitionLeaveTimeout={600}> 
                             {this.state.opened ? 
-                                <ModalContainer>
-                                    <div className="modal">
+                                <div className="modal-container">
+                                    <Modal handleClickOutside={this.toggleModal} disableOnClickOutside={!this.state.opened} >
                                         {this.props.children}
                                         <div className="actions">
                                             {this.props.actionButton ? <a className="button secondary" onClick={this.performAction}>{this.props.actionButton}</a> : null }
                                             {this.props.closeButton ? <a className="button" onClick={this.toggleModal}>{this.props.closeButton}</a> : null }
                                         </div>
-                                    </div>
-                                </ModalContainer>
+                                    </Modal>
+                                </div>
                             : null}
                         </ReactCSSTransitionGroup>
                     </div>
@@ -101,7 +93,7 @@ export const ModalButton = React.createClass({
     }
 })
 
-const ModalContainer = React.createClass({
+const Modal = onClickOutside(React.createClass({
     /*
      * Overlay container
      */
@@ -111,18 +103,18 @@ const ModalContainer = React.createClass({
         opened: React.PropTypes.bool,
     },
 
+    handleClickOutside: function(e) {
+        this.props.handleClickOutside(e)
+    },
+
     render: function() {
         return (
-            <div className="modal-container">
-                <div className="row">
-                    <div className="columns small-centered small-12 medium-8 large-6 xlarge-4">
-                        {this.props.children}
-                    </div>
-                </div>
+            <div className="modal">
+                {this.props.children}
             </div>
         )
     }
-})
+}))
 
 const ModalOverlay = props => {
     return (
