@@ -75,7 +75,7 @@ export const NestedButtonList = React.createClass({
     }
 })
 
-export const NestedButtonListItem = onClickOutside(React.createClass({
+export const NestedButtonListItem = React.createClass({
     /*
      * A button list with an extra nested levels in the form of a div with an additional back button
     */
@@ -143,7 +143,7 @@ export const NestedButtonListItem = onClickOutside(React.createClass({
             </li>
         )
     }
-}))
+})
 
 const SubMenu = onClickOutside(React.createClass({
     handleClickOutside: function(e) {

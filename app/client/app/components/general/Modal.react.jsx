@@ -77,10 +77,12 @@ export const ModalButton = React.createClass({
                             {this.state.opened ? 
                                 <div className="modal-container">
                                     <Modal handleClickOutside={this.toggleModal} disableOnClickOutside={!this.state.opened} >
-                                        {this.props.children}
-                                        <div className="actions">
-                                            {this.props.actionButton ? <a className="button secondary" onClick={this.performAction}>{this.props.actionButton}</a> : null }
-                                            {this.props.closeButton ? <a className="button" onClick={this.toggleModal}>{this.props.closeButton}</a> : null }
+                                        <div>
+                                            {this.props.children}
+                                            <div className="actions">
+                                                {this.props.actionButton ? <a className="button secondary" onClick={this.performAction}>{this.props.actionButton}</a> : null }
+                                                {this.props.closeButton ? <a className="button" onClick={this.toggleModal}>{this.props.closeButton}</a> : null }
+                                            </div>
                                         </div>
                                     </Modal>
                                 </div>
