@@ -365,7 +365,21 @@
 .embed-code {
 	width: 100%;
 	margin-bottom: 1rem;
-	padding:.2rem;
+	padding:.5rem;
+	cursor:pointer !important;
+	background: $white;
+   	@include card(1);
+    border: 0;
+}
+.modal {
+	.embed-wrap {
+		position:relative;
+		.tooltip {
+	    	position: absolute;
+	    	bottom:1.2rem;
+	    	left:-.2rem;
+	    }
+	}
 }
 
 //list view

@@ -158,6 +158,8 @@ export const PublicChartActions = connect(
         return {
             dropdown: '',
             download: '',
+            showSelected: false,
+            showSelectedTooltip: ''
         };
     },
     handleClickOutside: function(e) {
@@ -171,59 +173,21 @@ export const PublicChartActions = connect(
 
         this.setState({dropdown: item})
     },
-    // downloadChart: function(type) {
-    //     this.setState({create: type})
-    //     let canvas = document.getElementById("canvas")
 
-    //     let content = document.getElementById("chart-canvas")
-    //     let headContent = document.getElementsByTagName('head')[0].innerHTML
-
-    //     canvas.setAttribute('width',content.clientWidth)
-    //     canvas.setAttribute('height',content.clientHeight)
-
-    //     content = content.outerHTML + headContent
-
-    //     //clear de canvas
-    //     var ctx = canvas.getContext('2d');
-    //     ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    //     //draw de canvas
-    //     rasterizeHTML.drawHTML(content, canvas, {} ).then( function success(renderResult) {
-    //         let a
-    //         if ( document.getElementById("downloadLink") == null ) {
-    //             a = document.createElement('a')
-    //             a.setAttribute('id','downloadLink')
-    //             document.body.appendChild(a)
-    //         }
-    //         else {
-    //             a = document.getElementById("downloadLink")
-    //         }
-
-    //         if (type == 'png') {
-    //             a.download = "chart.png"
-    //             a.href = canvas.toDataURL("image/png") 
-    //         }
-    //         else if (type == 'jpg') {
-    //             a.download = "chart.jpg"
-    //             a.href = canvas.toDataURL("image/jpg", 1.0) 
-    //         }
-    //         else if (type == 'svg') {
-    //             //a.download = "chart.svg"
-    //             //a.href = base64dataURLencode( (new XMLSerializer()).serializeToString(renderResult.svg) )
-    //             //console.log( canvas.toDataURL() )
-    //         }
-    //         a.click()
-
-    //     }, function error(e) {
-    //         console.log(e)
-    //     })
-    //     .then ( () => {
-    //         this.setState({dropdown: ''})
-    //         this.setState({create: ''})
-    //     })
-    //     });
-
-    // },
+    selectAll: function(e) {
+        e.target.select()
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'Copied to clipboard' : 'Press CTRL + C.'
+            this.setState({showSelected: true, showSelectedTooltip: msg})
+        } catch (err) {
+            var msg = 'Press CTRL + C.'
+            this.setState({showSelected: true, showSelectedTooltip: msg})
+        }
+        setTimeout(() => {
+            this.setState({showSelected: false, showSelectedTooltip: ''})
+        } , 2500)
+    },
 
     render: function() {
         return (
@@ -239,7 +203,7 @@ export const PublicChartActions = connect(
                 {
                     this.props.isPreview ?
                     null 
-                    : <EmbedChart name="Embed" embedHeight={this.props.embedHeight} embedUrl={this.props.embedUrl} />
+                    : <EmbedChart name="Embed" embedHeight={this.props.embedHeight} embedUrl={this.props.embedUrl} onClick={this.selectAll} showSelected={this.state.showSelected} showSelectedTooltip={this.state.showSelectedTooltip}/>
                     
                 }
 
@@ -334,10 +298,17 @@ const EmbedChart = props => {
     return (
         <div className="action button blue" style={{zIndex:3}}>
             <ModalButton name={props.name} closeButton="Close">
-                <div>
+                <div className="embed-wrap">
                     <h4>Embed chart</h4>
                     <p>Copy the embed code below and paste it in your website to embed this chart.</p>
-                    <input className="embed-code" value={embedHTML} />
+                    <input onClick={onClick} className="embed-code" value={embedHTML} readOnly/>
+                    <div className="tooltip">
+                        <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
+                            {props.showSelected ? 
+                                <div className="tip">{props.showSelectedTooltip}</div>
+                            : null }
+                        </ReactCSSTransitionGroup>
+                    </div>
                 </div>
             </ModalButton>
         </div>
