@@ -691,6 +691,18 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
     align-content:center;
     z-index: 9999;
     .modal {
+        @include breakpoint(small) {
+            max-width: 90%;
+        }
+        @include breakpoint(medium) {
+            max-width: 50%;
+        }
+        @include breakpoint(large) {
+            max-width: 40%;
+        }
+        @include breakpoint(xxlarge) {
+            max-width: 30%;
+        }
         margin:0 auto;
         background:$white;
         border-radius:$global-radius;
