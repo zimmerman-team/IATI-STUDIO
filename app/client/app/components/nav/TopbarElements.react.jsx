@@ -61,7 +61,6 @@ export const UserBox = React.createClass({
     },
     expandMenu: function(e) {
         e.preventDefault()
-        console.log('cal')
         this.setState({ expanded: !this.state.expanded  })
     },
     handleClickOutside: function(e) { 
