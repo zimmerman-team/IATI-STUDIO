@@ -271,6 +271,7 @@ let ChartBuilder = React.createClass({
     saveDescription: function(value, valuePlainText) {
         let { visualization } = this.props
         this.props.updateVisualization(visualization, { description: value })
+            .then( this.props.updateVisualization(visualization, { descriptionPlainText: valuePlainText }) )
             .then( this.props.setEditState(false) )
     },
 

@@ -55,7 +55,8 @@ class RichEditor extends React.Component {
     save() {
         const content = this.state.editorState.getCurrentContent()
         let rawContentState = convertToRaw(content)
-        this.props.saveDescription(rawContentState)
+        let plainText = content.getPlainText()
+        this.props.saveDescription(rawContentState, plainText)
     }
 
     _handleKeyCommand(command) {

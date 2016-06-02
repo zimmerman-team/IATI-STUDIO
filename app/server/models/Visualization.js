@@ -45,6 +45,7 @@ export const Context = mongoose.model('Context', ContextSchema)
 const VisualizationSchema = new Schema({
     name: { type: String, default: "Untitled" },
     description: { type: Schema.Types.Mixed },
+    descriptionPlainText: { type: String, default: '' },
 
     author: { type: Schema.Types.ObjectId, ref: 'User' },
 
@@ -83,7 +84,7 @@ const VisualizationSchema = new Schema({
 })
 VisualizationSchema.index({
    'name': 'text',
-   'description': 'text',
+   'descriptionPlainText': 'text',
    'currency': 'text',
    'items.name': 'text',
    'context.name': 'text',
