@@ -19,8 +19,7 @@ export const PublicFooter = React.createClass({
 										<a href="https://www.zimmermanzimmerman.nl" target="_blank"><img src="https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/zimmerman.svg"/></a>
 
 										<a href="http://www.universiteitleiden.nl/" target="_blank"><img src="https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/leiden.svg"/></a>
-						</div>
-						<div className="bottom">
+
 										<a href="http://www.rvo.nl" target="_blank"><img src="https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/rvo.svg"/></a>
 									
 										<a href="http://www.unesco.org" target="_blank"><img src="https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/unesco.svg"/></a>

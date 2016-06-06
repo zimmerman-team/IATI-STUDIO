@@ -516,7 +516,7 @@
 		}
 	}
 	.footer {
-		@include grid-row();
+		//@include grid-row();
 		padding: rem-calc(30) 0;
 
 		ul {
@@ -540,19 +540,26 @@
 					margin-bottom: 0;
 				}
 			}
+			@include breakpoint(large up) {
+				&:first-of-type {
+					margin-left: 16.66667%;
+				}
+			}
 		}
 		.top {
 			margin-top: 1rem;
 			margin-bottom: 1.5rem;
 			a {
-				margin:1rem;
+				//margin: 1rem;
 				img {
-					max-height:3rem;
-					max-width: 8rem;
+					height:4rem;
+					max-width: 9rem;
+					padding:.5rem .5rem;
+					margin:.5rem;
 				}
 			}
 		}
-		.bottom {
+		/* .bottom {
 			a {
 				margin:1rem;
 				img {
@@ -560,7 +567,7 @@
 					max-width: 8rem;
 				}
 			}
-		}
+		} */
 	}
 	.social {
 		text-align: center;
@@ -596,11 +603,15 @@
 	}
 	&#footer1 {
 		background:$white;
+		.footer {
+			@include grid-row();
+		}
 	}
 	&#footer2 {
 		background:$light-gray;
 		@include card-inside(1);
 		.footer {
+			@include grid-row();
 			padding: rem-calc(15) 0;
 		}
 		h6 {
