@@ -10,6 +10,8 @@ import { ModalButton } from '../general/Modal.react.jsx'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { withRouter } from 'react-router'
 
+import onClickOutside from 'react-onclickoutside'
+
 const default_viz = {
     name: "",
     description: "",
@@ -150,10 +152,6 @@ export const PublicChartActions = connect(
         vizId: PropTypes.string.isRequired
     },
 
-    // mixins: [
-    //     require('react-onclickoutside')
-    // ],
-
     getInitialState: function() {
         return {
             dropdown: '',
@@ -207,7 +205,7 @@ export const PublicChartActions = connect(
                     
                 }
 
-                <PublicChartItem name="Download" onClick={this.toggleNavItem.bind(this, 'download')} itemClass={this.state.dropdown == 'download' ? 'active' : null}>
+                <PublicChartItem name="Download" onClick={this.toggleNavItem.bind(this, 'download')} itemClass={this.state.dropdown == 'download' ? 'active' : null} onClickOutside={this.handleClickOutside} disableOnClickOutside={this.state.dropdown != 'download'}>
                     <PublicChartSubItem name="PNG" url={`/api/visualizations/${this.props.vizId}/export/png`}/>
                     <PublicChartSubItem name="JPG" url={`/api/visualizations/${this.props.vizId}/export/jpg`}/>
                 </PublicChartItem>
@@ -215,19 +213,25 @@ export const PublicChartActions = connect(
                 {
                     this.props.isPreview ? 
                     null
-                    : <PublicChartItem name="Share" onClick={this.toggleNavItem.bind(this, 'share')} itemClass={this.state.dropdown == 'share' ? 'active' : null}>
-                    <PublicChartSubItem name="Facebook" url={"https://www.facebook.com/sharer/sharer.php?u="+this.props.shareUrl} newWindow={true} />
-                    <PublicChartSubItem name="Twitter" url={"https://twitter.com/home?status=Check%20out%20"+this.props.shareUrl} newWindow={true} />
-                    <PublicChartSubItem name="LinkedIn" url={"https://www.linkedin.com/shareArticle?mini=true&url="+this.props.shareUrl+"&title=IATI%20Studio%20chart&summary=&source="} newWindow={true} />
-
-                    <ModalButton name="Hyperlink" closeButton="Close">
-                        <div>
-                            <h4>Link to chart</h4>
-                            <p>Copy the link below to share your chart.</p>
-                            <input className="embed-code" value={this.props.embedUrl} />
-                        </div>
-                    </ModalButton>
-
+                    : 
+                    <PublicChartItem name="Share" onClick={this.toggleNavItem.bind(this, 'share')} itemClass={this.state.dropdown == 'share' ? 'active' : null} onClickOutside={this.handleClickOutside} disableOnClickOutside={this.state.dropdown != 'share'}>
+                        <PublicChartSubItem name="Facebook" url={"https://www.facebook.com/sharer/sharer.php?u="+this.props.shareUrl} newWindow={true} />
+                        <PublicChartSubItem name="Twitter" url={"https://twitter.com/home?status=Check%20out%20"+this.props.shareUrl} newWindow={true} />
+                        <PublicChartSubItem name="LinkedIn" url={"https://www.linkedin.com/shareArticle?mini=true&url="+this.props.shareUrl+"&title=IATI%20Studio%20chart&summary=&source="} newWindow={true} />
+                        <ModalButton name="Hyperlink" closeButton="Close">
+                            <div className="hyperlink-wrap">
+                                <h4>Link to chart</h4>
+                                <p>Copy the link below to share your chart.</p>
+                                <input className="embed-code" value={this.props.embedUrl} onClick={this.selectAll} readOnly/>
+                                <div className="tooltip">
+                                    <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
+                                        {this.state.showSelected ? 
+                                            <div className="tip">{this.state.showSelectedTooltip}</div>
+                                        : null }
+                                    </ReactCSSTransitionGroup>
+                                </div>
+                            </div>
+                        </ModalButton>
                     </PublicChartItem>
                     
                 }
@@ -243,7 +247,10 @@ export const PublicChartActions = connect(
     }
 })))
 
-const PublicChartItem = React.createClass({
+const PublicChartItem = onClickOutside(React.createClass({
+    handleClickOutside: function() {
+        this.props.onClickOutside()
+    },
     render: function() {
         let { onClick, materialIcon, tooltip, itemClass, children, name } = this.props
         let currentClass = classNames('action', itemClass, {'children' : children})
@@ -258,7 +265,7 @@ const PublicChartItem = React.createClass({
             </div>
         )
     }
-})
+}))
 
 const PublicChartSubItem = props => {
     let { onClick, name, className } = props
