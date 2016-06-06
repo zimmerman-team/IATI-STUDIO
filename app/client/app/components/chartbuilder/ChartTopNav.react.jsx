@@ -214,7 +214,7 @@ export const PublicChartActions = connect(
                     this.props.isPreview ? 
                     null
                     : 
-                    <PublicChartItem name="Share" onClick={this.toggleNavItem.bind(this, 'share')} itemClass={this.state.dropdown == 'share' ? 'active' : null} onClickOutside={this.handleClickOutside} disableOnClickOutside={this.state.dropdown != 'share'}>
+                    <PublicChartItem name="Share" onClick={this.toggleNavItem.bind(this, 'share')} itemClass={this.state.dropdown == 'share' ? 'active' : null} onClickOutside={this.handleClickOutside} disableOnClickOutside={this.state.dropdown != 'share'} outsideClickIgnoreClass="modal">
                         <PublicChartSubItem name="Facebook" url={"https://www.facebook.com/sharer/sharer.php?u="+this.props.shareUrl} newWindow={true} />
                         <PublicChartSubItem name="Twitter" url={"https://twitter.com/home?status=Check%20out%20"+this.props.shareUrl} newWindow={true} />
                         <PublicChartSubItem name="LinkedIn" url={"https://www.linkedin.com/shareArticle?mini=true&url="+this.props.shareUrl+"&title=IATI%20Studio%20chart&summary=&source="} newWindow={true} />
