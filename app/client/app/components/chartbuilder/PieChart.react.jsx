@@ -17,8 +17,6 @@ const PieChart = React.createClass({
     componentDidMount: function() {
         let { data, attributes } = this.props
 
-        console.log(data);
-
         // var data = this.state.data;
         this.visualization = BaseChart(this.props)
             .data(data)
