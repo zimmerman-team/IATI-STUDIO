@@ -4,6 +4,17 @@
 	padding-bottom:2rem;
 	&.archive {
 		padding-top:0;
+		.collection-card {
+			.card {
+				&:hover {
+					transform:none;
+					@include card(1);
+				}
+				&:active {
+					transform:none;
+				}
+			}
+		}
 	}
 	.empty-message {
 		text-align: center;
