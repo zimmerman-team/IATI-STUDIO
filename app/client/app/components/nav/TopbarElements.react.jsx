@@ -91,7 +91,7 @@ const UserMenu = onClickOutside(React.createClass({
         return (
             <div className="user-menu">
                 <ul>
-                    <li><Link to="/user/profile">Profile</Link></li>
+                    <li><Link to="/user/profile" onClick={this.handleClickOutside}>Profile</Link></li>
                     <li><a href="/auth/logout">Logout</a></li>
                     <li><a href="https://www.iatistudio.com">Back to the shop</a></li>
                 </ul>
