@@ -111,7 +111,7 @@ const Modal = onClickOutside(React.createClass({
 
     render: function() {
         return (
-            <div className="modal">
+            <div className="modal ignore-react-onclickoutside">
                 {this.props.children}
             </div>
         )

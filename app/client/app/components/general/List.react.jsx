@@ -123,7 +123,7 @@ export const NestedButtonListItem = React.createClass({
         let { title, length } = this.props
         let {liClass, hrefClass, divClass } = this.props
         let divWrapClass = classNames(divClass, 'nav-wrap secondary')
-        let linkClass = classNames(hrefClass, {'active open-submenu': this.state.active})
+        let linkClass = classNames(hrefClass, {'active ignore-react-onclickoutside': this.state.active})
         //let slideDirection = this.props.from == "items" ? "slide" : "slide-right"
         return (
             <li className={liClass}>
@@ -136,7 +136,7 @@ export const NestedButtonListItem = React.createClass({
                             className={divWrapClass} 
                             onClickClose={this.onClickFwd} 
                             children={this.props.children} 
-                            outsideClickIgnoreClass="open-submenu" />
+                             />
                     : null
                     }
                 </ReactCSSTransitionGroup>
