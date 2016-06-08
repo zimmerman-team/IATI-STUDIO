@@ -2,8 +2,9 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import onClickOutside from 'react-onclickoutside'
 
-export const Tooltip = React.createClass({
+export const Tooltip = onClickOutside(React.createClass({
 	getInitialState: function() {
 		return {
 			showTooltip: false
@@ -18,6 +19,9 @@ export const Tooltip = React.createClass({
 	toggleTip: function() {
 		this.setState({showTooltip: !this.state.showTooltip})
 	},
+	handleClickOutside: function(){
+		this.toggleTipOff()
+	},
 	render: function() {
 		let tooltipClass = classNames('tooltip', this.props.className)
 		return (
@@ -31,4 +35,4 @@ export const Tooltip = React.createClass({
 			</div>
 		)
 	}
-})
+}))

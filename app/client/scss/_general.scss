@@ -763,6 +763,9 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
             color:$primary-color;
             font-size: 1rem;
             cursor: pointer;
+            &:hover {
+                color:darken($primary-color,10%);
+            }
         }
         span {
             position: absolute;
