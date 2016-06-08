@@ -14,19 +14,33 @@ import { toggleMainMenu } from '../actions/sync'
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
-import Scroll from 'react-scroll' 
-var ScrollLink    = Scroll.Link
-var ScrollElement = Scroll.Element
-var ScrollEvents  = Scroll.Events
-var scroll  = Scroll.animateScroll
-
-//onzin
-const lorem = "Oio nisl feugiat orci, nec euismod massa diam at metus. In pretium elementum tellus ut mollis. Nulla mattis luctus ex ut tempus. Maecenas vitae neque eu odio varius egestas vel nec augue. Maecenas massa diam, semper id efficitur in, fringilla eget est. Integer tincidunt sit amet nunc id auctor. Sed feugiat ante ligula, sit amet euismod odio hendrerit sed. Proin euismod felis felis, nec facilisis nulla laoreet a. Sed sagittis mauris ipsum, non varius orci sagittis in."
-const lorem2 = "In scelerisque purus dui, nec tincidunt enim condimentum in. Morbi ac vulputate magna. Vestibulum gravida est a euismod mollis.Duis tempor tristique lorem in elementum. Phasellus in sodales mi, quis venenatis justo. Mauris semper aliquet libero, eu commodo neque viverra in. Aliquam erat volutpat. Quisque augue diam, tempor a aliquam et, venenatis sed sapien. Vivamus dictum, nunc nec iaculis fermentum!"
+const q1 = {
+	question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+	answer: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a justo mauris. Etiam elit ligula, porttitor quis ultricies in, malesuada sed justo. Sed congue justo non orci efficitur, sit amet convallis odio volutpat. Praesent auctor suscipit sagittis. Praesent sit amet ultricies arcu. Aliquam ligula ligula, egestas id rhoncus sed, dignissim vel sem. Nullam a turpis eu sapien suscipit elementum. Vivamus sit amet congue mi. Sed pharetra massa sit amet sem feugiat, vitae finibus diam interdum.</p>'
+}
+const q2 = {
+	question: 'Borem ipsum dolor sit amet, consectetur adipiscing elit?',
+	answer: '<p>Curabitur sed faucibus mi. Nulla id felis sit amet purus dictum vulputate vel quis metus. Sed massa dolor, condimentum eget sagittis ut, varius sit amet ex. Quisque vulputate gravida magna, sit amet laoreet ipsum vulputate nec. Praesent mauris nisl, pellentesque et scelerisque eget, sodales maximus leo. Pellentesque vehicula aliquam varius. Maecenas gravida auctor nisl euismod egestas.</p><p>Aliquam erat volutpat. Nullam euismod, enim eget dapibus tincidunt, dolor dui gravida erat, et rutrum leo lacus vitae est. Proin dignissim velit eget ornare scelerisque.</p>'
+}
+const q3 = {
+	question: 'Lipsum dolor sit amet, consectetur adipiscing elit?',
+	answer: '<p>Curabitur sed faucibus mi. Nulla id felis sit amet purus dictum vulputate vel quis metus. Sed massa dolor, condimentum eget sagittis ut, varius sit amet ex. Quisque vulputate gravida magna, sit amet laoreet ipsum vulputate nec. Praesent mauris nisl, pellentesque et scelerisque eget, sodales maximus leo. Pellentesque vehicula aliquam varius. Maecenas gravida auctor nisl euismod egestas.</p><p>Aliquam erat volutpat. Nullam euismod, enim eget dapibus tincidunt, dolor dui gravida erat, et rutrum leo lacus vitae est. Proin dignissim velit eget ornare scelerisque.</p>'
+}
+const faq = [q1,q2,q3]
 
 const Helpdesk = React.createClass({
+	getInitialState: function() {
+        return {
+            question: 0,
+        }
+    },
 	componentDidMount: function() {
         store.dispatch(toggleMainMenu(true))
+    },
+    openQuestion: function(q) {
+    	this.setState({
+    		question: q
+    	})
     },
 	render: function() {
 		const {
@@ -38,32 +52,11 @@ const Helpdesk = React.createClass({
 		return (
 			<div className={wrapClass}>
 	        	<div className="row">
-        			<div className="columns small-12 large-8">
-        				<h2 className="page-title">Need help?</h2>
-        				<p>Check out some of our most frequently asked questions below.</p>
-        				<ScrollElement name="q1">
-        					<h5>General help</h5>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p></div></HelpItem>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p></div></HelpItem>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p></div></HelpItem>
-						</ScrollElement>
-						<ScrollElement name="q2">
-							<h5>Chart help</h5>
-							<HelpItem question="Questionus"><div><p>{lorem}</p></div></HelpItem>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p></div></HelpItem>
-						</ScrollElement>
-						<ScrollElement name="q3">
-							<h5>Website help</h5>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p></div></HelpItem>
-						</ScrollElement>
-						<ScrollElement name="q4">
-							<h5>Activity help</h5>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p><p>{lorem}</p></div></HelpItem>
-							<HelpItem question="Questionus"><div><p>{lorem}</p><p>{lorem2}</p></div></HelpItem>
-						</ScrollElement>
-        			</div>
-        			<div className="columns small-12 large-4">
-        				<FollowBar />
+        			<div className="columns small-centered small-12 medium-10 large-8 xlarge-7 xxlarge-6">
+        				<h1>Frequently asked questions</h1>
+						{faq.map( (i,index) => (
+						<HelpItem key={index} question={i.question} className={this.state.question == index ? 'active' : ''} onClick={this.openQuestion.bind(this, index)}>{this.state.question == index ? i.answer : null}</HelpItem>
+						))}
         			</div>
         		</div>
         	</div>
@@ -71,28 +64,20 @@ const Helpdesk = React.createClass({
 	}
 })
 
-const FollowBar = React.createClass({
-	render: function() {
-		return (
-			<div className="navbox">
-				<h6>Quick topic navigation</h6>
-				<ul className="list">
-					<li><ScrollLink to="q1" spy={true} smooth={true} offset={-150} duration={500} >General help</ScrollLink></li>
-					<li><ScrollLink to="q2" spy={true} smooth={true} offset={-50} duration={500} >Chart builder help</ScrollLink></li>
-					<li><ScrollLink to="q3" spy={true} smooth={true} offset={-50} duration={500} >Website builder help</ScrollLink></li>
-					<li><ScrollLink to="q4" spy={true} smooth={true} offset={-50} duration={500} >Activity help</ScrollLink></li>
-				</ul>
-			</div>
-		)
-	}
-})
-
 const HelpItem = React.createClass({
+	createMarkup: function() {
+		return {__html: this.props.children}
+	},
 	render: function() {
+		let questionClass = classNames('question-wrap',this.props.className)
 		return (
-			<div className="help-item">
-				<h6>{this.props.question}</h6>
-				{this.props.children}
+			<div className={questionClass}>
+				<h5 onClick={this.props.onClick}>{this.props.question}</h5>
+				<ReactCSSTransitionGroup transitionName="drop" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+					{this.props.children ? 
+					<div className="answer" dangerouslySetInnerHTML={this.createMarkup()} />
+					: null }
+				</ReactCSSTransitionGroup>
 			</div>
 		)
 	}

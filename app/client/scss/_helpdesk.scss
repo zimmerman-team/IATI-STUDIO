@@ -1,9 +1,48 @@
 .helpdesk {
 	margin-top:1rem;
+	h1 {
+		text-align: center;
+		margin-bottom: 1.5rem;
+		@include breakpoint(small) {
+			font-size: 1.4rem;
+		}
+		@include breakpoint(large up) {
+			font-size: 2rem;
+		}
+	}
+	h5 {
+		margin-top:.5rem;
+		cursor: pointer;
+		&:after {
+			display: block;
+			float: right;
+			@extend .mi-cb;
+			content: '\e5cf';
+			color:$primary-color;
+		}
+		&:hover {
+			color:$primary-color;
+		}
+	}
+	.question-wrap {
+		border-bottom:1px solid $medium-gray;
+		&:last-of-type {
+			border-bottom:0;
+		}
+		&.active {
+			h5 {
+				cursor: default;
+				&:hover {
+					color:$black;
+				}
+				&:after {
+					content: '\e5ce'
+				}
+			}
+		}
+	}
 }
-.help-item {
-	padding:0 0 1rem;
-}
+
 .navbox {
 	position: fixed;
 	ul {

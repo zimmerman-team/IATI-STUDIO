@@ -42,6 +42,7 @@ export default (
             <Route path="user/profile" component={UserProfile}/>
             <Route path="user/settings" component={UserSettings}/>
             <Route path="archive" component={Archive}/>
+            <Route path="help" component={Helpdesk}/>
         </Route>
 
         <Route path="public" component={CollectionList}/>

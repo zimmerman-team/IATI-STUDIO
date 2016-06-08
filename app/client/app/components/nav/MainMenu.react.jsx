@@ -44,10 +44,10 @@ let MainMenu = React.createClass({
                 <li><Tooltip tooltip="Create a new chart"><a onClick={this.newViz} className="charts"><i className="material-icons">add</i> Create chart</a></Tooltip></li>
                 {/*<li><a className="themes"><i className="material-icons">cast_connected</i> Create website</a></li>
                 <li><a className="iatidata"><i className="material-icons">edit</i> Create IATI activity</a></li>
-                <hr />
-                <li><Link to="#/help"><i className="material-icons">school</i> Helpdesk</Link></li>*/}
-                <hr />
+                <hr />*/}
                 <li><Tooltip tooltip="Go to your trash"><Link to="/archive"><i className="material-icons">delete</i> Trash</Link></Tooltip></li>
+                <hr />
+                <li><Tooltip tooltip="View frequently asked questions"><Link to="/help"><i className="material-icons">school</i> FAQ</Link></Tooltip></li>
             </ul>
         </div>
         )
