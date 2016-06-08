@@ -218,6 +218,14 @@ const ChartElementsAggregation = React.createClass({
         onChange: PropTypes.func,
     },
 
+    getTooltip: function(name) {
+        if (name.toLowerCase() == 'disbursement') { return "Disbursements are blabla bla bla bla blalba blblbla blbalbalbal bla bal..." }
+        else if (name.toLowerCase() == 'commitment') { return "Commitments are ..." }
+        else if (name.toLowerCase() == 'expenditure') { return "Expenditures are ..." }
+        else if (name.toLowerCase() == 'incoming funds') { return "Incoming funds are ..." }
+        else { return false }
+    },
+
     render: function() {
         const { filter, selected } = this.props
 
@@ -228,6 +236,7 @@ const ChartElementsAggregation = React.createClass({
                 onChange={this.props.onChange.bind(this, i)} // selected checkbox
                 checked={ _.find(selected, item => item.aggregations === aggregation.id) ? true : false }
                 name={aggregation.name}
+                tooltip={this.getTooltip(aggregation.name)}
             />
         ))
 

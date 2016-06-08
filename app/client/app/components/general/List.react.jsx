@@ -13,6 +13,8 @@ import GeminiScrollbar from 'react-gemini-scrollbar'
 
 import onClickOutside from 'react-onclickoutside'
 
+import { Tooltip } from './Tooltip.react.jsx'
+
 export const ButtonList = React.createClass({
     /*
      * A list of accordions, acting as containers
@@ -161,8 +163,11 @@ const SubMenu = onClickOutside(React.createClass({
 
 export const Checkbox = (props) => (
     <div>
-        <input type="checkbox" id={props.id} {...props} />
-        <label htmlFor={props.id}>{props.name} {props.length}</label>
+        <div className={props.tooltip ? 'float-left' : null}>
+            <input type="checkbox" id={props.id} {...props} />
+            <label htmlFor={props.id}>{props.name} {props.length}</label>
+        </div>
+        {props.tooltip ? <Tooltip tooltip={props.tooltip} className="small-list" click={true}><i className="material-icons">info</i></Tooltip> : null}
     </div>
 )
 

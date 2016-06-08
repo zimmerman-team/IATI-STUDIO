@@ -549,6 +549,7 @@ h3.chart-step {
             }
             &.checkboxes {
                 padding:0 1rem;
+                @extend .clearfix;
             }
         }
         .length {

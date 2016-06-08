@@ -15,9 +15,13 @@ export const Tooltip = React.createClass({
 	toggleTipOff: function() {
 		this.setState({showTooltip: false})
 	},
+	toggleTip: function() {
+		this.setState({showTooltip: !this.state.showTooltip})
+	},
 	render: function() {
+		let tooltipClass = classNames('tooltip', this.props.className)
 		return (
-			<div className="tooltip" onMouseEnter={this.toggleTipOn} onMouseLeave={this.toggleTipOff}>
+			<div className={tooltipClass} onMouseEnter={this.props.click ? null : this.toggleTipOn} onMouseLeave={this.props.click ? null : this.toggleTipOff} onClick={this.props.click ? this.toggleTip : null}>
 				{this.props.children}
 				<ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
 					{this.state.showTooltip ? 
