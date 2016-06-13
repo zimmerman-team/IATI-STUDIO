@@ -219,10 +219,10 @@ const ChartElementsAggregation = React.createClass({
     },
 
     getTooltip: function(name) {
-        if (name.toLowerCase() == 'disbursement') { return "Disbursements are blabla bla bla bla blalba blblbla blbalbalbal bla bal..." }
-        else if (name.toLowerCase() == 'commitment') { return "Commitments are ..." }
-        else if (name.toLowerCase() == 'expenditure') { return "Expenditures are ..." }
-        else if (name.toLowerCase() == 'incoming funds') { return "Incoming funds are ..." }
+        if (name.toLowerCase() == 'disbursement') { return "Disbursement is the amount of money transferred to another organisation in the aid delivery chain (e.g. a partner organisation being funded)." }
+        else if (name.toLowerCase() == 'commitment') { return "Commitment is the total agreed budget for this item." }
+        else if (name.toLowerCase() == 'expenditure') { return "Expenditure is the outlay on goods and services and project overheads." }
+        else if (name.toLowerCase() == 'incoming funds') { return "Incoming funds are the funds received from a funding source (e.g. a donor)." }
         else { return false }
     },
 

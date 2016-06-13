@@ -55,7 +55,7 @@ class ChartDateFilter extends React.Component {
         this.props.replaceContext(
             'transaction_date_lte',
             date.format("YYYY-MM-DD"),
-            "Minimum transaction date",
+            "Maximum transaction date",
         )
     }
 

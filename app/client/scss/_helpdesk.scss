@@ -11,8 +11,14 @@
 		}
 	}
 	h5 {
-		margin-top:.5rem;
+		margin-bottom:0;
 		cursor: pointer;
+		@include breakpoint(small) {
+			font-size: 1rem;
+		}
+		@include breakpoint(large up) {
+			font-size: 1.1rem;
+		}
 		&:after {
 			display: block;
 			float: right;
@@ -26,18 +32,22 @@
 	}
 	.question-wrap {
 		border-bottom:1px solid $medium-gray;
+		padding:.5rem 0;
 		&:last-of-type {
 			border-bottom:0;
 		}
 		&.active {
 			h5 {
-				cursor: default;
-				&:hover {
-					color:$black;
-				}
 				&:after {
 					content: '\e5ce'
 				}
+			}
+		}
+	}
+	.answer {
+		p {
+			&:last-of-type {
+				margin-bottom: 0;
 			}
 		}
 	}

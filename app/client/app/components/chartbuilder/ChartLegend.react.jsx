@@ -137,8 +137,8 @@ export const PublicChartFilters = props => {
         else if (object == 'default_finance_type') { grouped[object].length > 1 ? title = 'With default finance types' : title = 'With default finance type'}
         else if (object == 'default_tied_status') { grouped[object].length > 1 ? title = 'With default tied statuses' : title = 'With default tied status'}
         else if (object == 'policy_marker') { grouped[object].length > 1 ? title = 'With policy markers' : title = 'With policy marker'}
-        else if (object == 'transaction_date_lte') { grouped[object].length > 1 ? title = 'Minimum transaction date' : title = 'Minimum transaction date'}
-        else if (object == 'transaction_date_gte') { grouped[object].length > 1 ? title = 'Maximum transaction date' : title = 'Maximum transaction date'}
+        else if (object == 'transaction_date_lte') { grouped[object].length > 1 ? title = 'Maximum transaction date' : title = 'Maximum transaction date'}
+        else if (object == 'transaction_date_gte') { grouped[object].length > 1 ? title = 'Minimum transaction date' : title = 'Minimum transaction date'}
         else { title = '' }
 
         var list = grouped[object].map( (i, index) => {
