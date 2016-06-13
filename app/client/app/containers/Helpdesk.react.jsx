@@ -20,7 +20,7 @@ const faq = [{
 	},
 	{
 	question: 'Can I access everything in the IATI Registry?',
-	answer: '<p>Yes you can. We pull the data straight from the registry using our OIPA data engine every night, so the data in IATI Studio is always up to date.</p>'
+	answer: '<p>Yes you can. We pull the data straight from the registry using our <a href="https://www.oipa.nl/" target="_blank">OIPA data engine</a> every night, so the data in IATI Studio is always up to date.</p>'
 	},
 	{
 	question: 'Can I publish my own IATI data using IATI Studio?',
