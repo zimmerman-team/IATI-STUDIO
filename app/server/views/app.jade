@@ -1,4 +1,3 @@
-
 doctype html
 //if lt IE 7
   html.no-js.lt-ie9.lt-ie8.lt-ie7  
@@ -21,15 +20,9 @@ html.no-js(lang='en', xmlns='http://www.w3.org/1999/xhtml', xmlns:fb='http://ogp
     link(rel='apple-touch-icon', sizes='114x114', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon-114x114.png')
     link(rel='apple-touch-icon', sizes='72x72', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon-72x72.png')
     link(rel='apple-touch-icon', href='https://www.iatistudio.com/wp-content/themes/IATI-Studio-shop/assets/images/icons/apple-touch-icon.png')
+    script(src='https://use.typekit.net/wim8txg.js')
     script.
-      (function(d) {
-      var config = {
-      kitId: 'wim8txg',
-      scriptTimeout: 3000,
-      async: true
-      },
-      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
-      })(document);
+      try{Typekit.load({ async: false });}catch(e){}
     script(type='text/javascript').
       var _vwo_code=(function(){
       var account_id=242000,
@@ -52,21 +45,6 @@ html.no-js(lang='en', xmlns='http://www.w3.org/1999/xhtml', xmlns:fb='http://ogp
     #app
 
     script(src='/static/app.bundle.js')
-
-    script.
-      function loadCSS(href){
-      var ss = window.document.createElement('link'),
-      ref = window.document.getElementsByTagName('head')[0];
-      ss.rel = 'stylesheet';
-      ss.href = href;
-      ss.media = 'only x';
-      ref.parentNode.insertBefore(ss, ref);
-      setTimeout( function(){
-      ss.media = 'all';
-      },0);
-      }
-      loadCSS('https://fonts.googleapis.com/icon?family=Material+Icons');
-      loadCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css');
 
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
