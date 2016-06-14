@@ -85,6 +85,7 @@ export const NestedButtonListItem = React.createClass({
     propTypes: {
         title: PropTypes.string.isRequired,
         initialActive: PropTypes.bool,
+        tooltip: PropTypes.string,
 
         liClass: PropTypes.string,
         hrefClass: PropTypes.string, // title
@@ -130,6 +131,7 @@ export const NestedButtonListItem = React.createClass({
         return (
             <li className={liClass}>
                 <Link to="/" onClick={this.onClickFwd} className={linkClass}>{length} {title}</Link>
+                {this.props.tooltip ? <Tooltip tooltip={this.props.tooltip} className="small-list absolute" click={true}><i className="material-icons">info</i></Tooltip> : null}
                 <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={500} transitionLeaveTimeout={500}> 
                     { active ?
                         <SubMenu

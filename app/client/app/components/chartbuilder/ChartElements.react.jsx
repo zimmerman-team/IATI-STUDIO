@@ -10,7 +10,7 @@ import { SearchableCheckboxList, CheckboxList, Checkbox, Orderable} from '../gen
 import { FoundationAccordion, FoundationAccordionItem, FoundationButtonList, FoundationButtonListItem } from '../foundation/List.react.jsx'
 import { ModalContainer, ModalButton, Portal } from '../general/Modal.react.jsx'
 
-import { oipaKeyToName } from '../../name_mapping'
+import { oipaKeyToName, oipaKeyToDesc } from '../../name_mapping'
 
 // TODO: Call actions in parent view - 2016-01-29
 const ChartElements = React.createClass({
@@ -76,19 +76,23 @@ export default connect(mapStateToProps)(ChartElements)
 const AGGREGATIONS = [
     {
         id: 'disbursement',
-        name: 'Disbursement'
+        name: 'Disbursement',
+        desc: 'Disbursement is the amount of money transferred to another organisation in the aid delivery chain (e.g. a partner organisation being funded).'
     },
     {
         id: 'commitment',
         name: 'Commitment',
+        desc: 'Commitment is the total agreed budget for this item.'
     },
     {
         id: 'expenditure',
         name: 'Expenditure',
+        desc: 'Expenditure is the outlay on goods and services and project overheads.'
     },
     {
         id: 'incoming_fund',
         name: 'Incoming Funds',
+        desc: 'Incoming funds are the funds received from a funding source (e.g. a donor).'
     }
 ]
 
@@ -169,6 +173,7 @@ let ChartElementsType = React.createClass({
                 active={false}
                 from="items"
                 length={<span className="length">{orderedFilters.length}</span>}
+                tooltip={oipaKeyToDesc[type]}
                 {...this.props}>
                 
                     {this.props.type == 'reporting_organisation' ? 
@@ -188,7 +193,7 @@ let ChartElementsType = React.createClass({
                         active={this.props.orderBy} 
                         reverse={this.props.reverse}
                     />
-
+                    
                     { !_.isEmpty(list) ? list : <p>No data found</p> }
                 </FoundationAccordion>
 
@@ -218,14 +223,6 @@ const ChartElementsAggregation = React.createClass({
         onChange: PropTypes.func,
     },
 
-    getTooltip: function(name) {
-        if (name.toLowerCase() == 'disbursement') { return "Disbursement is the amount of money transferred to another organisation in the aid delivery chain (e.g. a partner organisation being funded)." }
-        else if (name.toLowerCase() == 'commitment') { return "Commitment is the total agreed budget for this item." }
-        else if (name.toLowerCase() == 'expenditure') { return "Expenditure is the outlay on goods and services and project overheads." }
-        else if (name.toLowerCase() == 'incoming funds') { return "Incoming funds are the funds received from a funding source (e.g. a donor)." }
-        else { return false }
-    },
-
     render: function() {
         const { filter, selected } = this.props
 
@@ -236,7 +233,7 @@ const ChartElementsAggregation = React.createClass({
                 onChange={this.props.onChange.bind(this, i)} // selected checkbox
                 checked={ _.find(selected, item => item.aggregations === aggregation.id) ? true : false }
                 name={aggregation.name}
-                tooltip={this.getTooltip(aggregation.name)}
+                tooltip={aggregation.desc}
             />
         ))
 

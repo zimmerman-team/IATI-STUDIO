@@ -757,8 +757,13 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
     &.small-list {
         margin-left:.3rem;
         line-height: 0;
-        float: left;
+        float: right;
         clear:right;
+        &.absolute {
+            position:absolute;
+            right:1rem;
+            margin-top:-1.4rem;
+        }
         i {
             color:$primary-color;
             font-size: 1rem;

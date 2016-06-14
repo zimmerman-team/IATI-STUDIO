@@ -235,7 +235,7 @@
 	}
 	.actions {
 		@include breakpoint(medium up) {
-			float: left;
+			float: right;
 		}
 		margin-bottom: 1rem;
 		@extend .clearfix;
@@ -379,6 +379,31 @@
 	    	bottom:1.2rem;
 	    	left:-.2rem;
 	    }
+	}
+}
+.back-link {
+	line-height:2.5rem;
+	.button {
+		border-radius: 50%;
+	    height: 2.5rem;
+	    width: 2.5rem;
+	    text-align: center;
+	    padding: 0;
+	    float: left;
+	    margin-bottom: 0;
+	}
+	&:hover {
+		.button {
+			color: darken($primary-color, 10%);
+		}
+	}
+	&:active {
+		.button {
+		    background: #e6e6e6;
+		}
+	}
+	i {
+		line-height: 2.5rem;
 	}
 }
 

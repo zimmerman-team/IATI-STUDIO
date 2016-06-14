@@ -15,7 +15,7 @@ import { stateToHTML } from 'draft-js-export-html'
 import { convertFromRaw, ContentState, convertToRaw } from 'draft-js'
 
 import default_avatar from '../../../img/avatar.svg'
-import { withRouter } from 'react-router'
+import { withRouter, Link } from 'react-router'
 
 import DocumentTitle from "react-document-title"
 
@@ -53,6 +53,11 @@ let ChartView = withRouter(React.createClass({
         this.props.router.push(`/chartbuilder/${id}`)
     },
 
+    goBack: function() {
+        //this.props.router.goBack()
+        this.props.router.push('/public/charts')
+    },
+
     render: function() {
         const { visualization, items, context } = this.props
         let updateDate = moment(visualization.last_updated).format("D MMM YYYY")
@@ -81,6 +86,7 @@ let ChartView = withRouter(React.createClass({
             <DocumentTitle title={'IATI Studio | '+visualization.name}>
                 <div className="row public-chart">
                     <div className="columns small-12">
+                        <a onClick={this.goBack} className="back-link"><span className="button flat"><i className="material-icons">arrow_back</i></span>Back to the community feed</a>
                         {/*<Scroll.Link to="comments" spy={true} smooth={true} offset={-150} duration={500} className="to-comments">
                             <Tooltip tooltip="View comments"><i className="material-icons comment-link">chat_bubble_outline</i></Tooltip>
                         </Scroll.Link>*/}

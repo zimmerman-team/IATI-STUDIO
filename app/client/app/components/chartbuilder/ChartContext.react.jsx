@@ -7,7 +7,7 @@ import ReactSlider from 'react-slider'
 
 import store from '../../app'
 
-import { oipaKeyToName } from '../../name_mapping'
+import { oipaKeyToName, oipaKeyToDesc } from '../../name_mapping'
 
 import { SearchableCheckboxList, Checkbox, Orderable} from '../general/List.react.jsx'
 
@@ -130,7 +130,8 @@ const ChartContext = React.createClass({
                     loadState={loadState}
                     title={oipaKeyToName[key]}
                     length={<span className="length">{filters.length}</span>}
-                    key={key}>
+                    key={key}
+                    tooltip={oipaKeyToDesc[key]}>
                     <ChartListFilter 
                         key={key} 
                         type={key} 
@@ -156,7 +157,8 @@ const ChartContext = React.createClass({
                 <FoundationButtonListItem
                     loadState={loadState}
                     title={"Transaction Date"}
-                    key={'transaction_date'}>
+                    key={'transaction_date'}
+                    tooltip={oipaKeyToDesc['transaction_date']}>
                     <ChartDateFilter 
                         removeContext={this.props.removeContext}
                         replaceContext={this.props.replaceContext}
