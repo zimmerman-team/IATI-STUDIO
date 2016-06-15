@@ -82,7 +82,7 @@ const AGGREGATIONS = [
     {
         id: 'commitment',
         name: 'Commitment',
-        desc: 'Commitment is the total agreed budget for this item.'
+        desc: 'Commitment is the total agreed budget.'
     },
     {
         id: 'expenditure',
@@ -193,7 +193,7 @@ let ChartElementsType = React.createClass({
                         active={this.props.orderBy} 
                         reverse={this.props.reverse}
                     />
-                    
+
                     { !_.isEmpty(list) ? list : <p>No data found</p> }
                 </FoundationAccordion>
 
