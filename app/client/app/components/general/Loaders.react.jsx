@@ -11,7 +11,6 @@ var loader_url = require
 */
 export const LoaderWrapper = function(hasLoaded, Component, LoaderComponent, onLoad) {
     return props => {
-    	console.log(props)
 		if (hasLoaded(props)) {
 		    return <Component {...props} />
 		}
