@@ -382,28 +382,11 @@
 	}
 }
 .back-link {
-	line-height:2.5rem;
-	.button {
-		border-radius: 50%;
-	    height: 2.5rem;
-	    width: 2.5rem;
-	    text-align: center;
-	    padding: 0;
-	    float: left;
-	    margin-bottom: 0;
-	}
-	&:hover {
-		.button {
-			color: darken($primary-color, 10%);
-		}
-	}
-	&:active {
-		.button {
-		    background: #e6e6e6;
-		}
-	}
+	line-height:2rem;
 	i {
-		line-height: 2.5rem;
+		float: left;
+		line-height: 2rem;
+		margin-right: .5rem;
 	}
 }
 

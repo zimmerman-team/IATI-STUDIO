@@ -86,7 +86,7 @@ let ChartView = withRouter(React.createClass({
             <DocumentTitle title={'IATI Studio | '+visualization.name}>
                 <div className="row public-chart">
                     <div className="columns small-12">
-                        <a onClick={this.goBack} className="back-link"><span className="button flat"><i className="material-icons">arrow_back</i></span>Back to the community feed</a>
+                        <a onClick={this.goBack} className="back-link"><i className="material-icons">arrow_back</i>Back to the community feed</a>
                         {/*<Scroll.Link to="comments" spy={true} smooth={true} offset={-150} duration={500} className="to-comments">
                             <Tooltip tooltip="View comments"><i className="material-icons comment-link">chat_bubble_outline</i></Tooltip>
                         </Scroll.Link>*/}
