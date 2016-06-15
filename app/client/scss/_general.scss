@@ -632,15 +632,16 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
     z-index: 99;
 }
 .notification {
-    width:30rem;
+    max-width:30rem;
     @include card(2);
     background:$blacker;
     border-radius:$global-radius;
     font-size:.9rem;
     margin-bottom:.5rem;
-    padding:0 1rem;
+    padding:1rem;
     position:relative;
     color:$white;
+    line-height: 1.4;
     //opacity: 0;
     //transition:all .2s ease;
     //transform:translate(100%, 0);
