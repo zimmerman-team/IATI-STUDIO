@@ -52,6 +52,7 @@ const App = React.createClass({
                         //{ this.props.errorMessage === null ? 
                         //    this.props.children
                         //: this.renderError() }
+                        //this.renderError()
                     }
                     </div>
                     { (this.props.location.pathname.startsWith("/public") || this.props.location.pathname.endsWith("/preview")) && !this.props.location.pathname.endsWith("/embed") ?  <PublicFooter/> : null }

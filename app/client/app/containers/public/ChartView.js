@@ -21,7 +21,6 @@ import DocumentTitle from "react-document-title"
 
 function loadData(props) {
     const { id, isPreview } = props
-
     if (isPreview) {
         // fetch from private API
         props.loadVisualization(id, false)
@@ -60,6 +59,7 @@ let ChartView = withRouter(React.createClass({
 
     render: function() {
         const { visualization, items, context } = this.props
+
         let updateDate = moment(visualization.last_updated).format("D MMM YYYY")
 
         let content = visualization.description
@@ -178,6 +178,7 @@ import {
     activeVisualizationSelector,
     visualizationItemSelector,
     visualizationContextSelector,
+    errorMessage
 } from '../../reducers'
 
 function mapStateToProps(state, props) {
@@ -187,6 +188,7 @@ function mapStateToProps(state, props) {
         visualization: activeVisualizationSelector(state, props),
         items: visualizationItemSelector(state, props),
         context: visualizationContextSelector(state, props),
+        errorMessage: state.errorMessage,
     }
 }
 
@@ -204,4 +206,5 @@ import { loadVisualization, forkVisualization } from '../../actions/async'
 export default connect(mapStateToProps, {
     loadVisualization,
     forkVisualization,
+    errorMessage
 })(ChartView)

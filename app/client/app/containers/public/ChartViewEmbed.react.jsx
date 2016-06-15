@@ -38,6 +38,7 @@ import {
     activeVisualizationSelector,
     visualizationItemSelector,
     visualizationContextSelector,
+    errorMessage
 } from '../../reducers'
 
 function mapStateToProps(state, props) {
@@ -46,6 +47,7 @@ function mapStateToProps(state, props) {
         visualization: activeVisualizationSelector(state, props),
         items: visualizationItemSelector(state, props),
         context: visualizationContextSelector(state, props),
+        errorMessage: state.errorMessage
     }
 }
 
@@ -59,5 +61,6 @@ ChartViewEmbed = LoaderWrapper(
 )
 
 export default connect(mapStateToProps, {
-    loadVisualization
+    loadVisualization,
+    errorMessage
 })(ChartViewEmbed)

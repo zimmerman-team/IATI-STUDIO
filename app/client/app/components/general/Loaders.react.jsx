@@ -11,14 +11,26 @@ var loader_url = require
 */
 export const LoaderWrapper = function(hasLoaded, Component, LoaderComponent, onLoad) {
     return props => {
-	if (hasLoaded(props)) {
-	    return <Component {...props} />
-	}
-	else {
-	    if (onLoad) onLoad(props)
+    	console.log(props)
+		if (hasLoaded(props)) {
+		    return <Component {...props} />
+		}
+		else if (props.errorMessage) {
+			return (
+				<div className="row">
+	                <div className="columns small-12 medium-10 large-8 small-centered error-page">
+	                    <h4>Something went wrong</h4>
+	                    <p>This is the error code we got:</p>
+	                    <p>{props.errorMessage}</p>
+	                </div>
+	            </div>
+			)
+		}
+		else {
+		    if (onLoad) onLoad(props)
 
-	    return <LoaderComponent />
-	}
+		    return <LoaderComponent />
+		}
     }
 }
 
