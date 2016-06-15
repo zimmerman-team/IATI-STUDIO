@@ -51,6 +51,13 @@
 			}
 		}
 	}
+	h4 {
+		text-align: center;
+		margin-top:2rem;
+		~ p {
+			text-align: center;
+		}
+	}
 }
 
 .navbox {

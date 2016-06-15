@@ -37,8 +37,8 @@ const LineChart = React.createClass({
             .text(x => x.name + " - " + x.aggregation)
             .x({value: "x", label: "Year"})
             .y({value: "y", label: "Transaction value"})
-            .time(noTimeline ? false : "x")
-            .timeline({
+            .time("x")
+            .timeline(noTimeline ? false : {
                 handles: {
                     color: '#3A99D8',
                     stroke: 0,
