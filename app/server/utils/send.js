@@ -16,7 +16,7 @@ export function send(req, res, next) {
 
 	sendmail(req, res, {
 		from: 'IATI Studio <enquiry@iatistudio.com>',
-		to: 'daan@zimmermanzimmerman.nl',
+		to: 'enquiry@iatistudio.com',
 		subject: 'IATI Studio support message',
 		textPath: 'email/support-text',
 		htmlPath: 'email/support-html',
