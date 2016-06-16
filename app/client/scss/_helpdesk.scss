@@ -86,3 +86,60 @@
 		}
 	}
 }
+
+#help-bar {
+	position:fixed;
+	bottom:0;
+	right:0;
+	z-index: 1;
+	.bar {
+		display: inline-block;
+		font-size: .8rem;
+		color:$white;
+		border-radius:$global-radius $global-radius 0 0;
+		padding:.2rem 1rem .4rem 1rem;
+		transition:all .2s ease;
+		margin-bottom: -.2rem;
+		cursor: pointer;
+		margin-right:.5rem;
+		opacity: .9;
+		&:hover {
+			transform: translateY(-.2rem);
+			opacity: 1;
+		}
+		a {
+			color:$white;
+		}
+	}
+	#feedback {
+		background: $secondary-color;
+	}
+	#support {
+		background: $primary-color;
+	}
+}
+
+.modal-container.form {
+	.form-wrapper {
+		position: relative;
+		@extend .clearfix;
+	}
+	.actions {
+		.button {
+			width:5rem;
+			height: 1.9rem;
+		}
+	}
+}
+
+.modal-form {
+	input[type="submit"] {
+		position: absolute;
+		height: 1.9rem;
+		right: 5rem;
+		bottom:-1.9rem;
+	}
+	input.error, textarea.error {
+		border:1px solid $alert-color;
+	}
+}

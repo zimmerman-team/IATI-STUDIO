@@ -92,7 +92,7 @@ const ChartTopControls = withRouter(
                     <div className="columns small-12">
                         <div className="action-wrap">
                             <div className="button-group">
-                                <TopNavItem disabled={true} title={editing || loadingChart ? 'Changes detected...' : 'Autosaved'} className="save" materialIcon="save"/>
+                                <TopNavItem disabled={true} title={editing || loadingChart ? 'Saving...' : 'Autosaved'} className="save" materialIcon="save"/>
                                 <TopNavItem title="Preview" materialIcon="visibility" onClick={this.openPreviewPage.bind(this, visualization._id)} />
                                 <TopNavItem disabled={!visualization.public} title="Public page" materialIcon="public" onClick={this.openPublicPage.bind(this, visualization._id)} />
                                 <TopNavItem title={visualization.public ? "Published" : "Publish"} materialIcon={visualization.public ? "check" : "publish"} onClick={this.publishChartToggle} published={visualization.public} className="publish"/>

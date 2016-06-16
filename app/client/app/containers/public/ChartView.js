@@ -178,7 +178,7 @@ import {
     activeVisualizationSelector,
     visualizationItemSelector,
     visualizationContextSelector,
-    errorMessage
+    //errorMessage
 } from '../../reducers'
 
 function mapStateToProps(state, props) {
@@ -206,5 +206,5 @@ import { loadVisualization, forkVisualization } from '../../actions/async'
 export default connect(mapStateToProps, {
     loadVisualization,
     forkVisualization,
-    errorMessage
+    //errorMessage
 })(ChartView)

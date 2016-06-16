@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import onClickOutside from 'react-onclickoutside'
+import classNames from 'classnames'
 
 const RenderInBody = React.createClass({
 
@@ -51,12 +52,17 @@ export const ModalButton = React.createClass({
     propTypes: {
         children: React.PropTypes.element.isRequired,
         name: React.PropTypes.string.isRequired,
-
         buttonProps: React.PropTypes.element, // TODO: Allow spread on button - 2016-01-28
+        minWidth: React.PropTypes.string,
+        extraClass: React.PropTypes.string,
     },
 
     toggleModal: function() {
         this.setState({ opened: !this.state.opened })
+    },
+
+    closeModal: function() {
+        this.setState({ opened: false })
     },
 
     performAction: function(){
@@ -65,6 +71,7 @@ export const ModalButton = React.createClass({
     },
 
     render: function() {
+        var modalClass = classNames('modal-container', this.props.extraClass)
         return (
             <div style={{float: this.props.float}}>
                 <a className={this.props.className} onClick={this.toggleModal}>{this.props.name}</a>
@@ -75,8 +82,8 @@ export const ModalButton = React.createClass({
                         </ReactCSSTransitionGroup>
                         <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={600} transitionLeaveTimeout={600}> 
                             {this.state.opened ? 
-                                <div className="modal-container">
-                                    <Modal handleClickOutside={this.toggleModal} disableOnClickOutside={!this.state.opened} >
+                                <div className={modalClass}>
+                                    <Modal minWidth={this.props.minWidth} handleClickOutside={this.closeModal} disableOnClickOutside={!this.state.opened} >
                                         <div>
                                             {this.props.children}
                                             <div className="actions">
@@ -111,7 +118,7 @@ const Modal = onClickOutside(React.createClass({
 
     render: function() {
         return (
-            <div className="modal ignore-react-onclickoutside">
+            <div className="modal ignore-react-onclickoutside" style={{minWidth: this.props.minWidth}}>
                 {this.props.children}
             </div>
         )

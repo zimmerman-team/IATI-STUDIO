@@ -6,6 +6,7 @@ import { isLoggedIn } from '../utils/login.js'
 
 import Topbar from "../components/nav/Topbar.react.jsx"
 import PublicTopbar from "../components/public/Topbar"
+import HelpBar from "../components/help/HelpBar.react.jsx"
 
 import {PublicFooter} from "../components/public/Footer.react.jsx"
 
@@ -55,6 +56,7 @@ const App = React.createClass({
                         //this.renderError()
                     }
                     </div>
+                    { isLoggedIn  ? <HelpBar /> : null }
                     { (this.props.location.pathname.startsWith("/public") || this.props.location.pathname.endsWith("/preview")) && !this.props.location.pathname.endsWith("/embed") ?  <PublicFooter/> : null }
                 </div>
             </DocumentTitle>

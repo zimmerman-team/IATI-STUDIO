@@ -38,7 +38,7 @@ export default (
             <Route path="chartbuilder/:id" component={ChartBuilder} />
             <Route path="chartbuilder/:id/preview" component={ChartPreview} />
             <Route path="collection" component={CollectionList}/>
-            <Route path="topbar" component={Topbar}/>
+            {/*<Route path="topbar" component={Topbar}/>*/}
             <Route path="user/profile" component={UserProfile}/>
             <Route path="user/settings" component={UserSettings}/>
             <Route path="archive" component={Archive}/>

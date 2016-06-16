@@ -3,6 +3,8 @@ import visualizations from './api/public/visualizations'
 import admin from './api/admin'
 import auth from './api/auth'
 
+import send from './utils/send'
+
 import { ensureAuthenticated, ensureAccount } from './middleware/authentication'
 
 module.exports = function(app) {
@@ -43,5 +45,8 @@ module.exports = function(app) {
     */
 
     app.use('/api/visualizations', visualizations)
+
+    //sending emails
+    app.post('/send', send);
 
 }
