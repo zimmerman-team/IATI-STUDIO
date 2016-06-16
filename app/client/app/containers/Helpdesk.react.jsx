@@ -50,10 +50,6 @@ const faq = [{
 	question: 'I\'ve found a bug!',
 	answer: '<p>Oh no! Good thing we\'re still in beta. Please let us know what happened and when it happened, what you were doing, and anything else you might find relevant, on <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a> and we\'ll try and fix it as soon as possible.</p>'
 	},
-	{
-	question: 'Your question not here?',
-	answer: '<p>You can also reach us by email on <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a>.</p>'
-	},
 ]
 
 const Helpdesk = React.createClass({
