@@ -711,6 +711,7 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
         padding:1.5rem 2rem;
         color:$black;
         font-size: .9rem;
+        position: relative;
         h6 {
             color:$black;
         }
@@ -722,6 +723,15 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
         }
         .actions {
             text-align: right;
+        }
+    }
+    .close-icon {
+        position: absolute;
+        top:.4rem;
+        right:.4rem;
+        color:$black;
+        &:hover {
+            color:$primary-color;
         }
     }
 }

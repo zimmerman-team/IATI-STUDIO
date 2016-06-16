@@ -55,6 +55,7 @@ export const ModalButton = React.createClass({
         buttonProps: React.PropTypes.element, // TODO: Allow spread on button - 2016-01-28
         minWidth: React.PropTypes.string,
         extraClass: React.PropTypes.string,
+        closeTop: React.PropTypes.bool,
     },
 
     toggleModal: function() {
@@ -90,6 +91,7 @@ export const ModalButton = React.createClass({
                                                 {this.props.actionButton ? <a className="button secondary" onClick={this.performAction}>{this.props.actionButton}</a> : null }
                                                 {this.props.closeButton ? <a className="button" onClick={this.toggleModal}>{this.props.closeButton}</a> : null }
                                             </div>
+                                            {this.props.closeTop ? <a className="close-icon" onClick={this.toggleModal}><i className="material-icons">close</i></a> : null}
                                         </div>
                                     </Modal>
                                 </div>

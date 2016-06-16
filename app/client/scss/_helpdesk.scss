@@ -126,18 +126,14 @@
 	}
 	.actions {
 		.button {
-			width:5rem;
-			height: 1.9rem;
+			
 		}
 	}
 }
 
 .modal-form {
 	input[type="submit"] {
-		position: absolute;
-		height: 1.9rem;
-		right: 5rem;
-		bottom:-1.9rem;
+
 	}
 	input.error, textarea.error {
 		border:1px solid $alert-color;

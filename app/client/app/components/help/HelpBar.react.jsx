@@ -15,7 +15,7 @@ const HelpBar = withRouter(React.createClass({
 		return (
 			<div id="help-bar">
 				<div id="feedback" className="bar">
-					<ModalButton name="What do you think of this app?" closeButton="Cancel" minWidth="30rem">
+					<ModalButton name="What do you think of this app?" minWidth="30rem" closeTop={true}>
 						<iframe src="https://www.surveymonkey.com/r/BZSG87X" width="800" height="600" frameborder="0" style={{
 							border: "1px solid #ccc",
 							width: "100%"
@@ -23,7 +23,7 @@ const HelpBar = withRouter(React.createClass({
 					</ModalButton>
 				</div>
 				<div id="support" className="bar">
-					<ModalButton name="Need help?" closeButton="Close" extraClass="form">
+					<ModalButton name="Need help?" extraClass="form" closeTop={true}>
 						<ContactForm 
 							className="modal-form" 
 							firstName={typeof this.props.firstName == "string" ? this.props.firstName : ''} 
