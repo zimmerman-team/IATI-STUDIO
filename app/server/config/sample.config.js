@@ -36,7 +36,7 @@ const config = {
     "visualization": {
         "max": 25,
         "itemFilters": ['recipient_country', 'recipient_region', 'sector', 'reporting_organisation'],
-        "contextFilters": ['recipient_country', 'recipient_region', 'sector', 'reporting_organisation', 'document_link_category', 'activity_status', 'policy_marker', 'collaboration_type', 'default_flow_type', 'default_aid_type', 'default_finance_type', 'default_tied_status']
+        "contextFilters": ['recipient_country', 'recipient_region', 'sector', 'reporting_organisation', 'document_link_category', 'activity_status', 'collaboration_type', 'default_flow_type', 'default_aid_type', 'default_finance_type', 'default_tied_status']
     },
 
 
