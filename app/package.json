@@ -17,7 +17,7 @@
     "country-data": "0.0.24",
     "csurf": "^1.8.3",
     "currency-codes": "~1.1.2",
-    "d3plus": "git+https://github.com/alexandersimoes/d3plus.git",
+    "d3plus": "git+https://github.com/alexandersimoes/d3plus.git#v1.9.4",
     "draft-js": "0.7.*",
     "draft-js-export-html": "0.2.*",
     "emailjs": "^1.0.4",
