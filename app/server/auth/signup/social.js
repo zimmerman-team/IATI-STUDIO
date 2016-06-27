@@ -5,6 +5,7 @@ import sendmail from '../util/sendmail'
 import { postUserCreate } from './postUserCreate'
 
 import UserApi from '../../api/private/User'
+import request from 'request'
 
 export function signupSocial(req, res, next) {
 
@@ -64,7 +65,7 @@ export function signupSocial(req, res, next) {
   });
 
   workflow.on('createUser', function() {
-    console.log(req.session.socialProfile)
+    //console.log(req.session.socialProfile)
     var avatarSocial
     if (req.session.socialProfile.provider == 'twitter') { avatarSocial = req.session.socialProfile._json.profile_image_url_https }
     else if (req.session.socialProfile.provider == 'github') { avatarSocial = req.session.socialProfile._json.avatar_url }
@@ -147,13 +148,34 @@ export function signupSocial(req, res, next) {
         projectName: req.app.config.projectName
       },
       success: function(message) {
-        workflow.emit('logUserIn');
+        workflow.emit('signUpNewsletter');
       },
       error: function(err) {
         console.log('Error Sending Welcome Email: '+ err);
-        workflow.emit('logUserIn');
+        workflow.emit('signUpNewsletter');
       }
     });
+  });
+
+  workflow.on('signUpNewsletter', function() {
+    request.post(
+      'https://api.createsend.com/api/v3.1/subscribers/'+req.app.config.oauth.newsletter.listId+'.json',
+      {
+        'auth': {
+          'user': req.app.config.oauth.newsletter.apiKey,
+          'pass': ''
+        },
+        'json': {
+          'emailAddress': req.body.email
+        }
+      },
+      function (err, httpResponse, body) {
+        if (err) { 
+          console.log('Error subscribing to newsletter: ' + err)
+        }
+        workflow.emit('logUserIn');
+      }
+    );
   });
 
   workflow.on('logUserIn', function() {

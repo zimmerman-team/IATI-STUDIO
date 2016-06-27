@@ -25,6 +25,11 @@ const oauth = {
         secret: null,
         callbackUrl: "/auth/signup/facebook/callback/"
     },
+    //for the newsletter
+    newsletter: {
+        apiKey: null,
+        listId: null,
+    },
 }
 
 export default oauth

@@ -3,6 +3,7 @@ import workflowMiddleware from '../util/workflow'
 import sendmail from '../util/sendmail'
 import { sendVerificationEmail } from '../verification'
 import { postUserCreate } from './postUserCreate'
+import request from 'request'
 
 export function signupView(req, res) {
   if (req.isAuthenticated()) {
@@ -156,13 +157,34 @@ export function signup(req, res, next) {
         projectName: req.app.config.projectName,
       },
       success: function(message) {
-        workflow.emit('logUserIn');
+        workflow.emit('signUpNewsletter');
       },
       error: function(err) {
         console.error('Error Sending Welcome Email: '+ err);
-        workflow.emit('logUserIn');
+        workflow.emit('signUpNewsletter');
       }
     });
+  });
+
+  workflow.on('signUpNewsletter', function() {
+    request.post(
+      'https://api.createsend.com/api/v3.1/subscribers/'+req.app.config.oauth.newsletter.listId+'.json',
+      {
+        'auth': {
+          'user': req.app.config.oauth.newsletter.apiKey,
+          'pass': ''
+        },
+        'json': {
+          'emailAddress': req.body.email
+        }
+      },
+      function (err, httpResponse, body) {
+        if (err) { 
+          console.log('Error subscribing to newsletter: ' + err)
+        }
+        workflow.emit('logUserIn');
+      }
+    );
   });
 
   workflow.on('logUserIn', function() {
@@ -367,13 +389,34 @@ exports.signupSocial = function(req, res){
         projectName: req.app.config.projectName
       },
       success: function(message) {
-        workflow.emit('logUserIn');
+        workflow.emit('signUpNewsletter');
       },
       error: function(err) {
         console.error('Error Sending Welcome Email: '+ err);
-        workflow.emit('logUserIn');
+        workflow.emit('signUpNewsletter');
       }
     });
+  });
+
+  workflow.on('signUpNewsletter', function() {
+    request.post(
+      'https://api.createsend.com/api/v3.1/subscribers/'+req.app.config.oauth.newsletter.listId+'.json',
+      {
+        'auth': {
+          'user': req.app.config.oauth.newsletter.apiKey,
+          'pass': ''
+        },
+        'json': {
+          'emailAddress': req.body.email
+        }
+      },
+      function (err, httpResponse, body) {
+        if (err) { 
+          console.log('Error subscribing to newsletter: ' + err)
+        }
+        workflow.emit('logUserIn');
+      }
+    );
   });
 
   workflow.on('logUserIn', function() {
