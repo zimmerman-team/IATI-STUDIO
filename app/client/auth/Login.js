@@ -29,13 +29,16 @@ export const Login = React.createClass({
   },
 
   handleResponse: function(json, response) {
+      this.setState({
+        errors: [],
+        validationErrors: {},
+      })
       if (Object.keys(json.errfor).length) {
         return this.setState({validationErrors: json.errfor})
       }
       if (json.errors.length) {
         return this.setState({errors: json.errors})
       }
-
       window.location = '/auth/login'
   },
 
@@ -69,6 +72,8 @@ export const Login = React.createClass({
             <LoginForm
               handleError={this.handleError}
               handleResponse={this.handleResponse}
+              validationErrors={validationErrors}
+              renderErrors={errors}
             />
             <ForgotPassword />
 
@@ -76,8 +81,8 @@ export const Login = React.createClass({
           <div className="panel">
             Not a member yet? <Link to='/auth/signup'>Sign up!</Link>
           </div>
-          { validationErrors ? <ValidationErrors errors={this.state.validationErrors} /> : null }
-          { errors ? <RenderErrors errors={this.state.errors} /> : null }
+          { /*validationErrors ? <ValidationErrors errors={this.state.validationErrors} /> : null*/ }
+          { /*errors ? <RenderErrors errors={this.state.errors} /> : null*/ }
         </div>
 
     )
@@ -91,6 +96,8 @@ export const LoginForm = React.createClass({
   propTypes: {
       handleError: PropTypes.func.isRequired,
       handleResponse: PropTypes.func.isRequired,
+      validationErrors: PropTypes.object,
+      renderErrors: PropTypes.array,
   },
 
   getInitialState: function() {
@@ -116,6 +123,7 @@ export const LoginForm = React.createClass({
   },
 
   render: function() {
+
     return (
         <form id="signup-form" ref={c => this._form = c}>
             <input 
@@ -124,20 +132,26 @@ export const LoginForm = React.createClass({
                 ref={c => this._username = c}
                 placeholder="Username or e-mail address"
             />
+            { this.props.validationErrors.username ? <ValidationErrors errors={this.props.validationErrors.username} /> : null }
             <input 
                 type="password" 
                 name="password"
                 ref={c => this._password = c}
                 placeholder="Password"
             />
+            { this.props.validationErrors.password ? <ValidationErrors errors={this.props.validationErrors.password} /> : null }
 
+            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+            
           <button className="button input-height" onClick={this.handleSubmit}>Log In</button>
         </form>
     )
   }
 })
 
-export const LoginValidationError = (props) => {
+
+
+/*export const LoginValidationError = (props) => {
   let errors = props.formatErrors
 
   return (
@@ -158,4 +172,4 @@ export const LoginError = (props) => {
       {errors}
     </ul>
   )
-}
+}*/

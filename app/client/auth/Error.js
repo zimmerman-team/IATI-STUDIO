@@ -7,22 +7,19 @@ export const ValidationErrors = (props) => {
     return <noscipt />
   }
 
-  const fields = Object.keys(errors)
+  // const fields = Object.keys(errors)
 
-  if (!fields.length) {
-    return <noscript />
-  }
+  // if (!fields.length) {
+  //   return <noscript />
+  // }
 
-  const errorList = fields.map(field => (
-    <li>invalid field {field}: {errors[field]}</li>
-  ))
+  // const errorList = fields.map(field => (
+  //   <li>Invalid field {field}: {errors[field]}</li>
+  // ))
 
   return (
-    <div className="panel error">
-      <h5>Errors were found!</h5>
-      <ul>
-        { errorList }
-      </ul>
+    <div className="error">
+        { errors }
     </div>
   )
 }
@@ -39,8 +36,10 @@ export const RenderErrors = (props) => {
   ))
 
   return (
-    <ul>
-      {errorList}
-    </ul>
+    <div className="error">
+      <ul>
+        {errorList}
+      </ul>
+    </div>
   )
 }

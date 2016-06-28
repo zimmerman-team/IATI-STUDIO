@@ -22,6 +22,10 @@ const Signup  = React.createClass({
   },
 
   handleResponse: function(json, response) {
+      this.setState({
+        errors: [],
+        validationErrors: {},
+      })
       if (Object.keys(json.errfor).length) {
           return this.setState({validationErrors: json.errfor})
       }
@@ -76,6 +80,8 @@ const Signup  = React.createClass({
               <SignupForm 
                 handleError={this.handleError}
                 handleResponse={this.handleResponse}
+                validationErrors={validationErrors}
+                renderErrors={errors}
               />
               <p>By signing up, you agree to our <a href="https://www.iatistudio.com/terms-of-use/" target="_blank">terms & conditions</a></p>
               <ForgotPassword />
@@ -83,8 +89,8 @@ const Signup  = React.createClass({
             <div className="panel">
               <Link to='/auth/login'>Back to login</Link>
             </div>
-            { validationErrors ? <ValidationErrors errors={validationErrors} /> : null }
-            { errors ? <RenderErrors errors={errors} /> : null }
+            { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null*/ }
+            { /*errors ? <RenderErrors errors={errors} /> : null*/ }
           </div>
 
     )
@@ -98,6 +104,8 @@ export const SignupForm = React.createClass({
   propTypes: {
         handleError: PropTypes.func.isRequired,
         handleResponse: PropTypes.func.isRequired,
+        validationErrors: PropTypes.object,
+        renderErrors: PropTypes.array,
   },
 
   getInitialState: function() {
@@ -133,17 +141,22 @@ export const SignupForm = React.createClass({
                 ref={c => this._email = c}
                 placeholder="Email"
             />
+            { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
             <input 
                 type="text" 
                 ref={c => this._username = c}
                 placeholder="User name"
             />
+            { this.props.validationErrors.username ? <ValidationErrors errors={this.props.validationErrors.username} /> : null }
             <input 
                 type="password" 
                 ref={c => this._password = c}
                 placeholder="Password"
             />
+            { this.props.validationErrors.password ? <ValidationErrors errors={this.props.validationErrors.password} /> : null }
 
+            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+            
           <button className="button input-height" onClick={this.handleSubmit}>Create Account</button>
         </form>
 

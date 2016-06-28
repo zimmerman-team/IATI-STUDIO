@@ -11,6 +11,11 @@ export const forgot = function(req, res, next){
       return workflow.emit('response');
     }
 
+    else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
+      workflow.outcome.errfor.email = 'invalid email format';
+      return workflow.emit('response');
+    }
+
     workflow.emit('generateToken');
   });
 

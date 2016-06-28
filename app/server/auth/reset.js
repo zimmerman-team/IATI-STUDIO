@@ -16,7 +16,8 @@ export const reset = function(req, res){
     }
 
     if (req.body.password !== req.body.confirm) {
-      workflow.outcome.errors.push('Passwords do not match.');
+      workflow.outcome.errfor.confirm = 'Passwords do not match';
+      //workflow.outcome.errors.push('Passwords do not match.');
     }
 
     if (workflow.hasErrors()) {

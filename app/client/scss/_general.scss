@@ -901,3 +901,27 @@ label {
 .error-page {
     padding-top:2rem;
 }
+
+form .error {
+    margin-bottom: 1rem;
+    margin-top:-1rem;
+    text-align: left;
+    font-size: .8rem;
+    color:$white;
+    background:$alert-color;
+    padding:.1rem .5rem;
+    border-radius:0 0 $global-radius $global-radius;
+    @include card(1);
+    &.render {
+        margin-top:0;
+        padding:.5rem;
+        border-radius:$global-radius;
+        ul {
+            list-style: none;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 0;
+        }
+    }
+}

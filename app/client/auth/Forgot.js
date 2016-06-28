@@ -10,6 +10,10 @@ import getHeaders from './headers'
 const Forgot = React.createClass({
 
   handleResponse: function(json, response) {
+      this.setState({
+        errors: [],
+        validationErrors: {},
+      })
       if (Object.keys(json.errfor).length) {
           return this.setState({validationErrors: json.errfor})
       }
@@ -46,10 +50,12 @@ const Forgot = React.createClass({
                 <ForgotForm 
                   handleError={this.handleError}
                   handleResponse={this.handleResponse}
+                  validationErrors={validationErrors}
+                  renderErrors={errors}
                 />
               </div>
-              { validationErrors ? <ValidationErrors errors={validationErrors} /> : null }
-              { errors ? <RenderErrors errors={errors} /> : null }
+              { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null*/ }
+              { /*errors ? <RenderErrors errors={errors} /> : null*/ }
             </div>
 
       
@@ -63,7 +69,9 @@ export const ForgotForm = React.createClass({
 
     propTypes: {
         handleError: PropTypes.func.isRequired,
-        handleResponse: PropTypes.func.isRequired
+        handleResponse: PropTypes.func.isRequired,
+        validationErrors: PropTypes.object,
+        renderErrors: PropTypes.array,
     },
 
   getInitialState: function() {
@@ -95,6 +103,8 @@ export const ForgotForm = React.createClass({
                 ref={c => this._email = c}
                 placeholder="Your email address"
             />
+            { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
+            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
           <button className="button input-height" onClick={this.handleSubmit}>Confirm reset</button>
         </form>
     )

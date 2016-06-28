@@ -15,6 +15,10 @@ const Reset = React.createClass({
   },
 
   handleResponse: function(json, response) {
+      this.setState({
+        errors: [],
+        validationErrors: {},
+      })
       if (Object.keys(json.errfor).length) {
           return this.setState({validationErrors: json.errfor})
       }
@@ -57,10 +61,12 @@ const Reset = React.createClass({
             token={token}
             handleError={this.handleError}
             handleResponse={this.handleResponse}
+            validationErrors={validationErrors}
+            renderErrors={errors}
           />
 
-          { validationErrors ? <ValidationErrors errors={validationErrors} /> : null }
-          { errors ? <RenderErrors errors={errors} /> : null }
+          { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null */}
+          { /*errors ? <RenderErrors errors={errors} /> : null*/ }
         </div>
       
     )
@@ -75,7 +81,9 @@ export const ResetForm = React.createClass({
         email: PropTypes.string.isRequired,
         token: PropTypes.string.isRequired,
         handleError: PropTypes.func.isRequired,
-        handleResponse: PropTypes.func.isRequired
+        handleResponse: PropTypes.func.isRequired,
+        validationErrors: PropTypes.object,
+        renderErrors: PropTypes.array,
     },
 
   handleSubmit: function(e) {
@@ -99,6 +107,7 @@ export const ResetForm = React.createClass({
 
 
   render: function() {
+    console.log(this.props.validationErrors)
     return (
       <div className="interact panel with-logo">
         <div className="logo"></div>
@@ -110,11 +119,17 @@ export const ResetForm = React.createClass({
                 ref={c => this._password = c}
                 placeholder="Password"
             />
+            { this.props.validationErrors.password ? <ValidationErrors errors={this.props.validationErrors.password} /> : null }
+
             <input 
                 type="password" 
                 ref={c => this._confirm = c}
                 placeholder="Confirm password"
             />
+            { this.props.validationErrors.confirm ? <ValidationErrors errors={this.props.validationErrors.confirm} /> : null }
+
+            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+            
           <button className="button input-height" onClick={this.handleSubmit}>Confirm Reset</button>
         </form>
       </div>

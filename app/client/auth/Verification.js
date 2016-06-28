@@ -23,6 +23,10 @@ const AccountVerification  = React.createClass({
   },
 
   handleResponse: function(json, response) {
+      this.setState({
+        errors: [],
+        validationErrors: {},
+      })
       if (Object.keys(json.errfor).length) {
           return this.setState({validationErrors: json.errfor})
       }
@@ -71,10 +75,12 @@ const AccountVerification  = React.createClass({
         <VerificationForm 
           handleError={this.handleError}
           handleResponse={this.handleResponse}
+          validationErrors={validationErrors}
+          renderErrors={errors}
         />
 
-        { validationErrors ? <ValidationErrors errors={validationErrors} /> : null }
-        { errors ? <RenderErrors errors={errors} /> : null }
+        { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null*/ }
+        { /*errors ? <RenderErrors errors={errors} /> : null */}
       </div>
 
     )
@@ -88,6 +94,8 @@ export const VerificationForm = React.createClass({
   propTypes: {
         handleError: PropTypes.func.isRequired,
         handleResponse: PropTypes.func.isRequired,
+        validationErrors: PropTypes.object,
+        renderErrors: PropTypes.array,
   },
 
   getInitialState: function() {
@@ -119,6 +127,10 @@ export const VerificationForm = React.createClass({
                 ref={c => this._email = c}
                 placeholder="Email"
             />
+            { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
+            
+            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+
           <button className="button input-height" onClick={this.handleSubmit}>Resend email</button>
         </form>
 
