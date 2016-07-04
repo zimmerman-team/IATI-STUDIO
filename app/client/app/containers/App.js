@@ -14,6 +14,8 @@ import DocumentTitle from "react-document-title"
 
 import classNames from 'classnames'
 
+import sadChart from '../../img/sad-chart.svg'
+
 const App = React.createClass({
 
     renderError: function() {
@@ -25,10 +27,10 @@ const App = React.createClass({
         return (
             <div className="row">
                 <div className="columns small-12 medium-10 large-8 small-centered error-page">
-                    <h1>Oops! Something went wrong</h1>
+                    <img src={sadChart} />
+                    <h4>Something went wrong</h4>
                     <p>This is the error code we got:</p>
                     <p>{errorMessage}</p>
-                    <p>Try going back to your library and refreshing the page.</p>
                 </div>
             </div>
         )
