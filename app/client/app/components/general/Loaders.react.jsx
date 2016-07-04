@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import loader from '../../../img/loader.svg'
+import sadChart from '../../../img/sad-chart.svg'
 
 var loader_url = require
 
@@ -18,6 +19,7 @@ export const LoaderWrapper = function(hasLoaded, Component, LoaderComponent, onL
 			return (
 				<div className="row">
 	                <div className="columns small-12 medium-10 large-8 small-centered error-page">
+	                	<img src={sadChart} />
 	                    <h4>Something went wrong</h4>
 	                    <p>This is the error code we got:</p>
 	                    <p>{props.errorMessage}</p>
