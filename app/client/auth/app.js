@@ -65,6 +65,9 @@ function createElement(Component, props) {
     return <Component {...props} {...initialState} />
 }
 
+document.cookie = "isAuthorized=0;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=iatistudio.com;";
+document.cookie = "isAuthorized=0;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;domain=localhost;";
+
 document.addEventListener('DOMContentLoaded', function () {
      ReactDom.render(
          <Router 
