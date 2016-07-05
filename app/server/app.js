@@ -55,7 +55,8 @@ app.use(session({
     secret: config.cryptoKey,
     resave: true,
     saveUninitialized: true,
-    store: sessionStore
+    store: sessionStore,
+    domain: 'iatistudio.com',
 }))
 app.use(passport.initialize());
 app.use(passport.session());
