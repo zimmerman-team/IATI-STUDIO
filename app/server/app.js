@@ -56,8 +56,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     store: sessionStore,
-    domain: '.iatistudio.com',
-    path: '/'
+    cookie: {
+      domain: '.iatistudio.com'
+    }
 }))
 app.use(passport.initialize());
 app.use(passport.session());
@@ -94,8 +95,9 @@ io.use(passportSocketIo.authorize({
   store:        sessionStore,
   success:      onAuthorizeSuccess,
   fail:         onAuthorizeFail,
-  domain:       '.iatistudio.com',
-  path:         '/'
+  cookie: {
+    domain: '.iatistudio.com'
+  }
 }));
 
 function onAuthorizeSuccess(data, accept){
