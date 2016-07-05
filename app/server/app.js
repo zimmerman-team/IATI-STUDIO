@@ -56,7 +56,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     store: sessionStore,
-    domain: 'iatistudio.com',
+    domain: '.iatistudio.com',
+    path: '/'
 }))
 app.use(passport.initialize());
 app.use(passport.session());
