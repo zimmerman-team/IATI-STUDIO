@@ -94,6 +94,8 @@ io.use(passportSocketIo.authorize({
   store:        sessionStore,
   success:      onAuthorizeSuccess,
   fail:         onAuthorizeFail,
+  domain:       '.iatistudio.com',
+  path:         '/'
 }));
 
 function onAuthorizeSuccess(data, accept){
