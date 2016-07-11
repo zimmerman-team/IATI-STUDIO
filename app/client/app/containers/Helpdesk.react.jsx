@@ -20,7 +20,7 @@ const faq = [{
 	},
 	{
 	question: 'Can I access all data published in the IATI Registry?',
-	answer: '<p>Yes. IATI Studio pulls data directl;y from the registry using the <a href="https://www.oipa.nl/" target="_blank">OIPA data engine</a> every night, so the data in IATI Studio is always up to date.</p>'
+	answer: '<p>Yes. IATI Studio pulls data directly from the registry using the <a href="https://www.oipa.nl/" target="_blank">OIPA data engine</a> every night, so the data in IATI Studio is always up to date.</p>'
 	},
 	{
 	question: 'Can I publish my own IATI data using IATI Studio?',
@@ -32,11 +32,11 @@ const faq = [{
 	},
 	{
 		question:'When will your Microsite Builder be ready?',
-		answer:'IATI Studio aims for a release in the autumn of 2016.'
+		answer:'IATI Studio aims for a release early 2017.'
 	},
 	{
 	question: 'Is there a limit to how many charts I can build?',
-	answer: '<p>For the Enterprise versions that will be releasde later this year, this limit will be different. See our pricing page for more details.</p><p>For the Enterprise versions that will be released later this year, this limit will be different. See our <a href="https://www.iatistudio.com/membership/" target="_blank">pricing page</a> for more details.</p>'
+	answer: '<p>For the Enterprise versions that will be released later this year, this limit will be different. See our pricing page for more details.</p><p>For the Enterprise versions that will be released later this year, this limit will be different. See our <a href="https://www.iatistudio.com/membership/" target="_blank">pricing page</a> for more details.</p>'
 	},
 	{
 	question: 'I don\'t understand the chart embed feature',
