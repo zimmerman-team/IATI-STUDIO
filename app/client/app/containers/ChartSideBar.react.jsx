@@ -74,7 +74,7 @@ const ChartSideBar = React.createClass({
             <div className={statusClass}>
 
                 <div className="section jr-currency">
-                    <h3 className="chart-step">Select currency</h3>
+                    <h3 className="chart-step">Step 1: Select currency</h3>
                     <div className="action">
                         <ChartCurrency 
                             value={this.props.visualization.currency} 
@@ -84,7 +84,7 @@ const ChartSideBar = React.createClass({
                 </div>
 
                 <div className="section jr-items">
-                    <h3 className="chart-step">Plot your chart</h3>
+                    <h3 className="chart-step">Step 2: Start plotting your chart</h3>
                     <div className="items">
 
                         <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
@@ -103,7 +103,7 @@ const ChartSideBar = React.createClass({
                 </div>
 
                 <div className="section jr-context">
-                    <h3 className="chart-step">Set filters for your chart</h3>
+                    <h3 className="chart-step">Step 3: Set filters for your selection</h3>
                     {
                         loadState.loadingContext ? 
                             <GeneralLoader /> 
@@ -121,7 +121,7 @@ const ChartSideBar = React.createClass({
                 </div>
 
                 <div className="section jr-type">
-                    <h3 className="chart-step">Select chart type</h3>
+                    <h3 className="chart-step">Step 4: Select chart type</h3>
                     <div className="action">
                         <ChartTypeSelector value={this.props.visualization.type} onChange={this.props.changeChartType} />
                     </div>

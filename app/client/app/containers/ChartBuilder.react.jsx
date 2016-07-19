@@ -384,15 +384,15 @@ let ChartBuilder = React.createClass({
                                     {context.length || items.length ?
                                     <div className="row">
                                         <div className="columns small-12 large-6">
-                                            <div className="legend chart-filters">
-                                                <h5>Context chart</h5>
-                                                {context.length ? <ChartFilters context={context} onClick={this.removeContext}/>  : <p>No filters active yet. Set some on the right.</p> }
-                                            </div>
-                                        </div>
-                                        <div className="columns small-12 large-6">
                                             <div className="legend chart-legend">
                                                 <h5>Selected items for plotting chart</h5>
                                                 {items.length ? <ChartLegend items={items} onRemove={this.removeItem} onHide={this.hideItem} /> : <p>No items selected yet. Select some on the right.</p>}
+                                            </div>
+                                        </div>
+                                        <div className="columns small-12 large-6">
+                                            <div className="legend chart-filters">
+                                                <h5>Selected chart filters</h5>
+                                                {context.length ? <ChartFilters context={context} onClick={this.removeContext}/>  : <p>No filters active yet. Set some on the right.</p> }
                                             </div>
                                         </div>
                                     </div>
