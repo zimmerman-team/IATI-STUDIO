@@ -359,7 +359,6 @@ let ChartBuilder = React.createClass({
 
                                 <div className="row">
                                     <div className="columns small-12"> 
-                                        <h3 className="chart-step title">Add chart title</h3>
                                         <div className="tour-button show-for-small-only"><a onClick={this.startTour}><i className="material-icons">help</i> Give me a tour</a></div>
                                         <ChartName onChange={_.debounce(this.saveTitle, 1000)} name={visualization.name} onEdit={this.editTitle} />
                                     </div>

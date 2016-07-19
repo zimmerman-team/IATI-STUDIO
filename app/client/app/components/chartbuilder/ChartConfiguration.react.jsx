@@ -206,7 +206,7 @@ export const ChartName = compose(
 )(props => (
     (
         <InputText
-            placeholder="Enter a name" 
+            placeholder="Untitled chart" 
             onChange={props.onChange} 
             onInput={props.onEdit}
             value={props.name}
