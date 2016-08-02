@@ -30,9 +30,6 @@ store.dispatch(initialParams())
 
 import Root from './containers/Root'
 
-document.cookie = "isAuthorized=1;path=/;domain=iatistudio.com;";
-document.cookie = "isAuthorized=1;path=/;domain=localhost;";
-
 document.addEventListener('DOMContentLoaded', function () {
      ReactDom.render(
           <Root store={store} history={history} />,

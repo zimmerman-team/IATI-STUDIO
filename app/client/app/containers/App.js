@@ -45,6 +45,11 @@ const App = React.createClass({
             loggedin : isLoggedIn,
         })
 
+        if (isLoggedIn) {
+            document.cookie = "isAuthorized=1;path=/;domain=iatistudio.com;"
+            document.cookie = "isAuthorized=1;path=/;domain=localhost;"
+        }
+
         return (
             <DocumentTitle title='IATI Studio | Beta Release 1.1'>
                 <div className={publicClass}>
