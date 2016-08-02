@@ -70,9 +70,11 @@ const EmailConfirmation  = React.createClass({
             <EmailConfirmationForm 
               handleError={this.handleError}
               handleResponse={this.handleResponse}
+              validationErrors={validationErrors}
+              renderErrors={errors}
             />
-            { validationErrors ? <ValidationErrors errors={validationErrors} /> : null }
-            { errors ? <RenderErrors errors={errors} /> : null }
+            { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null */}
+            { /*errors ? <RenderErrors errors={errors} /> : null */}
           </div>
 
     )
@@ -90,6 +92,8 @@ export const EmailConfirmationForm = React.createClass({
   propTypes: {
         handleError: PropTypes.func.isRequired,
         handleResponse: PropTypes.func.isRequired,
+        validationErrors: PropTypes.object,
+        renderErrors: PropTypes.array,
   },
 
   handleSubmit: function(e) {
@@ -115,6 +119,10 @@ export const EmailConfirmationForm = React.createClass({
                 ref={c => this._email = c}
                 placeholder="Email address"
             />
+            { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
+
+            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+
           <button onClick={this.handleSubmit} className="button input-height">Confirm your email address</button>
         </form>
 

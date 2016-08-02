@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 
 export const ValidationErrors = (props) => {
   const errors = props.errors
 
-  if (!errors) {
+  if (!errors || _.isEmpty(errors)) {
     return <noscipt />
   }
 
@@ -17,11 +18,25 @@ export const ValidationErrors = (props) => {
   //   <li>Invalid field {field}: {errors[field]}</li>
   // ))
 
-  return (
-    <div className="error">
-        { errors }
-    </div>
-  )
+  // else if (!_.isEmpty(errors)) {
+  //   const fields = Object.keys(errors)
+  //   const errorList = fields.map(field => (
+  //     <div>{errors[field]}</div>
+  //   ))
+  //   return (
+  //     <div className="error">
+  //         { errorList }
+  //     </div>
+  //   )
+  // }
+
+  else {
+    return (
+      <div className="error">
+          { errors }
+      </div>
+    )
+  }
 }
 
 export const RenderErrors = (props) => {
