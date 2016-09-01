@@ -15,6 +15,8 @@ import ChartView from "./containers/public/ChartView";
 import ChartPreview from "./containers/public/ChartPreview";
 import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
+import PublisherSettings from "./components/publisher/PublisherSettings"
+
 import {ErrorPage} from "./containers/ErrorPage.react.jsx";
 
 import io from 'socket.io-client'
@@ -38,6 +40,7 @@ export default (
             <Route path="chartbuilder/:id" component={ChartBuilder} />
             <Route path="chartbuilder/:id/preview" component={ChartPreview} />
             <Route path="collection" component={CollectionList}/>
+            <Route path="publisher/settings" component={PublisherSettings}/>
             {/*<Route path="topbar" component={Topbar}/>*/}
             <Route path="user/profile" component={UserProfile}/>
             <Route path="user/settings" component={UserSettings}/>
