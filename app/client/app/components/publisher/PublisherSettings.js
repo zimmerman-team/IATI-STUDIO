@@ -4,8 +4,8 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-
 import { toggleMainMenu } from '../../actions/sync'
+import PublisherSettingsTopBar from './PublisherSettingsTopBar'
 
 // A state container: all children are stateless
 let PublisherSettings = React.createClass({
@@ -18,13 +18,11 @@ let PublisherSettings = React.createClass({
     },
 
     render: function() {
-
         return (
             <div>
-                Publisher settings page
+                <PublisherSettingsTopBar />
             </div>
         )
-
     }
 })
 
@@ -32,7 +30,4 @@ function mapStateToProps(state, props) {
     return {}
 }
 
-export default connect(mapStateToProps, {
-    toggleMainMenu,
-})(PublisherSettings)
-
+export default connect(mapStateToProps, {toggleMainMenu,})(PublisherSettings)
