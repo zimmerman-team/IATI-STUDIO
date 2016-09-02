@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { toggleMainMenu } from '../../actions/sync'
-import PublisherSettingsTopBar from './PublisherSettingsTopBar'
+import SplashScreen from './SplashScreen'
 
 // A state container: all children are stateless
 let PublisherSettings = React.createClass({
@@ -20,7 +20,7 @@ let PublisherSettings = React.createClass({
     render: function() {
         return (
             <div>
-                <PublisherSettingsTopBar />
+                <SplashScreen />
             </div>
         )
     }
