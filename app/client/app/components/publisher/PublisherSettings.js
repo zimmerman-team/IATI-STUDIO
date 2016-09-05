@@ -1,33 +1,33 @@
 "use strict"
 
-import _ from 'lodash'
-import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import { toggleMainMenu } from '../../actions/sync'
-import SplashScreen from './SplashScreen'
+import React, { PropTypes }   from 'react'
+import { connect }            from 'react-redux'
+import _                      from 'lodash'
+import classNames             from 'classnames'
+import { browserHistory }     from 'react-router'
+import { toggleMainMenu }     from '../../actions/sync'
+import SplashScreen           from './SplashScreen'
+import SplashScreenBottomTitle     from './SplashScreenBottomTitle'
+import SplashScreenBottomRow     from './SplashScreenBottomRow'
 
-// A state container: all children are stateless
-let PublisherSettings = React.createClass({
+let PublisherSettings = React.createClass({ // A stateful container all children are stateless
 
-    componentDidMount: function() {
-    },
+  getInitialState: function() { return {} },
 
-    componentWillMount: function() {
-        this.props.toggleMainMenu(false)
-    },
+  componentDidMount: function() {},
+  componentWillMount: function() { this.props.toggleMainMenu(false) },
 
-    render: function() {
-        return (
-            <div>
-                <SplashScreen />
-            </div>
-        )
+  render: function() {
+    return (
+      <div>
+        <SplashScreen />
+        <SplashScreenBottomTitle />
+        <SplashScreenBottomRow />
+      </div>
+      )
     }
-})
+  })
 
-function mapStateToProps(state, props) {
-    return {}
-}
+  function mapStateToProps(state, props) { return {} }
 
 export default connect(mapStateToProps, {toggleMainMenu,})(PublisherSettings)

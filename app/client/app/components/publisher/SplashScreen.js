@@ -1,17 +1,19 @@
 "use strict"
 
-import _ from 'lodash'
-import { PropTypes } from 'react'
-import React from 'react'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import store from '../../app'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { browserHistory } from 'react-router'
+import _                        from 'lodash'
+import React, { PropTypes }     from 'react'
+import classNames               from 'classnames'
+import store                    from '../../app'
+import { connect }              from 'react-redux'
+import { browserHistory }       from 'react-router'
+import { createVisualization }  from '../../actions/async'
+import { updateUserUI }         from '../../actions/async'
+import ReactCSSTransitionGroup  from 'react-addons-css-transition-group'
 
 let SplashScreen = React.createClass({
+
     contextTypes: {
-	router: React.PropTypes.object.isRequired
+      router: React.PropTypes.object.isRequired
     },
 
     toggleSplash: function() {
@@ -30,32 +32,29 @@ let SplashScreen = React.createClass({
     goToFAQ: function() {
     	alert('to do');
     },
+
     render: function() {
 		let splashClass = classNames({'hidden' : this.props.uiState.splashScreen })
 		return (
-		    <div id="splashscreen" className={splashClass}>
+      <div id="splashscreen" className={splashClass}>
+        {/*<ReactCSSTransitionGroup transitionName="drop-top-right" transitionEnterTimeout={500} transitionLeaveTimeout={500}> */}
 
-		    	{/*<ReactCSSTransitionGroup transitionName="drop-top-right" transitionEnterTimeout={500} transitionLeaveTimeout={500}> */}
-				
+        <div className="row">
+          <div className="columns small-12 medium-10 large-8 small-centered">
+            <h2>Welcome to IATI Studio publisher</h2>
+          </div>
+        </div>
 
-		    	<div className="row">
-				    <div className="columns small-12 medium-10 large-8 small-centered">
-				    	<h1>Welcome to IATI Studio publisher</h1>
-				    </div>
-				</div>
-
-				
 				<div className="row">
-				    <div className="columns small-12 medium-4 large-4">
-						<a className="close"><i className="material-icons" onClick={this.toggleSplash}>{this.props.uiState.splashScreen ? "expand_more" : "close"}</i></a>
-						<h4>Published IATI before?</h4>
-						
-						    {this.props.uiState.splashScreen ? null :
-							<div>
-								<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+
+          <div className="columns small-12 medium-4 large-4">
+            <a className="close"><i className="material-icons" onClick={this.toggleSplash}>{this.props.uiState.splashScreen ? "expand_more" : "close"}</i></a>
+            <h4>Published IATI before?</h4>
+            {this.props.uiState.splashScreen ? null :
+              <div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
 							</div>
 							}
-							
 						<a className="button" onClick={this.importSettings}>Import your settings</a>
 					</div>
 
@@ -63,9 +62,7 @@ let SplashScreen = React.createClass({
 						<h4>Want to start out with IATI?</h4>
 						    {this.props.uiState.splashScreen ? null :
 							<div>
-								<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-								</p>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
 							</div>
 							}
 						<a className="button" onClick={this.setupOrganisation}>Set up your organisation</a>
@@ -82,15 +79,14 @@ let SplashScreen = React.createClass({
 							}
 						<a className="button" onClick={this.goToFAQ}>Read the FAQ</a>
 					</div>
+
 		    	</div>
 
-		    	{/*</ReactCSSTransitionGroup>*/}
+          {/*</ReactCSSTransitionGroup>*/}
 			</div>
 		)
     }
 })
-
-import { updateUserUI } from '../../actions/async'
 
 const mapStateToProps = function(state, props) {
 
@@ -99,11 +95,6 @@ const mapStateToProps = function(state, props) {
     }
 }
 
-import { createVisualization } from '../../actions/async'
-
-SplashScreen = connect(mapStateToProps, {
-	createVisualization,
-    updateUserUI
-})(SplashScreen)
+  SplashScreen = connect(mapStateToProps, { createVisualization, updateUserUI }) (SplashScreen)
 
 export default SplashScreen

@@ -1,14 +1,12 @@
 'use strict'
 
-import './css'
-
 import React from 'react'
 import ReactDom from 'react-dom'
 import { createHistory } from 'history'
 import { useRouterHistory } from "react-router"
 import { syncHistoryWithStore } from 'react-router-redux'
-
 import configureStore from './store/configureStore';
+import './css'
 
 const browserHistory = useRouterHistory(createHistory)({
             basename: '/app'
