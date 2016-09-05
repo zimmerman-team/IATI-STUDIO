@@ -3,6 +3,7 @@
 //
 //  Table of Contents:
 //
+//   0. Colours
 //   1. Global
 //   2. Breakpoints
 //   3. The Grid
@@ -41,6 +42,7 @@
 
 //@import 'util/util';
 
+// 0. Colours
 // 1. Global
 // ---------
 
@@ -80,6 +82,7 @@ $theme-color:#689f38;
 $data-color:#B45324;
 
 $blue: #3A99D8;
+$red: #D50920;
 
 // 2. Breakpoints
 // --------------
@@ -557,4 +560,3 @@ $topbar-padding: 0;
 $topbar-background: $menu-black;
 $topbar-link-color: $white;
 $topbar-input-width: 200px;
-

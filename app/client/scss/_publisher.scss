@@ -1,0 +1,119 @@
+/* CSS Dev Tools */
+/* Visualizza tutti i bordi * { border: 1px dashed #0000FF; } */
+
+div.menu-tendina-outer {
+  display: block;
+}
+
+div.menu-tendina-inner {
+  background-color: $white;
+  margin: 25px 15px 0 10px;
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+  ul.menu-tendina, ul.menu-tendina-nested {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  ul.menu-tendina {
+    padding: 10px 0 10px 10px;
+    font-weight: bold;
+  }
+  ul.menu-tendina-nested {
+    padding: 0 0 10px 0;
+    font-weight: normal;
+  }
+  ul.menu-tendina li a:link, a:visited, a:hover, a:active {
+    color: #333333;
+  }
+}
+
+div.row.titolo {
+  padding: 20px 45px 0 45px;
+}
+
+div:first-child label {
+    font-size: 0.8rem;
+}
+
+div > .row {
+  padding: 0 15px 15px 15px;
+}
+
+.input-group-button {
+  a, input, button {
+    color: $white;
+    height: 2.5rem;
+  }
+}
+
+div > h6 {
+    display: inline-block;
+    position: relative;
+}
+
+div > a.iconaPiatta {
+  box-shadow: none;
+  color: #3A99D8;
+  background: transparent;
+  position: absolute;
+  padding: 0 10px 0 10px;
+  font-size: 10px;
+}
+
+.material-icons.iconaPiatta {
+  font-size: 2em;
+}
+
+div.input-group > input.input-not-validated {
+  color: $red;
+  border: 1px solid $red;
+  box-shadow: 0 1.5px 4px rgba(213, 9, 32, 0.24), 0 1.5px 6px rgba(213, 9, 32, 0.12);
+}
+
+div.input-group > input.input-not-validated[placeholder] {
+  font-weight: bolder;
+}
+
+/* ACCORDION */
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+button.accordion:after {
+    content: '\02795';
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2796";
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.6s ease-in-out;
+    opacity: 0;
+}
+
+div.panel.show {
+    opacity: 1;
+    max-height: 500px;
+}

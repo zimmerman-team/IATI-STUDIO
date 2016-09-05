@@ -7,7 +7,6 @@ import classNames             from 'classnames'
 import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
 import SplashScreen           from './SplashScreen'
-import SplashScreenBottomTitle     from './SplashScreenBottomTitle'
 import SplashScreenBottomRow     from './SplashScreenBottomRow'
 
 let PublisherSettings = React.createClass({ // A stateful container all children are stateless
@@ -21,7 +20,6 @@ let PublisherSettings = React.createClass({ // A stateful container all children
     return (
       <div>
         <SplashScreen />
-        <SplashScreenBottomTitle />
         <SplashScreenBottomRow />
       </div>
       )
