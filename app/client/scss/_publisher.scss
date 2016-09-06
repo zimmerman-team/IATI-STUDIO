@@ -27,7 +27,7 @@ div.menu-tendina-inner {
   }
 }
 
-div.row.titolo {
+/* div.row.titolo {
   padding: 20px 45px 0 45px;
 }
 
@@ -39,6 +39,28 @@ div > .row {
   padding: 0 15px 15px 15px;
 }
 
+div > h6 {
+    display: inline-block;
+    position: relative;
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.6s ease-in-out;
+    opacity: 0;
+}
+
+div.panel.show {
+    opacity: 1;
+    max-height: 500px;
+}
+
+
+*/
+
 .input-group-button {
   a, input, button {
     color: $white;
@@ -46,12 +68,7 @@ div > .row {
   }
 }
 
-div > h6 {
-    display: inline-block;
-    position: relative;
-}
-
-div > a.iconaPiatta {
+a.iconaPiatta {
   box-shadow: none;
   color: #3A99D8;
   background: transparent;
@@ -102,18 +119,4 @@ button.accordion:after {
 
 button.accordion.active:after {
     content: "\2796";
-}
-
-div.panel {
-    padding: 0 18px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: 0.6s ease-in-out;
-    opacity: 0;
-}
-
-div.panel.show {
-    opacity: 1;
-    max-height: 500px;
 }
