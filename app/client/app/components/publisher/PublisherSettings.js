@@ -6,7 +6,8 @@ import _                      from 'lodash'
 import classNames             from 'classnames'
 import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
-import PublisherWrapper     from './PublisherWrapper'
+import SplashScreen           from './SplashScreen'
+import SplashScreenBottomRow     from './SplashScreenBottomRow'
 
 let PublisherSettings = React.createClass({ // A stateful container all children are stateless
 
@@ -18,7 +19,8 @@ let PublisherSettings = React.createClass({ // A stateful container all children
   render: function() {
     return (
       <div>
-        <PublisherWrapper />
+        <SplashScreen />
+        <SplashScreenBottomRow />
       </div>
       )
     }

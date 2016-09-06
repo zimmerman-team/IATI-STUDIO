@@ -2,14 +2,14 @@
 
 import React, { PropTypes } from 'react'
 
-let PublisherFormOrganisationImport = React.createClass({
+let OrganisationImport = React.createClass({
   render: function () {
     return (
       <div>
 
         <div>
           <h6>Import</h6>
-          <a className='iconaPiatta' href='#'><i className="material-icons">info</i></a>
+          <a className='iconaPiatta' href='#'><i className="material-icons iconaPiatta">info</i></a>
         </div>
         <div className="input-group">
           <input className="input-group-field" type="text" placeholder="Enter your organisation's IATI identifier" />
@@ -23,4 +23,4 @@ let PublisherFormOrganisationImport = React.createClass({
   }
 })
 
-export default PublisherFormOrganisationImport
+export default OrganisationImport

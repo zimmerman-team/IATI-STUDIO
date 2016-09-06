@@ -2,7 +2,7 @@
 
 import React, { PropTypes }       from 'react'
 
-let PublisherTitle = React.createClass({
+let SplashScreenBottomTitle = React.createClass({
   render: function () {
     return (
       <div>
@@ -19,4 +19,4 @@ let PublisherTitle = React.createClass({
   }
 })
 
-export default PublisherTitle
+export default SplashScreenBottomTitle
