@@ -50,7 +50,7 @@ let MainMenu = React.createClass({
 
                 <li><Tooltip tooltip="Create activity"><a onClick={this.newViz} className="charts"><i className="material-icons">add</i>Create activity</a></Tooltip></li>
 
-                <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
+                <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
 
                 <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/settings"><i className="material-icons">settings</i>IATI settings</Link></Tooltip></li>
                 <hr />
@@ -62,5 +62,3 @@ let MainMenu = React.createClass({
 })
 
 export default withRouter(MainMenu)
-
-

@@ -9,7 +9,7 @@ import { combineReducers } from 'redux'
 import _ from 'lodash'
 
 // TODO: just import everything - 2016-03-23
-import { 
+import {
     ADD_VIZ,
     DELETE_VIZ,
     UPDATE_VIZ,
@@ -72,7 +72,7 @@ function contextArray(state, action) {
         case ActionTypes.REPLACE_CONTEXT_SUCCESS:
             return _.without(state, action.contextId)
 
-        default: 
+        default:
             return state
     }
 }
@@ -462,7 +462,7 @@ function publicVisualizationPagination(state = {
         case INITIAL_PARAMS:
             return _.merge({},  state, {
                 filters: _.pick(
-                    action.params, 
+                    action.params,
                     Object.keys(state.filters),
                 ),
                 pageCount: parseInt(action.params.pageCount) || state.pageCount,
@@ -537,6 +537,7 @@ function user(state={}, action) {
     }
 }
 
+import { reducer as formReducer } from 'redux-form'
 import { routerReducer as routing } from 'react-router-redux'
 
 const rootReducer = combineReducers({
@@ -553,6 +554,7 @@ const rootReducer = combineReducers({
     errorMessage,
     user,
     pagination,
+    form: formReducer
 })
 
 export default rootReducer
@@ -652,7 +654,7 @@ export const visualizationItemSelector = createSelector(
     (activeVisualization, items) => {
         if (!activeVisualization) {
             return null
-        } 
+        }
 
         return getItemsByVizId(
             activeVisualization,
@@ -667,7 +669,7 @@ export const visualizationContextSelector = createSelector(
     (activeVisualization, context) => {
         if (!activeVisualization) {
             return null
-        } 
+        }
 
         return getContextByVizId(
             activeVisualization,
@@ -675,4 +677,3 @@ export const visualizationContextSelector = createSelector(
         )
     }
 )
-

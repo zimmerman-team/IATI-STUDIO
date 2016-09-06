@@ -7,22 +7,26 @@
     padding: 0.5em 1em 0.5em 1em;
   }
   h6 {
-      display: inline-block;
-      position: relative;
+    display: inline-block;
+    position: relative;
   }
   label {
-      font-size: 0.88rem;
+    font-size: 0.88rem;
   }
-  a.iconaPiatta {
+  i.iH6 {
+    font-size: 1.3em;
+    position: absolute;
+    padding: 0 0.5em 0 0.5em;
+    background: transparent;
     box-shadow: none;
     color: #3A99D8;
-    background: transparent;
-    position: absolute;
-    padding: 0 10px 0 10px;
-    font-size: 10px;
   }
-  .material-icons {
-    font-size: 2em;
+  i.iMenuList {
+    font-size: 1.3em;
+    display: inline;
+    float: right;
+    padding: 0 0.5em 0 0.5em;
+    color: #999999;
   }
   .inputNotValidated {
     color: rgba(213, 9, 32, 0.90);
@@ -31,13 +35,13 @@
     box-shadow: 0 1.5px 4px rgba(213, 9, 32, 0.24), 0 1.5px 6px rgba(213, 9, 32, 0.12);
   }
   .inputValidated {
-    color: rgba(92, 213, 104, 0.90); /* #5CD568 */
+    color: rgba(92, 213, 104, 0.90); /* #5CD568 Green */
     border: 1px solid #5CD568;
     font-weight: bold;
     box-shadow: 0 1.5px 4px rgba(92, 213, 104, 0.24), 0 1.5px 6px rgba(92, 213, 104, 0.12);
   }
   .inputNeutro {
-    color: rgba(176, 182, 191, 0.90); /* #B0B6BF */
+    color: rgba(176, 182, 191, 0.90); /* #B0B6BF Grey */
     border: 1px solid #B0B6BF;
     font-weight: bold;
     box-shadow: 0 1.5px 4px rgba(176, 182, 191, 0.24), 0 1.5px 6px rgba(176, 182, 191, 0.12);

@@ -2,7 +2,7 @@
 
 import React, { PropTypes } from 'react'
 
-let PublisherMenuTendina = React.createClass({
+let PublisherMenuList = React.createClass({
   render: function () {
     return (
       <div className="columns small-12 medium-4">
@@ -10,14 +10,16 @@ let PublisherMenuTendina = React.createClass({
           <div className="menuTendinaInner">
             <ul className="menuTendina">
               <li>
-                <a href="#">Registry settings</a>
+                <a href="#">Registry settings</a><i className="material-icons iMenuList">keyboard_arrow_up</i>
                 <ul className="menuTendinaNested">
                   <li><a href="#">API key</a></li>
                   <li><a href="#">Publishing options</a></li>
                   <li><a href="#">Import</a></li>
                 </ul>
               </li>
-              <li><a href="#">Activity defaults</a></li>
+              <li>
+                <a href="#">Activity defaults</a><i className="material-icons iMenuList">keyboard_arrow_down</i>
+              </li>
             </ul>
           </div>
         </div>
@@ -26,4 +28,4 @@ let PublisherMenuTendina = React.createClass({
   }
 })
 
-export default PublisherMenuTendina
+export default PublisherMenuList

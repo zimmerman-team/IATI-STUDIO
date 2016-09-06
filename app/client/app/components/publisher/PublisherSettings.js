@@ -8,6 +8,7 @@ import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
 import PublisherWrapper       from './PublisherWrapper'
 
+
 let PublisherSettings = React.createClass({ // A stateful container all children are stateless
 
   getInitialState: function() { return {} },
@@ -20,10 +21,10 @@ let PublisherSettings = React.createClass({ // A stateful container all children
       <div>
         <PublisherWrapper />
       </div>
-      )
-    }
-  })
+    )
+  }
+})
 
-  function mapStateToProps(state, props) { return {} }
+function mapStateToProps(state, props) { return {} }
 
 export default connect(mapStateToProps, {toggleMainMenu,})(PublisherSettings)
