@@ -12,7 +12,7 @@ let PublisherImport = React.createClass({
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
           <div className="input-group">
-            <input className="input-group-field" type="text" placeholder="Enter your organisation's IATI identifier" />
+            <input className="input-group-field" type="text" placeholder="Organisation's IATI identifier" />
             <div className="input-group-button">
               <input type="submit" className="button" value="Import" />
             </div>
