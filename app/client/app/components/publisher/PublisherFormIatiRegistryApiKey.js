@@ -2,14 +2,14 @@
 
 import React, { PropTypes } from 'react'
 
-let IatiRegistryApiKey = React.createClass({
+let PublisherFormIatiRegistryApiKey = React.createClass({
   render: function () {
     return (
       <div>
 
         <div>
           <h6>IATI Registry API key</h6>
-          <a className='iconaPiatta' href='#'><i className="material-icons iconaPiatta">info</i></a>
+          <a className='iconaPiatta' href='#'><i className="material-icons">info</i></a>
         </div>
 
         <div className="input-group">
@@ -24,4 +24,4 @@ let IatiRegistryApiKey = React.createClass({
   }
 })
 
-export default IatiRegistryApiKey
+export default PublisherFormIatiRegistryApiKey
