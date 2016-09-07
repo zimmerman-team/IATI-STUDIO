@@ -1,21 +1,39 @@
 /* CSS Dev Tools Visualizza tutti i bordi * { border: 1px dashed #0000FF; } */
-#publisherWrapper {
-  div#splashscreen.puf {
-    display: none;
+.rowPub {
+  padding: 2rem 2rem 0 2rem;
+}
+
+a.button {
+  &.stateIncomplete {
+    /* Orange */
+    &:hover, :focus, :visited {
+      /* Light orange */
+    }
   }
-  .row {
-    padding: 0rem 1rem 0 1rem;
+  &.statePublish {
+    /* LightBlue */
   }
-  .columns {
-    padding: 0.5rem 1rem 0.5rem 1rem;
-  }
+}
+
+h2.title-page {
+  font-size: 1.3rem;
+}
+
+/* Organisation settings */
+#orgWrapper {
+}
+
+#orgWrapper, #publisherWrapper {
   h6 {
     display: inline-block;
     position: relative;
   }
-  h2.title-page {
-    padding-top: 1rem;
-    font-size: 1.3rem;
+}
+
+/* IATI settings */
+#publisherWrapper {
+  div#splashscreen.puf {
+    display: none;
   }
   h2.title-splashscreen {
     font-size: 1.7rem;
@@ -67,7 +85,7 @@
   }
   .menuTendinaInner {
     background-color: $white;
-    margin: 25px 15px 0 10px;
+    margin: 1.8rem 0 0 0;
     box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
     ul.menuTendina, ul.menuTendinaNested {
       padding: 0;

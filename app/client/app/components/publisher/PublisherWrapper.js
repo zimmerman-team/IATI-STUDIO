@@ -14,15 +14,19 @@ let PublisherWrapper = React.createClass({
     return (
       <div id="publisherWrapper">
         <SplashScreen />
+        <div className="rowPub">
           <PublisherPageTitle pageTitleContent="IATI settings" />
           <div className="row">
             <div className="columns small-12 medium-8">
-              <PublisherApiKey />
-              <PublisherOptionsCheck />
-              <PublisherImport />
+                <PublisherApiKey />
+                <PublisherOptionsCheck />
+                <PublisherImport />
             </div>
-            <PublisherMenuList />
+            <div className="columns small-12 medium-4">
+              <PublisherMenuList />
+            </div>
           </div>
+        </div>
       </div>
     )
   }
