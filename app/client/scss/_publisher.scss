@@ -1,31 +1,41 @@
 /* CSS Dev Tools Visualizza tutti i bordi * { border: 1px dashed #0000FF; } */
 #publisherWrapper {
+  div#splashscreen.puf {
+    display: none;
+  }
   .row {
-    padding: 0em 1em 0 1em;
+    padding: 0rem 1rem 0 1rem;
   }
   .columns {
-    padding: 0.5em 1em 0.5em 1em;
+    padding: 0.5rem 1rem 0.5rem 1rem;
   }
   h6 {
     display: inline-block;
     position: relative;
   }
+  h2.title-page {
+    padding-top: 1rem;
+    font-size: 1.3rem;
+  }
+  h2.title-splashscreen {
+    font-size: 1.7rem;
+  }
   label {
     font-size: 0.88rem;
   }
   i.iH6 {
-    font-size: 1.3em;
+    font-size: 1.3rem;
     position: absolute;
-    padding: 0 0.5em 0 0.5em;
+    padding: 0 0.5rem 0 0.5rem;
     background: transparent;
     box-shadow: none;
     color: #3A99D8;
   }
   i.iMenuList {
-    font-size: 1.3em;
+    font-size: 1.3rem;
     display: inline;
     float: right;
-    padding: 0 0.5em 0 0.5em;
+    padding: 0 0.5rem 0 0.5rem;
     color: #999999;
   }
   .inputNotValidated {
@@ -77,6 +87,6 @@
     }
   }
   input.button {
-    width: 6em;
+    width: 6rem;
   }
 }

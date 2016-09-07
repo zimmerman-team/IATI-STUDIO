@@ -7,21 +7,26 @@ let PublisherApiKey = React.createClass({
 
   getInitialState: function () {
     return {
-      validationKey: 'good'
+      validationKey: 'inputNotValidated'
     }
   },
 
   getValidate: function () {
-    let verifyKey = this.state.validationKey == 'good' ? 'bad' : 'good'
+    let verifyKey = this.state.validationKey == 'inputValidated' ? 'inputNotValidated' : 'inputValidated'
     this.setState({ validationKey: verifyKey })
   },
 
   render: function () {
+
+    let inputValidationClass = classNames(this.state.validationKey)
+    let inputValidationValue = this.state.validationKey == "inputValidated" ? "VALIDATED" : "NOT VALIDATED"
+    // console.log(inputValidationValue)
+
     return (
       <div className="row">
         <div className="columns small-12 medium-6">
           <div>
-            <h6>IATI Registry API key {this.state.validationKey}</h6>
+            <h6>IATI Registry API key</h6>
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
           <div className="input-group">
@@ -37,7 +42,7 @@ let PublisherApiKey = React.createClass({
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
           <div className="input-group">
-            <input className="input-group-field inputNotValidated" type="text" value="NOT VALIDATED" disabled />
+            <input className={inputValidationClass} type="text" value={inputValidationValue} disabled />
           </div>
         </div>
       </div>

@@ -2,13 +2,14 @@
 
 import React, { PropTypes } from 'react'
 
-let PublisherSettingsTitle = React.createClass({
+let PublisherPageTitle = React.createClass({
+
   render: function () {
     return (
       <div className='row padRow'>
         <div className='columns small-12 padColumns'>
           <div>
-            <h2 className='page-title'>IATI settings</h2>
+            <h2 className="title-page">{this.props.pageTitleContent}</h2>
             <hr />
           </div>
         </div>
@@ -17,4 +18,4 @@ let PublisherSettingsTitle = React.createClass({
   }
 })
 
-export default PublisherSettingsTitle
+export default PublisherPageTitle

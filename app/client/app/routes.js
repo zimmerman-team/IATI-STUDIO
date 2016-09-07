@@ -16,6 +16,7 @@ import ChartPreview from "./containers/public/ChartPreview";
 import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
 import PublisherSettings from "./components/publisher/PublisherSettings"
+import OrgSettings from "./components/orgSettings/OrgSettings"
 
 import {ErrorPage} from "./containers/ErrorPage.react.jsx";
 
@@ -41,6 +42,7 @@ export default (
             <Route path="chartbuilder/:id/preview" component={ChartPreview} />
             <Route path="collection" component={CollectionList}/>
             <Route path="publisher/settings" component={PublisherSettings}/>
+            <Route path="publisher/organisation" component={OrgSettings}/>
             {/*<Route path="topbar" component={Topbar}/>*/}
             <Route path="user/profile" component={UserProfile}/>
             <Route path="user/settings" component={UserSettings}/>
