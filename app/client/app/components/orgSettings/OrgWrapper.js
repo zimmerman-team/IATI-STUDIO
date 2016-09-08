@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react'
-import { PageTitle, Button, PageTitleButtonsGroup1, OrgIdentifier, OrgName, TestButtons }       from './OrgComponentsList'
+import { PageTitle, Button, PageTitleButtonsGroup1, OrgIdentifier, OrgName, TestButtons, Wellp }       from './OrgComponentsList'
 import PublisherMenuList      from '../publisher/PublisherMenuList'
 import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
@@ -39,6 +39,7 @@ let OrgWrapper = function(props) {
             <div className="columns small-12 medium-6">
               <OrgName />
 
+              <Wellp />
             </div>
 
             <div className="columns small-12 medium-6">
