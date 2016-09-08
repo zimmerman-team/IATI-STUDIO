@@ -1,6 +1,15 @@
 /* CSS Dev Tools Visualizza tutti i bordi * { border: 1px dashed #0000FF; } */
+hr {
+  margin: 0.6rem 0 1rem 0;
+}
 .rowPub {
   padding: 2rem 2rem 0 2rem;
+}
+.a-destra {
+  float: right;
+}
+a.button.no-margin {
+  margin: auto;
 }
 
 a.button {
@@ -21,6 +30,14 @@ h2.title-page {
 
 /* Organisation settings */
 #orgWrapper {
+  div.inlineaOuter {
+    position: relative;
+    display: block;
+  }
+  div.inlineaInner {
+    position: absolute;
+    display: inline;
+  }
 }
 
 #orgWrapper, #publisherWrapper {
