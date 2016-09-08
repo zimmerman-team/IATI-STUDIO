@@ -49,7 +49,6 @@
     "react-document-title": "^2.0.1",
     "react-dom": "15.1.*",
     "react-formsy-text-input-group": "^0.1.0",
-    "react-foundation": "^0.6.8",
     "react-gemini-scrollbar": "^2.1.1",
     "react-joyride": "^1.3.6",
     "react-notification-system": "~0.2.6",

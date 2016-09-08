@@ -8,7 +8,7 @@ export function Button(props) {
   )
 }
 
-export function PageTitle (props) {
+export function PageTitle(props) {
   return (
     <div className='row'>
       <div className='columns small-12 medium-6'>
@@ -21,7 +21,7 @@ export function PageTitle (props) {
   )
 }
 
-export function PageTitleButtonsGroup1 (props) {
+export function PageTitleButtonsGroup1(props) {
   return (
     <div className='row'>
       <div className='columns small-12 medium-6'>
@@ -36,6 +36,47 @@ export function PageTitleButtonsGroup1 (props) {
       </div>
       <div className='columns small-12'>
         <hr />
+      </div>
+    </div>
+  )
+}
+
+export function OrgIdentifier(props) {
+  return (
+    <div>
+      <div>
+        <h6>Organisation identifier</h6>
+        <a href='#'><i className="material-icons iH6">info</i></a>
+      </div>
+      <div className="input-group">
+        <input className="input-group-field" type="text" placeholder="Null" />
+      </div>
+    </div>
+  )
+}
+
+export function OrgIdentifier(props) {
+  return (
+    <div>
+      <div>
+        <h6>Organisation identifier</h6>
+        <a href='#'><i className="material-icons iH6">info</i></a>
+      </div>
+      <div className="input-group">
+        <input className="input-group-field" type="text" placeholder="Null" />
+      </div>
+    </div>
+  )
+}
+
+export function OrgName(props) {
+  return (
+    <div>
+      <div>
+        <h6>Text <span className="colorRed">*</span></h6>
+      </div>
+      <div className="input-group">
+        <input className="input-group-field" type="text" placeholder="Null" />
       </div>
     </div>
   )

@@ -8,7 +8,6 @@ import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
 import OrgWrapper             from './OrgWrapper'
 
-
 let OrgSettings = React.createClass({ // A stateful container all children are stateless
 
   getInitialState: function() { return {} },
