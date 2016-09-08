@@ -1,7 +1,6 @@
 'use strict'
 
 import React from 'react'
-import Well from 'react-bootstrap/lib/Well'
 
 export function Button(props) {
   return (
@@ -80,11 +79,5 @@ export function OrgName(props) {
         <input className="input-group-field" type="text" placeholder="Null" />
       </div>
     </div>
-  )
-}
-
-export function Wellp(props) {
-  return (
-    <Well>Look Im in a well!</Well>
   )
 }
