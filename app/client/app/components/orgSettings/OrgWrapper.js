@@ -1,15 +1,17 @@
 'use strict'
 
 import React from 'react'
-import { PageTitle, Button, PageTitleButtonsGroup1, OrgIdentifier, OrgName, TestButtons }       from './OrgComponentsList'
+import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName } from './OrgComponentsList'
 import PublisherMenuList      from '../publisher/PublisherMenuList'
 import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
+import Weather                from './Weather'
 
 let OrgWrapper = function(props) {
   return (
     <div id="orgWrapper">
       <div className="rowPub">
+
         <PageTitleButtonsGroup1 pageTitleContent="Organisation settings" />
 
         <div className="row">
@@ -28,36 +30,36 @@ let OrgWrapper = function(props) {
 
           <div className="columns small-12 medium-4">
             <PublisherMenuList />
+
           </div>
 
         </div>
 
         <div className="row">
-
           <div className="columns small-12 medium-8">
 
             <div className="columns small-12 medium-6">
               <OrgName />
-
             </div>
 
             <div className="columns small-12 medium-6">
               <div><h6>Language</h6></div>
-
               <div className="input-group">
                 <MultiSelectLang />
               </div>
-
             </div>
 
           </div>
+        </div>
 
-
+        <br /><br />
+        <div className="row">
+          <div className="columns small-12 medium-4">
+              <Weather />
+            </div>
         </div>
 
       </div>
-
-
     </div>
   )
 }

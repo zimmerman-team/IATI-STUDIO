@@ -1,4 +1,10 @@
 /* CSS Dev Tools Visualizza tutti i bordi * { border: 1px dashed #0000FF; } */
+.wrapper { max-width: 680px; margin: 0 auto; }
+.temp-wrapper { text-align: center; position: relative; }
+.temp { font-size: 33px; }
+.temp-symbol { position: absolute; top: 13px; margin-left: 4px; }
+.temp-date { position: absolute; bottom: -1em; left: 50%; transform: translateX(-50%); color: rgba(0, 0, 0, 0.5); }
+
 span.colorRed {color:$red}
 hr {
   margin: 0.6rem 0 1rem 0;
