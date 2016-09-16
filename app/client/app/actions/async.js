@@ -5,7 +5,7 @@
 
 import fetchJSON from '../utils/fetch'
 import { normalize, Schema, arrayOf } from 'normalizr'
-import querystring from 'querystring' 
+import querystring from 'querystring'
 
 import Schemas from '../schemas'
 import { CALL_API } from '../middleware/api'
@@ -553,3 +553,40 @@ export function hideVisualizationFromFeed(id) {
     }
 }
 
+/*
+  Fetch publisher
+*/
+
+
+export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
+export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
+export const GET_PUBLISHER_FAILURE = 'GET_PUBLISHER_FAILURE'
+
+export function fetchPublisher() {
+    return {
+        [CALL_API]: {
+            types: [ GET_PUBLISHER_REQUEST, GET_PUBLISHER_SUCCESS, GET_PUBLISHER_FAILURE ],
+            endpoint: 'Publisher.get',
+            // payload: ,
+            schema: Schemas.PUBLISHER
+        }
+    }
+}
+
+/*
+ * Get API Validate API Key Alessandro
+*/
+
+export const GET_API_KEY_VALIDATION_REQUEST = 'GET_API_KEY_VALIDATION_REQUEST'
+export const GET_API_KEY_VALIDATION_SUCCESS = 'GET_API_KEY_VALIDATION_SUCCESS'
+export const GET_API_KEY_VALIDATION_FAILURE = 'GET_API_KEY_VALIDATION_FAILURE'
+
+export function getApiKeyValidation(apiKey, userId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_API_KEY_VALIDATION_REQUEST, GET_API_KEY_VALIDATION_SUCCESS, GET_API_KEY_VALIDATION_FAILURE ],
+            endpoint: 'IatiRegistryMeta.getApiKeyValidation',
+            payload: [ apiKey, userId ],
+        }
+    }
+}

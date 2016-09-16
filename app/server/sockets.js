@@ -1,16 +1,15 @@
-
 import visualizations from './api/public/visualizations'
 import auth from './api/auth'
-
 import { ensureAuthenticated, ensureAccount } from './middleware/authentication'
-
 const Visualization = require('./api/private/Visualizations')
 const OipaMeta = require('./api/private/OipaMeta')
+const IatiRegistryMeta = require('./api/private/IatiRegistryMeta')
+const Publisher = require('./api/private/Publisher')
+
 const User = require('./api/private/User')
 // import Visualization from "./api/private/Visualizations"
 // import OipaMeta from "./api/private/OipaMeta"
 // import User from "./api/private/User"
-
 
 module.exports = function(app) {
 
@@ -50,6 +49,11 @@ module.exports = function(app) {
         socket.on('OipaMeta.getFilteredItemFilters', OipaMeta.getFilteredItemFilters.bind(null, user));
         socket.on('OipaMeta.getContextFilters', OipaMeta.getContextFilters.bind(null, user));
         socket.on('OipaMeta.getFilteredContextFilters', OipaMeta.getFilteredContextFilters.bind(null, user));
+
+        // Get API Validate API Key Alessandro
+        socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));
+        
+        socket.on('Publisher.get', Publisher.get.bind(null, user));
 
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })

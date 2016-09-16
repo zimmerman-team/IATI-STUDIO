@@ -131,6 +131,22 @@ function activeVisualization(state=initialVizState, action) {
     }
 }
 
+const initialPublisherState = {
+  validationStatus: false
+}
+
+function publisher(state=initialPublisherState, action) {
+    switch(action.type) {
+        case ActionTypes.GET_PUBLISHER_SUCCESS:
+            return {
+                ...state,
+                ...action.response.entities.publisher[action.response.result]
+            }
+        default:
+            return state
+    }
+}
+
 function navState(state={ showNav: true, level: 'cb-main', menuState: false}, action) {
     switch(action.type) {
         case TOGGLE_NAV:
@@ -554,6 +570,7 @@ const rootReducer = combineReducers({
     errorMessage,
     user,
     pagination,
+    publisher,
     form: formReducer
 })
 

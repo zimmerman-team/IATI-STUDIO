@@ -40,7 +40,17 @@ export const itemFilterSchema = new Schema('itemFilters', {
     // reporting_organisation: arrayOf(ReportingOrganisationSchema),
 })
 
+/*
+  For publisher
+*/
+
+export const publisherSchema = new Schema('publisher', {
+    idAttribute: "_id",
+})
+
+
 export const Schemas = {
+    PUBLISHER: publisherSchema,
     VISUALIZATION: visualizationSchema,
     VISUALIZATION_ARRAY: arrayOf(visualizationSchema),
     ITEM: itemSchema,
@@ -57,5 +67,3 @@ export const Schemas = {
 }
 
 export default Schemas
-
-
