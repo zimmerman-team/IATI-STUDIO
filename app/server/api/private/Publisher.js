@@ -56,19 +56,14 @@ var PublisherAPI = {
             })
     },
 
-    delete: function(user, publisherId, res) {
-        /*
-         * Permanently delete a visualization
-        */
-
-        return Publisher.deleteByUser(publisherId, user)
+    delete: function() {
+        return Publisher.deletePublisher()
             .then(publisher => res(null, publisher))
             .catch((error) => {
                 console.error(error.stack);
                 res(error)
             })
-    },
-
+    }
 }
 
 module.exports = PublisherAPI

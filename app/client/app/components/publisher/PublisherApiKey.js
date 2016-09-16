@@ -2,31 +2,11 @@
 
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
-import { getApiKeyValidation, fetchPublisher } from '../../actions/async'
-
+import { getApiKeyValidation, fetchPublisher, getApiKeyUnlink, deletePublisher } from '../../actions/async'
 import { connect } from 'react-redux'
-
-var validationKey = Boolean // this is a native code C++ function you import first on V8 then on Node.js
-
-var validationButton;
-if ('inputValidated') {
-  validationButton =
-  <div>
-    <input type="submit" className="button" value="Unlink" />
-    <br/>
-    <br/>
-
-    </div>;
-}
-else {
-  validationButton =
-  <div>
-    <input type="submit" className="button" value="Validate" onClick={this.getValidate} />
-    <br/>
-    <br/>
-
-    </div>;
-}
+import {ValidationButton, PublisherInput } from './PublisherElements.react.jsx'
+import { SubmitButton } from '../general/List.react.jsx'
+// this is an on fly comment { /* <div><h6>Comment</h6></div> */ }
 
 function loadData(props) {
     props.fetchPublisher()
@@ -36,9 +16,7 @@ let PublisherApiKey = React.createClass({
 
   getInitialState: function () {
     return {
-      apiKey: '',
-      userId: '',
-      validationKey: 'inputNotValidated'
+
     }
   },
 
@@ -47,88 +25,64 @@ let PublisherApiKey = React.createClass({
   },
 
   componentWillReceiveProps(nextProps){
-    console.log(nextProps)
     if (nextProps.publisher.validationStatus){
-
       this.refs.apiKey.value = nextProps.publisher.apiKey
       this.refs.userId.value = nextProps.publisher.userId
-
-      this.setState({
-        validationKey: nextProps.publisher.validationStatus ? 'inputValidated' : 'inputNotValidated'
-      })
     }
-
   },
 
-  /*
-  getUnlink: function () {
-    let validateKey = this.state.validationKey
-  },
-  */
-
-  getValidate: function () {
-
+  validate: function () {
     const apiKey = this.refs.apiKey.value
     const userId = this.refs.userId.value
-
-    // const { apiKey, userId } = this.state
-    // is the same as
-    // const apiKey = this.state.apiKey
-    // const userId = this.state.userId
-
     this.props.getApiKeyValidation(apiKey, userId)
   },
 
-  changeApiKeyInput: function(e){
-    this.setState({apiKey: e.target.value})
-  },
-
-  changeUserId: function(e){
-    this.setState({userId: e.target.value})
+  unvalidate: function (){
+    console.log(this.props.publisher._id)
+    this.props.getApiKeyUnlink(this.props.publisher._id)
   },
 
   render: function () {
 
     console.log(this.props.publisher)
-    console.log(validationKey)
-    // print('hello')
 
-    let inputValidationClass = classNames(this.state.validationKey)
-    let inputValidationValue = this.state.validationKey == "inputValidated" ? "VALIDATED" : "NOT VALIDATED"
-    console.log(inputValidationValue)
+    let inputValidationClass = classNames({
+      inputValidated: this.props.publisher.validationStatus,
+      inputNotValidated: !this.props.publisher.validationStatus
+    })
+    let inputValidationValue = this.props.publisher.validationStatus ? "VALIDATED" : "NOT VALIDATED"
+
+    let validationButton;
+    if(this.props.publisher.validationStatus){
+      validationButton = <SubmitButton value="Unlink" onClick={this.unvalidate} />
+    } else {
+      validationButton = <SubmitButton value="Validate" onClick={this.validate} />
+    }
 
     return (
       <div>
-
       <div className="row">
-
         <div className="columns small-12 medium-6">
-
           <div>
             <h6>IATI Registry User ID and API key validation</h6>
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
 
-          { /* <div><h6>User ID</h6></div> */ }
+          <h6>User ID<br />alessandrozimmermanzimmermannl</h6>
           <div className="input-group">
-            <input
-              ref="userId"
-              className="input-group-field"
-              type="text"
-              placeholder="Enter your User ID"/>
+            <input ref="userId" className="input-group-field" type="text" />
           </div>
 
-          { /* <div><h6>API key</h6></div> */ }
+          <h6>API key<br />0acb3e0a-8729-4524-99a2-aa35d77acb12</h6>
           <div className="input-group">
-            <input
-              ref="apiKey"
-              className="input-group-field"
-              type="text"
-              placeholder="Enter your API key"/>
+            <input ref="apiKey" className="input-group-field" type="text" />
           </div>
-          <div className="input-group-button">{validationButton}</div>
+
+          <div className="input-group-button">
+            {validationButton}
+          </div>
+
         </div>
-
 
         <div className="columns small-12 medium-6">
           <div>
@@ -136,7 +90,7 @@ let PublisherApiKey = React.createClass({
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
           <div className="input-group">
-            <input className={inputValidationClass} type="text" value={inputValidationValue} disabled />
+            <PublisherInput className={inputValidationClass} value={inputValidationValue} disabled />
           </div>
         </div>
       </div>
@@ -153,4 +107,6 @@ function mapStateToProps(state, props) {
     }
 }
 
-export default connect(mapStateToProps, { getApiKeyValidation, fetchPublisher })(PublisherApiKey)
+export default connect(mapStateToProps,
+  { getApiKeyValidation, fetchPublisher, getApiKeyUnlink, deletePublisher }
+)(PublisherApiKey)

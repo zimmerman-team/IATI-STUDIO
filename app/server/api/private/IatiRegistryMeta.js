@@ -37,10 +37,11 @@ var IatiRegistryMeta = {
 
         // TO DO: create publisher and set id in de id key below.
         client.action('user_show', {id: userId, include_datasets: true}, function(err, result){
-          
+          console.log(result)
           // 2. now we got the data back.
           // First thing we'll check is if theres an error in the err object.
-          if (result.success === true){
+          if (result.success === true && result.result.apikey != undefined){
+            console.log("creating new publisher")
             // if there's no error we'll set the user as validated and store his/her publisher meta on the database.
 
             // to do: create a new part of the redux store, that has info on the publisher.
@@ -53,21 +54,39 @@ var IatiRegistryMeta = {
               userId: userId,
               validationStatus: true,
               organisationIdentifier: '',// TODO check where to get this from
-              datasets: result.datasets // TODO check where to get this from
+              datasets: result.result.datasets // TODO check where to get this from
             });
 
-
             publisher
-                .saveAndPopulate(publisher => res(null, publisher))
+                .saveAndPopulate()
+                .then(publisher => res(null, publisher))
                 .catch(handleError.bind(null, res))
 
+          } else if (result.success === true) {
+            // user exists, but entered the wrong API key
+            res(null, false)
           } else {
-            // TODO check what we want to do on failure
-            // check in err object what went wrong and return that to the user
-            // the api key or id are probably wrong and we want to send a failed message to the front-end.
+            // user not found
+
+            // TODO check what we want to do on failure we want to send
+            // a failed message to the front-end with the correct message.
             res(null, false)
           }
         });
+    },
+
+    getApiKeyUnlink: function(user, publisherId, res) {
+      // find publisher
+
+      console.log(publisherId)
+
+      // delete publisher
+      return Publisher.deleteByUser(publisherId, user)
+          .then(publisher => res(null, publisher))
+          .catch((error) => {
+              console.error(error.stack);
+              res(error)
+          })
     }
 }
 

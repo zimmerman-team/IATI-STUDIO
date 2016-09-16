@@ -92,7 +92,7 @@ PublisherSchema.statics.deleteByUser = function(id, user) {
         .findOneAndRemove(query)
 }
 
-PublisherSchema.methods.saveAndPopulate = function(query, cb) {
+PublisherSchema.methods.saveAndPopulate = function() {
 
     return this
         .save()

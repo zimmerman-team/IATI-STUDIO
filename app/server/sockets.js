@@ -52,8 +52,11 @@ module.exports = function(app) {
 
         // Get API Validate API Key Alessandro
         socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));
-        
         socket.on('Publisher.get', Publisher.get.bind(null, user));
+
+        // Get API Unlink Alessandro
+        socket.on('IatiRegistryMeta.getApiKeyUnlink', IatiRegistryMeta.getApiKeyUnlink.bind(null, user));
+        socket.on('Publisher.delete', Publisher.delete.bind(null, user));
 
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })

@@ -142,6 +142,15 @@ function publisher(state=initialPublisherState, action) {
                 ...state,
                 ...action.response.entities.publisher[action.response.result]
             }
+        case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
+            return {
+                ...state,
+                ...action.response
+            }
+        case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
+            return {
+              validationStatus: false
+            }
         default:
             return state
     }

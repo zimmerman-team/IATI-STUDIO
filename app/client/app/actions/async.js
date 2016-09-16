@@ -537,7 +537,6 @@ export function updateUserProfile(newProfile) {
 /*
  * Admin
 */
-
 export const HIDE_VISUALIZATION_FROM_FEED_REQUEST = 'HIDE_VISUALIZATION_FROM_FEED_REQUEST'
 export const HIDE_VISUALIZATION_FROM_FEED_SUCCESS = 'HIDE_VISUALIZATION_FROM_FEED_SUCCESS'
 export const HIDE_VISUALIZATION_FROM_FEED_FAILURE = 'HIDE_VISUALIZATION_FROM_FEED_FAILURE'
@@ -552,16 +551,10 @@ export function hideVisualizationFromFeed(id) {
         }
     }
 }
-
-/*
-  Fetch publisher
-*/
-
-
+// Fetch publisher
 export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
 export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
 export const GET_PUBLISHER_FAILURE = 'GET_PUBLISHER_FAILURE'
-
 export function fetchPublisher() {
     return {
         [CALL_API]: {
@@ -572,21 +565,29 @@ export function fetchPublisher() {
         }
     }
 }
-
-/*
- * Get API Validate API Key Alessandro
-*/
-
+// Validate
 export const GET_API_KEY_VALIDATION_REQUEST = 'GET_API_KEY_VALIDATION_REQUEST'
 export const GET_API_KEY_VALIDATION_SUCCESS = 'GET_API_KEY_VALIDATION_SUCCESS'
 export const GET_API_KEY_VALIDATION_FAILURE = 'GET_API_KEY_VALIDATION_FAILURE'
-
 export function getApiKeyValidation(apiKey, userId) {
     return {
         [CALL_API]: {
             types: [ GET_API_KEY_VALIDATION_REQUEST, GET_API_KEY_VALIDATION_SUCCESS, GET_API_KEY_VALIDATION_FAILURE ],
             endpoint: 'IatiRegistryMeta.getApiKeyValidation',
             payload: [ apiKey, userId ],
+        }
+    }
+}
+// Unlink
+export const GET_API_KEY_UNLINK_REQUEST = 'GET_API_KEY_UNLINK_REQUEST'
+export const GET_API_KEY_UNLINK_SUCCESS = 'GET_API_KEY_UNLINK_SUCCESS'
+export const GET_API_KEY_UNLINK_FAILURE = 'GET_API_KEY_UNLINK_FAILURE'
+export function getApiKeyUnlink(publisherId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_API_KEY_UNLINK_REQUEST, GET_API_KEY_UNLINK_SUCCESS, GET_API_KEY_UNLINK_FAILURE ],
+            endpoint: 'IatiRegistryMeta.getApiKeyUnlink',
+            payload: [publisherId]
         }
     }
 }
