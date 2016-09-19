@@ -2,26 +2,17 @@
 
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
-import { getApiKeyValidation, fetchPublisher, getApiKeyUnlink, deletePublisher } from '../../actions/async'
+import { getApiKeyValidation, getApiKeyUnlink, deletePublisher } from '../../actions/async'
 import { connect } from 'react-redux'
 import {ValidationButton, PublisherInput } from './PublisherElements.react.jsx'
 import { SubmitButton } from '../general/List.react.jsx'
 // this is an on fly comment { /* <div><h6>Comment</h6></div> */ }
 
-function loadData(props) {
-    props.fetchPublisher()
-}
 
 let PublisherApiKey = React.createClass({
 
   getInitialState: function () {
-    return {
-
-    }
-  },
-
-  componentWillMount() {
-    loadData(this.props)
+    return {}
   },
 
   componentWillReceiveProps(nextProps){
@@ -99,14 +90,7 @@ let PublisherApiKey = React.createClass({
   }
 })
 
-function mapStateToProps(state, props) {
 
-    const { publisher } = state
-    return {
-        publisher: publisher,
-    }
-}
-
-export default connect(mapStateToProps,
-  { getApiKeyValidation, fetchPublisher, getApiKeyUnlink, deletePublisher }
+export default connect(null,
+  { getApiKeyValidation, getApiKeyUnlink, deletePublisher }
 )(PublisherApiKey)

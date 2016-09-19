@@ -6,6 +6,7 @@ import SplashScreen             from './SplashScreen'
 import PublisherApiKey          from './PublisherApiKey'
 import PublisherImport          from './PublisherImport'
 import PublisherOptionsCheck    from './PublisherOptionsCheck'
+import PublisherDatasets        from './PublisherDatasets'
 import PublisherMenuList        from './PublisherMenuList'
 import { PageTitle }            from '../orgSettings/OrgComponentsList'
 
@@ -18,9 +19,10 @@ let PublisherWrapper = React.createClass({
           <PageTitle pageTitleContent="IATI setting" />
           <div className="row">
             <div className="columns small-12 medium-8">
-              <PublisherApiKey />
-              <PublisherOptionsCheck />
+              <PublisherApiKey publisher={this.props.publisher} />
+              <PublisherOptionsCheck autoPublish={this.props.publisher.autoPublish} />
               <PublisherImport />
+              <PublisherDatasets datasets={this.props.publisher.datasets} />
             </div>
             <div className="columns small-12 medium-4">
               <PublisherMenuList />

@@ -132,7 +132,9 @@ function activeVisualization(state=initialVizState, action) {
 }
 
 const initialPublisherState = {
-  validationStatus: false
+  validationStatus: false,
+  datasets: [],
+  autoPublish: false
 }
 
 function publisher(state=initialPublisherState, action) {
@@ -149,7 +151,7 @@ function publisher(state=initialPublisherState, action) {
             }
         case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
             return {
-              validationStatus: false
+              ...initialPublisherState
             }
         default:
             return state
