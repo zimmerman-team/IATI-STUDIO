@@ -20,7 +20,7 @@ let PublisherWrapper = React.createClass({
           <div className="row">
             <div className="columns small-12 medium-8">
               <PublisherApiKey publisher={this.props.publisher} />
-              <PublisherOptionsCheck autoPublish={this.props.publisher.autoPublish} />
+              <PublisherOptionsCheck publisher={this.props.publisher} />
               <PublisherImport />
               <PublisherDatasets datasets={this.props.publisher.datasets} />
             </div>

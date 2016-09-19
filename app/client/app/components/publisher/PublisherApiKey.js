@@ -8,7 +8,6 @@ import {ValidationButton, PublisherInput } from './PublisherElements.react.jsx'
 import { SubmitButton } from '../general/List.react.jsx'
 // this is an on fly comment { /* <div><h6>Comment</h6></div> */ }
 
-
 let PublisherApiKey = React.createClass({
 
   getInitialState: function () {
@@ -59,12 +58,18 @@ let PublisherApiKey = React.createClass({
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
 
-          <h6>User ID<br />alessandrozimmermanzimmermannl</h6>
+          <h6>User ID<br />
+            alessandrozimmermanzimmermannl<br />
+            zimmzimm
+          </h6>
           <div className="input-group">
             <input ref="userId" className="input-group-field" type="text" />
           </div>
 
-          <h6>API key<br />0acb3e0a-8729-4524-99a2-aa35d77acb12</h6>
+          <h6>API key<br />
+          0acb3e0a-8729-4524-99a2-aa35d77acb12<br />
+          49cae52d-e647-4963-bd60-1ed64a349e5b
+          </h6>
           <div className="input-group">
             <input ref="apiKey" className="input-group-field" type="text" />
           </div>
@@ -89,7 +94,6 @@ let PublisherApiKey = React.createClass({
     )
   }
 })
-
 
 export default connect(null,
   { getApiKeyValidation, getApiKeyUnlink, deletePublisher }

@@ -591,3 +591,17 @@ export function getApiKeyUnlink(publisherId) {
         }
     }
 }
+
+// Update
+export const UPDATE_PUBLISHER_REQUEST = 'UPDATE_PUBLISHER_REQUEST'
+export const UPDATE_PUBLISHER_SUCCESS = 'UPDATE_PUBLISHER_SUCCESS'
+export const UPDATE_PUBLISHER_FAILURE = 'UPDATE_PUBLISHER_FAILURE'
+export function updatePublisher(publisher) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_PUBLISHER_REQUEST, UPDATE_PUBLISHER_SUCCESS, UPDATE_PUBLISHER_FAILURE ],
+            endpoint: 'Publisher.update',
+            payload: [publisher]
+        }
+    }
+}

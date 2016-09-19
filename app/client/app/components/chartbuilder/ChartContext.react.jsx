@@ -110,7 +110,7 @@ const ChartContext = React.createClass({
     },
 
     onSuccess: function(selected) {
-        // TODO: Call Set context(s) action here - 2016-01-28 
+        // TODO: Call Set context(s) action here - 2016-01-28
     },
 
     // remove by id when removing
@@ -132,9 +132,9 @@ const ChartContext = React.createClass({
                     length={<span className="length">{filters.length}</span>}
                     key={key}
                     tooltip={oipaKeyToDesc[key]}>
-                    <ChartListFilter 
-                        key={key} 
-                        type={key} 
+                    <ChartListFilter
+                        key={key}
+                        type={key}
                         contextFilters={filters}
                         selected={selectedForThisType}
                         onChange={this.onToggle}
@@ -159,7 +159,7 @@ const ChartContext = React.createClass({
                     title={"Transaction Date"}
                     key={'transaction_date'}
                     tooltip={oipaKeyToDesc['transaction_date']}>
-                    <ChartDateFilter 
+                    <ChartDateFilter
                         removeContext={this.props.removeContext}
                         replaceContext={this.props.replaceContext}
                         minId={minDateObj ? minDateObj._id : null}
@@ -221,7 +221,7 @@ let ChartListFilter = React.createClass({
 
         let checkboxes = _.map(orderedContextFilters, (filter, i) => {
 
-            // filter by searchInput value 
+            // filter by searchInput value
             if (filter.name.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) == -1)
                 return false
 
@@ -233,9 +233,9 @@ let ChartListFilter = React.createClass({
                 filter._id = selectedItem._id
 
             return (
-                <Checkbox 
+                <Checkbox
                     id={filter.id + i}
-                    key={filter.id + i} 
+                    key={filter.id + i}
                     onChange={this.onChange.bind(this, filter)} // selected checkbox
                     checked={checked}
                     name={filter.name}

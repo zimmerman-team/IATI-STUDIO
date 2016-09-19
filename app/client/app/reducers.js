@@ -141,17 +141,22 @@ function publisher(state=initialPublisherState, action) {
     switch(action.type) {
         case ActionTypes.GET_PUBLISHER_SUCCESS:
             return {
-                ...state,
-                ...action.response.entities.publisher[action.response.result]
+              ...state,
+              ...action.response.entities.publisher[action.response.result]
             }
         case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
             return {
-                ...state,
-                ...action.response
+              ...state,
+              ...action.response
             }
         case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
             return {
               ...initialPublisherState
+            }
+        case ActionTypes.UPDATE_PUBLISHER_SUCCESS:
+            return {
+              ...state,
+              ...action.response
             }
         default:
             return state

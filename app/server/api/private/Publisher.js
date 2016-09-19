@@ -41,14 +41,12 @@ var PublisherAPI = {
             .catch(handleError.bind(null, res))
     },
 
-    update: function(user, publisherId, publisher, res) {
+    update: function(user, publisher, res) {
         /*
          * Update a new publisher, without updating results
         */
 
-        publisher.last_updated = Date.now()
-
-        return Publisher.updateByUser(publisherId, publisher, user)
+        return Publisher.updateByUser(publisher.id, publisher, user)
             .then(publisher => res(null, publisher))
             .catch((error) => {
                 console.error(error.stack);

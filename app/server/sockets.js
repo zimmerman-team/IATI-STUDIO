@@ -50,13 +50,16 @@ module.exports = function(app) {
         socket.on('OipaMeta.getContextFilters', OipaMeta.getContextFilters.bind(null, user));
         socket.on('OipaMeta.getFilteredContextFilters', OipaMeta.getFilteredContextFilters.bind(null, user));
 
-        // Get API Validate API Key Alessandro
+        // Get API Validate API Key
         socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));
         socket.on('Publisher.get', Publisher.get.bind(null, user));
 
-        // Get API Unlink Alessandro
+        // Get API Unlink
         socket.on('IatiRegistryMeta.getApiKeyUnlink', IatiRegistryMeta.getApiKeyUnlink.bind(null, user));
         socket.on('Publisher.delete', Publisher.delete.bind(null, user));
+
+        // Checkbox for autoPublish option update
+        socket.on('Publisher.update', Publisher.update.bind(null, user));
 
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })
