@@ -322,3 +322,12 @@ export const SubmitButton = (props) => {
       </div>
     )
 }
+
+export const PublisherButton = (props) => {
+    return (
+      <div>
+        <input className="button" id={props.id} {...props} />
+        <label htmlFor={props.id}>{props.labelName}</label>
+      </div>
+    )
+}

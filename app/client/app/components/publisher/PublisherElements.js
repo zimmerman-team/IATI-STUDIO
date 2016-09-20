@@ -3,14 +3,10 @@ import React from 'react'
 import { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-
 import store from '../../app'
-
 import { SearchableCheckboxList, CheckboxList, Checkbox, Orderable, SubmitButton } from '../general/List.react.jsx'
-
 import { FoundationAccordion, FoundationAccordionItem, FoundationButtonList, FoundationButtonListItem } from '../foundation/List.react.jsx'
 import { ModalContainer, ModalButton, Portal } from '../general/Modal.react.jsx'
-
 import { oipaKeyToName, oipaKeyToDesc } from '../../name_mapping'
 
 // TODO: Call actions in parent view - 2016-01-29
@@ -260,6 +256,102 @@ export const ValidationButton = (props) => {
             />
         </div>
     )
+}
+
+export function PageTitle (props) {
+  return (
+    <div className='row'>
+
+        <div className='columns small-12 medium-6'>
+          <h2 className="title-page">{props.pageTitleContent}</h2>
+        </div>
+
+        <div className='columns small-12 medium-6'>
+          <ButtonGroup />
+        </div>
+
+        <div className='columns small-12'>
+        <hr className="margin1rem" />
+        </div>
+
+      </div>
+  )
+}
+
+export function Button(props) {
+  return (
+      <a href="#" className="button no-margin">{ props.text }</a>
+  )
+}
+
+export function ButtonGroup(props) {
+  return (
+    <div className='a-destra'>
+      <Button text="Save draft"/>
+      <Button text="Validation state: incomplete" />
+      <Button text="Publish"/>
+    </div>
+  )
+}
+
+export function PageTitle(props) {
+  return (
+    <div className='row'>
+      <div className='columns small-12 medium-6'>
+        <h2 className="title-page">{props.pageTitleContent}</h2>
+      </div>
+      <div className='columns small-12'>
+        <hr />
+      </div>
+    </div>
+  )
+}
+
+export function PageTitleButtonsGroup1(props) {
+  return (
+    <div className='row'>
+      <div className='columns small-12 medium-6'>
+        <h2 className="title-page">{props.pageTitleContent}</h2>
+      </div>
+      <div className='columns small-12 medium-6'>
+        <div className="a-destra">
+          <Button text="Save draft"/>
+          <Button text="Validation state: incomplete" />
+          <Button text="Publish"/>
+        </div>
+      </div>
+      <div className='columns small-12'>
+        <hr />
+      </div>
+    </div>
+  )
+}
+
+export function OrgIdentifier(props) {
+  return (
+    <div>
+      <div>
+        <h6>Organisation identifier</h6>
+        <a href='#'><i className="material-icons iH6">info</i></a>
+      </div>
+      <div className="input-group">
+        <input className="input-group-field" type="text" placeholder="Null" />
+      </div>
+    </div>
+  )
+}
+
+export function OrgName(props) {
+  return (
+    <div>
+      <div>
+        <h6>Text <span className="colorRed">*</span></h6>
+      </div>
+      <div className="input-group">
+        <input className="input-group-field" type="text" placeholder="Null" />
+      </div>
+    </div>
+  )
 }
 
 export const PublisherInput = (props) => {

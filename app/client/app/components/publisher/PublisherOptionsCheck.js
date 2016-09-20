@@ -3,7 +3,7 @@
 import React, { PropTypes }     from 'react'
 import { connect }              from 'react-redux'
 import { updatePublisher }      from '../../actions/async'
-import { PublisherCheckbox }    from './PublisherElements.react.jsx'
+import { PublisherCheckbox }    from './PublisherElements'
 
 let PublisherOptionsCheck = React.createClass({
 

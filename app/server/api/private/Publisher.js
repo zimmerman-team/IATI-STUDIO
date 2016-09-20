@@ -19,6 +19,11 @@ function handleError(res, error) {
 
 var PublisherAPI = {
 
+    test: function(user, form, res) {
+      console.log("got here")
+      console.log(form)
+    },
+    
     get: function(user, res) {
         Publisher.findOneByUser(user)
             .then(publisher => res(null, publisher))

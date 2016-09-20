@@ -61,6 +61,9 @@ module.exports = function(app) {
         // Checkbox for autoPublish option update
         socket.on('Publisher.update', Publisher.update.bind(null, user));
 
+        // Activities Defaults Form using Redux Form
+        socket.on('Publisher.test', Publisher.test.bind(null, user));
+
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })
 }

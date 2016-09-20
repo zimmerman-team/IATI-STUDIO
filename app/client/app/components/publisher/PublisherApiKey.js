@@ -1,11 +1,11 @@
 'use strict'
 
-import React, { PropTypes } from 'react'
-import classNames from 'classnames'
+import React, { PropTypes }                   from 'react'
+import classNames                             from 'classnames'
+import { connect }                            from 'react-redux'
+import {ValidationButton, PublisherInput }    from './PublisherElements'
+import { SubmitButton }                       from '../general/List.react.jsx'
 import { getApiKeyValidation, getApiKeyUnlink, deletePublisher } from '../../actions/async'
-import { connect } from 'react-redux'
-import {ValidationButton, PublisherInput } from './PublisherElements.react.jsx'
-import { SubmitButton } from '../general/List.react.jsx'
 // this is an on fly comment { /* <div><h6>Comment</h6></div> */ }
 
 let PublisherApiKey = React.createClass({

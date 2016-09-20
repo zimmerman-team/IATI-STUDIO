@@ -605,3 +605,16 @@ export function updatePublisher(publisher) {
         }
     }
 }
+// Activities Defaults Form using Redux Form
+export const UPDATE_ACTIVITY_DEFAULT_REQUEST = 'UPDATE_ACTIVITY_DEFAULT_REQUEST'
+export const UPDATE_ACTIVITY_DEFAULT_SUCCESS = 'UPDATE_ACTIVITY_DEFAULT_SUCCESS'
+export const UPDATE_ACTIVITY_DEFAULT_FAILURE = 'UPDATE_ACTIVITY_DEFAULT_FAILURE'
+export function submitActivityDefaultsForm(form) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_ACTIVITY_DEFAULT_REQUEST, UPDATE_ACTIVITY_DEFAULT_SUCCESS, UPDATE_ACTIVITY_DEFAULT_FAILURE ],
+            endpoint: 'Publisher.test',
+            payload: [form]
+        }
+    }
+}
