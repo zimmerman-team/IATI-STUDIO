@@ -1,20 +1,22 @@
 'use strict'
 
-import React, { PropTypes }         from 'react'
-import { connect }                  from 'react-redux'
-import { Checkbox, SubmitButton }   from '../general/List.react.jsx'
-import { updatePublisher, getApiKeyUnlink }   from '../../actions/async'
+import React, { PropTypes }     from 'react'
+import { connect }              from 'react-redux'
+import { updatePublisher }      from '../../actions/async'
+import { PublisherCheckbox }    from './PublisherElements.react.jsx'
 
 let PublisherOptionsCheck = React.createClass({
 
-  autoPublishOnclick: function (){
-    console.log('hereee' + ' ' + this.props.publisher.autoPublish)
-    this.props.getApiKeyUnlink(this.props.publisher._id)
+  updatePublisherOnclick: function (){
+    this.props.updatePublisher({
+      ...this.props.publisher,
+      autoPublish: !this.props.publisher.autoPublish
+    })
   },
 
   render: function () {
 
-    let autoPublishValue;if(this.props.publisher.autoPublish){autoPublishValue=true}else{autoPublishValue=false}
+    let autoPublishValue = this.props.publisher.autoPublish ? true : false
     let autoPublishName = "Automatically publish activities to the IATI registry"
 
     return (
@@ -27,7 +29,7 @@ let PublisherOptionsCheck = React.createClass({
 
           <div className="input-group">
             <input type="checkbox" checked={autoPublishValue} />
-            <label onClick={this.autoPublishOnclick}>{autoPublishName}</label>
+            <label onClick={this.updatePublisherOnclick}>{autoPublishName}</label>
           </div>
 
         </div>
@@ -37,5 +39,5 @@ let PublisherOptionsCheck = React.createClass({
 })
 
 export default connect(null,
-  { updatePublisher, getApiKeyUnlink }
+  { updatePublisher }
 )(PublisherOptionsCheck)

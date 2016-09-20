@@ -6,7 +6,6 @@ import _ from 'lodash'
 
 let PublisherDatasets = React.createClass({
   render: function () {
-    console.log(this.props.datasets)
 
     const datasets = this.props.datasets.map((dataset, i) => {
 

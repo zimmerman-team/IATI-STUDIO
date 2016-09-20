@@ -263,10 +263,17 @@ export const ValidationButton = (props) => {
 }
 
 export const PublisherInput = (props) => {
-    //console.log(props)
     return (
       <div className="input-group">
         <input type='text' id={props.id} {...props} />
+      </div>
+    )
+}
+
+export const PublisherCheckbox = (props) => {
+    return (
+      <div className="input-group">
+        <input  id={props.id} {...props} />
       </div>
     )
 }

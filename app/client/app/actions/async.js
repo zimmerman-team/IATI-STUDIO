@@ -551,20 +551,7 @@ export function hideVisualizationFromFeed(id) {
         }
     }
 }
-// Fetch publisher
-export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
-export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
-export const GET_PUBLISHER_FAILURE = 'GET_PUBLISHER_FAILURE'
-export function fetchPublisher() {
-    return {
-        [CALL_API]: {
-            types: [ GET_PUBLISHER_REQUEST, GET_PUBLISHER_SUCCESS, GET_PUBLISHER_FAILURE ],
-            endpoint: 'Publisher.get',
-            // payload: ,
-            schema: Schemas.PUBLISHER
-        }
-    }
-}
+// Alessandro
 // Validate
 export const GET_API_KEY_VALIDATION_REQUEST = 'GET_API_KEY_VALIDATION_REQUEST'
 export const GET_API_KEY_VALIDATION_SUCCESS = 'GET_API_KEY_VALIDATION_SUCCESS'
@@ -591,7 +578,20 @@ export function getApiKeyUnlink(publisherId) {
         }
     }
 }
-
+// Fetch publisher
+export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
+export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
+export const GET_PUBLISHER_FAILURE = 'GET_PUBLISHER_FAILURE'
+export function fetchPublisher() {
+    return {
+        [CALL_API]: {
+            types: [ GET_PUBLISHER_REQUEST, GET_PUBLISHER_SUCCESS, GET_PUBLISHER_FAILURE ],
+            endpoint: 'Publisher.get',
+            // payload: ,
+            schema: Schemas.PUBLISHER
+        }
+    }
+}
 // Update
 export const UPDATE_PUBLISHER_REQUEST = 'UPDATE_PUBLISHER_REQUEST'
 export const UPDATE_PUBLISHER_SUCCESS = 'UPDATE_PUBLISHER_SUCCESS'

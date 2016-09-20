@@ -15,7 +15,7 @@ const PublisherSchema = new Schema({
     apiKey: { type: String, default: '' },
     validationStatus: {type: Boolean, default: false},
     datasets: [],
-    autoPublish: {type: Boolean, default: true},
+    autoPublish: {type: Boolean, default: false},
     organisationIdentifier: { type: String, default: '' },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
 },

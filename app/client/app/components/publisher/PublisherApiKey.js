@@ -28,13 +28,10 @@ let PublisherApiKey = React.createClass({
   },
 
   unvalidate: function (){
-    console.log(this.props.publisher._id)
     this.props.getApiKeyUnlink(this.props.publisher._id)
   },
 
   render: function () {
-
-    console.log(this.props.publisher)
 
     let inputValidationClass = classNames({
       inputValidated: this.props.publisher.validationStatus,

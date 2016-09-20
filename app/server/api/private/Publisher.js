@@ -45,8 +45,7 @@ var PublisherAPI = {
         /*
          * Update a new publisher, without updating results
         */
-
-        return Publisher.updateByUser(publisher.id, publisher, user)
+        return Publisher.updateByUser(publisher._id, publisher, user)
             .then(publisher => res(null, publisher))
             .catch((error) => {
                 console.error(error.stack);
