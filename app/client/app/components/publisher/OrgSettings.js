@@ -9,7 +9,6 @@ import { toggleMainMenu }     from '../../actions/sync'
 import PublisherMenuList      from '../publisher/PublisherMenuList'
 import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
-import Weather                from './Weather'
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName } from './PublisherElements'
 
 let OrgSettings = React.createClass({ // A stateful container all children are stateless
@@ -64,18 +63,6 @@ let OrgSettings = React.createClass({ // A stateful container all children are s
 
               </div>
             </div>
-
-            {
-            /*
-            // <br /><br />
-            // <div className="row">
-            //   <div className="columns small-12 medium-4">
-            //       <Weather />
-            //     </div>
-            // </div>
-            */
-            }
-
           </div>
         </div>
       </div>

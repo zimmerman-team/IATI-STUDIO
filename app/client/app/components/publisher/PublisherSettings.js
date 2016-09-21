@@ -41,7 +41,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
               <div className="columns small-12 medium-8">
                 <PublisherApiKey publisher={this.props.publisher} />
                 <PublisherOptionsCheck publisher={this.props.publisher} />
-                <PublisherImport />
+                { /* <PublisherImport /> */ }
                 <PublisherDatasets datasets={this.props.publisher.datasets} />
               </div>
               <div className="columns small-12 medium-4">

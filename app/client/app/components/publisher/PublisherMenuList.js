@@ -13,7 +13,7 @@ let PublisherMenuList = React.createClass({
               <ul className="menuTendinaNested">
                 <li><a href="#">API key</a></li>
                 <li><a href="#">Publishing options</a></li>
-                <li><a href="#">Import</a></li>
+                <li><a href="#">Datasets</a></li>
               </ul>
             </li>
             <li>

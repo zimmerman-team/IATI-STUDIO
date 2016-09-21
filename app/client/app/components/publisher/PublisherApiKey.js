@@ -54,21 +54,13 @@ let PublisherApiKey = React.createClass({
             <h6>IATI Registry User ID and API key validation</h6>
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
-
-          <h6>User ID<br />
-            alessandrozimmermanzimmermannl<br />
-            zimmzimm
-          </h6>
+          
           <div className="input-group">
-            <input ref="userId" className="input-group-field" type="text" />
+            <input ref="userId" className="input-group-field" placeholder="User ID" type="text" />
           </div>
 
-          <h6>API key<br />
-          0acb3e0a-8729-4524-99a2-aa35d77acb12<br />
-          49cae52d-e647-4963-bd60-1ed64a349e5b
-          </h6>
           <div className="input-group">
-            <input ref="apiKey" className="input-group-field" type="text" />
+            <input ref="apiKey" className="input-group-field" placeholder="API Key" type="text" />
           </div>
 
           <div className="input-group-button">
