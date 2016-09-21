@@ -355,17 +355,39 @@ export function OrgName(props) {
 }
 
 export const PublisherInput = (props) => {
-    return (
-      <div className="input-group">
-        <input type='text' id={props.id} {...props} />
-      </div>
-    )
+  return (
+    <div className="input-group">
+      <input type='text' id={props.id} {...props} />
+    </div>
+  )
 }
 
 export const PublisherCheckbox = (props) => {
-    return (
-      <div className="input-group">
-        <input  id={props.id} {...props} />
+  return (
+    <div className="input-group">
+      <input  id={props.id} {...props} />
+    </div>
+  )
+}
+
+export const PublisherMenuList = (props) => {
+  return (
+    <div className="menuTendinaOuter">
+      <div className="menuTendinaInner">
+        <ul className="menuTendina">
+          <li>
+            <a href="#">Registry settings</a><i className="material-icons iMenuList">keyboard_arrow_up</i>
+            <ul className="menuTendinaNested">
+              <li><a href="#">API key</a></li>
+              <li><a href="#">Publishing options</a></li>
+              <li><a href="#">Datasets</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Activity defaults</a><i className="material-icons iMenuList">keyboard_arrow_down</i>
+          </li>
+        </ul>
       </div>
-    )
+    </div>
+  )
 }

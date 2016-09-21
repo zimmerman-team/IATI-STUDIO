@@ -6,7 +6,6 @@ import _                            from 'lodash'
 import classNames                   from 'classnames'
 import { browserHistory }           from 'react-router'
 import { toggleMainMenu }           from '../../actions/sync'
-import PublisherMenuList            from './PublisherMenuList'
 import { formApiAdapter }           from '../../middleware/formApiAdapter'
 
 import ActivitiesDefaults           from './ActivitiesDefaults'
@@ -15,8 +14,8 @@ import ActivitiesParticipatOrg      from './ActivitiesParticipatOrg'
 import ActivitiesBasicInfo          from './ActivitiesBasicInfo'
 import ActivitiesList               from './ActivitiesList'
 
-import { fetchPublisher, submitActivityDefaultsForm }     from '../../actions/async'
-import { PageTitle, PageTitleButtonsGroup1 }              from './PublisherElements'
+import { fetchPublisher, submitActivityDefaultsForm }                   from '../../actions/async'
+import { PageTitle, PageTitleButtonsGroup1, PublisherMenuList }         from './PublisherElements'
 
 function loadData(props) {
     props.fetchPublisher()

@@ -57,7 +57,7 @@ let SplashScreen = React.createClass({
             <h4>Published IATI before?</h4>
               <div>
                 <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum.
+                User alessandrozimmermanzimmermannl 0acb3e0a-8729-4524-99a2-aa35d77acb12 bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
                 </p>
 							</div>
 						<a className="button" onClick={this.importSettings}>Import your settings</a>
@@ -67,7 +67,7 @@ let SplashScreen = React.createClass({
 						<h4>Want to start out with IATI?</h4>
 							<div>
 								<p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum.
+                User zimmzimm 49cae52d-e647-4963-bd60-1ed64a349e5b elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
                 </p>
 							</div>
 						<a className="button" onClick={this.setupOrganisation}>Set up your organisation</a>
@@ -77,7 +77,7 @@ let SplashScreen = React.createClass({
 						<h4>What's IATI all about?</h4>
 							<div>
 								<p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel augue laoreet rutrum.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
 								</p>
 							</div>
 						<a className="button" onClick={this.goToFAQ}>Read the FAQ</a>

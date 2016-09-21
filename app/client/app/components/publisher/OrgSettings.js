@@ -6,10 +6,9 @@ import _                      from 'lodash'
 import classNames             from 'classnames'
 import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
-import PublisherMenuList      from '../publisher/PublisherMenuList'
 import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
-import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName } from './PublisherElements'
+import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 
 let OrgSettings = React.createClass({ // A stateful container all children are stateless
 

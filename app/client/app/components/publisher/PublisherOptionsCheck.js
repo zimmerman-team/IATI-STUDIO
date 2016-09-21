@@ -21,7 +21,8 @@ let PublisherOptionsCheck = React.createClass({
 
     return (
       <div className="row">
-        <div className="columns small-12 medium-6">
+        <div className="columns small-12">
+          
           <div>
             <h6>Publishing options</h6>
             <a href='#'><i className="material-icons iH6">info</i></a>
