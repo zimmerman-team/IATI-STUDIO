@@ -64,6 +64,9 @@ module.exports = function(app) {
         // Activities Defaults Form using Redux Form
         socket.on('Publisher.test', Publisher.test.bind(null, user));
 
+        // Create Publish Dataset
+        // socket.on('IatiRegistryMeta.createPublishDataset', IatiRegistryMeta.createPublishDataset.bind(null, user));
+
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })
 }

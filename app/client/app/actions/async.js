@@ -618,3 +618,16 @@ export function submitActivityDefaultsForm(form) {
         }
     }
 }
+// Create Publish Dataset
+export const CREATE_PUBLISH_DATASET_REQUEST = 'CREATE_PUBLISH_DATASET_REQUEST'
+export const CREATE_PUBLISH_DATASET_SUCCESS = 'CREATE_PUBLISH_DATASET_SUCCESS'
+export const CREATE_PUBLISH_DATASET_FAILURE = 'CREATE_PUBLISH_DATASET_FAILURE'
+export function createPublishDataset(publisher) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_PUBLISH_DATASET_REQUEST, CREATE_PUBLISH_DATASET_SUCCESS, CREATE_PUBLISH_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.createPublishDataset',
+            payload: [publisher]
+        }
+    }
+}

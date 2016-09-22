@@ -15,9 +15,7 @@ function handleError(res, error) {
     })
 }
 
-
 var IatiRegistryMeta = {
-
 
     getApiKeyValidation: function(user, apiKey, userId, res) {
         /*
@@ -87,9 +85,19 @@ var IatiRegistryMeta = {
               console.error(error.stack);
               res(error)
           })
+    },
+
+    publishDataset: function(user, publisher, dataset, res){
+      // 1. check if it should create or update
+      // call create / update endpoint on ckan API
+
+      var client = new CKAN.Client(config.iati_registry_url, publisher.apiKey)
+
+      client.action('package_create', dataset, function(err, result){
+        console.log(err)
+        console.log(result)
+      })
     }
-
-
 }
 
 module.exports = IatiRegistryMeta

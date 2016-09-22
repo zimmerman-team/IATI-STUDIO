@@ -15,19 +15,14 @@ import { Link }                 from 'react-router'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { PageTitle, PublisherMenuList } from './PublisherElements'
 
-function loadData(props) {
-    props.fetchPublisher()
-}
-
 let PublisherSettings = React.createClass({ // A stateful container all children are stateless
 
   getInitialState: function() { return {} },
 
   componentDidMount: function() {},
   componentWillMount: function() {
-
     this.props.toggleMainMenu(false)
-    loadData(this.props)
+    this.props.fetchPublisher()
   },
 
   render: function() {
@@ -44,7 +39,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
       )
     } else {
       datasetsIndicator =
-      <PublisherButton value="Import" />
+      <p>Please validate before we can show datasets</p>
     }
 
     return (
