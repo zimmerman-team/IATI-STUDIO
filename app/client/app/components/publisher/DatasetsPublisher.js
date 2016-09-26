@@ -2,7 +2,7 @@
 
 import React, { PropTypes }     from 'react'
 import { PublisherButton }      from '../general/List.react.jsx'
-import DatasetsSettings       from './DatasetsSettings'
+import DatasetsSettings from './DatasetsSettings'
 
 let DatasetsPublisher = React.createClass({
 
@@ -27,8 +27,6 @@ let DatasetsPublisher = React.createClass({
         urlValue = <PublisherButton value="Import" />
       }
 
-
-
       return <tr key={i}>
         <td>{dataset.name}</td>
         <td>{dataset.title}</td>
@@ -36,7 +34,7 @@ let DatasetsPublisher = React.createClass({
         <td>{acValue}</td>
         <td>{duValue}</td>
         <td>{urlValue}</td>
-        <td><a onClick={this.updatePublisherOnclick}>Publish</a></td>
+        <td><a>Publish</a></td>
       </tr>
     })
 
@@ -65,6 +63,7 @@ let DatasetsPublisher = React.createClass({
       </div>
     )
   }
+
 })
 
 export default DatasetsPublisher

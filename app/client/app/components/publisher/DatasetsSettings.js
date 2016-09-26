@@ -10,7 +10,7 @@ import DatasetsPublisher        from './DatasetsPublisher'
 import PublisherSettings        from './PublisherSettings'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { Link }                 from 'react-router'
-import { fetchPublisher, updatePublisher } from '../../actions/async'
+import { fetchPublisher, updatePublisher, publishDataset } from '../../actions/async'
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 
 
@@ -42,6 +42,23 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
     }
 
     this.props.updatePublisher({
+      ...this.props.publisher,
+      datasets: [
+        ...this.props.publisher.datasets,
+        dummy
+      ]
+    })
+  },
+
+  publishDatasetOnclick: function (fileType){
+    let dummy = ""
+    if(fileType == "activity"){
+      dummy = getDummyDataset(this.props.publisher.userId + "-activities", this.props.publisher.userId + " - activities file", "activity")
+    } else {
+      dummy = getDummyDataset(this.props.publisher.userId + "-organisation", this.props.publisher.userId + " - organisation file", "organisation")
+    }
+
+    this.props.publishDataset({
       ...this.props.publisher,
       datasets: [
         ...this.props.publisher.datasets,
@@ -118,6 +135,7 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
                 {datasetsIndicator}
                 {createActButton}
                 {createOrgButton}
+                <a onClick={this.publishDatasetOnclick}>publishDatasetOnclick</a>
               </div>
             </div>
 
@@ -126,6 +144,7 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
       </div>
     )
   }
+
 })
 
 function mapStateToProps(state, props) {
@@ -139,5 +158,6 @@ function mapStateToProps(state, props) {
 export default connect(mapStateToProps, {
   toggleMainMenu,
   fetchPublisher,
-  updatePublisher
+  updatePublisher,
+  publishDataset
 })(DatasetsSettings)

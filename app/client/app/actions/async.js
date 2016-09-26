@@ -578,6 +578,19 @@ export function getApiKeyUnlink(publisherId) {
         }
     }
 }
+// Activities Defaults Form using Redux Form
+export const UPDATE_ACTIVITY_DEFAULT_REQUEST = 'UPDATE_ACTIVITY_DEFAULT_REQUEST'
+export const UPDATE_ACTIVITY_DEFAULT_SUCCESS = 'UPDATE_ACTIVITY_DEFAULT_SUCCESS'
+export const UPDATE_ACTIVITY_DEFAULT_FAILURE = 'UPDATE_ACTIVITY_DEFAULT_FAILURE'
+export function submitActivityDefaultsForm(form) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_ACTIVITY_DEFAULT_REQUEST, UPDATE_ACTIVITY_DEFAULT_SUCCESS, UPDATE_ACTIVITY_DEFAULT_FAILURE ],
+            endpoint: 'Publisher.test',
+            payload: [form]
+        }
+    }
+}
 // Fetch publisher
 export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
 export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
@@ -605,29 +618,16 @@ export function updatePublisher(publisher) {
         }
     }
 }
-// Activities Defaults Form using Redux Form
-export const UPDATE_ACTIVITY_DEFAULT_REQUEST = 'UPDATE_ACTIVITY_DEFAULT_REQUEST'
-export const UPDATE_ACTIVITY_DEFAULT_SUCCESS = 'UPDATE_ACTIVITY_DEFAULT_SUCCESS'
-export const UPDATE_ACTIVITY_DEFAULT_FAILURE = 'UPDATE_ACTIVITY_DEFAULT_FAILURE'
-export function submitActivityDefaultsForm(form) {
-    return {
-        [CALL_API]: {
-            types: [ UPDATE_ACTIVITY_DEFAULT_REQUEST, UPDATE_ACTIVITY_DEFAULT_SUCCESS, UPDATE_ACTIVITY_DEFAULT_FAILURE ],
-            endpoint: 'Publisher.test',
-            payload: [form]
-        }
-    }
-}
 // Create Publish Dataset
-export const CREATE_PUBLISH_DATASET_REQUEST = 'CREATE_PUBLISH_DATASET_REQUEST'
-export const CREATE_PUBLISH_DATASET_SUCCESS = 'CREATE_PUBLISH_DATASET_SUCCESS'
-export const CREATE_PUBLISH_DATASET_FAILURE = 'CREATE_PUBLISH_DATASET_FAILURE'
-export function createPublishDataset(publisher) {
+export const PUBLISH_DATASET_REQUEST = 'PUBLISH_DATASET_REQUEST'
+export const PUBLISH_DATASET_SUCCESS = 'PUBLISH_DATASET_SUCCESS'
+export const PUBLISH_DATASET_FAILURE = 'PUBLISH_DATASET_FAILURE'
+export function publishDataset(apiKey, userId, publisher) {
     return {
         [CALL_API]: {
-            types: [ CREATE_PUBLISH_DATASET_REQUEST, CREATE_PUBLISH_DATASET_SUCCESS, CREATE_PUBLISH_DATASET_FAILURE ],
-            endpoint: 'IatiRegistryMeta.createPublishDataset',
-            payload: [publisher]
+            types: [ PUBLISH_DATASET_REQUEST, PUBLISH_DATASET_SUCCESS, PUBLISH_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.publishDataset',
+            payload: [apiKey, userId, publisher]
         }
     }
 }

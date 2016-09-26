@@ -87,13 +87,15 @@ var IatiRegistryMeta = {
           })
     },
 
-    publishDataset: function(user, publisher, dataset, res){
-      // 1. check if it should create or update
-      // call create / update endpoint on ckan API
+    publishDataset: function(user, apiKey, userId, publisher, publisherId, res) {
+      console.log('1 publishDatasetOnclick')
 
-      var client = new CKAN.Client(config.iati_registry_url, publisher.apiKey)
+      var client = new CKAN.Client(config.iati_registry_url, apiKey)
+      // var client = new CKAN.Client(config.iati_registry_url, publisher.apiKey)
+      console.log('2 publishDatasetOnclick')
 
-      client.action('package_create', dataset, function(err, result){
+      client.action('package_create', publisher, function(err, result){
+        console.log('3 publishDatasetOnclick')
         console.log(err)
         console.log(result)
       })

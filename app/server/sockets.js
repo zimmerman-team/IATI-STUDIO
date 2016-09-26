@@ -65,7 +65,7 @@ module.exports = function(app) {
         socket.on('Publisher.test', Publisher.test.bind(null, user));
 
         // Create Publish Dataset
-        // socket.on('IatiRegistryMeta.createPublishDataset', IatiRegistryMeta.createPublishDataset.bind(null, user));
+        socket.on('IatiRegistryMeta.publishDataset', IatiRegistryMeta.publishDataset.bind(null, user));
 
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })
