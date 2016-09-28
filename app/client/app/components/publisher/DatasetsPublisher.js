@@ -2,13 +2,17 @@
 
 import React, { PropTypes }     from 'react'
 import { PublisherButton }      from '../general/List.react.jsx'
-import DatasetsSettings from './DatasetsSettings'
 
 let DatasetsPublisher = React.createClass({
 
-  render: function () {
+  onPublishDataset: function(i) {
+    this.props.onPublishDataset(i)
+  },
 
-    const datasets = this.props.datasets.map((dataset, i) => {
+  render: function () {
+    console.log(this.props.datasets)
+    const datasets = this.props.datasets.map((dataset, index) => {
+      console.log(index)
 
       const ftIndex = _.findIndex(dataset.extras, function(o) { return o.key == 'filetype'; });
       const ftValue = dataset.extras[ftIndex].value;
@@ -20,21 +24,21 @@ let DatasetsPublisher = React.createClass({
       const duValue = dataset.extras[duIndex].value;
 
       let urlValue;
-      if(dataset.resources[0].url.includes("iatistudio.com") || dataset.resources[0].url.includes("aidstream.org")){
+      if(dataset.resources[0].url.includes("iatistudio.com")){
         urlValue = <i className="material-icons">done</i>
       }
       else {
         urlValue = <PublisherButton value="Import" />
       }
 
-      return <tr key={i}>
+      return <tr key={index}>
         <td>{dataset.name}</td>
         <td>{dataset.title}</td>
         <td>{ftValue}</td>
         <td>{acValue}</td>
         <td>{duValue}</td>
         <td>{urlValue}</td>
-        <td><a>Publish</a></td>
+        <td><a onClick={this.onPublishDataset.bind(null, index)}>Publish {ftValue.slice(0, 3)}</a></td>
       </tr>
     })
 

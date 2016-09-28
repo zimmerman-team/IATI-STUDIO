@@ -622,12 +622,12 @@ export function updatePublisher(publisher) {
 export const PUBLISH_DATASET_REQUEST = 'PUBLISH_DATASET_REQUEST'
 export const PUBLISH_DATASET_SUCCESS = 'PUBLISH_DATASET_SUCCESS'
 export const PUBLISH_DATASET_FAILURE = 'PUBLISH_DATASET_FAILURE'
-export function publishDataset(apiKey, userId, publisher) {
+export function publishDataset(publisher, dataset) {
     return {
         [CALL_API]: {
             types: [ PUBLISH_DATASET_REQUEST, PUBLISH_DATASET_SUCCESS, PUBLISH_DATASET_FAILURE ],
             endpoint: 'IatiRegistryMeta.publishDataset',
-            payload: [apiKey, userId, publisher]
+            payload: [publisher, dataset]
         }
     }
 }

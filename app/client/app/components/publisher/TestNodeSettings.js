@@ -14,16 +14,17 @@ import {
 	PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, ValidationButton,
 	PublisherInput, PublisherMenuList } from './PublisherElements'
 
-var Greetr = require('./testNodeGreetr');
 
+var Greetr = require('./testNodeGreetr');
 var greeter1 = new Greetr();
 
 greeter1.on('greet', function(data) {
 	 { /*console.log('Someone greeted!: ' + data); */ }
 });
-
 greeter1.greet('Alessandro');
 
+
+let publisher = require('./')
 
 let TestNodeSettings = React.createClass({ // A stateful container all children are stateless
 
@@ -33,6 +34,9 @@ let TestNodeSettings = React.createClass({ // A stateful container all children 
   componentWillMount: function() { this.props.toggleMainMenu(false) },
 
   render: function() {
+
+		console.log(publisher)
+
     return (
       <div>
         <div id="orgWrapper">

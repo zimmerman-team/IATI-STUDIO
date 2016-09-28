@@ -1,5 +1,4 @@
 'use strict'
-
 import React, { PropTypes }                   from 'react'
 import classNames                             from 'classnames'
 import { connect }                            from 'react-redux'
@@ -54,7 +53,7 @@ let PublisherApiKey = React.createClass({
             <h6>IATI Registry User ID and API key validation</h6>
             <a href='#'><i className="material-icons iH6">info</i></a>
           </div>
-          
+
           <div className="input-group">
             <input ref="userId" className="input-group-field" placeholder="User ID" type="text" />
           </div>

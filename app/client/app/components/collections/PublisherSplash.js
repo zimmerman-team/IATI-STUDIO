@@ -67,7 +67,7 @@ let SplashScreen = React.createClass({
 						<h4>Want to start out with IATI?</h4>
 							<div>
 								<p>
-                User zimmzimm 49cae52d-e647-4963-bd60-1ed64a349e5b elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
+                User zimmzimm 42664fcd-2494-4bab-92fe-5af6113d55a6 elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
                 </p>
 							</div>
 						<a className="button" onClick={this.setupOrganisation}>Set up your organisation</a>
