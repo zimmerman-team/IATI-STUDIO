@@ -158,6 +158,11 @@ function publisher(state=initialPublisherState, action) {
               ...state,
               ...action.response
             }
+        case ActionTypes.PUBLISH_DATASET_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
         default:
             return state
     }

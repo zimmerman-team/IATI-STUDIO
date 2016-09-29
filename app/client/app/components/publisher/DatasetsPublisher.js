@@ -2,6 +2,8 @@
 
 import React, { PropTypes }     from 'react'
 import { PublisherButton }      from '../general/List.react.jsx'
+import { PageTitle } from './PublisherElements'
+
 
 let DatasetsPublisher = React.createClass({
 
@@ -11,6 +13,7 @@ let DatasetsPublisher = React.createClass({
 
   render: function () {
     console.log(this.props.datasets)
+
     const datasets = this.props.datasets.map((dataset, index) => {
       console.log(index)
 
@@ -43,9 +46,12 @@ let DatasetsPublisher = React.createClass({
     })
 
     return (
-      <div>
+      <div className="row">
+        <PageTitle pageTitleContent="Datasets" />
+
         <div className="row">
-          <div className="columns small-12 medium-12">
+          <div className="columns small-12">
+
             <table>
               <thead>
                 <tr>
@@ -62,8 +68,10 @@ let DatasetsPublisher = React.createClass({
                 {datasets}
               </tbody>
             </table>
-            </div>
+
+          </div>
         </div>
+
       </div>
     )
   }

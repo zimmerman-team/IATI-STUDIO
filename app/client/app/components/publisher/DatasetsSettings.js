@@ -16,7 +16,7 @@ import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMen
 
 
 
-function getBasicDataset(name, title, fileType){
+function getBasicDataset(name, title, filetype, ownerOrg){
   let today = new Date();
   today = today.toISOString().substring(0, 10);
   return {
@@ -24,20 +24,19 @@ function getBasicDataset(name, title, fileType){
       {"url": "https://www.iatistudio.com/files/"+name+".xml"}
     ],
     "name": name,
-    "extras": [
-      {"key": "activity_count", "value": "0"},
-      {"key": "data_updated", "value": today},
-      {"key": "filetype", "value": fileType},
-    ],
-    "title": title
+    "filetype": filetype,
+    "data_updated": today,
+    "activity_count": "0",
+    "title": title,
+    "owner_org": ownerOrg
   }
 }
 
 let DatasetsSettings = React.createClass({ // A stateful container all children are stateless
 
-  updatePublisherOnclick: function (name, title, fileType){
+  updatePublisherOnclick: function (name, title, filetype){
 
-    let dataset = getBasicDataset(name, title, fileType)
+    let dataset = getBasicDataset(name, title, filetype, this.props.publisher.ownerOrg)
 
     this.props.publishDataset(this.props.publisher, dataset)
 
@@ -77,6 +76,7 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
     })
     if(this.state.showCreateActDatasetButton != act || this.state.showCreateOrgDatasetButton != org){
       this.setState({
+
         showCreateActDatasetButton: act,
         showCreateOrgDatasetButton: org,
       })
@@ -95,39 +95,36 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
     let createActButton = showCreateActDatasetButton ? <PublisherButton value="Create Activities Dataset" onClick={this.updatePublisherOnclick.bind(null, "activity")} /> : ''
     let createOrgButton = showCreateOrgDatasetButton ? <PublisherButton value="Create Organisation Dataset" onClick={this.updatePublisherOnclick.bind(null, "organisation")} /> : ''
 
-    let datasetsList;
+    let datasetsPublisher;
     if(this.props.publisher.validationStatus){
-      datasetsList = <DatasetsPublisher onPublishDataset={this.publishDatasetOnclick} datasets={this.props.publisher.datasets} />
+      datasetsPublisher = <DatasetsPublisher onPublishDataset={this.publishDatasetOnclick} datasets={this.props.publisher.datasets} />
     } else {
-      datasetsList =
+      datasetsPublisher =
       (
-        <p><Link to="/publisher/settings/">Click here to go settings </Link>and get your User and API key validate</p>
+        <div className="row">
+          <PageTitle pageTitleContent="Datasets" />
+          <div className="row">
+            <div className="columns small-12">
+              <p><Link to="/publisher/settings/">Click here to go settings </Link>and get your User and API key validate</p>
+            </div>
+          </div>
+        </div>
       )
     }
 
+    let datasetsCreate;
+    if(this.props.publisher.validationStatus){
+      datasetsCreate = <DatasetsCreate createDataset={this.updatePublisherOnclick} publisher={this.props.publisher} />
+
+    } else {
+      datasetsCreate = <div></div>
+    }
+
     return (
-      <div>
-        <div id="orgWrapper">
-          <div className="rowPub">
-            <PageTitle pageTitleContent="Datasets" />
-
-            <div className="row">
-              <div className="columns small-12">
-                {datasetsList}
-                {createActButton}
-                {createOrgButton}
-              </div>
-            </div>
-
-            <PageTitle pageTitleContent="Create dataset" />
-
-            <div className="row">
-              <div className="columns small-12">
-                <DatasetsCreate createDataset={this.updatePublisherOnclick} publisher={this.props.publisher} />
-              </div>
-            </div>
-
-          </div>
+      <div id="orgWrapper">
+        <div className="rowPub">
+          {datasetsPublisher}
+          {datasetsCreate}
         </div>
       </div>
     )

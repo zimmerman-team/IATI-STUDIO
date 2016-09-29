@@ -6,8 +6,11 @@ import _                      from 'lodash'
 import classNames             from 'classnames'
 import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
+
 import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
+import SelectFiletype  from '../lib/react-select/SelectFiletype'
+
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 
 let OrgSettings = React.createClass({ // A stateful container all children are stateless
@@ -57,6 +60,13 @@ let OrgSettings = React.createClass({ // A stateful container all children are s
                   <div><h6>Language</h6></div>
                   <div className="input-group">
                     <MultiSelectLang />
+                  </div>
+                </div>
+
+                <div className="columns small-12 medium-6">
+                  <div><h6>Select Filetype</h6></div>
+                  <div className="input-group">
+                    <SelectFiletype />
                   </div>
                 </div>
 

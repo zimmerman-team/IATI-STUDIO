@@ -11,13 +11,13 @@ const Schema = mongoose.Schema;
 
 
 const PublisherSchema = new Schema({
-    userId: { type: String, default: '' },
     apiKey: { type: String, default: '' },
-    validationStatus: {type: Boolean, default: false},
+    userId: { type: String, default: '' },
     datasets: [],
-    autoPublish: {type: Boolean, default: false},
-    organisationIdentifier: { type: String, default: '' },
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
+    ownerOrg: { type: String, default: '' }, /* we need to know which org this publisher will publish for */
+    validationStatus: {type: Boolean, default: false}, /* custom */
+    autoPublish: {type: Boolean, default: false}, /* custom */
+    author: { type: Schema.Types.ObjectId, ref: 'User' }, /* custom */
 },
 {
     timestamps: { createdAt: 'created', updatedAt: 'last_updated' }

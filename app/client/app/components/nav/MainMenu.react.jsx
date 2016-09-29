@@ -48,7 +48,7 @@ let MainMenu = React.createClass({
 
                 <li><Tooltip tooltip="IATI activities"><Link to="/publisher/activities"><i className="material-icons">local_play</i>IATI activities</Link></Tooltip></li>
 
-                <li><Tooltip tooltip="Create activity"><a onClick={this.newViz} className="charts"><i className="material-icons">add</i>Create activity</a></Tooltip></li>
+                <li><Tooltip tooltip="Create activity"><Link to="/publisher/activities"><i className="material-icons">add</i>Create activity</Link></Tooltip></li>
 
                 <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
 

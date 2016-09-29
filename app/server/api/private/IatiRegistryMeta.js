@@ -3,7 +3,7 @@
 import CKAN from 'ckan'
 import config from '../../config/config'
 // import _ from 'lodash'
-// import { print, printTrace } from '../../utils/dev'
+import { print, printTrace } from '../../utils/dev'
 import Publisher from '../../models/Publisher'
 
 
@@ -24,20 +24,24 @@ var IatiRegistryMeta = {
           // if there's no error we'll set the user as validated and store his/her publisher meta on the database.
           if (result.success === true && result.result.apikey !== undefined){
 
-            // store user info in database, set publisher state in store to validated.
-            let publisher = new Publisher({
-              author: user,
-              apiKey: apiKey,
-              userId: userId,
-              validationStatus: true,
-              organisationIdentifier: '',// TODO check where to get this from
-              datasets: result.result.datasets
-            });
+            client.action('organization_list_for_user', {}, function(err, orgList){
 
-            publisher
+              // store user info in database, set publisher state in store to validated.
+              let publisher = new Publisher({
+                author: user,
+                apiKey: apiKey,
+                userId: userId,
+                validationStatus: true,
+                ownerOrg: orgList.result[0].id,
+                datasets: result.result.datasets
+              });
+
+              publisher
                 .saveAndPopulate()
                 .then(publisher => res(null, publisher))
-                .catch(handleError.bind(null, res))
+                .catch(handleError.bind(null, res));
+
+            });
 
           } // Check is if theres an error in the err object.
           else if (result.success === true && result.result.apiKey === undefined) {
@@ -57,7 +61,7 @@ var IatiRegistryMeta = {
 
     getApiKeyUnlink: function(user, publisherId, res) {
       // find publisher
-      console.log(publisherId)
+      // console.log(publisherId)
 
       // delete publisher
       return Publisher.deleteByUser(publisherId, user)
@@ -71,23 +75,28 @@ var IatiRegistryMeta = {
     publishDataset: function(user, publisher, dataset, res) {
       var client = new CKAN.Client(config.iati_registry_url, publisher.apiKey)
 
-      client.action('organization_list_for_user', {}, function(err, orgList){
+      client.action('package_create', dataset, function(err, datasetResponse){
+        //print(datasetResponse.error.extras)
 
-        dataset.owner_org = orgList.result[0].id;
+        if(datasetResponse.success){
+          // created correctly, add to publisher.datasets and save publisher
+          let newDataset = datasetResponse.result
 
-        console.log('dataset')
-        console.log(dataset)
-        client.action('package_create', dataset, function(err, datasetResponse){
+          // add dataset to publisher
+          publisher.datasets = [...publisher.datasets, newDataset]
 
-          if(datasetResponse.success){
-            // created correctly, add to publisher.datasets and save publisher
-            const newDataset = datasetResponse.result
+          // update publisher
+          return Publisher.updateByUser(publisher._id, publisher, user)
+              .then(publisher => res(null, publisher))
+              .catch((error) => {
+                  console.error(error.stack);
+                  res(error)
+              })
 
-          } else {
-            // check and send back errors
-            console.log(datasetResponse)
-          }
-        })
+        } else {
+          // check and send back errors
+          console.log(datasetResponse)
+        }
       })
 
     }
