@@ -618,15 +618,28 @@ export function updatePublisher(publisher) {
         }
     }
 }
-// Create Publish Dataset
+// (Create and ) publish Dataset
 export const PUBLISH_DATASET_REQUEST = 'PUBLISH_DATASET_REQUEST'
 export const PUBLISH_DATASET_SUCCESS = 'PUBLISH_DATASET_SUCCESS'
 export const PUBLISH_DATASET_FAILURE = 'PUBLISH_DATASET_FAILURE'
-export function publishDataset(publisher, dataset) {
+export function publishDataset(publisher, name, title, filetype) {
     return {
         [CALL_API]: {
             types: [ PUBLISH_DATASET_REQUEST, PUBLISH_DATASET_SUCCESS, PUBLISH_DATASET_FAILURE ],
             endpoint: 'IatiRegistryMeta.publishDataset',
+            payload: [publisher, name, title, filetype]
+        }
+    }
+}
+// Delete Dataset
+export const DELETE_DATASET_REQUEST = 'DELETE_DATASET_REQUEST'
+export const DELETE_DATASET_SUCCESS = 'DELETE_DATASET_SUCCESS'
+export const DELETE_DATASET_FAILURE = 'DELETE_DATASET_FAILURE'
+export function deleteDataset(publisher, dataset) {
+    return {
+        [CALL_API]: {
+            types: [ DELETE_DATASET_REQUEST, DELETE_DATASET_SUCCESS, DELETE_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.deleteDataset',
             payload: [publisher, dataset]
         }
     }

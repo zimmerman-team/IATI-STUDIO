@@ -3,19 +3,26 @@
 import React, { PropTypes }     from 'react'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { PageTitle } from './PublisherElements'
+import moment from 'moment'
 
 
 let DatasetsPublisher = React.createClass({
+  propTypes: {
+    datasets: PropTypes.array.isRequired,
+    deleteDataset: PropTypes.func.isRequired
+  },
 
-  onPublishDataset: function(i) {
-    this.props.onPublishDataset(i)
+  updateDataset: function(i) {
+    alert("TODO")
+  },
+
+  deleteDataset: function(i) {
+    this.props.deleteDataset(this.props.datasets[i])
   },
 
   render: function () {
-    console.log(this.props.datasets)
 
     const datasets = this.props.datasets.map((dataset, index) => {
-      console.log(index)
 
       const ftIndex = _.findIndex(dataset.extras, function(o) { return o.key == 'filetype'; });
       const ftValue = dataset.extras[ftIndex].value;
@@ -24,7 +31,8 @@ let DatasetsPublisher = React.createClass({
       const acValue = dataset.extras[acIndex].value;
 
       const duIndex = _.findIndex(dataset.extras, function(o) { return o.key == 'data_updated'; });
-      const duValue = dataset.extras[duIndex].value;
+      const duValue = moment(dataset.extras[duIndex].value).format("ddd MMM D YYYY HH:mm");
+
 
       let urlValue;
       if(dataset.resources[0].url.includes("iatistudio.com")){
@@ -41,7 +49,8 @@ let DatasetsPublisher = React.createClass({
         <td>{acValue}</td>
         <td>{duValue}</td>
         <td>{urlValue}</td>
-        <td><a onClick={this.onPublishDataset.bind(null, index)}>Publish {ftValue.slice(0, 3)}</a></td>
+        <td><a onClick={this.updateDataset.bind(null, index)}><i className="material-icons">update</i></a></td>
+        <td><a onClick={this.deleteDataset.bind(null, index)}><i className="material-icons">delete</i></a></td>
       </tr>
     })
 
@@ -59,9 +68,10 @@ let DatasetsPublisher = React.createClass({
                   <th>Dataset title</th>
                   <th>Filetype</th>
                   <th>Activity count</th>
-                  <th>Data updated</th>
+                  <th>Updated (yyyy-mm-dd hh:mm:ss)</th>
                   <th>Managed from IATI Studio</th>
-                  <th>Publish to IATI</th>
+                  <th>Update</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>

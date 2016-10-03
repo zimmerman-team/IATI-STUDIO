@@ -11,40 +11,19 @@ import DatasetsCreate           from './DatasetsCreate'
 import PublisherSettings        from './PublisherSettings'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { Link }                 from 'react-router'
-import { fetchPublisher, updatePublisher, publishDataset } from '../../actions/async'
+import moment                   from 'moment'
+import { fetchPublisher, updatePublisher, publishDataset, deleteDataset } from '../../actions/async'
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 
 
-
-function getBasicDataset(name, title, filetype, ownerOrg){
-  let today = new Date();
-  today = today.toISOString().substring(0, 10);
-  return {
-    "resources": [
-      {"url": "https://www.iatistudio.com/files/"+name+".xml"}
-    ],
-    "name": name,
-    "filetype": filetype,
-    "data_updated": today,
-    "activity_count": "0",
-    "title": title,
-    "owner_org": ownerOrg
-  }
-}
-
 let DatasetsSettings = React.createClass({ // A stateful container all children are stateless
 
-  updatePublisherOnclick: function (name, title, filetype){
-
-    let dataset = getBasicDataset(name, title, filetype, this.props.publisher.ownerOrg)
-
-    this.props.publishDataset(this.props.publisher, dataset)
-
+  publishDataset: function (name, title, filetype){
+    this.props.publishDataset(this.props.publisher, name, title, filetype)
   },
 
-  publishDatasetOnclick: function (index){
-    let dataset = this.props.publisher.datasets[index]
-    this.props.publishDataset(this.props.publisher, dataset)
+  deleteDataset: function (dataset){
+    this.props.deleteDataset(this.props.publisher, dataset)
   },
 
   getInitialState: function(){
@@ -82,22 +61,14 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
       })
     }
 
-    // this.props.updatePublisher({
-    //   ...this.props.publisher,
-    //   datasets: []
-    // })
-
   },
 
   render: function() {
     const { showCreateActDatasetButton, showCreateOrgDatasetButton } = this.state
 
-    let createActButton = showCreateActDatasetButton ? <PublisherButton value="Create Activities Dataset" onClick={this.updatePublisherOnclick.bind(null, "activity")} /> : ''
-    let createOrgButton = showCreateOrgDatasetButton ? <PublisherButton value="Create Organisation Dataset" onClick={this.updatePublisherOnclick.bind(null, "organisation")} /> : ''
-
     let datasetsPublisher;
     if(this.props.publisher.validationStatus){
-      datasetsPublisher = <DatasetsPublisher onPublishDataset={this.publishDatasetOnclick} datasets={this.props.publisher.datasets} />
+      datasetsPublisher = <DatasetsPublisher deleteDataset={this.deleteDataset} datasets={this.props.publisher.datasets} />
     } else {
       datasetsPublisher =
       (
@@ -114,7 +85,7 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
     let datasetsCreate;
     if(this.props.publisher.validationStatus){
-      datasetsCreate = <DatasetsCreate createDataset={this.updatePublisherOnclick} publisher={this.props.publisher} />
+      datasetsCreate = <DatasetsCreate createDataset={this.publishDataset} publisher={this.props.publisher} />
 
     } else {
       datasetsCreate = <div></div>
@@ -144,5 +115,6 @@ export default connect(mapStateToProps, {
   toggleMainMenu,
   fetchPublisher,
   updatePublisher,
-  publishDataset
+  publishDataset,
+  deleteDataset,
 })(DatasetsSettings)

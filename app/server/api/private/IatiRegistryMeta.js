@@ -5,6 +5,7 @@ import config from '../../config/config'
 // import _ from 'lodash'
 import { print, printTrace } from '../../utils/dev'
 import Publisher from '../../models/Publisher'
+import moment from 'moment'
 
 
 function handleError(res, error) {
@@ -72,7 +73,21 @@ var IatiRegistryMeta = {
           })
     },
 
-    publishDataset: function(user, publisher, dataset, res) {
+    publishDataset: function(user, publisher, name, title, filetype, res) {
+
+
+      const dataset = {
+        "resources": [
+          {"url": "https://www.iatistudio.com/files/"+name+".xml"}
+        ],
+        "name": name,
+        "filetype": filetype,
+        "data_updated": moment().format("YYYY-MM-DD HH:mm"),
+        "activity_count": "0",
+        "title": title,
+        "owner_org": publisher.ownerOrg
+      }
+
       var client = new CKAN.Client(config.iati_registry_url, publisher.apiKey)
 
       client.action('package_create', dataset, function(err, datasetResponse){
@@ -81,7 +96,6 @@ var IatiRegistryMeta = {
         if(datasetResponse.success){
           // created correctly, add to publisher.datasets and save publisher
           let newDataset = datasetResponse.result
-
           // add dataset to publisher
           publisher.datasets = [...publisher.datasets, newDataset]
 
@@ -99,7 +113,34 @@ var IatiRegistryMeta = {
         }
       })
 
+    },
+
+    deleteDataset: function(user, publisher, dataset, res) {
+
+      var client = new CKAN.Client(config.iati_registry_url, publisher.apiKey)
+      client.action('package_delete', {id: dataset.id}, function(err, datasetResponse){
+
+        if(datasetResponse.success){
+          // remove dataset from publisher
+          publisher.datasets = publisher.datasets.filter( (obj) => (obj.id != dataset.id))
+
+          // update publisher
+          return Publisher.updateByUser(publisher._id, publisher, user)
+              .then(publisher => res(null, publisher))
+              .catch((error) => {
+                  console.error(error.stack);
+                  res(error)
+              })
+
+        } else {
+          // check and send back errors
+          console.log(datasetResponse)
+        }
+      })
     }
+
+    
+
 }
 
 module.exports = IatiRegistryMeta

@@ -163,6 +163,11 @@ function publisher(state=initialPublisherState, action) {
               ...state,
               ...action.response
             }
+        case ActionTypes.DELETE_DATASET_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
         default:
             return state
     }

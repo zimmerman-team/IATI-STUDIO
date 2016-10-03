@@ -42,7 +42,7 @@ let DatasetsCreate = React.createClass({
 
     return (
       <div className="row">
-        
+
         <PageTitle pageTitleContent="Create dataset" />
 
         <div className="row">
