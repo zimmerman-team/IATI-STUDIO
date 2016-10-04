@@ -57,7 +57,7 @@ let SplashScreen = React.createClass({
             <h4>Published IATI before?</h4>
               <div>
                 <p>
-                User alessandrozimmermanzimmermannl 0acb3e0a-8729-4524-99a2-aa35d77acb12 bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
+                User alessandrozimmermanzimmermannl 3a965a26-6302-4f8d-b69d-26e7605bbfc4 bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus.
                 </p>
 							</div>
 						<a className="button" onClick={this.importSettings}>Import your settings</a>

@@ -27,7 +27,7 @@ let PublisherApiKey = React.createClass({
   },
 
   unvalidate: function (){
-    this.props.getApiKeyUnlink(this.props.publisher._id)
+    this.props.getApiKeyUnlink(this.props.publisher)
   },
 
   render: function () {

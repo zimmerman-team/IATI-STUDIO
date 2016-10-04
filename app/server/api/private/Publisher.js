@@ -35,13 +35,12 @@ var PublisherAPI = {
 
     create: function(user, data, res) {
         /*
-         * Creates a new visualization, and generates the resulting data by querying OIPA
+         * Creates a new publisher, and generates the resulting data by querying OIPA
         */
         data.author = user;
-
         let publisher = new Publisher(data);
 
-        Publisher.saveAndPopulate()
+        publisher.saveAndPopulate()
             .then(publisher => res(null, publisher))
             .catch(handleError.bind(null, res))
     },
@@ -58,13 +57,13 @@ var PublisherAPI = {
             })
     },
 
-    delete: function() {
-        return Publisher.deletePublisher()
-            .then(publisher => res(null, publisher))
-            .catch((error) => {
-                console.error(error.stack);
-                res(error)
-            })
+    delete: function(user, publisher, res) {
+        return Publisher.deleteByUser(publisher._id, user)
+          .then(publisher => res(null, publisher))
+          .catch((error) => {
+              console.error(error.stack);
+              res(error)
+          })
     }
 }
 

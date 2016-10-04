@@ -569,12 +569,12 @@ export function getApiKeyValidation(apiKey, userId) {
 export const GET_API_KEY_UNLINK_REQUEST = 'GET_API_KEY_UNLINK_REQUEST'
 export const GET_API_KEY_UNLINK_SUCCESS = 'GET_API_KEY_UNLINK_SUCCESS'
 export const GET_API_KEY_UNLINK_FAILURE = 'GET_API_KEY_UNLINK_FAILURE'
-export function getApiKeyUnlink(publisherId) {
+export function getApiKeyUnlink(publisher) {
     return {
         [CALL_API]: {
             types: [ GET_API_KEY_UNLINK_REQUEST, GET_API_KEY_UNLINK_SUCCESS, GET_API_KEY_UNLINK_FAILURE ],
             endpoint: 'IatiRegistryMeta.getApiKeyUnlink',
-            payload: [publisherId]
+            payload: [publisher]
         }
     }
 }
@@ -640,6 +640,19 @@ export function deleteDataset(publisher, dataset) {
         [CALL_API]: {
             types: [ DELETE_DATASET_REQUEST, DELETE_DATASET_SUCCESS, DELETE_DATASET_FAILURE ],
             endpoint: 'IatiRegistryMeta.deleteDataset',
+            payload: [publisher, dataset]
+        }
+    }
+}
+// Update Dataset
+export const UPDATE_DATASET_REQUEST = 'UPDATE_DATASET_REQUEST'
+export const UPDATE_DATASET_SUCCESS = 'UPDATE_DATASET_SUCCESS'
+export const UPDATE_DATASET_FAILURE = 'UPDATE_DATASET_FAILURE'
+export function updateDataset(publisher, dataset) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_DATASET_REQUEST, UPDATE_DATASET_SUCCESS, UPDATE_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.updateDataset',
             payload: [publisher, dataset]
         }
     }

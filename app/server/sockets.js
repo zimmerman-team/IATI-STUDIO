@@ -70,6 +70,9 @@ module.exports = function(app) {
         // Delete Dataset
         socket.on('IatiRegistryMeta.deleteDataset', IatiRegistryMeta.deleteDataset.bind(null, user));
 
+        // Update Dataset
+        socket.on('IatiRegistryMeta.updateDataset', IatiRegistryMeta.updateDataset.bind(null, user));
+
         socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
     })
 }

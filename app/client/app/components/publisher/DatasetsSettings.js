@@ -12,7 +12,7 @@ import PublisherSettings        from './PublisherSettings'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { Link }                 from 'react-router'
 import moment                   from 'moment'
-import { fetchPublisher, updatePublisher, publishDataset, deleteDataset } from '../../actions/async'
+import { fetchPublisher, publishDataset, deleteDataset, updateDataset } from '../../actions/async'
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 
 
@@ -24,6 +24,10 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
   deleteDataset: function (dataset){
     this.props.deleteDataset(this.props.publisher, dataset)
+  },
+
+  updateDataset: function (dataset){
+    this.props.updateDataset(this.props.publisher, dataset)
   },
 
   getInitialState: function(){
@@ -68,7 +72,7 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
     let datasetsPublisher;
     if(this.props.publisher.validationStatus){
-      datasetsPublisher = <DatasetsPublisher deleteDataset={this.deleteDataset} datasets={this.props.publisher.datasets} />
+      datasetsPublisher = <DatasetsPublisher updateDataset={this.updateDataset} deleteDataset={this.deleteDataset} datasets={this.props.publisher.datasets} />
     } else {
       datasetsPublisher =
       (
@@ -114,7 +118,7 @@ function mapStateToProps(state, props) {
 export default connect(mapStateToProps, {
   toggleMainMenu,
   fetchPublisher,
-  updatePublisher,
   publishDataset,
   deleteDataset,
+  updateDataset
 })(DatasetsSettings)

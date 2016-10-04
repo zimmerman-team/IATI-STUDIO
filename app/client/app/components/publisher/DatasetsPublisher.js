@@ -13,7 +13,7 @@ let DatasetsPublisher = React.createClass({
   },
 
   updateDataset: function(i) {
-    alert("TODO")
+    this.props.updateDataset(this.props.datasets[i])
   },
 
   deleteDataset: function(i) {
