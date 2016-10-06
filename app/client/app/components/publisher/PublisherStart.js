@@ -14,52 +14,33 @@ import {
 	PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, ValidationButton,
 	PublisherInput, PublisherMenuList } from './PublisherElements'
 
-
-var Greetr = require('./testNodeGreetr');
-var greeter1 = new Greetr();
-
-greeter1.on('greet', function(data) {
-	 { /*console.log('Someone greeted!: ' + data); */ }
-});
-greeter1.greet('Alessandro');
-
-
-let publisher = require('./')
-
-let TestNodeSettings = React.createClass({ // A stateful container all children are stateless
-
-  getInitialState: function() { return {} },
-
-  componentDidMount: function() {},
-  componentWillMount: function() { this.props.toggleMainMenu(false) },
+let PublisherStart = React.createClass({
 
   render: function() {
-
-		console.log(publisher)
 
     return (
       <div>
         <div id="orgWrapper">
           <div className="rowPub">
 
-            <PageTitle pageTitleContent="Test Node.js" />
+            <PageTitle pageTitleContent="Start publishing" />
 
             <div className="row">
               <div className="columns small-12">
 
                 <div className="columns small-12 medium-8">
                   <div className="columns small-12 medium-6">
-										<PublisherInput value='String' />
-										<PublisherButton type="submit" value='Boolean' />
+										<PublisherInput value='String' readOnly />
+										<PublisherButton type="submit" value='Boolean'/>
                   </div>
 
                   <div className="columns small-12 medium-6">
-										<PublisherInput className='inputValidated' value='String' disabled />
+										<PublisherInput className='inputValidated' value='String' disabled readOnly />
                   </div>
                 </div>
 
                 <div className="columns small-12 medium-4">
-									<PublisherInput className='inputNotValidated' value='String' disabled />
+									<PublisherInput className='inputNotValidated' value='String' disabled readOnly />
                 </div>
 
               </div>
@@ -72,6 +53,4 @@ let TestNodeSettings = React.createClass({ // A stateful container all children 
   }
 })
 
-function mapStateToProps(state, props) { return {} }
-
-export default connect(mapStateToProps, {toggleMainMenu,})(TestNodeSettings)
+export default PublisherStart

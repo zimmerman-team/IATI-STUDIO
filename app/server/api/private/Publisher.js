@@ -1,6 +1,5 @@
 "use strict"
 
-import mongoose from 'mongoose'
 import DatabaseContainer from '../../utils/DatabaseContainer'
 import Publisher from '../../models/Publisher'
 import _ from 'lodash'

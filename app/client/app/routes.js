@@ -15,11 +15,11 @@ import ChartView from "./containers/public/ChartView";
 import ChartPreview from "./containers/public/ChartPreview";
 import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
+import PublisherStart from "./components/publisher/PublisherStart"
 import PublisherSettings from "./components/publisher/PublisherSettings"
 import ActivitiesSettings from "./components/publisher/ActivitiesSettings"
 import OrgSettings from "./components/publisher/OrgSettings"
 import DatasetsSettings from "./components/publisher/DatasetsSettings"
-import TestNodeSettings from "./components/publisher/TestNodeSettings"
 
 import {ErrorPage} from "./containers/ErrorPage.react.jsx";
 
@@ -44,13 +44,12 @@ export default (
             <Route path="chartbuilder/:id" component={ChartBuilder} />
             <Route path="chartbuilder/:id/preview" component={ChartPreview} />
             <Route path="collection" component={CollectionList}/>
+
+            <Route path="publisher/startpublishing" component={PublisherStart}/>
             <Route path="publisher/settings" component={PublisherSettings}/>
             <Route path="publisher/organisation" component={OrgSettings}/>
             <Route path="publisher/activities" component={ActivitiesSettings}/>
-
             <Route path="publisher/datasets" component={DatasetsSettings}/>
-
-            <Route path="publisher/testnodejs" component={TestNodeSettings}/>
 
             {/*<Route path="topbar" component={Topbar}/>*/}
             <Route path="user/profile" component={UserProfile}/>

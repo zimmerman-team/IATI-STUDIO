@@ -46,17 +46,21 @@ let MainMenu = React.createClass({
                 <li><Tooltip tooltip="Go to your trash"><Link to="/archive"><i className="material-icons">delete</i> Trash</Link></Tooltip></li>
                 <hr />
 
-                <li><Tooltip tooltip="IATI activities"><Link to="/publisher/activities"><i className="material-icons">local_play</i>IATI activities</Link></Tooltip></li>
+                {!this.props.publisherStatus &&
+                  <div>
+                    <li><Tooltip tooltip="Start publishing"><Link to="/publisher/startpublishing" className="startpublishing"><i className="material-icons">add</i>Start publishing</Link></Tooltip></li>
+                  </div>
+                }
 
-                <li><Tooltip tooltip="Create activity"><Link to="/publisher/activities"><i className="material-icons">add</i>Create activity</Link></Tooltip></li>
-
-                <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
-
-                <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/settings"><i className="material-icons">settings</i>IATI settings</Link></Tooltip></li>
-
-                <li><Tooltip tooltip="Datasets"><Link to="/publisher/datasets"><i className="material-icons">perm_data_setting</i>Datasets</Link></Tooltip></li>
-
-                <li><Tooltip tooltip="Test Node.js"><Link to="/publisher/testnodejs"><i className="material-icons">code</i>Test Node.js</Link></Tooltip></li>
+                {this.props.publisherStatus &&
+                  <div>
+                    <li><Tooltip tooltip="IATI activities"><Link to="/publisher/activities"><i className="material-icons">local_play</i>IATI activities</Link></Tooltip></li>
+                    <li><Tooltip tooltip="Create activity"><Link to="/publisher/activities"><i className="material-icons">add</i>Create activity</Link></Tooltip></li>
+                    <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
+                    <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/settings"><i className="material-icons">settings</i>IATI settings</Link></Tooltip></li>
+                    <li><Tooltip tooltip="Datasets"><Link to="/publisher/datasets"><i className="material-icons">perm_data_setting</i>Datasets</Link></Tooltip></li>
+                  </div>
+                }
 
                 <hr />
                 <li><Tooltip tooltip="View frequently asked questions"><Link to="/help"><i className="material-icons">school</i> FAQ</Link></Tooltip></li>

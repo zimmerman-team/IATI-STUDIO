@@ -9,7 +9,7 @@ import { toggleMainMenu }     from '../../actions/sync'
 
 import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
-import SelectFiletype  from '../lib/react-select/SelectFiletype'
+import SelectFiletype         from '../lib/react-select/SelectFiletype'
 
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 

@@ -32,6 +32,9 @@ const Topbar = React.createClass({
             visualizations,
         } = this.props
 
+        console.log(this.props.publisherStatus)
+
+
         //console.log(this.props.user)
 
         let navClass = classNames('nav-toggle', {
@@ -49,25 +52,26 @@ const Topbar = React.createClass({
                     </Link>
                   <div className="title">IATI Studio</div>
                   <div className="release">beta release 1.1</div>
-                  <UserBox 
+                  <UserBox
                       firstName={firstName}
                       lastName={lastName}
                       avatar={avatar} />
                   {/*<SearchBox />*/}
                 </div>
               </div>
-              <MainMenu 
+              <MainMenu
                   active={menuState}
                   toggleNav={this.toggleNav}
                   createVisualization={this.props.createVisualization}
                   visualisations={this.props.visualizations}
+                  publisherStatus={this.props.publisherStatus}
               />
               <div className="notifications">
-              <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
+              <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
                 { notificationCenter.map( (item, i) => {
-                return (           
-                     <Notification 
-                         key={item.id} 
+                return (
+                     <Notification
+                         key={item.id}
                          className={item.type}
                          text={item.text} />
                      )
@@ -80,14 +84,15 @@ const Topbar = React.createClass({
 })
 
 function mapStateToProps(state, props) {
-    const { 
+    const {
       entities: { visualizations, },
-      navState, 
-      notificationCenter, 
+      navState,
+      notificationCenter,
+      publisher,
       user } = state
 
     let viz = _.map(visualizations, x => x)
-    
+    console.log(publisher.validationStatus)
     return {
         visualizations: viz,
         menuState: navState.menuState,
@@ -95,6 +100,7 @@ function mapStateToProps(state, props) {
         firstName: user.firstName,
         lastName: user.lastName,
         avatar: user.avatar,
+        publisherStatus: publisher.validationStatus,
         //user: user
     }
 }

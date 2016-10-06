@@ -36,7 +36,7 @@ let DatasetsPublisher = React.createClass({
 
       let urlValue;
       if(dataset.resources[0].url.includes("iatistudio.com")){
-        urlValue = <i className="material-icons">done</i>
+        urlValue = <a><i className="material-icons">done</i></a>
       }
       else {
         urlValue = <PublisherButton value="Import" />
@@ -66,9 +66,9 @@ let DatasetsPublisher = React.createClass({
                 <tr>
                   <th>Dataset name</th>
                   <th>Dataset title</th>
-                  <th>Filetype</th>
+                  <th>File type</th>
                   <th>Activity count</th>
-                  <th>Updated (yyyy-mm-dd hh:mm:ss)</th>
+                  <th>Date updated</th>
                   <th>Managed from IATI Studio</th>
                   <th>Update</th>
                   <th>Delete</th>
