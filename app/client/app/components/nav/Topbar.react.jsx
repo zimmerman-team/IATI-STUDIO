@@ -32,11 +32,6 @@ const Topbar = React.createClass({
             visualizations,
         } = this.props
 
-        console.log(this.props.publisherStatus)
-
-
-        //console.log(this.props.user)
-
         let navClass = classNames('nav-toggle', {
             'closed' : !menuState
         })
@@ -92,7 +87,7 @@ function mapStateToProps(state, props) {
       user } = state
 
     let viz = _.map(visualizations, x => x)
-    console.log(publisher.validationStatus)
+
     return {
         visualizations: viz,
         menuState: navState.menuState,
