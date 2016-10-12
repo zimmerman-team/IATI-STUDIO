@@ -1,129 +1,155 @@
-/* CSS Dev Tools Visualizza tutti i bordi * { border: 1px dashed #0000FF; } */
-.main-nav ul li a.startpublishing { color: #3A99D8 }
-.invisibile { display: none }
-.wrapper { max-width: 680px; margin: 0 auto; }
-.temp-wrapper { text-align: center; position: relative; }
-.temp { font-size: 33px; }
-.temp-symbol { position: absolute; top: 13px; margin-left: 4px; }
-.temp-date { position: absolute; bottom: -1em; left: 50%; transform: translateX(-50%); color: rgba(0, 0, 0, 0.5); }
+// span.colorRed {color:$red}
+// .rowPub {
+//   padding: 2rem 2rem 0 2rem;
+// }
+// .a-destra {
+//   float: right;
+// }
+// a.button.no-margin {
+//   margin: auto;
+// }
 
-span.colorRed {color:$red}
-hr {
-  margin: 0.6rem 0 1rem 0;
-}
-.rowPub {
-  padding: 2rem 2rem 0 2rem;
-}
-.a-destra {
-  float: right;
-}
-a.button.no-margin {
-  margin: auto;
+// a.button {
+//   &.stateIncomplete {
+//     /* Orange */
+//     &:hover, :focus, :visited {
+//       /* Light orange */
+//     }
+//   }
+//   &.statePublish {
+//     /* LightBlue */
+//   }
+// }
+
+// h2.title-page {
+//   font-size: 1.3rem;
+// }
+
+// /* IATI settings */
+// #publisherWrapper, #orgWrapper {
+//   .Select-control{
+//     box-shadow: rgba(0, 0, 0, 0.239216) 0px 1.5px 4px, rgba(0, 0, 0, 0.117647) 0px 1.5px 6px;
+//     border-image-source: initial; border-image-slice: initial; border-image-width: initial;
+//     border-image-outset: initial; border-image-repeat: initial; padding-left: 0.5rem;
+//     padding-right: 0.5rem; background: rgb(255, 255, 255); border-width: 0px; border-style: initial;
+//     border-color: initial; border-top-color: initial; border-right-color: initial; border-bottom-color: initial;
+//     border-left-color: initial; height: 2.5rem;
+//   }
+//   h6 {
+//     display: inline-block;
+//     position: relative;
+//   }
+//   div#splashscreen.puf {
+//     display: none;
+//   }
+//   h2.title-splashscreen {
+//     font-size: 1.7rem;
+//   }
+//   label {
+//     font-size: 0.88rem;
+//   }
+//   i.iH6 {
+//     font-size: 1.3rem;
+//     position: absolute;
+//     padding: 0 0.5rem 0 0.5rem;
+//     background: transparent;
+//     box-shadow: none;
+//     color: #3A99D8;
+//   }
+//   i.iMenuList {
+//     font-size: 1.3rem;
+//     display: inline;
+//     float: right;
+//     padding: 0 0.5rem 0 0.5rem;
+//     color: #999999;
+//   }
+//   .inputNotValidated {
+//     color: rgba(213, 9, 32, 0.90);
+//     border: 1px solid $red;
+//     font-weight: bold;
+//     box-shadow: 0 1.5px 4px rgba(213, 9, 32, 0.24), 0 1.5px 6px rgba(213, 9, 32, 0.12);
+//   }
+//   .inputValidated {
+//     color: rgba(92, 213, 104, 0.90); /* #5CD568 Green */
+//     border: 1px solid #5CD568;
+//     font-weight: bold;
+//     box-shadow: 0 1.5px 4px rgba(92, 213, 104, 0.24), 0 1.5px 6px rgba(92, 213, 104, 0.12);
+//   }
+//   .inputNeutro {
+//     color: rgba(176, 182, 191, 0.90); /* #B0B6BF Grey */
+//     border: 1px solid #B0B6BF;
+//     font-weight: bold;
+//     box-shadow: 0 1.5px 4px rgba(176, 182, 191, 0.24), 0 1.5px 6px rgba(176, 182, 191, 0.12);
+//   }
+//   .input-group-button {
+//     a, input, button {
+//       color: $white;
+//       height: 2.5rem;
+//     }
+//   }
+//   .menuTendinaOuter {
+//     display: block;
+//   }
+//   .menuTendinaInner {
+//     background-color: $white;
+//     margin: 1.8rem 0 0 0;
+//     box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+//     ul.menuTendina, ul.menuTendinaNested {
+//       padding: 0;
+//       margin: 0;
+//       list-style: none;
+//     }
+//     ul.menuTendina {
+//       padding: 10px 0 10px 10px;
+//       font-weight: bold;
+//     }
+//     ul.menuTendinaNested {
+//       padding: 0 0 10px 0;
+//       font-weight: normal;
+//     }
+//     ul.menuTendina li a:link, a:visited, a:hover, a:active {
+//       color: #333333;
+//     }
+//   }
+//   input.button {
+//     width: 6rem;
+//   }
+// }
+
+.field-list {
+  list-style: none;
+  margin:0 0 1rem 0;
+  background:$white;
+  @include card(1);
+  li {
+    padding:1rem;
+    border-top:1px solid $light-gray;
+    &:first-of-type {
+      border-top:0;
+    }
+  }
 }
 
-a.button {
-  &.stateIncomplete {
-    /* Orange */
-    &:hover, :focus, :visited {
-      /* Light orange */
-    }
-  }
-  &.statePublish {
-    /* LightBlue */
-  }
-}
+.control-button {
+  &:hover {
 
-h2.title-page {
-  font-size: 1.3rem;
-}
-
-/* IATI settings */
-#publisherWrapper, #orgWrapper {
-  .Select-control{
-    box-shadow: rgba(0, 0, 0, 0.239216) 0px 1.5px 4px, rgba(0, 0, 0, 0.117647) 0px 1.5px 6px;
-    border-image-source: initial; border-image-slice: initial; border-image-width: initial;
-    border-image-outset: initial; border-image-repeat: initial; padding-left: 0.5rem;
-    padding-right: 0.5rem; background: rgb(255, 255, 255); border-width: 0px; border-style: initial;
-    border-color: initial; border-top-color: initial; border-right-color: initial; border-bottom-color: initial;
-    border-left-color: initial; height: 2.5rem;
   }
-  h6 {
-    display: inline-block;
-    position: relative;
+  &:before {
+    @extend .mi-cb;
+    float:left;
+    margin-right: .2rem;
+    font-size: 1rem !important;
   }
-  div#splashscreen.puf {
-    display: none;
-  }
-  h2.title-splashscreen {
-    font-size: 1.7rem;
-  }
-  label {
-    font-size: 0.88rem;
-  }
-  i.iH6 {
-    font-size: 1.3rem;
-    position: absolute;
-    padding: 0 0.5rem 0 0.5rem;
-    background: transparent;
-    box-shadow: none;
-    color: #3A99D8;
-  }
-  i.iMenuList {
-    font-size: 1.3rem;
-    display: inline;
-    float: right;
-    padding: 0 0.5rem 0 0.5rem;
-    color: #999999;
-  }
-  .inputNotValidated {
-    color: rgba(213, 9, 32, 0.90);
-    border: 1px solid $red;
-    font-weight: bold;
-    box-shadow: 0 1.5px 4px rgba(213, 9, 32, 0.24), 0 1.5px 6px rgba(213, 9, 32, 0.12);
-  }
-  .inputValidated {
-    color: rgba(92, 213, 104, 0.90); /* #5CD568 Green */
-    border: 1px solid #5CD568;
-    font-weight: bold;
-    box-shadow: 0 1.5px 4px rgba(92, 213, 104, 0.24), 0 1.5px 6px rgba(92, 213, 104, 0.12);
-  }
-  .inputNeutro {
-    color: rgba(176, 182, 191, 0.90); /* #B0B6BF Grey */
-    border: 1px solid #B0B6BF;
-    font-weight: bold;
-    box-shadow: 0 1.5px 4px rgba(176, 182, 191, 0.24), 0 1.5px 6px rgba(176, 182, 191, 0.12);
-  }
-  .input-group-button {
-    a, input, button {
-      color: $white;
-      height: 2.5rem;
+  &.add {
+    color:$primary-color;
+    &:before {
+      content: '\e147';
     }
   }
-  .menuTendinaOuter {
-    display: block;
-  }
-  .menuTendinaInner {
-    background-color: $white;
-    margin: 1.8rem 0 0 0;
-    box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
-    ul.menuTendina, ul.menuTendinaNested {
-      padding: 0;
-      margin: 0;
-      list-style: none;
+  &.remove {
+    color:$alert-color;
+    &:before {
+      content: '\e15c';
     }
-    ul.menuTendina {
-      padding: 10px 0 10px 10px;
-      font-weight: bold;
-    }
-    ul.menuTendinaNested {
-      padding: 0 0 10px 0;
-      font-weight: normal;
-    }
-    ul.menuTendina li a:link, a:visited, a:hover, a:active {
-      color: #333333;
-    }
-  }
-  input.button {
-    width: 6rem;
   }
 }
