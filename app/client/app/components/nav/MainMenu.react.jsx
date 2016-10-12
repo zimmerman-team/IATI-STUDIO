@@ -48,7 +48,7 @@ let MainMenu = React.createClass({
 
                 {!this.props.publisherStatus &&
                   <div>
-                    <li><Tooltip tooltip="Start publishing"><Link to="/publisher/startpublishing" className="startpublishing"><i className="material-icons">add</i>Start publishing</Link></Tooltip></li>
+                    <li><Tooltip tooltip="Start publishing"><Link to="/publisher/settings"><i className="material-icons">add</i>Start publishing</Link></Tooltip></li>
                   </div>
                 }
 
