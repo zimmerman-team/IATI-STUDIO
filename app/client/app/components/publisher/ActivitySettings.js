@@ -11,77 +11,116 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 )
 
-const renderMembers = ({ fields }) => (
+const renderParticipatingOrgs = ({ fields }) => (
   <ul className="field-list">
 
     <li>
-      <h6>Member #1</h6>
-      <Field
-        name="firstName"
-        type="text"
-        component={renderField}
-        label="First Name"/>
-      <Field
-        name="lastName"
-        type="text"
-        component={renderField}
-        label="Last Name"/>
-      <FieldArray name="hobbies" component={renderHobbies}/>
+      <h6>Participating Organisation #1</h6>
+      
+      <div className="columns small-6">
+        <Field
+          name="ref"
+          type="text"
+          component={renderField}
+          label="Ref"/>
+      </div>
+      <div className="columns small-6">
+        <Field
+          name="activity-id"
+          type="text"
+          component={renderField}
+          label="Activity-id"/>
+      </div>
+
+      <div className="columns small-6">
+        <Field
+          name="role"
+          type="text"
+          component={renderField}
+          label="Role"/>
+      </div>
+      <div className="columns small-6">
+        <Field
+          name="type"
+          type="text"
+          component={renderField}
+          label="Type"/>
+      </div>
+      
+      <FieldArray name="narratives" component={renderNarratives}/>
     </li>
 
-    {fields.map((member, index) =>
+    {fields.map((participating_org, index) =>
       <li key={index}>
-        <h6>Member #{index + 2}</h6>
-        <Field
-          name={`${member}.firstName`}
-          type="text"
-          component={renderField}
-          label="First Name"/>
-        <Field
-          name={`${member}.lastName`}
-          type="text"
-          component={renderField}
-          label="Last Name"/>
-        <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
+        <h6>Participating Organisation #{index + 2}</h6>
+        <div className="columns small-6">
+          <Field
+            name={`${participating_org}.ref`}
+            type="text"
+            component={renderField}
+            label="Ref"/>
+        </div>
+        <div className="columns small-6">
+          <Field
+            name={`${participating_org}.role`}
+            type="text"
+            component={renderField}
+            label="Role"/>
+        </div>
+        <div className="columns small-6">
+          <Field
+            name={`${participating_org}.type`}
+            type="text"
+            component={renderField}
+            label="Type"/>
+        </div>
+        <div className="columns small-6">
+          <Field
+            name={`${participating_org}.activity-id`}
+            type="text"
+            component={renderField}
+            label="activity-id"/>
+        </div>
+        <FieldArray name={`${participating_org}.narratives`} component={renderNarratives}/>
         <button
           type="button"
-          title="Remove Member"
+          title="Remove Participating organisation"
           className="control-button remove"
           onClick={() => fields.remove(index)}>Remove</button>
       </li>
     )}
     <li>
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add Member</button>
+      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add participating organisation</button>
     </li>
   </ul>
 )
 
-const renderHobbies = ({ fields, meta: { error } }) => (
+const renderNarratives = ({ fields, meta: { error } }) => (
   <ul className="field-list">
     <li>
       <Field
-        name="hobby"
+        name="narrative"
         type="text"
         component={renderField}
-        label="Hobby #1"/>
+        label="Narrative #1"/>
     </li>
-    {fields.map((hobby, index) =>
+    {fields.map((narrative, index) =>
       <li key={index}>
         <Field
-          name={hobby}
+          name={narrative}
           type="text"
           component={renderField}
-          label={`Hobby #${index + 2}`}/>
+          label={`Narrative #${index + 2}`}/>
         <button
           type="button"
-          title="Remove Hobby"
+          title="Remove Narrative"
           className="control-button remove"
           onClick={() => fields.remove(index)}>Remove</button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
     <li>
-      <button className="control-button add" type="button" onClick={() => fields.push()}>Add Hobby</button>
+      <button className="control-button add" type="button" onClick={() => fields.push()}>Add narrative</button>
     </li>
   </ul>
 )
@@ -89,18 +128,26 @@ const renderHobbies = ({ fields, meta: { error } }) => (
 const FieldArraysForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
-    <div className="row">
-      <div className="columns small-12">
-        <form onSubmit={handleSubmit}>
-          <Field name="clubName" type="text" component={renderField} label="Club Name"/>
-          <FieldArray name="members" component={renderMembers}/>
-          <div>
-            <button className="button" type="submit" disabled={submitting}>Submit</button>
-            <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-          </div>
-        </form>
+    <form onSubmit={handleSubmit}>
+      <div className="row">
+        <div className="columns small-12">
+          <button className="button" type="submit" disabled={submitting}>Submit</button>
+          <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+        </div>
+
+        <div className="columns small-6">
+            <Field name="clubName" type="text" component={renderField} label="Activity Identifier"/>
+        </div>
+        <div className="columns small-6">
+            <Field name="clubName" type="text" component={renderField} label="IATI Identifier" readonly="true" />
+        </div>
+
+        <div className="columns small-12">
+          <FieldArray name="participating-org" component={renderParticipatingOrgs}/>
+        </div>
       </div>
-    </div>
+      
+    </form>
   )
 }
 
