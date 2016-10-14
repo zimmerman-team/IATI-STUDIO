@@ -17,7 +17,8 @@ import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
 import PublisherStart from "./components/publisher/PublisherStart"
 import PublisherSettings from "./components/publisher/PublisherSettings"
-import ActivitySettings from "./components/publisher/ActivitySettings"
+import ActivityList from "./components/publisher/ActivityList"
+import ActivityEdit from "./components/publisher/ActivityEdit"
 import OrgSettings from "./components/publisher/OrgSettings"
 import DatasetsSettings from "./components/publisher/DatasetsSettings"
 
@@ -45,10 +46,12 @@ export default (
             <Route path="chartbuilder/:id/preview" component={ChartPreview} />
             <Route path="collection" component={CollectionList}/>
 
-            <Route path="publisher/startpublishing" component={PublisherStart}/>
+            <Route path="publisher/activities" component={ActivityList}/>
+            <Route path="publisher/activity" component={ActivityEdit}/>
+
+            <Route path="publisher/start-publishing" component={PublisherStart}/>
             <Route path="publisher/settings" component={PublisherSettings}/>
             <Route path="publisher/organisation" component={OrgSettings}/>
-            <Route path="publisher/activities" component={ActivitySettings}/>
             <Route path="publisher/datasets" component={DatasetsSettings}/>
 
             {/*<Route path="topbar" component={Topbar}/>*/}

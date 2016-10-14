@@ -110,7 +110,7 @@ const renderNarratives = ({ fields, meta: { error } }) => (
           name={narrative}
           type="text"
           component={renderField}
-          label={`Narrative #${index + 2}`}/>
+          label={`Narrative #${index + 2}`} />
         <button
           type="button"
           title="Remove Narrative"
