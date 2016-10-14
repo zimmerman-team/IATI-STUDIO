@@ -17,6 +17,9 @@
 # drywall
 public/drywall/vendor/*
 
+# iati xml files
+public/iati-xml/*
+
 # python
 __pycache__/
 **/*.py[cod]
