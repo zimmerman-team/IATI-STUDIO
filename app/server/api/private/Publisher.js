@@ -7,6 +7,9 @@ import _ from 'lodash'
 import config from '../../config/config'
 import { print, printTrace } from '../../utils/dev'
 
+import { getXmlFile } from '../../oipa/export'
+import { saveXmlFile } from '../../utils/saveFile'
+
 
 function handleError(res, error) {
     console.error(error);
@@ -19,8 +22,8 @@ function handleError(res, error) {
 var PublisherAPI = {
 
     test: function(user, form, res) {
-      console.log("got here")
-      console.log(form)
+      // console.log("got here")
+      // console.log(form)
     },
 
     get: function(user, res) {
@@ -63,6 +66,13 @@ var PublisherAPI = {
               console.error(error.stack);
               res(error)
           })
+    },
+
+    generateXmlFile: function(user, publisher, dataset, res) {
+
+      return getXmlFile(dataset.name)
+        .then(fileContent => saveXmlFile(dataset.name, fileContent)) // save the file (or better: call a function that saves the file)
+
     }
 }
 

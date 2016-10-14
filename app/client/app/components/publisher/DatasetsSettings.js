@@ -12,7 +12,7 @@ import PublisherSettings        from './PublisherSettings'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { Link }                 from 'react-router'
 import moment                   from 'moment'
-import { fetchPublisher, publishDataset, deleteDataset, updateDataset } from '../../actions/async'
+import { fetchPublisher, publishDataset, deleteDataset, updateDataset, generateXmlFile } from '../../actions/async'
 import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
 
 
@@ -28,6 +28,10 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
   updateDataset: function (dataset){
     this.props.updateDataset(this.props.publisher, dataset)
+  },
+
+  generateXmlFile: function (dataset){
+    this.props.generateXmlFile(this.props.publisher, dataset)
   },
 
   getInitialState: function(){
@@ -72,7 +76,11 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
     let datasetsPublisher;
     if(this.props.publisher.validationStatus){
-      datasetsPublisher = <DatasetsPublisher updateDataset={this.updateDataset} deleteDataset={this.deleteDataset} datasets={this.props.publisher.datasets} />
+      datasetsPublisher = <DatasetsPublisher
+        updateDataset={this.updateDataset}
+        deleteDataset={this.deleteDataset}
+        generateXmlFile={this.generateXmlFile}
+        datasets={this.props.publisher.datasets} />
     } else {
       datasetsPublisher =
       (
@@ -120,5 +128,6 @@ export default connect(mapStateToProps, {
   fetchPublisher,
   publishDataset,
   deleteDataset,
-  updateDataset
+  updateDataset,
+  generateXmlFile
 })(DatasetsSettings)

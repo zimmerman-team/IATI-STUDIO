@@ -25,3 +25,7 @@ export const oipaPost = oipaBase.defaults({
     method: 'POST',
 })
 
+export const oipaGetXml = request.defaults({
+    baseUrl: config.oipa_url,
+    method: 'GET',
+})

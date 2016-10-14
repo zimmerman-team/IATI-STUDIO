@@ -657,3 +657,16 @@ export function updateDataset(publisher, dataset) {
         }
     }
 }
+// GENERATE_XML_FILE
+export const GENERATE_XML_FILE_REQUEST = 'GENERATE_XML_FILE_REQUEST'
+export const GENERATE_XML_FILE_SUCCESS = 'GENERATE_XML_FILE_SUCCESS'
+export const GENERATE_XML_FILE_FAILURE = 'GENERATE_XML_FILE_FAILURE'
+export function generateXmlFile(publisher, dataset) {
+    return {
+        [CALL_API]: {
+            types: [ GENERATE_XML_FILE_REQUEST, GENERATE_XML_FILE_SUCCESS, GENERATE_XML_FILE_FAILURE ],
+            endpoint: 'Publisher.generateXmlFile',
+            payload: [publisher, dataset]
+        }
+    }
+}
