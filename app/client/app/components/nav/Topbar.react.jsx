@@ -59,7 +59,6 @@ const Topbar = React.createClass({
                   toggleNav={this.toggleNav}
                   createVisualization={this.props.createVisualization}
                   visualisations={this.props.visualizations}
-                  publisherStatus={this.props.publisherStatus}
               />
               <div className="notifications">
               <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
@@ -83,7 +82,6 @@ function mapStateToProps(state, props) {
       entities: { visualizations, },
       navState,
       notificationCenter,
-      publisher,
       user } = state
 
     let viz = _.map(visualizations, x => x)
@@ -95,7 +93,6 @@ function mapStateToProps(state, props) {
         firstName: user.firstName,
         lastName: user.lastName,
         avatar: user.avatar,
-        publisherStatus: publisher.validationStatus,
         //user: user
     }
 }

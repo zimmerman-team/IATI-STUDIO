@@ -70,15 +70,8 @@ let PublisherSettings = React.createClass({ // A stateful container all children
                   </div>
 
                 </div>
-
               </div>
-
-              <div className="columns small-12 medium-4">
-                <PublisherMenuList />
-              </div>
-
             </div>
-
           </div>
         </div>
       </div>
