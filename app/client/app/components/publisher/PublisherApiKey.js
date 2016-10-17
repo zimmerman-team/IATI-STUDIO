@@ -6,6 +6,7 @@ import {ValidationButton, PublisherInput }    from './PublisherElements'
 import { SubmitButton }                       from '../general/List.react.jsx'
 import { getApiKeyValidation, getApiKeyUnlink, deletePublisher } from '../../actions/async'
 // this is an on fly comment { /* <div><h6>Comment</h6></div> */ }
+import {Tooltip} from '../general/Tooltip.react.jsx'
 
 let PublisherApiKey = React.createClass({
 
@@ -32,11 +33,11 @@ let PublisherApiKey = React.createClass({
 
   render: function () {
 
-    let inputValidationClass = classNames({
-      inputValidated: this.props.publisher.validationStatus,
-      inputNotValidated: !this.props.publisher.validationStatus
+    let validationClass = classNames('validation-status margin-bottom-2',{
+      valid: this.props.publisher.validationStatus,
+      invalid: !this.props.publisher.validationStatus
     })
-    let inputValidationValue = this.props.publisher.validationStatus ? "VALIDATED" : "NOT VALIDATED"
+    let validationValue = this.props.publisher.validationStatus ? "VALIDATED" : "NOT VALIDATED"
 
     let validationButton;
     if(this.props.publisher.validationStatus){
@@ -47,37 +48,26 @@ let PublisherApiKey = React.createClass({
 
     return (
       <div>
-      <div className="row">
-        <div className="columns small-12 medium-6">
-          <div>
-            <h6>IATI Registry User ID and API key validation</h6>
-            <a href='#'><i className="material-icons iH6">info</i></a>
+        <div className="row">
+          <div className="columns medium-4">
+            <h6 className="with-tip">IATI Registry user ID</h6>
+            <Tooltip className="inline" tooltip="Use: zimmzimm"><i className="material-icons">info</i></Tooltip>
+            <input ref="userId" placeholder="User ID" type="text" />
           </div>
-
-          <div className="input-group">
-            <input ref="userId" className="input-group-field" placeholder="User ID" type="text" />
-          </div>
-
-          <div className="input-group">
-            <input ref="apiKey" className="input-group-field" placeholder="API Key" type="text" />
-          </div>
-
-          <div className="input-group-button">
-            {validationButton}
-          </div>
-
-        </div>
-
-        <div className="columns small-12 medium-6">
-          <div>
-            <h6>Current status</h6>
-            <a href='#'><i className="material-icons iH6">info</i></a>
-          </div>
-          <div className="input-group">
-            <PublisherInput className={inputValidationClass} value={inputValidationValue} disabled />
+          <div className="columns medium-8">
+            <h6 className="with-tip">IATI Registry API key</h6>
+            <Tooltip className="inline" tooltip="Use: 42664fcd-2494-4bab-92fe-5af6113d55a6"><i className="material-icons">info</i></Tooltip>
+            <input ref="apiKey" placeholder="API Key" type="text" />
           </div>
         </div>
-      </div>
+        {validationButton}
+
+        <h6 className="with-tip">Current validation status</h6>
+        <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
+        <div className={validationClass}>
+          {validationValue}
+        </div>
+
       </div>
     )
   }

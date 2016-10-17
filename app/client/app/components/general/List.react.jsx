@@ -316,9 +316,6 @@ export const SubmitButton = (props) => {
     return (
       <div>
         <input type="submit" className="button" id={props.id} {...props} />
-        <label htmlFor={props.id}>{props.labelName}</label>
-          <br/>
-          <br/>
       </div>
     )
 }

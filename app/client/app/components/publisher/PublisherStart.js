@@ -12,7 +12,7 @@ import { PublisherButton }    from '../general/List.react.jsx'
 
 import {
 	PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, ValidationButton,
-	PublisherInput, PublisherMenuList } from './PublisherElements'
+	PublisherInput } from './PublisherElements'
 
 let PublisherStart = React.createClass({
 

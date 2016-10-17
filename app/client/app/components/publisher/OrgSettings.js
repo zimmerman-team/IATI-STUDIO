@@ -11,7 +11,7 @@ import MultiSelectField       from '../lib/react-select/MultiSelect'
 import MultiSelectLang        from '../lib/react-select/MultiSelectLang'
 import SelectFiletype         from '../lib/react-select/SelectFiletype'
 
-import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
+import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName } from './PublisherElements'
 
 let OrgSettings = React.createClass({ // A stateful container all children are stateless
 
@@ -43,7 +43,7 @@ let OrgSettings = React.createClass({ // A stateful container all children are s
               </div>
 
               <div className="columns small-12 medium-4">
-                <PublisherMenuList />
+                
 
               </div>
 

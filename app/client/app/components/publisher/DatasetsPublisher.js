@@ -4,6 +4,7 @@ import React, { PropTypes }     from 'react'
 import { PublisherButton }      from '../general/List.react.jsx'
 import { PageTitle } from './PublisherElements'
 import moment from 'moment'
+import {Tooltip } from '../general/Tooltip.react.jsx'
 
 
 let DatasetsPublisher = React.createClass({
@@ -36,7 +37,7 @@ let DatasetsPublisher = React.createClass({
       const acValue = dataset.extras[acIndex].value;
 
       const duIndex = _.findIndex(dataset.extras, function(o) { return o.key == 'data_updated'; });
-      const duValue = moment(dataset.extras[duIndex].value).format("ddd MMM D YYYY HH:mm");
+      const duValue = moment(dataset.extras[duIndex].value).format("MMM D YYYY HH:mm");
 
 
       // let urlValue = ;
@@ -49,7 +50,7 @@ let DatasetsPublisher = React.createClass({
 
       // let urlValue = <a href={dataset.resources[0].url} target="_blank">Click to open</a>
 
-      let urlValue = <a href={"/static/iati-xml/"+dataset.name+".xml"} target="_blank">Click to open</a>
+      let urlValue = <a href={"/static/iati-xml/"+dataset.name+".xml"} target="_blank" className="icon"><i className="material-icons">remove_red_eye</i></a>
 
       return <tr key={index}>
         <td>{dataset.name}</td>
@@ -57,39 +58,44 @@ let DatasetsPublisher = React.createClass({
         <td>{ftValue}</td>
         <td>{acValue}</td>
         <td>{duValue}</td>
-        <td>{urlValue}</td>
-        <td><a onClick={this.generateXmlFile.bind(null, index)}><i className="material-icons">create</i></a></td>
-        <td><a onClick={this.updateDataset.bind(null, index)}><i className="material-icons">update</i></a></td>
-        <td><a onClick={this.deleteDataset.bind(null, index)}><i className="material-icons">delete</i></a></td>
+        <td className="align-right">{urlValue}</td>
+        <td className="align-right"><a className="icon" onClick={this.generateXmlFile.bind(null, index)}><i className="material-icons">playlist_add</i></a></td>
+        <td className="align-right"><a className="icon" onClick={this.updateDataset.bind(null, index)}><i className="material-icons">update</i></a></td>
+        <td className="align-right"><a className="icon red" onClick={this.deleteDataset.bind(null, index)}><i className="material-icons">delete</i></a></td>
       </tr>
     })
 
     return (
-      <div className="row">
-        <PageTitle pageTitleContent="Datasets" />
+      <div>
+
+        <div className="row controls">
+          <div className="columns small-centered small-12">
+            <h2 className="page-title with-tip">Your IATI datasets</h2>
+            <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
+            <hr />
+          </div>
+        </div>
 
         <div className="row">
-          <div className="columns small-12">
-
-            <table>
+          <div className="columns small-centered small-12">
+            <table className="material-table">
               <thead>
                 <tr>
-                  <th>Dataset name</th>
-                  <th>Dataset title</th>
-                  <th>File type</th>
+                  <th>Name</th>
+                  <th>Title</th>
+                  <th>Type</th>
                   <th>Activity count</th>
                   <th>Date updated</th>
-                  <th>Managed from IATI Studio</th>
-                  <th>Create XML</th>
-                  <th>Update</th>
-                  <th>Delete</th>
+                  <th className="align-right" width="70">View XML</th>
+                  <th className="align-right" width="70">Create XML</th>
+                  <th className="align-right" width="70">Update</th>
+                  <th className="align-right" width="70">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 {datasets}
               </tbody>
             </table>
-
           </div>
         </div>
 

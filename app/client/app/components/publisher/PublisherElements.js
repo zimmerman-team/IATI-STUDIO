@@ -314,9 +314,7 @@ export function OrgIdentifier(props) {
         <h6>Organisation identifier</h6>
         <a href='#'><i className="material-icons iH6">info</i></a>
       </div>
-      <div className="input-group">
-        <input className="input-group-field" type="text" placeholder="Null" />
-      </div>
+      <input type="text" placeholder="Null" />
     </div>
   )
 }
@@ -327,47 +325,19 @@ export function OrgName(props) {
       <div>
         <h6>Text <span className="colorRed">*</span></h6>
       </div>
-      <div className="input-group">
-        <input className="input-group-field" type="text" placeholder="Null" />
-      </div>
+      <input type="text" placeholder="Null" />
     </div>
   )
 }
 
 export const PublisherInput = (props) => {
   return (
-    <div className="input-group">
-      <input type='text' id={props.id} {...props} />
-    </div>
+    <input type='text' id={props.id} {...props} />
   )
 }
 
 export const PublisherCheckbox = (props) => {
   return (
-    <div className="input-group">
-      <input  id={props.id} {...props} />
-    </div>
-  )
-}
-
-export const PublisherMenuList = (props) => {
-  return (
-    <div className="menuTendinaOuter">
-      <div className="menuTendinaInner">
-        <ul className="menuTendina">
-          <li>
-            <a href="#">Registry settings</a><i className="material-icons iMenuList">keyboard_arrow_up</i>
-            <ul className="menuTendinaNested">
-              <li><a href="#">API key</a></li>
-              <li><a href="#">Publishing options</a></li>
-              <li><a href="#">Datasets</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Activity defaults</a><i className="material-icons iMenuList">keyboard_arrow_down</i>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <input  id={props.id} {...props} />
   )
 }

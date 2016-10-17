@@ -13,7 +13,7 @@ import { PublisherButton }      from '../general/List.react.jsx'
 import { Link }                 from 'react-router'
 import moment                   from 'moment'
 import { fetchPublisher, publishDataset, deleteDataset, updateDataset, generateXmlFile } from '../../actions/async'
-import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName, PublisherMenuList } from './PublisherElements'
+import { PageTitle, PageTitleButtonsGroup1, OrgIdentifier, OrgName } from './PublisherElements'
 
 
 let DatasetsSettings = React.createClass({ // A stateful container all children are stateless
@@ -107,7 +107,6 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
       <div id="orgWrapper">
         <div className="rowPub">
           {datasetsPublisher}
-          {datasetsCreate}
         </div>
       </div>
     )

@@ -796,6 +796,27 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
             cursor: pointer;
         }
     }
+    &.inline {
+        display: inline-block;
+        margin-left: .3rem;
+        i {
+            color:$primary-color;
+            font-size: 1rem;
+            cursor: help;
+            &:hover {
+                color:darken($primary-color,10%);
+            }
+        }
+        .tip {
+            width: 12rem;
+            z-index: 10;
+            white-space: normal;
+        }
+    }
+}
+
+.with-tip {
+    display: inline-block;
 }
 
 //font stuff
@@ -922,6 +943,58 @@ form .error {
         }
         li {
             margin-bottom: 0;
+        }
+    }
+}
+
+.margin-bottom-1 {
+    margin-bottom: 1rem;
+}
+.margin-bottom-2 {
+    margin-bottom: 2rem;
+}
+
+table {
+    &.material-table {
+        text-align: left;
+        background:$white;
+        @include card(1);
+        thead {
+            background:none;
+            border:none;
+            tr {
+                background:none;
+                th {
+                    font-size: .9rem;
+                    vertical-align: bottom;
+                }
+            }
+        }
+        tbody {
+            border:none;
+            tr {
+                background:none;
+            }
+        }
+        tr {
+            border-bottom:1px solid $light-gray;
+            td,th {
+                padding-top: 0.8rem;
+                padding-bottom: 0.8rem;
+                &.align-right {
+                    text-align: right;
+                }
+            }
+        }
+        a.icon {
+            line-height:0;
+            display: block;
+            &.red {
+                color:$alert-color;
+                &:hover {
+                    color:darken($alert-color, 10%);
+                }
+            }
         }
     }
 }
