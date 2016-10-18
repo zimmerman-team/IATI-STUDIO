@@ -132,14 +132,14 @@ export const NestedButtonListItem = React.createClass({
             <li className={liClass}>
                 <Link to="/" onClick={this.onClickFwd} className={linkClass}>{length} {title}</Link>
                 {this.props.tooltip ? <Tooltip tooltip={this.props.tooltip} className="small-list absolute" click={true}><i className="material-icons">info</i></Tooltip> : null}
-                <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={500} transitionLeaveTimeout={500}> 
+                <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
                     { active ?
                         <SubMenu
-                            disableOnClickOutside={!active} 
-                            handleClickOutside={this.handleClickOutside} 
-                            className={divWrapClass} 
-                            onClickClose={this.onClickFwd} 
-                            children={this.props.children} 
+                            disableOnClickOutside={!active}
+                            handleClickOutside={this.handleClickOutside}
+                            className={divWrapClass}
+                            onClickClose={this.onClickFwd}
+                            children={this.props.children}
                              />
                     : null
                     }
@@ -241,7 +241,7 @@ export const SearchableCheckboxList = React.createClass({
     },
 
     render: function() {
-        
+
         return (
             <div>
                 <SearchInput onChange={this.onInputChange}/>
@@ -299,7 +299,7 @@ export const Orderable = React.createClass({
             <div {...this.props}>
                 Order by
                 { orderables.map((orderable, i) => (
-                    <OrderButton 
+                    <OrderButton
                         key={i}
                         active={orderable === active}
                         reverse={this.props.reverse}
@@ -311,3 +311,4 @@ export const Orderable = React.createClass({
         )
     }
 })
+

@@ -42,10 +42,13 @@ let MainMenu = React.createClass({
                 <hr />
                 <li><Tooltip tooltip="Go to your library"><Link to="/collection"><i className="material-icons">library_books</i> Library</Link></Tooltip></li>
                 <li><Tooltip tooltip="Create a new chart"><a onClick={this.newViz} className="charts"><i className="material-icons">add</i> Create chart</a></Tooltip></li>
-                {/*<li><a className="themes"><i className="material-icons">cast_connected</i> Create website</a></li>
-                <li><a className="iatidata"><i className="material-icons">edit</i> Create IATI activity</a></li>
-                <hr />*/}
                 <li><Tooltip tooltip="Go to your trash"><Link to="/archive"><i className="material-icons">delete</i> Trash</Link></Tooltip></li>
+                <hr />
+                <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/settings"><i className="material-icons">settings</i>Publisher setup</Link></Tooltip></li>
+                <li><Tooltip tooltip="IATI activities"><Link to="/publisher/activities"><i className="material-icons">local_play</i>IATI activities</Link></Tooltip></li>
+                <li><Tooltip tooltip="Create activity"><Link to="/publisher/activity"><i className="material-icons">add</i>Create activity</Link></Tooltip></li>
+                <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
+                <li><Tooltip tooltip="Datasets"><Link to="/publisher/datasets"><i className="material-icons">perm_data_setting</i>Datasets</Link></Tooltip></li>
                 <hr />
                 <li><Tooltip tooltip="View frequently asked questions"><Link to="/help"><i className="material-icons">school</i> FAQ</Link></Tooltip></li>
             </ul>
@@ -55,5 +58,3 @@ let MainMenu = React.createClass({
 })
 
 export default withRouter(MainMenu)
-
-

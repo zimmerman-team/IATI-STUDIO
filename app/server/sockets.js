@@ -1,16 +1,15 @@
-
 import visualizations from './api/public/visualizations'
 import auth from './api/auth'
-
 import { ensureAuthenticated, ensureAccount } from './middleware/authentication'
-
 const Visualization = require('./api/private/Visualizations')
 const OipaMeta = require('./api/private/OipaMeta')
+const IatiRegistryMeta = require('./api/private/IatiRegistryMeta')
+const Publisher = require('./api/private/Publisher')
+
 const User = require('./api/private/User')
 // import Visualization from "./api/private/Visualizations"
 // import OipaMeta from "./api/private/OipaMeta"
 // import User from "./api/private/User"
-
 
 module.exports = function(app) {
 
@@ -46,11 +45,31 @@ module.exports = function(app) {
         socket.on('Visualization.replaceContext', Visualization.replaceContext.bind(null, user));
         socket.on('Visualization.removeContext', Visualization.removeContext.bind(null, user));
 
+        socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
+
         socket.on('OipaMeta.getItemFilters', OipaMeta.getItemFilters.bind(null, user));
         socket.on('OipaMeta.getFilteredItemFilters', OipaMeta.getFilteredItemFilters.bind(null, user));
         socket.on('OipaMeta.getContextFilters', OipaMeta.getContextFilters.bind(null, user));
         socket.on('OipaMeta.getFilteredContextFilters', OipaMeta.getFilteredContextFilters.bind(null, user));
 
-        socket.on('Visualization.adminToggleHide', Visualization.adminToggleHide.bind(null, user));
+        socket.on('Publisher.get', Publisher.get.bind(null, user));
+        socket.on('Publisher.delete', Publisher.delete.bind(null, user));
+        // Checkbox for autoPublish option update
+        socket.on('Publisher.update', Publisher.update.bind(null, user));
+        // Generate XML file
+        socket.on('Publisher.generateXmlFile', Publisher.generateXmlFile.bind(null, user));
+        // Activities Defaults Form using Redux Form
+        socket.on('Publisher.test', Publisher.test.bind(null, user));
+
+        // Get API Validate API Key
+        socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));
+        // Get API Unlink
+        socket.on('IatiRegistryMeta.getApiKeyUnlink', IatiRegistryMeta.getApiKeyUnlink.bind(null, user));
+        // Create Publish Dataset
+        socket.on('IatiRegistryMeta.publishDataset', IatiRegistryMeta.publishDataset.bind(null, user));
+        // Delete Dataset
+        socket.on('IatiRegistryMeta.deleteDataset', IatiRegistryMeta.deleteDataset.bind(null, user));
+        // Update Dataset
+        socket.on('IatiRegistryMeta.updateDataset', IatiRegistryMeta.updateDataset.bind(null, user));
     })
 }

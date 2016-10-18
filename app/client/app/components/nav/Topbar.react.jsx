@@ -32,8 +32,6 @@ const Topbar = React.createClass({
             visualizations,
         } = this.props
 
-        //console.log(this.props.user)
-
         let navClass = classNames('nav-toggle', {
             'closed' : !menuState
         })
@@ -49,25 +47,25 @@ const Topbar = React.createClass({
                     </Link>
                   <div className="title">IATI Studio</div>
                   <div className="release">beta release 1.1</div>
-                  <UserBox 
+                  <UserBox
                       firstName={firstName}
                       lastName={lastName}
                       avatar={avatar} />
                   {/*<SearchBox />*/}
                 </div>
               </div>
-              <MainMenu 
+              <MainMenu
                   active={menuState}
                   toggleNav={this.toggleNav}
                   createVisualization={this.props.createVisualization}
                   visualisations={this.props.visualizations}
               />
               <div className="notifications">
-              <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
+              <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
                 { notificationCenter.map( (item, i) => {
-                return (           
-                     <Notification 
-                         key={item.id} 
+                return (
+                     <Notification
+                         key={item.id}
                          className={item.type}
                          text={item.text} />
                      )
@@ -80,14 +78,14 @@ const Topbar = React.createClass({
 })
 
 function mapStateToProps(state, props) {
-    const { 
+    const {
       entities: { visualizations, },
-      navState, 
-      notificationCenter, 
+      navState,
+      notificationCenter,
       user } = state
 
     let viz = _.map(visualizations, x => x)
-    
+
     return {
         visualizations: viz,
         menuState: navState.menuState,

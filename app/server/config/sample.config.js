@@ -12,7 +12,7 @@ const config = {
     "oipa_url": "http://localhost:8000",
     "activities_url": "/api/activities/",
     "aggregation_url": "/api/transactions/aggregations/",
-
+    "iati_registry_url": "https://iati-staging.ckan.io/api/",
     "sessionStore": { // TODO: use redis for sessions - 2016-01-25
         "mongodb": {
             "url": "mongodb://localhost:27017/iatistudio-sessions",

@@ -133,7 +133,7 @@ export const CollectionSwitch = React.createClass({
 export const OrderButton = React.createClass({
     render: function() {
         return (
-            <button 
+            <button
                 onClick={this.props.onClick}
                 className={this.props.className}>{this.props.name}</button>
         )

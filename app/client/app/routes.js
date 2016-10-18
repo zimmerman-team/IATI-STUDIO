@@ -15,6 +15,12 @@ import ChartView from "./containers/public/ChartView";
 import ChartPreview from "./containers/public/ChartPreview";
 import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
+import PublisherSettings from "./components/publisher/PublisherSettings"
+import ActivityList from "./components/publisher/ActivityList"
+import ActivityEdit from "./components/publisher/ActivityEdit"
+import OrgSettings from "./components/publisher/OrgSettings"
+import DatasetsSettings from "./components/publisher/DatasetsSettings"
+
 import {ErrorPage} from "./containers/ErrorPage.react.jsx";
 
 import io from 'socket.io-client'
@@ -38,6 +44,13 @@ export default (
             <Route path="chartbuilder/:id" component={ChartBuilder} />
             <Route path="chartbuilder/:id/preview" component={ChartPreview} />
             <Route path="collection" component={CollectionList}/>
+
+            <Route path="publisher/activities" component={ActivityList}/>
+            <Route path="publisher/activity" component={ActivityEdit}/>
+            <Route path="publisher/settings" component={PublisherSettings}/>
+            <Route path="publisher/organisation" component={OrgSettings}/>
+            <Route path="publisher/datasets" component={DatasetsSettings}/>
+
             {/*<Route path="topbar" component={Topbar}/>*/}
             <Route path="user/profile" component={UserProfile}/>
             <Route path="user/settings" component={UserSettings}/>

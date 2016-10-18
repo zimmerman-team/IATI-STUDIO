@@ -5,7 +5,7 @@
 
 import fetchJSON from '../utils/fetch'
 import { normalize, Schema, arrayOf } from 'normalizr'
-import querystring from 'querystring' 
+import querystring from 'querystring'
 
 import Schemas from '../schemas'
 import { CALL_API } from '../middleware/api'
@@ -537,7 +537,6 @@ export function updateUserProfile(newProfile) {
 /*
  * Admin
 */
-
 export const HIDE_VISUALIZATION_FROM_FEED_REQUEST = 'HIDE_VISUALIZATION_FROM_FEED_REQUEST'
 export const HIDE_VISUALIZATION_FROM_FEED_SUCCESS = 'HIDE_VISUALIZATION_FROM_FEED_SUCCESS'
 export const HIDE_VISUALIZATION_FROM_FEED_FAILURE = 'HIDE_VISUALIZATION_FROM_FEED_FAILURE'
@@ -552,4 +551,122 @@ export function hideVisualizationFromFeed(id) {
         }
     }
 }
-
+// Alessandro
+// Validate
+export const GET_API_KEY_VALIDATION_REQUEST = 'GET_API_KEY_VALIDATION_REQUEST'
+export const GET_API_KEY_VALIDATION_SUCCESS = 'GET_API_KEY_VALIDATION_SUCCESS'
+export const GET_API_KEY_VALIDATION_ERROR = 'GET_API_KEY_VALIDATION_ERROR'
+export function getApiKeyValidation(apiKey, userId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_API_KEY_VALIDATION_REQUEST, GET_API_KEY_VALIDATION_SUCCESS, GET_API_KEY_VALIDATION_ERROR ],
+            endpoint: 'IatiRegistryMeta.getApiKeyValidation',
+            payload: [ apiKey, userId ],
+        }
+    }
+}
+// Unlink
+export const GET_API_KEY_UNLINK_REQUEST = 'GET_API_KEY_UNLINK_REQUEST'
+export const GET_API_KEY_UNLINK_SUCCESS = 'GET_API_KEY_UNLINK_SUCCESS'
+export const GET_API_KEY_UNLINK_FAILURE = 'GET_API_KEY_UNLINK_FAILURE'
+export function getApiKeyUnlink(publisher) {
+    return {
+        [CALL_API]: {
+            types: [ GET_API_KEY_UNLINK_REQUEST, GET_API_KEY_UNLINK_SUCCESS, GET_API_KEY_UNLINK_FAILURE ],
+            endpoint: 'IatiRegistryMeta.getApiKeyUnlink',
+            payload: [publisher]
+        }
+    }
+}
+// Activities Defaults Form using Redux Form
+export const UPDATE_ACTIVITY_DEFAULT_REQUEST = 'UPDATE_ACTIVITY_DEFAULT_REQUEST'
+export const UPDATE_ACTIVITY_DEFAULT_SUCCESS = 'UPDATE_ACTIVITY_DEFAULT_SUCCESS'
+export const UPDATE_ACTIVITY_DEFAULT_FAILURE = 'UPDATE_ACTIVITY_DEFAULT_FAILURE'
+export function submitActivityDefaultsForm(form) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_ACTIVITY_DEFAULT_REQUEST, UPDATE_ACTIVITY_DEFAULT_SUCCESS, UPDATE_ACTIVITY_DEFAULT_FAILURE ],
+            endpoint: 'Publisher.test',
+            payload: [form]
+        }
+    }
+}
+// Fetch publisher
+export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
+export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
+export const GET_PUBLISHER_FAILURE = 'GET_PUBLISHER_FAILURE'
+export function fetchPublisher() {
+    return {
+        [CALL_API]: {
+            types: [ GET_PUBLISHER_REQUEST, GET_PUBLISHER_SUCCESS, GET_PUBLISHER_FAILURE ],
+            endpoint: 'Publisher.get',
+            // payload: ,
+            schema: Schemas.PUBLISHER
+        }
+    }
+}
+// Update
+export const UPDATE_PUBLISHER_REQUEST = 'UPDATE_PUBLISHER_REQUEST'
+export const UPDATE_PUBLISHER_SUCCESS = 'UPDATE_PUBLISHER_SUCCESS'
+export const UPDATE_PUBLISHER_FAILURE = 'UPDATE_PUBLISHER_FAILURE'
+export function updatePublisher(publisher) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_PUBLISHER_REQUEST, UPDATE_PUBLISHER_SUCCESS, UPDATE_PUBLISHER_FAILURE ],
+            endpoint: 'Publisher.update',
+            payload: [publisher]
+        }
+    }
+}
+// (Create and ) publish Dataset
+export const PUBLISH_DATASET_REQUEST = 'PUBLISH_DATASET_REQUEST'
+export const PUBLISH_DATASET_SUCCESS = 'PUBLISH_DATASET_SUCCESS'
+export const PUBLISH_DATASET_FAILURE = 'PUBLISH_DATASET_FAILURE'
+export function publishDataset(publisher, name, title, filetype) {
+    return {
+        [CALL_API]: {
+            types: [ PUBLISH_DATASET_REQUEST, PUBLISH_DATASET_SUCCESS, PUBLISH_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.publishDataset',
+            payload: [publisher, name, title, filetype]
+        }
+    }
+}
+// Delete Dataset
+export const DELETE_DATASET_REQUEST = 'DELETE_DATASET_REQUEST'
+export const DELETE_DATASET_SUCCESS = 'DELETE_DATASET_SUCCESS'
+export const DELETE_DATASET_FAILURE = 'DELETE_DATASET_FAILURE'
+export function deleteDataset(publisher, dataset) {
+    return {
+        [CALL_API]: {
+            types: [ DELETE_DATASET_REQUEST, DELETE_DATASET_SUCCESS, DELETE_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.deleteDataset',
+            payload: [publisher, dataset]
+        }
+    }
+}
+// Update Dataset
+export const UPDATE_DATASET_REQUEST = 'UPDATE_DATASET_REQUEST'
+export const UPDATE_DATASET_SUCCESS = 'UPDATE_DATASET_SUCCESS'
+export const UPDATE_DATASET_FAILURE = 'UPDATE_DATASET_FAILURE'
+export function updateDataset(publisher, dataset) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_DATASET_REQUEST, UPDATE_DATASET_SUCCESS, UPDATE_DATASET_FAILURE ],
+            endpoint: 'IatiRegistryMeta.updateDataset',
+            payload: [publisher, dataset]
+        }
+    }
+}
+// GENERATE_XML_FILE
+export const GENERATE_XML_FILE_REQUEST = 'GENERATE_XML_FILE_REQUEST'
+export const GENERATE_XML_FILE_SUCCESS = 'GENERATE_XML_FILE_SUCCESS'
+export const GENERATE_XML_FILE_FAILURE = 'GENERATE_XML_FILE_FAILURE'
+export function generateXmlFile(publisher, dataset) {
+    return {
+        [CALL_API]: {
+            types: [ GENERATE_XML_FILE_REQUEST, GENERATE_XML_FILE_SUCCESS, GENERATE_XML_FILE_FAILURE ],
+            endpoint: 'Publisher.generateXmlFile',
+            payload: [publisher, dataset]
+        }
+    }
+}
