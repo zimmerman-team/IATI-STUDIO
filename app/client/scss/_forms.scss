@@ -13,6 +13,8 @@ input {
 	border-radius: $global-radius;
 	@include card(2);
 	position: absolute;
+	cursor:pointer;
+	transition:all .3s ease;
 	&:before {
 		content: '';
 		display: block;
@@ -24,6 +26,15 @@ input {
 		border-style: solid;
 		border-width: 0 5px 5px 5px;
 		border-color: transparent transparent rgba($alert-color,.8) transparent;
+	}
+	i {
+		font-size: .8rem;
+		float: right;
+		line-height: inherit;
+		margin-left:.3rem;
+	}
+	&:hover {
+		background:rgba($alert-color,1);
 	}
 }
 
