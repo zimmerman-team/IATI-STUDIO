@@ -48,3 +48,14 @@ input[type='submit'] {
 		}
 	}
 }
+
+input[type='text'] {
+	&:disabled {
+		opacity: .7;
+		background:lighten($light-gray,10%);
+		&:hover {
+			opacity: .7;
+			background:lighten($light-gray,10%);
+		}
+	}
+}

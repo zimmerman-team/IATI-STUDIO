@@ -15,7 +15,6 @@ import ChartView from "./containers/public/ChartView";
 import ChartPreview from "./containers/public/ChartPreview";
 import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
-import PublisherStart from "./components/publisher/PublisherStart"
 import PublisherSettings from "./components/publisher/PublisherSettings"
 import ActivityList from "./components/publisher/ActivityList"
 import ActivityEdit from "./components/publisher/ActivityEdit"
@@ -48,8 +47,6 @@ export default (
 
             <Route path="publisher/activities" component={ActivityList}/>
             <Route path="publisher/activity" component={ActivityEdit}/>
-
-            <Route path="publisher/start-publishing" component={PublisherStart}/>
             <Route path="publisher/settings" component={PublisherSettings}/>
             <Route path="publisher/organisation" component={OrgSettings}/>
             <Route path="publisher/datasets" component={DatasetsSettings}/>

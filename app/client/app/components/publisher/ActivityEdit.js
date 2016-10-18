@@ -1,5 +1,11 @@
 import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
+import { connect }            from 'react-redux'
+import _                      from 'lodash'
+import classNames             from 'classnames'
+import {Tooltip } from '../general/Tooltip.react.jsx'
+import { toggleMainMenu } from '../../actions/sync'
+import store from '../../app'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
@@ -125,30 +131,48 @@ const renderNarratives = ({ fields, meta: { error } }) => (
   </ul>
 )
 
-const FieldArraysForm = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="row">
-        <div className="columns small-12">
-          <button className="button" type="submit" disabled={submitting}>Submit</button>
-          <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+class FieldArraysForm extends React.Component {
+  constructor(props){
+    super(props)
+  }
+  componentDidMount() {
+    store.dispatch(toggleMainMenu(false))
+  }
+  render() {
+    const { handleSubmit, pristine, reset, submitting } = this.props
+    return (
+      <div>
+        <div className="row controls">
+          <div className="columns small-centered small-12">
+            <h2 className="page-title with-tip">IATI activity editor</h2>
+            <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
+            <hr />
+          </div>
         </div>
+        <form onSubmit={handleSubmit}>
+          <div className="row">
 
-        <div className="columns small-6">
-            <Field name="clubName" type="text" component={renderField} label="Activity Identifier"/>
-        </div>
-        <div className="columns small-6">
-            <Field name="clubName" type="text" component={renderField} label="IATI Identifier" readonly="true" />
-        </div>
+            <div className="columns small-6">
+                <Field name="clubName" type="text" component={renderField} label="Activity Identifier"/>
+            </div>
+            <div className="columns small-6">
+                <Field name="clubName" type="text" component={renderField} label="IATI Identifier" readonly="true" />
+            </div>
 
-        <div className="columns small-12">
-          <FieldArray name="participating-org" component={renderParticipatingOrgs}/>
-        </div>
+            <div className="columns small-12">
+              <FieldArray name="participating-org" component={renderParticipatingOrgs}/>
+            </div>
+
+            <div className="columns small-12">
+              <button className="button" type="submit" disabled={submitting}>Submit</button>
+              <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+            </div>
+
+          </div>
+        </form>
       </div>
-      
-    </form>
-  )
+    )
+  }
 }
 
 export default reduxForm({
