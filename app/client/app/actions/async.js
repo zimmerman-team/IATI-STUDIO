@@ -555,11 +555,11 @@ export function hideVisualizationFromFeed(id) {
 // Validate
 export const GET_API_KEY_VALIDATION_REQUEST = 'GET_API_KEY_VALIDATION_REQUEST'
 export const GET_API_KEY_VALIDATION_SUCCESS = 'GET_API_KEY_VALIDATION_SUCCESS'
-export const GET_API_KEY_VALIDATION_FAILURE = 'GET_API_KEY_VALIDATION_FAILURE'
+export const GET_API_KEY_VALIDATION_ERROR = 'GET_API_KEY_VALIDATION_ERROR'
 export function getApiKeyValidation(apiKey, userId) {
     return {
         [CALL_API]: {
-            types: [ GET_API_KEY_VALIDATION_REQUEST, GET_API_KEY_VALIDATION_SUCCESS, GET_API_KEY_VALIDATION_FAILURE ],
+            types: [ GET_API_KEY_VALIDATION_REQUEST, GET_API_KEY_VALIDATION_SUCCESS, GET_API_KEY_VALIDATION_ERROR ],
             endpoint: 'IatiRegistryMeta.getApiKeyValidation',
             payload: [ apiKey, userId ],
         }

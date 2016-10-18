@@ -131,53 +131,6 @@ function activeVisualization(state=initialVizState, action) {
     }
 }
 
-const initialPublisherState = {
-  validationStatus: false,
-  datasets: [],
-  autoPublish: false
-}
-
-function publisher(state=initialPublisherState, action) {
-    switch(action.type) {
-        case ActionTypes.GET_PUBLISHER_SUCCESS:
-            return {
-              ...state,
-              ...action.response.entities.publisher[action.response.result]
-            }
-        case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
-            return {
-              ...initialPublisherState
-            }
-        case ActionTypes.UPDATE_PUBLISHER_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.PUBLISH_DATASET_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.DELETE_DATASET_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.UPDATE_DATASET_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        default:
-            return state
-    }
-}
-
 function navState(state={ showNav: true, level: 'cb-main', menuState: false}, action) {
     switch(action.type) {
         case TOGGLE_NAV:
@@ -400,6 +353,89 @@ function context(state={}, action) {
     }
 }
 
+function apiKeyValidationForm(state={}, action) {
+    switch(action.type) {
+        case ActionTypes.GET_API_KEY_VALIDATION_REQUEST:
+            return Object.assign({}, state, {
+                fetchingResponse: true,
+                message: {},
+            })
+        case ActionTypes.GET_API_KEY_VALIDATION_ERROR:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: action,
+            })
+        case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: {},
+            })
+        case ActionTypes.GET_API_KEY_UNLINK_REQUEST:
+            return Object.assign({}, state, {
+                fetchingResponse: true,
+                message: {},
+            })
+        case ActionTypes.GET_API_KEY_UNLINK_ERROR:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: action,
+            })
+        case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: {},
+            })
+        default:
+            return state
+    }
+}
+
+const initialPublisherState = {
+  validationStatus: false,
+  datasets: [],
+  autoPublish: false
+}
+
+function publisher(state=initialPublisherState, action) {
+    switch(action.type) {
+        case ActionTypes.GET_PUBLISHER_SUCCESS:
+            return {
+              ...state,
+              ...action.response.entities.publisher[action.response.result]
+            }
+        case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
+        case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
+            return {
+              ...initialPublisherState
+            }
+        case ActionTypes.UPDATE_PUBLISHER_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
+        case ActionTypes.PUBLISH_DATASET_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
+        case ActionTypes.DELETE_DATASET_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
+        case ActionTypes.UPDATE_DATASET_SUCCESS:
+            return {
+              ...state,
+              ...action.response
+            }
+        default:
+            return state
+    }
+}
 
 // TODO: separate this - 2016-03-31
 function notificationCenter(state=[], action) {
@@ -602,6 +638,7 @@ const rootReducer = combineReducers({
     user,
     pagination,
     publisher,
+    apiKeyValidationForm,
     form: formReducer
 })
 

@@ -49,14 +49,20 @@ var IatiRegistryMeta = {
           } // Check is if theres an error in the err object.
           else if (result.success === true && result.result.apiKey === undefined) {
             return res({
-                error: 'API key incorrect',
-                message: 'API key incorrect',
+                error: true,
+                message: {
+                  type: 'api_key',
+                  text: 'API key incorrect',
+                }
             })
           }
           else {
             return res({
-                error: 'UserID incorrect',
-                message: 'UserID incorrect',
+                error: true,
+                message: {
+                  type: 'user_id',
+                  text: 'User ID incorrect',
+                }
             })
           }
         });

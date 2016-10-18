@@ -1,0 +1,39 @@
+input {
+	&.has-errors {
+		border:1px solid $alert-color;
+		&:focus {
+			border:1px solid $alert-color;
+		}
+	}
+}
+.form-error {
+	background:rgba($alert-color,.8);
+	color:$white;
+	padding:.2rem .4rem;
+	border-radius: $global-radius;
+	@include card(2);
+	position: absolute;
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		top:-5px;
+		left:10px;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 0 5px 5px 5px;
+		border-color: transparent transparent rgba($alert-color,.8) transparent;
+	}
+}
+
+input[type='submit'] {
+	&:disabled {
+		opacity: 1;
+		background:rgba($primary-color,.7);
+		&:hover {
+			opacity: 1;
+			background:rgba($primary-color,.7);
+		}
+	}
+}

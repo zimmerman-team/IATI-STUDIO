@@ -14,16 +14,28 @@ let PublisherApiKey = React.createClass({
     return {
       userId: '',
       apiKey: '',
+      userIdError: false,
+      apiKeyError: false,
     }
   },
 
   componentWillReceiveProps(nextProps){
+    if (nextProps.formStatus && nextProps.formStatus.message && typeof nextProps.formStatus.message.error !== 'undefined') {
+      this.setState({
+        userIdError: nextProps.formStatus.message.error.type === 'user_id',
+        apiKeyError: nextProps.formStatus.message.error.type === 'api_key',
+      })
+    }
+    else {
+      this.setState({
+        userIdError: false,
+        apiKeyError: false,
+      })
+    }
     if (nextProps.publisher.validationStatus){
       this.setState({
         userId: nextProps.publisher.userId,
-        userIdError: false,
         apiKey: nextProps.publisher.apiKey,
-        apiKeyError: false,
       })
     }
   },
@@ -38,10 +50,6 @@ let PublisherApiKey = React.createClass({
     }
   },
 
-  unvalidate: function (){
-    this.props.getApiKeyUnlink(this.props.publisher)
-  },
-
   handleChangeUserId: function(e){
     this.setState({userId: e.target.value})
   },
@@ -51,11 +59,24 @@ let PublisherApiKey = React.createClass({
   },
 
   render: function () {
-
     let validationClass = classNames('validation-status margin-bottom-2',{
       valid: this.props.publisher.validationStatus,
       invalid: !this.props.publisher.validationStatus
     })
+
+    let buttonTxt
+    if (this.props.publisher.validationStatus && this.props.formStatus.fetchingResponse) {
+      buttonTxt = 'Unlinking...'
+    }
+    else if (!this.props.publisher.validationStatus && this.props.formStatus.fetchingResponse) {
+      buttonTxt = 'Validating...'
+    }
+    else if (this.props.publisher.validationStatus && !this.props.formStatus.fetchingResponse) {
+      buttonTxt = 'Unlink from registry'
+    }
+    else {
+      buttonTxt = 'Validate'
+    }
 
     return (
       <div>
@@ -64,15 +85,17 @@ let PublisherApiKey = React.createClass({
             <div className="columns medium-4">
               <h6 className="with-tip">IATI Registry user ID</h6>
               <Tooltip className="inline" tooltip="Use: zimmzimm"><i className="material-icons">info</i></Tooltip>
-              <input placeholder="User ID" type="text" value={this.state.userId} onChange={this.handleChangeUserId}/>
+              <input placeholder="User ID" type="text" value={this.state.userId} onChange={this.handleChangeUserId} className={this.state.userIdError && 'has-errors'}/>
+              {this.state.userIdError && <span className="form-error is-visible">This field is invalid</span>}
             </div>
             <div className="columns medium-8">
               <h6 className="with-tip">IATI Registry API key</h6>
               <Tooltip className="inline" tooltip="Use: 42664fcd-2494-4bab-92fe-5af6113d55a6"><i className="material-icons">info</i></Tooltip>
-              <input placeholder="API Key" type="text" value={this.state.apiKey} onChange={this.handleChangeApiKey} />
+              <input placeholder="API Key" type="text" value={this.state.apiKey} onChange={this.handleChangeApiKey} className={this.state.apiKeyError && 'has-errors'}/>
+              {this.state.apiKeyError && <span className="form-error is-visible">This field is invalid</span>}
             </div>
           </div>
-          <input value={this.props.publisher.validationStatus ? 'Unlink from registry' : 'Validate'} type="submit" className="button"/>
+          <input value={buttonTxt} type="submit" className="button" disabled={this.props.formStatus.fetchingResponse}/>
         </form>
 
         <h6 className="with-tip">Current validation status</h6>
@@ -86,6 +109,12 @@ let PublisherApiKey = React.createClass({
   }
 })
 
-export default connect(null,
+const mapStateToProps = function(state, props) {
+    return {
+      formStatus: state.apiKeyValidationForm
+    }
+}
+
+export default connect(mapStateToProps,
   { getApiKeyValidation, getApiKeyUnlink, deletePublisher }
 )(PublisherApiKey)
