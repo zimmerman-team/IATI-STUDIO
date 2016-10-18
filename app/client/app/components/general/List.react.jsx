@@ -312,19 +312,3 @@ export const Orderable = React.createClass({
     }
 })
 
-export const SubmitButton = (props) => {
-    return (
-      <div>
-        <input type="submit" className="button" id={props.id} {...props} />
-      </div>
-    )
-}
-
-export const PublisherButton = (props) => {
-    return (
-      <div>
-        <input className="button" id={props.id} {...props} />
-        <label htmlFor={props.id}>{props.labelName}</label>
-      </div>
-    )
-}
