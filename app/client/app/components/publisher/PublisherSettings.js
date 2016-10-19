@@ -52,7 +52,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
                   getApiKeyUnlink={this.props.getApiKeyUnlink}
                   getApiKeyValidation={this.props.getApiKeyValidation}
                   />
-                <PublisherOptionsCheck publisher={this.props.publisher} />
+                <PublisherOptionsCheck updatePublisher={this.props.updatePublisher} publisher={this.props.publisher} />
                 <h6 className="with-tip">Datasets on the IATI Registry</h6>
                 <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
                 {this.props.publisher.validationStatus ? 
@@ -83,11 +83,13 @@ function mapStateToProps(state, props) {
 export default connect(mapStateToProps, {
   toggleMainMenu,
   fetchPublisher,
+  updatePublisher,
   getApiKeyValidation, 
   getApiKeyUnlink, 
   deletePublisher,
   toggleMainMenu,
 })(PublisherSettings)
+
 
 const PublisherOptionsCheck = React.createClass({
 
@@ -117,9 +119,6 @@ const PublisherOptionsCheck = React.createClass({
   }
 })
 
-connect(null,
-  { updatePublisher }
-)(PublisherOptionsCheck)
 
 const PublisherApiKey = React.createClass({
 

@@ -58,8 +58,6 @@ module.exports = function(app) {
         socket.on('Publisher.update', Publisher.update.bind(null, user));
         // Generate XML file
         socket.on('Publisher.generateXmlFile', Publisher.generateXmlFile.bind(null, user));
-        // Activities Defaults Form using Redux Form
-        socket.on('Publisher.test', Publisher.test.bind(null, user));
 
         // Get API Validate API Key
         socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));

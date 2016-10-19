@@ -32,29 +32,6 @@ const notFound = function(publisher, id) {
         return Promise.resolve(publisher)
 }
 
-PublisherSchema.statics.findAndPopulate = function(query, cb) {
-
-    return this
-        .find(query)
-        .populate('author', '_id firstName lastName avatar username')
-}
-
-PublisherSchema.statics.findOneAndPopulate = function(query) {
-
-    return this
-        .findOne(query)
-        .populate('author', '_id firstName lastName avatar username')
-}
-
-PublisherSchema.statics.updateAndPopulate = function(query, data) {
-
-    return this
-        .findOneAndUpdate(query, {$set: data}, { new: true })
-        .populate('author', '_id firstName lastName avatar username')
-        .then((publisher) => {
-            return Promise.resolve(publisher)
-        })
-}
 
 PublisherSchema.statics.findOneByUser = function(user, cb) {
 
@@ -63,12 +40,12 @@ PublisherSchema.statics.findOneByUser = function(user, cb) {
     }
 
     return this
-        .findOneAndPopulate(query)
+        .findOne(query)
         .then((publisher) => {
           if (!publisher)
-              return Promise.reject(new Error(`Publisher with id ${id} not found`))
+            return Promise.resolve({}) // return Promise.reject(new Error(`Publisher with id ${id} not found`))
           else
-              return Promise.resolve(publisher)
+            return Promise.resolve(publisher)
         })
 }
 
@@ -79,7 +56,11 @@ PublisherSchema.statics.updateByUser = function(id, data, user) {
          author: user._id
     }
 
-    return this.updateAndPopulate(query, data)
+    return this
+        .findOneAndUpdate(query, {$set: data}, { new: true })
+        .then((publisher) => {
+            return Promise.resolve(publisher)
+        })
 }
 
 PublisherSchema.statics.deleteByUser = function(id, user) {
@@ -91,19 +72,6 @@ PublisherSchema.statics.deleteByUser = function(id, user) {
 
     return this
         .findOneAndRemove(query)
-}
-
-PublisherSchema.methods.saveAndPopulate = function() {
-
-    return this
-        .save()
-            .then(publisher => {
-                return publisher.populate(
-                    'author',
-                    '_id firstName lastName avatar username'
-                )
-                .execPopulate() // really mongoose....
-            })
 }
 
 

@@ -399,6 +399,9 @@ const initialPublisherState = {
 function publisher(state=initialPublisherState, action) {
     switch(action.type) {
         case ActionTypes.GET_PUBLISHER_SUCCESS:
+            if(action.response.result === undefined)
+                return state
+
             return {
               ...state,
               ...action.response.entities.publisher[action.response.result]

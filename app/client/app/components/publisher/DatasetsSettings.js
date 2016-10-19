@@ -29,45 +29,12 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
     this.props.generateXmlFile(this.props.publisher, dataset)
   },
 
-  getInitialState: function(){
-    return {
-      showCreateActDatasetButton: false,
-      showCreateOrgDatasetButton: false,
-    }
-  },
-
   componentWillMount: function() {
     this.props.toggleMainMenu(true)
     this.props.fetchPublisher()
   },
 
-  componentWillReceiveProps: function(nextProps){
-    let act = true
-    let org = true
-
-    nextProps.publisher.datasets.forEach((dataset) => {
-      const filetypeIndex = _.findIndex(dataset.extras, function(o) { return o.key == 'filetype'; });
-      const filetypeValue = dataset.extras[filetypeIndex].value;
-
-      if ( dataset.extras[filetypeIndex].value == 'activity' ){
-        act = false
-      }
-      else if ( dataset.extras[filetypeIndex].value == 'organisation' ) {
-        org = false
-      }
-    })
-    if(this.state.showCreateActDatasetButton != act || this.state.showCreateOrgDatasetButton != org){
-      this.setState({
-
-        showCreateActDatasetButton: act,
-        showCreateOrgDatasetButton: org,
-      })
-    }
-
-  },
-
   render: function() {
-    const { showCreateActDatasetButton, showCreateOrgDatasetButton } = this.state
 
     let wrapClass = classNames('pusher',{
       'pushed' : this.props.navState.menuState

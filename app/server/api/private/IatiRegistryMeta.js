@@ -20,6 +20,7 @@ var IatiRegistryMeta = {
 
     getApiKeyValidation: function(user, apiKey, userId, res) {
         var client = new CKAN.Client(config.iati_registry_url, apiKey)
+        console.log(config.iati_registry_url)
         client.action('user_show', {id: userId, include_datasets: true}, function(err, result){
 
           // if there's no error we'll set the user as validated and store his/her publisher meta on the database.

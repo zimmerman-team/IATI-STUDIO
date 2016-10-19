@@ -21,18 +21,10 @@ function handleError(res, error) {
 
 var PublisherAPI = {
 
-    test: function(user, form, res) {
-      // console.log("got here")
-      // console.log(form)
-    },
-
     get: function(user, res) {
         Publisher.findOneByUser(user)
             .then(publisher => res(null, publisher))
-            .catch((error) => {
-                console.error(error.stack);
-                res(error)
-            })
+            .catch(handleError.bind(null, res))
     },
 
     create: function(user, data, res) {
@@ -42,7 +34,7 @@ var PublisherAPI = {
         data.author = user;
         let publisher = new Publisher(data);
 
-        publisher.saveAndPopulate()
+        publisher.save()
             .then(publisher => res(null, publisher))
             .catch(handleError.bind(null, res))
     },
