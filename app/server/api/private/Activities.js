@@ -13,7 +13,7 @@ import Visualization from '../../models/Visualization'
 
 var ActivitiesMetaAPI = {
   publishActivity: function(activity) {
-    console.log(activity)
+    console.log('asd' + activity)
   }
 }
 

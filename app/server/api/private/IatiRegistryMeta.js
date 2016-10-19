@@ -171,7 +171,11 @@ var IatiRegistryMeta = {
         })
       })
 
-    }
+    },
+
+  publishActivity: function (activity) {
+    console.log(activity)
+  }
 }
 
 module.exports = IatiRegistryMeta
