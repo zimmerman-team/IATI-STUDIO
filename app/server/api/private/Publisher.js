@@ -9,6 +9,7 @@ import { print, printTrace } from '../../utils/dev'
 
 import { getXmlFile } from '../../oipa/export'
 import { saveXmlFile } from '../../utils/saveFile'
+import { postActivity } from '../../oipa/post'
 
 
 function handleError(res, error) {
@@ -22,8 +23,10 @@ function handleError(res, error) {
 var PublisherAPI = {
 
     test: function(user, form, res) {
-       console.log("got here")
-       console.log(form)
+      postActivity(form)
+      // console.log("got here")
+       // console.log(form)
+
     },
 
     get: function(user, res) {
