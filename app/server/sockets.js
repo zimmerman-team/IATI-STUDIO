@@ -5,6 +5,7 @@ const Visualization = require('./api/private/Visualizations')
 const OipaMeta = require('./api/private/OipaMeta')
 const IatiRegistryMeta = require('./api/private/IatiRegistryMeta')
 const Publisher = require('./api/private/Publisher')
+const Activities = require('./api/private/Activities')
 
 const User = require('./api/private/User')
 // import Visualization from "./api/private/Visualizations"
@@ -71,5 +72,7 @@ module.exports = function(app) {
         socket.on('IatiRegistryMeta.deleteDataset', IatiRegistryMeta.deleteDataset.bind(null, user));
         // Update Dataset
         socket.on('IatiRegistryMeta.updateDataset', IatiRegistryMeta.updateDataset.bind(null, user));
+        // Add activity
+        socket.on('Activities.publishActivity', Activities.publishActivity.bind(null, user));
     })
 }
