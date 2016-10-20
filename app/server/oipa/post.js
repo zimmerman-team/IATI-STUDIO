@@ -11,17 +11,15 @@ import { oipaPost } from '../config/request'
 
 
 export const postActivity = function(activity) {
-    //console.log(activity)
-
     /*
     * Composes the item, along with results
     */
-    const req_options = { 
-        url: config.activities_url,
-        body: {
-            activity: activity
-        }, 
-    }
+    // const req_options = {
+    //     url: config.activities_url,
+    //     body: {
+    //         activity
+    //     },
+    // }
 
     //console.log(req_options)
     // or form: {
@@ -37,12 +35,10 @@ export const postActivity = function(activity) {
     const options = {
         method: 'POST',
         uri: 'https://dev-post.oipa.nl/api/activities/',
-        body: {
-            activity: activity
-        },
+        body: activity,
         json: true // Automatically stringifies the body to JSON
     };
-
+    //console.log(options)
     rp(options)
       .then(function (parsedBody) {
           console.log(parsedBody)
