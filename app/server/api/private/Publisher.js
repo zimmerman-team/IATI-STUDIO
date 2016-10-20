@@ -22,8 +22,8 @@ function handleError(res, error) {
 var PublisherAPI = {
 
     test: function(user, form, res) {
-      // console.log("got here")
-      // console.log(form)
+       console.log("got here")
+       console.log(form)
     },
 
     get: function(user, res) {

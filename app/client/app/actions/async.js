@@ -685,7 +685,7 @@ export function publishActivity(activity) {
     return {
         [CALL_API]: {
             types: [ CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_ACTIVITY_FAILURE ],
-            endpoint: 'IatiRegistryMeta.publishActivity',
+            endpoint: 'Publisher.test',
             payload: [activity]
         }
     }
