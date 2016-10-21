@@ -14,53 +14,56 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
 );
 
 const renderTitles = ({fields, meta: {touched, error}}) => (
-  <ul>
-    {fields.map((title, index) =>
-      <div className="row" key={index}>
-        <button
-          type="button"
-          title="Remove Title"
-          onClick={() => fields.remove(index)}/>
-        <h4>Title #{index + 1}</h4>
-        <div className="columns small-6">
-          <Field
-            name={`${title}.text`}
-            type="text"
-            id="title"
-            component={renderField}
-            label="Title"
-          />
-        </div>
-        <div className="columns small-6">
-          <div>
-            <label>Language</label>
+  <div className="columns">
+    <ul className="field-list">
+      {fields.map((title, index) =>
+        <div className="row" key={index}>
+          <button
+            type="button"
+            title="Remove Title"
+            onClick={() => fields.remove(index)}/>
+          <div className="columns small-6">
+            <Field
+              name={`${title}.text`}
+              type="text"
+              id="title"
+              component={renderField}
+              label="Title"
+            />
+          </div>
+          <div className="columns small-6">
             <div>
-              <Field name={`${title}.language[code]`} component="select">
-                <option></option>
-                <option value="en">English</option>
-                <option value="fr">French</option>
-              </Field>
+              <label>Language</label>
+              <div>
+                <Field name={`${title}.language[code]`} component="select">
+                  <option></option>
+                  <option value="en">English</option>
+                  <option value="fr">French</option>
+                </Field>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
-    <li>
-      <button className="button" type="button" onClick={() => fields.push({})}>Add Title</button>
-      {touched && error && <span>{error}</span>}
-    </li>
-  </ul>
+      )}
+      <li>
+        <button className="button" type="button" onClick={() => fields.push({})}>Add Title</button>
+        {touched && error && <span>{error}</span>}
+      </li>
+    </ul>
+  </div>
 );
 
 const validate = values => {
   const errors = {};
 
-  if (!values.title) {
-    errors.title = 'Required'
-  }
-
   if (!values.activityIdentifier) {
     errors.activityIdentifier = 'Required'
+  }
+  //console.log(values)
+  if (!values.title || !values.title.length) {
+    errors.title = { _error: 'At least one title must be entered' }
+  } else {
+    console.log("ds")
   }
 
   // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
@@ -70,7 +73,7 @@ const validate = values => {
   if (!values.hierarchy) {
     errors.hierarchy = 'Required'
   }
-
+  console.log(errors)
   return errors
 };
 

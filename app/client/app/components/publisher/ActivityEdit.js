@@ -14,8 +14,8 @@ class ActivityEdit extends React.Component {
   }
 
   handleSubmit(data) {
-    //console.log(JSON.stringify(data))
-    this.props.publishActivity(data);
+    console.log(JSON.stringify(data))
+    //this.props.publishActivity(data);
   }
 
   componentDidMount() {
