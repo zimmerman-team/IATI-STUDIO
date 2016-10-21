@@ -35,7 +35,7 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
           <div>
             <label>Language</label>
             <div>
-              <Field name={`${title}.language`} component="select">
+              <Field name={`${title}.language[code]`} component="select">
                 <option></option>
                 <option value="en">English</option>
                 <option value="fr">French</option>
@@ -102,7 +102,7 @@ class IdentificationForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit} name="identification">
           <div className="row">
-            <FieldArray name="title" component={renderTitles}/>
+            <FieldArray name="title[narratives]" component={renderTitles}/>
           </div>
           <div className="row">
             <div className="columns small-6">
@@ -150,7 +150,8 @@ export default reduxForm({
   form: 'syncValidation',     // a unique identifier for this form
   initialValues: {
     hierarchy: 1,
-    xml_source_ref: 'dummy'
+    xml_source_ref: 'dummy',
+    default_lang: 'en'
   },
   validate
 

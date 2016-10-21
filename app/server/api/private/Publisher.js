@@ -23,8 +23,8 @@ function handleError(res, error) {
 var PublisherAPI = {
 
   addActivity: function(user, form, res) {
-      console.log(form)
-      //postActivity(form)
+      //console.log(form)
+      return postActivity(form);
       // console.log("got here")
        // console.log(form)
 
