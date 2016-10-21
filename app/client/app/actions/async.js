@@ -683,7 +683,7 @@ export function publishActivity(activity) {
     return {
         [CALL_API]: {
             types: [ CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_ACTIVITY_FAILURE ],
-            endpoint: 'Publisher.test',
+            endpoint: 'Publisher.addActivity',
             payload: [activity]
         }
     }

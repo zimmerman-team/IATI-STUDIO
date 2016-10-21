@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field, reduxForm, change} from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../general/Tooltip.react.jsx'
 
 
@@ -7,22 +7,65 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type} readOnly={readOnly} onChange={onChange}/>
+      <input {...input} placeholder={label} type={type} readOnly={readOnly}/>
       {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
 );
 
+const renderTitles = ({fields, meta: {touched, error}}) => (
+  <ul>
+    {fields.map((title, index) =>
+      <div className="row" key={index}>
+        <button
+          type="button"
+          title="Remove Title"
+          onClick={() => fields.remove(index)}/>
+        <h4>Title #{index + 1}</h4>
+        <div className="columns small-6">
+          <Field
+            name={`${title}.text`}
+            type="text"
+            id="title"
+            component={renderField}
+            label="Title"
+          />
+        </div>
+        <div className="columns small-6">
+          <div>
+            <label>Language</label>
+            <div>
+              <Field name={`${title}.language`} component="select">
+                <option></option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+              </Field>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+    <li>
+      <button className="button" type="button" onClick={() => fields.push({})}>Add Title</button>
+      {touched && error && <span>{error}</span>}
+    </li>
+  </ul>
+);
+
 const validate = values => {
   const errors = {};
+
+  if (!values.title) {
+    errors.title = 'Required'
+  }
 
   if (!values.activityIdentifier) {
     errors.activityIdentifier = 'Required'
   }
 
-  if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
-    errors.iati_identifier = 'Invalid data entered'
-  }
+  // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
+  //   errors.iati_identifier = 'Invalid data entered'
+  // }
 
   if (!values.hierarchy) {
     errors.hierarchy = 'Required'
@@ -38,12 +81,12 @@ class IdentificationForm extends React.Component {
     super(props)
   }
 
-  handleChange(e) {
-    //change IATI Identifier value
-    //console.log("here");
-    //this.props.dispatch(change('identification', 'iati_identifier', 'Bob'));
-    //this.props.publishActivity(data);
-  }
+  // handleChange(e) {
+  //   //change IATI Identifier value
+  //   //console.log("here");
+  //   //this.props.dispatch(change('identification', 'iati_identifier', 'Bob'));
+  //   //this.props.publishActivity(data);
+  // }
 
 
   render() {
@@ -59,7 +102,9 @@ class IdentificationForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit} name="identification">
           <div className="row">
-
+            <FieldArray name="title" component={renderTitles}/>
+          </div>
+          <div className="row">
             <div className="columns small-6">
               <Field
                 name="activityIdentifier"
@@ -67,7 +112,7 @@ class IdentificationForm extends React.Component {
                 id="activityIdentifier"
                 component={renderField}
                 label="Activity Identifier"
-                onChange={this.handleChange.bind(this)}
+                //onChange={this.handleChange.bind(this)}
               />
             </div>
             <div className="columns small-6">
@@ -77,7 +122,7 @@ class IdentificationForm extends React.Component {
                 id="iati_identifier"
                 component={renderField}
                 label="IATI Identifier"
-                readOnly="true"
+                //readOnly="true"
               />
             </div>
             <div className="columns small-6">
@@ -89,13 +134,11 @@ class IdentificationForm extends React.Component {
                 label="Hierarchy"
               />
             </div>
-
             <div className="columns small-12">
               <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
                 Continue to basic information
               </button>
             </div>
-
           </div>
         </form>
       </div>
@@ -105,7 +148,10 @@ class IdentificationForm extends React.Component {
 
 export default reduxForm({
   form: 'syncValidation',     // a unique identifier for this form
-  initialValues: {hierarchy: 1},
+  initialValues: {
+    hierarchy: 1,
+    xml_source_ref: 'dummy'
+  },
   validate
 
 })(IdentificationForm)

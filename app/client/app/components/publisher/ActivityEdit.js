@@ -14,6 +14,7 @@ class ActivityEdit extends React.Component {
   }
 
   handleSubmit(data) {
+    //console.log(data)
     this.props.publishActivity(data);
   }
 
