@@ -15,7 +15,7 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
 
 const renderTitles = ({fields, meta: {touched, error}}) => (
   <div className="columns">
-    <ul className="field-list">
+    <div className="field-list">
       {fields.map((title, index) =>
         <div className="row" key={index}>
           <button
@@ -45,11 +45,11 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
           </div>
         </div>
       )}
-      <li>
+      <div>
         <button className="button" type="button" onClick={() => fields.push({})}>Add Title</button>
         {touched && error && <span>{error}</span>}
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 );
 
@@ -60,11 +60,11 @@ const validate = values => {
     errors.activityIdentifier = 'Required'
   }
   //console.log(values)
-  if (!values.title || !values.title.length) {
-    errors.title = { _error: 'At least one title must be entered' }
-  } else {
-    console.log("ds")
-  }
+  // if (!values.title || !values.title.length) {
+  //   errors.title = {_error: 'At least one title must be entered'}
+  // } else {
+  //   console.log("ds")
+  // }
 
   // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
   //   errors.iati_identifier = 'Invalid data entered'
@@ -73,7 +73,7 @@ const validate = values => {
   if (!values.hierarchy) {
     errors.hierarchy = 'Required'
   }
-  console.log(errors)
+  //console.log(errors)
   return errors
 };
 
