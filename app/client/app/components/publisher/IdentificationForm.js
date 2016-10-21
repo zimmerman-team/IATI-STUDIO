@@ -4,7 +4,6 @@ import {Tooltip} from '../general/Tooltip.react.jsx'
 
 
 const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
-  //console.log(onChange)
   <div>
     <label>{label}</label>
     <div>
@@ -40,7 +39,9 @@ class IdentificationForm extends React.Component {
   }
 
   handleChange(e) {
-    console.log("ds");
+    //change IATI Identifier value
+    //console.log("here");
+    //this.props.dispatch(change('identification', 'iati_identifier', 'Bob'));
     //this.props.publishActivity(data);
   }
 
@@ -56,7 +57,7 @@ class IdentificationForm extends React.Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} name="identification">
           <div className="row">
 
             <div className="columns small-6">
