@@ -1,32 +1,27 @@
 import React from 'react'
 import {Field, reduxForm, change} from 'redux-form'
-import {connect}            from 'react-redux'
-import _                      from 'lodash'
-import classNames             from 'classnames'
 import {Tooltip} from '../general/Tooltip.react.jsx'
-import {toggleMainMenu} from '../../actions/sync'
-import {publishActivity}       from '../../actions/async'
-import store from '../../app'
 
 
-const renderField = ({input, label, type, readOnly, meta: {touched, error, warning}}) => (
+const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
+  //console.log(onChange)
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type} readOnly={readOnly} />
+      <input {...input} placeholder={label} type={type} readOnly={readOnly} onChange={onChange} />
       {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-    </div>
+   </div>
   </div>
-)
+);
 
 const validate = values => {
-  const errors = {}
+  const errors = {};
 
   if (!values.activityIdentifier) {
     errors.activityIdentifier = 'Required'
   }
 
-  if(/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
+  if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
     errors.iati_identifier = 'Invalid data entered'
   }
 
@@ -35,12 +30,23 @@ const validate = values => {
   }
 
   return errors
-}
+};
 
 
-class ActivityForm extends React.Component {
+class IdentificationForm extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  handleChange(e) {
+    console.log("ds");
+    //this.props.publishActivity(data);
+  }
+
+
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props
+    const {handleSubmit, pristine, reset, submitting} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -57,13 +63,30 @@ class ActivityForm extends React.Component {
               <Field
                 name="activityIdentifier"
                 type="text"
-                component={renderField} label="Activity Identifier" />
+                id="activityIdentifier"
+                component={renderField}
+                label="Activity Identifier"
+                onChange={this.handleChange.bind(this)}
+              />
             </div>
             <div className="columns small-6">
-              <Field name="iati_identifier" type="text" component={renderField} label="IATI Identifier" readOnly="true"/>
+              <Field
+                name="iati_identifier"
+                type="text"
+                id="iati_identifier"
+                component={renderField}
+                label="IATI Identifier"
+                readOnly="true"
+              />
             </div>
             <div className="columns small-6">
-              <Field name="hierarchy" type="number" component={renderField} label="Hierarchy"/>
+              <Field
+                name="hierarchy"
+                type="number"
+                id="hierarchy"
+                component={renderField}
+                label="Hierarchy"
+              />
             </div>
 
             <div className="columns small-12">
@@ -81,9 +104,9 @@ class ActivityForm extends React.Component {
 
 export default reduxForm({
   form: 'syncValidation',     // a unique identifier for this form
-  initialValues: { hierarchy: 1},
+  initialValues: {hierarchy: 1},
   validate
 
-})(ActivityForm)
+})(IdentificationForm)
 
 

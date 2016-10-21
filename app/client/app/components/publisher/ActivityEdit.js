@@ -1,23 +1,20 @@
 import React from 'react'
-import { Field, FieldArray, reduxForm } from 'redux-form'
-import { connect }            from 'react-redux'
+import {connect}            from 'react-redux'
 import _                      from 'lodash'
-import classNames             from 'classnames'
-import {Tooltip } from '../general/Tooltip.react.jsx'
-import { toggleMainMenu } from '../../actions/sync'
-import { publishActivity }       from '../../actions/async'
+import {toggleMainMenu} from '../../actions/sync'
+import {publishActivity}       from '../../actions/async'
 import store from '../../app'
-import ActivityForm from './ActivityForm'
+import IdentificationForm from './IdentificationForm'
 
 
 class ActivityEdit extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
   handleSubmit(data) {
-    this.props.publishActivity(data); // clear form
+    this.props.publishActivity(data);
   }
 
   componentDidMount() {
@@ -26,15 +23,14 @@ class ActivityEdit extends React.Component {
 
   render() {
     return (
-      <ActivityForm onSubmit={this.handleSubmit.bind(this)}/>
+      <IdentificationForm onSubmit={this.handleSubmit.bind(this)}/>
     )
   }
 }
 
 function mapStateToProps(state, props) {
   return {
-    // publisher: state.publisher,
-    // navState: state.navState
+    navState: state.navState
   }
 }
 
