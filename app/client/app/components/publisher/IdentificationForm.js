@@ -7,9 +7,9 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type} readOnly={readOnly} onChange={onChange} />
+      <input {...input} placeholder={label} type={type} readOnly={readOnly} onChange={onChange}/>
       {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-   </div>
+    </div>
   </div>
 );
 
@@ -47,7 +47,7 @@ class IdentificationForm extends React.Component {
 
 
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props;
+    const {handleSubmit, submitting} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -91,8 +91,8 @@ class IdentificationForm extends React.Component {
             </div>
 
             <div className="columns small-12">
-              <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>Submit</button>
-              <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values
+              <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
+                Continue to basic information
               </button>
             </div>
 
