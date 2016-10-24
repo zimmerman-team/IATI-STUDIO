@@ -45,7 +45,8 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
           <button
             type="button"
             title="Remove Title"
-            onClick={() => fields.remove(newIndex)}/>
+            className="control-button remove"
+            onClick={() => fields.remove(newIndex)}>Delete</button>
           <div className="columns small-6">
             <Field
               name={`${fields.name}[${newIndex}].text`}
@@ -70,7 +71,7 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
         </div>)
       })}
       <div>
-        <button className="button" type="button" onClick={() => fields.push({})}>Add Title</button>
+        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add Title</button>
         {touched && error && <span>{error}</span>}
       </div>
     </div>
