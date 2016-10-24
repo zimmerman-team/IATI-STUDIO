@@ -2,7 +2,6 @@ import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../general/Tooltip.react.jsx'
 
-
 const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
   <div>
     <label>{label}</label>
@@ -13,68 +12,46 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
   </div>
 );
 
+const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
+  <div className="columns small-6">
+    <div>
+      <label>{label}</label>
+      <div>
+        <Field name={name} component="select">
+          <option></option>
+          <option value="en">English</option>
+          <option value="fr">French</option>
+        </Field>
+      </div>
+      {touched && error && <span>{error}</span>}
+    </div>
+  </div>
+);
+
 const renderTitles = ({fields, meta: {touched, error}}) => (
-  <div className="columns">
-    <div className="field-list">
-      <div className="row">
+  <div>
+    {fields.map((title, index) =>
+      <div key={index}>
         <div className="columns small-6">
           <Field
-            name={`${fields.name}[0].text`}
+            name={`${title}.text`}
             type="text"
-            id="title0"
             component={renderField}
             label="Title"
           />
         </div>
-        <div className="columns small-6">
-          <div>
-            <label>Language</label>
-            <div>
-              <Field name={`${fields.name}[0].language[code]`} component="select">
-                <option value="en">English</option>
-                <option value="fr">French</option>
-              </Field>
-            </div>
-          </div>
-        </div>
+        <Field component={renderLanguageSelect} name={`${title}.language`} label="Language"/>
       </div>
-      {fields.map((title, index) => {
-        let newIndex = ++index;
-        return (
-          <div className="row" key={newIndex}>
-            <div className="columns small-6">
-              <Field
-                name={`${fields.name}[${newIndex}].text`}
-                type="text"
-                id={`title${newIndex}`}
-                component={renderField}
-                label="Title"
-              />
-            </div>
-            <div className="columns small-6">
-              <div>
-                <label>Language</label>
-                <div>
-                  <Field name={`${fields.name}[${newIndex}].language[code]`} component="select">
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                  </Field>
-                </div>
-              </div>
-            </div>
-          </div>
-        )
-      })}
-      <div>
-        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add Title</button>
-        <button
-          type="button"
-          title="Remove Title"
-          className="control-button remove float-right"
-          onClick={() => fields.pop()}>Delete
-        </button>
-        {touched && error && <span>{error}</span>}
-      </div>
+    )}
+    <div className="columns">
+      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add Title</button>
+      <button
+        type="button"
+        title="Remove Title"
+        className="control-button remove float-right"
+        onClick={() => fields.pop()}>Delete
+      </button>
+      {touched && error && <span>{error}</span>}
     </div>
   </div>
 );
@@ -86,10 +63,31 @@ const validate = values => {
     errors.activityIdentifier = 'Required'
   }
 
-  if (!values.title || !values.title.length) {
-    const narrativesObj = {};
-    narrativesObj.narratives = {_error: 'At least one member must be entered'};
-    errors.title = narrativesObj
+  if (!values.title) {
+    errors.title = 'At least one title must be entered'
+  }
+
+  if (!values.titleLanguage || values.titleLanguage != '') {
+    errors.titleLanguage = 'Required'
+  }
+
+  if (values.additionalTitles) {
+    const titlesArrayErrors = [];
+    values.additionalTitles.forEach((title, titleIndex) => {
+      const titleErrors = {};
+      if (!title || !title.text) {
+        titleErrors.text = 'Required';
+        titlesArrayErrors[titleIndex] = titleErrors
+      }
+      if (!title || !title.language) {
+        titleErrors.language = 'Required';
+        titlesArrayErrors[titleIndex] = titleErrors
+      }
+    })
+
+    if (titlesArrayErrors.length) {
+      errors.additionalTitles = titlesArrayErrors
+    }
   }
 
   // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
@@ -99,9 +97,9 @@ const validate = values => {
   if (!values.hierarchy) {
     errors.hierarchy = 'Required'
   }
-  console.log(JSON.stringify(values))
-
-  console.log(JSON.stringify(errors))
+  // console.log(JSON.stringify(values))
+  //
+  console.log()
   return errors
 };
 
@@ -133,7 +131,20 @@ class IdentificationForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit} name="identification">
           <div className="row">
-            <FieldArray name="title[narratives]" component={renderTitles}/>
+            <div className="columns">
+              <div className="field-list">
+                <div className="columns small-6">
+                  <Field
+                    name="title"
+                    type="text"
+                    component={renderField}
+                    label="Title"
+                  />
+                </div>
+                <Field component={renderLanguageSelect} name="titleLanguage" label="Language"/>
+                <FieldArray name="additionalTitles" component={renderTitles}/>
+              </div>
+            </div>
           </div>
           <div className="row">
             <div className="columns small-6">
