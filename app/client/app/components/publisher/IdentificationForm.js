@@ -16,17 +16,41 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
 const renderTitles = ({fields, meta: {touched, error}}) => (
   <div className="columns">
     <div className="field-list">
-      {fields.map((title, index) =>
-        <div className="row" key={index}>
+      <div className="row">
+        <div className="columns small-6">
+          <Field
+            name={`${fields.name}[0].text`}
+            type="text"
+            id="title0"
+            component={renderField}
+            label="Title"
+          />
+        </div>
+        <div className="columns small-6">
+          <div>
+            <label>Language</label>
+            <div>
+              <Field name={`${fields.name}[0].language[code]`} component="select">
+                <option></option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+              </Field>
+            </div>
+          </div>
+        </div>
+      </div>
+      {fields.map((title, index) => {
+        let newIndex = ++index;
+        return (<div className="row" key={newIndex}>
           <button
             type="button"
             title="Remove Title"
-            onClick={() => fields.remove(index)}/>
+            onClick={() => fields.remove(newIndex)}/>
           <div className="columns small-6">
             <Field
-              name={`${title}.text`}
+              name={`${fields.name}[${newIndex}].text`}
               type="text"
-              id="title"
+              id={`title${newIndex}`}
               component={renderField}
               label="Title"
             />
@@ -35,7 +59,7 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
             <div>
               <label>Language</label>
               <div>
-                <Field name={`${title}.language[code]`} component="select">
+                <Field name={`${fields.name}[${newIndex}].language[code]`} component="select">
                   <option></option>
                   <option value="en">English</option>
                   <option value="fr">French</option>
@@ -43,8 +67,8 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
               </div>
             </div>
           </div>
-        </div>
-      )}
+        </div>)
+      })}
       <div>
         <button className="button" type="button" onClick={() => fields.push({})}>Add Title</button>
         {touched && error && <span>{error}</span>}
@@ -59,12 +83,10 @@ const validate = values => {
   if (!values.activityIdentifier) {
     errors.activityIdentifier = 'Required'
   }
-  //console.log(values)
-  // if (!values.title || !values.title.length) {
-  //   errors.title = {_error: 'At least one title must be entered'}
-  // } else {
-  //   console.log("ds")
-  // }
+
+  if(!values.title || !values.title.length) {
+    errors.title = { _error: 'At least one member must be entered' }
+  }
 
   // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
   //   errors.iati_identifier = 'Invalid data entered'
