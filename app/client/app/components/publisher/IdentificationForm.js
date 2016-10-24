@@ -41,37 +41,40 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
       </div>
       {fields.map((title, index) => {
         let newIndex = ++index;
-        return (<div className="row" key={newIndex}>
-          <button
-            type="button"
-            title="Remove Title"
-            className="control-button remove"
-            onClick={() => fields.remove(newIndex)}>Delete</button>
-          <div className="columns small-6">
-            <Field
-              name={`${fields.name}[${newIndex}].text`}
-              type="text"
-              id={`title${newIndex}`}
-              component={renderField}
-              label="Title"
-            />
-          </div>
-          <div className="columns small-6">
-            <div>
-              <label>Language</label>
+        return (
+          <div className="row" key={newIndex}>
+            <div className="columns small-6">
+              <Field
+                name={`${fields.name}[${newIndex}].text`}
+                type="text"
+                id={`title${newIndex}`}
+                component={renderField}
+                label="Title"
+              />
+            </div>
+            <div className="columns small-6">
               <div>
-                <Field name={`${fields.name}[${newIndex}].language[code]`} component="select">
-                  <option></option>
-                  <option value="en">English</option>
-                  <option value="fr">French</option>
-                </Field>
+                <label>Language</label>
+                <div>
+                  <Field name={`${fields.name}[${newIndex}].language[code]`} component="select">
+                    <option></option>
+                    <option value="en">English</option>
+                    <option value="fr">French</option>
+                  </Field>
+                </div>
               </div>
             </div>
           </div>
-        </div>)
+        )
       })}
       <div>
         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add Title</button>
+        <button
+          type="button"
+          title="Remove Title"
+          className="control-button remove"
+          onClick={() => fields.pop()}>Delete
+        </button>
         {touched && error && <span>{error}</span>}
       </div>
     </div>
@@ -85,8 +88,8 @@ const validate = values => {
     errors.activityIdentifier = 'Required'
   }
 
-  if(!values.title || !values.title.length) {
-    errors.title = { _error: 'At least one member must be entered' }
+  if (!values.title || !values.title.length) {
+    errors.title = {_error: 'At least one member must be entered'}
   }
 
   // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
