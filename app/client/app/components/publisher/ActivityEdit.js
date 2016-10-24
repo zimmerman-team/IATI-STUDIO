@@ -5,6 +5,7 @@ import {toggleMainMenu} from '../../actions/sync'
 import {publishActivity}       from '../../actions/async'
 import store from '../../app'
 import IdentificationForm from './IdentificationForm'
+import BasicInformationForm from './BasicInformationForm'
 
 
 class ActivityEdit extends React.Component {
@@ -25,6 +26,7 @@ class ActivityEdit extends React.Component {
   render() {
     return (
       <IdentificationForm onSubmit={this.handleSubmit.bind(this)}/>
+      //<BasicInformationForm onSubmit={this.handleSubmit.bind(this)}/>
     )
   }
 }
