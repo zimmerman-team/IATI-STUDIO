@@ -31,7 +31,6 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
             <label>Language</label>
             <div>
               <Field name={`${fields.name}[0].language[code]`} component="select">
-                <option></option>
                 <option value="en">English</option>
                 <option value="fr">French</option>
               </Field>
@@ -57,7 +56,6 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
                 <label>Language</label>
                 <div>
                   <Field name={`${fields.name}[${newIndex}].language[code]`} component="select">
-                    <option></option>
                     <option value="en">English</option>
                     <option value="fr">French</option>
                   </Field>
@@ -72,7 +70,7 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
         <button
           type="button"
           title="Remove Title"
-          className="control-button remove"
+          className="control-button remove float-right"
           onClick={() => fields.pop()}>Delete
         </button>
         {touched && error && <span>{error}</span>}
@@ -89,7 +87,9 @@ const validate = values => {
   }
 
   if (!values.title || !values.title.length) {
-    errors.title = {_error: 'At least one member must be entered'}
+    const narrativesObj = {};
+    narrativesObj.narratives = {_error: 'At least one member must be entered'};
+    errors.title = narrativesObj
   }
 
   // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
@@ -99,7 +99,9 @@ const validate = values => {
   if (!values.hierarchy) {
     errors.hierarchy = 'Required'
   }
-  //console.log(errors)
+  console.log(JSON.stringify(values))
+
+  console.log(JSON.stringify(errors))
   return errors
 };
 
