@@ -1,6 +1,6 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../general/Tooltip.react.jsx'
+import {Tooltip} from '../../general/Tooltip.react.jsx'
 
 const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
   <div>

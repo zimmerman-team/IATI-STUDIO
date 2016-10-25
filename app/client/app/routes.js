@@ -16,8 +16,8 @@ import ChartPreview from "./containers/public/ChartPreview";
 import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 
 import PublisherSettings from "./components/publisher/PublisherSettings"
-import ActivityList from "./components/publisher/ActivityList"
-import ActivityEdit from "./components/publisher/ActivityEdit"
+import ActivityList from "./components/activity/ActivityList"
+import ActivityEdit from "./components/activity/ActivityEdit"
 import OrgSettings from "./components/publisher/OrgSettings"
 import DatasetsSettings from "./components/publisher/DatasetsSettings"
 

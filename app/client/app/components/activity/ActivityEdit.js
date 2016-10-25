@@ -4,8 +4,8 @@ import _                      from 'lodash'
 import {toggleMainMenu} from '../../actions/sync'
 import {publishActivity}       from '../../actions/async'
 import store from '../../app'
-import IdentificationForm from './IdentificationForm'
-import BasicInformationForm from './BasicInformationForm'
+import IdentificationForm from './forms/IdentificationForm'
+import BasicInformationForm from './forms/BasicInformationForm'
 
 
 class ActivityEdit extends React.Component {
