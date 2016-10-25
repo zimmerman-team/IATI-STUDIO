@@ -50,8 +50,8 @@ class ActivityEdit extends React.Component {
 
   render() {
     return (
-      <IdentificationForm onSubmit={this.handleSubmit.bind(this)}/>
-      //<BasicInformationForm onSubmit={this.handleSubmit.bind(this)}/>
+      //<IdentificationForm onSubmit={this.handleSubmit.bind(this)}/>
+      <BasicInformationForm onSubmit={this.handleSubmit.bind(this)}/>
     )
   }
 }

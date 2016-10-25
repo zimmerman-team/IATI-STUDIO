@@ -1,16 +1,18 @@
 import React from 'react'
-import { Field, FieldArray, reduxForm } from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
+import {Tooltip} from '../../general/Tooltip.react.jsx'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
+const renderField = ({input, label, type, meta: {touched, error}}) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input}  type={type} placeholder={label}/>
+      <input {...input} type={type} placeholder={label}/>
       {touched && error && <span>{error}</span>}
     </div>
   </div>
-)
-const renderParticipatingOrgs = ({ fields }) => (
+);
+
+const renderParticipatingOrgs = ({fields}) => (
   <ul className="field-list">
 
     <li>
@@ -62,7 +64,8 @@ const renderParticipatingOrgs = ({ fields }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Remove</button>
+          onClick={() => fields.remove(index)}>Remove
+        </button>
       </li>
     )}
 
@@ -74,7 +77,7 @@ const renderParticipatingOrgs = ({ fields }) => (
 
 
 )
-const renderParticipatingContact = ({ fields }) => (
+const renderParticipatingContact = ({fields}) => (
   <ul className="field-list">
 
     <li>
@@ -121,7 +124,8 @@ const renderParticipatingContact = ({ fields }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
 
@@ -134,7 +138,7 @@ const renderParticipatingContact = ({ fields }) => (
 
 )
 
-const renderNarratives = ({ fields, meta: { error } }) => (
+const renderNarratives = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -164,7 +168,7 @@ const renderNarratives = ({ fields, meta: { error } }) => (
           name={`${narrative}.text`}
           type="text"
           component={renderField}
-          label={`Text #${index + 2}`} />
+          label={`Text #${index + 2}`}/>
         <div className="columns small-6">
           <div>
             <label>Language</label>
@@ -179,7 +183,8 @@ const renderNarratives = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Narrative"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -188,7 +193,7 @@ const renderNarratives = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactOrg = ({ fields, meta: { error } }) => (
+const renderContactOrg = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -217,7 +222,7 @@ const renderContactOrg = ({ fields, meta: { error } }) => (
           name={`${organisation}.text1`}
           type="text"
           component={renderField}
-          label={`Text #${index + 2}`} />
+          label={`Text #${index + 2}`}/>
         <div className="columns small-6">
           <div>
             <label>Language</label>
@@ -232,7 +237,8 @@ const renderContactOrg = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Narrative"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -241,7 +247,7 @@ const renderContactOrg = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactDepart = ({ fields, meta: { error } }) => (
+const renderContactDepart = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -288,7 +294,8 @@ const renderContactDepart = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -297,7 +304,7 @@ const renderContactDepart = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactPerson = ({ fields, meta: { error } }) => (
+const renderContactPerson = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -343,7 +350,8 @@ const renderContactPerson = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -352,7 +360,7 @@ const renderContactPerson = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactJob = ({ fields, meta: { error } }) => (
+const renderContactJob = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -399,7 +407,8 @@ const renderContactJob = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -408,7 +417,7 @@ const renderContactJob = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactPhone = ({ fields, meta: { error } }) => (
+const renderContactPhone = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -454,7 +463,8 @@ const renderContactPhone = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -463,7 +473,7 @@ const renderContactPhone = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactEmail = ({ fields, meta: { error } }) => (
+const renderContactEmail = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -510,7 +520,8 @@ const renderContactEmail = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -519,7 +530,7 @@ const renderContactEmail = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactWebsite = ({ fields, meta: { error } }) => (
+const renderContactWebsite = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -565,7 +576,8 @@ const renderContactWebsite = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -574,7 +586,7 @@ const renderContactWebsite = ({ fields, meta: { error } }) => (
     </li>
   </ul>
 )
-const renderContactMailAddr = ({ fields, meta: { error } }) => (
+const renderContactMailAddr = ({fields, meta: {error}}) => (
 
   <ul className="field-list">
     <li>
@@ -622,7 +634,8 @@ const renderContactMailAddr = ({ fields, meta: { error } }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </li>
     )}
     {error && <li className="error">{error}</li>}
@@ -630,28 +643,104 @@ const renderContactMailAddr = ({ fields, meta: { error } }) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </li>
   </ul>
-)
+);
+
+const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
+  <div className="columns small-6">
+    <div>
+      <label>{label}</label>
+      <div>
+        <Field name={name} component="select">
+          <option></option>
+          <option value="en">English</option>
+          <option value="fr">French</option>
+        </Field>
+      </div>
+      {touched && error && <span className="error">{error}</span>}
+    </div>
+  </div>
+);
+
 class BasicInformationForm extends React.Component {
-  constructor(props){
+
+  constructor(props) {
     super(props)
   }
+
+  //@todo: Move IATI activity editor to separate component.
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props
+    const {handleSubmit, pristine, reset, submitting} = this.props;
     return (
       <div>
+        <div className="row controls">
+          <div className="columns small-centered small-12">
+            <h2 className="page-title with-tip">IATI activity editor</h2>
+            <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
+            <hr />
+          </div>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="row">
-
+            <div className="columns small-centered small-12">
+              <h2 className="page-title with-tip">Description</h2>
+              <Tooltip className="inline" tooltip="Description text goes here">
+                <i className="material-icons">info</i>
+              </Tooltip>
+              <div className="field-list">
+                <div className="columns small-6">
+                  <Field
+                    name="type"
+                    type="text"
+                    component={renderField}
+                    label="Type"
+                  />
+                </div>
+                <hr/>
+                <h2 className="page-title">Narrative</h2>
+                <div className="row">
+                  <div className="columns small-6">
+                    <Field
+                      name="textTitle"
+                      type="text"
+                      component={renderField}
+                      label="Title"
+                    />
+                  </div>
+                  <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="columns small-centered small-12">
+              <h2 className="page-title with-tip">Status</h2>
+              <Tooltip className="inline" tooltip="Status text goes here">
+                <i className="material-icons">info</i>
+              </Tooltip>
+            </div>
+            <div className="row">
+              <div className="columns small-6">
+                <div>
+                  <label>Language</label>
+                  <div>
+                    <Field name="status" component="select">
+                      <option>Select status</option>
+                    </Field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
             <div className="columns small-12">
               <FieldArray name="participating-org" component={renderParticipatingOrgs}/>
               <FieldArray name="participating-org1" component={renderParticipatingContact}/>
             </div>
-
             <div className="columns small-12">
               <button className="button" type="submit" disabled={submitting}>Submit</button>
-              <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+              <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values
+              </button>
             </div>
-
           </div>
         </form>
       </div>

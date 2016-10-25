@@ -124,7 +124,7 @@ class IdentificationForm extends React.Component {
   //   //this.props.publishActivity(data);
   // }
 
-
+  //@todo: Move IATI activity editor to separate component.
   render() {
     const {handleSubmit, submitting} = this.props;
     return (
