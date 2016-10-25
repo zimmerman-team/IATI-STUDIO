@@ -7,7 +7,7 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
     <label>{label}</label>
     <div>
       <input {...input} placeholder={label} type={type} readOnly={readOnly}/>
-      {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
 );
@@ -23,7 +23,7 @@ const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
           <option value="fr">French</option>
         </Field>
       </div>
-      {touched && error && <span>{error}</span>}
+      {touched && error && <span className="error">{error}</span>}
     </div>
   </div>
 );
@@ -40,7 +40,7 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${title}.language`} label="Language"/>
+        <Field component={renderLanguageSelect} name={`${title}.language[code]`} label="Language"/>
       </div>
     )}
     <div className="columns">
@@ -51,7 +51,7 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
         className="control-button remove float-right"
         onClick={() => fields.pop()}>Delete
       </button>
-      {touched && error && <span>{error}</span>}
+      {touched && error && <span className="error">{error}</span>}
     </div>
   </div>
 );
@@ -63,16 +63,23 @@ const validate = values => {
     errors.activityIdentifier = 'Required'
   }
 
-  if (!values.title) {
-    errors.title = 'At least one title must be entered'
+  if (!values.textTitle) {
+    errors.textTitle = 'At least one title must be entered'
   }
 
-  if (!values.titleLanguage || values.titleLanguage != '') {
-    errors.titleLanguage = 'Required'
+  if (!values.titleLanguage) {
+    const titleLanguageCodeObj = {};
+    titleLanguageCodeObj.code = 'Required';
+    errors.titleLanguage = titleLanguageCodeObj
+  }
+
+  if (!values.iati_identifier) {
+    errors.iati_identifier = 'Required'
   }
 
   if (values.additionalTitles) {
     const titlesArrayErrors = [];
+
     values.additionalTitles.forEach((title, titleIndex) => {
       const titleErrors = {};
       if (!title || !title.text) {
@@ -80,10 +87,12 @@ const validate = values => {
         titlesArrayErrors[titleIndex] = titleErrors
       }
       if (!title || !title.language) {
-        titleErrors.language = 'Required';
+        const codeObj = {};
+        codeObj.code = 'Required';
+        titleErrors.language = codeObj;
         titlesArrayErrors[titleIndex] = titleErrors
       }
-    })
+    });
 
     if (titlesArrayErrors.length) {
       errors.additionalTitles = titlesArrayErrors
@@ -97,9 +106,7 @@ const validate = values => {
   if (!values.hierarchy) {
     errors.hierarchy = 'Required'
   }
-  // console.log(JSON.stringify(values))
-  //
-  console.log()
+
   return errors
 };
 
@@ -135,13 +142,13 @@ class IdentificationForm extends React.Component {
               <div className="field-list">
                 <div className="columns small-6">
                   <Field
-                    name="title"
+                    name="textTitle"
                     type="text"
                     component={renderField}
                     label="Title"
                   />
                 </div>
-                <Field component={renderLanguageSelect} name="titleLanguage" label="Language"/>
+                <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
                 <FieldArray name="additionalTitles" component={renderTitles}/>
               </div>
             </div>
@@ -189,7 +196,7 @@ class IdentificationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'syncValidation',     // a unique identifier for this form
+  form: 'syncValidation',
   initialValues: {
     hierarchy: 1,
     xml_source_ref: 'dummy',

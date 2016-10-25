@@ -11,12 +11,37 @@ import BasicInformationForm from './BasicInformationForm'
 class ActivityEdit extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.prepareActivityData = this.prepareActivityData.bind(this);
   }
 
   handleSubmit(data) {
-    console.log(JSON.stringify(data))
-    //this.props.publishActivity(data);
+    const formData = this.prepareActivityData(data);
+    this.props.publishActivity(formData);
+  }
+
+  /**
+   * Prepare data (formatting) of identification form
+   * for POST.
+   *
+   * @param data
+   * @returns {*}
+   */
+  prepareActivityData(data) {
+    const title = {
+      text: data.textTitle,
+      language: data.titleLanguage
+    };
+    const narrativesItems = [];
+    narrativesItems.push(title);
+    if (data.additionalTitles) {
+      data.additionalTitles.map((title, index) => narrativesItems.push(title));
+    }
+
+    data.title = {narratives: narrativesItems};
+
+    return data;
   }
 
   componentDidMount() {
