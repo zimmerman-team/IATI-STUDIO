@@ -2,7 +2,7 @@ import React from 'react'
 import {connect}            from 'react-redux'
 import _                      from 'lodash'
 import {toggleMainMenu} from '../../actions/sync'
-import {publishActivity}       from '../../actions/async'
+import {createActivity}       from '../../actions/async'
 import store from '../../app'
 import IdentificationForm from './forms/IdentificationForm'
 import BasicInformationForm from './forms/BasicInformationForm'
@@ -18,7 +18,7 @@ class ActivityEdit extends React.Component {
 
   handleSubmit(data) {
     const formData = this.prepareActivityData(data);
-    this.props.publishActivity(formData);
+    this.props.createActivity(formData);
   }
 
   /**
@@ -63,5 +63,5 @@ function mapStateToProps(state, props) {
 }
 
 export default connect(mapStateToProps, {
-  publishActivity
+  createActivity
 })(ActivityEdit);

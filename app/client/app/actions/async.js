@@ -672,14 +672,14 @@ export function generateXmlFile(publisher, dataset) {
 }
 
 /*
- * Create activity
+ * Create activity (Identification form)
  */
 
-export const CREATE_ACTIVITY_REQUEST = 'CREATE_ACTIVITY_REQUEST'
-export const CREATE_ACTIVITY_SUCCESS = 'CREATE_ACTIVITY_SUCCESS'
-export const CREATE_ACTIVITY_FAILURE = 'CREATE_ACTIVITY_FAILURE'
+export const CREATE_ACTIVITY_REQUEST = 'CREATE_ACTIVITY_REQUEST';
+export const CREATE_ACTIVITY_SUCCESS = 'CREATE_ACTIVITY_SUCCESS';
+export const CREATE_ACTIVITY_FAILURE = 'CREATE_ACTIVITY_FAILURE';
 
-export function publishActivity(activity) {
+export function createActivity(activity) {
     return {
         [CALL_API]: {
             types: [ CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_ACTIVITY_FAILURE ],

@@ -25,10 +25,7 @@ var PublisherAPI = {
   addActivity: function(user, form, res) {
       //console.log(form)
       return postActivity(form);
-      // console.log("got here")
-       // console.log(form)
-
-    },
+  },
 
     get: function(user, res) {
         Publisher.findOneByUser(user)
