@@ -41,7 +41,7 @@ class BasicInformationForm extends React.Component {
 
   //@todo: Move IATI activity editor to separate component.
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props;
+    const {handleSubmit, pristine, reset, submitting, previousPage} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -77,7 +77,8 @@ class BasicInformationForm extends React.Component {
               {/*<DateForm />*/}
             </div>
             <div className="columns small-12">
-              <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
+              <button type="button" className="button" onClick={previousPage}>Back to identification</button>
+              <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
                 Continue to participating organisations
               </button>
             </div>
@@ -89,6 +90,7 @@ class BasicInformationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'fieldArrays',     // a unique identifier for this form
+  form: 'fieldArrays',
+  destroyOnUnmount: false,
 
 })(BasicInformationForm)

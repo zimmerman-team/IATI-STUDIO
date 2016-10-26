@@ -225,7 +225,7 @@ class ParticipatingOrganisationForm extends React.Component {
   }
 
   render() {
-    const {handleSubmit, submitting} = this.props;
+    const {handleSubmit, submitting, previousPage} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -243,7 +243,8 @@ class ParticipatingOrganisationForm extends React.Component {
               </div>
             </div>
             <div className="columns small-12">
-              <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
+              <button type="button" className="button" onClick={previousPage}>Back to basic information</button>
+              <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
                 Continue to geopolitical information
               </button>
             </div>
@@ -256,6 +257,7 @@ class ParticipatingOrganisationForm extends React.Component {
 
 export default reduxForm({
   form: 'syncValidation',
+  destroyOnUnmount: false,
   validate
 
 })(ParticipatingOrganisationForm)

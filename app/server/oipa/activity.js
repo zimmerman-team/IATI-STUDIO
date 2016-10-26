@@ -6,17 +6,19 @@
 import _ from 'lodash'
 import querystring from 'querystring'
 import config from '../config/config'
-import {oipaPost} from '../config/request'
+import {oipaPost, oipaGet} from '../config/request'
 
-
-export const postActivity = function (activity) {
-  /*
-   * Composes the item, along with results
-   */
+/**
+ * Submit identification form data.
+ *
+ * @param activityData
+ * @returns {Promise|Promise.<T>}
+ */
+export const postActivity = function (activityData) {
   const req_options = {
     baseUrl: config.oipa_post_url,
     url: config.activities_url,
-    body: activity,
+    body: prepareActivityData(activityData),
   };
 
   return oipaPost(req_options)
@@ -26,4 +28,69 @@ export const postActivity = function (activity) {
       console.log(err);
     })
 
+};
+
+/**
+ * Get all the languages form codeList.
+ *
+ * @returns {Promise|Promise.<T>}
+ */
+export const getLanguages = function () {
+  const req_options = {
+    baseUrl: config.oipa_post_url,
+    url: config.codelists + '/Language/?page_size=200',
+  };
+
+  return oipaGet(req_options).then(function (parsedBody) {
+    console.log(parsedBody.results)
+  }).catch(function (err) {
+    console.log(err)
+  })
+};
+
+/**
+ * Post basic information description section form.
+ *
+ * @param formData
+ * @returns {Promise|Promise.<T>}
+ */
+//@todo: Change it to a promise pass it to promise.all.
+export const postAcitivtyDescriptionForm = function (formData) {
+  // const req_options = {
+  //   baseUrl: config.oipa_post_url,
+  //   url: config.activities_url,
+  //   body: activity,
+  // };
+  //
+  // return oipaPost(req_options)
+  //   .then(function (parsedBody) {
+  //     console.log(parsedBody)
+  //   }).catch(function (err) {
+  //     console.log(err);
+  //   })
+};
+
+/**
+ * Prepare data (formatting) of identification form
+ * for POST.
+ *
+ * @param data
+ * @returns {*}
+ */
+const prepareActivityData = function (data) {
+  const title = {
+    text: data.textTitle,
+    language: data.titleLanguage
+  };
+
+  const narrativesItems = [];
+  narrativesItems.push(title);
+
+  if (data.additionalTitles) {
+    data.additionalTitles.map((title, index) => narrativesItems.push(title));
+  }
+
+  data.title = {narratives: narrativesItems};
+
+  return data
 };

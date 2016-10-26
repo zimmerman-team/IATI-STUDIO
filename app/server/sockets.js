@@ -60,6 +60,8 @@ module.exports = function(app) {
         socket.on('Publisher.generateXmlFile', Publisher.generateXmlFile.bind(null, user));
         // Add Activity Redux Form
         socket.on('Publisher.addActivity', Publisher.addActivity.bind(null, user));
+        // Get Languages
+        socket.on('Publisher.getLanguages', Publisher.getLanguages.bind(null, user));
 
         // Get API Validate API Key
         socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));

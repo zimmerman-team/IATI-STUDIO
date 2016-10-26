@@ -688,3 +688,20 @@ export function createActivity(activity) {
         }
     }
 }
+
+/*
+ * Get all visualizations
+ */
+
+export const GET_LANGUAGES_REQUEST = 'GET_LANGUAGES_REQUEST';
+export const GET_LANGUAGES_SUCCESS = 'GET_LANGUAGES_SUCCESS';
+export const GET_LANGUAGES_FAILURE = 'GET_LANGUAGES_FAILURE';
+
+export function getLanguages() {
+    return {
+        [CALL_API]: {
+            types: [ GET_LANGUAGES_REQUEST, GET_LANGUAGES_SUCCESS, GET_LANGUAGES_FAILURE ],
+            endpoint: 'Publisher.getLanguages'
+        }
+    }
+}
