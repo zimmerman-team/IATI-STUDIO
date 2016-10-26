@@ -3,6 +3,7 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
 import DescriptionForm from './BasicInformationDescriptionForm'
 import DateForm from './BasicInformationDateForm'
+import ContactForm from './BasicInformationContactForm'
 
 const renderField = ({input, label, type, meta: {touched, error}}) => (
   <div>
@@ -72,14 +73,14 @@ class BasicInformationForm extends React.Component {
                 </div>
               </div>
             </div>
+            <div>
+              <DateForm />
+            </div>
             <div className="columns small-12">
               <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to basic information
+                Continue to participating organisations
               </button>
             </div>
-          </div>
-          <div>
-            <DateForm />
           </div>
         </form>
       </div>

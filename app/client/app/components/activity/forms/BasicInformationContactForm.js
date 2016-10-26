@@ -6,7 +6,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type} />
+      <input {...input} placeholder={label} type={type}/>
       {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -135,6 +135,7 @@ class BasicInformationContactForm extends React.Component {
   constructor(props) {
     super(props)
   }
+
   //@todo: Narratives are also common in all the form. Separate it out and create a single component for that.
   render() {
     return (
@@ -148,18 +149,23 @@ class BasicInformationContactForm extends React.Component {
             <div className="field-list">
               <Field name="type" component={renderContactTypeSelect} label="Contact type"/>
               <hr/>
-              <h2 className="page-title">Narrative</h2>
-              <div className="row">
-                <div className="columns small-6">
-                  <Field
-                    name="narrative[text]"
-                    type="text"
-                    component={renderField}
-                    label="Title"
-                  />
+              <div>
+                <h2 className="page-title">Organisation</h2>
+                <div className="field-list">
+                  <h2 className="page-title">Narrative</h2>
+                  <div className="row">
+                    <div className="columns small-6">
+                      <Field
+                        name="narrative[text]"
+                        type="text"
+                        component={renderField}
+                        label="Title"
+                      />
+                    </div>
+                    <Field component={renderLanguageSelect} name="narrative[code]" label="Language"/>
+                    <FieldArray name="additionalNarratives" component={renderNarrative}/>
+                  </div>
                 </div>
-                <Field component={renderLanguageSelect} name="narrative[code]" label="Language"/>
-                <FieldArray name="additionalNarratives" component={renderNarrative}/>
               </div>
             </div>
             <FieldArray name="additionalDate" component={renderContact}/>

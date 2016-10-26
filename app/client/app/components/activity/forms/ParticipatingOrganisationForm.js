@@ -53,8 +53,8 @@ const renderOrganisationTypeSelect = ({name, label, meta: {touched, error}}) => 
 );
 
 const renderParticipatingOrganisation = ({fields}) => (
-  <ul className="field-list">
-    <li>
+  <div className="field-list">
+    <div>
       <h6>Participating organisation </h6>
       <Field component={renderOrganisationRoleSelect} name="role" label="Organisation role"/>
       <Field component={renderLanguageSelect} name="identifier" label="Identifier"/>
@@ -68,9 +68,9 @@ const renderParticipatingOrganisation = ({fields}) => (
         />
       </div>
       <FieldArray name="additionalTitles" component={renderTitles}/>
-    </li>
+    </div>
     {fields.map((organisations, index) =>
-      <li key={index}>
+      <div key={index}>
         <h6>Participating organisation #{index + 1}</h6>
         <Field component={renderOrganisationRoleSelect} name={`${organisations}.role`} label="Organisation role"/>
         <Field component={renderLanguageSelect} name={`${organisations}.identifier`} label="Identifier"/>
@@ -91,17 +91,18 @@ const renderParticipatingOrganisation = ({fields}) => (
           onClick={() => fields.pop()}
         >Delete
         </button>
-      </li>
+      </div>
     )}
-    <li>
+    <div>
       <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-    </li>
-  </ul>
+    </div>
+  </div>
 );
 
 const renderTitles = ({fields, meta: {touched, error}}) => (
-  <ul className="field-list">
-    <li>
+  <div className="field-list">
+    <div>
+      <h6>Narrative</h6>
       <div className="columns small-6">
         <Field
           name="name"
@@ -111,9 +112,10 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
         />
       </div>
       <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
-    </li>
+    </div>
     {fields.map((title, index) =>
-      <li key={index}>
+      <div key={index}>
+        <h6>Narrative</h6>
         <div className="columns small-6">
           <Field
             name={`${title}.name`}
@@ -129,13 +131,13 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
           className="control-button remove float-right"
           onClick={() => fields.pop()}>Delete
         </button>
-      </li>
+      </div>
     )}
     {touched && error && <li className="error">{error}</li>}
-    <li>
+    <div>
       <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-    </li>
-  </ul>
+    </div>
+  </div>
 );
 
 const validate = values => {
@@ -171,7 +173,7 @@ const validate = values => {
     values.renderTitlesData.forEach((title, titleIndex) => {
       const titleErrors = {};
       if (!title || !title.role) {
-        titleErrors.organrole = 'Required';
+        titleErrors.role = 'Required';
         titlesArrayErrors[titleIndex] = titleErrors
       }
       if (!title || !title.identifier) {
@@ -179,7 +181,7 @@ const validate = values => {
         titlesArrayErrors[titleIndex] = titleErrors
       }
       if (!title || !title.type) {
-        titleErrors.organtype = 'Required';
+        titleErrors.type = 'Required';
         titlesArrayErrors[titleIndex] = titleErrors
       }
       if (!title || !title.activityId) {
