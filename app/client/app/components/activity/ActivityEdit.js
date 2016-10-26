@@ -6,6 +6,7 @@ import {createActivity}       from '../../actions/async'
 import store from '../../app'
 import IdentificationForm from './forms/IdentificationForm'
 import BasicInformationForm from './forms/BasicInformationForm'
+import ParticipatingOrganisationForm from './forms/ParticipatingOrganisationForm'
 
 
 class ActivityEdit extends React.Component {
@@ -17,8 +18,9 @@ class ActivityEdit extends React.Component {
   }
 
   handleSubmit(data) {
-    const formData = this.prepareActivityData(data);
-    this.props.createActivity(formData);
+    console.log(data)
+    // const formData = this.prepareActivityData(data);
+    // this.props.createActivity(formData);
   }
 
   /**
@@ -52,6 +54,7 @@ class ActivityEdit extends React.Component {
     return (
       //<IdentificationForm onSubmit={this.handleSubmit.bind(this)}/>
       <BasicInformationForm onSubmit={this.handleSubmit.bind(this)}/>
+      //<ParticipatingOrganisationForm onSubmit={this.handleSubmit.bind(this)}/>
     )
   }
 }
