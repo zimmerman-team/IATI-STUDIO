@@ -74,7 +74,7 @@ class BasicInformationForm extends React.Component {
               </div>
             </div>
             <div>
-              <DateForm />
+              {/*<DateForm />*/}
             </div>
             <div className="columns small-12">
               <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>

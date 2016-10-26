@@ -110,7 +110,6 @@ const validate = values => {
     errors.narrative = narrativeTextObj
   }
 
-
   return errors
 };
 

@@ -9,7 +9,7 @@ import { print, printTrace } from '../../utils/dev'
 
 import { getXmlFile } from '../../oipa/export'
 import { saveXmlFile } from '../../utils/saveFile'
-import { postActivity } from '../../oipa/post'
+import { postActivity } from '../../oipa/activity'
 
 
 function handleError(res, error) {

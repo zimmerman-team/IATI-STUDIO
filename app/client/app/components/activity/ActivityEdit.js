@@ -18,9 +18,9 @@ class ActivityEdit extends React.Component {
   }
 
   handleSubmit(data) {
-    console.log(JSON.stringify(data))
-    // const formData = this.prepareActivityData(data);
-    // this.props.createActivity(formData);
+    //console.log(JSON.stringify(data))
+     const formData = this.prepareActivityData(data);
+     this.props.createActivity(formData);
   }
 
   /**
