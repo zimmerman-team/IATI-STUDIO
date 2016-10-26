@@ -15,14 +15,14 @@ class ActivityEdit extends React.Component {
     super(props);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
+    this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
     this.state = {
       page: 1
     }
   }
 
   handleSubmit(data) {
-    //console.log(JSON.stringify(data))
-    this.props.createActivity(data);
+    console.log(JSON.stringify(data))
   }
 
   nextPage() {
@@ -33,6 +33,16 @@ class ActivityEdit extends React.Component {
     this.setState({page: this.state.page - 1})
   }
 
+  /**
+   * Submit identification data and redirect
+   * to basic information form.
+   *
+   * @param data
+   */
+  handleIdentificationFormSubmit(data) {
+    this.props.createActivity(data);
+    this.nextPage();
+  }
 
   componentDidMount() {
     store.dispatch(toggleMainMenu(false));
@@ -44,7 +54,7 @@ class ActivityEdit extends React.Component {
     const {page} = this.state;
     return (
       <div>
-        {page === 1 && <IdentificationForm onSubmit={this.nextPage}/>}
+        {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit}/>}
         {page === 2 && <BasicInformationForm previousPage={this.previousPage} onSubmit={this.nextPage}/>}
         {page === 3 &&
         <ParticipatingOrganisationForm previousPage={this.previousPage} onSubmit={this.handleSubmit.bind(this)}/>}
