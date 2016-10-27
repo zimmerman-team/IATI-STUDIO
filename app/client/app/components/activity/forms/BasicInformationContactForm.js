@@ -18,7 +18,7 @@ const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
       <label>{label}</label>
       <div>
         <Field name={name} component="select">
-          <option></option>
+          <option>Select a language</option>
           <option value="en">English</option>
           <option value="fr">French</option>
         </Field>

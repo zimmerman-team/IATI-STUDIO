@@ -17,9 +17,23 @@ const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
     <label>{label}</label>
     <div>
       <Field name={name} component="select">
-        <option></option>
+        <option>Select a language</option>
         <option value="en">English</option>
         <option value="fr">French</option>
+      </Field>
+    </div>
+    {touched && error && <span className="error">{error}</span>}
+  </div>
+);
+
+const renderIdentifierSelect  = ({name, label, meta: {touched, error}}) => (
+  <div className="columns small-6">
+    <label>{label}</label>
+    <div>
+      <Field name={name} component="select">
+        <option>Select a identifier</option>
+        <option value="1">NL-KVK-102</option>
+        <option value="2">NL-KVK-10245</option>
       </Field>
     </div>
     {touched && error && <span className="error">{error}</span>}
@@ -56,12 +70,12 @@ const renderParticipatingOrganisation = ({fields}) => (
   <div className="field-list">
     <div>
       <h6>Participating organisation </h6>
-      <Field component={renderOrganisationRoleSelect} name="role" label="Organisation role"/>
-      <Field component={renderLanguageSelect} name="identifier" label="Identifier"/>
-      <Field component={renderOrganisationTypeSelect} name="type" label="Organisation Type"/>
+      <Field component={renderOrganisationRoleSelect} name="role[code]" label="Organisation role"/>
+      <Field component={renderIdentifierSelect} name="identifier" label="Identifier"/>
+      <Field component={renderOrganisationTypeSelect} name="type[code]" label="Organisation Type"/>
       <div className="columns small-6">
         <Field
-          name="activityId"
+          name="activity_id"
           type="text"
           component={renderField}
           label="Activity ID"

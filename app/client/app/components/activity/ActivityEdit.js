@@ -17,6 +17,7 @@ class ActivityEdit extends React.Component {
     this.previousPage = this.previousPage.bind(this);
     this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
     this.handleBasicInformationFormSubmit = this.handleBasicInformationFormSubmit.bind(this);
+    this.handleParticipatingOrganisationFormSubmit = this.handleParticipatingOrganisationFormSubmit.bind(this);
 
     this.state = {
       page: 1
@@ -59,6 +60,20 @@ class ActivityEdit extends React.Component {
     this.nextPage();
   }
 
+  /**
+   * Submit participating organisation data and redirect
+   * to geopolitical information form.
+   *
+   * @param data
+   */
+  handleParticipatingOrganisationFormSubmit(data) {
+    console.log(JSON.stringify(data))
+    // this.props.addBasicInformation(data);
+    // this.nextPage();
+  }
+
+
+
   componentDidMount() {
     store.dispatch(toggleMainMenu(false));
 
@@ -87,7 +102,7 @@ class ActivityEdit extends React.Component {
 
   // render() {
   //   return (
-  //     <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} />
+  //     <ParticipatingOrganisationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} />
   //   );
   // }
 }
