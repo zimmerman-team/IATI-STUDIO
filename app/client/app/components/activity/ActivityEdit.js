@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect}            from 'react-redux'
-import _                      from 'lodash'
 import {toggleMainMenu} from '../../actions/sync'
 import {createActivity, getLanguages}       from '../../actions/async'
 import store from '../../app'
@@ -16,6 +15,7 @@ class ActivityEdit extends React.Component {
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
+
     this.state = {
       page: 1
     }
@@ -44,8 +44,23 @@ class ActivityEdit extends React.Component {
     this.nextPage();
   }
 
+  /**
+   * Submit basic information data and redirect
+   * to participating organisation form.
+   *
+   * @param data
+   */
+  handleBasicInformationFormSubmit(data) {
+    //this.props.createActivity(data);
+    this.nextPage();
+  }
+
   componentDidMount() {
     store.dispatch(toggleMainMenu(false));
+
+  }
+
+  componentWillMount() {
     const languages = this.props.getLanguages();
     console.log(languages);
   }
@@ -55,7 +70,7 @@ class ActivityEdit extends React.Component {
     return (
       <div>
         {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit}/>}
-        {page === 2 && <BasicInformationForm previousPage={this.previousPage} onSubmit={this.nextPage}/>}
+        {page === 2 && <BasicInformationForm previousPage={this.previousPage} onSubmit={this.handleBasicInformationFormSubmit}/>}
         {page === 3 &&
         <ParticipatingOrganisationForm previousPage={this.previousPage} onSubmit={this.handleSubmit.bind(this)}/>}
       </div>
@@ -66,7 +81,8 @@ class ActivityEdit extends React.Component {
 
 function mapStateToProps(state, props) {
   return {
-    navState: state.navState
+    navState: state.navState,
+    page: state.page
   }
 }
 

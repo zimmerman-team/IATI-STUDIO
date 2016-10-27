@@ -683,7 +683,7 @@ export function createActivity(activity) {
     return {
         [CALL_API]: {
             types: [ CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_ACTIVITY_FAILURE ],
-            endpoint: 'Publisher.addActivity',
+            endpoint: 'Activity.addActivity',
             payload: [activity]
         }
     }
@@ -701,7 +701,7 @@ export function getLanguages() {
     return {
         [CALL_API]: {
             types: [ GET_LANGUAGES_REQUEST, GET_LANGUAGES_SUCCESS, GET_LANGUAGES_FAILURE ],
-            endpoint: 'Publisher.getLanguages'
+            endpoint: 'Activity.getLanguages'
         }
     }
 }

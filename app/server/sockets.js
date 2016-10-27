@@ -5,6 +5,7 @@ const Visualization = require('./api/private/Visualizations')
 const OipaMeta = require('./api/private/OipaMeta')
 const IatiRegistryMeta = require('./api/private/IatiRegistryMeta')
 const Publisher = require('./api/private/Publisher')
+const Activity = require('./api/private/Activity')
 
 const User = require('./api/private/User')
 // import Visualization from "./api/private/Visualizations"
@@ -58,10 +59,6 @@ module.exports = function(app) {
         socket.on('Publisher.update', Publisher.update.bind(null, user));
         // Generate XML file
         socket.on('Publisher.generateXmlFile', Publisher.generateXmlFile.bind(null, user));
-        // Add Activity Redux Form
-        socket.on('Publisher.addActivity', Publisher.addActivity.bind(null, user));
-        // Get Languages
-        socket.on('Publisher.getLanguages', Publisher.getLanguages.bind(null, user));
 
         // Get API Validate API Key
         socket.on('IatiRegistryMeta.getApiKeyValidation', IatiRegistryMeta.getApiKeyValidation.bind(null, user));
@@ -73,5 +70,10 @@ module.exports = function(app) {
         socket.on('IatiRegistryMeta.deleteDataset', IatiRegistryMeta.deleteDataset.bind(null, user));
         // Update Dataset
         socket.on('IatiRegistryMeta.updateDataset', IatiRegistryMeta.updateDataset.bind(null, user));
+
+        // Add Activity Redux Form
+        socket.on('Activity.addActivity', Activity.addActivity.bind(null, user));
+        // Get Languages
+        socket.on('Activity.getLanguages', Activity.getLanguages.bind(null, user));
     })
 }

@@ -9,7 +9,6 @@ import { print, printTrace } from '../../utils/dev'
 
 import { getXmlFile } from '../../oipa/export'
 import { saveXmlFile } from '../../utils/saveFile'
-import { postActivity, getLanguages } from '../../oipa/activity'
 
 
 function handleError(res, error) {
@@ -21,15 +20,6 @@ function handleError(res, error) {
 }
 
 var PublisherAPI = {
-
-  addActivity: function(user, form, res) {
-      //console.log(form)
-      return postActivity(form);
-  },
-
-  getLanguages: function(user) {
-    return getLanguages();
-  },
 
     get: function(user, res) {
         Publisher.findOneByUser(user)

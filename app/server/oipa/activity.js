@@ -41,11 +41,9 @@ export const getLanguages = function () {
     url: config.codelists + '/Language/?page_size=200',
   };
 
-  return oipaGet(req_options).then(function (parsedBody) {
-    console.log(parsedBody.results)
-  }).catch(function (err) {
-    console.log(err)
-  })
+  return oipaGet(req_options).then(
+    parsedBody => parsedBody.results
+  )
 };
 
 /**
