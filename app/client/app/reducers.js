@@ -437,6 +437,25 @@ function publisher(state=initialPublisherState, action) {
     }
 }
 
+function activity(state = {}, action) {
+    switch (action.type) {
+        case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
+            return Object.assign({}, state, {
+                languages: action.response
+            });
+        case ActionTypes.CREATE_ACTIVITY_SUCCESS:
+            return Object.assign({}, state, {
+                activity: action.response
+            });
+        case ActionTypes.ADD_BASIC_INFORMATION_SUCCESS:
+            return Object.assign({}, state, {
+                activity: action.response
+            });
+        default:
+            return state
+    }
+}
+
 // TODO: separate this - 2016-03-31
 function notificationCenter(state=[], action) {
 
@@ -638,6 +657,7 @@ const rootReducer = combineReducers({
     user,
     pagination,
     publisher,
+    activity,
     apiKeyValidationForm,
     form: formReducer
 })

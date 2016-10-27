@@ -1,6 +1,6 @@
 "use strict"
 
-import { postActivity, getLanguages, postActivityDescriptionForm } from '../../oipa/activity'
+import { postActivity, getCodeListItems, postActivityDescriptionForm } from '../../oipa/activity'
 
 var ActivityAPI = {
 
@@ -16,8 +16,8 @@ var ActivityAPI = {
       .catch(error => res(error));
   },
 
-  getLanguages: function(user, res) {
-    return getLanguages()
+  getCodeListItems: function(user, codeListType, res) {
+    return getCodeListItems(codeListType)
       .then(languages => res(null, languages))
       .catch((error) => res(error));
   },

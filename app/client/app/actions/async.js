@@ -689,19 +689,22 @@ export function createActivity(activity) {
     }
 }
 
-/*
- * Get all languages
+export const GET_CODE_LIST_ITEMS_REQUEST = 'GET_CODE_LIST_ITEMS_REQUEST';
+export const GET_CODE_LIST_ITEMS_SUCCESS = 'GET_CODE_LIST_ITEMS_SUCCESS';
+export const GET_CODE_LIST_ITEMS_FAILURE = 'GET_CODE_LIST_ITEMS_FAILURE';
+
+/**
+ * Get items from code list
+ *
+ * @param {string} codeListType
+ * @returns {{}}
  */
-
-export const GET_LANGUAGES_REQUEST = 'GET_LANGUAGES_REQUEST';
-export const GET_LANGUAGES_SUCCESS = 'GET_LANGUAGES_SUCCESS';
-export const GET_LANGUAGES_FAILURE = 'GET_LANGUAGES_FAILURE';
-
-export function getLanguages() {
+export function getCodeListItems(codeListType) {
     return {
         [CALL_API]: {
-            types: [ GET_LANGUAGES_REQUEST, GET_LANGUAGES_SUCCESS, GET_LANGUAGES_FAILURE ],
-            endpoint: 'Activity.getLanguages'
+            types: [ GET_CODE_LIST_ITEMS_REQUEST, GET_CODE_LIST_ITEMS_SUCCESS, GET_CODE_LIST_ITEMS_FAILURE ],
+            endpoint: 'Activity.getCodeListItems',
+            payload: [codeListType]
         }
     }
 }

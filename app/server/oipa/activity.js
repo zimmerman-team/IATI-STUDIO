@@ -29,12 +29,13 @@ export const postActivity = function (activityData) {
 /**
  * Get all the languages form codeList.
  *
+ * @param codeListName
  * @returns {Promise|Promise.<T>}
  */
-export const getLanguages = function () {
+export const getCodeListItems = function (codeListName) {
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.codelists + '/Language/?page_size=200',
+    url: config.codelists + '/' + codeListName + '/?page_size=200',
   };
 
   return oipaGet(req_options).then(

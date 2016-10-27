@@ -5,34 +5,6 @@ import DescriptionForm from './BasicInformationDescriptionForm'
 import DateForm from './BasicInformationDateForm'
 import ContactForm from './BasicInformationContactForm'
 
-const renderField = ({input, label, type, meta: {touched, error}}) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} type={type} placeholder={label}/>
-      {touched && error && <span>{error}</span>}
-    </div>
-  </div>
-);
-
-const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <div>
-      <label>{label}</label>
-      <div>
-        <Field name={name} component="select">
-          <option>Select a language</option>
-          <option value="en">English</option>
-          <option value="fr">French</option>
-        </Field>
-      </div>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
-
-
-
 class BasicInformationForm extends React.Component {
 
   constructor(props) {
@@ -74,7 +46,10 @@ class BasicInformationForm extends React.Component {
               </div>
             </div>
             <div>
-              {/*<DateForm />*/}
+              <DateForm />
+            </div>
+            <div>
+              <ContactForm />
             </div>
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to identification</button>

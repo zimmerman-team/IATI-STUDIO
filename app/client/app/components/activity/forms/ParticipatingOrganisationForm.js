@@ -1,6 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
+import {renderLanguageSelect} from '../helpers/FormHelper'
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
@@ -12,21 +13,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   </div>
 );
 
-const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <label>{label}</label>
-    <div>
-      <Field name={name} component="select">
-        <option>Select a language</option>
-        <option value="en">English</option>
-        <option value="fr">French</option>
-      </Field>
-    </div>
-    {touched && error && <span className="error">{error}</span>}
-  </div>
-);
-
-const renderIdentifierSelect  = ({name, label, meta: {touched, error}}) => (
+const renderIdentifierSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
     <label>{label}</label>
     <div>
@@ -87,7 +74,7 @@ const renderParticipatingOrganisation = ({fields}) => (
       <div key={index}>
         <h6>Participating organisation #{index + 1}</h6>
         <Field component={renderOrganisationRoleSelect} name={`${organisations}.role`} label="Organisation role"/>
-        <Field component={renderLanguageSelect} name={`${organisations}.identifier`} label="Identifier"/>
+        <Field component={renderLanguageSelect} name={`${organisations}.identifier`} label="Identifier" />
         <Field component={renderOrganisationTypeSelect} name={`${organisations}.type`} label="Organisation Type"/>
         <div className="columns small-6">
           <Field
@@ -232,6 +219,7 @@ const validate = values => {
   }
   return errors
 };
+
 class ParticipatingOrganisationForm extends React.Component {
 
   constructor(props) {

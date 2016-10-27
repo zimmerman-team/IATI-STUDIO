@@ -74,7 +74,7 @@ module.exports = function(app) {
         // Add Activity Redux Form
         socket.on('Activity.addActivity', Activity.addActivity.bind(null, user));
         // Get Languages
-        socket.on('Activity.getLanguages', Activity.getLanguages.bind(null, user));
+        socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
         // Add activity basic information
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
     })

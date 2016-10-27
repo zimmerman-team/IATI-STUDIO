@@ -1,6 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
+import {renderLanguageSelect} from '../helpers/FormHelper'
 
 const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
   <div>
@@ -12,23 +13,7 @@ const renderField = ({input, label, type, readOnly, onChange, meta: {touched, er
   </div>
 );
 
-const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <div>
-      <label>{label}</label>
-      <div>
-        <Field name={name} component="select">
-          <option>Select a language</option>
-          <option value="en">English</option>
-          <option value="fr">French</option>
-        </Field>
-      </div>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
-
-const renderTitles = ({fields, meta: {touched, error}}) => (
+const renderTitles = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((title, index) =>
       <div key={index}>
@@ -40,7 +25,8 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${title}.language[code]`} label="Language"/>
+        <Field component={renderLanguageSelect} name={`${title}.language[code]`} label="Language"
+               languageOptions={languageOptions}/>
       </div>
     )}
     <div className="columns">
@@ -126,7 +112,7 @@ class IdentificationForm extends React.Component {
 
   //@todo: Move IATI activity editor to separate component.
   render() {
-    const {handleSubmit, submitting} = this.props;
+    const {handleSubmit, submitting, activity} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -148,8 +134,9 @@ class IdentificationForm extends React.Component {
                     label="Title"
                   />
                 </div>
-                <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
-                <FieldArray name="additionalTitles" component={renderTitles}/>
+                <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"
+                       languageOptions={activity.languages}/>
+                <FieldArray name="additionalTitles" component={renderTitles} languageOptions={activity.languages}/>
               </div>
             </div>
           </div>
