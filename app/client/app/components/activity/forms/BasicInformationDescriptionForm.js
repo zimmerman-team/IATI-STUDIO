@@ -76,14 +76,11 @@ const renderDescription = ({fields, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
-        <div className="columns small-6">
-          <Field
-            name={`${description}.text`}
-            type="text"
-            component={renderField}
-            label="Type"
-          />
-        </div>
+        <Field
+          name={`${description}.type[code]`}
+          component={renderDescriptionTypeSelect}
+          label="Type"
+        />
         <hr/>
         <h2 className="page-title">Narrative</h2>
         <div className="row">
@@ -122,7 +119,7 @@ const validate = values => {
     errors.type = descriptionTypeObj
   }
 
-  if(!values.typeText) {
+  if (!values.typeText) {
     errors.typeText = 'Required';
   }
 
