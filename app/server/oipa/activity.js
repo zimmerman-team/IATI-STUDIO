@@ -49,19 +49,15 @@ export const getLanguages = function () {
  * @returns {Promise|Promise.<T>}
  */
 //@todo: Change it to a promise pass it to promise.all.
-export const postAcitivtyDescriptionForm = function (formData) {
-  // const req_options = {
-  //   baseUrl: config.oipa_post_url,
-  //   url: config.activities_url,
-  //   body: activity,
-  // };
-  //
-  // return oipaPost(req_options)
-  //   .then(function (parsedBody) {
-  //     console.log(parsedBody)
-  //   }).catch(function (err) {
-  //     console.log(err);
-  //   })
+export const postActivityDescriptionForm = function (formData) {
+  const req_options = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + 'test32' + '/descriptions/',
+    body: prepareActivityData(formData),
+  };
+
+  return oipaPost(req_options)
+    .then(parsedBody => parsedBody)
 };
 
 /**

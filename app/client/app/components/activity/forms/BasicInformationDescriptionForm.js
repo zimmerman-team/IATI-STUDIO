@@ -93,7 +93,7 @@ const renderDescription = ({fields, meta: {touched, error}}) => (
             />
           </div>
           <Field component={renderLanguageSelect} name={`${description}.narrativeCode`} label="Language"/>
-          <FieldArray name={`${description}.additionalNarratives`} component={renderNarrative}/>
+          <FieldArray name={`${description}.additionalTitles`} component={renderNarrative}/>
         </div>
       </div>
     )}
@@ -119,20 +119,20 @@ const validate = values => {
     errors.type = descriptionTypeObj
   }
 
-  if (!values.typeText) {
-    errors.typeText = 'Required';
+  if (!values.textTitle) {
+    errors.textTitle = 'Required';
   }
 
-  if (!values.typeLanguage) {
+  if (!values.titleLanguage) {
     const typeLanguageObj = {};
     typeLanguageObj.code = 'Required';
-    errors.typeLanguage = typeLanguageObj
+    errors.titleLanguage = typeLanguageObj
   }
 
-  if (values.additionalNarratives) {
+  if (values.additionalTitles) {
     const narrativeArrayErrors = [];
 
-    values.additionalNarratives.forEach((title, titleIndex) => {
+    values.additionalTitles.forEach((title, titleIndex) => {
       const titleErrors = {};
       if (!title || !title.text) {
         titleErrors.text = 'Required';
@@ -147,7 +147,7 @@ const validate = values => {
     });
 
     if (narrativeArrayErrors.length) {
-      errors.additionalNarratives = narrativeArrayErrors
+      errors.additionalTitles = narrativeArrayErrors
     }
   }
 
@@ -182,14 +182,14 @@ class DescriptionForm extends React.Component {
               <div className="row">
                 <div className="columns small-6">
                   <Field
-                    name="typeText"
+                    name="textTitle"
                     type="text"
                     component={renderField}
                     label="Text"
                   />
                 </div>
-                <Field component={renderLanguageSelect} name="typeLanguage[code]" label="Language"/>
-                <FieldArray name="additionalNarratives" component={renderNarrative}/>
+                <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
+                <FieldArray name="additionalTitles" component={renderNarrative}/>
               </div>
             </div>
             <FieldArray name="additionalDescription" component={renderDescription}/>

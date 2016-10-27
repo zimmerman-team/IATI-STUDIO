@@ -16,6 +16,7 @@ class ActivityEdit extends React.Component {
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
+    this.handleBasicInformationFormSubmit = this.handleBasicInformationFormSubmit.bind(this);
 
     this.state = {
       page: 1
@@ -54,9 +55,8 @@ class ActivityEdit extends React.Component {
    * @param data
    */
   handleBasicInformationFormSubmit(data) {
-    console.log(JSON.stringify(data))
-    //this.props.addBasicInformation(data);
-    //this.nextPage();
+    this.props.addBasicInformation(data);
+    this.nextPage();
   }
 
   componentDidMount() {
@@ -71,25 +71,25 @@ class ActivityEdit extends React.Component {
 
   }
 
-  // render() {
-  //   const {page} = this.state;
-  //   return (
-  //     <div>
-  //       {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit}/>}
-  //       {page === 2 &&
-  //       <BasicInformationForm previousPage={this.previousPage} onSubmit={this.handleBasicInformationFormSubmit}/>}
-  //       {page === 3 &&
-  //       <ParticipatingOrganisationForm previousPage={this.previousPage} onSubmit={this.handleSubmit.bind(this)}/>}
-  //     </div>
-  //
-  //   )
-  // }
-
   render() {
+    const {page} = this.state;
     return (
-      <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} />
-    );
+      <div>
+        {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit}/>}
+        {page === 2 &&
+        <BasicInformationForm previousPage={this.previousPage} onSubmit={this.handleBasicInformationFormSubmit}/>}
+        {page === 3 &&
+        <ParticipatingOrganisationForm previousPage={this.previousPage} onSubmit={this.handleSubmit.bind(this)}/>}
+      </div>
+
+    )
   }
+
+  // render() {
+  //   return (
+  //     <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} />
+  //   );
+  // }
 }
 
 function mapStateToProps(state, props) {
