@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect}            from 'react-redux'
 import {toggleMainMenu} from '../../actions/sync'
-import {createActivity, getLanguages}       from '../../actions/async'
+import {createActivity, getLanguages, addBasicInformation}       from '../../actions/async'
 import store from '../../app'
 import IdentificationForm from './forms/IdentificationForm'
 import BasicInformationForm from './forms/BasicInformationForm'
@@ -12,6 +12,7 @@ class ActivityEdit extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
@@ -40,7 +41,9 @@ class ActivityEdit extends React.Component {
    * @param data
    */
   handleIdentificationFormSubmit(data) {
-    this.props.createActivity(data);
+    this.props.createActivity(data).then(function(results) {
+      console.log(results)
+    });
     this.nextPage();
   }
 
@@ -51,8 +54,9 @@ class ActivityEdit extends React.Component {
    * @param data
    */
   handleBasicInformationFormSubmit(data) {
-    //this.props.createActivity(data);
-    this.nextPage();
+    console.log(JSON.stringify(data))
+    //this.props.addBasicInformation(data);
+    //this.nextPage();
   }
 
   componentDidMount() {
@@ -61,32 +65,43 @@ class ActivityEdit extends React.Component {
   }
 
   componentWillMount() {
-    const languages = this.props.getLanguages();
-    console.log(languages);
+    this.props.getLanguages().then(function (results) {
+      console.log(results)
+    })
+
   }
 
-  render() {
-    const {page} = this.state;
-    return (
-      <div>
-        {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit}/>}
-        {page === 2 && <BasicInformationForm previousPage={this.previousPage} onSubmit={this.handleBasicInformationFormSubmit}/>}
-        {page === 3 &&
-        <ParticipatingOrganisationForm previousPage={this.previousPage} onSubmit={this.handleSubmit.bind(this)}/>}
-      </div>
+  // render() {
+  //   const {page} = this.state;
+  //   return (
+  //     <div>
+  //       {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit}/>}
+  //       {page === 2 &&
+  //       <BasicInformationForm previousPage={this.previousPage} onSubmit={this.handleBasicInformationFormSubmit}/>}
+  //       {page === 3 &&
+  //       <ParticipatingOrganisationForm previousPage={this.previousPage} onSubmit={this.handleSubmit.bind(this)}/>}
+  //     </div>
+  //
+  //   )
+  // }
 
-    )
+  render() {
+    return (
+      <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} />
+    );
   }
 }
 
 function mapStateToProps(state, props) {
   return {
     navState: state.navState,
-    page: state.page
+    page: state.page,
+    activity: state.activity
   }
 }
 
 export default connect(mapStateToProps, {
   createActivity,
-  getLanguages
+  getLanguages,
+  addBasicInformation
 })(ActivityEdit);

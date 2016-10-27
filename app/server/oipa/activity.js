@@ -22,11 +22,7 @@ export const postActivity = function (activityData) {
   };
 
   return oipaPost(req_options)
-    .then(function (parsedBody) {
-      console.log(parsedBody)
-    }).catch(function (err) {
-      console.log(err);
-    })
+    .then(parsedBody => parsedBody)
 
 };
 

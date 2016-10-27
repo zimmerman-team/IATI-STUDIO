@@ -6,7 +6,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type} />
+      <input {...input} placeholder={label} type={type}/>
       {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -27,6 +27,22 @@ const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
     </div>
   </div>
 );
+
+const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
+  <div className="columns small-6">
+    <div>
+      <label>{label}</label>
+      <div>
+        <Field name={name} component="select">
+          <option></option>
+          <option value="1">General</option>
+        </Field>
+      </div>
+      {touched && error && <span className="error">{error}</span>}
+    </div>
+  </div>
+);
+
 
 const renderNarrative = ({fields, meta: {touched, error}}) => (
   <div>
@@ -101,13 +117,41 @@ const validate = values => {
   const errors = {};
 
   if (!values.type) {
-    errors.type = 'Required'
+    const descriptionTypeObj = {};
+    descriptionTypeObj.code = 'Required';
+    errors.type = descriptionTypeObj
   }
 
-  if (!values.narrative) {
-    const narrativeTextObj = {};
-    narrativeTextObj.text = 'Required';
-    errors.narrative = narrativeTextObj
+  if(!values.typeText) {
+    errors.typeText = 'Required';
+  }
+
+  if (!values.typeLanguage) {
+    const typeLanguageObj = {};
+    typeLanguageObj.code = 'Required';
+    errors.typeLanguage = typeLanguageObj
+  }
+
+  if (values.additionalNarratives) {
+    const narrativeArrayErrors = [];
+
+    values.additionalNarratives.forEach((title, titleIndex) => {
+      const titleErrors = {};
+      if (!title || !title.text) {
+        titleErrors.text = 'Required';
+        narrativeArrayErrors[titleIndex] = titleErrors
+      }
+      if (!title || !title.language) {
+        const codeObj = {};
+        codeObj.code = 'Required';
+        titleErrors.language = codeObj;
+        narrativeArrayErrors[titleIndex] = titleErrors
+      }
+    });
+
+    if (narrativeArrayErrors.length) {
+      errors.additionalNarratives = narrativeArrayErrors
+    }
   }
 
   return errors
@@ -119,6 +163,7 @@ class DescriptionForm extends React.Component {
   constructor(props) {
     super(props)
   }
+
   //@todo: Narratives are also common in all the form. Separate it out and create a single component for that.
   render() {
     return (
@@ -130,26 +175,23 @@ class DescriptionForm extends React.Component {
               <i className="material-icons">info</i>
             </Tooltip>
             <div className="field-list">
-              <div className="columns small-6">
-                <Field
-                  name="type"
-                  type="text"
-                  component={renderField}
-                  label="Type"
-                />
-              </div>
+              <Field
+                name="type[code]"
+                component={renderDescriptionTypeSelect}
+                label="Type"
+              />
               <hr/>
               <h2 className="page-title">Narrative</h2>
               <div className="row">
                 <div className="columns small-6">
                   <Field
-                    name="narrative[text]"
+                    name="typeText"
                     type="text"
                     component={renderField}
-                    label="Title"
+                    label="Text"
                   />
                 </div>
-                <Field component={renderLanguageSelect} name="narrative[code]" label="Language"/>
+                <Field component={renderLanguageSelect} name="typeLanguage[code]" label="Language"/>
                 <FieldArray name="additionalNarratives" component={renderNarrative}/>
               </div>
             </div>

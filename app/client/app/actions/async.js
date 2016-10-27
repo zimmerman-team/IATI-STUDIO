@@ -690,7 +690,7 @@ export function createActivity(activity) {
 }
 
 /*
- * Get all visualizations
+ * Get all languages
  */
 
 export const GET_LANGUAGES_REQUEST = 'GET_LANGUAGES_REQUEST';
@@ -702,6 +702,24 @@ export function getLanguages() {
         [CALL_API]: {
             types: [ GET_LANGUAGES_REQUEST, GET_LANGUAGES_SUCCESS, GET_LANGUAGES_FAILURE ],
             endpoint: 'Activity.getLanguages'
+        }
+    }
+}
+
+/*
+ * Add basic information form data of activity
+ */
+
+export const ADD_BASIC_INFORMATION_REQUEST = 'ADD_BASIC_INFORMATION_REQUEST';
+export const ADD_BASIC_INFORMATION_SUCCESS = 'ADD_BASIC_INFORMATION_SUCCESS';
+export const ADD_BASIC_INFORMATION_FAILURE = 'ADD_BASIC_INFORMATION_FAILURE';
+
+export function addBasicInformation(activity) {
+    return {
+        [CALL_API]: {
+            types: [ ADD_BASIC_INFORMATION_REQUEST, ADD_BASIC_INFORMATION_SUCCESS, ADD_BASIC_INFORMATION_FAILURE ],
+            endpoint: 'Activity.addBasicInformation',
+            payload: [activity]
         }
     }
 }
