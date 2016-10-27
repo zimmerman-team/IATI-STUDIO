@@ -441,7 +441,7 @@ function activity(state = {}, action) {
     switch (action.type) {
         case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
             return Object.assign({}, state, {
-                languages: action.response
+                [action.extra]: action.response
             });
         case ActionTypes.CREATE_ACTIVITY_SUCCESS:
             return Object.assign({}, state, {

@@ -135,8 +135,8 @@ class IdentificationForm extends React.Component {
                   />
                 </div>
                 <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"
-                       languageOptions={activity.languages}/>
-                <FieldArray name="additionalTitles" component={renderTitles} languageOptions={activity.languages}/>
+                       languageOptions={activity.Language}/>
+                <FieldArray name="additionalTitles" component={renderTitles} languageOptions={activity.Language}/>
               </div>
             </div>
           </div>

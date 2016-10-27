@@ -704,7 +704,8 @@ export function getCodeListItems(codeListType) {
         [CALL_API]: {
             types: [ GET_CODE_LIST_ITEMS_REQUEST, GET_CODE_LIST_ITEMS_SUCCESS, GET_CODE_LIST_ITEMS_FAILURE ],
             endpoint: 'Activity.getCodeListItems',
-            payload: [codeListType]
+            payload: [codeListType],
+            extra: codeListType
         }
     }
 }

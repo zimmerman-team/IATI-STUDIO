@@ -83,7 +83,7 @@ class ActivityEdit extends React.Component {
   render() {
     const {page} = this.state;
 
-    if (!this.props.activity.languages) {
+    if (!this.props.activity.Language) {
       return <GeneralLoader/>
     }
 
@@ -104,8 +104,11 @@ class ActivityEdit extends React.Component {
   // render() {
   //   // const {activity} = this.props;
   //   // console.log(activity);
+  //   if (!this.props.activity["Language"]) {
+  //     return <GeneralLoader/>
+  //   }
   //   return (
-  //     <BasicInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} />
+  //     <ParticipatingOrganisationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props}/>
   //   );
   // }
 }
