@@ -31,6 +31,7 @@ exports = module.exports = function(app, mongoose) {
     avatar: String,
     firstName: String,
     lastName: String,
+    oipaToken: String
   });
   userSchema.methods.canPlayRoleOf = function(role) {
     if (role === "admin" && this.roles.admin) {
