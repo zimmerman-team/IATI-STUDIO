@@ -167,6 +167,9 @@ export function signup(req, res, next) {
   });
 
   workflow.on('signUpNewsletter', function() {
+      if (! req.app.config.oauth.newsletter) {
+          return workflow.emit('logUserIn')
+      }
     request.post(
       'https://api.createsend.com/api/v3.1/subscribers/'+req.app.config.oauth.newsletter.listId+'.json',
       {
