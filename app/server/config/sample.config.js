@@ -10,6 +10,8 @@ const config = {
     "static_root": path.join(process.cwd(), "public"),
 
     "oipa_url": "http://localhost:8000",
+    "oipa_post_url": "https://dev-post.oipa.nl",
+    "codelists": "/api/codelists/",
     "activities_url": "/api/activities/",
     "aggregation_url": "/api/transactions/aggregations/",
     "iati_registry_url": "https://iati-staging.ckan.io/api/",
