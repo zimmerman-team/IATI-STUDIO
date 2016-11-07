@@ -49,6 +49,7 @@ let MainMenu = React.createClass({
                 <li><Tooltip tooltip="Create activity"><Link to="/publisher/activity"><i className="material-icons">add</i>Create activity</Link></Tooltip></li>
                 <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
                 <li><Tooltip tooltip="Datasets"><Link to="/publisher/datasets"><i className="material-icons">perm_data_setting</i>Datasets</Link></Tooltip></li>
+                <li><Tooltip tooltip="Team Management"><Link to="/publisher/team-management"><i className="material-icons">perm_data_setting</i>Team Management</Link></Tooltip></li>
                 <hr />
                 <li><Tooltip tooltip="View frequently asked questions"><Link to="/help"><i className="material-icons">school</i> FAQ</Link></Tooltip></li>
             </ul>

@@ -20,6 +20,7 @@ import ActivityList from "./components/publisher/ActivityList"
 import ActivityEdit from "./components/publisher/ActivityEdit"
 import OrgSettings from "./components/publisher/OrgSettings"
 import DatasetsSettings from "./components/publisher/DatasetsSettings"
+import TeamManagement from "./components/publisher/TeamManagement"
 
 import {ErrorPage} from "./containers/ErrorPage.react.jsx";
 
@@ -50,6 +51,7 @@ export default (
             <Route path="publisher/settings" component={PublisherSettings}/>
             <Route path="publisher/organisation" component={OrgSettings}/>
             <Route path="publisher/datasets" component={DatasetsSettings}/>
+            <Route path="publisher/team-management" component={TeamManagement}/>
 
             {/*<Route path="topbar" component={Topbar}/>*/}
             <Route path="user/profile" component={UserProfile}/>

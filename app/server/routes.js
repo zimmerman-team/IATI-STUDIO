@@ -25,6 +25,7 @@ module.exports = function(app) {
      */
 
     app.get('/app/?*', function(req, res) {
+        // TODO: also need OIPA user here - 2016-11-01
         res.render("app", {
             title: "IATI Studio",
             INITIAL_STATE: {
@@ -52,7 +53,7 @@ module.exports = function(app) {
     /*
      * Link with OIPA
      */
-    app.get('/oipa/*', ensureAuthenticated, function(req, res) {
+    app.get('/api/oipa/*', ensureAuthenticated, function(req, res) {
         const oipaUrl = req.params[0]
 
         const req_options = {
@@ -64,32 +65,41 @@ module.exports = function(app) {
         };
         return oipaGet(req_options)
             .then(body => {
-                // console.log(body);
-                // console.log('got body');
                 return res.end(JSON.stringify(body))
             })
             .catch(error => {
-                return res.status(500).end(error.response.body)
+                return res.status(500).end(JSON.stringify(error.response.body))
             })
     })
-    app.post('/oipa/*', ensureAuthenticated, function(req, res) {
+    app.post('/api/oipa/*', ensureAuthenticated, function(req, res) {
         const oipaUrl = req.params[0]
 
+        console.log(req.body);
+
         const req_options = {
-            url: _.join([oipaUrl, querystring.stringify(req.query)], '?'),
+            url: oipaUrl,
             headers: {
                 'Authorization': 'Token ' + req.user.oipaToken
             },
             body: req.body,
+            json: true,
         };
-        return oipaGet(req_options)
+
+        console.log(req_options);
+
+        return oipaPost(req_options)
             .then(body => {
-                // console.log(body);
-                // console.log('got body');
+                console.log('in repsonse...');
+                console.log(body);
+                if (!body) {
+                    return res.end()
+                }
                 return res.end(JSON.stringify(body))
             })
             .catch(error => {
-                return res.status(500).end(error.response.body)
+                console.log('in error...');
+                console.log(error.response.body);
+                return res.status(500).end(JSON.stringify(error.response.body))
             })
     })
 

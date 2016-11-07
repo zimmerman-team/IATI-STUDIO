@@ -45,8 +45,8 @@ if (config.env === "development") {
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views')
 
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser(config.cryptoKey));
 // TODO: add cryptoKey 2016-05-02
 // app.use(cookieParser(config.cryptoKey));

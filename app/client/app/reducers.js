@@ -355,32 +355,32 @@ function context(state={}, action) {
 
 function apiKeyValidationForm(state={}, action) {
     switch(action.type) {
-        case ActionTypes.GET_API_KEY_VALIDATION_REQUEST:
+        case ActionTypes.VERIFY_API_KEY_REQUEST:
             return Object.assign({}, state, {
                 fetchingResponse: true,
                 message: {},
             })
-        case ActionTypes.GET_API_KEY_VALIDATION_ERROR:
+        case ActionTypes.VERIFY_API_KEY_FAILURE:
             return Object.assign({}, state, {
                 fetchingResponse: false,
                 message: action,
             })
-        case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
+        case ActionTypes.VERIFY_API_KEY_SUCCESS:
             return Object.assign({}, state, {
                 fetchingResponse: false,
                 message: {},
             })
-        case ActionTypes.GET_API_KEY_UNLINK_REQUEST:
+        case ActionTypes.REMOVE_API_KEY_REQUEST:
             return Object.assign({}, state, {
                 fetchingResponse: true,
                 message: {},
             })
-        case ActionTypes.GET_API_KEY_UNLINK_ERROR:
+        case ActionTypes.REMOVE_API_KEY_ERROR:
             return Object.assign({}, state, {
                 fetchingResponse: false,
                 message: action,
             })
-        case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
+        case ActionTypes.REMOVE_API_KEY_SUCCESS:
             return Object.assign({}, state, {
                 fetchingResponse: false,
                 message: {},
@@ -614,10 +614,32 @@ function errorMessage(state = null, action) {
 
 function user(state={}, action) {
     switch(action.type) {
+        case ActionTypes.VERIFY_API_KEY_SUCCESS:
+            return {
+                ...state,
+                oipaUser: {
+                    ...state.oipaUser,
+                    is_validated: true
+                },
+            }
+        case ActionTypes.REMOVE_API_KEY_SUCCESS:
+            return {
+                ...state,
+                oipaUser: {
+                    ...state.oipaUser,
+                    is_validated: false,
+                }
+            }
+
         case ActionTypes.UPDATE_USER_UI_SUCCESS:
             return action.response
         case ActionTypes.UPDATE_USER_PROFILE_SUCCESS:
             return action.response
+        case ActionTypes.GET_OIPA_USER_SUCCESS:
+            return {
+                ...state,
+                oipaUser: action.response
+            }
         default:
             return state
     }

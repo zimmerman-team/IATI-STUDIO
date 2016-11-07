@@ -24,8 +24,7 @@ export default store => next => action => {
         return next(action)
     }
 
-    let { endpoint } = callAPI
-    const { schema, types } = callAPI
+    let { method, body, endpoint, schema, types } = callAPI
 
     if (typeof endpoint === 'function') {
         endpoint = endpoint(store.getState())
@@ -34,14 +33,20 @@ export default store => next => action => {
     if (typeof endpoint !== 'string') {
         throw new Error('Specify a string endpoint URL.')
     }
-    if (!schema) {
-        throw new Error('Specify one of the exported Schemas.')
-    }
+    // if (!schema) {
+    //     throw new Error('Specify one of the exported Schemas.')
+    // }
+
     if (!Array.isArray(types) || types.length !== 3) {
         throw new Error('Expected an array of three action types.')
     }
+
     if (!types.every(type => typeof type === 'string')) {
         throw new Error('Expected action types to be strings.')
+    }
+
+    if (!method) {
+        method = 'GET';
     }
 
     function actionWith(data) {
@@ -53,7 +58,7 @@ export default store => next => action => {
     const [ requestType, successType, failureType ] = types
     next(actionWith({ type: requestType, endpoint }))
 
-    return callApi(endpoint, schema).then(
+    return callApi(method, body, endpoint, schema).then(
         response => next(actionWith({
             type: successType,
             response,
@@ -69,10 +74,17 @@ const API_ROOT = '/api/'
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
-function callApi(endpoint, schema) {
-    const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
+function callApi(method, body, endpoint, schema) {
+    const fullUrl = !endpoint.startsWith(API_ROOT) ? API_ROOT + endpoint : endpoint
 
-    return fetch(fullUrl, { credentials: 'same-origin' })
+    console.log('fetching with body ', body);
+
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+
+    return fetch(fullUrl, { method, body, credentials: 'same-origin', headers })
         .then(response =>
             response.json().then(json => ({ json, response }))
         ).then(({ json, response }) => {
@@ -84,7 +96,7 @@ function callApi(endpoint, schema) {
             const pagination = parsePaginationHeaders(response)
 
             return Object.assign({},
-                normalize(json, schema),
+                (schema ? normalize(json, schema) : json),
                 pagination,
                 // { nextPageUrl }
             )

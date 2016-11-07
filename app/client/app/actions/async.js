@@ -551,61 +551,7 @@ export function hideVisualizationFromFeed(id) {
         }
     }
 }
-// Alessandro
-// Validate
-export const GET_API_KEY_VALIDATION_REQUEST = 'GET_API_KEY_VALIDATION_REQUEST'
-export const GET_API_KEY_VALIDATION_SUCCESS = 'GET_API_KEY_VALIDATION_SUCCESS'
-export const GET_API_KEY_VALIDATION_ERROR = 'GET_API_KEY_VALIDATION_ERROR'
-export function getApiKeyValidation(apiKey, userId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_API_KEY_VALIDATION_REQUEST, GET_API_KEY_VALIDATION_SUCCESS, GET_API_KEY_VALIDATION_ERROR ],
-            endpoint: 'IatiRegistryMeta.getApiKeyValidation',
-            payload: [ apiKey, userId ],
-        }
-    }
-}
-// Unlink
-export const GET_API_KEY_UNLINK_REQUEST = 'GET_API_KEY_UNLINK_REQUEST'
-export const GET_API_KEY_UNLINK_SUCCESS = 'GET_API_KEY_UNLINK_SUCCESS'
-export const GET_API_KEY_UNLINK_FAILURE = 'GET_API_KEY_UNLINK_FAILURE'
-export function getApiKeyUnlink(publisher) {
-    return {
-        [CALL_API]: {
-            types: [ GET_API_KEY_UNLINK_REQUEST, GET_API_KEY_UNLINK_SUCCESS, GET_API_KEY_UNLINK_FAILURE ],
-            endpoint: 'IatiRegistryMeta.getApiKeyUnlink',
-            payload: [publisher]
-        }
-    }
-}
 
-// Fetch publisher
-export const GET_PUBLISHER_REQUEST = 'GET_PUBLISHER_REQUEST'
-export const GET_PUBLISHER_SUCCESS = 'GET_PUBLISHER_SUCCESS'
-export const GET_PUBLISHER_FAILURE = 'GET_PUBLISHER_FAILURE'
-export function fetchPublisher() {
-    return {
-        [CALL_API]: {
-            types: [ GET_PUBLISHER_REQUEST, GET_PUBLISHER_SUCCESS, GET_PUBLISHER_FAILURE ],
-            endpoint: 'Publisher.get',
-            // payload: ,
-            schema: Schemas.PUBLISHER
-        }
-    }
-}
-// Update
-export const UPDATE_PUBLISHER_REQUEST = 'UPDATE_PUBLISHER_REQUEST'
-export const UPDATE_PUBLISHER_SUCCESS = 'UPDATE_PUBLISHER_SUCCESS'
-export const UPDATE_PUBLISHER_FAILURE = 'UPDATE_PUBLISHER_FAILURE'
-export function updatePublisher(publisher) {
-    return {
-        [CALL_API]: {
-            types: [ UPDATE_PUBLISHER_REQUEST, UPDATE_PUBLISHER_SUCCESS, UPDATE_PUBLISHER_FAILURE ],
-            endpoint: 'Publisher.update',
-            payload: [publisher]
-        }
-    }
-}
 // (Create and ) publish Dataset
 export const PUBLISH_DATASET_REQUEST = 'PUBLISH_DATASET_REQUEST'
 export const PUBLISH_DATASET_SUCCESS = 'PUBLISH_DATASET_SUCCESS'
@@ -655,6 +601,71 @@ export function generateXmlFile(publisher, dataset) {
             types: [ GENERATE_XML_FILE_REQUEST, GENERATE_XML_FILE_SUCCESS, GENERATE_XML_FILE_FAILURE ],
             endpoint: 'Publisher.generateXmlFile',
             payload: [publisher, dataset]
+        }
+    }
+}
+
+// GET_OIPA_USER
+export const GET_OIPA_USER_REQUEST = 'GET_OIPA_USER_REQUEST'
+export const GET_OIPA_USER_SUCCESS = 'GET_OIPA_USER_SUCCESS'
+export const GET_OIPA_USER_FAILURE = 'GET_OIPA_USER_FAILURE'
+export function getOIPAUser() {
+    return {
+        [CALL_PUBLIC_API]: {
+            types: [ GET_OIPA_USER_REQUEST, GET_OIPA_USER_SUCCESS, GET_OIPA_USER_FAILURE ],
+            endpoint: 'oipa/api/auth/user',
+        }
+    }
+}
+
+// GET_ORGANISATION_GROUP_USERS
+export const GET_ORGANISATION_GROUP_USERS_REQUEST = 'GET_ORGANISATION_GROUP_USERS_REQUEST'
+export const GET_ORGANISATION_GROUP_USERS_SUCCESS = 'GET_ORGANISATION_GROUP_USERS_SUCCESS'
+export const GET_ORGANISATION_GROUP_USERS_FAILURE = 'GET_ORGANISATION_GROUP_USERS_FAILURE'
+export function getOrganisationGroupUsers(publisherId) {
+    return {
+        [CALL_PUBLIC_API]: {
+            types: [ GET_ORGANISATION_GROUP_USERS_REQUEST, GET_ORGANISATION_GROUP_USERS_SUCCESS, GET_ORGANISATION_GROUP_USERS_FAILURE ],
+            endpoint: `oipa/api/publisher/${publisherId}/group`,
+        }
+    }
+}
+
+
+// VERIFY_API_KEY
+export const VERIFY_API_KEY_REQUEST = 'VERIFY_API_KEY_REQUEST'
+export const VERIFY_API_KEY_SUCCESS = 'VERIFY_API_KEY_SUCCESS'
+export const VERIFY_API_KEY_FAILURE = 'VERIFY_API_KEY_FAILURE'
+export function verifyApiKey(userId, apiKey) {
+
+    return {
+        userId,
+        apiKey,
+        [CALL_PUBLIC_API]: {
+            method: 'POST',
+            body: JSON.stringify({
+                userId,
+                apiKey,
+            }),
+            types: [ VERIFY_API_KEY_REQUEST, VERIFY_API_KEY_SUCCESS, VERIFY_API_KEY_FAILURE ],
+            endpoint: `oipa/api/publishers/api_key/verify/`,
+        }
+    }
+}
+
+
+// REMOVE_API_KEY
+export const REMOVE_API_KEY_REQUEST = 'REMOVE_API_KEY_REQUEST'
+export const REMOVE_API_KEY_SUCCESS = 'REMOVE_API_KEY_SUCCESS'
+export const REMOVE_API_KEY_FAILURE = 'REMOVE_API_KEY_FAILURE'
+export function removeApiKey(userId, apiKey) {
+    return {
+        userId,
+        apiKey,
+        [CALL_PUBLIC_API]: {
+            method: 'POST',
+            types: [ REMOVE_API_KEY_REQUEST, REMOVE_API_KEY_SUCCESS, REMOVE_API_KEY_FAILURE ],
+            endpoint: `oipa/api/publishers/api_key/remove/`,
         }
     }
 }

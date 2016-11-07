@@ -23,8 +23,11 @@ const history = syncHistoryWithStore(browserHistory, store)
 export default store
 
 import { initialParams } from './actions/sync'
+import { getOIPAUser } from './actions/async'
+
 // dispatch some actions that need to be handled initially
 store.dispatch(initialParams())
+store.dispatch(getOIPAUser())
 
 import Root from './containers/Root'
 
