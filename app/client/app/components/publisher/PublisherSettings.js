@@ -237,10 +237,9 @@ const PublisherApiKeyForm = React.createClass({
     render: function () { 
         const { isValidated, formStatus } = this.props
 
-        let buttonTxt
-        if (formStatus.fetchingResponse) {
-            buttonTxt = 'Validating...'
-        }
+        const fetching = formStatus.fetchingResponse
+
+        const buttonTxt = fetching ? "Validating..." : "Validate"
 
         return (
             <div>
