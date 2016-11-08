@@ -1,17 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderLanguageSelect} from '../helpers/FormHelper'
-
-const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type} readOnly={readOnly}/>
-      {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-);
+import {renderLanguageSelect, renderField} from '../helpers/FormHelper'
 
 const renderTitles = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>

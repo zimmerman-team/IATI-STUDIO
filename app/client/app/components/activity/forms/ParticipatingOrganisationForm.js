@@ -2,54 +2,16 @@ import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../general/Loaders.react.jsx'
+import {renderLanguageSelect, renderField} from '../helpers/FormHelper'
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type}/>
-      {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-);
-
-const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
+const renderOrganisationSelect = ({name, label, selectOptions, defaultOption, meta: {touched, error}}) => (
   <div className="columns small-6">
     <label>{label}</label>
     <div>
       <Field name={name} component="select">
-        <option>Select a language</option>
-        <option value="en">English</option>
-        <option value="fr">French</option>
-      </Field>
-    </div>
-    {touched && error && <span className="error">{error}</span>}
-  </div>
-);
-
-const renderOrganisationRoleSelect = ({name, label, roleOptions, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <label>{label}</label>
-    <div>
-      <Field name={name} component="select">
-        <option>Select an organisation role</option>
+        <option>{defaultOption}</option>
         {
-          roleOptions.map((role, index) => <option key={index} value={role.code}>{role.name}</option>)
-        }
-      </Field>
-    </div>
-    {touched && error && <span className="error">{error}</span>}
-  </div>
-);
-
-const renderOrganisationTypeSelect = ({name, label, typeOptions, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <label>{label}</label>
-    <div>
-      <Field name={name} component="select">
-        <option>Select an organisation type</option>
-        {
-          typeOptions.map((type, index) => <option key={index} value={type.code}>{type.name}</option>)
+          selectOptions.map((role, index) => <option key={index} value={role.code}>{role.name}</option>)
         }
       </Field>
     </div>
@@ -61,8 +23,13 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
   <div className="field-list">
     <div>
       <h6>Participating organisation </h6>
-      <Field component={renderOrganisationRoleSelect} name="role[code]" label="Organisation role"
-             roleOptions={roleOptions}/>
+      <Field
+        component={renderOrganisationSelect}
+        name="role[code]"
+        label="Organisation role"
+        selectOptions={roleOptions}
+        defaultOption="Select an organisation role"
+      />
       <div className="columns small-6">
         <Field
           name="identifier"
@@ -71,8 +38,13 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
           label="Identifier"
         />
       </div>
-      <Field component={renderOrganisationTypeSelect} name="type[code]" label="Organisation Type"
-             typeOptions={typeOptions}/>
+      <Field
+        component={renderOrganisationSelect}
+        name="type[code]"
+        label="Organisation Type"
+        selectOptions={typeOptions}
+        defaultOption="Select an organisation type"
+      />
       <div className="columns small-6">
         <Field
           name="activity_id"
@@ -81,16 +53,33 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
           label="Activity ID"
         />
       </div>
-      <FieldArray name="additionalTitles" component={renderTitles}/>
+      <FieldArray name="additionalTitles" component={renderTitles} languageOptions={languageOptions}/>
     </div>
     {fields.map((organisations, index) =>
       <div key={index}>
         <h6>Participating organisation #{index + 1}</h6>
-        <Field component={renderOrganisationRoleSelect} name={`${organisations}.role`} label="Organisation role"
-               roleOptions={roleOptions}/>
-        <Field component={renderLanguageSelect} name={`${organisations}.identifier`} label="Identifier"/>
-        <Field component={renderOrganisationTypeSelect} name={`${organisations}.type`} label="Organisation Type"
-               typeOptions={typeOptions}/>
+        <Field
+          component={renderOrganisationSelect}
+          name={`${organisations}.role`}
+          label="Organisation role"
+          selectOptions={roleOptions}
+          defaultOption="Select an organisation role"
+        />
+        <div className="columns small-6">
+          <Field
+            component={renderField}
+            name={`${organisations}.identifier`}
+            label="Identifier"
+            type="text"
+          />
+        </div>
+        <Field
+          component={renderOrganisationSelect}
+          name={`${organisations}.type`}
+          label="Organisation Type"
+          selectOptions={typeOptions}
+          defaultOption="Select an organisation type"
+        />
         <div className="columns small-6">
           <Field
             name={`${organisations}.activityId`}
@@ -99,7 +88,11 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
             label="Activity ID"
           />
         </div>
-        <FieldArray name={`${organisations}.additionalTitles`} component={renderTitles}/>
+        <FieldArray
+          name={`${organisations}.additionalTitles`}
+          component={renderTitles}
+          languageOptions={languageOptions}
+        />
         <button
           type="button"
           title="Remove Title"
@@ -115,7 +108,7 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
   </div>
 );
 
-const renderTitles = ({fields, meta: {touched, error}}) => (
+const renderTitles = ({fields, languageOptions, meta: {touched, error}}) => (
   <div className="field-list">
     <div>
       <h6>Narrative</h6>
@@ -127,7 +120,12 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
           label="Organisation Name"
         />
       </div>
-      <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
+      <Field
+        component={renderLanguageSelect}
+        name="titleLanguage[code]"
+        label="Language"
+        languageOptions={languageOptions}
+      />
     </div>
     {fields.map((title, index) =>
       <div key={index}>
@@ -140,7 +138,12 @@ const renderTitles = ({fields, meta: {touched, error}}) => (
             label={`Organisation Name #${index + 1}`}
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${title}.language[code]`} label={`Language #${index + 1}`}/>
+        <Field
+          component={renderLanguageSelect}
+          name={`${title}.language[code]`}
+          label={`Language #${index + 1}`}
+          languageOptions={languageOptions}
+        />
         <button
           type="button"
           title="Remove Title"
