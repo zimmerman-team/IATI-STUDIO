@@ -80,37 +80,37 @@ class ActivityEdit extends React.Component {
     this.props.getCodeListItems('Language');
   }
 
-  // render() {
-  //   const {page} = this.state;
-  //
-  //   if (!this.props.activity.Language) {
-  //     return <GeneralLoader/>
-  //   }
-  //
-  //   return (
-  //     <div>
-  //       {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit} {...this.props} />}
-  //       {page === 2 &&
-  //       <BasicInformationForm previousPage={this.previousPage}
-  //                             onSubmit={this.handleBasicInformationFormSubmit} {...this.props}/>}
-  //       {page === 3 &&
-  //       <ParticipatingOrganisationForm previousPage={this.previousPage}
-  //                                      onSubmit={this.handleSubmit.bind(this)} {...this.props}/>}
-  //     </div>
-  //
-  //   )
-  // }
-
   render() {
-    // const {activity} = this.props;
-    // console.log(activity);
-    if (!this.props.activity["Language"]) {
+    const {page} = this.state;
+
+    if (!this.props.activity.Language) {
       return <GeneralLoader/>
     }
+
     return (
-      <BasicInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
-    );
+      <div>
+        {page === 1 && <IdentificationForm onSubmit={this.handleIdentificationFormSubmit} {...this.props} />}
+        {page === 2 &&
+        <BasicInformationForm previousPage={this.previousPage}
+                              onSubmit={this.handleBasicInformationFormSubmit} {...this.props}/>}
+        {page === 3 &&
+        <ParticipatingOrganisationForm previousPage={this.previousPage}
+                                       onSubmit={this.handleSubmit.bind(this)} {...this.props}/>}
+      </div>
+
+    )
   }
+
+  // render() {
+  //   // const {activity} = this.props;
+  //   // console.log(activity);
+  //   if (!this.props.activity["Language"]) {
+  //     return <GeneralLoader/>
+  //   }
+  //   return (
+  //     <BasicInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
+  //   );
+  // }
 }
 
 function mapStateToProps(state, props) {
