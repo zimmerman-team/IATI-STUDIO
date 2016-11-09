@@ -1,16 +1,8 @@
 import React from 'react'
-import { Field, FieldArray, reduxForm } from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
+import {renderNarrativeFields, renderField} from '../helpers/FormHelper'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input}  type={type} placeholder={label}/>
-      {touched && error && <span>{error}</span>}
-    </div>
-  </div>
-);
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
     <div>
@@ -42,11 +34,20 @@ const renderContactTypeSelect = ({name, label, meta: {touched, error}}) => (
   </div>
 );
 
-const renderParticipatingContact = ({ fields }) => (
+const renderParticipatingContact = ({fields, languageOptions}) => (
   <div className="field-list">
     <div>
       <Field name="type" component={renderContactTypeSelect} label="Contact type"/>
-      <FieldArray name="ContactOrganisation" component={renderContactOrganisation}/>
+      <div>
+        <h2 className="page-title">Organisation</h2>
+        <FieldArray
+          name="ContactOrganisation"
+          component={renderNarrativeFields}
+          languageOptions={languageOptions}
+          textName="narrativeOrganisation[text]"
+          textLabel="Title"
+        />
+      </div>
       <FieldArray name="ContactDepartment" component={renderContactDepartment}/>
       <FieldArray name="ContactPerson" component={renderContactPerson}/>
       <FieldArray name="ContactJob" component={renderContactJob}/>
@@ -59,8 +60,17 @@ const renderParticipatingContact = ({ fields }) => (
     {fields.map((participatingOrganisation, index) =>
       <div key={index}>
         <h6>Contact Info #{index + 2}</h6>
-        <Field  name={`${participatingOrganisation}.contact`} label="Contact type" component={renderContactTypeSelect}/>
-        <FieldArray name={`${participatingOrganisation}.ContactOrganisation`} component={renderContactOrganisation}/>
+        <Field name={`${participatingOrganisation}.contact`} label="Contact type" component={renderContactTypeSelect}/>
+        <div>
+          <h2 className="page-title">Organisation</h2>
+          <FieldArray
+            name={`${participatingOrganisation}.ContactOrganisation`}
+            component={renderNarrativeFields}
+            languageOptions={languageOptions}
+            textName="narrativeOrganisation[text]"
+            textLabel="Title"
+          />
+        </div>
         <FieldArray name={`${participatingOrganisation}.ContactDepartment`} component={renderContactDepartment}/>
         <FieldArray name={`${participatingOrganisation}.ContactPerson`} component={renderContactPerson}/>
         <FieldArray name={`${participatingOrganisation}.ContactJob`} component={renderContactJob}/>
@@ -72,7 +82,8 @@ const renderParticipatingContact = ({ fields }) => (
           type="button"
           title="Remove Participating organisation"
           className="control-button remove float-right"
-          onClick={() => fields.remove(index)}>Delete</button>
+          onClick={() => fields.remove(index)}>Delete
+        </button>
       </div>
     )}
     <div>
@@ -80,50 +91,8 @@ const renderParticipatingContact = ({ fields }) => (
     </div>
   </div>
 );
-const renderContactOrganisation = ({ fields, meta: { error } }) => (
-  <div className="field-list">
-    <h2 className="page-title">Organisation</h2>
-    <hr/>
-    <div>
-      <h6>Narrative</h6>
-      <div className="columns small-6">
-        <Field
-          name="narrativeOrganisation[text]"
-          type="text"
-          component={renderField}
-          label="Title"
-        />
-      </div>
-      <Field component={renderLanguageSelect} name="narrativeOrganisation[code]" label="Language"/>
-    </div>
-    {fields.map((organisation, index) =>
 
-      <div key={index}>
-        <h6>Narrative</h6>
-        <div className="columns small-6">
-          <Field
-            name={`${organisation}.text`}
-            type="text"
-            component={renderField}
-            label="Title"
-          />
-        </div>
-        <Field component={renderLanguageSelect} name={`${organisation}.language[code]`} label="Language" />
-        <button
-          type="button"
-          title="Remove Participating organisation"
-          className="control-button remove float-right"
-          onClick={() => fields.remove(index)}>Delete
-        </button>
-      </div>
-    )}
-    {error && <span className="error">{error}</span>}
-    <div>
-      <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
-    </div>
-  </div>
-)
-const renderContactDepartment = ({ fields, meta: { error } }) => (
+const renderContactDepartment = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Department</h2>
     <hr/>
@@ -151,7 +120,7 @@ const renderContactDepartment = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${department}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${department}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -166,7 +135,7 @@ const renderContactDepartment = ({ fields, meta: { error } }) => (
     </div>
   </div>
 )
-const renderContactPerson = ({ fields, meta: { error } }) => (
+const renderContactPerson = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Person Name</h2>
     <hr/>
@@ -194,7 +163,7 @@ const renderContactPerson = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${conatactPerson}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${conatactPerson}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -209,7 +178,7 @@ const renderContactPerson = ({ fields, meta: { error } }) => (
     </div>
   </div>
 )
-const renderContactJob = ({ fields, meta: { error } }) => (
+const renderContactJob = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Job Title</h2>
     <hr/>
@@ -237,7 +206,7 @@ const renderContactJob = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${contactJob}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${contactJob}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -252,7 +221,7 @@ const renderContactJob = ({ fields, meta: { error } }) => (
     </div>
   </div>
 )
-const renderContactPhone = ({ fields, meta: { error } }) => (
+const renderContactPhone = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Telephone</h2>
     <hr/>
@@ -280,7 +249,7 @@ const renderContactPhone = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${contactPhone}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${contactPhone}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -295,7 +264,7 @@ const renderContactPhone = ({ fields, meta: { error } }) => (
     </div>
   </div>
 )
-const renderContactEmail = ({ fields, meta: { error } }) => (
+const renderContactEmail = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Email</h2>
     <hr/>
@@ -323,7 +292,7 @@ const renderContactEmail = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${contactMail}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${contactMail}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -338,7 +307,7 @@ const renderContactEmail = ({ fields, meta: { error } }) => (
     </div>
   </div>
 )
-const renderContactWebsite = ({ fields, meta: { error } }) => (
+const renderContactWebsite = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Website</h2>
     <hr/>
@@ -366,7 +335,7 @@ const renderContactWebsite = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${website}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${website}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -381,7 +350,7 @@ const renderContactWebsite = ({ fields, meta: { error } }) => (
     </div>
   </div>
 )
-const renderContactMailAddress = ({ fields, meta: { error } }) => (
+const renderContactMailAddress = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Mailing address</h2>
     <hr/>
@@ -409,7 +378,7 @@ const renderContactMailAddress = ({ fields, meta: { error } }) => (
             label="Title"
           />
         </div>
-        <Field component={renderLanguageSelect} name={`${mailingAddress}.language[code]`} label="Language" />
+        <Field component={renderLanguageSelect} name={`${mailingAddress}.language[code]`} label="Language"/>
         <button
           type="button"
           title="Remove Participating organisation"
@@ -423,13 +392,16 @@ const renderContactMailAddress = ({ fields, meta: { error } }) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 class BasicInformationContactForm extends React.Component {
   constructor(props) {
     super(props)
   }
-  //@todo: Narratives are also common in all the form. Separate it out and create a single component for that.
+
   render() {
+    const {activity} = this.props;
+
     return (
       <div>
         <div className="row">
@@ -438,7 +410,11 @@ class BasicInformationContactForm extends React.Component {
             <Tooltip className="inline" tooltip="Contact info text goes here">
               <i className="material-icons">info</i>
             </Tooltip>
-            <FieldArray name="participating-contact" component={renderParticipatingContact} />
+            <FieldArray
+              name="participating-contact"
+              component={renderParticipatingContact}
+              languageOptions={activity["Language"]}
+            />
           </div>
         </div>
       </div>

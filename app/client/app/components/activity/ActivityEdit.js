@@ -108,7 +108,7 @@ class ActivityEdit extends React.Component {
       return <GeneralLoader/>
     }
     return (
-      <GeopoliticalInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
+      <BasicInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
     );
   }
 }

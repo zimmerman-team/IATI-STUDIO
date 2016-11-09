@@ -1,32 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
-
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type}/>
-      {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-);
-
-const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <div>
-      <label>{label}</label>
-      <div>
-        <Field name={name} component="select">
-          <option>Select a language</option>
-          <option value="en">English</option>
-          <option value="fr">French</option>
-        </Field>
-      </div>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
+import {renderNarrativeFields} from '../helpers/FormHelper'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -43,36 +18,7 @@ const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   </div>
 );
 
-
-const renderNarrative = ({fields, meta: {touched, error}}) => (
-  <div>
-    {fields.map((title, index) =>
-      <div key={index}>
-        <div className="columns small-6">
-          <Field
-            name={`${title}.text`}
-            type="text"
-            component={renderField}
-            label="Title"
-          />
-        </div>
-        <Field component={renderLanguageSelect} name={`${title}.language[code]`} label="Language"/>
-      </div>
-    )}
-    <div className="columns">
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add Title</button>
-      <button
-        type="button"
-        title="Remove Title"
-        className="control-button remove float-right"
-        onClick={() => fields.pop()}>Delete
-      </button>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
-
-const renderDescription = ({fields, meta: {touched, error}}) => (
+const renderDescription = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
@@ -82,31 +28,15 @@ const renderDescription = ({fields, meta: {touched, error}}) => (
           label="Type"
         />
         <hr/>
-        <h2 className="page-title">Narrative</h2>
-        <div className="row">
-          <div className="columns small-6">
-            <Field
-              name={`${description}.narrativeText`}
-              type="text"
-              component={renderField}
-              label="Title"
-            />
-          </div>
-          <Field component={renderLanguageSelect} name={`${description}.narrativeCode`} label="Language"/>
-          <FieldArray name={`${description}.additionalTitles`} component={renderNarrative}/>
-        </div>
+        <FieldArray
+          name={`${description}.additionalTitles`}
+          component={renderNarrativeFields}
+          languageOptions={languageOptions}
+          textName={`${description}.narrativeText`}
+          textLabel="Title"
+        />
       </div>
     )}
-    <div className="columns">
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-      <button
-        type="button"
-        title="Remove Title"
-        className="control-button remove float-right"
-        onClick={() => fields.pop()}>Delete
-      </button>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
   </div>
 );
 
@@ -161,8 +91,9 @@ class DescriptionForm extends React.Component {
     super(props)
   }
 
-  //@todo: Narratives are also common in all the form. Separate it out and create a single component for that.
   render() {
+    const {activity} = this.props;
+
     return (
       <div>
         <div className="row">
@@ -178,26 +109,19 @@ class DescriptionForm extends React.Component {
                 label="Type"
               />
               <hr/>
-              <h2 className="page-title">Narrative</h2>
-              <div className="row">
-                <div className="columns small-6">
-                  <Field
-                    name="textTitle"
-                    type="text"
-                    component={renderField}
-                    label="Text"
-                  />
-                </div>
-                <Field
-                  component={renderLanguageSelect}
-                  name="titleLanguage[code]"
-                  label="Language"
-                  languageOptions={this.props.activity["Language"]}
-                />
-                <FieldArray name="additionalTitles" component={renderNarrative}/>
-              </div>
+              <FieldArray
+                name="additionalTitles"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="textTitle"
+                textLabel="Text"
+              />
             </div>
-            <FieldArray name="additionalDescription" component={renderDescription}/>
+            <FieldArray
+              name="additionalDescription"
+              component={renderDescription}
+              languageOptions={activity["Language"]}
+            />
           </div>
         </div>
       </div>

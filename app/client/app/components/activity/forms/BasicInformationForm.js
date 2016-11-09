@@ -46,10 +46,10 @@ class BasicInformationForm extends React.Component {
               </div>
             </div>
             <div>
-              <DateForm />
+              <DateForm activity={activity}/>
             </div>
             <div>
-              <ContactForm />
+              <ContactForm activity={activity}/>
             </div>
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to identification</button>
