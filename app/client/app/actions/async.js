@@ -727,3 +727,25 @@ export function addBasicInformation(activity) {
         }
     }
 }
+
+/**
+ * Add participating organisation form data of activity
+ *
+ * @param formData
+ * @param activity
+ * @returns {{}}
+ */
+
+export const ADD_PARTICIPATING_ORGANISATION_REQUEST = 'ADD_PARTICIPATING_ORGANISATION_REQUEST';
+export const ADD_PARTICIPATING_ORGANISATION_SUCCESS = 'ADD_PARTICIPATING_ORGANISATION_SUCCESS';
+export const ADD_PARTICIPATING_ORGANISATION_FAILURE = 'ADD_PARTICIPATING_ORGANISATION_FAILURE';
+
+export function addParticipatingOrganisation(formData, activity) {
+    return {
+        [CALL_API]: {
+            types: [ ADD_PARTICIPATING_ORGANISATION_REQUEST, ADD_PARTICIPATING_ORGANISATION_SUCCESS, ADD_PARTICIPATING_ORGANISATION_FAILURE ],
+            endpoint: 'Activity.addParticipatingOrganisation',
+            payload: [formData, activity]
+        }
+    }
+}

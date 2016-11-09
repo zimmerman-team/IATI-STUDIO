@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 /*
  * Functions for communicating with activity API
  */
@@ -55,6 +55,24 @@ export const postActivityDescriptionForm = function (formData) {
     baseUrl: config.oipa_post_url,
     url: config.activities_url + 'test32' + '/descriptions/',
     body: prepareActivityData(formData),
+  };
+
+  return oipaPost(req_options)
+    .then(parsedBody => parsedBody)
+};
+
+/**
+ * Post participating organisation form.
+ *
+ * @param formData
+ * @returns {Promise|Promise.<T>}
+ */
+//@todo: Change it to a promise pass it to promise.all.
+export const postParticipatingOrganisationForm = function (formData, activity) {
+  const req_options = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + 'test32' + '/participating_organisations/',
+    body: formData,
   };
 
   return oipaPost(req_options)

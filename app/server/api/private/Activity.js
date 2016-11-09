@@ -1,6 +1,6 @@
 "use strict"
 
-import { postActivity, getCodeListItems, postActivityDescriptionForm } from '../../oipa/activity'
+import { postActivity, getCodeListItems, postActivityDescriptionForm, postParticipatingOrganisationForm } from '../../oipa/activity'
 
 var ActivityAPI = {
 
@@ -12,6 +12,12 @@ var ActivityAPI = {
 
   addBasicInformation: function (user, form, res) {
     return postActivityDescriptionForm(form)
+      .then(result => res(null, result))
+      .catch(error => res(error));
+  },
+
+  addParticipatingOrganisation: function (user, form, activity, res) {
+    return postParticipatingOrganisationForm(form, activity)
       .then(result => res(null, result))
       .catch(error => res(error));
   },

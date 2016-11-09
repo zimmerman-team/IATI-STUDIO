@@ -2,7 +2,7 @@ import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../general/Loaders.react.jsx'
-import {renderLanguageSelect, renderField} from '../helpers/FormHelper'
+import {renderField, renderNarrativeFields} from '../helpers/FormHelper'
 
 const renderOrganisationSelect = ({name, label, selectOptions, defaultOption, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -53,7 +53,13 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
           label="Activity ID"
         />
       </div>
-      <FieldArray name="additionalTitles" component={renderTitles} languageOptions={languageOptions}/>
+      <FieldArray
+        name="additionalTitles"
+        component={renderNarrativeFields}
+        languageOptions={languageOptions}
+        textName="name"
+        textLabel="Organisation Name"
+      />
     </div>
     {fields.map((organisations, index) =>
       <div key={index}>
@@ -90,8 +96,10 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
         </div>
         <FieldArray
           name={`${organisations}.additionalTitles`}
-          component={renderTitles}
+          component={renderNarrativeFields}
           languageOptions={languageOptions}
+          textName="name"
+          textLabel="Organisation Name"
         />
         <button
           type="button"
@@ -102,57 +110,6 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
         </button>
       </div>
     )}
-    <div>
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-    </div>
-  </div>
-);
-
-const renderTitles = ({fields, languageOptions, meta: {touched, error}}) => (
-  <div className="field-list">
-    <div>
-      <h6>Narrative</h6>
-      <div className="columns small-6">
-        <Field
-          name="name"
-          type="text"
-          component={renderField}
-          label="Organisation Name"
-        />
-      </div>
-      <Field
-        component={renderLanguageSelect}
-        name="titleLanguage[code]"
-        label="Language"
-        languageOptions={languageOptions}
-      />
-    </div>
-    {fields.map((title, index) =>
-      <div key={index}>
-        <h6>Narrative</h6>
-        <div className="columns small-6">
-          <Field
-            name={`${title}.name`}
-            type="text"
-            component={renderField}
-            label={`Organisation Name #${index + 1}`}
-          />
-        </div>
-        <Field
-          component={renderLanguageSelect}
-          name={`${title}.language[code]`}
-          label={`Language #${index + 1}`}
-          languageOptions={languageOptions}
-        />
-        <button
-          type="button"
-          title="Remove Title"
-          className="control-button remove float-right"
-          onClick={() => fields.pop()}>Delete
-        </button>
-      </div>
-    )}
-    {touched && error && <li className="error">{error}</li>}
     <div>
       <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
     </div>
@@ -294,6 +251,10 @@ class ParticipatingOrganisationForm extends React.Component {
 export default reduxForm({
   form: 'syncValidation',
   destroyOnUnmount: false,
+  initialValues: {
+    ref: 'dummy',
+    activity: 'dummy'
+  },
   validate
 
 })(ParticipatingOrganisationForm)
