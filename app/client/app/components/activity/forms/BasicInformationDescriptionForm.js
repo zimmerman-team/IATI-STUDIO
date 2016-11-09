@@ -188,7 +188,12 @@ class DescriptionForm extends React.Component {
                     label="Text"
                   />
                 </div>
-                <Field component={renderLanguageSelect} name="titleLanguage[code]" label="Language"/>
+                <Field
+                  component={renderLanguageSelect}
+                  name="titleLanguage[code]"
+                  label="Language"
+                  languageOptions={this.props.activity["Language"]}
+                />
                 <FieldArray name="additionalTitles" component={renderNarrative}/>
               </div>
             </div>

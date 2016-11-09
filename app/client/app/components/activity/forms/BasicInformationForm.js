@@ -13,7 +13,7 @@ class BasicInformationForm extends React.Component {
 
   //@todo: Move IATI activity editor to separate component.
   render() {
-    const {handleSubmit, pristine, reset, submitting, previousPage} = this.props;
+    const {handleSubmit, pristine, reset, submitting, previousPage, activity} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -25,7 +25,7 @@ class BasicInformationForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <DescriptionForm />
+            <DescriptionForm activity={activity} />
           </div>
           <div className="row">
             <div className="columns small-centered small-12">

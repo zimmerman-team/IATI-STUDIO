@@ -6,6 +6,7 @@ import store from '../../app'
 import IdentificationForm from './forms/IdentificationForm'
 import BasicInformationForm from './forms/BasicInformationForm'
 import ParticipatingOrganisationForm from './forms/ParticipatingOrganisationForm'
+import GeopoliticalInformationForm from './forms/GeopoliticalForm'
 import {GeneralLoader} from '../general/Loaders.react.jsx'
 
 class ActivityEdit extends React.Component {
@@ -107,7 +108,7 @@ class ActivityEdit extends React.Component {
       return <GeneralLoader/>
     }
     return (
-      <ParticipatingOrganisationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props}/>
+      <GeopoliticalInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
     );
   }
 }
