@@ -2,29 +2,14 @@ import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../general/Loaders.react.jsx'
-import {renderField, renderNarrativeFields} from '../helpers/FormHelper'
-
-const renderOrganisationSelect = ({name, label, selectOptions, defaultOption, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <label>{label}</label>
-    <div>
-      <Field name={name} component="select">
-        <option>{defaultOption}</option>
-        {
-          selectOptions.map((role, index) => <option key={index} value={role.code}>{role.name}</option>)
-        }
-      </Field>
-    </div>
-    {touched && error && <span className="error">{error}</span>}
-  </div>
-);
+import {renderField, renderNarrativeFields, renderSelectField} from '../helpers/FormHelper'
 
 const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions}) => (
   <div className="field-list">
     <div>
       <h6>Participating organisation </h6>
       <Field
-        component={renderOrganisationSelect}
+        component={renderSelectField}
         name="role[code]"
         label="Organisation role"
         selectOptions={roleOptions}
@@ -39,7 +24,7 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
         />
       </div>
       <Field
-        component={renderOrganisationSelect}
+        component={renderSelectField}
         name="type[code]"
         label="Organisation Type"
         selectOptions={typeOptions}
@@ -65,7 +50,7 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
       <div key={index}>
         <h6>Participating organisation #{index + 1}</h6>
         <Field
-          component={renderOrganisationSelect}
+          component={renderSelectField}
           name={`${organisations}.role`}
           label="Organisation role"
           selectOptions={roleOptions}
@@ -80,7 +65,7 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
           />
         </div>
         <Field
-          component={renderOrganisationSelect}
+          component={renderSelectField}
           name={`${organisations}.type`}
           label="Organisation Type"
           selectOptions={typeOptions}

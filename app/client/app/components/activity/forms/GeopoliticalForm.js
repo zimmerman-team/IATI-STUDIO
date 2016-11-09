@@ -23,10 +23,10 @@ class GeopoliticalForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <RecipientCountryForm activity={activity} />
+            <RecipientCountryForm {...this.props} />
           </div>
           <div className="row">
-            <RecipientRegionForm activity={activity} />
+            <RecipientRegionForm {...this.props} />
           </div>
           <div className="row">
             <div className="columns small-12">

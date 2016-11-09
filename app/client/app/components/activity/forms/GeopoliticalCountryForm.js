@@ -1,28 +1,20 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../helpers/FormHelper'
+import {renderNarrativeFields, renderField, renderSelectField} from '../helpers/FormHelper'
+import {GeneralLoader} from '../../general/Loaders.react.jsx'
 
-const renderCountryTypeSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <div>
-      <label>{label}</label>
-      <div>
-        <Field name={name} component="select">
-          <option></option>
-          <option value="1">+91</option>
-        </Field>
-      </div>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
-
-const renderCountry = ({fields, meta: {touched, error}}) => (
+const renderCountry = ({fields, countryCodeOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((title, index) =>
       <div key={index}>
-        <Field component={renderCountryTypeSelect} name={`${title}.country[code]`} label="Country Code"/>
+        <Field
+          component={renderSelectField}
+          name={`${title}.country[code]`}
+          label="Country code"
+          selectOptions={countryCodeOptions}
+          defaultOption="Select one of the following options"
+        />
         <div className="columns small-6">
           <Field
             name={`${title}.text`}
@@ -143,8 +135,13 @@ class RecipientCountryForm extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    this.props.getCodeListItems('Country');
+  }
+
   render() {
     const {activity} = this.props;
+
     return (
       <div>
         <div className="row">
@@ -155,11 +152,17 @@ class RecipientCountryForm extends React.Component {
             </Tooltip>
             <div className="field-list">
               <div className="row">
-                <Field
-                  name="country[code]"
-                  component={renderCountryTypeSelect}
-                  label="Country Code"
-                />
+                {
+                  !activity["Country"] ?
+                    <GeneralLoader/> :
+                    <Field
+                      component={renderSelectField}
+                      name="country[code]"
+                      label="Country code"
+                      selectOptions={activity["Country"]}
+                      defaultOption="Select one of the following options"
+                    />
+                }
                 <div className="columns small-6">
                   <Field
                     name="percentageText"
@@ -168,7 +171,8 @@ class RecipientCountryForm extends React.Component {
                     label="Percentage"
                   />
                 </div>
-                <FieldArray name="additionalCountry" component={renderCountry}/>
+                <FieldArray name="additionalCountry" component={renderCountry}
+                            countryCodeOptions={activity["Country"]}/>
               </div>
               <div className="row">
                 <FieldArray

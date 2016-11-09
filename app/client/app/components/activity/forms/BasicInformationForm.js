@@ -25,7 +25,7 @@ class BasicInformationForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <DescriptionForm activity={activity} />
+            <DescriptionForm {...this.props} />
           </div>
           <div className="row">
             <div className="columns small-centered small-12">
@@ -46,10 +46,10 @@ class BasicInformationForm extends React.Component {
               </div>
             </div>
             <div>
-              <DateForm activity={activity}/>
+              <DateForm {...this.props} />
             </div>
             <div>
-              <ContactForm activity={activity}/>
+              {/*<ContactForm activity={activity}/>*/}
             </div>
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to identification</button>

@@ -1,7 +1,8 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../helpers/FormHelper'
+import {GeneralLoader} from '../../general/Loaders.react.jsx'
+import {renderNarrativeFields, renderField, renderSelectField} from '../helpers/FormHelper'
 
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -52,8 +53,16 @@ class BasicInformationDateForm extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    this.props.getCodeListItems('ActivityDateType');
+  }
+
   render() {
     const {activity} = this.props;
+
+    if (!activity["ActivityDateType"]) {
+      return <GeneralLoader/>
+    }
 
     return (
       <div>
@@ -72,6 +81,13 @@ class BasicInformationDateForm extends React.Component {
                   label="Date"
                 />
               </div>
+              <Field
+                name="dateType"
+                component={renderSelectField}
+                label="Type"
+                selectOptions={activity["ActivityDateType"]}
+                defaultOption="Select a type"
+              />
               <hr/>
               <FieldArray
                 name="additionalTitles"

@@ -1,7 +1,8 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderNarrativeFields} from '../helpers/FormHelper'
+import {GeneralLoader} from '../../general/Loaders.react.jsx'
+import {renderNarrativeFields, renderSelectField} from '../helpers/FormHelper'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -91,8 +92,16 @@ class DescriptionForm extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    this.props.getCodeListItems('DescriptionType');
+  }
+
   render() {
     const {activity} = this.props;
+
+    if (!activity["DescriptionType"]) {
+      return <GeneralLoader/>
+    }
 
     return (
       <div>
@@ -105,8 +114,10 @@ class DescriptionForm extends React.Component {
             <div className="field-list">
               <Field
                 name="type[code]"
-                component={renderDescriptionTypeSelect}
+                component={renderSelectField}
                 label="Type"
+                selectOptions={activity["DescriptionType"]}
+                defaultOption="Select type"
               />
               <hr/>
               <FieldArray

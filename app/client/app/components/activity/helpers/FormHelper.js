@@ -6,19 +6,20 @@ import {Field} from 'redux-form'
  *
  * @param {string} name
  * @param {string} label
- * @param {object} languageOptions
+ * @param {object} selectOptions
+ * @param {string} defaultOption
  * @param touched
  * @param error
  */
-export const renderLanguageSelect = ({name, label, languageOptions, meta: {touched, error}}) => (
+export const renderSelectField = ({name, label, selectOptions, defaultOption, meta: {touched, error}}) => (
   <div className="columns small-6">
     <div>
       <label>{label}</label>
       <div>
         <Field name={name} component="select">
-          <option>Select a language</option>
+          <option>{defaultOption}</option>
           {
-            languageOptions.map((language, index) => <option key={index} value={language.code}>{language.name}</option>)
+            selectOptions.map((value, index) => <option key={index} value={value.code}>{value.name}</option>)
           }
         </Field>
       </div>
@@ -74,10 +75,11 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
         />
       </div>
       <Field
-        component={renderLanguageSelect}
+        component={renderSelectField}
         name="titleLanguage[code]"
         label="Language"
-        languageOptions={languageOptions}
+        selectOptions={languageOptions}
+        defaultOption="Select a language"
       />
     </div>
     <div>
@@ -93,10 +95,11 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
             />
           </div>
           <Field
-            component={renderLanguageSelect}
+            component={renderSelectField}
             name={`${title}.language[code]`}
             label="Language"
-            languageOptions={languageOptions}
+            selectOptions={languageOptions}
+            defaultOption="Select a language"
           />
         </div>
       )}
