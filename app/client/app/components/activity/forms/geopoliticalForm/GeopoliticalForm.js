@@ -3,6 +3,7 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import RecipientCountryForm from './GeopoliticalCountryForm'
 import RecipientRegionForm from './GeopoliticalRegionForm'
+import LocationForm from './GeopoliticalLocationForm'
 
 class GeopoliticalForm extends React.Component {
 
@@ -27,6 +28,9 @@ class GeopoliticalForm extends React.Component {
           </div>
           <div className="row">
             <RecipientRegionForm {...this.props} />
+          </div>
+          <div className="row">
+            <LocationForm {...this.props} />
           </div>
           <div className="row">
             <div className="columns small-12">

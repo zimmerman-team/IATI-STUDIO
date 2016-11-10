@@ -1,37 +1,36 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../../helpers/FormHelper'
+import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
-const renderRegionTypeSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <div>
-      <label>{label}</label>
-      <div>
-        <Field name={name} component="select">
-          <option></option>
-          <option value="1">+91</option>
-        </Field>
-      </div>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
-const renderRegion = ({fields, languageOptions, meta: {touched, error}}) => (
+const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
         <div className="row">
-          <Field
-            name={`${description}.region[code]`}
-            component={renderRegionTypeSelect}
-            label="Region Code"
-          />
-          <Field
-            name={`${description}.vocabulary[code]`}
-            component={renderRegionTypeSelect}
-            label="Region Vocabulary"
-          />
+          {
+            !regionOptions ?
+              <GeneralLoader/> :
+              <Field
+                component={renderSelectField}
+                name={`${description}.region[code]`}
+                label="Region code"
+                selectOptions={regionOptions}
+                defaultOption="Select one of the following options"
+              />
+          }
+          {
+            !regionVocabularyOptions ?
+              <GeneralLoader/> :
+              <Field
+                component={renderSelectField}
+                name={`${description}.vocabulary[code]`}
+                label="Region vocabulary"
+                selectOptions={regionVocabularyOptions}
+                defaultOption="Select one of the following options"
+              />
+          }
         </div>
         <div className="row">
           <FieldArray
@@ -56,10 +55,16 @@ const renderRegion = ({fields, languageOptions, meta: {touched, error}}) => (
     </div>
   </div>
 );
+
 class RecipientRegionForm extends React.Component {
 
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    this.props.getCodeListItems('Region');
+    this.props.getCodeListItems('RegionVocabulary');
   }
 
   render() {
@@ -75,8 +80,28 @@ class RecipientRegionForm extends React.Component {
             </Tooltip>
             <div className="field-list">
               <div className="row">
-                <Field component={renderRegionTypeSelect} name="vocabulary[code]" label="Region Code"/>
-                <Field component={renderRegionTypeSelect} name="region[code]" label="Region Vocabulary"/>
+                {
+                  !activity["Region"] ?
+                    <GeneralLoader/> :
+                    <Field
+                      component={renderSelectField}
+                      name="region"
+                      label="Region code"
+                      selectOptions={activity["Region"]}
+                      defaultOption="Select one of the following options"
+                    />
+                }
+                {
+                  !activity["RegionVocabulary"] ?
+                    <GeneralLoader/> :
+                    <Field
+                      component={renderSelectField}
+                      name="regionVocabulary"
+                      label="Region vocabulary"
+                      selectOptions={activity["RegionVocabulary"]}
+                      defaultOption="Select one of the following options"
+                    />
+                }
               </div>
               <div className="row">
                 <div className="columns small-6">
@@ -106,7 +131,12 @@ class RecipientRegionForm extends React.Component {
                 />
               </div>
             </div>
-            <FieldArray name="additionalRegion" component={renderRegion}/>
+            <FieldArray
+              name="additionalRegion"
+              component={renderAdditionalRegion}
+              regionOptions={activity["Region"]}
+              regionVocabularyOptions={activity["RegionVocabulary"]}
+            />
           </div>
         </div>
       </div>

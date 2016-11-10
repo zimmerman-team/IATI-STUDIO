@@ -1,33 +1,28 @@
 import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {reduxForm} from 'redux-form'
 import SectorForm from './ClassificationSectorForm'
 import PolicyMakerForm from './ClassificationPolicyForm'
 
-class ClassificationForm extends React.Component {
+class ClassificationsForm extends React.Component {
 
   constructor(props) {
     super(props)
   }
 
   render() {
-    const {handleSubmit, pristine, reset, submitting, previousPage, activity} = this.props;
+    const {handleSubmit, submitting, previousPage, activity} = this.props;
 
     return (
       <div>
         <div className="row controls">
           <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Classification</h2>
+            <h2 className="page-title with-tip">Classifications</h2>
             <hr />
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <SectorForm activity={activity}/>
-          </div>
-          <div className="row">
-            <PolicyMakerForm activity={activity}/>
-          </div>
+          <SectorForm activity={activity}/>
+          <PolicyMakerForm activity={activity}/>
           <div className="row">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Form</button>
@@ -43,6 +38,5 @@ class ClassificationForm extends React.Component {
 }
 export default reduxForm({
   form: 'ClassificationForm',
-  destroyOnUnmount: false,
-
-})(ClassificationForm)
+  destroyOnUnmount: false
+})(ClassificationsForm)
