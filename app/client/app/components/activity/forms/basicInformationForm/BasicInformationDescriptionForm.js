@@ -105,13 +105,13 @@ class DescriptionForm extends React.Component {
 
     return (
       <div>
-        <div className="row">
-          <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Description</h2>
-            <Tooltip className="inline" tooltip="Description text goes here">
-              <i className="material-icons">info</i>
-            </Tooltip>
-            <div className="field-list">
+        <div className="columns small-centered small-12">
+          <h2 className="page-title with-tip">Description</h2>
+          <Tooltip className="inline" tooltip="Description text goes here">
+            <i className="material-icons">info</i>
+          </Tooltip>
+          <div className="field-list">
+            <div className="row">
               <Field
                 name="type[code]"
                 component={renderSelectField}

@@ -24,39 +24,35 @@ class BasicInformationForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <DescriptionForm {...this.props} />
+          <DescriptionForm {...this.props} />
+          <div className="columns small-centered small-12">
+            <h2 className="page-title with-tip">Status</h2>
+            <Tooltip className="inline" tooltip="Status text goes here">
+              <i className="material-icons">info</i>
+            </Tooltip>
           </div>
           <div className="row">
-            <div className="columns small-centered small-12">
-              <h2 className="page-title with-tip">Status</h2>
-              <Tooltip className="inline" tooltip="Status text goes here">
-                <i className="material-icons">info</i>
-              </Tooltip>
-            </div>
-            <div className="row">
-              <div className="columns small-6">
+            <div className="columns small-6">
+              <div>
                 <div>
-                  <div>
-                    <Field name="status" component="select">
-                      <option>Select status</option>
-                    </Field>
-                  </div>
+                  <Field name="status" component="select">
+                    <option>Select status</option>
+                  </Field>
                 </div>
               </div>
             </div>
-            <div>
-              <DateForm {...this.props} />
-            </div>
-            <div>
-              {/*<ContactForm activity={activity}/>*/}
-            </div>
-            <div className="columns small-12">
-              <button type="button" className="button" onClick={previousPage}>Back to identification</button>
-              <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to participating organisations
-              </button>
-            </div>
+          </div>
+          <div>
+            <DateForm {...this.props} />
+          </div>
+          <div>
+            {/*<ContactForm activity={activity}/>*/}
+          </div>
+          <div className="columns small-12">
+            <button type="button" className="button" onClick={previousPage}>Back to identification</button>
+            <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
+              Continue to participating organisations
+            </button>
           </div>
         </form>
       </div>

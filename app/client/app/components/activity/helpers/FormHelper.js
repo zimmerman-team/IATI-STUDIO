@@ -64,7 +64,7 @@ export const renderField = ({input, label, type, readOnly, onChange, meta: {touc
  */
 export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName, textLabel, meta: {touched, error}}) => (
   <div>
-    {narrativeLabel ? <h6>Narrative</h6> : ""}
+    {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
     <div className="columns small-6">
       <Field
         name={textName}
@@ -82,7 +82,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
     />
     {fields.map((title, index) =>
       <div key={index}>
-        {narrativeLabel ? <h6>Narrative</h6> : ""}
+        {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
         <div className="columns small-6">
           <Field
             name={`${title}.text`}
