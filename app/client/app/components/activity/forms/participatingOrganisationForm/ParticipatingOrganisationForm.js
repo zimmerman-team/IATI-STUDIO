@@ -1,8 +1,8 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {GeneralLoader} from '../../general/Loaders.react.jsx'
-import {renderField, renderNarrativeFields, renderSelectField} from '../helpers/FormHelper'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 
 const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions}) => (
   <div className="field-list">

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderField, renderNarrativeFields} from '../helpers/FormHelper'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {renderField, renderNarrativeFields} from '../../helpers/FormHelper'
 
 const validate = values => {
   const errors = {};

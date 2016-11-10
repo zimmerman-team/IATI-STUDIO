@@ -1,7 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../helpers/FormHelper'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {renderNarrativeFields, renderField} from '../../helpers/FormHelper'
 
 const renderRegionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -10,35 +10,44 @@ const renderRegionTypeSelect = ({name, label, meta: {touched, error}}) => (
       <div>
         <Field name={name} component="select">
           <option></option>
-          <option value="1">+91</option>
         </Field>
       </div>
       {touched && error && <span className="error">{error}</span>}
     </div>
   </div>
 );
-const renderRegion = ({fields, languageOptions, meta: {touched, error}}) => (
+
+const renderPolicy = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
         <div className="row">
-          <Field
-            name={`${description}.region[code]`}
-            component={renderRegionTypeSelect}
-            label="Region Code"
-          />
-          <Field
-            name={`${description}.vocabulary[code]`}
-            component={renderRegionTypeSelect}
-            label="Region Vocabulary"
-          />
+          <Field component={renderRegionTypeSelect} name={`${description}.vocabulary[code]`} label="Region Code"/>
+          <Field component={renderRegionTypeSelect} name={`${description}.region[code]`} label="Region Vocabulary"/>
+          <div className="columns small-6">
+            <Field
+              name="uriPolicyText"
+              type="text"
+              component={renderField}
+              label="Vocabulary URI"
+            />
+          </div>
+          <div className="columns small-6">
+            <Field
+              name="percentagePolicyText"
+              type="text"
+              component={renderField}
+              label="Percentage"
+            />
+          </div>
         </div>
         <div className="row">
           <FieldArray
-            name={`${description}.additionalDescription`}
+            name={`${description}.additionalPolicy`}
             component={renderNarrativeFields}
+            narrativeAddMore={false}
             languageOptions={languageOptions}
-            textName="text"
+            textName="textPolicy"
             textLabel="Title"
           />
         </div>
@@ -56,7 +65,7 @@ const renderRegion = ({fields, languageOptions, meta: {touched, error}}) => (
     </div>
   </div>
 );
-class RecipientRegionForm extends React.Component {
+class PolicyMakerForm extends React.Component {
 
   constructor(props) {
     super(props)
@@ -69,19 +78,19 @@ class RecipientRegionForm extends React.Component {
       <div>
         <div className="row">
           <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Recipient Region</h2>
+            <h2 className="page-title with-tip">Policy Makers</h2>
             <Tooltip className="inline" tooltip="Description text goes here">
               <i className="material-icons">info</i>
             </Tooltip>
             <div className="field-list">
               <div className="row">
-                <Field component={renderRegionTypeSelect} name="vocabulary[code]" label="Region Code"/>
-                <Field component={renderRegionTypeSelect} name="region[code]" label="Region Vocabulary"/>
+                <Field component={renderRegionTypeSelect} name="vocabularyPolicy[code]" label="Region Code"/>
+                <Field component={renderRegionTypeSelect} name="regionPolicy[code]" label="Region Vocabulary"/>
               </div>
               <div className="row">
                 <div className="columns small-6">
                   <Field
-                    name="uriText"
+                    name="uriPolicyText"
                     type="text"
                     component={renderField}
                     label="Vocabulary URI"
@@ -89,7 +98,7 @@ class RecipientRegionForm extends React.Component {
                 </div>
                 <div className="columns small-6">
                   <Field
-                    name="percentageText"
+                    name="percentagePolicyText"
                     type="text"
                     component={renderField}
                     label="Percentage"
@@ -100,13 +109,14 @@ class RecipientRegionForm extends React.Component {
                 <FieldArray
                   name="additionalTitles"
                   component={renderNarrativeFields}
+                  narrativeAddMore={false}
                   languageOptions={activity["Language"]}
-                  textName="textTitle"
+                  textName="textPolicyTitle"
                   textLabel="Title"
                 />
               </div>
             </div>
-            <FieldArray name="additionalRegion" component={renderRegion}/>
+            <FieldArray name="additionalPolicy" component={renderPolicy} languageOptions={activity["Language"]}/>
           </div>
         </div>
       </div>
@@ -115,5 +125,5 @@ class RecipientRegionForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'fieldArrays',     // a unique identifier for this form
-})(RecipientRegionForm)
+  form: 'PolicyMakerForm',     // a unique identifier for this form
+})(PolicyMakerForm)

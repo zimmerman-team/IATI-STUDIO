@@ -1,8 +1,8 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField} from '../helpers/FormHelper'
-import {GeneralLoader} from '../../general/Loaders.react.jsx'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
 const renderCountry = ({fields, countryCodeOptions, meta: {touched, error}}) => (
   <div>

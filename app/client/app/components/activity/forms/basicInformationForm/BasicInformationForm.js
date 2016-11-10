@@ -1,6 +1,6 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import DescriptionForm from './BasicInformationDescriptionForm'
 import DateForm from './BasicInformationDateForm'
 import ContactForm from './BasicInformationContactForm'

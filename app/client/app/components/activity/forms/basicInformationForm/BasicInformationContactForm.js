@@ -1,7 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../helpers/FormHelper'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {renderNarrativeFields, renderField} from '../../helpers/FormHelper'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">

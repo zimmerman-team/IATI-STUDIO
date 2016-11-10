@@ -1,7 +1,7 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import {renderField,renderNarrativeFields} from '../helpers/FormHelper'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {renderField,renderNarrativeFields} from '../../helpers/FormHelper'
 
 const renderCodeTypeSelect = ({name, label, meta: {touched, error}}) => (
     <div className="columns small-6">

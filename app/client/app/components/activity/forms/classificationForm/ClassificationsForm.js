@@ -1,10 +1,10 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../general/Tooltip.react.jsx'
-import RecipientCountryForm from './GeopoliticalCountryForm'
-import RecipientRegionForm from './GeopoliticalRegionForm'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import SectorForm from './ClassificationSectorForm'
+import PolicyMakerForm from './ClassificationPolicyForm'
 
-class GeopoliticalForm extends React.Component {
+class ClassificationForm extends React.Component {
 
   constructor(props) {
     super(props)
@@ -17,22 +17,22 @@ class GeopoliticalForm extends React.Component {
       <div>
         <div className="row controls">
           <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Geopolitical information</h2>
+            <h2 className="page-title with-tip">Classification</h2>
             <hr />
           </div>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <RecipientCountryForm {...this.props} />
+            <SectorForm activity={activity}/>
           </div>
           <div className="row">
-            <RecipientRegionForm {...this.props} />
+            <PolicyMakerForm activity={activity}/>
           </div>
           <div className="row">
             <div className="columns small-12">
-              <button type="button" className="button" onClick={previousPage}>Back to participating organisations</button>
+              <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Form</button>
               <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to participating organisations
+                Continue to Classification Form
               </button>
             </div>
           </div>
@@ -42,7 +42,7 @@ class GeopoliticalForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'fieldArrays',
+  form: 'ClassificationForm',
   destroyOnUnmount: false,
 
-})(GeopoliticalForm)
+})(ClassificationForm)
