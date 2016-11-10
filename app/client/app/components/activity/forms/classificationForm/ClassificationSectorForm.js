@@ -1,7 +1,8 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../../helpers/FormHelper'
+import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
 const renderSectorTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -70,6 +71,11 @@ class SectorForm extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    this.props.getCodeListItems('SectorVocabulary');
+    this.props.getCodeListItems('Sector');
+  }
+
   render() {
     const {activity} = this.props;
 
@@ -82,37 +88,51 @@ class SectorForm extends React.Component {
               <i className="material-icons">info</i>
             </Tooltip>
             <div className="field-list">
-              <div className="row">
-                <Field component={renderSectorTypeSelect} name="regionPolicy[code]" label="Sector Vocabulary"/>
-                <div className="columns small-6">
+              {
+                !activity["SectorVocabulary"] ?
+                  <GeneralLoader/> :
                   <Field
-                    name="uriSectorText"
-                    type="text"
-                    component={renderField}
-                    label="Vocabulary URI"
+                    component={renderSelectField}
+                    name="sectorVocabulary[code]"
+                    label="Sector vocabulary"
+                    selectOptions={activity["SectorVocabulary"]}
+                    defaultOption="Select one of the following options"
                   />
-                </div>
-              </div>
-              <div className="row">
-                <Field component={renderSectorTypeSelect} name="vocabularyPolicy[code]" label="Sector Code"/>
-                <div className="columns small-6">
-                  <Field
-                    name="SectorText"
-                    type="text"
-                    component={renderField}
-                    label="Percentage"
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <FieldArray
-                  name="additionalTitles"
-                  component={renderNarrativeFields}
-                  languageOptions={activity["Language"]}
-                  textName="textSectorTitle"
-                  textLabel="Title"
+              }
+              <div className="columns small-6">
+                <Field
+                  name="uriSectorText"
+                  type="text"
+                  component={renderField}
+                  label="Vocabulary URI"
                 />
               </div>
+              {
+                !activity["Sector"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="sector[code]"
+                    label="Sector code"
+                    selectOptions={activity["Sector"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+              <div className="columns small-6">
+                <Field
+                  name="SectorText"
+                  type="text"
+                  component={renderField}
+                  label="Percentage"
+                />
+              </div>
+              <FieldArray
+                name="additionalTitles"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="textSectorTitle"
+                textLabel="Title"
+              />
             </div>
             <FieldArray name="additionalSector" component={renderSector} languageOptions={activity["Language"]}/>
           </div>

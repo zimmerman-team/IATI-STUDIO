@@ -21,8 +21,8 @@ class ClassificationsForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <SectorForm activity={activity}/>
-          <PolicyMakerForm activity={activity}/>
+          <SectorForm {...this.props} />
+          <PolicyMakerForm {...this.props} />
           <div className="row">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Form</button>

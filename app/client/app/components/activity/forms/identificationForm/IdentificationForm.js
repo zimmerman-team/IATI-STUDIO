@@ -83,53 +83,47 @@ class IdentificationForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit} name="identification">
-          <div className="row">
-            <div className="columns">
-              <FieldArray
-                name="additionalTitles"
-                component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
-                narrativeLabel={false}
-                textName="textTitle"
-                textLabel="Title"
-              />
-            </div>
+          <FieldArray
+            name="additionalTitles"
+            component={renderNarrativeFields}
+            languageOptions={activity["Language"]}
+            narrativeLabel={false}
+            textName="textTitle"
+            textLabel="Title"
+          />
+          <div className="columns small-6">
+            <Field
+              name="activityIdentifier"
+              type="text"
+              id="activityIdentifier"
+              component={renderField}
+              label="Activity Identifier"
+              //onChange={this.handleChange.bind(this)}
+            />
           </div>
-          <div className="row">
-            <div className="columns small-6">
-              <Field
-                name="activityIdentifier"
-                type="text"
-                id="activityIdentifier"
-                component={renderField}
-                label="Activity Identifier"
-                //onChange={this.handleChange.bind(this)}
-              />
-            </div>
-            <div className="columns small-6">
-              <Field
-                name="iati_identifier"
-                type="text"
-                id="iati_identifier"
-                component={renderField}
-                label="IATI Identifier"
-                //readOnly="true"
-              />
-            </div>
-            <div className="columns small-6">
-              <Field
-                name="hierarchy"
-                type="number"
-                id="hierarchy"
-                component={renderField}
-                label="Hierarchy"
-              />
-            </div>
-            <div className="columns small-12">
-              <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to basic information
-              </button>
-            </div>
+          <div className="columns small-6">
+            <Field
+              name="iati_identifier"
+              type="text"
+              id="iati_identifier"
+              component={renderField}
+              label="IATI Identifier"
+              //readOnly="true"
+            />
+          </div>
+          <div className="columns small-6">
+            <Field
+              name="hierarchy"
+              type="number"
+              id="hierarchy"
+              component={renderField}
+              label="Hierarchy"
+            />
+          </div>
+          <div className="columns small-12">
+            <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
+              Continue to basic information
+            </button>
           </div>
         </form>
       </div>
