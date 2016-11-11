@@ -7,7 +7,7 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
-      <div className="field-list" key={index}>
+      <div key={index}>
         <div className="columns small-6">
           <Field
             name={`${description}.date`}
@@ -42,7 +42,6 @@ const validate = values => {
     errors.narrative = narrativeTextObj
   }
 
-
   return errors
 };
 
@@ -65,40 +64,38 @@ class BasicInformationDateForm extends React.Component {
     }
 
     return (
-      <div>
-        <div className="row">
-          <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Date</h2>
-            <Tooltip className="inline" tooltip="Date text goes here">
-              <i className="material-icons">info</i>
-            </Tooltip>
-            <div className="field-list">
-              <div className="columns small-6">
-                <Field
-                  name="date"
-                  type="text"
-                  component={renderField}
-                  label="Date"
-                />
-              </div>
+      <div className="columns small-centered small-12">
+        <h2 className="page-title with-tip">Date</h2>
+        <Tooltip className="inline" tooltip="Date text goes here">
+          <i className="material-icons">info</i>
+        </Tooltip>
+        <div className="field-list">
+          <div className="row">
+            <div className="columns small-6">
               <Field
-                name="dateType"
-                component={renderSelectField}
-                label="Type"
-                selectOptions={activity["ActivityDateType"]}
-                defaultOption="Select a type"
-              />
-              <hr/>
-              <FieldArray
-                name="additionalTitles"
-                component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
-                textName="textTitle"
-                textLabel="Text"
+                name="date"
+                type="text"
+                component={renderField}
+                label="Date"
               />
             </div>
-            <FieldArray name="additionalDate" component={renderDate} languageOptions={activity["Language"]}/>
+            <Field
+              name="dateType"
+              component={renderSelectField}
+              label="Type"
+              selectOptions={activity["ActivityDateType"]}
+              defaultOption="Select a type"
+            />
+            <hr/>
+            <FieldArray
+              name="additionalTitles"
+              component={renderNarrativeFields}
+              languageOptions={activity["Language"]}
+              textName="textTitle"
+              textLabel="Text"
+            />
           </div>
+          <FieldArray name="additionalDate" component={renderDate} languageOptions={activity["Language"]}/>
         </div>
       </div>
     )

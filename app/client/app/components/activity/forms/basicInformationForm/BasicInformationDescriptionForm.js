@@ -85,7 +85,6 @@ const validate = values => {
   return errors
 };
 
-
 class DescriptionForm extends React.Component {
 
   constructor(props) {

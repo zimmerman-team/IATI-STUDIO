@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
+import {Field, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import DescriptionForm from './BasicInformationDescriptionForm'
 import DateForm from './BasicInformationDateForm'
@@ -13,7 +13,7 @@ class BasicInformationForm extends React.Component {
 
   //@todo: Move IATI activity editor to separate component.
   render() {
-    const {handleSubmit, pristine, reset, submitting, previousPage, activity} = this.props;
+    const {handleSubmit, submitting, previousPage} = this.props;
     return (
       <div>
         <div className="row controls">
@@ -42,12 +42,8 @@ class BasicInformationForm extends React.Component {
               </div>
             </div>
           </div>
-          <div>
-            <DateForm {...this.props} />
-          </div>
-          <div>
-            {/*<ContactForm activity={activity}/>*/}
-          </div>
+          <DateForm {...this.props} />
+          <ContactForm {...this.props} />
           <div className="columns small-12">
             <button type="button" className="button" onClick={previousPage}>Back to identification</button>
             <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

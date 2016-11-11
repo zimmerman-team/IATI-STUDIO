@@ -143,53 +143,50 @@ class RecipientCountryForm extends React.Component {
     const {activity} = this.props;
 
     return (
-      <div>
-        <div className="row">
-          <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Recipient Country</h2>
-            <Tooltip className="inline" tooltip="Description text goes here">
-              <i className="material-icons">info</i>
-            </Tooltip>
-            <div className="field-list">
-              <div className="row">
-                {
-                  !activity["Country"] ?
-                    <GeneralLoader/> :
-                    <Field
-                      component={renderSelectField}
-                      name="country[code]"
-                      label="Country code"
-                      selectOptions={activity["Country"]}
-                      defaultOption="Select one of the following options"
-                    />
-                }
-                <div className="columns small-6">
-                  <Field
-                    name="percentageText"
-                    type="text"
-                    component={renderField}
-                    label="Percentage"
-                  />
-                </div>
-                <FieldArray name="additionalCountry" component={renderCountry}
-                            countryCodeOptions={activity["Country"]}/>
-              </div>
-              <div className="row">
-                <FieldArray
-                  name="additionalTitles"
-                  component={renderNarrativeFields}
-                  languageOptions={activity["Language"]}
-                  textName="textTitle"
-                  textLabel="Title"
+      <div className="columns small-centered small-12">
+        <h2 className="page-title with-tip">Recipient Country</h2>
+        <Tooltip className="inline" tooltip="Description text goes here">
+          <i className="material-icons">info</i>
+        </Tooltip>
+        <div className="field-list">
+          <div className="row">
+            {
+              !activity["Country"] ?
+                <GeneralLoader/> :
+                <Field
+                  component={renderSelectField}
+                  name="country[code]"
+                  label="Country code"
+                  selectOptions={activity["Country"]}
+                  defaultOption="Select one of the following options"
                 />
-              </div>
+            }
+            <div className="columns small-6">
+              <Field
+                name="percentageText"
+                type="text"
+                component={renderField}
+                label="Percentage"
+              />
             </div>
             <FieldArray
-              name="additionalDescription"
-              component={renderDescription}
-              languageOptions={activity["Language"]}/>
+              name="additionalCountry"
+              component={renderCountry}
+              countryCodeOptions={activity["Country"]}
+            />
+            <FieldArray
+              name="additionalTitles"
+              component={renderNarrativeFields}
+              languageOptions={activity["Language"]}
+              textName="textTitle"
+              textLabel="Title"
+            />
           </div>
         </div>
+        <FieldArray
+          name="additionalDescription"
+          component={renderDescription}
+          languageOptions={activity["Language"]}/>
       </div>
     )
   }

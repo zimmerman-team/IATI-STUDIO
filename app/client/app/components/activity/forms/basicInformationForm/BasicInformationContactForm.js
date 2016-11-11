@@ -1,7 +1,8 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField} from '../../helpers/FormHelper'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -34,11 +35,18 @@ const renderContactTypeSelect = ({name, label, meta: {touched, error}}) => (
   </div>
 );
 
-const renderParticipatingContact = ({fields, languageOptions}) => (
-  <div className="field-list">
-    <div>
-      <Field name="type" component={renderContactTypeSelect} label="Contact type"/>
-      <div>
+const renderParticipatingContact = ({fields, languageOptions, contactTypes}) => (
+  <div>
+    <div className="field-list">
+      <Field
+        name="contactType"
+        component={renderSelectField}
+        label="Contact type"
+        selectOptions={contactTypes}
+        defaultOption="Select a type"
+      />
+      <div className="clearfix"></div>
+      <div className="columns small-12">
         <h2 className="page-title">Organisation</h2>
         <FieldArray
           name="ContactOrganisation"
@@ -55,37 +63,37 @@ const renderParticipatingContact = ({fields, languageOptions}) => (
       <FieldArray name="ContactEmail" component={renderContactEmail}/>
       <FieldArray name="ContactWeb" component={renderContactWebsite}/>
       <FieldArray name="ContactMailAddress" component={renderContactMailAddress}/>
-    </div>
-
-    {fields.map((participatingOrganisation, index) =>
-      <div key={index}>
-        <h6>Contact Info #{index + 2}</h6>
-        <Field name={`${participatingOrganisation}.contact`} label="Contact type" component={renderContactTypeSelect}/>
-        <div>
-          <h2 className="page-title">Organisation</h2>
-          <FieldArray
-            name={`${participatingOrganisation}.ContactOrganisation`}
-            component={renderNarrativeFields}
-            languageOptions={languageOptions}
-            textName="narrativeOrganisation[text]"
-            textLabel="Title"
-          />
+      {fields.map((participatingOrganisation, index) =>
+        <div key={index}>
+          <h6>Contact Info #{index + 2}</h6>
+          <Field name={`${participatingOrganisation}.contact`} label="Contact type"
+                 component={renderContactTypeSelect}/>
+          <div>
+            <h2 className="page-title">Organisation</h2>
+            <FieldArray
+              name={`${participatingOrganisation}.ContactOrganisation`}
+              component={renderNarrativeFields}
+              languageOptions={languageOptions}
+              textName="narrativeOrganisation[text]"
+              textLabel="Title"
+            />
+          </div>
+          <FieldArray name={`${participatingOrganisation}.ContactDepartment`} component={renderContactDepartment}/>
+          <FieldArray name={`${participatingOrganisation}.ContactPerson`} component={renderContactPerson}/>
+          <FieldArray name={`${participatingOrganisation}.ContactJob`} component={renderContactJob}/>
+          <FieldArray name={`${participatingOrganisation}.ContactPhone`} component={renderContactPhone}/>
+          <FieldArray name={`${participatingOrganisation}.ContactEmail`} component={renderContactEmail}/>
+          <FieldArray name={`${participatingOrganisation}.ContactWeb`} component={renderContactWebsite}/>
+          <FieldArray name={`${participatingOrganisation}.ContactMailAddress`} component={renderContactMailAddress}/>
+          <button
+            type="button"
+            title="Remove Participating organisation"
+            className="control-button remove float-right"
+            onClick={() => fields.remove(index)}>Delete
+          </button>
         </div>
-        <FieldArray name={`${participatingOrganisation}.ContactDepartment`} component={renderContactDepartment}/>
-        <FieldArray name={`${participatingOrganisation}.ContactPerson`} component={renderContactPerson}/>
-        <FieldArray name={`${participatingOrganisation}.ContactJob`} component={renderContactJob}/>
-        <FieldArray name={`${participatingOrganisation}.ContactPhone`} component={renderContactPhone}/>
-        <FieldArray name={`${participatingOrganisation}.ContactEmail`} component={renderContactEmail}/>
-        <FieldArray name={`${participatingOrganisation}.ContactWeb`} component={renderContactWebsite}/>
-        <FieldArray name={`${participatingOrganisation}.ContactMailAddress`} component={renderContactMailAddress}/>
-        <button
-          type="button"
-          title="Remove Participating organisation"
-          className="control-button remove float-right"
-          onClick={() => fields.remove(index)}>Delete
-        </button>
-      </div>
-    )}
+      )}
+    </div>
     <div>
       <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
     </div>
@@ -399,8 +407,16 @@ class BasicInformationContactForm extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    this.props.getCodeListItems('ContactType');
+  }
+
   render() {
     const {activity} = this.props;
+
+    if (!activity["ContactType"]) {
+      return <GeneralLoader/>
+    }
 
     return (
       <div>
@@ -414,6 +430,7 @@ class BasicInformationContactForm extends React.Component {
               name="participating-contact"
               component={renderParticipatingContact}
               languageOptions={activity["Language"]}
+              contactTypes={activity["ContactType"]}
             />
           </div>
         </div>

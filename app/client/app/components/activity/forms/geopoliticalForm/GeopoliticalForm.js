@@ -23,15 +23,9 @@ class GeopoliticalForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <RecipientCountryForm {...this.props} />
-          </div>
-          <div className="row">
-            <RecipientRegionForm {...this.props} />
-          </div>
-          <div className="row">
-            <LocationForm {...this.props} />
-          </div>
+          <RecipientCountryForm {...this.props} />
+          <RecipientRegionForm {...this.props} />
+          <LocationForm {...this.props} />
           <div className="row">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to participating organisations</button>

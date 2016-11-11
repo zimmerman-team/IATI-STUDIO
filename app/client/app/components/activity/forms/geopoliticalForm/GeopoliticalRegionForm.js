@@ -71,74 +71,70 @@ class RecipientRegionForm extends React.Component {
     const {activity} = this.props;
 
     return (
-      <div>
-        <div className="row">
-          <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Recipient Region</h2>
-            <Tooltip className="inline" tooltip="Description text goes here">
-              <i className="material-icons">info</i>
-            </Tooltip>
-            <div className="field-list">
-              <div className="row">
-                {
-                  !activity["Region"] ?
-                    <GeneralLoader/> :
-                    <Field
-                      component={renderSelectField}
-                      name="region"
-                      label="Region code"
-                      selectOptions={activity["Region"]}
-                      defaultOption="Select one of the following options"
-                    />
-                }
-                {
-                  !activity["RegionVocabulary"] ?
-                    <GeneralLoader/> :
-                    <Field
-                      component={renderSelectField}
-                      name="regionVocabulary"
-                      label="Region vocabulary"
-                      selectOptions={activity["RegionVocabulary"]}
-                      defaultOption="Select one of the following options"
-                    />
-                }
-              </div>
-              <div className="row">
-                <div className="columns small-6">
-                  <Field
-                    name="uriText"
-                    type="text"
-                    component={renderField}
-                    label="Vocabulary URI"
-                  />
-                </div>
-                <div className="columns small-6">
-                  <Field
-                    name="percentageText"
-                    type="text"
-                    component={renderField}
-                    label="Percentage"
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <FieldArray
-                  name="additionalTitles"
-                  component={renderNarrativeFields}
-                  languageOptions={activity["Language"]}
-                  textName="textTitle"
-                  textLabel="Title"
+      <div className="columns small-centered small-12">
+        <h2 className="page-title with-tip">Recipient Region</h2>
+        <Tooltip className="inline" tooltip="Description text goes here">
+          <i className="material-icons">info</i>
+        </Tooltip>
+        <div className="field-list">
+          <div className="row">
+            {
+              !activity["Region"] ?
+                <GeneralLoader/> :
+                <Field
+                  component={renderSelectField}
+                  name="region"
+                  label="Region code"
+                  selectOptions={activity["Region"]}
+                  defaultOption="Select one of the following options"
                 />
-              </div>
+            }
+            {
+              !activity["RegionVocabulary"] ?
+                <GeneralLoader/> :
+                <Field
+                  component={renderSelectField}
+                  name="regionVocabulary"
+                  label="Region vocabulary"
+                  selectOptions={activity["RegionVocabulary"]}
+                  defaultOption="Select one of the following options"
+                />
+            }
+          </div>
+          <div className="row">
+            <div className="columns small-6">
+              <Field
+                name="uriText"
+                type="text"
+                component={renderField}
+                label="Vocabulary URI"
+              />
             </div>
+            <div className="columns small-6">
+              <Field
+                name="percentageText"
+                type="text"
+                component={renderField}
+                label="Percentage"
+              />
+            </div>
+          </div>
+          <div className="row">
             <FieldArray
-              name="additionalRegion"
-              component={renderAdditionalRegion}
-              regionOptions={activity["Region"]}
-              regionVocabularyOptions={activity["RegionVocabulary"]}
+              name="additionalTitles"
+              component={renderNarrativeFields}
+              languageOptions={activity["Language"]}
+              textName="textTitle"
+              textLabel="Title"
             />
           </div>
         </div>
+        <FieldArray
+          name="additionalRegion"
+          component={renderAdditionalRegion}
+          regionOptions={activity["Region"]}
+          regionVocabularyOptions={activity["RegionVocabulary"]}
+        />
       </div>
     )
   }
