@@ -4,21 +4,6 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
-const renderCodeTypeSelect = ({name, label, meta: {touched, error}}) => (
-  <div className="columns small-6">
-    <div>
-      <label>{label}</label>
-      <div>
-        <Field name={name} component="select">
-          <option></option>
-          <option value="1">+91</option>
-        </Field>
-      </div>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
-
 const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
     <h6>Location id</h6>
@@ -79,6 +64,182 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
   </div>
 );
 
+const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
+  <div className="columns small-12">
+    <h6>Administrative</h6>
+    <div className="row">
+      {
+        !geographicVocabularyOptions ?
+          <GeneralLoader/> :
+          <Field
+            component={renderSelectField}
+            name="administrativeVocabulary"
+            label="Vocabulary"
+            selectOptions={geographicVocabularyOptions}
+            defaultOption="Select one of the following options"
+          />
+      }
+      <div className="columns small-6">
+        <Field
+          name="administrativeVocabularyCode"
+          type="text"
+          component={renderField}
+          label="Code"
+        />
+      </div>
+      <div className="columns small-12">
+        <div className="row">
+          <div className="columns small-6">
+            <Field
+              name="administrativeLevel"
+              type="text"
+              component={renderField}
+              label="Level"
+            />
+          </div>
+        </div>
+      </div>
+      {fields.map((vocabulary, index) =>
+        <div key={index}>
+          {
+            !geographicVocabularyOptions ?
+              <GeneralLoader/> :
+              <Field
+                component={renderSelectField}
+                name={`${vocabulary}.textCode`}
+                label="Vocabulary"
+                selectOptions={geographicVocabularyOptions}
+                defaultOption="Select one of the following options"
+              />
+          }
+          <div className="columns small-6">
+            <Field
+              name={`${vocabulary}.geographicVocabularyCode`}
+              type="text"
+              component={renderField}
+              label="Code"
+            />
+          </div>
+          <div className="columns small-12">
+            <div className="row">
+              <div className="columns small-6">
+                <Field
+                  name={`${vocabulary}.administrativeLevel`}
+                  type="text"
+                  component={renderField}
+                  label="Level"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+    <div className="columns">
+      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+      <button
+        type="button"
+        title="Remove Title"
+        className="control-button remove float-right"
+        onClick={() => fields.pop()}>Delete
+      </button>
+      {touched && error && <span className="error">{error}</span>}
+    </div>
+  </div>
+);
+
+const renderPointFields = ({fields, geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => (
+  <div className="columns small-12">
+    <h6>Point</h6>
+    <div className="row">
+      <div className="columns small-12">
+        <div className="row">
+          <div className="columns small-6">
+            <Field
+              name="srsName"
+              type="text"
+              component={renderField}
+              label="Srs name"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="columns small-12">
+        <h6>Position</h6>
+        <div className="row">
+          <div className="columns small-6">
+            <Field
+              name="latitude"
+              type="text"
+              component={renderField}
+              label="Latitude"
+            />
+          </div>
+          <div className="columns small-6">
+            <Field
+              name="longitude"
+              type="text"
+              component={renderField}
+              label="Longitude"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="columns small-12">
+        Map here
+      </div>
+      <div className="columns small-12">
+        <h6>Exactness</h6>
+        <div className="row">
+          {
+            !geographicExactnessOptions ?
+              <GeneralLoader/> :
+              <Field
+                component={renderSelectField}
+                name="geographicExactness"
+                label="Code"
+                selectOptions={geographicExactnessOptions}
+                defaultOption="Select one of the following options"
+              />
+          }
+        </div>
+      </div>
+      <div className="columns small-12">
+        <h6>Location class</h6>
+        <div className="row">
+          {
+            !geographicExactnessOptions ?
+              <GeneralLoader/> :
+              <Field
+                component={renderSelectField}
+                name="geographicLocationClass"
+                label="Code"
+                selectOptions={geographicLocationClassOptions}
+                defaultOption="Select one of the following options"
+              />
+          }
+        </div>
+      </div>
+      <div className="columns small-12">
+        <h6>Feature designation</h6>
+        <div className="row">
+          {
+            !geographicExactnessOptions ?
+              <GeneralLoader/> :
+              <Field
+                component={renderSelectField}
+                name="featureDesignation"
+                label="Code"
+                selectOptions={geographicLocationClassOptions}
+                defaultOption="Select one of the following options"
+              />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 class LocationForm extends React.Component {
 
   constructor(props) {
@@ -88,6 +249,8 @@ class LocationForm extends React.Component {
   componentWillMount() {
     this.props.getCodeListItems('GeographicLocationReach');
     this.props.getCodeListItems('GeographicVocabulary');
+    this.props.getCodeListItems('GeographicExactness');
+    this.props.getCodeListItems('GeographicLocationClass');
   }
 
   render() {
@@ -161,6 +324,19 @@ class LocationForm extends React.Component {
               languageOptions={activity["Language"]}
               textName="activeName"
               textLabel="Activity description"
+            />
+            <hr/>
+            <FieldArray
+              name="administrative"
+              component={renderAdministrativeFields}
+              geographicVocabularyOptions={activity["GeographicVocabulary"]}
+            />
+            <hr/>
+            <FieldArray
+              name="point"
+              component={renderPointFields}
+              geographicExactnessOptions={activity["GeographicExactness"]}
+              geographicLocationClassOptions={activity["GeographicLocationClass"]}
             />
           </div>
         </div>
