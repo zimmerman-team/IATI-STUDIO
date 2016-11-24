@@ -1,5 +1,6 @@
 import React from 'react'
 import {Field} from 'redux-form'
+import {Tooltip} from '../../general/Tooltip.react.jsx'
 
 /**
  * Prepare language select field.
@@ -111,4 +112,24 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
       {touched && error && <span className="error">{error}</span>}
     </div>
   </div>
+);
+
+export const RenderSingleSelect = ({name, label, selectOptions, defaultOption = 'Select one of the following options'}) => (
+   <div className="columns small-centered small-12">
+       <h2 className="page-title with-tip">{label}</h2>
+       <Tooltip className="inline" tooltip="Description text goes here">
+           <i className="material-icons">info</i>
+       </Tooltip>
+       <div className="field-list">
+           <div className="row">
+               <Field
+                   component={renderSelectField}
+                   name={name}
+                   label={label}
+                   selectOptions={selectOptions}
+                   defaultOption={defaultOption}
+               />
+           </div>
+       </div>
+   </div>
 );

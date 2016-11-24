@@ -1,16 +1,32 @@
 import React from 'react'
-import {reduxForm} from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import SectorForm from './ClassificationSectorForm'
 import PolicyMakerForm from './ClassificationPolicyForm'
+import CountryBudgetForm from './ClassificationCountryBudgetForm'
+import HumanitarianScopeForm from './ClassificationHumanitarianScopeForm'
+import {renderNarrativeFields, renderField, renderSelectField, RenderSingleSelect} from '../../helpers/FormHelper'
 
 class ClassificationsForm extends React.Component {
 
   constructor(props) {
     super(props)
   }
+  componentWillMount() {
+    this.props.getCodeListItems('CollaborationType');
+    this.props.getCodeListItems('FlowType');
+    this.props.getCodeListItems('FinanceType');
+    this.props.getCodeListItems('AidType');
+    this.props.getCodeListItems('TiedStatus');
+  }
 
   render() {
     const {handleSubmit, submitting, previousPage, activity} = this.props;
+    if (!activity['CollaborationType'] || !activity['FlowType'] || !activity['FinanceType']
+      || !activity['AidType'] || !activity['TiedStatus']) {
+          return <GeneralLoader />
+    }
 
     return (
       <div>
@@ -23,11 +39,33 @@ class ClassificationsForm extends React.Component {
         <form onSubmit={handleSubmit}>
           <SectorForm {...this.props} />
           <PolicyMakerForm {...this.props} />
+          <RenderSingleSelect
+            name='collaborationType'
+            label='Collaboration Type'
+            selectOptions={activity['CollaborationType']}/>
+          <RenderSingleSelect
+            name='flowType'
+            label='Default Flow Type'
+            selectOptions={activity['FlowType']}/>
+          <RenderSingleSelect
+            name='financeType'
+            label='Default Finance Type'
+            selectOptions={activity['FinanceType']}/>
+          <RenderSingleSelect
+            name='aidType'
+            label='Default Aid Type'
+            selectOptions={activity['AidType']}/>
+          <RenderSingleSelect
+            name='tiedStatus'
+            label='Default Tied Type'
+            selectOptions={activity['TiedStatus']}/>
+          <CountryBudgetForm {...this.props} />
+          <HumanitarianScopeForm {...this.props} />
           <div className="row">
             <div className="columns small-12">
-              <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Form</button>
+              <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Information</button>
               <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to Classification Form
+                Continue to Financial
               </button>
             </div>
           </div>
