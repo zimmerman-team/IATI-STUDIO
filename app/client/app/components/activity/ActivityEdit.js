@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect}            from 'react-redux'
 import {toggleMainMenu} from '../../actions/sync'
-import { createActivity, getCodeListItems, addBasicInformation, addParticipatingOrganisation, addDocumentLink } from '../../actions/createActivity'
+import { createActivity, getCodeListItems, addBasicInformation, addParticipatingOrganisation, addDocumentLink } from '../../actions/activity'
 import store from '../../app'
 import IdentificationForm from './forms/identificationForm/IdentificationForm'
 import BasicInformationForm from './forms/basicInformationForm/BasicInformationForm'

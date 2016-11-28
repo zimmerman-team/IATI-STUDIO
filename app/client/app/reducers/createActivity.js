@@ -7,7 +7,7 @@ import { GET_CODE_LIST_ITEMS_SUCCESS,
   ADD_BASIC_INFORMATION_SUCCESS,
   ADD_DOCUMENT_LINK_REQUEST,
   ADD_DOCUMENT_LINK_SUCCESS,
-  ADD_DOCUMENT_LINK_FAILURE} from '../actions/createActivity'
+  ADD_DOCUMENT_LINK_FAILURE} from '../actions/activity'
 
 function activity(state = {}, action) {
     switch (action.type) {
