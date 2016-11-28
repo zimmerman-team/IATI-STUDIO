@@ -71,7 +71,7 @@ class DocumentLinkForm extends React.Component {
             />
             <div className="row">
               <div className="columns small-12">
-                <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
+                <button type="button" className="button" onClick={previousPage}>Back to Relations</button>
                 <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
                   Continue to Participating Organisation
                 </button>

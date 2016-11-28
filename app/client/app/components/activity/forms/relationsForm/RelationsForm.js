@@ -2,7 +2,7 @@ import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField, RenderSingleSelect} from '../../helpers/FormHelper'
+import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 
 class RelationsForm extends React.Component {
 
@@ -25,16 +25,23 @@ class RelationsForm extends React.Component {
           <div className="columns small-centered small-12">
             <h2 className="page-title with-tip">Relations</h2>
             <hr />
+            <p className="with-tip"><strong>Related Activity</strong></p>
+            <Tooltip className="inline" tooltip="Description text goes here">
+                <i className="material-icons">info</i>
+            </Tooltip>
           </div>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="field-list">
             <div className="row">
               <div className="columns small-6">
-                <RenderSingleSelect
-                  name='relatedActivityType'
-                  label='Related Activity Type'
-                  selectOptions={activity['RelatedActivityType']}/>
+                <Field
+                  component={renderSelectField}
+                  name="relatedActivityType"
+                  label='Type of Relationship'
+                  selectOptions={activity["RelatedActivityType"]}
+                  defaultOption="Select one of the following options"
+                />
               </div>
               <div className="columns small-6">
                 <Field
@@ -45,39 +52,16 @@ class RelationsForm extends React.Component {
                 />
               </div>
             </div>
-            <div className="row">
-              <FieldArray
-                name='narrative'
-                component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
-                textName="textSector"
-                textLabel="Language"
-              />
-            </div>
-            <RenderSingleSelect
-              name='documentCategory'
-              label='Document Category'
-              selectOptions={activity['DocumentCategory']}/>
-            <RenderSingleSelect
-              name='documentLanguage'
-              label='Language'
-              selectOptions={activity['Language']}/>
-            <Field
-              name="documentDate"
-              type="text"
-              component={renderField}
-              label="Document Date"
-            />
-            <div className="row">
-              <div className="columns small-12">
-                <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
-                <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                  Continue to Participating Organisation
-                </button>
-              </div>
-            </div>
           </div>
         </form>
+        <div className="row">
+          <div className="columns small-12">
+            <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
+            <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
+              Continue to Document Link
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
