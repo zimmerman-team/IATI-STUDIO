@@ -131,8 +131,6 @@ class ActivityEdit extends React.Component {
   render() {
     // const {activity} = this.props;
     // console.log(activity);
-    console.log('###this.props', this.props)
-    console.log('<<<this.props.activity', this.props.activity)
     if (!this.props.activity || !this.props.activity["Language"]) {
       return <GeneralLoader/>
     }

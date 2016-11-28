@@ -7,6 +7,8 @@
 
 import { combineReducers } from 'redux'
 import _ from 'lodash'
+import activity from './reducers/createActivity'
+
 
 // TODO: just import everything - 2016-03-23
 import {
@@ -37,7 +39,6 @@ import {
 } from './actions/sync'
 
 import * as ActionTypes from './actions/async'
-import { createActivity } from './reducers/createActivity'
 
 // items array of Id's
 // // TODO: Should be handled by normalizr - 2016-02-16
@@ -624,6 +625,7 @@ function user(state={}, action) {
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer as routing } from 'react-router-redux'
 
+
 const rootReducer = combineReducers({
     entities,
     activeVisualization,
@@ -639,7 +641,7 @@ const rootReducer = combineReducers({
     user,
     pagination,
     publisher,
-    createActivity,
+    activity,
     apiKeyValidationForm,
     form: formReducer
 })

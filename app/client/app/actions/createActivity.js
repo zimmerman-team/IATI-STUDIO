@@ -4,7 +4,6 @@
  */
 
 import { CALL_API } from '../middleware/api'
-import { CALL_PUBLIC_API } from '../middleware/publicApi'
 
 
 /*
