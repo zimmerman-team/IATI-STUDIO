@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect}            from 'react-redux'
 import {toggleMainMenu} from '../../actions/sync'
-import { createActivity, getCodeListItems, addBasicInformation, addParticipatingOrganisation, addDocumentLink } from '../../actions/activity'
+import { createActivity, getCodeListItems, addBasicInformation, addParticipatingOrganisation,
+  addDocumentLink } from '../../actions/activity'
 import store from '../../app'
 import IdentificationForm from './forms/identificationForm/IdentificationForm'
 import BasicInformationForm from './forms/basicInformationForm/BasicInformationForm'
@@ -48,7 +49,7 @@ class ActivityEdit extends React.Component {
    * @param data
    */
   handleIdentificationFormSubmit(data) {
-    this.props.createActivity(data);
+    store.dispatch(createActivity(data));
     this.nextPage();
   }
 
@@ -59,7 +60,7 @@ class ActivityEdit extends React.Component {
    * @param data
    */
   handleBasicInformationFormSubmit(data) {
-    this.props.addBasicInformation(data);
+    store.dispatch(addBasicInformation(data));
     this.nextPage();
   }
 
@@ -70,7 +71,7 @@ class ActivityEdit extends React.Component {
    * @param data
    */
   handleParticipatingOrganisationFormSubmit(data) {
-    this.props.addParticipatingOrganisation(data);
+    store.dispatch(addParticipatingOrganisation(data));
     this.nextPage();
   }
 
@@ -135,7 +136,7 @@ class ActivityEdit extends React.Component {
       return <GeneralLoader/>
     }
     return (
-      <DocumentLinkForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
+      <FinancialForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
     );
   }
 }
@@ -149,8 +150,5 @@ function mapStateToProps(state, props) {
 }
 
 export default connect(mapStateToProps, {
-  createActivity,
   getCodeListItems,
-  addBasicInformation,
-  addParticipatingOrganisation
 })(ActivityEdit);

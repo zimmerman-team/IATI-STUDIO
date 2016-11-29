@@ -5,26 +5,16 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import FinancialBudgetForm from './FinancialBudgetForm'
 import FinancialPlannedDisbursement from './FinancialPlannedDisbursement'
+import FinancialTransactionForm from './FinancialTransactionForm'
 
 class FinancialForm extends React.Component {
 
   constructor(props) {
     super(props)
   }
-  componentWillMount() {
-    this.props.getCodeListItems('FinanceType');
-    this.props.getCodeListItems('FinanceTypeCategory');
-    this.props.getCodeListItems('Currency');
-    this.props.getCodeListItems('DescriptionType');
-    this.props.getCodeListItems('HumanitarianScopeType');
-    this.props.getCodeListItems('TransactionType');
-  }
 
   render() {
     const {handleSubmit, submitting, previousPage, activity} = this.props;
-    if (!activity['FinanceType'] || !activity['FinanceTypeCategory']) {
-      return <GeneralLoader />
-    }
 
     return (
       <div>
@@ -36,24 +26,20 @@ class FinancialForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="field-list">
-            <div className="row">
-              <Field
-                component={renderSelectField}
-                name="financeType"
-                label='Finance Type'
-                selectOptions={activity["FinanceType"]}
-                defaultOption="Select one of the following options"
-              />
-              <Field
-                component={renderSelectField}
-                name="financeTypeCategory"
-                label='Finance Type Category'
-                selectOptions={activity["FinanceTypeCategory"]}
-                defaultOption="Select one of the following options"
-              />
-            </div>
             <FinancialBudgetForm {...this.props}/>
             <FinancialPlannedDisbursement {...this.props}/>
+            <FinancialTransactionForm {...this.props}/>
+            <div className=""><h6>Capital Spend</h6></div>
+            <div className="row">
+              <div className="columns small-6">
+                <Field
+                  name="capitalSpend"
+                  type="text"
+                  component={renderField}
+                  label="Capital Spend"
+                />
+              </div>
+            </div>
           </div>
         </form>
         <div className="row">

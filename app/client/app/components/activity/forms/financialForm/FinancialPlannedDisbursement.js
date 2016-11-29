@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {renderNarrativeFields, renderField, renderSelectField, renderOrgFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
-const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions, languageOptions, meta: {touched, error}}) => (
+const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions,
+    languageOptions, organisationOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
@@ -12,6 +13,7 @@ const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disburs
           disbursementChannelOptions={disbursementChannelOptions}
           currencyOptions={currencyOptions}
           languageOptions={languageOptions}
+          organisationOptions={organisationOptions}
           />
       </div>
     )}
@@ -29,7 +31,8 @@ const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disburs
 );
 
 
-const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, currencyOptions, languageOptions}) =>
+const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, currencyOptions,
+    languageOptions, organisationOptions}) =>
  (
   <div>
     <div className="row">
@@ -98,10 +101,23 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
     </div>
     <div className="row">
       <FieldArray
-        name="ContactOrganisation"
-        component={renderNarrativeFields}
+        name="ProviderOrg"
+        component={renderOrgFields}
         languageOptions={languageOptions}
-        textName="narrativeOrganisation[text]"
+        organisationOptions={organisationOptions}
+        textName="receiverOrg[text]"
+        mainLabel="Provider org"
+        textLabel="Title"
+      />
+    </div>
+    <div className="row">
+      <FieldArray
+        name="ReceiverOrg"
+        component={renderOrgFields}
+        languageOptions={languageOptions}
+        organisationOptions={organisationOptions}
+        textName="receiverOrg[text]"
+        mainLabel="Receiver org"
         textLabel="Title"
       />
     </div>
@@ -118,10 +134,16 @@ class FinancialPlannedDisbursement extends Component {
     this.props.getCodeListItems('DisbursementChannel');
     this.props.getCodeListItems('Currency');
     this.props.getCodeListItems('Language');
+    this.props.getCodeListItems('OrganisationType');
   }
 
   render() {
     const {activity} = this.props;
+
+    if (!activity["DisbursementChannel"] || !activity["Currency"]
+        || !activity["Language"] || !activity["OrganisationType"]) {
+      return <GeneralLoader/>
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -134,6 +156,7 @@ class FinancialPlannedDisbursement extends Component {
             currencyOptions={activity["Currency"]}
             disbursementChannelOptions={activity["DisbursementChannel"]}
             languageOptions={activity["Language"]}
+            organisationOptions={activity["OrganisationType"]}
           />
         </div>
         <FieldArray
@@ -141,6 +164,8 @@ class FinancialPlannedDisbursement extends Component {
           component={renderAdditionalRenderFinancialPlannedDisbursementForm}
           currencyOptions={activity["Currency"]}
           languageOptions={activity["Language"]}
+          disbursementChannelOptions={activity["DisbursementChannel"]}
+          organisationOptions={activity["OrganisationType"]}
         />
       </div>
     )
