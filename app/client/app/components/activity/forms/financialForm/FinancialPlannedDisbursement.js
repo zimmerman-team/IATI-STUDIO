@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField, renderOrgFields} from '../../helpers/FormHelper'
+import {renderField, renderSelectField, renderOrgFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
 const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions,
