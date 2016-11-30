@@ -4,7 +4,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
-const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, languageOptions,
+const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, languageOptions, indicatorMeasureOptions,
       meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
@@ -12,7 +12,9 @@ const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, lan
         <RenderPerformanceResultForm
           resultOptions={resultOptions}
           languageOptions={languageOptions}
-          currencyOptions={currencyOptions}/>
+          currencyOptions={currencyOptions}
+          indicatorMeasureOptions={indicatorMeasureOptions}
+        />
       </div>
     )}
     <div className="columns">
@@ -29,7 +31,7 @@ const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, lan
 );
 
 
-const RenderPerformanceResultForm = ({resultOptions, languageOptions}) =>
+const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorMeasureOptions}) =>
  (
   <div>
     <div className="row">
@@ -40,13 +42,40 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions}) =>
         selectOptions={resultOptions}
         defaultOption="Select one of the following options"
       />
+    </div>
+    <FieldArray
+      name="additionalTitles"
+      component={renderNarrativeFields}
+      languageOptions={languageOptions}
+      textName="textTitle"
+      textLabel="Text"
+      narrativeLabel="Description"
+    />
+    <FieldArray
+      name="additionalDescriptions"
+      component={renderNarrativeFields}
+      languageOptions={languageOptions}
+      textName="textTitle"
+      textLabel="Text"
+      narrativeLabel="Description"
+    />
+    <div className="row">
+      <Field
+        component={renderSelectField}
+        name="indicatorMeasure"
+        label="Measure"
+        selectOptions={indicatorMeasureOptions}
+        defaultOption="Select one of the following options"
+      />
+    </div>
+    <div className="row">
       <FieldArray
-        name="additionalTitles"
+        name="additionalTitle"
         component={renderNarrativeFields}
         languageOptions={languageOptions}
         textName="textTitle"
         textLabel="Text"
-        narrativeLabel="Description"
+        narrativeLabel="Title"
       />
     </div>
   </div>
@@ -61,12 +90,13 @@ class PerformanceResultForm extends Component {
   componentWillMount() {
     this.props.getCodeListItems('ResultType');
     this.props.getCodeListItems('Language');
+    this.props.getCodeListItems('IndicatorMeasure');
   }
 
   render() {
     const {activity} = this.props;
 
-    if (!activity["ResultType"] || !activity["Language"]) {
+    if (!activity["ResultType"] || !activity["Language"] || !activity["IndicatorMeasure"]) {
       return <GeneralLoader/>
     }
 
@@ -80,6 +110,7 @@ class PerformanceResultForm extends Component {
           <RenderPerformanceResultForm
             resultOptions={activity["ResultType"]}
             languageOptions={activity["Language"]}
+            indicatorMeasureOptions={activity["IndicatorMeasure"]}
           />
         </div>
         <FieldArray

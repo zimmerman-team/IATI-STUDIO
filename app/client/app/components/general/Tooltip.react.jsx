@@ -27,8 +27,8 @@ export const Tooltip = onClickOutside(React.createClass({
 		return (
 			<div className={tooltipClass} onMouseEnter={this.props.click ? null : this.toggleTipOn} onMouseLeave={this.props.click ? null : this.toggleTipOff} onClick={this.props.click ? this.toggleTip : null}>
 				{this.props.children}
-				<ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}> 
-					{this.state.showTooltip ? 
+				<ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+					{this.state.showTooltip ?
 						<div className="tip">{this.props.tooltip}</div>
 					: null }
 				</ReactCSSTransitionGroup>
@@ -36,3 +36,5 @@ export const Tooltip = onClickOutside(React.createClass({
 		)
 	}
 }))
+
+export default Tooltip;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import Tooltip from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
@@ -12,7 +12,7 @@ const renderAdditionalRenderPerformanceConditionForm = ({fields, conditionOption
         <RenderPerformanceConditionForm
           conditionOptions={conditionOptions}
           languageOptions={languageOptions}
-          currencyOptions={currencyOptions}/>
+        />
       </div>
     )}
     <div className="columns">
@@ -40,13 +40,17 @@ const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
         selectOptions={conditionOptions}
         defaultOption="Select one of the following options"
       />
+    </div>
+    <div className="row">
       <Field
         component={renderSelectField}
-        name="conditionTypeOptions"
+        name="conditionType"
         label="Condition Type"
         selectOptions={conditionOptions}
         defaultOption="Select one of the following options"
       />
+    </div>
+    <div className="row">
       <FieldArray
         name="additionalTitles"
         component={renderNarrativeFields}

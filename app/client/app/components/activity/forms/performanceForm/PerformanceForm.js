@@ -1,12 +1,10 @@
-import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import {PerformanceConditionForm} from './PerformanceConditionForm'
-import {PerformanceResultForm} from './PerformanceResultForm'
+import React, {Component} from "react";
+import {Field, reduxForm} from "redux-form";
+import {renderField} from "../../helpers/FormHelper";
+import PerformanceConditionForm from "./PerformanceConditionForm";
+import PerformanceResultForm from "./PerformanceResultForm";
 
-class PerformanceForm extends React.Component {
+class PerformanceForm extends Component {
 
   constructor(props) {
     super(props)
@@ -16,7 +14,7 @@ class PerformanceForm extends React.Component {
   }
 
   render() {
-    const {handleSubmit, submitting, previousPage, activity} = this.props;
+    const {handleSubmit, submitting, previousPage} = this.props;
 
     return (
       <div>
@@ -27,9 +25,9 @@ class PerformanceForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <PerformanceConditionForm {...this.props}/>
-          <PerformanceResultForm {...this.props}/>
           <div className="field-list">
+            <PerformanceConditionForm {...this.props}/>
+            <PerformanceResultForm {...this.props}/>
             <div className=""><h6>Capital Spend</h6></div>
             <div className="row">
               <div className="columns small-6">
