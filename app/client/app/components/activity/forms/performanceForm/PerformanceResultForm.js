@@ -5,15 +5,15 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
 const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, languageOptions, indicatorMeasureOptions,
-      meta: {touched, error}}) => (
+    indicatorVocabularyOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
         <RenderPerformanceResultForm
           resultOptions={resultOptions}
           languageOptions={languageOptions}
-          currencyOptions={currencyOptions}
           indicatorMeasureOptions={indicatorMeasureOptions}
+          indicatorVocabularyOptions={indicatorVocabularyOptions}
         />
       </div>
     )}
@@ -31,14 +31,14 @@ const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, lan
 );
 
 
-const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorMeasureOptions}) =>
+const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorMeasureOptions, indicatorVocabularyOptions}) =>
  (
   <div>
     <div className="row">
       <Field
         component={renderSelectField}
         name="resultAttached"
-        label="Result"
+        label="Type"
         selectOptions={resultOptions}
         defaultOption="Select one of the following options"
       />
@@ -49,7 +49,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       languageOptions={languageOptions}
       textName="textTitle"
       textLabel="Text"
-      narrativeLabel="Description"
+      narrativeLabel="Title"
     />
     <FieldArray
       name="additionalDescriptions"
@@ -78,6 +78,238 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         narrativeLabel="Title"
       />
     </div>
+    <div className="row">
+      <FieldArray
+        name="additionalTitle"
+        component={renderNarrativeFields}
+        languageOptions={languageOptions}
+        textName="textTitle"
+        textLabel="Description"
+        narrativeLabel="Description"
+      />
+    </div>
+    <div className="row">
+      <Field
+        component={renderSelectField}
+        name="vocabulary"
+        label="Vocabulary"
+        selectOptions={indicatorVocabularyOptions}
+        defaultOption="Select one of the following options"
+      />
+      <div className="columns small-6">
+        <Field
+          name="Code"
+          type="text"
+          component={renderField}
+          label="Code"
+        />
+      </div>
+    </div>
+    <div className="row">
+      <Field
+        component={renderSelectField}
+        name="indicatorURI"
+        label="Indicator URI"
+        selectOptions={indicatorMeasureOptions}
+        defaultOption="Select one of the following options"
+      />
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Baseline</h2>
+        <div className="row">
+          <div className="columns small-6">
+            <Field
+              name="year"
+              type="text"
+              component={renderField}
+              label="Year"
+            />
+          </div>
+          <div className="columns small-6">
+            <Field
+              name="value"
+              type="text"
+              component={renderField}
+              label="Value"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Comment</h2>
+        <FieldArray
+          name="additionalTitle"
+          component={renderNarrativeFields}
+          languageOptions={languageOptions}
+          textName="textTitle"
+          textLabel="Description"
+          narrativeLabel="Description"
+        />
+      </div>
+    </div>
+    <div className="row">
+      <div className="columns small-6">
+        Period start
+        <Field
+          name="dateStart"
+          type="date"
+          component={renderField}
+          label="Date"
+        />
+      </div>
+    </div>
+    <div className="row">
+      <div className="columns small-6">
+        Period end
+        <Field
+          name="dateEnd"
+          type="date"
+          component={renderField}
+          label="Date"
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Target</h2>
+        <div className="columns small-6">
+          <Field
+            name="value"
+            type="text"
+            component={renderField}
+            label="Value"
+          />
+        </div>
+        <div class="columns small-6"></div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Location</h2>
+        <div className="columns small-6">
+          <Field
+            name="ref"
+            type="text"
+            component={renderField}
+            label="Ref"
+          />
+        </div>
+        <div class="columns small-6"></div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Dimension</h2>
+        <div className="row">
+          <div className="columns small-6">
+            <Field
+              name="name"
+              type="text"
+              component={renderField}
+              label="Name"
+            />
+          </div>
+          <div className="columns small-6">
+            <Field
+              name="value"
+              type="text"
+              component={renderField}
+              label="Value"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Comment</h2>
+        <FieldArray
+          name="additionalTitle"
+          component={renderNarrativeFields}
+          languageOptions={languageOptions}
+          textName="textTitle"
+          textLabel="Text"
+          narrativeLabel="Text"
+        />
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Actual</h2>
+        <div className="columns small-6">
+          <Field
+            name="value"
+            type="text"
+            component={renderField}
+            label="Value"
+          />
+        </div>
+        <div class="columns small-6"></div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Location</h2>
+        <div className="columns small-6">
+          <Field
+            name="ref"
+            type="text"
+            component={renderField}
+            label="Ref"
+          />
+        </div>
+        <div class="columns small-6"></div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Dimension</h2>
+        <div className="row">
+          <div className="columns small-6">
+            <Field
+              name="name"
+              type="text"
+              component={renderField}
+              label="Name"
+            />
+          </div>
+          <div className="columns small-6">
+            <Field
+              name="value"
+              type="text"
+              component={renderField}
+              label="Value"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="columns small-centered small-12">
+        <h2 className="page-title">Comment</h2>
+        <FieldArray
+          name="additionalTitle"
+          component={renderNarrativeFields}
+          languageOptions={languageOptions}
+          textName="textTitle"
+          textLabel="Text"
+          narrativeLabel="Text"
+        />
+      </div>
+    </div>
   </div>
 );
 
@@ -91,12 +323,13 @@ class PerformanceResultForm extends Component {
     this.props.getCodeListItems('ResultType');
     this.props.getCodeListItems('Language');
     this.props.getCodeListItems('IndicatorMeasure');
+    this.props.getCodeListItems('IndicatorVocabulary');
   }
 
   render() {
     const {activity} = this.props;
 
-    if (!activity["ResultType"] || !activity["Language"] || !activity["IndicatorMeasure"]) {
+    if (!activity["ResultType"] || !activity["Language"] || !activity["IndicatorMeasure"] || !activity["IndicatorVocabulary"]) {
       return <GeneralLoader/>
     }
 
@@ -111,6 +344,7 @@ class PerformanceResultForm extends Component {
             resultOptions={activity["ResultType"]}
             languageOptions={activity["Language"]}
             indicatorMeasureOptions={activity["IndicatorMeasure"]}
+            indicatorVocabularyOptions={activity["IndicatorVocabulary"]}
           />
         </div>
         <FieldArray

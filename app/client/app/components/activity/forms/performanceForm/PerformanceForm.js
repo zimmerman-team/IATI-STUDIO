@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import {Field, reduxForm} from "redux-form";
-import {renderField} from "../../helpers/FormHelper";
+import {reduxForm} from "redux-form";
 import PerformanceConditionForm from "./PerformanceConditionForm";
 import PerformanceResultForm from "./PerformanceResultForm";
+import PerformanceCommentForm from "./PerformanceCommentForm";
 
 class PerformanceForm extends Component {
 
@@ -28,17 +28,7 @@ class PerformanceForm extends Component {
           <div className="field-list">
             <PerformanceConditionForm {...this.props}/>
             <PerformanceResultForm {...this.props}/>
-            <div className=""><h6>Capital Spend</h6></div>
-            <div className="row">
-              <div className="columns small-6">
-                <Field
-                  name="capitalSpend"
-                  type="text"
-                  component={renderField}
-                  label="Capital Spend"
-                />
-              </div>
-            </div>
+            <PerformanceCommentForm {...this.props}/>
           </div>
         </form>
         <div className="row">

@@ -12,6 +12,7 @@ import ClassificationsForm from './forms/classificationForm/ClassificationsForm'
 import DocumentLinkForm from './forms/documentLinkForm/DocumentLinkForm'
 import RelationsForm from './forms/relationsForm/RelationsForm'
 import FinancialForm from './forms/financialForm/FinancialForm'
+import PerformanceForm from './forms/performanceForm/PerformanceForm'
 import {GeneralLoader} from '../general/Loaders.react.jsx'
 
 class ActivityEdit extends React.Component {
@@ -136,7 +137,7 @@ class ActivityEdit extends React.Component {
       return <GeneralLoader/>
     }
     return (
-      <FinancialForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
+      <PerformanceForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
     );
   }
 }
