@@ -45,3 +45,25 @@
     color:$alert-color;
   }
 }
+
+.nav-field-list {
+  padding: 10px;
+  background:$white;
+  @include card(1);
+}
+
+.activity-nav-col {
+  padding: 58px 30px 0 15px;
+}
+
+.valid-nav {
+  color: lawngreen;
+}
+
+.invalid-nav {
+  color: red;
+}
+
+.nav-list {
+  list-style: none;
+}

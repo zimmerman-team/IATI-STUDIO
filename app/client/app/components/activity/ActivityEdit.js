@@ -12,6 +12,7 @@ import ClassificationsForm from './forms/classificationForm/ClassificationsForm'
 import DocumentLinkForm from './forms/documentLinkForm/DocumentLinkForm'
 import RelationsForm from './forms/relationsForm/RelationsForm'
 import FinancialForm from './forms/financialForm/FinancialForm'
+import ActivitySidebar from './ActivitySidebar'
 import PerformanceForm from './forms/performanceForm/PerformanceForm'
 import {GeneralLoader} from '../general/Loaders.react.jsx'
 
@@ -25,6 +26,7 @@ class ActivityEdit extends React.Component {
     this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
     this.handleBasicInformationFormSubmit = this.handleBasicInformationFormSubmit.bind(this);
     this.handleParticipatingOrganisationFormSubmit = this.handleParticipatingOrganisationFormSubmit.bind(this);
+    this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this);
 
     this.state = {
       page: 1
@@ -130,14 +132,52 @@ class ActivityEdit extends React.Component {
   //   )
   // }
 
+  getFormComponentFromRoute(tab) {
+    switch(tab) {
+      case 'identification':
+        return <IdentificationForm onSubmit={this.handleIdentificationFormSubmit} {...this.props} />;
+      case 'basic-info':
+        return <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} {...this.props} />;
+      case 'participating-organisation':
+        return <ParticipatingOrganisationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+      case 'geopolitical-information':
+        return <GeopoliticalInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+      case 'classifications':
+        return <ClassificationsForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+      case 'document-link':
+        return <DocumentLinkForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+      case 'relations':
+        return <RelationsForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+      case 'financial':
+        return <FinancialForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+      case 'performance':
+        return <PerformanceForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+
+      default:
+        return <IdentificationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+    }
+  }
+
   render() {
     // const {activity} = this.props;
     // console.log(activity);
+    const formTab = this.props.routeParams.tab;
+    const formComponent = this.getFormComponentFromRoute(formTab);
+
     if (!this.props.activity || !this.props.activity["Language"]) {
       return <GeneralLoader/>
     }
     return (
-      <PerformanceForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />
+      <div>
+        <div className="row">
+          <div className="columns small-9">
+            {formComponent}
+          </div>
+          <div className="columns small-3 activity-nav-col">
+            <ActivitySidebar formTab={formTab}/>
+          </div>
+        </div>
+      </div>
     );
   }
 }
