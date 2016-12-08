@@ -1,8 +1,11 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { validateForm } from '../../../../actions/validation'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -41,8 +44,9 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
   </div>
 );
 
-const validate = values => {
+const validate = (values, dispatch) => {
   const errors = {};
+  // dispatch.dispatch(validateForm());   @TODO for async validation
 
   if (!values.type) {
     const descriptionTypeObj = {};
@@ -139,7 +143,19 @@ class DescriptionForm extends React.Component {
   }
 }
 
-export default reduxForm({
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+DescriptionForm = reduxForm({
   form: 'fieldArrays',     // a unique identifier for this form
   validate
-})(DescriptionForm)
+})(DescriptionForm);
+
+
+DescriptionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(DescriptionForm);
+export default DescriptionForm
+

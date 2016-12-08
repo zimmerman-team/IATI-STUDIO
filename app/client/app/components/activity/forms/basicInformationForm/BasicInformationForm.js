@@ -24,7 +24,7 @@ class BasicInformationForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <DescriptionForm {...this.props} />
+          <DescriptionForm/>
           <div className="columns small-centered small-12">
             <h2 className="page-title with-tip">Status</h2>
             <Tooltip className="inline" tooltip="Status text goes here">

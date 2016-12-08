@@ -112,7 +112,10 @@ class ActivitySidebar extends React.Component {
   }
 
   render() {
-    const { navState } = this.props;
+    const { navState, form } = this.props;
+    console.log('<<<form', form)
+    const fieldArrays = form.fieldArrays;
+
     let wrapClass = classNames('helpdesk  ', {
       'pushed' : navState.menuState
     });
@@ -160,7 +163,8 @@ const NavItem = React.createClass({
 function mapStateToProps(state) {
   const { navState } = state;
   return {
-    navState: navState
+    navState: state.navState,   //not required right now
+    form: state.form
   }
 }
 
