@@ -153,5 +153,6 @@ class SectorForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'SectorForm',     // a unique identifier for this form
+  form: 'ClassificationSectorForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(SectorForm)

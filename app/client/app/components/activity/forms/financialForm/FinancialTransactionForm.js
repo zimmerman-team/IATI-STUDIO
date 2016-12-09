@@ -292,4 +292,5 @@ class FinancialTransactionForm extends Component {
 
 export default reduxForm({
   form: 'FinancialTransactionForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(FinancialTransactionForm)

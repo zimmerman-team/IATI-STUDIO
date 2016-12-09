@@ -132,15 +132,8 @@ class IdentificationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'syncValidation',
+  form: 'IdentificationForm',     // a unique identifier for this form,
   destroyOnUnmount: false,
-  initialValues: {
-    hierarchy: 1,
-    xml_source_ref: 'dummy',
-    default_lang: 'en'
-  },
-  validate
-
-})(IdentificationForm)
+}, validate)(IdentificationForm)
 
 

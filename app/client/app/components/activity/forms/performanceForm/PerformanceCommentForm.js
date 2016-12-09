@@ -85,4 +85,5 @@ class PerformanceCommentForm extends Component {
 
 export default reduxForm({
   form: 'PerformanceCommentForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(PerformanceCommentForm)

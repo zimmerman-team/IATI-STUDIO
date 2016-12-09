@@ -235,11 +235,7 @@ class ParticipatingOrganisationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'syncValidation',
+  form: 'ParticipatingOrganisationForm',
   destroyOnUnmount: false,
-  initialValues: {
-    ref: 'dummy',
-    activity: 'dummy'
-  },
   validate
 })(ParticipatingOrganisationForm)

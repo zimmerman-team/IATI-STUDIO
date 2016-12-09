@@ -346,5 +346,6 @@ class LocationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'LocationForm',     // a unique identifier for this form
+  form: 'GeopoliticalLocationForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(LocationForm)

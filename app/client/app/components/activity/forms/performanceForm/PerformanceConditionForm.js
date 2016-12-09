@@ -106,4 +106,5 @@ class PerformanceConditionForm extends Component {
 
 export default reduxForm({
   form: 'PerformanceConditionForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(PerformanceConditionForm)

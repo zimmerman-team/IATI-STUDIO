@@ -89,7 +89,7 @@ const validate = (values, dispatch) => {
   return errors
 };
 
-class DescriptionForm extends React.Component {
+class BasicInformationDescriptionForm extends React.Component {
 
   constructor(props) {
     super(props)
@@ -150,12 +150,13 @@ function mapStateToProps(state) {
   }
 }
 
-DescriptionForm = reduxForm({
-  form: 'fieldArrays',     // a unique identifier for this form
+BasicInformationDescriptionForm = reduxForm({
+  form: 'BasicInformationDescriptionForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
   validate
-})(DescriptionForm);
+})(BasicInformationDescriptionForm);
 
 
-DescriptionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(DescriptionForm);
-export default DescriptionForm
+BasicInformationDescriptionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(BasicInformationDescriptionForm);
+export default BasicInformationDescriptionForm
 

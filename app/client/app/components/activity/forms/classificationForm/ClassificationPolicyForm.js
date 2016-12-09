@@ -159,5 +159,6 @@ class PolicyMakerForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'PolicyMakerForm',     // a unique identifier for this form
+  form: 'ClassificationPolicyMakerForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(PolicyMakerForm)

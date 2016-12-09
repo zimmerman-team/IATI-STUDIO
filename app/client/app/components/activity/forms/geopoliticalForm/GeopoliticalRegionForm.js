@@ -141,5 +141,6 @@ class RecipientRegionForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'fieldArrays',     // a unique identifier for this form
+  form: 'GeopoliticalRecipientRegionForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(RecipientRegionForm)

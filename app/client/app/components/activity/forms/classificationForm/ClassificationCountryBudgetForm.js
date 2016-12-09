@@ -128,5 +128,6 @@ class CountryBudgetForm extends Component {
 }
 
 export default reduxForm({
-  form: 'CountryBudgetForm',     // a unique identifier for this form
+  form: 'ClassificationCountryBudgetForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(CountryBudgetForm)

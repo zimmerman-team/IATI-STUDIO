@@ -151,4 +151,5 @@ class FinancialBudgetForm extends Component {
 
 export default reduxForm({
   form: 'FinancialBudgetForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(FinancialBudgetForm)

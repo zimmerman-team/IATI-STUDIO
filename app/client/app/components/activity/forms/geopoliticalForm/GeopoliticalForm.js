@@ -40,7 +40,7 @@ class GeopoliticalForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'fieldArrays',
+  form: 'GeopoliticalForm',
   destroyOnUnmount: false,
 
 })(GeopoliticalForm)

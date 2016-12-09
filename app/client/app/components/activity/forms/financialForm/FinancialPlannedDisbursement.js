@@ -174,4 +174,5 @@ class FinancialPlannedDisbursement extends Component {
 
 export default reduxForm({
   form: 'FinancialPlannedDisbursement',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(FinancialPlannedDisbursement)

@@ -439,5 +439,6 @@ class BasicInformationContactForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'fieldArrays',     // a unique identifier for this form
+  form: 'BasicInformationContactForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(BasicInformationContactForm)

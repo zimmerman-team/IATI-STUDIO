@@ -136,5 +136,6 @@ class HumanitarianScopeForm extends Component {
 }
 
 export default reduxForm({
-  form: 'HumanitarianScopeForm',     // a unique identifier for this form
+  form: 'ClassificationHumanitarianScopeForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(HumanitarianScopeForm)

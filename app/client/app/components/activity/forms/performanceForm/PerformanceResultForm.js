@@ -360,4 +360,5 @@ class PerformanceResultForm extends Component {
 
 export default reduxForm({
   form: 'PerformanceResultForm',     // a unique identifier for this form
+  destroyOnUnmount: false,
 })(PerformanceResultForm)
