@@ -1,8 +1,10 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -102,8 +104,19 @@ class BasicInformationDateForm extends React.Component {
   }
 }
 
-export default reduxForm({
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+BasicInformationDateForm = reduxForm({
   form: 'BasicInformationDateForm',     // a unique identifier for this form
   destroyOnUnmount: false,
   validate
-})(BasicInformationDateForm)
+})(BasicInformationDateForm);
+
+
+BasicInformationDateForm = connect(mapStateToProps, {getCodeListItems, createActivity})(BasicInformationDateForm);
+export default BasicInformationDateForm;
+

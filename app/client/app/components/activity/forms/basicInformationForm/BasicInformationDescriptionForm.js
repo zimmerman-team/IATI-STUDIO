@@ -158,5 +158,5 @@ BasicInformationDescriptionForm = reduxForm({
 
 
 BasicInformationDescriptionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(BasicInformationDescriptionForm);
-export default BasicInformationDescriptionForm
+export default BasicInformationDescriptionForm;
 

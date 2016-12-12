@@ -42,8 +42,8 @@ class BasicInformationForm extends React.Component {
               </div>
             </div>
           </div>
-          <DateForm {...this.props} />
-          <ContactForm {...this.props} />
+          <DateForm/>
+          <ContactForm/>
           <div className="columns small-12">
             <button type="button" className="button" onClick={previousPage}>Back to identification</button>
             <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

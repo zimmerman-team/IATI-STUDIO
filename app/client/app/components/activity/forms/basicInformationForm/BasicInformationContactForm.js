@@ -1,8 +1,10 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
+import {connect} from 'react-redux'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -438,7 +440,19 @@ class BasicInformationContactForm extends React.Component {
     )
   }
 }
-export default reduxForm({
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+BasicInformationContactForm = reduxForm({
   form: 'BasicInformationContactForm',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(BasicInformationContactForm)
+})(BasicInformationContactForm);
+
+
+BasicInformationContactForm = connect(mapStateToProps, {getCodeListItems, createActivity})(BasicInformationContactForm);
+export default BasicInformationContactForm;
+
