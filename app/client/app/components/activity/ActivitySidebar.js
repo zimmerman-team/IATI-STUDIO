@@ -2,13 +2,10 @@ import { PropTypes } from 'react'
 import React, {render} from 'react'
 
 import { connect } from 'react-redux'
-import store from '../../app'
-
 import classNames from 'classnames'
-import { toggleMainMenu } from '../../actions/sync'
 import { Link } from 'react-router';
 
-import { navigation, getBasicInformationData } from './helpers/FormUtility'
+import { navigation, getBasicInformationData } from '../../actions/formSidebar'
 
 class ActivitySidebar extends React.Component {
   constructor(props) {
@@ -19,7 +16,6 @@ class ActivitySidebar extends React.Component {
   }
 
   componentDidMount() {
-    store.dispatch(toggleMainMenu(true))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,21 +37,15 @@ class ActivitySidebar extends React.Component {
         navHeading: page
       })
     }
+
+    if (nextProps.form) {
+      const form = Object.assign({}, nextProps.form);
+      getBasicInformationData(Object.assign({}, form));
+    }
   }
 
   render() {
-    const { navState, form } = this.props;
-    console.log('###ActivitySidebar form', form);
-
-    const BasicInformationFormFields = form.BasicInformationForm.registeredFields;
-    const basicInformationFormFields = form.BasicInformationDescriptionForm.registeredFields;
-    const BasicInformationDateFields = form.BasicInformationDateForm.registeredFields;
-    const BasicInformationContactFields = form.BasicInformationContactForm.registeredFields;
-
-    const BasicInformationFormErrors = form.BasicInformationForm.syncErrors;
-    const basicInformationFormErrors = form.BasicInformationDescriptionForm.syncErrors;
-    const BasicInformationDateErrors = form.BasicInformationDateForm.syncErrors;
-    const BasicInformationContactErrors = form.BasicInformationContactForm.syncErrors;
+    const {navState} = this.props;
 
     let wrapClass = classNames('helpdesk  ', {
       'pushed' : navState.menuState

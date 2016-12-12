@@ -4,7 +4,7 @@
 
 import { ACTIVITY_FORM_VALIDATION_REQUEST,
   ACTIVITY_FORM_VALIDATION_SUCCESS,
-  ACTIVITY_FORM_VALIDATION_FAILURE } from '../actions/validation'
+  ACTIVITY_FORM_VALIDATION_FAILURE } from '../actions/formSidebar'
 
 
 function validation(state = {}, action) {

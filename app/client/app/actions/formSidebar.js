@@ -77,6 +77,46 @@ export function setFormValidationData(bool) {
   }
 }
 
-export function getBasicInformationData(url, options={}) {
+export function getBasicInformationData(form) {
 
+  const activityForms = Object.keys(form);;
+
+  activityForms.map((activityForm, index) => {
+  });
+
+  if (form.BasicInformationForm) {
+/*
+    const BasicInformationFormFields = form.BasicInformationForm.registeredFields;
+    const basicInformationFormFields = form.BasicInformationDescriptionForm.registeredFields;
+    const BasicInformationDateFields = form.BasicInformationDateForm.registeredFields;
+    const BasicInformationContactFields = form.BasicInformationContactForm.registeredFields;
+
+    const BasicInformationFormErrors = form.BasicInformationForm.syncErrors;
+    const basicInformationFormErrors = form.BasicInformationDescriptionForm.syncErrors;
+    const BasicInformationDateErrors = form.BasicInformationDateForm.syncErrors;
+    const BasicInformationContactErrors = form.BasicInformationContactForm.syncErrors;
+    */
+  }
+}
+
+
+export const ACTIVITY_FORM_VALIDATION_REQUEST = 'ACTIVITY_FORM_VALIDATION_REQUEST';
+export const ACTIVITY_FORM_VALIDATION_SUCCESS = 'ACTIVITY_FORM_VALIDATION_SUCCESS';
+export const ACTIVITY_FORM_VALIDATION_FAILURE = 'ACTIVITY_FORM_VALIDATION_FAILURE';
+
+export function validateForm(formData, validationErrors) {
+  console.log('<<< action validateForm', formData, validationErrors);
+  return {
+    type: ACTIVITY_FORM_VALIDATION_SUCCESS,
+    formData: formData,
+    validationErrors: validationErrors,
+  }
+}
+
+export function invalidateForm(formData, validationErrors) {
+  return {
+    type: ACTIVITY_FORM_VALIDATION_FAILURE,
+    formData: formData,
+    validationErrors: validationErrors,
+  }
 }

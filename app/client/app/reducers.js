@@ -8,7 +8,7 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
 import activity from './reducers/createActivity'
-import validation from './reducers/validation'
+import formSidebar from './reducers/formSidebar'
 
 
 // TODO: just import everything - 2016-03-23
@@ -643,7 +643,7 @@ const rootReducer = combineReducers({
     pagination,
     publisher,
     activity,
-    validation,
+    formSidebar,
     apiKeyValidationForm,
     form: formReducer
 })
