@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderSelectField, renderOrgFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions,
     languageOptions, organisationOptions, meta: {touched, error}}) => (
@@ -124,6 +126,15 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.ReceiverOrg) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class FinancialPlannedDisbursement extends Component {
 
   constructor(props) {
@@ -172,7 +183,18 @@ class FinancialPlannedDisbursement extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'FinancialPlannedDisbursement',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+FinancialPlannedDisbursement = reduxForm({
+  form: 'financial-planned-disbursement',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(FinancialPlannedDisbursement)
+  validate
+})(FinancialPlannedDisbursement);
+
+
+FinancialPlannedDisbursement = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialPlannedDisbursement);
+export default FinancialPlannedDisbursement;

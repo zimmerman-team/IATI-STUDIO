@@ -57,7 +57,7 @@ class BasicInformationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'BasicInformationForm',
+  form: 'basic-info',
   destroyOnUnmount: false,
 
 })(BasicInformationForm)

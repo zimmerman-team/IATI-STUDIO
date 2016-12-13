@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderCountry = ({fields, countryCodeOptions, meta: {touched, error}}) => (
   <div>
@@ -128,7 +130,6 @@ const validate = values => {
   return errors
 };
 
-
 class RecipientCountryForm extends React.Component {
 
   constructor(props) {
@@ -192,8 +193,18 @@ class RecipientCountryForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'GeopoliticalRecipientCountryForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+RecipientCountryForm = reduxForm({
+  form: 'geopolitical-information-country',     // a unique identifier for this form
   destroyOnUnmount: false,
   validate
-})(RecipientCountryForm)
+})(RecipientCountryForm);
+
+
+RecipientCountryForm = connect(mapStateToProps, {getCodeListItems, createActivity})(RecipientCountryForm);
+export default RecipientCountryForm;

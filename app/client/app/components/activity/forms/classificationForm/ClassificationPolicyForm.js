@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderPolicy = ({fields, languageOptions, policyCodeOptions, policyVocabularyOptions, meta: {touched, error}}) => (
   <div>
@@ -72,6 +74,20 @@ const renderPolicy = ({fields, languageOptions, policyCodeOptions, policyVocabul
     </div>
   </div>
 );
+
+const validate = values => {
+  const errors = {};
+
+  if (!values.uriPolicyText) {
+    errors.type = 'Required'
+  }
+  if (!values.percentagePolicyText) {
+    errors.type = 'Required'
+  }
+
+  return errors
+};
+
 class PolicyMakerForm extends React.Component {
 
   constructor(props) {
@@ -158,7 +174,18 @@ class PolicyMakerForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'ClassificationPolicyMakerForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+PolicyMakerForm = reduxForm({
+  form: 'classifications-policy-maker',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(PolicyMakerForm)
+  validate
+})(PolicyMakerForm);
+
+
+PolicyMakerForm = connect(mapStateToProps, {getCodeListItems, createActivity})(PolicyMakerForm);
+export default PolicyMakerForm;

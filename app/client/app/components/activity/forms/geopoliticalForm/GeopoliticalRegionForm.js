@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error}}) => (
   <div>
@@ -55,6 +57,15 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
     </div>
   </div>
 );
+
+const validate = values => {
+  const errors = {};
+
+  if (!values.region) {
+    errors.type = 'Required'
+  }
+  return errors
+};
 
 class RecipientRegionForm extends React.Component {
 
@@ -140,7 +151,18 @@ class RecipientRegionForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'GeopoliticalRecipientRegionForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+RecipientRegionForm = reduxForm({
+  form: 'geopolitical-information-recipient-region',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(RecipientRegionForm)
+  validate
+})(RecipientRegionForm);
+
+
+RecipientRegionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(RecipientRegionForm);
+export default RecipientRegionForm;

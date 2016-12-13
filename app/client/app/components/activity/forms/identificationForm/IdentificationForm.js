@@ -2,6 +2,8 @@ import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderNarrativeFields} from '../../helpers/FormHelper'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const validate = values => {
   const errors = {};
@@ -132,7 +134,7 @@ class IdentificationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'IdentificationForm',     // a unique identifier for this form,
+  form: 'identification',     // a unique identifier for this form,
   destroyOnUnmount: false,
 }, validate)(IdentificationForm)
 

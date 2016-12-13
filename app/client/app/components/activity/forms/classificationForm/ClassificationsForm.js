@@ -37,8 +37,8 @@ class ClassificationsForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <SectorForm {...this.props} />
-          <PolicyMakerForm {...this.props} />
+          <SectorForm/>
+          <PolicyMakerForm/>
           <RenderSingleSelect
             name='collaborationType'
             label='Collaboration Type'
@@ -59,8 +59,8 @@ class ClassificationsForm extends React.Component {
             name='tiedStatus'
             label='Default Tied Type'
             selectOptions={activity['TiedStatus']}/>
-          <CountryBudgetForm {...this.props} />
-          <HumanitarianScopeForm {...this.props} />
+          <CountryBudgetForm/>
+          <HumanitarianScopeForm/>
           <div className="row">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Information</button>
@@ -75,6 +75,6 @@ class ClassificationsForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'ClassificationForm',
+  form: 'classification',
   destroyOnUnmount: false
 })(ClassificationsForm)

@@ -4,6 +4,8 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField, renderOrgFields,
     renderSectorFields, RenderSingleSelect} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialTransactionForm = ({fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
@@ -215,6 +217,15 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.flowType) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class FinancialTransactionForm extends Component {
 
   constructor(props) {
@@ -290,7 +301,18 @@ class FinancialTransactionForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'FinancialTransactionForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+FinancialTransactionForm = reduxForm({
+  form: 'financial-transaction',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(FinancialTransactionForm)
+  validate
+})(FinancialTransactionForm);
+
+
+FinancialTransactionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialTransactionForm);
+export default FinancialTransactionForm;

@@ -23,9 +23,9 @@ class GeopoliticalForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <RecipientCountryForm {...this.props} />
-          <RecipientRegionForm {...this.props} />
-          <LocationForm {...this.props} />
+          <RecipientCountryForm/>
+          <RecipientRegionForm/>
+          <LocationForm/>
           <div className="row">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to participating organisations</button>
@@ -40,7 +40,7 @@ class GeopoliticalForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'GeopoliticalForm',
+  form: 'geopolitical-information',
   destroyOnUnmount: false,
 
 })(GeopoliticalForm)

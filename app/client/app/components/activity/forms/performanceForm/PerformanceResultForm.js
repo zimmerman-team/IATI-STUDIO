@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, languageOptions, indicatorMeasureOptions,
     indicatorVocabularyOptions, meta: {touched, error}}) => (
@@ -313,6 +315,15 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.ref) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class PerformanceResultForm extends Component {
 
   constructor(props) {
@@ -358,7 +369,20 @@ class PerformanceResultForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'PerformanceResultForm',     // a unique identifier for this form
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+PerformanceResultForm = reduxForm({
+  form: 'performance-result',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(PerformanceResultForm)
+  validate
+})(PerformanceResultForm);
+
+
+PerformanceResultForm = connect(mapStateToProps, {getCodeListItems, createActivity})(PerformanceResultForm);
+export default PerformanceResultForm;
+

@@ -26,9 +26,9 @@ class PerformanceForm extends Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="field-list">
-            <PerformanceConditionForm {...this.props}/>
-            <PerformanceResultForm {...this.props}/>
-            <PerformanceCommentForm {...this.props}/>
+            <PerformanceConditionForm/>
+            <PerformanceResultForm/>
+            <PerformanceCommentForm/>
           </div>
         </form>
         <div className="row">
@@ -45,6 +45,6 @@ class PerformanceForm extends Component {
 }
 
 export default reduxForm({
-  form: 'PerformanceForm',
+  form: 'performance',
   destroyOnUnmount: false
 })(PerformanceForm)

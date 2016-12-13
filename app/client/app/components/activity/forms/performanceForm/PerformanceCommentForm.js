@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField} from '../../helpers/FormHelper'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderPerformanceCommentForm = ({fields, meta: {touched, error}}) => (
   <div>
@@ -58,6 +60,15 @@ const RenderPerformanceCommentForm = () =>
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.IATIEquivalent) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class PerformanceCommentForm extends Component {
 
   constructor(props) {
@@ -83,7 +94,19 @@ class PerformanceCommentForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'PerformanceCommentForm',     // a unique identifier for this form
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+PerformanceCommentForm = reduxForm({
+  form: 'performance-comment',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(PerformanceCommentForm)
+  validate
+})(PerformanceCommentForm);
+
+
+PerformanceCommentForm = connect(mapStateToProps, {getCodeListItems, createActivity})(PerformanceCommentForm);
+export default PerformanceCommentForm;

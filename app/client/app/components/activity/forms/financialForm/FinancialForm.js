@@ -26,9 +26,9 @@ class FinancialForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="field-list">
-            <FinancialBudgetForm {...this.props}/>
-            <FinancialPlannedDisbursement {...this.props}/>
-            <FinancialTransactionForm {...this.props}/>
+            <FinancialBudgetForm/>
+            <FinancialPlannedDisbursement/>
+            <FinancialTransactionForm/>
             <div className=""><h6>Capital Spend</h6></div>
             <div className="row">
               <div className="columns small-6">
@@ -56,6 +56,6 @@ class FinancialForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'FinancialForm',
+  form: 'financial',
   destroyOnUnmount: false
 })(FinancialForm)

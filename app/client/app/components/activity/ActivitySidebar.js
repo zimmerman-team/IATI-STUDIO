@@ -1,21 +1,18 @@
-import { PropTypes } from 'react'
-import React, {render} from 'react'
+import React, {render, PropTypes} from 'react'
 
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Link } from 'react-router';
 
-import { navigation, getBasicInformationData } from '../../actions/formSidebar'
+import { navigation, getBasicInformationData } from '../../actions/activity'
 
 class ActivitySidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       navHeading: -1,
+      navSubHeadings: []
     }
-  }
-
-  componentDidMount() {
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +37,10 @@ class ActivitySidebar extends React.Component {
 
     if (nextProps.form) {
       const form = Object.assign({}, nextProps.form);
-      getBasicInformationData(Object.assign({}, form));
+      const data = getBasicInformationData(form, tab);
+      this.setState({
+        navSubHeadings: data
+      });
     }
   }
 
@@ -50,11 +50,13 @@ class ActivitySidebar extends React.Component {
     let wrapClass = classNames('helpdesk  ', {
       'pushed' : navState.menuState
     });
+    //navSubHeadings={i.subHeadings}
+
     return (
       <div className={wrapClass}>
         <div className="nav-field-list">
-          {navigation.map( (i,index) => (
-            <NavItem key={index} navHeading={i.navHeading} navLink={i.link} navSubHeadings={i.subHeadings}
+          {navigation && navigation.map( (i,index) => (
+            <NavItem key={index} navHeading={i.navHeading} navLink={i.link} navSubHeadings={this.state.navSubHeadings}
                 className={this.state.navHeading == index ? 'active' : ''} isActive={this.state.navHeading == index}/>
           ))}
         </div>
@@ -74,9 +76,9 @@ const NavItem = React.createClass({
           <h5>{navHeading} </h5>
         </Link>
         <ul className="answer nav-list">
-          {isActive && navSubHeadings.map((subHeading, subIndex) => {
+          {isActive && navSubHeadings && navSubHeadings.map((subHeading, subIndex) => {
             return (
-              <li key={subIndex}>
+              <li key={subIndex} className="capitalize">
                 {subHeading.navValidationClass &&
                     <i className={subHeading.navValidationClass}/>
                 }
@@ -92,7 +94,6 @@ const NavItem = React.createClass({
 
 
 function mapStateToProps(state) {
-  const { navState } = state;
   return {
     navState: state.navState,   //not required right now
     form: state.form

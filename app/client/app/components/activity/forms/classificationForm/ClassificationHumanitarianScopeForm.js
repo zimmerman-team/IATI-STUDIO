@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -96,6 +98,19 @@ const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageO
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.CODE) {
+    errors.type = 'Required'
+  }
+  if (!values.VocabularyURI) {
+    errors.type = 'Required'
+  }
+
+  return errors
+};
+
 class HumanitarianScopeForm extends Component {
 
   constructor(props) {
@@ -135,7 +150,18 @@ class HumanitarianScopeForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'ClassificationHumanitarianScopeForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+HumanitarianScopeForm = reduxForm({
+  form: 'classifications-humanitarian-scope',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(HumanitarianScopeForm)
+  validate
+})(HumanitarianScopeForm);
+
+
+HumanitarianScopeForm = connect(mapStateToProps, {getCodeListItems, createActivity})(HumanitarianScopeForm);
+export default HumanitarianScopeForm;

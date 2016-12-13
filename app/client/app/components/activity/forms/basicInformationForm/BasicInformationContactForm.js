@@ -404,6 +404,22 @@ const renderContactMailAddress = ({fields, meta: {error}}) => (
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.contactType) {
+    errors.type = 'Required'
+  }
+
+  if (!values.narrative) {
+    const narrativeTextObj = {};
+    narrativeTextObj.text = 'Required';
+    errors.narrative = narrativeTextObj
+  }
+
+  return errors
+};
+
 class BasicInformationContactForm extends React.Component {
   constructor(props) {
     super(props)
@@ -448,8 +464,9 @@ function mapStateToProps(state) {
 }
 
 BasicInformationContactForm = reduxForm({
-  form: 'BasicInformationContactForm',     // a unique identifier for this form
+  form: 'basic-info-contact',     // a unique identifier for this form
   destroyOnUnmount: false,
+  validate
 })(BasicInformationContactForm);
 
 

@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import Tooltip from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderPerformanceConditionForm = ({fields, conditionOptions, languageOptions,
       meta: {touched, error}}) => (
@@ -63,6 +65,15 @@ const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.conditionType) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class PerformanceConditionForm extends Component {
 
   constructor(props) {
@@ -104,7 +115,20 @@ class PerformanceConditionForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'PerformanceConditionForm',     // a unique identifier for this form
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+PerformanceConditionForm = reduxForm({
+  form: 'performance-condition',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(PerformanceConditionForm)
+  validate
+})(PerformanceConditionForm);
+
+
+PerformanceConditionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(PerformanceConditionForm);
+export default PerformanceConditionForm;
+

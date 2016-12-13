@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, error}}) => (
   <div>
@@ -109,6 +111,15 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.date) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class FinancialBudgetForm extends Component {
 
   constructor(props) {
@@ -149,7 +160,18 @@ class FinancialBudgetForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'FinancialBudgetForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+FinancialBudgetForm = reduxForm({
+  form: 'financial-budget',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(FinancialBudgetForm)
+  validate
+})(FinancialBudgetForm);
+
+
+FinancialBudgetForm = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialBudgetForm);
+export default FinancialBudgetForm;

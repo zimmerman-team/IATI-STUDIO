@@ -1,8 +1,9 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField, RenderSingleSelect} from '../../helpers/FormHelper'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 class DocumentLinkForm extends React.Component {
 
@@ -84,6 +85,6 @@ class DocumentLinkForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'DocumentLinkForm',
+  form: 'document-link',
   destroyOnUnmount: false
 })(DocumentLinkForm)

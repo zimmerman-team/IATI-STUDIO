@@ -111,7 +111,7 @@ function mapStateToProps(state) {
 }
 
 BasicInformationDateForm = reduxForm({
-  form: 'BasicInformationDateForm',     // a unique identifier for this form
+  form: 'basic-info-date',     // a unique identifier for this form
   destroyOnUnmount: false,
   validate
 })(BasicInformationDateForm);

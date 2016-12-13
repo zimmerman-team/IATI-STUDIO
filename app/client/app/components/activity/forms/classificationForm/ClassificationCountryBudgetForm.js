@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderAdditionalRenderCountryBugetForm = ({fields, vocabularyOptions, codeOptions, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -88,6 +90,19 @@ const RenderCountryBugetForm = ({vocabularyOptions, codeOptions, languageOptions
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.BudgetPercentage) {
+    errors.type = 'Required'
+  }
+  if (!values.BudgetIdentifierVocabulary) {
+    errors.type = 'Required'
+  }
+
+  return errors
+};
+
 class CountryBudgetForm extends Component {
 
   constructor(props) {
@@ -127,7 +142,18 @@ class CountryBudgetForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'ClassificationCountryBudgetForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+CountryBudgetForm = reduxForm({
+  form: 'classifications-country-budget',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(CountryBudgetForm)
+  validate
+})(CountryBudgetForm);
+
+
+CountryBudgetForm = connect(mapStateToProps, {getCodeListItems, createActivity})(CountryBudgetForm);
+export default CountryBudgetForm;

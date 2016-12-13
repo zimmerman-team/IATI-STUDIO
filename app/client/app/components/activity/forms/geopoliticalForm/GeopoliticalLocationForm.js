@@ -3,6 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {connect} from 'react-redux'
+import { getCodeListItems, createActivity } from '../../../../actions/activity'
 
 const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
@@ -240,6 +242,15 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.featureDesignation) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class LocationForm extends React.Component {
 
   constructor(props) {
@@ -345,7 +356,18 @@ class LocationForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'GeopoliticalLocationForm',     // a unique identifier for this form
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+LocationForm = reduxForm({
+  form: 'geopolitical-information-location',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(LocationForm)
+  validate
+})(LocationForm);
+
+
+LocationForm = connect(mapStateToProps, {getCodeListItems, createActivity})(LocationForm);
+export default LocationForm;

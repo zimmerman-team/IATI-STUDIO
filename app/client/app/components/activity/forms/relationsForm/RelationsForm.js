@@ -67,6 +67,6 @@ class RelationsForm extends React.Component {
   }
 }
 export default reduxForm({
-  form: 'RelationsForm',
+  form: 'relations',
   destroyOnUnmount: false
 })(RelationsForm)

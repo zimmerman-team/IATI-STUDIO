@@ -5,7 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, createActivity } from '../../../../actions/activity'
-import { validateForm } from '../../../../actions/formSidebar'
+import { validateForm } from '../../../../actions/activity'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -151,7 +151,7 @@ function mapStateToProps(state) {
 }
 
 BasicInformationDescriptionForm = reduxForm({
-  form: 'BasicInformationForm-Description',     // a unique identifier for this form
+  form: 'basic-info-description',     // a unique identifier for this form
   destroyOnUnmount: false,
   validate
 })(BasicInformationDescriptionForm);

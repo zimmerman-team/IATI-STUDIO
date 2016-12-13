@@ -235,7 +235,7 @@ class ParticipatingOrganisationForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'ParticipatingOrganisationForm',
+  form: 'participating-organisation',
   destroyOnUnmount: false,
   validate
 })(ParticipatingOrganisationForm)
