@@ -72,7 +72,7 @@ class BasicInformationDateForm extends React.Component {
           <i className="material-icons">info</i>
         </Tooltip>
         <div className="field-list">
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-6">
               <Field
                 name="date"

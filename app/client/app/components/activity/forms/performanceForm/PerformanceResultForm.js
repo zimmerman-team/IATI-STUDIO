@@ -61,7 +61,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       textLabel="Text"
       narrativeLabel="Description"
     />
-    <div className="row">
+    <div className="row no-margin">
       <Field
         component={renderSelectField}
         name="indicatorMeasure"
@@ -70,7 +70,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         defaultOption="Select one of the following options"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="additionalTitle"
         component={renderNarrativeFields}
@@ -80,7 +80,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         narrativeLabel="Title"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="additionalTitle"
         component={renderNarrativeFields}
@@ -90,7 +90,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         narrativeLabel="Description"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <Field
         component={renderSelectField}
         name="vocabulary"
@@ -107,7 +107,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <Field
         component={renderSelectField}
         name="indicatorURI"
@@ -117,10 +117,10 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       />
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Baseline</h2>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-6">
             <Field
               name="year"
@@ -141,7 +141,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Comment</h2>
         <FieldArray
@@ -154,7 +154,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Period start
         <Field
@@ -165,7 +165,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Period end
         <Field
@@ -177,7 +177,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Target</h2>
         <div className="columns small-6">
@@ -192,7 +192,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Location</h2>
         <div className="columns small-6">
@@ -207,10 +207,10 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Dimension</h2>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-6">
             <Field
               name="name"
@@ -231,7 +231,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Comment</h2>
         <FieldArray
@@ -245,7 +245,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Actual</h2>
         <div className="columns small-6">
@@ -260,7 +260,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Location</h2>
         <div className="columns small-6">
@@ -275,10 +275,10 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Dimension</h2>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-6">
             <Field
               name="name"
@@ -299,7 +299,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       </div>
     </div>
 
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title">Comment</h2>
         <FieldArray

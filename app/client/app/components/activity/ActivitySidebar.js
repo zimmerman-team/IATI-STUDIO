@@ -24,12 +24,7 @@ class ActivitySidebar extends React.Component {
     });
 
     const page = match.page;
-    if (page == this.state.navHeading) {
-      this.setState({
-        navHeading: -1
-      })
-    }
-    else {
+    if (page !== this.state.navHeading) {
       this.setState({
         navHeading: page
       })
@@ -50,7 +45,6 @@ class ActivitySidebar extends React.Component {
     let wrapClass = classNames('helpdesk  ', {
       'pushed' : navState.menuState
     });
-    //navSubHeadings={i.subHeadings}
 
     return (
       <div className={wrapClass}>

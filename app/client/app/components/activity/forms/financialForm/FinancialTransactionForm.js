@@ -48,7 +48,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     flowOptions, financeOptions, aidOptions, tiedOptions}) =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="reference"
@@ -65,7 +65,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         defaultOption="Select one of the following options"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <Field
         name="transactionType"
         component={renderSelectField}
@@ -74,7 +74,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         defaultOption="Select one of the following options"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Transaction date
         <Field
@@ -86,7 +86,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
       </div>
     </div>
     Value
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="amount"
@@ -104,7 +104,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="currency"
@@ -115,7 +115,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="additionalTitles"
         component={renderNarrativeFields}
@@ -125,7 +125,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         narrativeLabel="Description"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="ProviderOrg"
         component={renderOrgFields}
@@ -136,7 +136,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         textLabel="Title"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="ReceiverOrg"
         component={renderOrgFields}
@@ -149,7 +149,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     </div>
     <div>
       <div className=""><h6>Disbursement channel</h6></div>
-      <div className="row">
+      <div className="row no-margin">
         {
           !disbursementOptions ?
             <GeneralLoader/> :
@@ -163,7 +163,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         }
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="Sector"
         component={renderSectorFields}
@@ -174,12 +174,12 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         textLabel="Sector"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title with-tip">Recipient country</h2>
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <Field
         name="country"
         component={renderSelectField}
@@ -188,7 +188,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         defaultOption="Select one of the following options"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="additionalTitles"
         component={renderNarrativeFields}
@@ -216,15 +216,6 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
       selectOptions={tiedOptions}/>
   </div>
 );
-
-const validate = values => {
-  const errors = {};
-
-  if (!values.flowType) {
-    errors.type = 'Required'
-  }
-  return errors
-};
 
 class FinancialTransactionForm extends Component {
 
@@ -301,18 +292,7 @@ class FinancialTransactionForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
-}
-
-FinancialTransactionForm = reduxForm({
+export default reduxForm({
   form: 'financial-transaction',     // a unique identifier for this form
   destroyOnUnmount: false,
-  validate
-})(FinancialTransactionForm);
-
-
-FinancialTransactionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialTransactionForm);
-export default FinancialTransactionForm;
+})(FinancialTransactionForm)

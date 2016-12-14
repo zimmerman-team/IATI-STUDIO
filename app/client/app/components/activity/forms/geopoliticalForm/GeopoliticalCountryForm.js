@@ -44,7 +44,7 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
-        <div className="row">
+        <div className="row no-margin">
           <Field
             name={`${description}.country[code]`}
             component={renderCountryTypeSelect}
@@ -60,7 +60,7 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
           </div>
           <FieldArray name={`${description}.additionalCountry`} component={renderCountry}/>
         </div>
-        <div className="row">
+        <div className="row no-margin">
           <FieldArray
             name={`${description}.additionalDescription`}
             component={renderNarrativeFields}
@@ -150,7 +150,7 @@ class RecipientCountryForm extends React.Component {
           <i className="material-icons">info</i>
         </Tooltip>
         <div className="field-list">
-          <div className="row">
+          <div className="row no-margin">
             {
               !activity["Country"] ?
                 <GeneralLoader/> :

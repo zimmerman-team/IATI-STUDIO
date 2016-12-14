@@ -23,6 +23,12 @@ function activity(state = {}, action) {
             return Object.assign({}, state, {
                 activity: action.response
             });
+        case ADD_DOCUMENT_LINK_REQUEST:
+        case ADD_DOCUMENT_LINK_SUCCESS:
+          return Object.assign({}, state, {
+            activity: action.response
+          });
+        case ADD_DOCUMENT_LINK_FAILURE:
         default:
             return state
     }

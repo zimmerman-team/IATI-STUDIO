@@ -10,7 +10,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
   <div>
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
-        <div className="row">
+        <div className="row no-margin">
           {
             !regionOptions ?
               <GeneralLoader/> :
@@ -34,7 +34,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
               />
           }
         </div>
-        <div className="row">
+        <div className="row no-margin">
           <FieldArray
             name={`${description}.additionalDescription`}
             component={renderNarrativeFields}
@@ -88,7 +88,7 @@ class RecipientRegionForm extends React.Component {
           <i className="material-icons">info</i>
         </Tooltip>
         <div className="field-list">
-          <div className="row">
+          <div className="row no-margin">
             {
               !activity["Region"] ?
                 <GeneralLoader/> :
@@ -112,7 +112,7 @@ class RecipientRegionForm extends React.Component {
                 />
             }
           </div>
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-6">
               <Field
                 name="uriText"
@@ -130,7 +130,7 @@ class RecipientRegionForm extends React.Component {
               />
             </div>
           </div>
-          <div className="row">
+          <div className="row no-margin">
             <FieldArray
               name="additionalTitles"
               component={renderNarrativeFields}

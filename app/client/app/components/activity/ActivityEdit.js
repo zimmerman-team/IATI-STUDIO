@@ -135,7 +135,7 @@ class ActivityEdit extends React.Component {
   getFormComponentFromRoute(tab) {
     switch(tab) {
       case 'identification':
-        return <IdentificationForm onSubmit={this.handleIdentificationFormSubmit} {...this.props} />;
+        return <IdentificationForm/>;
       case 'basic-info':
         return <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} {...this.props} />;
       case 'participating-organisation':
@@ -145,7 +145,7 @@ class ActivityEdit extends React.Component {
       case 'classifications':
         return <ClassificationsForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
       case 'document-link':
-        return <DocumentLinkForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <DocumentLinkForm/>;
       case 'relations':
         return <RelationsForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
       case 'financial':

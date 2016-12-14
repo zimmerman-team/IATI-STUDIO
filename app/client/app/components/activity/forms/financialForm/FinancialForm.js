@@ -30,7 +30,7 @@ class FinancialForm extends React.Component {
             <FinancialPlannedDisbursement/>
             <FinancialTransactionForm/>
             <div className=""><h6>Capital Spend</h6></div>
-            <div className="row">
+            <div className="row no-margin">
               <div className="columns small-6">
                 <Field
                   name="capitalSpend"
@@ -42,7 +42,7 @@ class FinancialForm extends React.Component {
             </div>
           </div>
         </form>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-12">
             <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
             <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

@@ -34,7 +34,7 @@ const renderAdditionalRenderPerformanceConditionForm = ({fields, conditionOption
 const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       <Field
         component={renderSelectField}
         name="conditionAttached"
@@ -43,7 +43,7 @@ const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
         defaultOption="Select one of the following options"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <Field
         component={renderSelectField}
         name="conditionType"
@@ -52,7 +52,7 @@ const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
         defaultOption="Select one of the following options"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="additionalTitles"
         component={renderNarrativeFields}

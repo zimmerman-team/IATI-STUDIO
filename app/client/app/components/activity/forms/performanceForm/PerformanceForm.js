@@ -31,7 +31,7 @@ class PerformanceForm extends Component {
             <PerformanceCommentForm/>
           </div>
         </form>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-12">
             <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
             <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

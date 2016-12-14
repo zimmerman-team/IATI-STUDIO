@@ -31,7 +31,7 @@ class BasicInformationForm extends React.Component {
               <i className="material-icons">info</i>
             </Tooltip>
           </div>
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-6">
               <div>
                 <div>

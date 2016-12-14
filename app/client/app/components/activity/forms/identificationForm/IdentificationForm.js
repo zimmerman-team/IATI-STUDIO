@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {PropTypes, Component} from 'react'
+import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderNarrativeFields} from '../../helpers/FormHelper'
-import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { createActivity, getCodeListItems } from '../../../../actions/activity'
 
 const validate = values => {
   const errors = {};
@@ -60,10 +60,11 @@ const validate = values => {
 };
 
 
-class IdentificationForm extends React.Component {
+class IdentificationForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   // handleChange(e) {
@@ -73,8 +74,23 @@ class IdentificationForm extends React.Component {
   //   //this.props.publishActivity(data);
   // }
 
+  /**
+   * Submit identification data and redirect
+   * to basic information form.
+   *
+   * @param data
+   */
+  handleFormSubmit(data) {
+    this.props.dispatch(createActivity(data));
+    this.context.router.push('/publisher/activity/relations')
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
   render() {
-    const {handleSubmit, submitting, activity} = this.props;
+    const {submitting, activity, handleSubmit } = this.props;
     return (
       <div>
         <div className="row controls">
@@ -84,7 +100,7 @@ class IdentificationForm extends React.Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit} name="identification">
+        <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
           <FieldArray
             name="additionalTitles"
             component={renderNarrativeFields}
@@ -123,7 +139,7 @@ class IdentificationForm extends React.Component {
             />
           </div>
           <div className="columns small-12">
-            <button className="button" type="submit" disabled={submitting} onClick={handleSubmit}>
+            <button className="button" type="submit" disabled={submitting}>
               Continue to basic information
             </button>
           </div>
@@ -133,9 +149,18 @@ class IdentificationForm extends React.Component {
   }
 }
 
-export default reduxForm({
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+IdentificationForm = reduxForm({
   form: 'identification',     // a unique identifier for this form,
   destroyOnUnmount: false,
-}, validate)(IdentificationForm)
+  validate
+})(IdentificationForm);
 
 
+IdentificationForm = connect(mapStateToProps, {getCodeListItems})(IdentificationForm);
+export default IdentificationForm;

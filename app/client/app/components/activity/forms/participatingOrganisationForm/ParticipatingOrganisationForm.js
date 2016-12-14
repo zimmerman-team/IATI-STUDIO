@@ -208,7 +208,7 @@ class ParticipatingOrganisationForm extends React.Component {
           </div>
         </div>
         <form onSubmit={handleSubmit} name="participatingOrganisation">
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-12">
               <h6>Participating organisation </h6>
               <FieldArray
@@ -220,7 +220,7 @@ class ParticipatingOrganisationForm extends React.Component {
               />
             </div>
           </div>
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to basic information</button>
               <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

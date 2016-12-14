@@ -37,7 +37,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
     languageOptions, organisationOptions}) =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       {
         !disbursementChannelOptions ?
           <GeneralLoader/> :
@@ -50,7 +50,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
           />
       }
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Period start
         <Field
@@ -61,7 +61,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Period end
         <Field
@@ -73,7 +73,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
       </div>
     </div>
     Value
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="amount"
@@ -91,7 +91,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="valueDate"
@@ -101,7 +101,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="ProviderOrg"
         component={renderOrgFields}
@@ -112,7 +112,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
         textLabel="Title"
       />
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <FieldArray
         name="ReceiverOrg"
         component={renderOrgFields}

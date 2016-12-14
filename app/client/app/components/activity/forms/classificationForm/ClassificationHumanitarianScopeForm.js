@@ -13,7 +13,7 @@ const renderAdditionalRenderHumanitarianScopeForm = ({fields, vocabularyOptions,
         <RenderHumanitarianScopeForm
           vocabularyOptions={vocabularyOptions}
           scopeOptions={scopeOptions}/>
-        <div className="row">
+        <div className="row no-margin">
           <FieldArray
             name={`${description}`}
             component={renderNarrativeFields}
@@ -42,7 +42,7 @@ const renderAdditionalRenderHumanitarianScopeForm = ({fields, vocabularyOptions,
 const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageOptions}) =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       {
         !vocabularyOptions ?
           <GeneralLoader/> :
@@ -66,7 +66,7 @@ const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageO
             />
         }
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="VocabularyURI"
@@ -84,7 +84,7 @@ const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageO
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <h2 className="page-title with-tip">Description</h2>
       <FieldArray
         name="additionalTitles"

@@ -102,4 +102,22 @@ const prepareActivityData = function (data) {
   data.title = {narratives: narrativesItems};
 
   return data
+}
+
+
+/**
+ * Post document link form.
+ *
+ * @param formData
+ * @returns {Promise|Promise.<T>}
+ */
+export const postDocumentLinkForm = function (formData, activity) {
+  const req_options = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + 'test32' + '/document_link/',
+    body: prepareActivityData(formData),
+  };
+
+  return oipaPost(req_options)
+    .then(parsedBody => parsedBody)
 };

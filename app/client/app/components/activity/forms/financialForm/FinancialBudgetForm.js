@@ -33,7 +33,7 @@ const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, b
 const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, currencyOptions}) =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       {
         !budgetTypeOptions ?
           <GeneralLoader/> :
@@ -57,7 +57,7 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
             />
         }
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Period start
         <Field
@@ -68,7 +68,7 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         Period end
         <Field
@@ -80,7 +80,7 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
       </div>
     </div>
     Value
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="amount"
@@ -98,7 +98,7 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="valueDate"

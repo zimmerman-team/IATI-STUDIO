@@ -20,7 +20,7 @@ export const renderSelectField = ({name, label, selectOptions, defaultOption, me
         <Field name={name} component="select">
           <option>{defaultOption}</option>
           {
-            selectOptions.map((value, index) => <option key={index} value={value.code}>{value.name}</option>)
+            selectOptions && selectOptions.map((value, index) => <option key={index} value={value.code}>{value.name}</option>)
           }
         </Field>
       </div>
@@ -81,7 +81,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
       selectOptions={languageOptions}
       defaultOption="Select a language"
     />
-    {fields.map((title, index) =>
+    {fields && fields.map((title, index) =>
       <div key={index}>
         {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
         <div className="columns small-6">
@@ -121,7 +121,7 @@ export const RenderSingleSelect = ({name, label, selectOptions, defaultOption = 
            <i className="material-icons">info</i>
        </Tooltip>
        <div>
-           <div className="row">
+           <div className="row no-margin">
                <Field
                    component={renderSelectField}
                    name={name}
@@ -150,7 +150,7 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
       textName, mainLabel, organisationOptions, textLabel, meta: {touched, error}}) => (
   <div>
     {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Provider org"}
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="ref"
@@ -168,7 +168,7 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           component={renderSelectField}
@@ -195,7 +195,7 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
       selectOptions={languageOptions}
       defaultOption="Select a language"
     />
-    {fields.map((title, index) =>
+    {fields && fields.map((title, index) =>
       <div key={index}>
         {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
         <div className="columns small-6">
@@ -249,7 +249,7 @@ export const renderSectorFields = ({fields, languageOptions, narrativeLabel = tr
       <i className="material-icons">info</i>
     </Tooltip>
     <div className="field-list">
-      <div className="row">
+      <div className="row no-margin">
         <Field
           component={renderSelectField}
           name="sectorVocabulary[code]"

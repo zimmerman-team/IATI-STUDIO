@@ -13,7 +13,7 @@ const renderAdditionalRenderCountryBugetForm = ({fields, vocabularyOptions, code
         <RenderCountryBugetForm
           vocabularyOptions={vocabularyOptions}
           codeOptions={codeOptions}/>
-        <div className="row">
+        <div className="row no-margin">
           <FieldArray
             name={`${description}`}
             component={renderNarrativeFields}
@@ -42,7 +42,7 @@ const renderAdditionalRenderCountryBugetForm = ({fields, vocabularyOptions, code
 const RenderCountryBugetForm = ({vocabularyOptions, codeOptions, languageOptions}) =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       {
         !vocabularyOptions ?
           <GeneralLoader/> :
@@ -55,7 +55,7 @@ const RenderCountryBugetForm = ({vocabularyOptions, codeOptions, languageOptions
           />
       }
     </div>
-    <div className="row">
+    <div className="row no-margin">
         {
           !codeOptions ?
             <GeneralLoader/> :
@@ -76,7 +76,7 @@ const RenderCountryBugetForm = ({vocabularyOptions, codeOptions, languageOptions
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <h2 className="page-title with-tip">Description</h2>
       <FieldArray
         name="additionalTitles"

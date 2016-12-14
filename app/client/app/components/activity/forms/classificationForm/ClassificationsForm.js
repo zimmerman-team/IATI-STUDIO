@@ -61,7 +61,7 @@ class ClassificationsForm extends React.Component {
             selectOptions={activity['TiedStatus']}/>
           <CountryBudgetForm/>
           <HumanitarianScopeForm/>
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-12">
               <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Information</button>
               <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

@@ -9,7 +9,7 @@ import { getCodeListItems, createActivity } from '../../../../actions/activity'
 const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
     <h6>Location id</h6>
-    <div className="row">
+    <div className="row no-margin">
       {
         !geographicVocabularyOptions ?
           <GeneralLoader/> :
@@ -69,7 +69,7 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
 const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
     <h6>Administrative</h6>
-    <div className="row">
+    <div className="row no-margin">
       {
         !geographicVocabularyOptions ?
           <GeneralLoader/> :
@@ -90,7 +90,7 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
         />
       </div>
       <div className="columns small-12">
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-6">
             <Field
               name="administrativeLevel"
@@ -123,7 +123,7 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
             />
           </div>
           <div className="columns small-12">
-            <div className="row">
+            <div className="row no-margin">
               <div className="columns small-6">
                 <Field
                   name={`${vocabulary}.administrativeLevel`}
@@ -153,9 +153,9 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
 const renderPointFields = ({fields, geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
     <h6>Point</h6>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-12">
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-6">
             <Field
               name="srsName"
@@ -168,7 +168,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
       </div>
       <div className="columns small-12">
         <h6>Position</h6>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-6">
             <Field
               name="latitude"
@@ -192,7 +192,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
       </div>
       <div className="columns small-12">
         <h6>Exactness</h6>
-        <div className="row">
+        <div className="row no-margin">
           {
             !geographicExactnessOptions ?
               <GeneralLoader/> :
@@ -208,7 +208,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
       </div>
       <div className="columns small-12">
         <h6>Location class</h6>
-        <div className="row">
+        <div className="row no-margin">
           {
             !geographicExactnessOptions ?
               <GeneralLoader/> :
@@ -224,7 +224,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
       </div>
       <div className="columns small-12">
         <h6>Feature designation</h6>
-        <div className="row">
+        <div className="row no-margin">
           {
             !geographicExactnessOptions ?
               <GeneralLoader/> :
@@ -274,9 +274,9 @@ class LocationForm extends React.Component {
           <i className="material-icons">info</i>
         </Tooltip>
         <div className="field-list">
-          <div className="row">
+          <div className="row no-margin">
             <div className="columns small-12">
-              <div className="row">
+              <div className="row no-margin">
                 <div className="columns small-6">
                   <Field
                     name="referenceText"
@@ -290,7 +290,7 @@ class LocationForm extends React.Component {
             <div className="clearfix"></div>
             <div className="columns small-12">
               <h6>Location Reach</h6>
-              <div className="row">
+              <div className="row no-margin">
                 {
                   !activity["GeographicLocationReach"] ?
                     <GeneralLoader/> :

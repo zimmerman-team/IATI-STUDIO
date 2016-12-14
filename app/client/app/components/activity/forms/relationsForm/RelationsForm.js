@@ -33,7 +33,7 @@ class RelationsForm extends React.Component {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="field-list">
-            <div className="row">
+            <div className="row no-margin">
               <div className="columns small-6">
                 <Field
                   component={renderSelectField}
@@ -54,7 +54,7 @@ class RelationsForm extends React.Component {
             </div>
           </div>
         </form>
-        <div className="row">
+        <div className="row no-margin">
           <div className="columns small-12">
             <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
             <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>

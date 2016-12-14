@@ -29,7 +29,7 @@ const renderAdditionalRenderPerformanceCommentForm = ({fields, meta: {touched, e
 const RenderPerformanceCommentForm = () =>
  (
   <div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="name"
@@ -47,7 +47,7 @@ const RenderPerformanceCommentForm = () =>
         />
       </div>
     </div>
-    <div className="row">
+    <div className="row no-margin">
       <div className="columns small-6">
         <Field
           name="IATIEquivalent"

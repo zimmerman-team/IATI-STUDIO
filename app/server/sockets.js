@@ -77,5 +77,7 @@ module.exports = function(app) {
         socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
         // Add activity basic information
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
+
+        socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));
     })
 }

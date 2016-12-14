@@ -1,22 +1,47 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField, RenderSingleSelect} from '../../helpers/FormHelper'
-import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import { getCodeListItems, addDocumentLink } from '../../../../actions/activity'
 
-class DocumentLinkForm extends React.Component {
+const validate = values => {
+  const errors = {};
+
+  if (!values.url) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
+class DocumentLinkForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
   componentWillMount() {
-    this.props.getCodeListItems('DocumentCategory');
-    this.props.getCodeListItems('FileFormat');
+    this.props.dispatch(getCodeListItems('DocumentCategory'));
+    this.props.dispatch(getCodeListItems('FileFormat'));
   }
 
+  /**
+   * Submit document link data and redirect
+   * to relation form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addDocumentLink(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/relations')
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
   render() {
-    const {handleSubmit, submitting, previousPage, activity} = this.props;
+    const {submitting, previousPage, handleSubmit, activity} = this.props;
     if (!activity['DocumentCategory'] || !activity['FileFormat']) {
           return <GeneralLoader />
     }
@@ -29,9 +54,9 @@ class DocumentLinkForm extends React.Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
-            <div className="row">
+            <div className="row no-margin">
               <div className="columns small-6">
                 <Field
                   name="url"
@@ -41,40 +66,47 @@ class DocumentLinkForm extends React.Component {
                 />
               </div>
               <div className="columns small-6">
-                <RenderSingleSelect
-                  name='documentFormat'
-                  label='Format'
-                  selectOptions={activity['FileFormat']}/>
+                <Field
+                  component={renderSelectField}
+                  name="format"
+                  label="Format"
+                  selectOptions={activity['FileFormat']}
+                  defaultOption="Select one of the following options"
+                />
               </div>
             </div>
-            <div className="row">
+            <div className="row no-margin">
               <FieldArray
                 name='narrative'
                 component={renderNarrativeFields}
                 languageOptions={activity["Language"]}
                 textName="textSector"
-                textLabel="Language"
+                textLabel="Text"
               />
             </div>
-            <RenderSingleSelect
-              name='documentCategory'
-              label='Document Category'
-              selectOptions={activity['DocumentCategory']}/>
-            <RenderSingleSelect
-              name='documentLanguage'
-              label='Language'
-              selectOptions={activity['Language']}/>
             <Field
-              name="documentDate"
+              component={renderSelectField}
+              name='categories'
+              label='Document Category'
+              selectOptions={activity['DocumentCategory']}
+              defaultOption="Select one of the following options"/>
+            <Field
+              component={renderSelectField}
+              name='document_language'
+              label='Language'
+              selectOptions={activity['Language']}
+              defaultOption="Select one of the following options"/>
+            <Field
+              name="document_date"
               type="text"
               component={renderField}
               label="Document Date"
             />
-            <div className="row">
+            <div className="row no-margin">
               <div className="columns small-12">
                 <button type="button" className="button" onClick={previousPage}>Back to Relations</button>
-                <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                  Continue to Participating Organisation
+                <button className="button float-right" type="submit" disabled={submitting} >
+                  Continue to Relation
                 </button>
               </div>
             </div>
@@ -84,7 +116,20 @@ class DocumentLinkForm extends React.Component {
     )
   }
 }
-export default reduxForm({
+
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+DocumentLinkForm = reduxForm({
   form: 'document-link',
-  destroyOnUnmount: false
-})(DocumentLinkForm)
+  destroyOnUnmount: false,
+  validate
+})(DocumentLinkForm);
+
+
+DocumentLinkForm = connect(mapStateToProps, {getCodeListItems})(DocumentLinkForm);
+export default DocumentLinkForm;

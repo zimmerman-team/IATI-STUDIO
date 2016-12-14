@@ -4,8 +4,7 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
-import { validateForm } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, validateForm } from '../../../../actions/activity'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -114,7 +113,7 @@ class BasicInformationDescriptionForm extends React.Component {
             <i className="material-icons">info</i>
           </Tooltip>
           <div className="field-list">
-            <div className="row">
+            <div className="row no-margin">
               <Field
                 name="type[code]"
                 component={renderSelectField}
