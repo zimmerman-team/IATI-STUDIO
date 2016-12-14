@@ -161,18 +161,22 @@ export const navigation = [{
 
 export function getBasicInformationData(form, page) {
 
-  const activityForms = Object.keys(form);
+  const activityFormTitles = Object.keys(form);
   let result = [];
 
-  activityForms.map((activityForm) => {
-    if (activityForm.indexOf(page) > -1) {
-      const subHeading = {field: '', status: FIELD_BLANK, navValidationClass: ''};
-      const title = activityForm.replace(`${page}-`, "");
-      const syncError = form[activityForm].syncErrors;
+  activityFormTitles.map((activityFormTitle) => {
+    if (activityFormTitle.indexOf(page) > -1) {
+      const formData = form[activityFormTitle];
+      const anyTouched = formData.anyTouched;
+      const syncError = formData.syncErrors;
 
-      subHeading.field = title;
-      subHeading.status = (syncError && syncError.type) ? FIELD_INVALID : FIELD_BLANK;
-      subHeading.navValidationClass = (syncError && syncError.type) ? NAV_INVALIDATION_CLASS : '';
+      const subHeading = {field: '', status: FIELD_BLANK, navValidationClass: ''};
+      subHeading.field = activityFormTitle.replace(`${page}-`, "");
+
+      if (anyTouched) {
+        subHeading.status = (syncError && syncError.type) ? FIELD_INVALID : FIELD_VALID;
+        subHeading.navValidationClass = (syncError && syncError.type) ? NAV_INVALIDATION_CLASS : NAV_VALIDATION_CLASS;
+      }
       result.push(subHeading);
     }
   });
