@@ -103,6 +103,22 @@ export function addDocumentLink(formData, activity) {
     }
 }
 
+/*
+ * Add relation information form data of activity
+ */
+export const ADD_RELATIONS_REQUEST = 'ADD_RELATIONS_REQUEST';
+export const ADD_RELATIONS_SUCCESS = 'ADD_RELATIONS_SUCCESS';
+export const ADD_RELATIONS_FAILURE = 'ADD_RELATIONS_FAILURE';
+
+export function addRelations(formData, activity) {
+  return {
+    [CALL_API]: {
+      types: [ ADD_RELATIONS_REQUEST, ADD_RELATIONS_SUCCESS, ADD_RELATIONS_FAILURE ],
+      endpoint: 'Activity.addRelations',
+      payload: [formData, activity]
+    }
+  }
+}
 
 //FORM VALIDATION
 

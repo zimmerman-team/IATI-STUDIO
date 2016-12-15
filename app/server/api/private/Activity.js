@@ -1,7 +1,7 @@
 "use strict"
 
 import { postActivity, getCodeListItems, postActivityDescriptionForm, postParticipatingOrganisationForm,
-  postDocumentLinkForm} from '../../oipa/activity'
+  postDocumentLinkForm, postRelationForm} from '../../oipa/activity'
 
 var ActivityAPI = {
 
@@ -24,8 +24,13 @@ var ActivityAPI = {
   },
 
   addDocumentLink: function (user, form, activity, res) {
-    console.log('<<<addDocumentLink');
     return postDocumentLinkForm(form, activity)
+      .then(result => res(null, result))
+      .catch(error => res(error));
+  },
+
+  addRelations: function (user, form, activity, res) {
+    return postRelationForm(form, activity)
       .then(result => res(null, result))
       .catch(error => res(error));
   },

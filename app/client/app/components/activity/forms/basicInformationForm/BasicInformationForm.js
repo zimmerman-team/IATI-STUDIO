@@ -1,19 +1,49 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 import {Field, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import DescriptionForm from './BasicInformationDescriptionForm'
 import DateForm from './BasicInformationDateForm'
 import ContactForm from './BasicInformationContactForm'
+import { getCodeListItems, addBasicInformation } from '../../../../actions/activity'
+
+
+const validate = values => {
+  const errors = {};
+
+  if (!values.status) {
+    errors.type = 'Required'
+  }
+  return errors
+};
 
 class BasicInformationForm extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.getFormSubComponentComponentFromRoute = this.getFormSubComponentComponentFromRoute.bind(this);
   }
+
+  /**
+   * Submit basic information data and redirect
+   * to participating organisation form.
+   *
+   * @param data
+   */
+  handleSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/participating-organisation');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
 
   //@todo: Move IATI activity editor to separate component.
   render() {
     const {handleSubmit, submitting, previousPage} = this.props;
+
     return (
       <div>
         <div className="row controls">
@@ -46,7 +76,7 @@ class BasicInformationForm extends React.Component {
           <ContactForm/>
           <div className="columns small-12">
             <button type="button" className="button" onClick={previousPage}>Back to identification</button>
-            <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
+            <button className="button float-right" type="submit" disabled={submitting}>
               Continue to participating organisations
             </button>
           </div>
@@ -56,8 +86,19 @@ class BasicInformationForm extends React.Component {
   }
 }
 
-export default reduxForm({
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+BasicInformationForm = reduxForm({
   form: 'basic-info',
   destroyOnUnmount: false,
+  validate
+})(BasicInformationForm);
 
-})(BasicInformationForm)
+
+BasicInformationForm = connect(mapStateToProps, {getCodeListItems})(BasicInformationForm);
+export default BasicInformationForm;

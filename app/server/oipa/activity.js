@@ -121,3 +121,30 @@ export const postDocumentLinkForm = function (formData, activity) {
   return oipaPost(req_options)
     .then(parsedBody => parsedBody)
 };
+
+/**
+ * Post relations form.
+ *
+ * @param formData
+ * @returns {Promise|Promise.<T>}
+ */
+export const postRelationForm = function (formData, activity) {
+
+  const processedData = {
+    activity: formData.activityIdentifier,
+    ref: formData.activityIdentifier,
+    type: {
+      code: formData.relatedActivityType,
+      name: formData.relatedActivityType
+    }
+  };
+
+  const req_options = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + formData.activityIdentifier + '/related_activities/',
+    body: processedData,
+  };
+
+  return oipaPost(req_options)
+    .then(parsedBody => parsedBody)
+};

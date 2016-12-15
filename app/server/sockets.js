@@ -79,5 +79,7 @@ module.exports = function(app) {
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
 
         socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));
+
+        socket.on('Activity.addRelations', Activity.addRelations.bind(null, user));
     })
 }

@@ -24,7 +24,6 @@ class ActivityEdit extends React.Component {
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
-    this.handleBasicInformationFormSubmit = this.handleBasicInformationFormSubmit.bind(this);
     this.handleParticipatingOrganisationFormSubmit = this.handleParticipatingOrganisationFormSubmit.bind(this);
     this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this);
 
@@ -57,17 +56,6 @@ class ActivityEdit extends React.Component {
   }
 
   /**
-   * Submit basic information data and redirect
-   * to participating organisation form.
-   *
-   * @param data
-   */
-  handleBasicInformationFormSubmit(data) {
-    store.dispatch(addBasicInformation(data));
-    this.nextPage();
-  }
-
-  /**
    * Submit participating organisation data and redirect
    * to geopolitical information form.
    *
@@ -88,17 +76,6 @@ class ActivityEdit extends React.Component {
   handleRelationsFormSubmit(data) {
     //TODO fix this
     store.dispatch(addParticipatingOrganisation(data));
-    this.nextPage();
-  }
-
-  /**
-   * Submit participating organisation data and redirect
-   * to geopolitical information form.
-   *
-   * @param data
-   */
-  handleDocumentLinkFormSubmit(data) {
-    store.dispatch(addDocumentLink(data));
     this.nextPage();
   }
 
@@ -132,12 +109,12 @@ class ActivityEdit extends React.Component {
   //   )
   // }
 
-  getFormComponentFromRoute(tab) {
+  getFormComponentFromRoute(tab, subTab) {
     switch(tab) {
       case 'identification':
         return <IdentificationForm/>;
       case 'basic-info':
-        return <BasicInformationForm onSubmit={this.handleBasicInformationFormSubmit} {...this.props} />;
+        return <BasicInformationForm/>;
       case 'participating-organisation':
         return <ParticipatingOrganisationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
       case 'geopolitical-information':
@@ -147,7 +124,7 @@ class ActivityEdit extends React.Component {
       case 'document-link':
         return <DocumentLinkForm/>;
       case 'relations':
-        return <RelationsForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <RelationsForm/>;
       case 'financial':
         return <FinancialForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
       case 'performance':
@@ -159,8 +136,6 @@ class ActivityEdit extends React.Component {
   }
 
   render() {
-    // const {activity} = this.props;
-    // console.log(activity);
     const formTab = this.props.routeParams.tab;
     const formComponent = this.getFormComponentFromRoute(formTab);
 
