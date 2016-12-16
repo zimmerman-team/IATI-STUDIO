@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderSelectField, renderOrgFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import { Link } from 'react-router';
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions,
     languageOptions, organisationOptions, meta: {touched, error}}) => (
@@ -138,8 +139,23 @@ const validate = values => {
 class FinancialPlannedDisbursement extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit financial's planned disbursement data and redirect to transaction form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/financial/transaction');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('DisbursementChannel');
@@ -149,10 +165,9 @@ class FinancialPlannedDisbursement extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
-    if (!activity["DisbursementChannel"] || !activity["Currency"]
-        || !activity["Language"] || !activity["OrganisationType"]) {
+    if (!activity["DisbursementChannel"] || !activity["Currency"] || !activity["Language"] || !activity["OrganisationType"]) {
       return <GeneralLoader/>
     }
 
@@ -162,22 +177,30 @@ class FinancialPlannedDisbursement extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderFinancialPlannedDisbursementForm
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderFinancialPlannedDisbursementForm
+              currencyOptions={activity["Currency"]}
+              disbursementChannelOptions={activity["DisbursementChannel"]}
+              languageOptions={activity["Language"]}
+              organisationOptions={activity["OrganisationType"]}
+            />
+          </div>
+          <FieldArray
+            name="additionalHumanitarianScope"
+            component={renderAdditionalRenderFinancialPlannedDisbursementForm}
             currencyOptions={activity["Currency"]}
-            disbursementChannelOptions={activity["DisbursementChannel"]}
             languageOptions={activity["Language"]}
+            disbursementChannelOptions={activity["DisbursementChannel"]}
             organisationOptions={activity["OrganisationType"]}
           />
-        </div>
-        <FieldArray
-          name="additionalHumanitarianScope"
-          component={renderAdditionalRenderFinancialPlannedDisbursementForm}
-          currencyOptions={activity["Currency"]}
-          languageOptions={activity["Language"]}
-          disbursementChannelOptions={activity["DisbursementChannel"]}
-          organisationOptions={activity["OrganisationType"]}
-        />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/financial/budget">Back to budget</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to transaction
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

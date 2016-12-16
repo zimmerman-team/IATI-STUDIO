@@ -66,22 +66,8 @@ class ActivityEdit extends React.Component {
     this.nextPage();
   }
 
-
-  /**
-   * Submit participating organisation data and redirect
-   * to geopolitical information form.
-   *
-   * @param data
-   */
-  handleRelationsFormSubmit(data) {
-    //TODO fix this
-    store.dispatch(addParticipatingOrganisation(data));
-    this.nextPage();
-  }
-
   componentDidMount() {
     store.dispatch(toggleMainMenu(false));
-
   }
 
   componentWillMount() {
@@ -112,32 +98,33 @@ class ActivityEdit extends React.Component {
   getFormComponentFromRoute(tab, subTab) {
     switch(tab) {
       case 'identification':
-        return <IdentificationForm/>;
+        return <IdentificationForm subTab={subTab}/>;
       case 'basic-info':
-        return <BasicInformationForm/>;
+        return <BasicInformationForm subTab={subTab}/>;
       case 'participating-organisation':
-        return <ParticipatingOrganisationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <ParticipatingOrganisationForm/>;
       case 'geopolitical-information':
-        return <GeopoliticalInformationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <GeopoliticalInformationForm subTab={subTab}/>;
       case 'classifications':
-        return <ClassificationsForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <ClassificationsForm subTab={subTab}/>;
       case 'document-link':
-        return <DocumentLinkForm/>;
+        return <DocumentLinkForm subTab={subTab}/>;
       case 'relations':
-        return <RelationsForm/>;
+        return <RelationsForm subTab={subTab}/>;
       case 'financial':
-        return <FinancialForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <FinancialForm subTab={subTab}/>;
       case 'performance':
-        return <PerformanceForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <PerformanceForm subTab={subTab}/>;
 
       default:
-        return <IdentificationForm onSubmit={this.handleParticipatingOrganisationFormSubmit} {...this.props} />;
+        return <IdentificationForm/>;
     }
   }
 
   render() {
-    const formTab = this.props.routeParams.tab;
-    const formComponent = this.getFormComponentFromRoute(formTab);
+    const mainForm = this.props.routeParams.tab;
+    const subForm = this.props.routeParams.subTab;
+    const formComponent = this.getFormComponentFromRoute(mainForm, subForm);
 
     if (!this.props.activity || !this.props.activity["Language"]) {
       return <GeneralLoader/>
@@ -149,7 +136,7 @@ class ActivityEdit extends React.Component {
             {formComponent}
           </div>
           <div className="columns small-3 activity-nav-col">
-            <ActivitySidebar formTab={formTab}/>
+            <ActivitySidebar mainForm={mainForm} subForm={subForm}/>
           </div>
         </div>
       </div>
@@ -157,7 +144,7 @@ class ActivityEdit extends React.Component {
   }
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     navState: state.navState,
     page: state.page,

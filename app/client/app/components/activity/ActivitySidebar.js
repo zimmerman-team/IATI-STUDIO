@@ -1,57 +1,38 @@
-import React, {render, PropTypes} from 'react'
+import React, {render, Component, PropTypes} from 'react'
 
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Link } from 'react-router';
+import {Tooltip} from '../general/Tooltip.react.jsx'
 
-import { navigation, getBasicInformationData } from '../../actions/activity'
+import { getBasicInformationData } from '../../actions/sidebar'
 
-class ActivitySidebar extends React.Component {
+class ActivitySidebar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      navHeading: -1,
-      navSubHeadings: []
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const tab = nextProps.formTab;
-    let match = '';
-
-    navigation.map((nav) => {
-      match = nav.link.indexOf(tab) > -1 ? nav : match;
-    });
-
-    const page = match.page;
-    if (page !== this.state.navHeading) {
-      this.setState({
-        navHeading: page
-      })
-    }
+    const {mainForm, subForm, dispatch} = nextProps;
 
     if (nextProps.form) {
-      const form = Object.assign({}, nextProps.form);
-      const data = getBasicInformationData(form, tab);
-      this.setState({
-        navSubHeadings: data
-      });
+      const reduxForms = Object.assign({}, nextProps.form);
+      dispatch(getBasicInformationData(reduxForms, mainForm, subForm));
     }
   }
 
   render() {
-    const {navState} = this.props;
+    const {page, navigation} = this.props;
+    const activeForm = navigation[page];
 
-    let wrapClass = classNames('helpdesk  ', {
-      'pushed' : navState.menuState
-    });
+    let wrapClass = classNames('helpdesk', 'pushed');
 
     return (
       <div className={wrapClass}>
         <div className="nav-field-list">
           {navigation && navigation.map( (i,index) => (
-            <NavItem key={index} navHeading={i.navHeading} navLink={i.link} navSubHeadings={this.state.navSubHeadings}
-                className={this.state.navHeading == index ? 'active' : ''} isActive={this.state.navHeading == index}/>
+            <NavItem key={index} navHeading={i.navHeading} navLink={i.link} activeForm={activeForm} isActive={page == index}
+                className={page == index ? 'active' : ''} />
           ))}
         </div>
       </div>
@@ -61,8 +42,8 @@ class ActivitySidebar extends React.Component {
 
 const NavItem = React.createClass({
   render: function() {
-    let navHeadingClass = classNames('question-wrap',this.props.className);
-    const {navLink, navHeading, navSubHeadings, isActive} = this.props;
+    const {navLink, navHeading, activeForm, isActive, className} = this.props;
+    let navHeadingClass = classNames('question-wrap', className);
 
     return (
       <div className={navHeadingClass}>
@@ -70,13 +51,23 @@ const NavItem = React.createClass({
           <h5>{navHeading} </h5>
         </Link>
         <ul className="answer nav-list">
-          {isActive && navSubHeadings && navSubHeadings.map((subHeading, subIndex) => {
+          {isActive && activeForm.subHeading.map((subHeading, subIndex) => {
             return (
               <li key={subIndex} className="capitalize">
-                {subHeading.navValidationClass &&
+                {isActive && subHeading.navValidationClass &&
                     <i className={subHeading.navValidationClass}/>
                 }
-                {subHeading.field}
+                {subHeading.canNavigate &&
+                  <Link to={subHeading.link} >{subHeading.title}</Link>
+                }
+                {!subHeading.canNavigate &&
+                  <span>
+                    <Tooltip className="inline" tooltip="Fill previous forms first">
+                      <i className="material-icons">info</i>
+                    </Tooltip>
+                    {subHeading.title}
+                  </span>
+                }
               </li>
             )})
           }
@@ -86,12 +77,26 @@ const NavItem = React.createClass({
   }
 });
 
+ActivitySidebar.propTypes = {
+  page: PropTypes.number.isRequired,
+  navigation: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
-  return {
-    navState: state.navState,   //not required right now
-    form: state.form
+  const { sidebar } = state;
+  if (!sidebar) {
+    return {
+      form: state.form,
+      page: 0,
+      navigation: [],
+    };
   }
+
+  return {
+    form: state.form,
+    navigation: sidebar.navigation,
+    page: sidebar.page,
+  };
 }
 
-export default connect(mapStateToProps)(ActivitySidebar)
+export default connect(mapStateToProps)(ActivitySidebar);

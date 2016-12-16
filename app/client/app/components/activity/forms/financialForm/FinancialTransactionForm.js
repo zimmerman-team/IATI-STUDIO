@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField, renderOrgFields,
     renderSectorFields, RenderSingleSelect} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import { Link } from 'react-router';
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialTransactionForm = ({fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
@@ -217,11 +218,35 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
   </div>
 );
 
+const validate = values => {
+  const errors = {};
+
+  if (!values.aidType) {
+    errors.type = 'Required'
+  }
+  return errors
+};
+
 class FinancialTransactionForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit financial's transaction data and redirect to capital form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/financial/capital');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('HumanitarianScopeType');
@@ -240,7 +265,7 @@ class FinancialTransactionForm extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
     if (!activity["HumanitarianScopeType"] || !activity["TransactionType"] || !activity["OrganisationType"]
         || !activity["Currency"] || !activity["Language"] || !activity["DisbursementChannel"]
@@ -255,44 +280,63 @@ class FinancialTransactionForm extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderFinancialTransactionForm
-            humanitarianOptions={activity["HumanitarianScopeType"]}
-            organisationOptions={activity["OrganisationType"]}
-            languageOptions={activity["Language"]}
-            currencyOptions={activity["Currency"]}
-            disbursementOptions={activity["DisbursementChannel"]}
-            transactionOptions={activity["TransactionType"]}
-            sectorVocabularyOptions={activity["SectorVocabulary"]}
-            sectorOptions={activity["Sector"]}
-            countryOptions={activity["Country"]}
-            flowOptions={activity["FlowType"]}
-            financeOptions={activity["FinanceType"]}
-            aidOptions={activity["AidType"]}
-            tiedOptions={activity["TiedStatus"]}
-          />
-        </div>
-        <FieldArray
-          name="additionalHumanitarianScope"
-          component={renderAdditionalRenderFinancialTransactionForm}
-          humanitarianOptions={activity["HumanitarianScopeType"]}
-          organisationOptions={activity["OrganisationType"]}
-          languageOptions={activity["Language"]}
-          currencyOptions={activity["Currency"]}
-          disbursementOptions={activity["DisbursementChannel"]}
-          transactionOptions={activity["TransactionType"]}
-          countryOptions={activity["Country"]}
-          flowOptions={activity["FlowType"]}
-          financeOptions={activity["FinanceType"]}
-          aidOptions={activity["AidType"]}
-          tiedOptions={activity["TiedStatus"]}
-        />
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderFinancialTransactionForm
+              humanitarianOptions={activity["HumanitarianScopeType"]}
+              organisationOptions={activity["OrganisationType"]}
+              languageOptions={activity["Language"]}
+              currencyOptions={activity["Currency"]}
+              disbursementOptions={activity["DisbursementChannel"]}
+              transactionOptions={activity["TransactionType"]}
+              sectorVocabularyOptions={activity["SectorVocabulary"]}
+              sectorOptions={activity["Sector"]}
+              countryOptions={activity["Country"]}
+              flowOptions={activity["FlowType"]}
+              financeOptions={activity["FinanceType"]}
+              aidOptions={activity["AidType"]}
+              tiedOptions={activity["TiedStatus"]}
+            />
+            <FieldArray
+              name="additionalHumanitarianScope"
+              component={renderAdditionalRenderFinancialTransactionForm}
+              humanitarianOptions={activity["HumanitarianScopeType"]}
+              organisationOptions={activity["OrganisationType"]}
+              languageOptions={activity["Language"]}
+              currencyOptions={activity["Currency"]}
+              disbursementOptions={activity["DisbursementChannel"]}
+              transactionOptions={activity["TransactionType"]}
+              countryOptions={activity["Country"]}
+              flowOptions={activity["FlowType"]}
+              financeOptions={activity["FinanceType"]}
+              aidOptions={activity["AidType"]}
+              tiedOptions={activity["TiedStatus"]}
+            />
+            <div className="columns small-12">
+              <Link className="button" to="/publisher/activity/financial/planned-disbursement">Back to planned disbursement</Link>
+              <button className="button float-right" type="submit" disabled={submitting}>
+                Continue to capital
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     )
   }
 }
 
-export default reduxForm({
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+FinancialTransactionForm = reduxForm({
   form: 'financial-transaction',     // a unique identifier for this form
   destroyOnUnmount: false,
-})(FinancialTransactionForm)
+  validate
+})(FinancialTransactionForm);
+
+FinancialTransactionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialTransactionForm);
+export default FinancialTransactionForm;
+

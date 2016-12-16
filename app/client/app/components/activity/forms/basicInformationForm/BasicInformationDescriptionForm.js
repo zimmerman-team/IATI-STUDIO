@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity, validateForm } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -88,18 +89,33 @@ const validate = (values, dispatch) => {
   return errors
 };
 
-class BasicInformationDescriptionForm extends React.Component {
+class BasicInformationDescriptionForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit basic information's description data and redirect to status form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/basic-info/status');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('DescriptionType');
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting, previousPage} = this.props;
 
     if (!activity["DescriptionType"]) {
       return <GeneralLoader/>
@@ -112,30 +128,38 @@ class BasicInformationDescriptionForm extends React.Component {
           <Tooltip className="inline" tooltip="Description text goes here">
             <i className="material-icons">info</i>
           </Tooltip>
-          <div className="field-list">
-            <div className="row no-margin">
-              <Field
-                name="type[code]"
-                component={renderSelectField}
-                label="Type"
-                selectOptions={activity["DescriptionType"]}
-                defaultOption="Select type"
-              />
-              <hr/>
+          <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+            <div className="field-list">
+              <div className="row no-margin">
+                <Field
+                  name="type[code]"
+                  component={renderSelectField}
+                  label="Type"
+                  selectOptions={activity["DescriptionType"]}
+                  defaultOption="Select type"
+                />
+                <hr/>
+                <FieldArray
+                  name="additionalTitles"
+                  component={renderNarrativeFields}
+                  languageOptions={activity["Language"]}
+                  textName="textTitle"
+                  textLabel="Text"
+                />
+              </div>
               <FieldArray
-                name="additionalTitles"
-                component={renderNarrativeFields}
+                name="additionalDescription"
+                component={renderDescription}
                 languageOptions={activity["Language"]}
-                textName="textTitle"
-                textLabel="Text"
               />
             </div>
-            <FieldArray
-              name="additionalDescription"
-              component={renderDescription}
-              languageOptions={activity["Language"]}
-            />
-          </div>
+            <div className="columns small-12">
+              <Link className="button" to="/publisher/activity/identification/identification">Back to identification</Link>
+              <button className="button float-right" type="submit" disabled={submitting}>
+                Continue to Status
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     )

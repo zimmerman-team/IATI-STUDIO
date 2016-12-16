@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
 
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -48,18 +49,33 @@ const validate = values => {
 };
 
 
-class BasicInformationDateForm extends React.Component {
+class BasicInformationDateForm extends Component {
 
   constructor(props) {
     super(props)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit basic information's date data and redirect to status form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/basic-info/contact');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('ActivityDateType');
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, submitting, handleSubmit} = this.props;
 
     if (!activity["ActivityDateType"]) {
       return <GeneralLoader/>
@@ -71,34 +87,42 @@ class BasicInformationDateForm extends React.Component {
         <Tooltip className="inline" tooltip="Date text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <div className="row no-margin">
-            <div className="columns small-6">
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <div className="row no-margin">
+              <div className="columns small-6">
+                <Field
+                  name="date"
+                  type="text"
+                  component={renderField}
+                  label="Date"
+                />
+              </div>
               <Field
-                name="date"
-                type="text"
-                component={renderField}
-                label="Date"
+                name="dateType"
+                component={renderSelectField}
+                label="Type"
+                selectOptions={activity["ActivityDateType"]}
+                defaultOption="Select a type"
+              />
+              <hr/>
+              <FieldArray
+                name="additionalTitles"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="textTitle"
+                textLabel="Text"
               />
             </div>
-            <Field
-              name="dateType"
-              component={renderSelectField}
-              label="Type"
-              selectOptions={activity["ActivityDateType"]}
-              defaultOption="Select a type"
-            />
-            <hr/>
-            <FieldArray
-              name="additionalTitles"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="textTitle"
-              textLabel="Text"
-            />
+            <FieldArray name="additionalDate" component={renderDate} languageOptions={activity["Language"]}/>
           </div>
-          <FieldArray name="additionalDate" component={renderDate} languageOptions={activity["Language"]}/>
-        </div>
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/basic-info/status">Back to status</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to contact
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

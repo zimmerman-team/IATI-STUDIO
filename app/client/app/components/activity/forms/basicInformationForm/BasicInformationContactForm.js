@@ -1,10 +1,11 @@
-import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import {renderSelectField} from '../../helpers/FormHelper'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -144,7 +145,8 @@ const renderContactDepartment = ({fields, meta: {error}}) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 const renderContactPerson = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Person Name</h2>
@@ -187,7 +189,8 @@ const renderContactPerson = ({fields, meta: {error}}) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 const renderContactJob = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Job Title</h2>
@@ -230,7 +233,8 @@ const renderContactJob = ({fields, meta: {error}}) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 const renderContactPhone = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Telephone</h2>
@@ -273,7 +277,8 @@ const renderContactPhone = ({fields, meta: {error}}) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 const renderContactEmail = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Email</h2>
@@ -316,7 +321,8 @@ const renderContactEmail = ({fields, meta: {error}}) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 const renderContactWebsite = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Website</h2>
@@ -359,7 +365,8 @@ const renderContactWebsite = ({fields, meta: {error}}) => (
       <button className="control-button add" type="button" onClick={() => fields.push()}>Add More</button>
     </div>
   </div>
-)
+);
+
 const renderContactMailAddress = ({fields, meta: {error}}) => (
   <div className="field-list">
     <h2 className="page-title">Mailing address</h2>
@@ -420,17 +427,32 @@ const validate = values => {
   return errors
 };
 
-class BasicInformationContactForm extends React.Component {
+class BasicInformationContactForm extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit basic information's status data and redirect to status form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/participating-organisation/participating-organisation');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('ContactType');
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
     if (!activity["ContactType"]) {
       return <GeneralLoader/>
@@ -444,12 +466,22 @@ class BasicInformationContactForm extends React.Component {
             <Tooltip className="inline" tooltip="Contact info text goes here">
               <i className="material-icons">info</i>
             </Tooltip>
-            <FieldArray
-              name="participating-contact"
-              component={renderParticipatingContact}
-              languageOptions={activity["Language"]}
-              contactTypes={activity["ContactType"]}
-            />
+            <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+              <div className="field-list">
+                <FieldArray
+                  name="participating-contact"
+                  component={renderParticipatingContact}
+                  languageOptions={activity["Language"]}
+                  contactTypes={activity["ContactType"]}
+                />
+              </div>
+              <div className="columns small-12">
+                <Link className="button" to="/publisher/activity/basic-info/date">Back to date</Link>
+                <button className="button float-right" type="submit" disabled={submitting}>
+                  Continue to Participating organisation
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

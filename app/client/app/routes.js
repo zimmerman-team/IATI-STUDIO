@@ -48,6 +48,7 @@ export default (
 
             <Route path="publisher/activity" component={ActivityEdit}/>
             <Route path="publisher/activity/:tab" component={ActivityEdit}/>
+            <Route path="publisher/activity/:tab/:subTab" component={ActivityEdit}/>
             <Route path="publisher/settings" component={PublisherSettings}/>
             <Route path="publisher/organisation" component={OrgSettings}/>
             <Route path="publisher/datasets" component={DatasetsSettings}/>

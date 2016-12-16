@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, error}}) => (
   <div>
@@ -123,8 +124,23 @@ const validate = values => {
 class FinancialBudgetForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit financial's budget data
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/financial/planned-disbursement');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('BudgetType');
@@ -133,7 +149,7 @@ class FinancialBudgetForm extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
     return (
       <div className="columns small-centered small-12">
@@ -141,20 +157,28 @@ class FinancialBudgetForm extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderFinancialBudgetForm
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderFinancialBudgetForm
+              budgetTypeOptions={activity["BudgetType"]}
+              budgetStatusOptions={activity["BudgetStatus"]}
+              currencyOptions={activity["Currency"]}
+            />
+          </div>
+          <FieldArray
+            name="additionalHumanitarianScope"
+            component={renderAdditionalRenderFinancialBudgetForm}
             budgetTypeOptions={activity["BudgetType"]}
             budgetStatusOptions={activity["BudgetStatus"]}
             currencyOptions={activity["Currency"]}
           />
-        </div>
-        <FieldArray
-          name="additionalHumanitarianScope"
-          component={renderAdditionalRenderFinancialBudgetForm}
-          budgetTypeOptions={activity["BudgetType"]}
-          budgetStatusOptions={activity["BudgetStatus"]}
-          currencyOptions={activity["Currency"]}
-        />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/classification/classification">Back to classification</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Planned Disbursement
+            </button>
+          </div>
+        </form>
       </div>
     )
   }
