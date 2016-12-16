@@ -7,13 +7,12 @@ import classNames             from 'classnames'
 import { browserHistory }     from 'react-router'
 import { toggleMainMenu }     from '../../actions/sync'
 
-let OrgSettings = React.createClass({
-
-  componentDidMount: function() {
+class OrgSettings extends React.Component {
+  componentDidMount() {
     this.props.toggleMainMenu(true)
-  },
+  }
 
-  render: function() {
+  render() {
     let wrapClass = classNames('pusher',{
       'pushed' : this.props.navState.menuState
     })
@@ -29,7 +28,7 @@ let OrgSettings = React.createClass({
       </div>
     )
   }
-})
+}
 
 function mapStateToProps(state, props) { 
 	return {

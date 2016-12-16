@@ -339,70 +339,65 @@ const InlineStyleControls = (props) => {
     }
 })*/
 
-const Input = React.createClass({
+class Input extends React.Component {
+    state = {
+        value: this.props.value ? this.props.value : ""
+    };
 
-    getInitialState: function() {
-        return {
-            value: this.props.value ? this.props.value : ""
-        };
-    },
-
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if ('value' in nextProps) {
             this.setState({
                 value: nextProps.value
             })
         }
-    },
+    }
 
-    onChange: function(event) {
+    onChange = (event) => {
         event = Object.assign({}, event)
 
         this.setState({value: event.target.value})
 
         if (this.props.onChange)
             this.props.onChange(event)
-    },
+    };
 
-    render: function() {
+    render() {
         return (
             <input {...this.props} value={this.state.value} onChange={this.onChange} />
         )
     }
-})
+}
 
 export const InputText = (props) => (
     <Input type={props.type ? props.type : 'text'} {...props} />
 )
 
-const TextAreaAG = React.createClass({
-    getInitialState: function() {
-        return {
-            value: this.props.value ? this.props.value : ""
-        };
-    },
+class TextAreaAG extends React.Component {
+    state = {
+        value: this.props.value ? this.props.value : ""
+    };
 
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if ('value' in nextProps) {
             this.setState({
                 value: nextProps.value
             })
         }
-    },
+    }
 
-    onChange: function(event) {
+    onChange = (event) => {
         this.setState({value: event.target.value})
 
         if (this.props.onChange)
             this.props.onChange(event)
-    },
+    };
 
-    render: function() {
+    render() {
         return (
             <Textarea {...this.props} value={this.state.value} onChange={this.onChange} />
         )
     }
-})
+}
 
 export const InputTextArea = (props) => (
     <TextAreaAG {...props} />
@@ -412,13 +407,10 @@ export const InputTextArea = (props) => (
 //     <Input type="number" {...props} />
 // )
 
-export const InputNumber = React.createClass({
-
-    getInitialState: function() {
-        return {
-            value: this.props.value ? this.props.value : "0"
-        };
-    },
+export class InputNumber extends React.Component {
+    state = {
+        value: this.props.value ? this.props.value : "0"
+    };
 
     // componentWillReceiveProps: function(nextProps) {
     //     if ('value' in nextProps) {
@@ -431,7 +423,7 @@ export const InputNumber = React.createClass({
     // getValue: function(value) {
     //     let { min, max } = this.props
     //     let n = numeral(value)
-    
+
     //     if (_.isNumber(min) && n.value() < min) n = numeral(min)
     //     else if (_.isNumber(max) && n.value() > max) {
     //         n = numeral(max)
@@ -440,7 +432,7 @@ export const InputNumber = React.createClass({
     //     return n.value()
     // }
 
-    onChange: function(event) {
+    onChange = (event) => {
         let { min, max } = this.props
 
         let n = numeral(event.target.value)
@@ -455,9 +447,9 @@ export const InputNumber = React.createClass({
 
         if (this.props.onChange)
             this.props.onChange(n.value())
-    },
+    };
 
-    render: function() {
+    render() {
 
 
 
@@ -465,6 +457,6 @@ export const InputNumber = React.createClass({
             <Input type="number" {...this.props} value={this.state.value} onChange={this.onChange} />
         )
     }
-})
+}
 
 // export const InputNumber = NumberInput

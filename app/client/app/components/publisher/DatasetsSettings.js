@@ -11,37 +11,36 @@ import moment                   from 'moment'
 import { fetchPublisher, publishDataset, deleteDataset, updateDataset, generateXmlFile } from '../../actions/async'
 import {Tooltip } from '../general/Tooltip.react.jsx'
 
-let DatasetsSettings = React.createClass({ // A stateful container all children are stateless
+class DatasetsSettings extends React.Component {
+  state = {
+    showCreateActDatasetButton: false,
+    showCreateOrgDatasetButton: false,
+  };
 
-  publishDataset: function (name, title, filetype){
+  // A stateful container all children are stateless
+
+  publishDataset = (name, title, filetype) => {
     this.props.publishDataset(this.props.publisher, name, title, filetype)
-  },
+  };
 
-  deleteDataset: function (dataset){
+  deleteDataset = (dataset) => {
     this.props.deleteDataset(this.props.publisher, dataset)
-  },
+  };
 
-  updateDataset: function (dataset){
+  updateDataset = (dataset) => {
     this.props.updateDataset(this.props.publisher, dataset)
-  },
+  };
 
-  generateXmlFile: function (dataset){
+  generateXmlFile = (dataset) => {
     this.props.generateXmlFile(this.props.publisher, dataset)
-  },
+  };
 
-  getInitialState: function(){
-    return {
-      showCreateActDatasetButton: false,
-      showCreateOrgDatasetButton: false,
-    }
-  },
-
-  componentWillMount: function() {
+  componentWillMount() {
     this.props.toggleMainMenu(true)
     this.props.fetchPublisher()
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps){
+  componentWillReceiveProps(nextProps) {
     let act = true
     let org = true
 
@@ -64,9 +63,9 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
       })
     }
 
-  },
+  }
 
-  render: function() {
+  render() {
     const { showCreateActDatasetButton, showCreateOrgDatasetButton } = this.state
 
     let wrapClass = classNames('pusher',{
@@ -104,8 +103,7 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
         </div>
     )
   }
-
-})
+}
 
 function mapStateToProps(state, props) {
     return {
@@ -124,26 +122,26 @@ export default connect(mapStateToProps, {
 })(DatasetsSettings)
 
 
-const DatasetsPublisher = React.createClass({
-  propTypes: {
+class DatasetsPublisher extends React.Component {
+  static propTypes = {
     datasets: PropTypes.array.isRequired,
     deleteDataset: PropTypes.func.isRequired,
     generateXmlFile: PropTypes.func.isRequired
-  },
+  };
 
-  updateDataset: function(i) {
+  updateDataset = (i) => {
     this.props.updateDataset(this.props.datasets[i])
-  },
+  };
 
-  deleteDataset: function(i) {
+  deleteDataset = (i) => {
     this.props.deleteDataset(this.props.datasets[i])
-  },
+  };
 
-  generateXmlFile: function(i) {
+  generateXmlFile = (i) => {
     this.props.generateXmlFile(this.props.datasets[i])
-  },
+  };
 
-  render: function () {
+  render() {
 
     const datasets = this.props.datasets.map((dataset, index) => {
 
@@ -207,5 +205,4 @@ const DatasetsPublisher = React.createClass({
         </div>
     )
   }
-
-})
+}

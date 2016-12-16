@@ -30,34 +30,29 @@ function loadData(props) {
     }
 }
 
-let ChartView = withRouter(React.createClass({
-
-    PropTypes: {
-        isPreview: PropTypes.string
-    },
-
-    componentWillReceiveProps: function(nextProps) {
+let ChartView = withRouter(class extends React.Component {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.id !== this.props.id) {
             loadData(this.props)
         }
-    },
+    }
 
-    forkVisualization: function(id) {
+    forkVisualization = (id) => {
         this.props.forkVisualization(id)
             .then(action => action.response.result)
             .then(viz_id => this.props.router.push(`/chartbuilder/${viz_id}`))
-    },
+    };
 
-    editVisualization: function(id){
+    editVisualization = (id) => {
         this.props.router.push(`/chartbuilder/${id}`)
-    },
+    };
 
-    goBack: function() {
+    goBack = () => {
         //this.props.router.goBack()
         this.props.router.push('/public/charts')
-    },
+    };
 
-    render: function() {
+    render() {
         const { visualization, items, context } = this.props
 
         let updateDate = moment(visualization.last_updated).format("D MMM YYYY")
@@ -143,7 +138,7 @@ let ChartView = withRouter(React.createClass({
             </DocumentTitle>
         )
     }
-}))
+})
 
 export const PublicChart = props => {
     const { visualization, items, context } = props

@@ -12,20 +12,21 @@ import { Link }                 from 'react-router'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import {Tooltip} from '../general/Tooltip.react.jsx'
 
-let PublisherSettings = React.createClass({ // A stateful container all children are stateless
+class PublisherSettings extends React.Component {
+  // A stateful container all children are stateless
 
-  getInitialState: function() { return {} },
+  state = {};
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.props.toggleMainMenu(true)
-  },
-  
-  componentWillMount: function() {
+  }
+
+  componentWillMount() {
     this.props.toggleMainMenu(false)
     this.props.fetchPublisher()
-  },
+  }
 
-  render: function() {
+  render() {
 
     let wrapClass = classNames('pusher',{
       'pushed' : this.props.navState.menuState
@@ -69,7 +70,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
         </div>
     )
   }
-})
+}
 
 function mapStateToProps(state, props) {
 
@@ -89,16 +90,15 @@ export default connect(mapStateToProps, {
   toggleMainMenu,
 })(PublisherSettings)
 
-const PublisherOptionsCheck = React.createClass({
-
-  updatePublisherOnclick: function (){
+class PublisherOptionsCheck extends React.Component {
+  updatePublisherOnclick = () => {
     this.props.updatePublisher({
       ...this.props.publisher,
       autoPublish: !this.props.publisher.autoPublish
     })
-  },
+  };
 
-  render: function () {
+  render() {
 
     let autoPublishValue = this.props.publisher.autoPublish ? true : false
     let autoPublishName = "Automatically publish activities to the IATI registry"
@@ -115,26 +115,23 @@ const PublisherOptionsCheck = React.createClass({
       </div>
     )
   }
-})
+}
 
 connect(null,
   { updatePublisher }
 )(PublisherOptionsCheck)
 
-const PublisherApiKey = React.createClass({
+class PublisherApiKey extends React.Component {
+  state = {
+    userId: '',
+    apiKey: '',
+    userIdError: false,
+    userIdErrorPopup: false,
+    apiKeyError: false,
+    apiKeyErrorPopup: false,
+  };
 
-  getInitialState: function () {
-    return {
-      userId: '',
-      apiKey: '',
-      userIdError: false,
-      userIdErrorPopup: false,
-      apiKeyError: false,
-      apiKeyErrorPopup: false,
-    }
-  },
-
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     if (nextProps.formStatus && nextProps.formStatus.message && typeof nextProps.formStatus.message.error !== 'undefined') {
       this.setState({
         userIdError: nextProps.formStatus.message.error.type === 'user_id',
@@ -157,9 +154,9 @@ const PublisherApiKey = React.createClass({
         apiKey: nextProps.publisher.apiKey,
       })
     }
-  },
+  }
 
-  handleSubmit: function (e) {
+  handleSubmit = (e) => {
     e.preventDefault()
     if (this.props.publisher.validationStatus) {
       this.props.getApiKeyUnlink(this.props.publisher)
@@ -167,17 +164,17 @@ const PublisherApiKey = React.createClass({
     else {
       this.props.getApiKeyValidation(this.state.apiKey, this.state.userId)
     }
-  },
+  };
 
-  handleChangeUserId: function(e){
+  handleChangeUserId = (e) => {
     this.setState({userId: e.target.value})
-  },
+  };
 
-  handleChangeApiKey: function(e){
+  handleChangeApiKey = (e) => {
     this.setState({apiKey: e.target.value})
-  },
+  };
 
-  closeErrorPopup: function(type){
+  closeErrorPopup = (type) => {
     if (type === 'userId') {
       this.setState({
         userIdErrorPopup: false,
@@ -188,9 +185,9 @@ const PublisherApiKey = React.createClass({
         apiKeyErrorPopup: false,
       })
     }
-  },
+  };
 
-  render: function () { 
+  render() { 
     let validationClass = classNames('validation-status margin-bottom-2',{
       valid: this.props.publisher.validationStatus,
       invalid: !this.props.publisher.validationStatus
@@ -243,4 +240,4 @@ const PublisherApiKey = React.createClass({
       </div>
     )
   }
-})
+}

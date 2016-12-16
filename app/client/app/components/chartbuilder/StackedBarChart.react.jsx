@@ -6,15 +6,14 @@ import _ from 'lodash'
 
 import BaseChart, { updateBaseChart } from './BaseChart'
 
-const StackedBarChart = React.createClass({
-
-    propTypes: {
+class StackedBarChart extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object),
         items: PropTypes.object,
         noTimeline: PropTypes.bool
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { data, attributes, noTimeline } = this.props
 
         // var data = this.state.data;
@@ -50,23 +49,22 @@ const StackedBarChart = React.createClass({
             })
             .tooltip(["x", "y", "count", "activity_count"])
             .draw()
-    },
+    }
 
-
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, attributes } = this.props
 
         updateBaseChart(this.visualization, this.props)
             .data(data)
             .draw();
 
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id={`chart-${this.props.vizId}`} className="chart"></div>
         )
-    },
-})
+    }
+}
 
 module.exports = StackedBarChart

@@ -10,25 +10,22 @@ import getHeaders from './headers'
 import { RenderErrors, ValidationErrors } from './Error'
 import { ForgotPassword } from './Forgot'
 
-export const Login = React.createClass({
-
-  propTypes: {
+export class Login extends React.Component {
+  static propTypes = {
       oauthMessage: PropTypes.string,
       oauthTwitter: PropTypes.bool.isRequired,
       oauthGitHub: PropTypes.bool.isRequired,
       oauthFacebook: PropTypes.bool.isRequired,
       oauthGoogle: PropTypes.bool.isRequired,
       oauthTumblr: PropTypes.bool.isRequired,
-  },
+  };
 
-  getInitialState: function() {
-      return {
-          errors: [],
-          validationErrors: {},
-      }
-  },
+  state = {
+      errors: [],
+      validationErrors: {},
+  };
 
-  handleResponse: function(json, response) {
+  handleResponse = (json, response) => {
       this.setState({
         errors: [],
         validationErrors: {},
@@ -40,13 +37,13 @@ export const Login = React.createClass({
         return this.setState({errors: json.errors})
       }
       window.location = '/auth/login'
-  },
+  };
 
-  handleError: function(error) {
+  handleError = (error) => {
     throw error
-  },
+  };
 
-  render: function() {
+  render() {
       const {
           oauthTwitter,
           oauthGitHub,
@@ -87,27 +84,24 @@ export const Login = React.createClass({
 
     )
   }
-})
+}
 
 export default Login
 
-export const LoginForm = React.createClass({
-
-  propTypes: {
+export class LoginForm extends React.Component {
+  static propTypes = {
       handleError: PropTypes.func.isRequired,
       handleResponse: PropTypes.func.isRequired,
       validationErrors: PropTypes.object,
       renderErrors: PropTypes.array,
-  },
+  };
 
-  getInitialState: function() {
-    return {
-      username: '',
-      password: '',
-    }
-  },
+  state = {
+    username: '',
+    password: '',
+  };
 
-  handleSubmit: function(e) {
+  handleSubmit = (e) => {
       e.preventDefault()
 
       fetchJSON('/auth/login', {
@@ -120,9 +114,9 @@ export const LoginForm = React.createClass({
       })
       .then(this.props.handleResponse)
       .catch(this.props.handleError)
-  },
+  };
 
-  render: function() {
+  render() {
 
     return (
         <form id="signup-form" ref={c => this._form = c}>
@@ -147,7 +141,7 @@ export const LoginForm = React.createClass({
         </form>
     )
   }
-})
+}
 
 
 

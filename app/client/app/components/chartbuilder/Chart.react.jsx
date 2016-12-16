@@ -14,23 +14,9 @@ import TreeMap from './TreeMap.react.jsx'
 import BubbleChart from './BubbleChart.react.jsx'
 import RadarChart from './RadarChart.react.jsx'
 
-import PureRenderMixin from 'react-addons-pure-render-mixin'
-
-export const Chart = React.createClass({
-
-    PropTypes: {
-        vizId: PropTypes.string.isRequired,
-        items: PropTypes.array.isRequired,
-        chartType: PropTypes.string,
-        currency: PropTypes.string,
-        chartProps: PropTypes.object,
-        noTimeline: PropTypes.bool
-    },
-
-    shouldComponentUpdate: PureRenderMixin.shouldComponentUpdate,
-
+export class Chart extends React.Component {
     // TODO: Would be unnescessary if we used immutable.js 2016-03-24
-    shouldComponentUpdate: function(nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
 
         // TODO: ew performance is very bad, we need immutable.js... - 2016-03-24
         return (
@@ -38,15 +24,15 @@ export const Chart = React.createClass({
             || !_.isEqual(this.props.chartProps, nextProps.chartProps)
             || this.props.chartType !== nextProps.chartType
         )
-    },
+    }
 
-    mapData: function(item) {
+    mapData = (item) => {
         return Object.assign({}, item, {
             id: item.id + item.aggregation
         })
-    },
+    };
 
-    render: function() {
+    render() {
         let { chartType, items, chartProps, currency, vizId, noTimeline } = this.props
 
         let attributes = _.map(items, (item, i) => {
@@ -89,5 +75,5 @@ export const Chart = React.createClass({
                 return <BarChart vizId={vizId} data={data} currency={currency} attributes={attributes} noTimeline={noTimeline}/>
         }
     }
-})
+}
 

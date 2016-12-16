@@ -10,18 +10,22 @@ import getHeaders from './headers'
 import { RenderErrors, ValidationErrors } from './Error'
 import { ForgotPassword } from './Forgot'
 
-const Signup  = React.createClass({
-
-  propTypes: {
+class Signup extends React.Component {
+  static propTypes = {
       oauthMessage: PropTypes.string,
       oauthTwitter: PropTypes.bool.isRequired,
       oauthGitHub: PropTypes.bool.isRequired,
       oauthFacebook: PropTypes.bool.isRequired,
       oauthGoogle: PropTypes.bool.isRequired,
       oauthTumblr: PropTypes.bool.isRequired,
-  },
+  };
 
-  handleResponse: function(json, response) {
+  state = {
+      errors: [],
+      validationErrors: {},
+  };
+
+  handleResponse = (json, response) => {
       this.setState({
         errors: [],
         validationErrors: {},
@@ -40,20 +44,13 @@ const Signup  = React.createClass({
 
       // this.props.router.push('/auth/login/forgot/success')
       // this.props.router.push('/auth/login/forgot/success')
-  },
+  };
 
-  handleError: function(error) {
+  handleError = (error) => {
       console.error(error);
-  },
+  };
 
-  getInitialState: function() {
-      return {
-          errors: [],
-          validationErrors: {},
-      }
-  },
-
-  render: function() {
+  render() {
     const {
       oauthTwitter,
       oauthGitHub,
@@ -95,28 +92,25 @@ const Signup  = React.createClass({
 
     )
   }
-})
+}
 
 export default withRouter(Signup)
 
-export const SignupForm = React.createClass({
-
-  propTypes: {
+export class SignupForm extends React.Component {
+  static propTypes = {
         handleError: PropTypes.func.isRequired,
         handleResponse: PropTypes.func.isRequired,
         validationErrors: PropTypes.object,
         renderErrors: PropTypes.array,
-  },
+  };
 
-  getInitialState: function() {
-    return {
-      email: '',
-      username: '',
-      password: '',
-    }
-  },
+  state = {
+    email: '',
+    username: '',
+    password: '',
+  };
 
-  handleSubmit: function(e) {
+  handleSubmit = (e) => {
       e.preventDefault()
 
       fetchJSON('/auth/signup', {
@@ -130,9 +124,9 @@ export const SignupForm = React.createClass({
       })
       .then(this.props.handleResponse)
       .catch(this.props.handleError)
-  },
+  };
 
-  render: function() {
+  render() {
     
     return (
         <form id="signup-form" ref={c => this._form = c}>
@@ -162,7 +156,7 @@ export const SignupForm = React.createClass({
 
     )
   }
-})
+}
 
 export const SignupVerificationSuccess = (props) => (
       <div className="interact panel with-logo">

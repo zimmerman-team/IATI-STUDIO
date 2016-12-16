@@ -9,16 +9,15 @@ import { PublicChartActions } from '../../components/chartbuilder/ChartTopNav.re
 
 import default_avatar from '../../../img/avatar.svg'
 
-export const ChartView = React.createClass({
-
-    propTypes: {
+export class ChartView extends React.Component {
+    static propTypes = {
         id: PropTypes.string.isRequired,
         visualization: PropTypes.object.isRequired,
         items: PropTypes.array.isRequired,
         context: PropTypes.array.isRequired,
-    },
+    };
 
-    render: function() {
+    render() {
         const { visualization, items, context } = this.props
         let updateDate = moment(visualization.last_updated).format("D MMM YYYY")
         
@@ -40,24 +39,23 @@ export const ChartView = React.createClass({
             </div>
         )
     }
-})
+}
 
 export default ChartView
 
 import { hideVisualizationFromFeed } from '../../actions/async'
 import { connect } from 'react-redux'
 
-export const ChartViewList = connect(null, { hideVisualizationFromFeed })(React.createClass({
-
-    propTypes: {
+export const ChartViewList = connect(null, { hideVisualizationFromFeed })(class extends React.Component {
+    static propTypes = {
         id: PropTypes.string.isRequired,
         visualization: PropTypes.object.isRequired,
         items: PropTypes.array.isRequired,
         context: PropTypes.array.isRequired,
         isAdmin: PropTypes.bool,
-    },
+    };
 
-    render: function() {
+    render() {
         const { id, visualization, items, context } = this.props
         let updateDate = moment(visualization.last_updated).format("D MMM YYYY")
 
@@ -103,7 +101,6 @@ export const ChartViewList = connect(null, { hideVisualizationFromFeed })(React.
          )
     }
 })
-)
 
 export const PublicChart = props => {
     const { visualization, items, context, noLegend, noTimeline } = props

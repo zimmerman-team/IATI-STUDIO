@@ -4,25 +4,28 @@ import classNames from 'classnames'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import onClickOutside from 'react-onclickoutside'
 
-export const Tooltip = onClickOutside(React.createClass({
-	getInitialState: function() {
-		return {
-			showTooltip: false
-		}
-	},
-	toggleTipOn: function() {
+export const Tooltip = onClickOutside(class extends React.Component {
+    state = {
+        showTooltip: false
+    };
+
+    toggleTipOn = () => {
 		this.setState({showTooltip: true})
-	},
-	toggleTipOff: function() {
+	};
+
+    toggleTipOff = () => {
 		this.setState({showTooltip: false})
-	},
-	toggleTip: function() {
+	};
+
+    toggleTip = () => {
 		this.setState({showTooltip: !this.state.showTooltip})
-	},
-	handleClickOutside: function(){
+	};
+
+    handleClickOutside = () => {
 		this.toggleTipOff()
-	},
-	render: function() {
+	};
+
+    render() {
 		let tooltipClass = classNames('tooltip', this.props.className)
 		return (
 			<div className={tooltipClass} onMouseEnter={this.props.click ? null : this.toggleTipOn} onMouseLeave={this.props.click ? null : this.toggleTipOff} onClick={this.props.click ? this.toggleTip : null}>
@@ -35,6 +38,6 @@ export const Tooltip = onClickOutside(React.createClass({
 			</div>
 		)
 	}
-}))
+})
 
 export default Tooltip;

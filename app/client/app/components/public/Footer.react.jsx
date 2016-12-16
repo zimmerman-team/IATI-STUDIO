@@ -3,9 +3,8 @@
 import _ from 'lodash'
 import React from 'react'
 
-export const PublicFooter = React.createClass({
-
-	render: function() {
+export class PublicFooter extends React.Component {
+    render() {
 		return (
 			<footer>
 		<div id="footer0" className="footer-container row">
@@ -56,4 +55,4 @@ export const PublicFooter = React.createClass({
 		</footer>
 		)
 	}
-})
+}

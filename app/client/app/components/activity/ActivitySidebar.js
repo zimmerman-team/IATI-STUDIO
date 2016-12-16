@@ -38,10 +38,10 @@ class ActivitySidebar extends PureComponent {
       </div>
     )
   }
-};
+}
 
-const NavItem = React.createClass({
-  render: function() {
+class NavItem extends React.Component {
+  render() {
     const {navLink, navHeading, activeForm, isActive, className} = this.props;
     let navHeadingClass = classNames('question-wrap', className);
 
@@ -75,7 +75,7 @@ const NavItem = React.createClass({
       </div>
     )
   }
-});
+}
 
 ActivitySidebar.propTypes = {
   page: PropTypes.number.isRequired,

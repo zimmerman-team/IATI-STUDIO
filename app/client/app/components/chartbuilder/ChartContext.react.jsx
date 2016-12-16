@@ -97,28 +97,28 @@ ChartDateFilter.propTypes = {
     maxDate: React.PropTypes.object, // momentjs
 }
 
-const ChartContext = React.createClass({
+class ChartContext extends React.Component {
     /*
      * Chart context
      */
 
     // TODO: Let parent handle dispatches? - 2016-01-29
-    propTypes: {
+    static propTypes = {
         context: PropTypes.array.isRequired,
         filters: PropTypes.object.isRequired,
         onContextChange: PropTypes.func,
-    },
+    };
 
-    onSuccess: function(selected) {
+    onSuccess = (selected) => {
         // TODO: Call Set context(s) action here - 2016-01-28
-    },
+    };
 
     // remove by id when removing
-    onToggle: function(filter, checked, type) {
+    onToggle = (filter, checked, type) => {
         this.props.onContextChange(filter, checked, type);
-    },
+    };
 
-    render: function() {
+    render() {
         const { context, filters, loadState } = this.props
 
         const chartListFilters = _.map(this.props.filters, (filters, key) => {
@@ -171,7 +171,7 @@ const ChartContext = React.createClass({
             </FoundationButtonList>
         )
     }
-})
+}
 
 function mapStateToProps(state, props) {
     const { loadState } = state
@@ -184,36 +184,34 @@ function mapStateToProps(state, props) {
 export default connect(mapStateToProps)(ChartContext)
 
 
-let ChartListFilter = React.createClass({
+class ChartListFilter extends React.Component {
     /*
      * Chart context by type
      * A filterable list of checkboxes
     */
 
-    propTypes: {
+    static propTypes = {
         type: PropTypes.string, // the type being contained here
         contextFilters: PropTypes.array.isRequired, // by type
         selected: PropTypes.array,
         onChange: PropTypes.func, // selecting checkbox
         onSubmit: PropTypes.func,
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            searchTerm: ''
-        }
-    },
+    state = {
+        searchTerm: ''
+    };
 
-    onChange: function(filter, event) {
+    onChange = (filter, event) => {
         let checked = event.target.checked;
         this.props.onChange(filter, checked, this.props.type)
-    },
+    };
 
-    onSearch: function(searchValue){
+    onSearch = (searchValue) => {
         this.setState({searchTerm: searchValue})
-    },
+    };
 
-    render: function() {
+    render() {
         const { contextFilters, selected, type } = this.props
 
         // TODO: This should be done outside of render, in connect - 2016-03-15
@@ -251,7 +249,7 @@ let ChartListFilter = React.createClass({
             </SearchableCheckboxList>
         )
     }
-})
+}
 
 // TODO: Should this connect here? - 2016-03-15
 ChartListFilter = connect(function(state, props) {

@@ -14,36 +14,33 @@ const defaultViz = {
     description: "",
 }
 
-let MainMenu = React.createClass({
-
-    propTypes: {
+class MainMenu extends React.Component {
+    static propTypes = {
         active: PropTypes.bool,
         toggleNav: PropTypes.func,
         createVisualization: PropTypes.func,
         visualisations: PropTypes.array
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            iatiIdentifier: '',
-        }
-    },
+    state = {
+        iatiIdentifier: '',
+    };
 
-    newViz: function() {
+    newViz = () => {
         this.props.createVisualization(defaultViz)
             .then(action => action.response.result)
             .then(viz_id => this.props.router.push(`/chartbuilder/${viz_id}`))
-    },
+    };
 
-    newActivity: function(iatiIdentifier) {
+    newActivity = (iatiIdentifier) => {
         // just generate something random
         this.props.createActivity({
             iati_identifier: iatiIdentifier,
         })
         // TODO: route to activity - 2016-12-16
-    },
+    };
 
-    render: function() {
+    render() {
 
         let toggleClass = classNames('main-nav', {
             'open' : this.props.active,
@@ -90,6 +87,6 @@ let MainMenu = React.createClass({
         </div>
         )
     }
-})
+}
 
 export default withRouter(MainMenu)

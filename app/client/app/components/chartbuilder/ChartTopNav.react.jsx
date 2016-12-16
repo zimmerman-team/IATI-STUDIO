@@ -20,92 +20,92 @@ const default_viz = {
 //import html2canvas from 'html2canvas'
 //import rasterizeHTML from 'rasterizehtml'
 
-const ChartTopControls = withRouter(
-    React.createClass({
+const ChartTopControls = withRouter(//import html2canvas from 'html2canvas'
+//import rasterizeHTML from 'rasterizehtml'
 
-        propTypes: {
-            visualization: PropTypes.object.isRequired,
-            createVisualization: PropTypes.func.isRequired,
-            updateVisualization: PropTypes.func.isRequired,
-            forkVisualization: PropTypes.func.isRequired,
-            //saveChart: PropTypes.func.isRequired,
-            clientError: PropTypes.func.isRequired,
-        },
+class extends React.Component {
+    static propTypes = {
+        visualization: PropTypes.object.isRequired,
+        createVisualization: PropTypes.func.isRequired,
+        updateVisualization: PropTypes.func.isRequired,
+        forkVisualization: PropTypes.func.isRequired,
+        //saveChart: PropTypes.func.isRequired,
+        clientError: PropTypes.func.isRequired,
+    };
 
-        archiveChart: function(){
-            let { visualization } = this.props
+    archiveChart = () => {
+        let { visualization } = this.props
 
-            this.props.updateVisualization(visualization, { 
-                archived: true,
-                archivedData: Date.now(),
-                public: false
-            }, 'archive')
-            .then(action => action.response.result)
-            .then( () => this.props.router.push('/collection') )
-        },
+        this.props.updateVisualization(visualization, { 
+            archived: true,
+            archivedData: Date.now(),
+            public: false
+        }, 'archive')
+        .then(action => action.response.result)
+        .then( () => this.props.router.push('/collection') )
+    };
 
-        publishChartToggle: function(){
-            let { visualization } = this.props
+    publishChartToggle = () => {
+        let { visualization } = this.props
 
-            let publishAction = visualization.public ? 'unpublish': 'publish'
+        let publishAction = visualization.public ? 'unpublish': 'publish'
 
-            if (!visualization.public) {
-                if (!visualization.name) {
-                    return this.props.clientError("Add a title to your visualization before publishing")
-                }
-
-                if (!visualization.items.length) {
-                    return this.props.clientError("Add items to your visualization before publishing")
-                }
+        if (!visualization.public) {
+            if (!visualization.name) {
+                return this.props.clientError("Add a title to your visualization before publishing")
             }
 
-            this.props.updateVisualization(
-                visualization,
-                { public: !visualization.public },
-                publishAction,
-            )
-        },
+            if (!visualization.items.length) {
+                return this.props.clientError("Add items to your visualization before publishing")
+            }
+        }
 
-        openPublicPage: function(id) {
-            // TODO: change url - 2016-03-22
-            // use Link by react-router (a href)
+        this.props.updateVisualization(
+            visualization,
+            { public: !visualization.public },
+            publishAction,
+        )
+    };
 
-            window.open(`/app/public/charts/${id}`, "_blank").focus()
-        },
+    openPublicPage = (id) => {
+        // TODO: change url - 2016-03-22
+        // use Link by react-router (a href)
 
-        openPreviewPage: function(id) {
-            // TODO: change url - 2016-03-22
-            // use Link by react-router (a href)
-            this.props.router.push(`/chartbuilder/${id}/preview`)
-        },
+        window.open(`/app/public/charts/${id}`, "_blank").focus()
+    };
 
-        forkVisualization: function(id) {
-            this.props.forkVisualization(id)
-                .then(action => action.response.result)
-                .then(viz_id => this.props.router.push(`/chartbuilder/${viz_id}`))
-        },
+    openPreviewPage = (id) => {
+        // TODO: change url - 2016-03-22
+        // use Link by react-router (a href)
+        this.props.router.push(`/chartbuilder/${id}/preview`)
+    };
 
-        render: function() {
-            let { visualization, editing, loadingChart } = this.props
-            return (                
-                <div className="row">
-                    <div className="columns small-12">
-                        <div className="action-wrap">
-                            <div className="button-group">
-                                <TopNavItem disabled={true} title={editing || loadingChart ? 'Saving...' : 'Autosaved'} className="save" materialIcon="save"/>
-                                <TopNavItem title="Preview" materialIcon="visibility" onClick={this.openPreviewPage.bind(this, visualization._id)} />
-                                <TopNavItem disabled={!visualization.public} title="Public page" materialIcon="public" onClick={this.openPublicPage.bind(this, visualization._id)} />
-                                <TopNavItem title={visualization.public ? "Published" : "Publish"} materialIcon={visualization.public ? "check" : "publish"} onClick={this.publishChartToggle} published={visualization.public} className="publish"/>
-                                <TopNavItem title="Duplicate" materialIcon="content_copy" onClick={this.forkVisualization.bind(this, visualization._id)}/>
-                            </div>
-                            <TopNavItem title="Move to trash" onClick={this.archiveChart} className="delete" materialIcon="delete"/>
+    forkVisualization = (id) => {
+        this.props.forkVisualization(id)
+            .then(action => action.response.result)
+            .then(viz_id => this.props.router.push(`/chartbuilder/${viz_id}`))
+    };
+
+    render() {
+        let { visualization, editing, loadingChart } = this.props
+        return (                
+            <div className="row">
+                <div className="columns small-12">
+                    <div className="action-wrap">
+                        <div className="button-group">
+                            <TopNavItem disabled={true} title={editing || loadingChart ? 'Saving...' : 'Autosaved'} className="save" materialIcon="save"/>
+                            <TopNavItem title="Preview" materialIcon="visibility" onClick={this.openPreviewPage.bind(this, visualization._id)} />
+                            <TopNavItem disabled={!visualization.public} title="Public page" materialIcon="public" onClick={this.openPublicPage.bind(this, visualization._id)} />
+                            <TopNavItem title={visualization.public ? "Published" : "Publish"} materialIcon={visualization.public ? "check" : "publish"} onClick={this.publishChartToggle} published={visualization.public} className="publish"/>
+                            <TopNavItem title="Duplicate" materialIcon="content_copy" onClick={this.forkVisualization.bind(this, visualization._id)}/>
                         </div>
+                        <TopNavItem title="Move to trash" onClick={this.archiveChart} className="delete" materialIcon="delete"/>
                     </div>
                 </div>
-            )
-        }
-    })
-)
+            </div>
+        )
+    }
+})
 
 function mapStateToProps(state, props) {
     const { 
@@ -144,35 +144,27 @@ export const PublicChartActions = connect(
     (state, props) => ({
         isLoggedIn: isLoggedIn(state)
     })
-)(withRouter(React.createClass({
+)(withRouter(class extends React.Component {
+    state = {
+        dropdown: '',
+        download: '',
+        showSelected: false,
+        showSelectedTooltip: ''
+    };
 
-    PropTypes: {
-        forkVisualization: PropTypes.func.isRequired,
-        isLoggedIn: PropTypes.func.isRequired,
-        vizId: PropTypes.string.isRequired
-    },
-
-    getInitialState: function() {
-        return {
-            dropdown: '',
-            download: '',
-            showSelected: false,
-            showSelectedTooltip: ''
-        };
-    },
-    handleClickOutside: function(e) {
+    handleClickOutside = (e) => {
         this.setState({dropdown: ''})
-    },
+    };
 
-    toggleNavItem: function(item, e){
+    toggleNavItem = (item, e) => {
         if (this.state.dropdown === item) {
             return this.handleClickOutside()
         }
 
         this.setState({dropdown: item})
-    },
+    };
 
-    selectAll: function(e) {
+    selectAll = (e) => {
         e.target.select()
         try {
             var successful = document.execCommand('copy');
@@ -185,9 +177,9 @@ export const PublicChartActions = connect(
         setTimeout(() => {
             this.setState({showSelected: false, showSelectedTooltip: ''})
         } , 2500)
-    },
+    };
 
-    render: function() {
+    render() {
         return (
             <div className="actions">
                 {
@@ -245,13 +237,14 @@ export const PublicChartActions = connect(
             </div>
         )
     }
-})))
+}))
 
-const PublicChartItem = onClickOutside(React.createClass({
-    handleClickOutside: function() {
+const PublicChartItem = onClickOutside(class extends React.Component {
+    handleClickOutside = () => {
         this.props.onClickOutside()
-    },
-    render: function() {
+    };
+
+    render() {
         let { onClick, materialIcon, tooltip, itemClass, children, name } = this.props
         let currentClass = classNames('action', itemClass, {'children' : children})
         return (
@@ -265,7 +258,7 @@ const PublicChartItem = onClickOutside(React.createClass({
             </div>
         )
     }
-}))
+})
 
 const PublicChartSubItem = props => {
     let { onClick, name, className } = props

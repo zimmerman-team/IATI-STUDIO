@@ -135,13 +135,12 @@ let oipaCurrencies = [
     {code:'ZMK', symbol:'ZMK'},
 ]
 
-export const ChartCurrency = React.createClass({
-
-    propTypes: {
+export class ChartCurrency extends React.Component {
+    static propTypes = {
         changeCurrency: PropTypes.func
-    },
+    };
 
-    changeCurrencyType: function(e) {
+    changeCurrencyType = (e) => {
 
         let value = this.props.value;
 
@@ -153,13 +152,13 @@ export const ChartCurrency = React.createClass({
             }
         }
         this.props.changeCurrency({'value': value, 'currencyType': e.target.value})
-    },
+    };
 
-    changeCurrency: function(e){
+    changeCurrency = (e) => {
         this.props.changeCurrency({'value': e.target.value, 'currencyType': this.props.currencyType})
-    },
+    };
 
-    render: function() {
+    render() {
         let codeOptions = []
 
         if (this.props.currencyType == 'converted'){
@@ -197,8 +196,8 @@ export const ChartCurrency = React.createClass({
                 </select>
             </label>
         )
-    },
-})
+    }
+}
 
 
 export const ChartName = compose(

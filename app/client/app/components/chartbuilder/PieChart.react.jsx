@@ -7,14 +7,13 @@ import _ from 'lodash'
 
 import BaseChart from './BaseChart'
 
-const PieChart = React.createClass({
-
-    propTypes: {
+class PieChart extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(),
         items: PropTypes.object
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { data, attributes } = this.props
 
         // var data = this.state.data;
@@ -31,21 +30,21 @@ const PieChart = React.createClass({
             })
             .draw()
 
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, attributes } = this.props
 
         updateBaseChart(this.visualization, this.props)
             .data(data)
             .draw();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id={`chart-${this.props.vizId}`} className="chart"></div>
         )
-    },
-})
+    }
+}
 
 module.exports = PieChart

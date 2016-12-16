@@ -9,14 +9,13 @@ import _ from 'lodash'
 
 import BaseChart, { updateBaseChart } from './BaseChart'
 
-const RadarChart = React.createClass({
-
-    propTypes: {
+class RadarChart extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(),
         items: PropTypes.object
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { data, attributes } = this.props
 
         console.log(data);
@@ -33,21 +32,21 @@ const RadarChart = React.createClass({
                 "aggregation": "aggregation"
             })
             .draw()
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, attributes } = this.props
 
         updateBaseChart(this.visualization, this.props)
             .data(data)
             .draw();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id={`chart-${this.props.vizId}`} className="chart"></div>
         )
-    },
-})
+    }
+}
 
 module.exports = RadarChart
