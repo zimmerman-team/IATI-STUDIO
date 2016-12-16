@@ -1,11 +1,12 @@
 import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {reduxForm} from 'redux-form'
+import {connect} from 'react-redux'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import SectorForm from './ClassificationSectorForm'
 import PolicyMakerForm from './ClassificationPolicyForm'
 import CountryBudgetForm from './ClassificationCountryBudgetForm'
 import HumanitarianScopeForm from './ClassificationHumanitarianScopeForm'
+import { getCodeListItems } from '../../../../actions/activity'
 import {renderNarrativeFields, renderField, renderSelectField, RenderSingleSelect} from '../../helpers/FormHelper'
 
 class ClassificationsForm extends React.Component {
@@ -74,7 +75,18 @@ class ClassificationsForm extends React.Component {
     )
   }
 }
-export default reduxForm({
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+ClassificationsForm = reduxForm({
   form: 'classification',
-  destroyOnUnmount: false
-})(ClassificationsForm)
+  destroyOnUnmount: false,
+})(ClassificationsForm);
+
+
+ClassificationsForm = connect(mapStateToProps, {getCodeListItems})(ClassificationsForm);
+export default ClassificationsForm;
