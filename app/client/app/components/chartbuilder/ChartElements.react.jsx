@@ -8,7 +8,7 @@ import store from '../../app'
 
 import { SearchableCheckboxList, CheckboxList, Checkbox, Orderable} from '../general/List.react.jsx'
 import { FoundationAccordion, FoundationAccordionItem, FoundationButtonList, FoundationButtonListItem } from '../foundation/List.react.jsx'
-import { ModalContainer, ModalButton, Portal } from '../general/Modal.react.jsx'
+import { ModalButton } from '../general/Modal.react.jsx'
 
 import { oipaKeyToName, oipaKeyToDesc } from '../../name_mapping'
 

@@ -1,4 +1,4 @@
-import React, {render, Component, PropTypes} from 'react'
+import React, {render, PureComponent, Component, PropTypes} from 'react'
 
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -7,7 +7,7 @@ import {Tooltip} from '../general/Tooltip.react.jsx'
 
 import { getBasicInformationData } from '../../actions/sidebar'
 
-class ActivitySidebar extends Component {
+class ActivitySidebar extends PureComponent {
   constructor(props) {
     super(props);
   }
