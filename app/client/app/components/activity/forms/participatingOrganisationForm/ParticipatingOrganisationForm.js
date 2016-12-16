@@ -1,7 +1,9 @@
 import React from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
+import {connect} from 'react-redux'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import { getCodeListItems } from '../../../../actions/activity'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 
 const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions}) => (
@@ -234,8 +236,18 @@ class ParticipatingOrganisationForm extends React.Component {
   }
 }
 
-export default reduxForm({
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+
+ParticipatingOrganisationForm = reduxForm({
   form: 'participating-organisation',
   destroyOnUnmount: false,
   validate
-})(ParticipatingOrganisationForm)
+})(ParticipatingOrganisationForm);
+
+
+ParticipatingOrganisationForm = connect(mapStateToProps, {getCodeListItems})(ParticipatingOrganisationForm);
+export default ParticipatingOrganisationForm;
