@@ -58,6 +58,7 @@ const Topbar = React.createClass({
                   active={menuState}
                   toggleNav={this.toggleNav}
                   createVisualization={this.props.createVisualization}
+                  createActivity={this.props.createActivity}
                   visualisations={this.props.visualizations}
               />
               <div className="notifications">
@@ -99,8 +100,10 @@ function mapStateToProps(state, props) {
 
 import { toggleMainMenu } from '../../actions/sync'
 import { createVisualization } from '../../actions/async'
+import { createActivity } from '../../actions/activity'
 
 export default connect(mapStateToProps, {
     toggleMainMenu,
     createVisualization,
+    createActivity,
 })(Topbar)

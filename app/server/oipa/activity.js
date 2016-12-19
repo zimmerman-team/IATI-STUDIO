@@ -87,19 +87,19 @@ export const postParticipatingOrganisationForm = function (formData, activity) {
  * @returns {*}
  */
 const prepareActivityData = function (data) {
-  const title = {
-    text: data.textTitle,
-    language: data.titleLanguage
-  };
+  // const title = {
+  //   text: data.textTitle,
+  //   language: data.titleLanguage
+  // };
 
-  const narrativesItems = [];
-  narrativesItems.push(title);
+  // const narrativesItems = [];
+  // narrativesItems.push(title);
 
-  if (data.additionalTitles) {
-    data.additionalTitles.map((title, index) => narrativesItems.push(title));
-  }
+  // if (data.additionalTitles) {
+  //   data.additionalTitles.map((title, index) => narrativesItems.push(title));
+  // }
 
-  data.title = {narratives: narrativesItems};
+  // data.title = {narratives: narrativesItems};
 
   return data
 }

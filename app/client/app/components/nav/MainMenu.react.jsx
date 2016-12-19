@@ -32,12 +32,14 @@ class MainMenu extends React.Component {
             .then(viz_id => this.props.router.push(`/chartbuilder/${viz_id}`))
     };
 
-    newActivity = (iatiIdentifier) => {
+    newActivity = () => {
         // just generate something random
         this.props.createActivity({
-            iati_identifier: iatiIdentifier,
+            iati_identifier: this.state.iatiIdentifier,
+        }).then((action) => {
+            this.props.router.push(`/publisher/activities/${action.response.iati_identifier}`)
+            console.log(action);
         })
-        // TODO: route to activity - 2016-12-16
     };
 
     render() {

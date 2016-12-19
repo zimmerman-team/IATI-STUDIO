@@ -5,6 +5,8 @@ import { postActivity, getCodeListItems, postActivityDescriptionForm, postPartic
 var ActivityAPI = {
 
     addActivity: function(user, form, res) {
+
+        console.log(form)
         // TODO: update validation status here - 2016-12-16
         return postActivity(form)
             .then(result => res(null, result))
