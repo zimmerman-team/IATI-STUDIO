@@ -7,20 +7,118 @@ import { CALL_API } from '../middleware/api'
 
 
 /*
+ * Get activity (Identification form)
+ */
+export const GET_ACTIVITY_REQUEST = 'GET_ACTIVITY_REQUEST';
+export const GET_ACTIVITY_SUCCESS = 'GET_ACTIVITY_SUCCESS';
+export const GET_ACTIVITY_FAILURE = 'GET_ACTIVITY_FAILURE';
+
+export function getActivity(id) {
+    return {
+        [CALL_API]: {
+            types: [ GET_ACTIVITY_REQUEST, GET_ACTIVITY_SUCCESS, GET_ACTIVITY_FAILURE ],
+            endpoint: 'Activity.get',
+            payload: [ id ],
+        }
+    }
+}
+
+/*
  * Create activity (Identification form)
  */
-
 export const CREATE_ACTIVITY_REQUEST = 'CREATE_ACTIVITY_REQUEST';
 export const CREATE_ACTIVITY_SUCCESS = 'CREATE_ACTIVITY_SUCCESS';
 export const CREATE_ACTIVITY_FAILURE = 'CREATE_ACTIVITY_FAILURE';
-
 export function createActivity(activity) {
-    console.log(activity)
     return {
         [CALL_API]: {
             types: [ CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_ACTIVITY_FAILURE ],
-            endpoint: 'Activity.addActivity',
+            endpoint: 'Activity.create',
             payload: [activity]
+        }
+    }
+}
+
+/*
+ * Update activity (Identification form)
+ */
+export const UPDATE_ACTIVITY_REQUEST = 'UPDATE_ACTIVITY_REQUEST';
+export const UPDATE_ACTIVITY_SUCCESS = 'UPDATE_ACTIVITY_SUCCESS';
+export const UPDATE_ACTIVITY_FAILURE = 'UPDATE_ACTIVITY_FAILURE';
+export function updateActivity(activity) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_ACTIVITY_REQUEST, UPDATE_ACTIVITY_SUCCESS, UPDATE_ACTIVITY_FAILURE ],
+            endpoint: 'Activity.update',
+            payload: [activity]
+        }
+    }
+}
+
+
+
+/*
+ * Get descriptions (Identification form)
+ */
+export const GET_DESCRIPTIONS_REQUEST = 'GET_DESCRIPTIONS_REQUEST';
+export const GET_DESCRIPTIONS_SUCCESS = 'GET_DESCRIPTIONS_SUCCESS';
+export const GET_DESCRIPTIONS_FAILURE = 'GET_DESCRIPTIONS_FAILURE';
+
+export function getDescriptions(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_DESCRIPTIONS_REQUEST, GET_DESCRIPTIONS_SUCCESS, GET_DESCRIPTIONS_FAILURE ],
+            endpoint: 'Activity.getDescriptions',
+            payload: [ activityId ],
+        }
+    }
+}
+
+/*
+ * Create description (Identification form)
+ */
+export const CREATE_DESCRIPTION_REQUEST = 'CREATE_DESCRIPTION_REQUEST';
+export const CREATE_DESCRIPTION_SUCCESS = 'CREATE_DESCRIPTION_SUCCESS';
+export const CREATE_DESCRIPTION_FAILURE = 'CREATE_DESCRIPTION_FAILURE';
+export function createDescription(activityId, description) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_DESCRIPTION_REQUEST, CREATE_DESCRIPTION_SUCCESS, CREATE_DESCRIPTION_FAILURE ],
+            endpoint: 'Activity.createDescription',
+            payload: [ activityId, description ]
+        }
+    }
+}
+
+/*
+ * Update description (Identification form)
+ */
+export const UPDATE_DESCRIPTION_REQUEST = 'UPDATE_DESCRIPTION_REQUEST';
+export const UPDATE_DESCRIPTION_SUCCESS = 'UPDATE_DESCRIPTION_SUCCESS';
+export const UPDATE_DESCRIPTION_FAILURE = 'UPDATE_DESCRIPTION_FAILURE';
+export function updateDescription(activityId, id, description) {
+    return {
+        [CALL_API]: {
+            types: [ UPDATE_DESCRIPTION_REQUEST, UPDATE_DESCRIPTION_SUCCESS, UPDATE_DESCRIPTION_FAILURE ],
+            endpoint: 'Activity.updateDescription',
+            payload: [ activityId, id, description ]
+        }
+    }
+}
+
+
+/*
+ * Delete description (Identification form)
+ */
+export const DELETE_DESCRIPTION_REQUEST = 'DELETE_DESCRIPTION_REQUEST';
+export const DELETE_DESCRIPTION_SUCCESS = 'DELETE_DESCRIPTION_SUCCESS';
+export const DELETE_DESCRIPTION_FAILURE = 'DELETE_DESCRIPTION_FAILURE';
+export function deleteDescription(activityId, id) {
+    return {
+        [CALL_API]: {
+            types: [ DELETE_DESCRIPTION_REQUEST, DELETE_DESCRIPTION_SUCCESS, DELETE_DESCRIPTION_FAILURE ],
+            endpoint: 'Activity.deleteDescription',
+            payload: [ activityId, id ]
         }
     }
 }

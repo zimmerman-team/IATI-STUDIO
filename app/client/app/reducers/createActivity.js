@@ -1,34 +1,39 @@
 /*
  * Create Activity reducers
-*/
+ */
 
-import { GET_CODE_LIST_ITEMS_SUCCESS,
-  CREATE_ACTIVITY_SUCCESS,
-  ADD_BASIC_INFORMATION_SUCCESS,
-  ADD_DOCUMENT_LINK_REQUEST,
-  ADD_DOCUMENT_LINK_SUCCESS,
-  ADD_DOCUMENT_LINK_FAILURE } from '../actions/activity'
+import * as ActionTypes from '../actions/activity'
 
-function activity(state = {}, action) {
+const initialState = { }
+
+function activity(state = initialState, action) {
+    // if (action.type.startsWith('REQUEST')) {
+    //     return { ...state, submitting: true, }
+    // }
     switch (action.type) {
-        case GET_CODE_LIST_ITEMS_SUCCESS:
-            return Object.assign({}, state, {
-                [action.extra]: action.response
-            });
-        case CREATE_ACTIVITY_SUCCESS:
-            return Object.assign({}, state, {
-                activity: action.response
-            });
-        case ADD_BASIC_INFORMATION_SUCCESS:
+        // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
+        //     return Object.assign({}, state, {
+        //         [action.extra]: action.response
+        //     });
+        case ActionTypes.GET_ACTIVITY_SUCCESS:
+        case ActionTypes.CREATE_ACTIVITY_SUCCESS:
             return Object.assign({}, state, {
                 activity: action.response
             });
-        case ADD_DOCUMENT_LINK_REQUEST:
-        case ADD_DOCUMENT_LINK_SUCCESS:
-          return Object.assign({}, state, {
-            activity: action.response
-          });
-        case ADD_DOCUMENT_LINK_FAILURE:
+        case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
+            return Object.assign({}, state, {
+                descriptions: action.response
+            });
+        case ActionTypes.ADD_BASIC_INFORMATION_SUCCESS:
+            return Object.assign({}, state, {
+                activity: action.response
+            });
+            // case ActionTypes.ADD_DOCUMENT_LINK_REQUEST:
+        case ActionTypes.ADD_DOCUMENT_LINK_SUCCESS:
+            return Object.assign({}, state, {
+                activity: action.response
+            });
+        // case ActionTypes.ADD_DOCUMENT_LINK_FAILURE:
         default:
             return state
     }

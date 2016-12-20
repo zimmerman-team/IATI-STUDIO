@@ -1,20 +1,9 @@
 import React from 'react'
 import {connect}            from 'react-redux'
 import {toggleMainMenu} from '../../actions/sync'
+
 import { createActivity, getCodeListItems, addBasicInformation, addParticipatingOrganisation,
   addDocumentLink } from '../../actions/activity'
-import store from '../../app'
-import IdentificationForm from './forms/identificationForm/IdentificationForm'
-import BasicInformationForm from './forms/basicInformationForm/BasicInformationForm'
-import ParticipatingOrganisationForm from './forms/participatingOrganisationForm/ParticipatingOrganisationForm'
-import GeopoliticalInformationForm from './forms/geopoliticalForm/GeopoliticalForm'
-import ClassificationsForm from './forms/classificationForm/ClassificationsForm'
-import DocumentLinkForm from './forms/documentLinkForm/DocumentLinkForm'
-import RelationsForm from './forms/relationsForm/RelationsForm'
-import FinancialForm from './forms/financialForm/FinancialForm'
-import ActivitySidebar from './ActivitySidebar'
-import PerformanceForm from './forms/performanceForm/PerformanceForm'
-import {GeneralLoader} from '../general/Loaders.react.jsx'
 
 class ActivityEdit extends React.Component {
 
