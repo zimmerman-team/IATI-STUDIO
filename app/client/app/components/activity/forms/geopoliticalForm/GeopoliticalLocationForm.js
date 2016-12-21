@@ -11,17 +11,13 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
   <div className="columns small-12">
     <h6>Location id</h6>
     <div className="row no-margin">
-      {
-        !geographicVocabularyOptions ?
-          <GeneralLoader/> :
-          <Field
-            component={renderSelectField}
-            name="geographicVocabulary"
-            label="Vocabulary"
-            selectOptions={geographicVocabularyOptions}
-            defaultOption="Select one of the following options"
-          />
-      }
+      <Field
+        component={renderSelectField}
+        name="geographicVocabulary"
+        label="Vocabulary"
+        selectOptions={geographicVocabularyOptions}
+        defaultOption="Select one of the following options"
+      />
       <div className="columns small-6">
         <Field
           name="geographicVocabularyCode"
@@ -32,17 +28,13 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
       </div>
       {fields.map((vocabulary, index) =>
         <div key={index}>
-          {
-            !geographicVocabularyOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name={`${vocabulary}.textCode`}
-                label="Vocabulary"
-                selectOptions={geographicVocabularyOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
+          <Field
+            component={renderSelectField}
+            name={`${vocabulary}.textCode`}
+            label="Vocabulary"
+            selectOptions={geographicVocabularyOptions}
+            defaultOption="Select one of the following options"
+          />
           <div className="columns small-6">
             <Field
               name={`${vocabulary}.geographicVocabularyCode`}
@@ -71,17 +63,13 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
   <div className="columns small-12">
     <h6>Administrative</h6>
     <div className="row no-margin">
-      {
-        !geographicVocabularyOptions ?
-          <GeneralLoader/> :
-          <Field
-            component={renderSelectField}
-            name="administrativeVocabulary"
-            label="Vocabulary"
-            selectOptions={geographicVocabularyOptions}
-            defaultOption="Select one of the following options"
-          />
-      }
+      <Field
+        component={renderSelectField}
+        name="administrativeVocabulary"
+        label="Vocabulary"
+        selectOptions={geographicVocabularyOptions}
+        defaultOption="Select one of the following options"
+      />
       <div className="columns small-6">
         <Field
           name="administrativeVocabularyCode"
@@ -104,17 +92,13 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
       </div>
       {fields.map((vocabulary, index) =>
         <div key={index}>
-          {
-            !geographicVocabularyOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name={`${vocabulary}.textCode`}
-                label="Vocabulary"
-                selectOptions={geographicVocabularyOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
+          <Field
+            component={renderSelectField}
+            name={`${vocabulary}.textCode`}
+            label="Vocabulary"
+            selectOptions={geographicVocabularyOptions}
+            defaultOption="Select one of the following options"
+          />
           <div className="columns small-6">
             <Field
               name={`${vocabulary}.geographicVocabularyCode`}
@@ -159,7 +143,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
         <div className="row no-margin">
           <div className="columns small-6">
             <Field
-              name="srsName"
+              name="name"
               type="text"
               component={renderField}
               label="Srs name"
@@ -194,49 +178,37 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
       <div className="columns small-12">
         <h6>Exactness</h6>
         <div className="row no-margin">
-          {
-            !geographicExactnessOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name="geographicExactness"
-                label="Code"
-                selectOptions={geographicExactnessOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
+          <Field
+            component={renderSelectField}
+            name="exactness[code"
+            label="Exactness"
+            selectOptions={geographicExactnessOptions}
+            defaultOption="Select one of the following options"
+          />
         </div>
       </div>
       <div className="columns small-12">
         <h6>Location class</h6>
         <div className="row no-margin">
-          {
-            !geographicExactnessOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name="geographicLocationClass"
-                label="Code"
-                selectOptions={geographicLocationClassOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
+          <Field
+            component={renderSelectField}
+            name="location_class[code]"
+            label="Location Class"
+            selectOptions={geographicLocationClassOptions}
+            defaultOption="Select one of the following options"
+          />
         </div>
       </div>
       <div className="columns small-12">
         <h6>Feature designation</h6>
         <div className="row no-margin">
-          {
-            !geographicExactnessOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name="featureDesignation"
-                label="Code"
-                selectOptions={geographicLocationClassOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
+          <Field
+            component={renderSelectField}
+            name="feature_designation[code]"
+            label="Feature Designation"
+            selectOptions={geographicLocationClassOptions}
+            defaultOption="Select one of the following options"
+          />
         </div>
       </div>
     </div>
@@ -252,7 +224,7 @@ const validate = values => {
   return errors
 };
 
-class LocationForm extends React.Component {
+class LocationForm extends Component {
 
   constructor(props) {
     super(props);
@@ -278,10 +250,15 @@ class LocationForm extends React.Component {
     this.props.getCodeListItems('GeographicVocabulary');
     this.props.getCodeListItems('GeographicExactness');
     this.props.getCodeListItems('GeographicLocationClass');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
+    if (!activity['GeographicLocationReach'] || !activity['GeographicVocabulary'] || !activity['GeographicExactness']
+        || !activity['GeographicLocationClass'] || !activity['Language']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -308,21 +285,18 @@ class LocationForm extends React.Component {
               <div className="columns small-12">
                 <h6>Location Reach</h6>
                 <div className="row no-margin">
-                  {
-                    !activity["GeographicLocationReach"] ?
-                      <GeneralLoader/> :
-                      <Field
-                        component={renderSelectField}
-                        name="geographicLocationReach"
-                        label="Code"
-                        selectOptions={activity["GeographicLocationReach"]}
-                        defaultOption="Select one of the following options"
-                      />
-                  }
+                  <Field
+                    component={renderSelectField}
+                    name="location_reach[code]"
+                    label="Code"
+                    selectOptions={activity["GeographicLocationReach"]}
+                    defaultOption="Select one of the following options"
+                  />
                 </div>
               </div>
+              <h6>Location id</h6>
               <FieldArray
-                name="additionalLocation"
+                name="location_id"
                 component={renderRegionFields}
                 geographicVocabularyOptions={activity["GeographicVocabulary"]}
               />
@@ -347,7 +321,7 @@ class LocationForm extends React.Component {
               <hr/>
               <h6 className="columns">Activity description</h6>
               <FieldArray
-                name="additionalActive"
+                name="activity_description[code]"
                 component={renderNarrativeFields}
                 languageOptions={activity["Language"]}
                 textName="activeName"

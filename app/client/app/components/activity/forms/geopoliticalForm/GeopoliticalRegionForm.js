@@ -92,10 +92,14 @@ class RecipientRegionForm extends React.Component {
   componentWillMount() {
     this.props.getCodeListItems('Region');
     this.props.getCodeListItems('RegionVocabulary');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
+    if (!activity['Region'] || !activity['RegionVocabulary'] || !activity['Language']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -106,33 +110,25 @@ class RecipientRegionForm extends React.Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <div className="row no-margin">
-              {
-                !activity["Region"] ?
-                  <GeneralLoader/> :
-                  <Field
-                    component={renderSelectField}
-                    name="region"
-                    label="Region code"
-                    selectOptions={activity["Region"]}
-                    defaultOption="Select one of the following options"
-                  />
-              }
-              {
-                !activity["RegionVocabulary"] ?
-                  <GeneralLoader/> :
-                  <Field
-                    component={renderSelectField}
-                    name="regionVocabulary"
-                    label="Region vocabulary"
-                    selectOptions={activity["RegionVocabulary"]}
-                    defaultOption="Select one of the following options"
-                  />
-              }
+              <Field
+                component={renderSelectField}
+                name="region[code]"
+                label="Region code"
+                selectOptions={activity["Region"]}
+                defaultOption="Select one of the following options"
+              />
+              <Field
+                component={renderSelectField}
+                name="vocabulary[code]"
+                label="Region vocabulary"
+                selectOptions={activity["RegionVocabulary"]}
+                defaultOption="Select one of the following options"
+              />
             </div>
             <div className="row no-margin">
               <div className="columns small-6">
                 <Field
-                  name="uriText"
+                  name="uri"
                   type="text"
                   component={renderField}
                   label="Vocabulary URI"
@@ -140,7 +136,7 @@ class RecipientRegionForm extends React.Component {
               </div>
               <div className="columns small-6">
                 <Field
-                  name="percentageText"
+                  name="percentage"
                   type="text"
                   component={renderField}
                   label="Percentage"

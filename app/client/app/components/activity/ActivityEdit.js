@@ -14,7 +14,6 @@ import RelationsForm from './forms/relationsForm/RelationsForm'
 import FinancialForm from './forms/financialForm/FinancialForm'
 import ActivitySidebar from './ActivitySidebar'
 import PerformanceForm from './forms/performanceForm/PerformanceForm'
-import {GeneralLoader} from '../general/Loaders.react.jsx'
 
 class ActivityEdit extends React.Component {
 
@@ -70,10 +69,6 @@ class ActivityEdit extends React.Component {
     store.dispatch(toggleMainMenu(false));
   }
 
-  componentWillMount() {
-    this.props.getCodeListItems('Language');
-  }
-
   // render() {
   //   const {page} = this.state;
   //
@@ -126,9 +121,6 @@ class ActivityEdit extends React.Component {
     const subForm = this.props.routeParams.subTab;
     const formComponent = this.getFormComponentFromRoute(mainForm, subForm);
 
-    if (!this.props.activity || !this.props.activity["Language"]) {
-      return <GeneralLoader/>
-    }
     return (
       <div>
         <div className="row">

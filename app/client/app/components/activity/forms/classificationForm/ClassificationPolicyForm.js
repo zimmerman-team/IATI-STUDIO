@@ -12,44 +12,37 @@ const renderPolicy = ({fields, languageOptions, policyCodeOptions, policyVocabul
     {fields.map((description, index) =>
       <div className="field-list" key={index}>
         <div className="row no-margin">
-          {
-            !policyCodeOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name={`${description}.policy[code]`}
-                label="Policy code"
-                selectOptions={policyCodeOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
-          {
-            !policyCodeOptions ?
-              <GeneralLoader/> :
-              <Field
-                component={renderSelectField}
-                name={`${description}.policyMarkerVocabulary[code]`}
-                label="Policy Vocabulary"
-                selectOptions={policyCodeOptions}
-                defaultOption="Select one of the following options"
-              />
-          }
+          <Field
+            component={renderSelectField}
+            name="policyMarkerVocabulary[code]"
+            label="Vocabulary"
+            selectOptions={activity["PolicyMarkerVocabulary"]}
+            defaultOption="Select one of the following options"
+          />
           <div className="columns small-6">
             <Field
-              name="uriPolicyText"
+              name="vocabulary_uri"
               type="text"
               component={renderField}
               label="Vocabulary URI"
             />
           </div>
-          <div className="columns small-6">
-            <Field
-              name="percentagePolicyText"
-              type="text"
-              component={renderField}
-              label="Percentage"
-            />
-          </div>
+        </div>
+        <div className="row no-margin">
+          <Field
+            component={renderSelectField}
+            name="significance[code]"
+            label="Significance"
+            selectOptions={activity["PolicySignificance"]}
+            defaultOption="Select one of the following options"
+          />
+          <Field
+            component={renderSelectField}
+            name="policy[code]"
+            label="Policy Marker"
+            selectOptions={activity["PolicyMarker"]}
+            defaultOption="Select one of the following options"
+          />
         </div>
         <div className="row no-margin">
           <FieldArray
@@ -79,13 +72,9 @@ const renderPolicy = ({fields, languageOptions, policyCodeOptions, policyVocabul
 const validate = values => {
   const errors = {};
 
-  if (!values.uriPolicyText) {
+  if (!values.vocabulary_uri) {
     errors.type = 'Required'
   }
-  if (!values.percentagePolicyText) {
-    errors.type = 'Required'
-  }
-
   return errors
 };
 
@@ -102,7 +91,7 @@ class PolicyMakerForm extends React.Component {
    */
   handleFormSubmit(formData) {
     this.props.dispatch(addClassificationPolicy(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/classification/select');
+    this.context.router.push('/publisher/activity/classifications/select');
   }
 
   static contextTypes = {
@@ -112,12 +101,14 @@ class PolicyMakerForm extends React.Component {
   componentWillMount() {
     this.props.getCodeListItems('PolicyMarker');
     this.props.getCodeListItems('PolicyMarkerVocabulary');
+    this.props.getCodeListItems('PolicySignificance');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
 
-    if (!activity['PolicyMarker'] || !activity['PolicyMarkerVocabulary']) {
+    if (!activity['PolicyMarker'] || !activity['PolicyMarkerVocabulary'] || !activity['PolicySignificance'] || !activity['Language']) {
       return <GeneralLoader />
     }
 
@@ -130,46 +121,37 @@ class PolicyMakerForm extends React.Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <div className="row no-margin">
-              {
-                !activity["PolicyMarker"] ?
-                  <GeneralLoader/> :
-                  <Field
-                    component={renderSelectField}
-                    name="policy[code]"
-                    label="Policy code"
-                    selectOptions={activity["PolicyMarker"]}
-                    defaultOption="Select one of the following options"
-                  />
-              }
-              {
-                !activity["PolicyMarkerVocabulary"] ?
-                  <GeneralLoader/> :
-                  <Field
-                    component={renderSelectField}
-                    name="policyMarkerVocabulary[code]"
-                    label="Policy Vocabulary"
-                    selectOptions={activity["PolicyMarkerVocabulary"]}
-                    defaultOption="Select one of the following options"
-                  />
-              }
-            </div>
-            <div className="row no-margin">
+              <Field
+                component={renderSelectField}
+                name="policyMarkerVocabulary[code]"
+                label="Vocabulary"
+                selectOptions={activity["PolicyMarkerVocabulary"]}
+                defaultOption="Select one of the following options"
+              />
               <div className="columns small-6">
                 <Field
-                  name="uriPolicyText"
+                  name="vocabulary_uri"
                   type="text"
                   component={renderField}
                   label="Vocabulary URI"
                 />
               </div>
-              <div className="columns small-6">
-                <Field
-                  name="percentagePolicyText"
-                  type="text"
-                  component={renderField}
-                  label="Percentage"
-                />
-              </div>
+            </div>
+            <div className="row no-margin">
+              <Field
+                component={renderSelectField}
+                name="significance[code]"
+                label="Significance"
+                selectOptions={activity["PolicySignificance"]}
+                defaultOption="Select one of the following options"
+              />
+              <Field
+                component={renderSelectField}
+                name="policy[code]"
+                label="Policy Marker"
+                selectOptions={activity["PolicyMarker"]}
+                defaultOption="Select one of the following options"
+              />
             </div>
             <div className="row no-margin">
               <FieldArray
@@ -190,7 +172,7 @@ class PolicyMakerForm extends React.Component {
             policyVocabularyOptions={activity["PolicyMarkerVocabulary"]}
           />
           <div className="columns small-12">
-            <Link className="button" to="/publisher/activity/classification/sector">Back to Sector</Link>
+            <Link className="button" to="/publisher/activity/classifications/sector">Back to Sector</Link>
             <button className="button float-right" type="submit" disabled={submitting}>
               Continue to Selection
             </button>

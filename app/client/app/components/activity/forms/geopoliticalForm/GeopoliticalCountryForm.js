@@ -154,10 +154,15 @@ class RecipientCountryForm extends Component {
 
   componentWillMount() {
     this.props.getCodeListItems('Country');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
+
+    if (!activity['Language']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -168,20 +173,16 @@ class RecipientCountryForm extends Component {
           <form onSubmit={handleSubmit(this.handleFormSubmit)}>
             <div className="field-list">
               <div className="row no-margin">
-                {
-                  !activity["Country"] ?
-                    <GeneralLoader/> :
-                    <Field
-                      component={renderSelectField}
-                      name="country[code]"
-                      label="Country code"
-                      selectOptions={activity["Country"]}
-                      defaultOption="Select one of the following options"
-                    />
-                }
+                <Field
+                  component={renderSelectField}
+                  name="country[code]"
+                  label="Country code"
+                  selectOptions={activity["Country"]}
+                  defaultOption="Select one of the following options"
+                />
                 <div className="columns small-6">
                   <Field
-                    name="percentageText"
+                    name="percentage"
                     type="text"
                     component={renderField}
                     label="Percentage"

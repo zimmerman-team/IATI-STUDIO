@@ -35,11 +35,11 @@ export const postActivity = function (activityData) {
 export const getCodeListItems = function (codeListName) {
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.codelists + '/' + codeListName + '/?page_size=200',
+    url: config.codelists  + codeListName + '/?page_size=200',
   };
 
   return oipaGet(req_options).then(
-    parsedBody => parsedBody.results
+    parsedBody => parsedBody
   )
 };
 
@@ -100,10 +100,8 @@ const prepareActivityData = function (data) {
   }
 
   data.title = {narratives: narrativesItems};
-
   return data
 }
-
 
 /**
  * Post document link form.
@@ -115,7 +113,6 @@ export const postDocumentLinkForm = function (formData, activity) {
   let processedData = Object.assign({}, formData);
 
   const ISO_DATE = new Date(formData.document_date).toISOString();
-
   processedData.type = { code: formData.type, name: formData.type };
   processedData.format = { code: formData.format, name: formData.format };
   processedData.activity = formData.activity;
@@ -286,7 +283,7 @@ export const postBasicInformationDateForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postBasicInformationContactForm = function (formData, activity) {
-    let processedData = {};
+    let processedData = Object.assign({}, formData);
     processedData.activity = formData.activity;
     processedData.type = {"code": formData.type, "name": formData.type};
 
@@ -398,13 +395,13 @@ export const postFinancialCapitalSpendForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postGeopoliticalCountryForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
-  processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.country = {"code": formData.country.code, "name": formData.country.code};
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/contact_info/',
+    url: config.activities_url + formData.activity + '/recipient_countries/',
     body: processedData,
   };
 
@@ -413,19 +410,20 @@ export const postGeopoliticalCountryForm = function (formData, activity) {
 };
 
 /**
- * Post Geopolitical Country form.
+ * Post Geopolitical Regions form.
  *
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
 export const postGeopoliticalRegionForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
-  processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.region = {"code": formData.region.code, "name": formData.region.code};
+  processedData.vocabulary = {"code": formData.vocabulary.code, "name": formData.vocabulary.code};
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/contact_info/',
+    url: config.activities_url + formData.activity + '/recipient_regions/',
     body: processedData,
   };
 
@@ -434,15 +432,21 @@ export const postGeopoliticalRegionForm = function (formData, activity) {
 };
 
 /**
- * Post Geopolitical Country form.
+ * Post Geopolitical Location form.
  *
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
 export const postGeopoliticalLocationForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.activity_description = {"code": formData.activity_description.code, "name": formData.activity_description.code};
+  processedData.location_class = {"code": formData.location_class.code, "name": formData.location_class.code};
+  processedData.exactness = {"code": formData.exactness.code, "name": formData.exactness.code};
+  processedData.location_reach = {"code": formData.location_reach.code, "name": formData.location_reach.code};
+  processedData.location_id = {"code": formData.location_id.code, "name": formData.location_id.code};
+  processedData.feature_designation = {"code": formData.feature_designation.code, "name": formData.feature_designation.code};
 
   const req_options = {
     baseUrl: config.oipa_post_url,
@@ -461,7 +465,7 @@ export const postGeopoliticalLocationForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postClassificationSectorForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.type = {"code": formData.type, "name": formData.type};
 
@@ -482,9 +486,12 @@ export const postClassificationSectorForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postClassificationPolicyForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
-  processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.policy_marker = {"code": formData.policy.code, "name": formData.policy.code};
+  processedData.vocabulary = {"code": formData.policyMarkerVocabulary.code, "name": formData.policyMarkerVocabulary.code};
+  processedData.narratives = [{text: "1"}];
+  processedData.significance = {"code": formData.significance.code, "name": formData.significance.code};
 
   const req_options = {
     baseUrl: config.oipa_post_url,
@@ -503,19 +510,53 @@ export const postClassificationPolicyForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postClassificationSelectForm = function (formData, activity) {
-  let processedData = {};
-  // @TODO break into multiple forms for each data field
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
-  processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.collaboration_type = {"code": formData.collaboration_type, "name": formData.collaboration_type};
+  processedData.default_flow_type = {"code": formData.default_flow_type, "name": formData.default_flow_type};
+  processedData.default_finance_type = {"code": formData.default_finance_type, "name": formData.default_finance_type};
+  processedData.default_aid_type = {"code": formData.default_aid_type, "name": formData.default_aid_type};
+  processedData.default_tied_status = {"code": formData.default_tied_status, "name": formData.default_tied_status};
 
-  const req_options = {
+  const req_options_collaboration = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/policy_markers/',
-    body: processedData,
+    url: config.activities_url + processedData.activity + '/collaboration_type/',
+    body: processedData.collaboration_type,
+  };
+  const req_options_flow = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + processedData.activity + '/default_flow_type/',
+    body: processedData.collaboration_type,
+  };
+  const req_options_finance = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + processedData.activity + '/default_finance_type/',
+    body: processedData.collaboration_type,
+  };
+  const req_options_aid = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + processedData.activity + '/default_aid_type/',
+    body: processedData.collaboration_type,
+  };
+  const req_options_tied = {
+    baseUrl: config.oipa_post_url,
+    url: config.activities_url + processedData.activity + '/default_tied_status/',
+    body: processedData.collaboration_type,
   };
 
-  return oipaPost(req_options)
-    .then(parsedBody => parsedBody)
+  let parsedBodyList = [];
+  parsedBodyList[0] = oipaPost(req_options_collaboration)
+    .then(parsedBody => parsedBody);
+  parsedBodyList[1] =  oipaPost(req_options_flow)
+    .then(parsedBody => parsedBody);
+  parsedBodyList[2] =  oipaPost(req_options_finance)
+    .then(parsedBody => parsedBody);
+  parsedBodyList[3] =  oipaPost(req_options_aid)
+    .then(parsedBody => parsedBody);
+  parsedBodyList[3] =  oipaPost(req_options_tied)
+    .then(parsedBody => parsedBody);
+
+  return parsedBodyList[3]
 };
 
 /**
@@ -525,9 +566,10 @@ export const postClassificationSelectForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postClassificationCountryBudgetForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
-  processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.vocabulary = {"code": formData.vocabulary, "name": formData.vocabulary};
+  processedData.activity = formData.activity;
 
   const req_options = {
     baseUrl: config.oipa_post_url,
@@ -546,13 +588,14 @@ export const postClassificationCountryBudgetForm = function (formData, activity)
  * @returns {Promise|Promise.<T>}
  */
 export const postClassificationHumanitarianForm = function (formData, activity) {
-  let processedData = {};
+  let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
+  processedData.vocabulary = {"code": formData.vocabulary, "name": formData.vocabulary};
   processedData.type = {"code": formData.type, "name": formData.type};
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/humanitarian_scope/',
+    url: config.activities_url + formData.activity + '/humanitarian_scopes/',
     body: processedData,
   };
 

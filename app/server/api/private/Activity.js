@@ -146,7 +146,6 @@ var ActivityAPI = {
           .catch(error => res(error));
     },
 
-
     addClassificationCountryBudget: function (user, form, activity, res) {
         return postClassificationCountryBudgetForm(form, activity)
           .then(result => res(null, result))

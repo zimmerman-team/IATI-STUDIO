@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import classNames from 'classnames'
+import {connect} from 'react-redux'
 
 import { Link } from 'react-router'
 import { withRouter } from 'react-router'
@@ -8,6 +9,7 @@ import { withRouter } from 'react-router'
 import { Tooltip } from '../general/Tooltip.react.jsx'
 import { ModalButton } from '../general/Modal.react.jsx'
 import { InputText } from '../general/Input.react.jsx'
+import { createActivity } from '../../actions/activity'
 
 const defaultViz = {
     name: "",
@@ -89,4 +91,12 @@ class MainMenu extends React.Component {
     }
 }
 
-export default withRouter(MainMenu)
+MainMenu = withRouter(MainMenu);
+
+function mapStateToProps(state) {
+  return {
+    activity: state.activity
+  }
+}
+export default connect(mapStateToProps, {createActivity})(MainMenu);
+

@@ -7,7 +7,7 @@ import {Tooltip} from '../general/Tooltip.react.jsx'
 
 import { getBasicInformationData } from '../../actions/sidebar'
 
-class ActivitySidebar extends PureComponent {
+class ActivitySidebar extends Component {
   constructor(props) {
     super(props);
   }
@@ -40,42 +40,35 @@ class ActivitySidebar extends PureComponent {
   }
 }
 
-class NavItem extends React.Component {
-  render() {
-    const {navLink, navHeading, activeForm, isActive, className} = this.props;
-    let navHeadingClass = classNames('question-wrap', className);
-
-    return (
-      <div className={navHeadingClass}>
-        <Link to={navLink}>
-          <h5>{navHeading} </h5>
-        </Link>
-        <ul className="answer nav-list">
-          {isActive && activeForm.subHeading.map((subHeading, subIndex) => {
-            return (
-              <li key={subIndex} className="capitalize">
-                {isActive && subHeading.navValidationClass &&
-                    <i className={subHeading.navValidationClass}/>
-                }
-                {subHeading.canNavigate &&
-                  <Link to={subHeading.link} >{subHeading.title}</Link>
-                }
-                {!subHeading.canNavigate &&
-                  <span>
-                    <Tooltip className="inline" tooltip="Fill previous forms first">
-                      <i className="material-icons">info</i>
-                    </Tooltip>
-                    {subHeading.title}
-                  </span>
-                }
-              </li>
-            )})
-          }
-        </ul>
-      </div>
-    )
-  }
-}
+const NavItem = ({navLink, navHeading, activeForm, isActive, className}) => (
+  <div className={classNames('question-wrap', className)}>
+    <Link to={navLink}>
+      <h5>{navHeading} </h5>
+    </Link>
+    <ul className="answer nav-list">
+      {isActive && activeForm.subHeading.map((subHeading, subIndex) => {
+        return (
+          <li key={subIndex} className="capitalize">
+            {isActive && subHeading.navValidationClass &&
+                <i className={subHeading.navValidationClass}/>
+            }
+            {subHeading.canNavigate &&
+              <Link to={subHeading.link} >{subHeading.title}</Link>
+            }
+            {!subHeading.canNavigate &&
+              <span>
+                <Tooltip className="inline" tooltip="Fill previous forms first">
+                  <i className="material-icons">info</i>
+                </Tooltip>
+                {subHeading.title}
+              </span>
+            }
+          </li>
+        )})
+      }
+    </ul>
+  </div>
+);
 
 ActivitySidebar.propTypes = {
   page: PropTypes.number.isRequired,

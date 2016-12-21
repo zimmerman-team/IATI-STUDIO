@@ -44,33 +44,25 @@ const RenderCountryBugetForm = ({vocabularyOptions, codeOptions, languageOptions
  (
   <div>
     <div className="row no-margin">
-      {
-        !vocabularyOptions ?
-          <GeneralLoader/> :
-          <Field
-            component={renderSelectField}
-            name="BudgetIdentifierVocabulary"
-            label="BudgetIdentifierVocabulary"
-            selectOptions={vocabularyOptions}
-            defaultOption="Select one of the following options"
-          />
-      }
+      <Field
+        component={renderSelectField}
+        name="vocabulary"
+        label="Vocabulary"
+        selectOptions={vocabularyOptions}
+        defaultOption="Select one of the following options"
+      />
     </div>
     <div className="row no-margin">
-        {
-          !codeOptions ?
-            <GeneralLoader/> :
-            <Field
-              component={renderSelectField}
-              name="BudgetIdentifier"
-              label="BudgetIdentifier"
-              selectOptions={codeOptions}
-              defaultOption="Select one of the following options"
-            />
-        }
+      <Field
+        component={renderSelectField}
+        name="item[code]"
+        label="Budget Item Code"
+        selectOptions={codeOptions}
+        defaultOption="Select one of the following options"
+      />
       <div className="columns small-6">
         <Field
-          name="BudgetPercentage"
+          name="percentage"
           type="text"
           component={renderField}
           label="Percentage"
@@ -118,7 +110,7 @@ class CountryBudgetForm extends Component {
    */
   handleFormSubmit(formData) {
     this.props.dispatch(addClassificationCountryBudget(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/classification/humanitarian');
+    this.context.router.push('/publisher/activity/classifications/humanitarian');
   }
 
   static contextTypes = {
@@ -128,12 +120,13 @@ class CountryBudgetForm extends Component {
   componentWillMount() {
     this.props.getCodeListItems('BudgetIdentifier');
     this.props.getCodeListItems('BudgetIdentifierVocabulary');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
 
-    if (!activity['BudgetIdentifier'] || !activity['BudgetIdentifierVocabulary']) {
+    if (!activity['BudgetIdentifier'] || !activity['BudgetIdentifierVocabulary'] || !activity['Language']) {
       return <GeneralLoader />
     }
 
@@ -159,7 +152,7 @@ class CountryBudgetForm extends Component {
             languageOptions={activity["Language"]}
           />
           <div className="columns small-12">
-            <Link className="button" to="/publisher/activity/classification/select">Back to Selection</Link>
+            <Link className="button" to="/publisher/activity/classifications/select">Back to Selection</Link>
             <button className="button float-right" type="submit" disabled={submitting}>
               Continue to Humanitarian
             </button>

@@ -44,41 +44,33 @@ const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageO
  (
   <div>
     <div className="row no-margin">
-      {
-        !vocabularyOptions ?
-          <GeneralLoader/> :
-          <Field
-            component={renderSelectField}
-            name="HumanitarianScopeVocabulary"
-            label="HumanitarianScopeVocabulary"
-            selectOptions={vocabularyOptions}
-            defaultOption="Select one of the following options"
-          />
-      }
-        {
-          !scopeOptions ?
-            <GeneralLoader/> :
-            <Field
-              component={renderSelectField}
-              name="HumanitarianScopeType"
-              label="HumanitarianScopeType"
-              selectOptions={scopeOptions}
-              defaultOption="Select one of the following options"
-            />
-        }
+      <Field
+        component={renderSelectField}
+        name="type"
+        label="Type"
+        selectOptions={scopeOptions}
+        defaultOption="Select one of the following options"
+      />
+      <Field
+        component={renderSelectField}
+        name="vocabulary"
+        label="Vocabulary"
+        selectOptions={vocabularyOptions}
+        defaultOption="Select one of the following options"
+      />
     </div>
     <div className="row no-margin">
       <div className="columns small-6">
         <Field
-          name="VocabularyURI"
+          name="vocabulary_uri"
           type="text"
           component={renderField}
-          label="VocabularyURI"
+          label="Vocabulary URI"
         />
       </div>
       <div className="columns small-6">
         <Field
-          name="CODE"
+          name="code"
           type="text"
           component={renderField}
           label="Code"
@@ -86,7 +78,6 @@ const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageO
       </div>
     </div>
     <div className="row no-margin">
-      <h2 className="page-title with-tip">Description</h2>
       <FieldArray
         name="additionalTitles"
         component={renderNarrativeFields}
@@ -102,11 +93,11 @@ const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageO
 const validate = values => {
   const errors = {};
 
-  if (!values.CODE) {
-    errors.type = 'Required'
+  if (!values.vocabulary_uri) {
+    errors.vocabulary_uri = 'Required'
   }
-  if (!values.VocabularyURI) {
-    errors.type = 'Required'
+  if (!values.code) {
+    errors.code = 'Required'
   }
 
   return errors
@@ -135,12 +126,13 @@ class HumanitarianScopeForm extends Component {
   componentWillMount() {
     this.props.getCodeListItems('HumanitarianScopeType');
     this.props.getCodeListItems('HumanitarianScopeVocabulary');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
 
-    if (!activity['HumanitarianScopeType'] || !activity['HumanitarianScopeVocabulary']) {
+    if (!activity['HumanitarianScopeType'] || !activity['HumanitarianScopeVocabulary'] || !activity['Language']) {
       return <GeneralLoader />
     }
 
@@ -166,7 +158,7 @@ class HumanitarianScopeForm extends Component {
             languageOptions={activity["Language"]}
           />
           <div className="columns small-12">
-            <Link className="button" to="/publisher/activity/classification/country">Back to Country Budget</Link>
+            <Link className="button" to="/publisher/activity/classifications/country">Back to Country Budget</Link>
             <button className="button float-right" type="submit" disabled={submitting}>
               Continue to Financial
             </button>

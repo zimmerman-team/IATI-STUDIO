@@ -28,7 +28,7 @@ class ClassificationSelectForm extends Component {
    */
   handleFormSubmit(formData) {
     this.props.dispatch(addClassificationSelect(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/classification/country');
+    this.context.router.push('/publisher/activity/classifications/country');
   }
 
   static contextTypes = {
@@ -60,28 +60,28 @@ class ClassificationSelectForm extends Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <RenderSingleSelect
-              name='collaborationType'
+              name='collaboration_type'
               label='Collaboration Type'
               selectOptions={activity['CollaborationType']}/>
             <RenderSingleSelect
-              name='flowType'
+              name='default_flow_type'
               label='Default Flow Type'
               selectOptions={activity['FlowType']}/>
             <RenderSingleSelect
-              name='financeType'
+              name='default_finance_type'
               label='Default Finance Type'
               selectOptions={activity['FinanceType']}/>
             <RenderSingleSelect
-              name='aidType'
+              name='default_aid_type'
               label='Default Aid Type'
               selectOptions={activity['AidType']}/>
             <RenderSingleSelect
-              name='tiedStatus'
+              name='default_tied_status'
               label='Default Tied Type'
               selectOptions={activity['TiedStatus']}/>
           </div>
           <div className="columns small-12">
-            <Link className="button" to="/publisher/activity/classification/policy">Back to policy</Link>
+            <Link className="button" to="/publisher/activity/classifications/policy">Back to policy</Link>
             <button className="button float-right" type="submit" disabled={submitting}>
               Continue to Country
             </button>

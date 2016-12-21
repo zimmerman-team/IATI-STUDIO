@@ -98,7 +98,7 @@ class SectorForm extends Component {
    */
   handleFormSubmit(formData) {
     this.props.dispatch(addClassificationSector(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/classification/policy');
+    this.context.router.push('/publisher/activity/classifications/policy');
   }
 
   static contextTypes = {
