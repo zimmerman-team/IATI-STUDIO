@@ -22,10 +22,9 @@ export const sidebarNav = {page: 0,
       page: 1,
       form: 'basic-info',
       navHeading: 'Basic information',
-      activeSubForm: 'title',
+      activeSubForm: 'description',
       link: '/publisher/activity/basic-info/basic-info',
-      subHeading: [{title: "title", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/title'},
-        {title: "description", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/basic-info/description'},
+      subHeading: [{title: "description", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/description'},
         {title: "status", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/basic-info/status'},
         {title: "date", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/basic-info/date'},
         {title: "contact", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/basic-info/contact'}],
@@ -35,31 +34,37 @@ export const sidebarNav = {page: 0,
       navHeading: 'Participating organisations',
       link: '/publisher/activity/participating-organisation/participating-organisation',
       form: 'participating-organisation',
-      activeSubForm: 'identification',
-      subHeading: [{title: "identification", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/identification'}]
+      activeSubForm: 'participating-organisation',
+      subHeading: [{title: "participating-organisation", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/participating-organisation/participating-organisation'}]
     },
     {
       page: 3,
       navHeading:'Geopolitical information',
       link: '/publisher/activity/geopolitical-information/geopolitical-information',
       form: 'geopolitical-information',
-      activeSubForm: 'identification',
-      subHeading: [{title: "identification", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/identification'}]
+      activeSubForm: 'country',
+      subHeading: [{title: "country", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/geopolitical-information/country'},
+          {title: "region", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/geopolitical-information/region'},
+          {title: "location", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/geopolitical-information/location'}]
     },
     {
       page: 4,
       navHeading:'Classifications',
       link: '/publisher/activity/classifications/classifications',
       form: 'classifications',
-      activeSubForm: 'identification',
-      subHeading: [{title: "Identification", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/identification'}]
+      activeSubForm: 'sector',
+      subHeading: [{title: "sector", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/classifications/sector'},
+        {title: "policy", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/classifications/policy'},
+        {title: "select", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/classifications/select'},
+        {title: "country", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/classifications/country'},
+        {title: "humanitarian", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/classifications/humanitarian'}]
     },
     {
       page: 5,
       navHeading: 'Financial',
       link: '/publisher/activity/financial/financial',
       form: 'financial',
-      activeSubForm: 'identification',
+      activeSubForm: 'budget',
       subHeading: [{title: "budget", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/financial/budget'},
         {title: "planned-disbursement", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/financial/planned-disbursement'},
         {title: "transaction", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/financial/transaction'},
@@ -70,8 +75,8 @@ export const sidebarNav = {page: 0,
       navHeading: 'Documents',
       link: '/publisher/activity/document-link/document-link',
       form: 'document-link',
-      activeSubForm: 'identification',
-      subHeading: [{title: "Document Link", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/document-link/document-link'}]
+      activeSubForm: 'documentLink',
+      subHeading: [{title: "documentLink", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/document-link/document-link'}]
     },
     {
       page: 7,
@@ -86,8 +91,10 @@ export const sidebarNav = {page: 0,
       navHeading: 'Performance',
       link: '/publisher/activity/performance/performance',
       form: 'performance',
-      activeSubForm: 'identification',
-      subHeading: [{title: "Identification", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/identification'}]
+      activeSubForm: 'condition',
+      subHeading: [{title: "condition", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/performance/condition'},
+        {title: "result", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/performance/result'},
+        {title: "comment", navValidationClass: '', status: FIELD_BLANK, isActive: false, canNavigate: false, link: '/publisher/activity/performance/comment'}]
     }
   ]
 };
