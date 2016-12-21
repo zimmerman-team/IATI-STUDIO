@@ -6,7 +6,7 @@ import {renderNarrativeFields, renderField, renderSelectField, renderOrgFields,
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import { Link } from 'react-router';
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addFinancialTransactions } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialTransactionForm = ({fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
@@ -62,13 +62,13 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         name="humanitarian"
         component={renderSelectField}
         label="Humanitarian"
-        selectOptions={humanitarianOptions}
+        selectOptions={[{code:'0', name:'False'}, {code:'1', name:'True'}]}
         defaultOption="Select one of the following options"
       />
     </div>
     <div className="row no-margin">
       <Field
-        name="transactionType"
+        name="transaction_type"
         component={renderSelectField}
         label="Transaction type"
         selectOptions={transactionOptions}
@@ -79,7 +79,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
       <div className="columns small-6">
         Transaction date
         <Field
-          name="transactionDate"
+          name="transaction_date"
           type="date"
           component={renderField}
           label="Date"
@@ -98,7 +98,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
       </div>
       <div className="columns small-6">
         <Field
-          name="valueDate"
+          name="value_date"
           type="date"
           component={renderField}
           label="Value date"
@@ -106,19 +106,17 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
       </div>
     </div>
     <div className="row no-margin">
-      <div className="columns small-6">
-        <Field
-          name="currency"
-          component={renderSelectField}
-          label="Currency"
-          selectOptions={currencyOptions}
-          defaultOption="Select one of the following options"
-        />
-      </div>
+      <Field
+        name="currency"
+        component={renderSelectField}
+        label="Currency"
+        selectOptions={currencyOptions}
+        defaultOption="Select one of the following options"
+      />
     </div>
     <div className="row no-margin">
       <FieldArray
-        name="additionalTitles"
+        name="description"
         component={renderNarrativeFields}
         languageOptions={languageOptions}
         textName="textTitle"
@@ -128,7 +126,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     </div>
     <div className="row no-margin">
       <FieldArray
-        name="ProviderOrg"
+        name="provider_organisation"
         component={renderOrgFields}
         languageOptions={languageOptions}
         organisationOptions={organisationOptions}
@@ -139,7 +137,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     </div>
     <div className="row no-margin">
       <FieldArray
-        name="ReceiverOrg"
+        name="receiver_organisation"
         component={renderOrgFields}
         languageOptions={languageOptions}
         organisationOptions={organisationOptions}
@@ -156,7 +154,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
             <GeneralLoader/> :
             <Field
               component={renderSelectField}
-              name="disbursementChannelOptions"
+              name="disbursement_channel"
               label="Type"
               selectOptions={disbursementOptions}
               defaultOption="Select one of the following options"
@@ -164,17 +162,15 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
         }
       </div>
     </div>
-    <div className="row no-margin">
-      <FieldArray
-        name="Sector"
-        component={renderSectorFields}
-        sectorVocabularyOptions={sectorVocabularyOptions}
-        sectorOptions={sectorOptions}
-        languageOptions={languageOptions}
-        textName="Sector[text]"
-        textLabel="Sector"
-      />
-    </div>
+    <FieldArray
+      name="Sector"
+      component={renderSectorFields}
+      sectorVocabularyOptions={sectorVocabularyOptions}
+      sectorOptions={sectorOptions}
+      languageOptions={languageOptions}
+      textName="Sector[text]"
+      textLabel="Sector"
+    />
     <div className="row no-margin">
       <div className="columns small-centered small-12">
         <h2 className="page-title with-tip">Recipient country</h2>
@@ -191,7 +187,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     </div>
     <div className="row no-margin">
       <FieldArray
-        name="additionalTitles"
+        name="description"
         component={renderNarrativeFields}
         languageOptions={languageOptions}
         textName="textTitle"
@@ -200,20 +196,20 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
       />
     </div>
     <RenderSingleSelect
-      name='flowType'
+      name='flow_type'
       label='Flow Type'
       selectOptions={flowOptions}/>
     <RenderSingleSelect
-      name='financeType'
+      name='finance_type'
       label='Finance Type'
       selectOptions={financeOptions}/>
     <RenderSingleSelect
-      name='aidType'
+      name='aid_type'
       label='Aid Type'
       selectOptions={aidOptions}/>
     <RenderSingleSelect
-      name='tiedStatus'
-      label='Tied Type'
+      name='tied_status'
+      label='Tied Status'
       selectOptions={tiedOptions}/>
   </div>
 );
@@ -221,7 +217,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
 const validate = values => {
   const errors = {};
 
-  if (!values.aidType) {
+  if (!values.aid_type) {
     errors.type = 'Required'
   }
   return errors
@@ -240,7 +236,7 @@ class FinancialTransactionForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addFinancialTransactions(formData, this.props.activity));
     this.context.router.push('/publisher/activity/financial/capital');
   }
 

@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import { Link } from 'react-router';
 import {renderField} from '../../helpers/FormHelper'
-import { addBasicInformation } from '../../../../actions/activity'
+import { addFinancialCapitalSpend } from '../../../../actions/activity'
 
 const validate = values => {
   const errors = {};
@@ -28,7 +28,7 @@ class FinancialCapitalForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addFinancialCapitalSpend(formData, this.props.activity));
     this.context.router.push('/publisher/activity/document-link/document-link');
   }
 

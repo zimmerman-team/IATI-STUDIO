@@ -5,7 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformationStatus } from '../../../../actions/activity'
 
 const validate = values => {
   const errors = {};
@@ -29,7 +29,7 @@ class BasicInformationStatusForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addBasicInformationStatus(formData, this.props.activity));
     this.context.router.push('/publisher/activity/basic-info/date');
   }
 

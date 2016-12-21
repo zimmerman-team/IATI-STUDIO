@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router'
+import { getCodeListItems, createActivity, addClassificationCountryBudget } from '../../../../actions/activity'
 
 const renderAdditionalRenderCountryBugetForm = ({fields, vocabularyOptions, codeOptions, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -94,10 +95,10 @@ const validate = values => {
   const errors = {};
 
   if (!values.BudgetPercentage) {
-    errors.type = 'Required'
+    errors.BudgetPercentage = 'Required'
   }
   if (!values.BudgetIdentifierVocabulary) {
-    errors.type = 'Required'
+    errors.BudgetIdentifierVocabulary = 'Required'
   }
 
   return errors
@@ -106,8 +107,23 @@ const validate = values => {
 class CountryBudgetForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit classification's policy data.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addClassificationCountryBudget(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/classification/humanitarian');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('BudgetIdentifier');
@@ -115,7 +131,11 @@ class CountryBudgetForm extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
+
+    if (!activity['BudgetIdentifier'] || !activity['BudgetIdentifierVocabulary']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -123,20 +143,28 @@ class CountryBudgetForm extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderCountryBugetForm
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderCountryBugetForm
+              vocabularyOptions={activity["BudgetIdentifierVocabulary"]}
+              codeOptions={activity["BudgetIdentifier"]}
+              languageOptions={activity["Language"]}
+            />
+          </div>
+          <FieldArray
+            name="additionalCountryBuget"
+            component={renderAdditionalRenderCountryBugetForm}
             vocabularyOptions={activity["BudgetIdentifierVocabulary"]}
             codeOptions={activity["BudgetIdentifier"]}
             languageOptions={activity["Language"]}
           />
-        </div>
-        <FieldArray
-          name="additionalCountryBuget"
-          component={renderAdditionalRenderCountryBugetForm}
-          vocabularyOptions={activity["BudgetIdentifierVocabulary"]}
-          codeOptions={activity["BudgetIdentifier"]}
-          languageOptions={activity["Language"]}
-        />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/classification/select">Back to Selection</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Humanitarian
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

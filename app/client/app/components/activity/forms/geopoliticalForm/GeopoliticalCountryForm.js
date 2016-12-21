@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addGeopoliticalCountry } from '../../../../actions/activity'
 
 const renderCountry = ({fields, countryCodeOptions, meta: {touched, error}}) => (
   <div>
@@ -130,18 +131,33 @@ const validate = values => {
   return errors
 };
 
-class RecipientCountryForm extends React.Component {
+class RecipientCountryForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit geopolitical's country data and redirect to region form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addGeopoliticalCountry(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/geopolitical-information/region');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('Country');
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
     return (
       <div className="columns small-centered small-12">
@@ -149,41 +165,49 @@ class RecipientCountryForm extends React.Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <div className="row no-margin">
-            {
-              !activity["Country"] ?
-                <GeneralLoader/> :
-                <Field
-                  component={renderSelectField}
-                  name="country[code]"
-                  label="Country code"
-                  selectOptions={activity["Country"]}
-                  defaultOption="Select one of the following options"
+          <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+            <div className="field-list">
+              <div className="row no-margin">
+                {
+                  !activity["Country"] ?
+                    <GeneralLoader/> :
+                    <Field
+                      component={renderSelectField}
+                      name="country[code]"
+                      label="Country code"
+                      selectOptions={activity["Country"]}
+                      defaultOption="Select one of the following options"
+                    />
+                }
+                <div className="columns small-6">
+                  <Field
+                    name="percentageText"
+                    type="text"
+                    component={renderField}
+                    label="Percentage"
+                  />
+                </div>
+                <FieldArray
+                  name="additionalCountry"
+                  component={renderCountry}
+                  countryCodeOptions={activity["Country"]}
                 />
-            }
-            <div className="columns small-6">
-              <Field
-                name="percentageText"
-                type="text"
-                component={renderField}
-                label="Percentage"
-              />
+                <FieldArray
+                  name="additionalTitles"
+                  component={renderNarrativeFields}
+                  languageOptions={activity["Language"]}
+                  textName="textTitle"
+                  textLabel="Title"
+                />
+              </div>
             </div>
-            <FieldArray
-              name="additionalCountry"
-              component={renderCountry}
-              countryCodeOptions={activity["Country"]}
-            />
-            <FieldArray
-              name="additionalTitles"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="textTitle"
-              textLabel="Title"
-            />
-          </div>
-        </div>
+            <div className="columns small-12">
+              <Link className="button" to="/publisher/activity/participating-organisation/participating-organisation/">Back to participating organigation</Link>
+              <button className="button float-right" type="submit" disabled={submitting}>
+                Continue to Region
+              </button>
+            </div>
+          </form>
         <FieldArray
           name="additionalDescription"
           component={renderDescription}

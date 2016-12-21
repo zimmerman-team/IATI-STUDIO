@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router'
+import { getCodeListItems, createActivity, addClassificationHumanitarian } from '../../../../actions/activity'
 
 const renderAdditionalRenderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -112,10 +113,24 @@ const validate = values => {
 };
 
 class HumanitarianScopeForm extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit classification's humanitarian data.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addClassificationHumanitarian(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/financial/financial');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('HumanitarianScopeType');
@@ -123,7 +138,11 @@ class HumanitarianScopeForm extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
+
+    if (!activity['HumanitarianScopeType'] || !activity['HumanitarianScopeVocabulary']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -131,20 +150,28 @@ class HumanitarianScopeForm extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderHumanitarianScopeForm
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderHumanitarianScopeForm
+              vocabularyOptions={activity["HumanitarianScopeVocabulary"]}
+              scopeOptions={activity["HumanitarianScopeType"]}
+              languageOptions={activity["Language"]}
+            />
+          </div>
+          <FieldArray
+            name="additionalHumanitarianScope"
+            component={renderAdditionalRenderHumanitarianScopeForm}
             vocabularyOptions={activity["HumanitarianScopeVocabulary"]}
             scopeOptions={activity["HumanitarianScopeType"]}
             languageOptions={activity["Language"]}
           />
-        </div>
-        <FieldArray
-          name="additionalHumanitarianScope"
-          component={renderAdditionalRenderHumanitarianScopeForm}
-          vocabularyOptions={activity["HumanitarianScopeVocabulary"]}
-          scopeOptions={activity["HumanitarianScopeType"]}
-          languageOptions={activity["Language"]}
-        />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/classification/country">Back to Country Budget</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Financial
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

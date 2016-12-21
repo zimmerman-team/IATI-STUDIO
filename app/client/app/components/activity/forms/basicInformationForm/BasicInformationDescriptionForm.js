@@ -5,7 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformationDescription } from '../../../../actions/activity'
 
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -45,7 +45,7 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
 );
 
 const validate = (values, dispatch) => {
-  const errors = {};
+  const errors = {};/*
   // dispatch.dispatch(validateForm());   @TODO for async validation
 
   if (!values.type) {
@@ -84,7 +84,7 @@ const validate = (values, dispatch) => {
     if (narrativeArrayErrors.length) {
       errors.additionalTitles = narrativeArrayErrors
     }
-  }
+  }*/
 
   return errors
 };
@@ -102,7 +102,7 @@ class BasicInformationDescriptionForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addBasicInformationDescription(formData, this.props.activity));
     this.context.router.push('/publisher/activity/basic-info/status');
   }
 
@@ -132,7 +132,7 @@ class BasicInformationDescriptionForm extends Component {
             <div className="field-list">
               <div className="row no-margin">
                 <Field
-                  name="type[code]"
+                  name="type"
                   component={renderSelectField}
                   label="Type"
                   selectOptions={activity["DescriptionType"]}
@@ -143,7 +143,7 @@ class BasicInformationDescriptionForm extends Component {
                   name="additionalTitles"
                   component={renderNarrativeFields}
                   languageOptions={activity["Language"]}
-                  textName="textTitle"
+                  textName="narratives"
                   textLabel="Text"
                 />
               </div>

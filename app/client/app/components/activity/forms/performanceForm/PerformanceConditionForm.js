@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import Tooltip from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addPerformanceCondition } from '../../../../actions/activity'
 
 const renderAdditionalRenderPerformanceConditionForm = ({fields, conditionOptions, languageOptions,
       meta: {touched, error}}) => (
@@ -37,16 +38,16 @@ const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
     <div className="row no-margin">
       <Field
         component={renderSelectField}
-        name="conditionAttached"
+        name="attached"
         label="Condition Attached"
-        selectOptions={conditionOptions}
+        selectOptions={[{code:'0', name:'False'}, {code:'1', name:'True'}]}
         defaultOption="Select one of the following options"
       />
     </div>
     <div className="row no-margin">
       <Field
         component={renderSelectField}
-        name="conditionType"
+        name="type"
         label="Condition Type"
         selectOptions={conditionOptions}
         defaultOption="Select one of the following options"
@@ -68,7 +69,7 @@ const RenderPerformanceConditionForm = ({conditionOptions, languageOptions}) =>
 const validate = values => {
   const errors = {};
 
-  if (!values.conditionType) {
+  if (!values.type) {
     errors.type = 'Required'
   }
   return errors
@@ -77,7 +78,22 @@ const validate = values => {
 class PerformanceConditionForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
+  /**
+   * Submit performance's comment data and redirect to result form
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addPerformanceCondition(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/performance/result');
   }
 
   componentWillMount() {
@@ -86,7 +102,7 @@ class PerformanceConditionForm extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {handleSubmit, submitting, activity} = this.props;
 
     if (!activity["ConditionType"] || !activity["Language"]) {
       return <GeneralLoader/>
@@ -98,18 +114,26 @@ class PerformanceConditionForm extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderPerformanceConditionForm
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderPerformanceConditionForm
+              conditionOptions={activity["ConditionType"]}
+              languageOptions={activity["Language"]}
+            />
+          </div>
+          <FieldArray
+            name="additionalHumanitarianScope"
+            component={renderAdditionalRenderPerformanceConditionForm}
             conditionOptions={activity["ConditionType"]}
             languageOptions={activity["Language"]}
           />
-        </div>
-        <FieldArray
-          name="additionalHumanitarianScope"
-          component={renderAdditionalRenderPerformanceConditionForm}
-          conditionOptions={activity["ConditionType"]}
-          languageOptions={activity["Language"]}
-        />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/relation/relation">Back to relation</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to performance result
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

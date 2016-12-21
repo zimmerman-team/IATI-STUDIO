@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router'
+import { getCodeListItems, createActivity, addGeopoliticalLocation } from '../../../../actions/activity'
 
 const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
@@ -254,8 +255,23 @@ const validate = values => {
 class LocationForm extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit geopolitical's location data and redirect to location form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addGeopoliticalLocation(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/classifications/sector');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('GeographicLocationReach');
@@ -265,7 +281,7 @@ class LocationForm extends React.Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
     return (
       <div className="columns small-centered small-12">
@@ -273,84 +289,92 @@ class LocationForm extends React.Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <div className="row no-margin">
-            <div className="columns small-12">
-              <div className="row no-margin">
-                <div className="columns small-6">
-                  <Field
-                    name="referenceText"
-                    type="text"
-                    component={renderField}
-                    label="Reference"
-                  />
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <div className="row no-margin">
+              <div className="columns small-12">
+                <div className="row no-margin">
+                  <div className="columns small-6">
+                    <Field
+                      name="referenceText"
+                      type="text"
+                      component={renderField}
+                      label="Reference"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="clearfix"></div>
-            <div className="columns small-12">
-              <h6>Location Reach</h6>
-              <div className="row no-margin">
-                {
-                  !activity["GeographicLocationReach"] ?
-                    <GeneralLoader/> :
-                    <Field
-                      component={renderSelectField}
-                      name="geographicLocationReach"
-                      label="Code"
-                      selectOptions={activity["GeographicLocationReach"]}
-                      defaultOption="Select one of the following options"
-                    />
-                }
+              <div className="clearfix"></div>
+              <div className="columns small-12">
+                <h6>Location Reach</h6>
+                <div className="row no-margin">
+                  {
+                    !activity["GeographicLocationReach"] ?
+                      <GeneralLoader/> :
+                      <Field
+                        component={renderSelectField}
+                        name="geographicLocationReach"
+                        label="Code"
+                        selectOptions={activity["GeographicLocationReach"]}
+                        defaultOption="Select one of the following options"
+                      />
+                  }
+                </div>
               </div>
+              <FieldArray
+                name="additionalLocation"
+                component={renderRegionFields}
+                geographicVocabularyOptions={activity["GeographicVocabulary"]}
+              />
+              <hr/>
+              <h6 className="columns">Name</h6>
+              <FieldArray
+                name="additionalName"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="name"
+                textLabel="Name"
+              />
+              <hr/>
+              <h6 className="columns">Location description</h6>
+              <FieldArray
+                name="additionalLocation"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="locationName"
+                textLabel="Location description"
+              />
+              <hr/>
+              <h6 className="columns">Activity description</h6>
+              <FieldArray
+                name="additionalActive"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="activeName"
+                textLabel="Activity description"
+              />
+              <hr/>
+              <FieldArray
+                name="administrative"
+                component={renderAdministrativeFields}
+                geographicVocabularyOptions={activity["GeographicVocabulary"]}
+              />
+              <hr/>
+              <FieldArray
+                name="point"
+                component={renderPointFields}
+                geographicExactnessOptions={activity["GeographicExactness"]}
+                geographicLocationClassOptions={activity["GeographicLocationClass"]}
+              />
             </div>
-            <FieldArray
-              name="additionalLocation"
-              component={renderRegionFields}
-              geographicVocabularyOptions={activity["GeographicVocabulary"]}
-            />
-            <hr/>
-            <h6 className="columns">Name</h6>
-            <FieldArray
-              name="additionalName"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="name"
-              textLabel="Name"
-            />
-            <hr/>
-            <h6 className="columns">Location description</h6>
-            <FieldArray
-              name="additionalLocation"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="locationName"
-              textLabel="Location description"
-            />
-            <hr/>
-            <h6 className="columns">Activity description</h6>
-            <FieldArray
-              name="additionalActive"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="activeName"
-              textLabel="Activity description"
-            />
-            <hr/>
-            <FieldArray
-              name="administrative"
-              component={renderAdministrativeFields}
-              geographicVocabularyOptions={activity["GeographicVocabulary"]}
-            />
-            <hr/>
-            <FieldArray
-              name="point"
-              component={renderPointFields}
-              geographicExactnessOptions={activity["GeographicExactness"]}
-              geographicLocationClassOptions={activity["GeographicLocationClass"]}
-            />
           </div>
-        </div>
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/geopolitical-information/region/">Back to region</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Classifications
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

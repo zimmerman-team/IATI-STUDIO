@@ -52,6 +52,17 @@ export const renderField = ({input, label, type, readOnly, onChange, meta: {touc
 );
 
 
+export const renderTextArea = ({textArea, label, type, readOnly, onChange, meta: { touched, error, warning }}) => (
+  <div>
+    <label>{label}</label>
+    <div>
+      <span>{textArea}</span>
+      <textarea {...textArea} placeholder="Content" rows="10" cols="40"></textarea>
+      {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+    </div>
+  </div>
+);
+
 /**
  * Prepare narrative fields html.
  *
@@ -67,12 +78,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
   <div>
     {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
     <div className="columns small-6">
-      <Field
-        name={textName}
-        type="text"
-        component={renderField}
-        label={textLabel}
-      />
+      <Field name={textName} type="text" component={renderField} label={textLabel}/>
     </div>
     <Field
       component={renderSelectField}
@@ -85,12 +91,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
       <div key={index}>
         {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
         <div className="columns small-6">
-          <Field
-            name={`${title}.text`}
-            type="text"
-            component={renderField}
-            label="Title"
-          />
+          <Field name={`${title}.text`} type="text" component={renderField} label={textLabel}/>
         </div>
         <Field
           component={renderSelectField}
@@ -169,24 +170,17 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
       </div>
     </div>
     <div className="row no-margin">
-      <div className="columns small-6">
-        <Field
-          component={renderSelectField}
-          name="type"
-          label="type"
-          selectOptions={organisationOptions}
-          defaultOption="Select a type"
-        />
-      </div>
+      <Field
+        component={renderSelectField}
+        name="OrgType"
+        label="Type"
+        selectOptions={organisationOptions}
+        defaultOption="Select a type"
+      />
     </div>
     {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
     <div className="columns small-6">
-      <Field
-        name={textName}
-        type="text"
-        component={renderField}
-        label={textLabel}
-      />
+      <Field name={textName} component={renderTextArea} label={textLabel}/>
     </div>
     <Field
       component={renderSelectField}
@@ -199,12 +193,7 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
       <div key={index}>
         {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
         <div className="columns small-6">
-          <Field
-            name={`${title}.text`}
-            type="text"
-            component={renderField}
-            label="Title"
-          />
+          <Field name={`${title}.text`} component={renderTextArea} label="Title"/>
         </div>
         <Field
           component={renderSelectField}

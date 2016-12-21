@@ -1,9 +1,10 @@
-import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import { getCodeListItems } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, addParticipatingOrganisation } from '../../../../actions/activity'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 
 const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions}) => (
@@ -182,20 +183,35 @@ const validate = values => {
   return errors
 };
 
-class ParticipatingOrganisationForm extends React.Component {
+class ParticipatingOrganisationForm extends Component {
 
   constructor(props) {
-    super(props)
+      super(props);
+      this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentWillMount() {
-    this.props.getCodeListItems('OrganisationRole');
-    this.props.getCodeListItems('OrganisationType');
+      this.props.dispatch(getCodeListItems('OrganisationRole'));
+      this.props.dispatch(getCodeListItems('OrganisationType'));
   }
 
-  render() {
-    const {handleSubmit, submitting, previousPage, activity} = this.props;
+  /**
+   * Submit relations data and redirect
+   * to performance form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+      this.props.dispatch(addParticipatingOrganisation(formData, this.props.activity));
+      this.context.router.push('/publisher/activity/geopolitical-information/geopolitical-information')
+  }
 
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
+  render() {
+    const {handleSubmit, submitting, activity} = this.props;
     if (!activity["OrganisationRole"] || !activity["OrganisationType"]) {
       return <GeneralLoader/>
     }
@@ -209,7 +225,7 @@ class ParticipatingOrganisationForm extends React.Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit} name="participatingOrganisation">
+        <form onSubmit={handleSubmit(this.handleFormSubmit)} name="participatingOrganisation">
           <div className="row no-margin">
             <div className="columns small-12">
               <h6>Participating organisation </h6>
@@ -222,13 +238,11 @@ class ParticipatingOrganisationForm extends React.Component {
               />
             </div>
           </div>
-          <div className="row no-margin">
-            <div className="columns small-12">
-              <button type="button" className="button" onClick={previousPage}>Back to basic information</button>
-              <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to geopolitical information
-              </button>
-            </div>
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/basic-info/basic-info">Back to basic information</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to geopolitical information
+            </button>
           </div>
         </form>
       </div>

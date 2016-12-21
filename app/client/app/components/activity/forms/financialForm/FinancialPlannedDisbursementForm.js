@@ -5,7 +5,7 @@ import {renderField, renderSelectField, renderOrgFields} from '../../helpers/For
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import { Link } from 'react-router';
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addFinancialPlannedDisbursements } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions,
     languageOptions, organisationOptions, meta: {touched, error}}) => (
@@ -35,8 +35,7 @@ const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disburs
 
 
 const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, currencyOptions,
-    languageOptions, organisationOptions}) =>
- (
+    languageOptions, organisationOptions}) => (
   <div>
     <div className="row no-margin">
       {
@@ -44,7 +43,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
           <GeneralLoader/> :
           <Field
             component={renderSelectField}
-            name="disbursementChannelOptions"
+            name="type"
             label="Type"
             selectOptions={disbursementChannelOptions}
             defaultOption="Select one of the following options"
@@ -55,7 +54,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
       <div className="columns small-6">
         Period start
         <Field
-          name="dateStart"
+          name="period_start"
           type="date"
           component={renderField}
           label="Date"
@@ -66,7 +65,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
       <div className="columns small-6">
         Period end
         <Field
-          name="dateEnd"
+          name="period_end"
           type="date"
           component={renderField}
           label="Date"
@@ -83,14 +82,17 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
           label="Amount"
         />
       </div>
-      <div className="columns small-6">
-        <Field
-          name="date"
-          type="text"
-          component={renderField}
-          label="Currency"
-        />
-      </div>
+      {
+        !currencyOptions ?
+          <GeneralLoader/> :
+          <Field
+            component={renderSelectField}
+            name="currency"
+            label="Currency"
+            selectOptions={currencyOptions}
+            defaultOption="Select one of the following options"
+          />
+      }
     </div>
     <div className="row no-margin">
       <div className="columns small-6">
@@ -130,7 +132,7 @@ const RenderFinancialPlannedDisbursementForm = ({disbursementChannelOptions, cur
 const validate = values => {
   const errors = {};
 
-  if (!values.ReceiverOrg) {
+  if (!values.type) {
     errors.type = 'Required'
   }
   return errors
@@ -149,7 +151,7 @@ class FinancialPlannedDisbursement extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addFinancialPlannedDisbursements(formData, this.props.activity));
     this.context.router.push('/publisher/activity/financial/transaction');
   }
 

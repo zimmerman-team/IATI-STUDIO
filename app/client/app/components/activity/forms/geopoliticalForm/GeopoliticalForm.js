@@ -1,6 +1,4 @@
 import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import RecipientCountryForm from './GeopoliticalCountryForm'
 import RecipientRegionForm from './GeopoliticalRegionForm'
 import LocationForm from './GeopoliticalLocationForm'
@@ -11,8 +9,24 @@ class GeopoliticalForm extends React.Component {
     super(props)
   }
 
+  static getFormSubComponentComponentFromRoute(subTab) {
+
+    switch(subTab) {
+      case 'country':
+        return <RecipientCountryForm/>;
+      case 'region':
+        return <RecipientRegionForm/>;
+      case 'location':
+        return <LocationForm/>;
+
+      default:
+        return <RecipientCountryForm/>;
+    }
+  }
+
   render() {
-    const {handleSubmit, pristine, reset, submitting, previousPage, activity} = this.props;
+    const {subTab} = this.props;
+    const formSubComponent = GeopoliticalForm.getFormSubComponentComponentFromRoute(subTab);
 
     return (
       <div>
@@ -22,25 +36,9 @@ class GeopoliticalForm extends React.Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <RecipientCountryForm/>
-          <RecipientRegionForm/>
-          <LocationForm/>
-          <div className="row no-margin">
-            <div className="columns small-12">
-              <button type="button" className="button" onClick={previousPage}>Back to participating organisations</button>
-              <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to participating organisations
-              </button>
-            </div>
-          </div>
-        </form>
+        {formSubComponent}
       </div>
     )
   }
 }
-export default reduxForm({
-  form: 'geopolitical-information',
-  destroyOnUnmount: false,
-
-})(GeopoliticalForm)
+export default GeopoliticalForm;

@@ -65,15 +65,13 @@ class DocumentLinkForm extends Component {
                   label="URL"
                 />
               </div>
-              <div className="columns small-6">
-                <Field
-                  component={renderSelectField}
-                  name="format"
-                  label="Format"
-                  selectOptions={activity['FileFormat']}
-                  defaultOption="Select one of the following options"
-                />
-              </div>
+              <Field
+                component={renderSelectField}
+                name="format"
+                label="Format"
+                selectOptions={activity['FileFormat']}
+                defaultOption="Select one of the following options"
+              />
             </div>
             <div className="row no-margin">
               <FieldArray
@@ -96,12 +94,14 @@ class DocumentLinkForm extends Component {
               label='Language'
               selectOptions={activity['Language']}
               defaultOption="Select one of the following options"/>
-            <Field
-              name="document_date"
-              type="text"
-              component={renderField}
-              label="Document Date"
-            />
+            <div className="columns small-6">
+              <Field
+                name="document_date"
+                type="date"
+                component={renderField}
+                label="Document Date"
+              />
+            </div>
             <div className="row no-margin">
               <div className="columns small-12">
                 <button type="button" className="button" onClick={previousPage}>Back to Relations</button>

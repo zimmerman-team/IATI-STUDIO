@@ -89,8 +89,17 @@ class IdentificationForm extends Component {
     router: PropTypes.object,
   };
 
+  componentWillMount() {
+    this.props.getCodeListItems('Language');
+  }
+
   render() {
     const {submitting, activity, handleSubmit } = this.props;
+
+    if (!activity["Language"]) {
+      return <GeneralLoader/>
+    }
+
     return (
       <div>
         <div className="row controls">
@@ -101,42 +110,54 @@ class IdentificationForm extends Component {
           </div>
         </div>
         <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
-          <FieldArray
-            name="additionalTitles"
-            component={renderNarrativeFields}
-            languageOptions={activity["Language"]}
-            narrativeLabel={false}
-            textName="textTitle"
-            textLabel="Title"
-          />
-          <div className="columns small-6">
-            <Field
-              name="activityIdentifier"
-              type="text"
-              id="activityIdentifier"
-              component={renderField}
-              label="Activity Identifier"
-              //onChange={this.handleChange.bind(this)}
+          <div className="field-list">
+            <div className="row no-margin">
+            <div className="columns small-6">
+              <Field
+                name="title"
+                type="text"
+                component={renderField}
+                label="Title"
+              />
+            </div>
+            <hr/>
+            <FieldArray
+              name="additionalTitles"
+              component={renderNarrativeFields}
+              languageOptions={activity["Language"]}
+              textName="textTitle"
+              textLabel="Text"
             />
-          </div>
-          <div className="columns small-6">
-            <Field
-              name="iati_identifier"
-              type="text"
-              id="iati_identifier"
-              component={renderField}
-              label="IATI Identifier"
-              //readOnly="true"
-            />
-          </div>
-          <div className="columns small-6">
-            <Field
-              name="hierarchy"
-              type="number"
-              id="hierarchy"
-              component={renderField}
-              label="Hierarchy"
-            />
+            <div className="columns small-6">
+              <Field
+                name="activityIdentifier"
+                type="text"
+                id="activityIdentifier"
+                component={renderField}
+                label="Activity Identifier"
+                //onChange={this.handleChange.bind(this)}
+              />
+            </div>
+            <div className="columns small-6">
+              <Field
+                name="iati_identifier"
+                type="text"
+                id="iati_identifier"
+                component={renderField}
+                label="IATI Identifier"
+                //readOnly="true"
+              />
+            </div>
+            <div className="columns small-6">
+              <Field
+                name="hierarchy"
+                type="number"
+                id="hierarchy"
+                component={renderField}
+                label="Hierarchy"
+              />
+            </div>
+            </div>
           </div>
           <div className="columns small-12">
             <button className="button" type="submit" disabled={submitting}>

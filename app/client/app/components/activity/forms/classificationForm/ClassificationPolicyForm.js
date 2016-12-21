@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router'
+import { getCodeListItems, createActivity, addClassificationPolicy } from '../../../../actions/activity'
 
 const renderPolicy = ({fields, languageOptions, policyCodeOptions, policyVocabularyOptions, meta: {touched, error}}) => (
   <div>
@@ -89,10 +90,24 @@ const validate = values => {
 };
 
 class PolicyMakerForm extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit classification's policy data.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addClassificationPolicy(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/classification/select');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('PolicyMarker');
@@ -100,7 +115,11 @@ class PolicyMakerForm extends React.Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
+
+    if (!activity['PolicyMarker'] || !activity['PolicyMarkerVocabulary']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -108,67 +127,75 @@ class PolicyMakerForm extends React.Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <div className="row no-margin">
-            {
-              !activity["PolicyMarker"] ?
-                <GeneralLoader/> :
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <div className="row no-margin">
+              {
+                !activity["PolicyMarker"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="policy[code]"
+                    label="Policy code"
+                    selectOptions={activity["PolicyMarker"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+              {
+                !activity["PolicyMarkerVocabulary"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="policyMarkerVocabulary[code]"
+                    label="Policy Vocabulary"
+                    selectOptions={activity["PolicyMarkerVocabulary"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+            </div>
+            <div className="row no-margin">
+              <div className="columns small-6">
                 <Field
-                  component={renderSelectField}
-                  name="policy[code]"
-                  label="Policy code"
-                  selectOptions={activity["PolicyMarker"]}
-                  defaultOption="Select one of the following options"
+                  name="uriPolicyText"
+                  type="text"
+                  component={renderField}
+                  label="Vocabulary URI"
                 />
-            }
-            {
-              !activity["PolicyMarkerVocabulary"] ?
-                <GeneralLoader/> :
+              </div>
+              <div className="columns small-6">
                 <Field
-                  component={renderSelectField}
-                  name="policyMarkerVocabulary[code]"
-                  label="Policy Vocabulary"
-                  selectOptions={activity["PolicyMarkerVocabulary"]}
-                  defaultOption="Select one of the following options"
+                  name="percentagePolicyText"
+                  type="text"
+                  component={renderField}
+                  label="Percentage"
                 />
-            }
-          </div>
-          <div className="row no-margin">
-            <div className="columns small-6">
-              <Field
-                name="uriPolicyText"
-                type="text"
-                component={renderField}
-                label="Vocabulary URI"
+              </div>
+            </div>
+            <div className="row no-margin">
+              <FieldArray
+                name="additionalTitles"
+                component={renderNarrativeFields}
+                narrativeAddMore={false}
+                languageOptions={activity["Language"]}
+                textName="textPolicyTitle"
+                textLabel="Title"
               />
             </div>
-            <div className="columns small-6">
-              <Field
-                name="percentagePolicyText"
-                type="text"
-                component={renderField}
-                label="Percentage"
-              />
-            </div>
           </div>
-          <div className="row no-margin">
-            <FieldArray
-              name="additionalTitles"
-              component={renderNarrativeFields}
-              narrativeAddMore={false}
-              languageOptions={activity["Language"]}
-              textName="textPolicyTitle"
-              textLabel="Title"
-            />
+          <FieldArray
+            name="additionalPolicy"
+            component={renderPolicy}
+            languageOptions={activity["Language"]}
+            policyCodeOptions={activity["PolicyMarker"]}
+            policyVocabularyOptions={activity["PolicyMarkerVocabulary"]}
+          />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/classification/sector">Back to Sector</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Selection
+            </button>
           </div>
-        </div>
-        <FieldArray
-          name="additionalPolicy"
-          component={renderPolicy}
-          languageOptions={activity["Language"]}
-          policyCodeOptions={activity["PolicyMarker"]}
-          policyVocabularyOptions={activity["PolicyMarkerVocabulary"]}
-        />
+        </form>
       </div>
     )
   }

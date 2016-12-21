@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {renderSelectField} from '../../helpers/FormHelper'
+import {renderSelectField, renderNarrativeFields, renderField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformationContact } from '../../../../actions/activity'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -42,7 +42,7 @@ const renderParticipatingContact = ({fields, languageOptions, contactTypes}) => 
   <div>
     <div className="field-list">
       <Field
-        name="contactType"
+        name="type"
         component={renderSelectField}
         label="Contact type"
         selectOptions={contactTypes}
@@ -414,7 +414,7 @@ const renderContactMailAddress = ({fields, meta: {error}}) => (
 const validate = values => {
   const errors = {};
 
-  if (!values.contactType) {
+  if (!values.type) {
     errors.type = 'Required'
   }
 
@@ -439,7 +439,7 @@ class BasicInformationContactForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addBasicInformationContact(formData, this.props.activity));
     this.context.router.push('/publisher/activity/participating-organisation/participating-organisation');
   }
 

@@ -5,7 +5,7 @@ import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addFinancialBudgets } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, error}}) => (
   <div>
@@ -40,29 +40,29 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
           <GeneralLoader/> :
           <Field
             component={renderSelectField}
-            name="budgetTypeOptions"
+            name="type"
             label="Budget Type Options"
             selectOptions={budgetTypeOptions}
             defaultOption="Select one of the following options"
           />
       }
-        {
-          !budgetStatusOptions ?
-            <GeneralLoader/> :
-            <Field
-              component={renderSelectField}
-              name="budgetStatusOptions "
-              label="Budget Status Options"
-              selectOptions={budgetStatusOptions}
-              defaultOption="Select one of the following options"
-            />
-        }
+      {
+        !budgetStatusOptions ?
+          <GeneralLoader/> :
+          <Field
+            component={renderSelectField}
+            name="status"
+            label="Budget Status Options"
+            selectOptions={budgetStatusOptions}
+            defaultOption="Select one of the following options"
+          />
+      }
     </div>
     <div className="row no-margin">
       <div className="columns small-6">
         Period start
         <Field
-          name="dateStart"
+          name="period_start"
           type="date"
           component={renderField}
           label="Date"
@@ -73,7 +73,7 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
       <div className="columns small-6">
         Period end
         <Field
-          name="dateEnd"
+          name="period_end"
           type="date"
           component={renderField}
           label="Date"
@@ -90,14 +90,17 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
           label="Amount"
         />
       </div>
-      <div className="columns small-6">
-        <Field
-          name="date"
-          type="text"
-          component={renderField}
-          label="Currency"
-        />
-      </div>
+      {
+        !currencyOptions ?
+          <GeneralLoader/> :
+          <Field
+            component={renderSelectField}
+            name="currency"
+            label="Currency"
+            selectOptions={currencyOptions}
+            defaultOption="Select one of the following options"
+          />
+      }
     </div>
     <div className="row no-margin">
       <div className="columns small-6">
@@ -115,8 +118,8 @@ const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, curr
 const validate = values => {
   const errors = {};
 
-  if (!values.date) {
-    errors.type = 'Required'
+  if (!values.status) {
+    errors.status = 'Required'
   }
   return errors
 };
@@ -134,7 +137,7 @@ class FinancialBudgetForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addFinancialBudgets(formData, this.props.activity));
     this.context.router.push('/publisher/activity/financial/planned-disbursement');
   }
 

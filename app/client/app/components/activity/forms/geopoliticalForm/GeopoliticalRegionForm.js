@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addGeopoliticalRegion } from '../../../../actions/activity'
 
 const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error}}) => (
   <div>
@@ -70,8 +71,23 @@ const validate = values => {
 class RecipientRegionForm extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit geopolitical's region data and redirect to location form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addGeopoliticalRegion(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/geopolitical-information/location');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('Region');
@@ -79,7 +95,7 @@ class RecipientRegionForm extends React.Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
 
     return (
       <div className="columns small-centered small-12">
@@ -87,59 +103,67 @@ class RecipientRegionForm extends React.Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <div className="row no-margin">
-            {
-              !activity["Region"] ?
-                <GeneralLoader/> :
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <div className="row no-margin">
+              {
+                !activity["Region"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="region"
+                    label="Region code"
+                    selectOptions={activity["Region"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+              {
+                !activity["RegionVocabulary"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="regionVocabulary"
+                    label="Region vocabulary"
+                    selectOptions={activity["RegionVocabulary"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+            </div>
+            <div className="row no-margin">
+              <div className="columns small-6">
                 <Field
-                  component={renderSelectField}
-                  name="region"
-                  label="Region code"
-                  selectOptions={activity["Region"]}
-                  defaultOption="Select one of the following options"
+                  name="uriText"
+                  type="text"
+                  component={renderField}
+                  label="Vocabulary URI"
                 />
-            }
-            {
-              !activity["RegionVocabulary"] ?
-                <GeneralLoader/> :
+              </div>
+              <div className="columns small-6">
                 <Field
-                  component={renderSelectField}
-                  name="regionVocabulary"
-                  label="Region vocabulary"
-                  selectOptions={activity["RegionVocabulary"]}
-                  defaultOption="Select one of the following options"
+                  name="percentageText"
+                  type="text"
+                  component={renderField}
+                  label="Percentage"
                 />
-            }
-          </div>
-          <div className="row no-margin">
-            <div className="columns small-6">
-              <Field
-                name="uriText"
-                type="text"
-                component={renderField}
-                label="Vocabulary URI"
+              </div>
+            </div>
+            <div className="row no-margin">
+              <FieldArray
+                name="additionalTitles"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="textTitle"
+                textLabel="Title"
               />
             </div>
-            <div className="columns small-6">
-              <Field
-                name="percentageText"
-                type="text"
-                component={renderField}
-                label="Percentage"
-              />
-            </div>
           </div>
-          <div className="row no-margin">
-            <FieldArray
-              name="additionalTitles"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="textTitle"
-              textLabel="Title"
-            />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/geopolitical-information/country/">Back to participating organigation</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Location
+            </button>
           </div>
-        </div>
+        </form>
         <FieldArray
           name="additionalRegion"
           component={renderAdditionalRegion}

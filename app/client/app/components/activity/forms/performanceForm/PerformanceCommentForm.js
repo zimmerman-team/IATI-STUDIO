@@ -3,7 +3,8 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField} from '../../helpers/FormHelper'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addPerformanceComment } from '../../../../actions/activity'
 
 const renderAdditionalRenderPerformanceCommentForm = ({fields, meta: {touched, error}}) => (
   <div>
@@ -72,23 +73,43 @@ const validate = values => {
 class PerformanceCommentForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+
+  /**
+   * Submit performance's comment data
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addPerformanceComment(formData, this.props.activity));
   }
 
   render() {
+    const {handleSubmit, submitting} = this.props;
+
     return (
       <div className="columns small-centered small-12">
         <h2 className="page-title with-tip">Comment</h2>
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderPerformanceCommentForm/>
-        </div>
-        <FieldArray
-          name="additionalCommentScope"
-          component={renderAdditionalRenderPerformanceCommentForm}
-        />
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderPerformanceCommentForm/>
+          </div>
+          <FieldArray
+            name="additionalCommentScope"
+            component={renderAdditionalRenderPerformanceCommentForm}
+          />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/performance/result">Back to performance result</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

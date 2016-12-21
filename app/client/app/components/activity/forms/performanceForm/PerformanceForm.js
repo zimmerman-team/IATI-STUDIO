@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {reduxForm} from "redux-form";
 import PerformanceConditionForm from "./PerformanceConditionForm";
 import PerformanceResultForm from "./PerformanceResultForm";
 import PerformanceCommentForm from "./PerformanceCommentForm";
@@ -7,14 +6,26 @@ import PerformanceCommentForm from "./PerformanceCommentForm";
 class PerformanceForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
-  componentWillMount() {
+  static getFormSubComponentComponentFromRoute(subTab) {
+    switch(subTab) {
+      case 'condition':
+        return <PerformanceConditionForm/>;
+      case 'result':
+        return <PerformanceResultForm/>;
+      case 'comment':
+        return <PerformanceCommentForm/>;
+
+      default:
+        return <PerformanceConditionForm/>;
+    }
   }
 
   render() {
-    const {handleSubmit, submitting, previousPage} = this.props;
+    const {subTab} = this.props;
+    const formSubComponent = PerformanceForm.getFormSubComponentComponentFromRoute(subTab);
 
     return (
       <div>
@@ -24,27 +35,10 @@ class PerformanceForm extends Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="field-list">
-            <PerformanceConditionForm/>
-            <PerformanceResultForm/>
-            <PerformanceCommentForm/>
-          </div>
-        </form>
-        <div className="row no-margin">
-          <div className="columns small-12">
-            <button type="button" className="button" onClick={previousPage}>Back to Classifications</button>
-            <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-              Continue to Document Link
-            </button>
-          </div>
-        </div>
+        {formSubComponent}
       </div>
     )
   }
 }
 
-export default reduxForm({
-  form: 'performance',
-  destroyOnUnmount: false
-})(PerformanceForm)
+export default PerformanceForm;

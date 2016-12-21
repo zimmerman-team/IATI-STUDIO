@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router'
+import { getCodeListItems, createActivity, addClassificationSector } from '../../../../actions/activity'
 
 const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorOptions, meta: {touched, error}}) => (
   <div>
@@ -83,11 +84,26 @@ const validate = values => {
   return errors
 };
 
-class SectorForm extends React.Component {
+class SectorForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+  /**
+   * Submit classification's select data and redirect to status form.
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addClassificationSector(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/classification/policy');
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentWillMount() {
     this.props.getCodeListItems('SectorVocabulary');
@@ -95,7 +111,11 @@ class SectorForm extends React.Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {activity, handleSubmit, submitting} = this.props;
+
+    if (!activity['SectorVocabulary'] || !activity['Sector']) {
+      return <GeneralLoader />
+    }
 
     return (
       <div className="columns small-centered small-12">
@@ -103,62 +123,70 @@ class SectorForm extends React.Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <div className="row no-margin">
-            {
-              !activity["SectorVocabulary"] ?
-                <GeneralLoader/> :
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <div className="row no-margin">
+              {
+                !activity["SectorVocabulary"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="sectorVocabulary[code]"
+                    label="Sector vocabulary"
+                    selectOptions={activity["SectorVocabulary"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+              <div className="columns small-6">
                 <Field
-                  component={renderSelectField}
-                  name="sectorVocabulary[code]"
-                  label="Sector vocabulary"
-                  selectOptions={activity["SectorVocabulary"]}
-                  defaultOption="Select one of the following options"
+                  name="uriSectorText"
+                  type="text"
+                  component={renderField}
+                  label="Vocabulary URI"
                 />
-            }
-            <div className="columns small-6">
-              <Field
-                name="uriSectorText"
-                type="text"
-                component={renderField}
-                label="Vocabulary URI"
+              </div>
+              {
+                !activity["Sector"] ?
+                  <GeneralLoader/> :
+                  <Field
+                    component={renderSelectField}
+                    name="sector[code]"
+                    label="Sector code"
+                    selectOptions={activity["Sector"]}
+                    defaultOption="Select one of the following options"
+                  />
+              }
+              <div className="columns small-6">
+                <Field
+                  name="SectorText"
+                  type="text"
+                  component={renderField}
+                  label="Percentage"
+                />
+              </div>
+              <FieldArray
+                name="additionalTitles"
+                component={renderNarrativeFields}
+                languageOptions={activity["Language"]}
+                textName="textSectorTitle"
+                textLabel="Title"
               />
             </div>
-            {
-              !activity["Sector"] ?
-                <GeneralLoader/> :
-                <Field
-                  component={renderSelectField}
-                  name="sector[code]"
-                  label="Sector code"
-                  selectOptions={activity["Sector"]}
-                  defaultOption="Select one of the following options"
-                />
-            }
-            <div className="columns small-6">
-              <Field
-                name="SectorText"
-                type="text"
-                component={renderField}
-                label="Percentage"
-              />
-            </div>
-            <FieldArray
-              name="additionalTitles"
-              component={renderNarrativeFields}
-              languageOptions={activity["Language"]}
-              textName="textSectorTitle"
-              textLabel="Title"
-            />
           </div>
-        </div>
-        <FieldArray
-          name="additionalSector"
-          component={renderSector}
-          languageOptions={activity["Language"]}
-          sectorVocabularyOptions={activity["SectorVocabulary"]}
-          sectorOptions={activity["Sector"]}
-        />
+          <FieldArray
+            name="additionalSector"
+            component={renderSector}
+            languageOptions={activity["Language"]}
+            sectorVocabularyOptions={activity["SectorVocabulary"]}
+            sectorOptions={activity["Sector"]}
+          />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/geopolitical/geopolitical">Back to Geopolitical</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to Policy
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

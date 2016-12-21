@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity } from '../../../../actions/activity'
+import { Link } from 'react-router';
+import { getCodeListItems, createActivity, addPerformanceResult } from '../../../../actions/activity'
 
 const renderAdditionalRenderPerformanceResultForm = ({fields, resultOptions, languageOptions, indicatorMeasureOptions,
     indicatorVocabularyOptions, meta: {touched, error}}) => (
@@ -327,7 +328,22 @@ const validate = values => {
 class PerformanceResultForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
+  /**
+   * Submit performance's comment data and redirect to comment form
+   *
+   * @param formData
+   */
+  handleFormSubmit(formData) {
+    this.props.dispatch(addPerformanceResult(formData, this.props.activity));
+    this.context.router.push('/publisher/activity/performance/comment');
   }
 
   componentWillMount() {
@@ -338,7 +354,7 @@ class PerformanceResultForm extends Component {
   }
 
   render() {
-    const {activity} = this.props;
+    const {handleSubmit, submitting, activity} = this.props;
 
     if (!activity["ResultType"] || !activity["Language"] || !activity["IndicatorMeasure"] || !activity["IndicatorVocabulary"]) {
       return <GeneralLoader/>
@@ -350,20 +366,28 @@ class PerformanceResultForm extends Component {
         <Tooltip className="inline" tooltip="Description text goes here">
           <i className="material-icons">info</i>
         </Tooltip>
-        <div className="field-list">
-          <RenderPerformanceResultForm
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <div className="field-list">
+            <RenderPerformanceResultForm
+              resultOptions={activity["ResultType"]}
+              languageOptions={activity["Language"]}
+              indicatorMeasureOptions={activity["IndicatorMeasure"]}
+              indicatorVocabularyOptions={activity["IndicatorVocabulary"]}
+            />
+          </div>
+          <FieldArray
+            name="additionalHumanitarianScope"
+            component={renderAdditionalRenderPerformanceResultForm}
             resultOptions={activity["ResultType"]}
             languageOptions={activity["Language"]}
-            indicatorMeasureOptions={activity["IndicatorMeasure"]}
-            indicatorVocabularyOptions={activity["IndicatorVocabulary"]}
           />
-        </div>
-        <FieldArray
-          name="additionalHumanitarianScope"
-          component={renderAdditionalRenderPerformanceResultForm}
-          resultOptions={activity["ResultType"]}
-          languageOptions={activity["Language"]}
-        />
+          <div className="columns small-12">
+            <Link className="button" to="/publisher/activity/performance/condition">Back to performance condition</Link>
+            <button className="button float-right" type="submit" disabled={submitting}>
+              Continue to performance comment
+            </button>
+          </div>
+        </form>
       </div>
     )
   }

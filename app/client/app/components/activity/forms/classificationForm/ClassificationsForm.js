@@ -1,33 +1,35 @@
-import React from 'react'
-import {reduxForm} from 'redux-form'
-import {connect} from 'react-redux'
-import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import React, { Component } from 'react'
 import SectorForm from './ClassificationSectorForm'
 import PolicyMakerForm from './ClassificationPolicyForm'
 import CountryBudgetForm from './ClassificationCountryBudgetForm'
+import SelectForm from './ClassificationSelectForm'
 import HumanitarianScopeForm from './ClassificationHumanitarianScopeForm'
-import { getCodeListItems } from '../../../../actions/activity'
-import {renderNarrativeFields, renderField, renderSelectField, RenderSingleSelect} from '../../helpers/FormHelper'
 
-class ClassificationsForm extends React.Component {
-
+class ClassificationsForm extends Component {
   constructor(props) {
     super(props)
   }
-  componentWillMount() {
-    this.props.getCodeListItems('CollaborationType');
-    this.props.getCodeListItems('FlowType');
-    this.props.getCodeListItems('FinanceType');
-    this.props.getCodeListItems('AidType');
-    this.props.getCodeListItems('TiedStatus');
+
+  static getFormSubComponentComponentFromRoute(subTab) {
+    switch(subTab) {
+      case 'sector':
+        return <SectorForm/>;
+      case 'policy':
+        return <PolicyMakerForm/>;
+      case 'select':
+        return <SelectForm/>;
+      case 'country':
+        return <CountryBudgetForm/>;
+      case 'humanitarian':
+        return <HumanitarianScopeForm/>;
+      default:
+        return <SectorForm/>;
+    }
   }
 
   render() {
-    const {handleSubmit, submitting, previousPage, activity} = this.props;
-    if (!activity['CollaborationType'] || !activity['FlowType'] || !activity['FinanceType']
-      || !activity['AidType'] || !activity['TiedStatus']) {
-          return <GeneralLoader />
-    }
+    const {subTab} = this.props;
+    const formSubComponent = ClassificationsForm.getFormSubComponentComponentFromRoute(subTab);
 
     return (
       <div>
@@ -37,56 +39,10 @@ class ClassificationsForm extends React.Component {
             <hr />
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <SectorForm/>
-          <PolicyMakerForm/>
-          <RenderSingleSelect
-            name='collaborationType'
-            label='Collaboration Type'
-            selectOptions={activity['CollaborationType']}/>
-          <RenderSingleSelect
-            name='flowType'
-            label='Default Flow Type'
-            selectOptions={activity['FlowType']}/>
-          <RenderSingleSelect
-            name='financeType'
-            label='Default Finance Type'
-            selectOptions={activity['FinanceType']}/>
-          <RenderSingleSelect
-            name='aidType'
-            label='Default Aid Type'
-            selectOptions={activity['AidType']}/>
-          <RenderSingleSelect
-            name='tiedStatus'
-            label='Default Tied Type'
-            selectOptions={activity['TiedStatus']}/>
-          <CountryBudgetForm/>
-          <HumanitarianScopeForm/>
-          <div className="row no-margin">
-            <div className="columns small-12">
-              <button type="button" className="button" onClick={previousPage}>Back to Geopolitical Information</button>
-              <button className="button float-right" type="submit" disabled={submitting} onClick={handleSubmit}>
-                Continue to Financial
-              </button>
-            </div>
-          </div>
-        </form>
+        {formSubComponent}
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
-}
-
-ClassificationsForm = reduxForm({
-  form: 'classification',
-  destroyOnUnmount: false,
-})(ClassificationsForm);
-
-
-ClassificationsForm = connect(mapStateToProps, {getCodeListItems})(ClassificationsForm);
 export default ClassificationsForm;

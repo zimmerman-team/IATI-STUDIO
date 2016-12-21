@@ -5,7 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity, addBasicInformation } from '../../../../actions/activity'
+import { getCodeListItems, createActivity, addBasicInformationDate } from '../../../../actions/activity'
 
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -13,7 +13,7 @@ const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
       <div key={index}>
         <div className="columns small-6">
           <Field
-            name={`${description}.date`}
+            name={`${description}.iso_date`}
             type="text"
             component={renderField}
             label="Date"
@@ -21,7 +21,7 @@ const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
         </div>
         <hr/>
         <FieldArray
-          name={`${description}.additionalNarratives`}
+          name={`${description}.type`}
           component={renderNarrativeFields}
           languageOptions={languageOptions}
           textName={`${description}.narrativeText`}
@@ -35,14 +35,8 @@ const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
 const validate = values => {
   const errors = {};
 
-  if (!values.date) {
-    errors.type = 'Required'
-  }
-
-  if (!values.narrative) {
-    const narrativeTextObj = {};
-    narrativeTextObj.text = 'Required';
-    errors.narrative = narrativeTextObj
+  if (!values.iso_date) {
+    errors.iso_date = 'Required'
   }
 
   return errors
@@ -62,7 +56,7 @@ class BasicInformationDateForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformation(formData, this.props.activity));
+    this.props.dispatch(addBasicInformationDate(formData, this.props.activity));
     this.context.router.push('/publisher/activity/basic-info/contact');
   }
 
@@ -92,14 +86,14 @@ class BasicInformationDateForm extends Component {
             <div className="row no-margin">
               <div className="columns small-6">
                 <Field
-                  name="date"
-                  type="text"
+                  name="iso_date"
+                  type="date"
                   component={renderField}
                   label="Date"
                 />
               </div>
               <Field
-                name="dateType"
+                name="type"
                 component={renderSelectField}
                 label="Type"
                 selectOptions={activity["ActivityDateType"]}
