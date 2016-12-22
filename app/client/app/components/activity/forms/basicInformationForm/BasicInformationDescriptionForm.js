@@ -8,6 +8,8 @@ import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper
 import { getCodeListItems, getDescriptions, createDescription, updateDescription, deleteDescription } from '../../../../actions/activity'
 import { withRouter } from 'react-router'
 
+import uuidV4 from 'uuid/v4'
+
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
     <div className="columns small-6">
         <div>
@@ -35,17 +37,15 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
                     />
                     <hr/>
                     <FieldArray
-                        name={`${description}.additionalTitles`}
+                        name={`${description}.narratives`}
                         component={renderNarrativeFields}
                         languageOptions={languageOptions}
-                        textName={`${description}.narrativeText`}
-                        textLabel="Title"
                     />
                 </div>
             </div>
             )}
             <div className="columns">
-                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                <button className="control-button add" type="button" onClick={() => fields.push({ _id: uuidV4() })}>Add More</button>
                 <button
                     type="button"
                     title="Remove Title"
@@ -58,48 +58,43 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
 );
 
 const validate = (values, dispatch) => {
-    const errors = {};
+    let errors = {};
     // dispatch.dispatch(validateForm());   @TODO for async validation
 
-    console.log('validating...');
-    console.log(values);
+    const descriptions = values.descriptions || []
 
-    if (!values.type) {
-        const descriptionTypeObj = {};
-        descriptionTypeObj.code = 'Required';
-        errors.type = descriptionTypeObj
-    }
+    errors.descriptions = descriptions.map(description => {
+        let descriptionErrors = {}
 
-    if (!values.textTitle) {
-        errors.textTitle = 'Required';
-    }
-
-    if (!values.titleLanguage) {
-        const typeLanguageObj = {};
-        typeLanguageObj.code = 'Required';
-        errors.titleLanguage = typeLanguageObj
-    }
-
-    if (values.additionalTitles) {
-        const narrativeArrayErrors = [];
-
-        values.additionalTitles.forEach((title, titleIndex) => {
-            const titleErrors = {};
-            if (!title || !title.text) {
-                titleErrors.text = 'Required';
-                narrativeArrayErrors[titleIndex] = titleErrors
-            }
-            if (!title || !title.language) {
-                const codeObj = {};
-                codeObj.code = 'Required';
-                titleErrors.language = codeObj;
-                narrativeArrayErrors[titleIndex] = titleErrors
-            }
-        });
-
-        if (narrativeArrayErrors.length) {
-            errors.additionalTitles = narrativeArrayErrors
+        if (!description.type) {
+            descriptionErrors.type = { code: 'Required' }
         }
+
+        const narratives = description.narratives || []
+
+        descriptionErrors.narratives = narratives.map(narrative => {
+            let narrativeErrors = {}
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = { code: 'Required' }
+            }
+
+            return narrativeErrors
+        })
+
+        if (!narratives.length) {
+            descriptionErrors.narratives._error = 'At least one narrative must be entered'
+        }
+
+        return descriptionErrors
+    })
+
+    if (!descriptions.length) {
+        errors.descriptions._error = 'At least one description must be entered'
     }
 
     return errors
@@ -110,6 +105,8 @@ class BasicInformationDescriptionForm extends Component {
     constructor(props) {
         super(props);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+
+        this.state = {}
     }
 
     /**
@@ -118,12 +115,51 @@ class BasicInformationDescriptionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        console.log(formData);
-        formData.forEach(description => {
-            this.props.createDescription(formData, this.props.activity)
+        const { activityId, initialValues, tab, subTab } = this.props
+        const { lastSubmitted } = this.state
+
+        const lastDescriptions = (lastSubmitted && lastSubmitted.descriptions) || initialValues.descriptions
+        const descriptions = formData.descriptions
+
+        console.log("SEPARATOR...");
+        console.log(descriptions, lastDescriptions);
+
+        const oldIds = lastDescriptions.map(d => d.id).filter(d => d !== undefined)
+        const newIds = descriptions.map(d => d.id).filter(d => d !== undefined)
+
+        console.log(oldIds, newIds);
+
+        const toCreate = _.filter(descriptions, (d) => !('id' in d))
+        const toUpdate = _.filter(descriptions, (d) => 'id' in d)
+        const toDelete = _.difference(oldIds, newIds)
+
+        console.log(toCreate, toUpdate, toDelete);
+
+        const createPromises = toCreate.map(description => (
+            this.props.createDescription(activityId, {
+                activity: activityId,
+                ...description,
+            })
+        ))
+
+        toUpdate.forEach(description => {
+            this.props.updateDescription(activityId, description.id, {
+                activity: activityId,
+                    ...description,
+            })
         })
 
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        toDelete.forEach(id => {
+            this.props.deleteDescription(activityId, id)
+        })
+
+        Promise.all(createPromises).then(values => {
+            console.log(values);
+        })
+
+        this.setState({ lastSubmitted: formData })
+
+        // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
     componentWillMount() {
@@ -179,11 +215,15 @@ BasicInformationDescriptionForm = reduxForm({
     validate
 })(BasicInformationDescriptionForm);
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+    console.log('rendering...');
     return {
-        // initialValues: state.activity.descriptions,
+        initialValues: state.activity.descriptions ? {
+            descriptions: state.activity.descriptions,
+        } : null,
         data: state.activity.descriptions,
         codelists: state.codelists,
+        ...props,
     }
 }
 
@@ -194,5 +234,6 @@ BasicInformationDescriptionForm = connect(mapStateToProps, {
     updateDescription,
     deleteDescription
 })(BasicInformationDescriptionForm);
+
 export default withRouter(BasicInformationDescriptionForm)
 

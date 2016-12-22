@@ -173,5 +173,6 @@ IdentificationForm = connect(mapStateToProps, {
     getCodeListItems,
     getActivity,
     updateActivity,
-})(withRouter(IdentificationForm));
-export default IdentificationForm;
+})(IdentificationForm);
+
+export default withRouter(IdentificationForm)

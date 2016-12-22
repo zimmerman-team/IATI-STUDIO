@@ -65,22 +65,6 @@ export const renderField = ({input, label, type, readOnly, onChange, meta: {touc
  */
 export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName, textLabel, meta: {touched, error}}) => (
   <div>
-    {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
-    <div className="columns small-6">
-      <Field
-        name={textName}
-        type="text"
-        component={renderField}
-        label={textLabel}
-      />
-    </div>
-    <Field
-      component={renderSelectField}
-      name="titleLanguage[code]"
-      label="Language"
-      selectOptions={languageOptions}
-      defaultOption="Select a language"
-    />
     {fields && fields.map((title, index) =>
       <div key={index}>
         {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
@@ -97,8 +81,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
           name={`${title}.language[code]`}
           label="Language"
           selectOptions={languageOptions}
-          defaultOption="Select a language"
-        />
+            />
       </div>
     )}
     <div className="columns">

@@ -41,7 +41,8 @@ var ActivityAPI = {
     },
 
     createDescription: function(user, activityId, data, res) {
-        return oipaMethods.createDescription(activityId, data)
+        console.log(activityId, data);
+        return oipaMethods.postDescription(activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

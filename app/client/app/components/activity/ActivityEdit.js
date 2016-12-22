@@ -45,10 +45,6 @@ class ActivityEdit extends React.Component {
         }
     }
 
-    handleSubmit(data) {
-        console.log(JSON.stringify(data))
-    }
-
     nextPage() {
         this.setState({page: this.state.page + 1})
     }
@@ -86,23 +82,23 @@ class ActivityEdit extends React.Component {
     getFormComponentFromRoute(tab, subTab) {
         switch(tab) {
             case 'identification':
-                return <IdentificationForm subTab={subTab} />;
+                return <IdentificationForm subTab={subTab} { ...this.props } />;
             case 'basic-info':
-                return <BasicInformationForm subTab={subTab}/>;
+                return <BasicInformationForm subTab={subTab} { ...this.props }/>;
             case 'participating-organisation':
-                return <ParticipatingOrganisationForm/>;
+                return <ParticipatingOrganisationForm { ...this.props }/>;
             case 'geopolitical-information':
-                return <GeopoliticalInformationForm subTab={subTab}/>;
+                return <GeopoliticalInformationForm subTab={subTab} { ...this.props }/>;
             case 'classifications':
-                return <ClassificationsForm subTab={subTab}/>;
+                return <ClassificationsForm subTab={subTab} { ...this.props }/>;
             case 'document-link':
-                return <DocumentLinkForm subTab={subTab}/>;
+                return <DocumentLinkForm subTab={subTab} { ...this.props }/>;
             case 'relations':
-                return <RelationsForm subTab={subTab}/>;
+                return <RelationsForm subTab={subTab} { ...this.props }/>;
             case 'financial':
-                return <FinancialForm subTab={subTab}/>;
+                return <FinancialForm subTab={subTab} { ...this.props }/>;
             case 'performance':
-                return <PerformanceForm subTab={subTab}/>;
+                return <PerformanceForm subTab={subTab} { ...this.props }/>;
             default:
                 return <IdentificationForm subTab={subTab} {...this.props}/>;
         }

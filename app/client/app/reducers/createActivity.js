@@ -17,9 +17,10 @@ function activity(state = initialState, action) {
         //     });
         case ActionTypes.GET_ACTIVITY_SUCCESS:
         case ActionTypes.CREATE_ACTIVITY_SUCCESS:
-            return Object.assign({}, state, {
-                activity: action.response
-            });
+        case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
+                return _.merge({}, state, action.response)
+
+
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
             return Object.assign({}, state, {
                 descriptions: action.response

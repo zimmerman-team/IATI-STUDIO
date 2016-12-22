@@ -4,6 +4,8 @@
  */
 
 import { CALL_API } from '../middleware/api'
+import { arrayOf } from 'normalizr'
+import * as Schemas from '../schemas'
 
 
 /*
@@ -19,6 +21,7 @@ export function getActivity(id) {
             types: [ GET_ACTIVITY_REQUEST, GET_ACTIVITY_SUCCESS, GET_ACTIVITY_FAILURE ],
             endpoint: 'Activity.get',
             payload: [ id ],
+            schema: Schemas.activity,
         }
     }
 }
@@ -34,7 +37,8 @@ export function createActivity(activity) {
         [CALL_API]: {
             types: [ CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_ACTIVITY_FAILURE ],
             endpoint: 'Activity.create',
-            payload: [activity]
+            payload: [activity],
+            schema: Schemas.activity,
         }
     }
 }
@@ -50,7 +54,8 @@ export function updateActivity(activity) {
         [CALL_API]: {
             types: [ UPDATE_ACTIVITY_REQUEST, UPDATE_ACTIVITY_SUCCESS, UPDATE_ACTIVITY_FAILURE ],
             endpoint: 'Activity.update',
-            payload: [activity]
+            payload: [activity],
+            schema: Schemas.activity,
         }
     }
 }
@@ -70,6 +75,7 @@ export function getDescriptions(activityId) {
             types: [ GET_DESCRIPTIONS_REQUEST, GET_DESCRIPTIONS_SUCCESS, GET_DESCRIPTIONS_FAILURE ],
             endpoint: 'Activity.getDescriptions',
             payload: [ activityId ],
+            schema: arrayOf(Schemas.description),
         }
     }
 }
@@ -85,7 +91,8 @@ export function createDescription(activityId, description) {
         [CALL_API]: {
             types: [ CREATE_DESCRIPTION_REQUEST, CREATE_DESCRIPTION_SUCCESS, CREATE_DESCRIPTION_FAILURE ],
             endpoint: 'Activity.createDescription',
-            payload: [ activityId, description ]
+            payload: [ activityId, description ],
+            schema: Schemas.description,
         }
     }
 }
@@ -101,7 +108,8 @@ export function updateDescription(activityId, id, description) {
         [CALL_API]: {
             types: [ UPDATE_DESCRIPTION_REQUEST, UPDATE_DESCRIPTION_SUCCESS, UPDATE_DESCRIPTION_FAILURE ],
             endpoint: 'Activity.updateDescription',
-            payload: [ activityId, id, description ]
+            payload: [ activityId, id, description ],
+            schema: Schemas.description,
         }
     }
 }

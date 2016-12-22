@@ -7,7 +7,7 @@ import _ from 'lodash'
 import path from 'path'
 import querystring from 'querystring'
 import config from '../config/config'
-import { oipaPost, oipaGet, oipaDelete } from '../config/request'
+import { oipaPost, oipaGet, oipaUpdate, oipaDelete } from '../config/request'
 
 /**
  * Get all the languages form codeList.
@@ -22,7 +22,7 @@ export const getCodeListItems = function (codeListName) {
     };
 
     return oipaGet(req_options).then(
-        parsedBody => parsedBody.results
+        parsedBody => parsedBody
     )
 };
 
@@ -87,7 +87,7 @@ export const postDescription = function (activityId, descriptionData) {
 export const updateDescription = function (activityId, id, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.description_url(activityId), id),
+        url: path.join(config.description_url(activityId), `${id}`),
         body: descriptionData,
     };
 
@@ -97,7 +97,7 @@ export const updateDescription = function (activityId, id, descriptionData) {
 export const deleteDescription = function (activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.description_url(activityId), id),
+        url: path.join(config.description_url(activityId), `${id}`),
     };
 
     return oipaDelete(req_options)
