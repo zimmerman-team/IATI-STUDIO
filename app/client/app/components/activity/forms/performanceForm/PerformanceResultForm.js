@@ -50,7 +50,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       name="additionalTitles"
       component={renderNarrativeFields}
       languageOptions={languageOptions}
-      textName="textTitle"
+      textName="additionalTitles"
       textLabel="Text"
       narrativeLabel="Title"
     />
@@ -58,15 +58,16 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
       name="additionalDescriptions"
       component={renderNarrativeFields}
       languageOptions={languageOptions}
-      textName="textTitle"
-      textLabel="Text"
+      textName="additionalDescriptions"
+      textLabel="Descriptions"
       narrativeLabel="Description"
     />
     <div className="row no-margin">
       <Field
         component={renderSelectField}
         name="indicatorMeasure"
-        label="Measure"
+        textName="indicatorMeasure"
+        textLabel="Measure"
         selectOptions={indicatorMeasureOptions}
         defaultOption="Select one of the following options"
       />
@@ -79,16 +80,6 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
         textName="textTitle"
         textLabel="Text"
         narrativeLabel="Title"
-      />
-    </div>
-    <div className="row no-margin">
-      <FieldArray
-        name="additionalTitle"
-        component={renderNarrativeFields}
-        languageOptions={languageOptions}
-        textName="textTitle"
-        textLabel="Description"
-        narrativeLabel="Description"
       />
     </div>
     <div className="row no-margin">
@@ -189,7 +180,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
             label="Value"
           />
         </div>
-        <div class="columns small-6"></div>
+        <div className="columns small-6"></div>
       </div>
     </div>
 
@@ -204,7 +195,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
             label="Ref"
           />
         </div>
-        <div class="columns small-6"></div>
+        <div className="columns small-6"></div>
       </div>
     </div>
 
@@ -257,7 +248,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
             label="Value"
           />
         </div>
-        <div class="columns small-6"></div>
+        <div className="columns small-6"></div>
       </div>
     </div>
 
@@ -272,7 +263,7 @@ const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorM
             label="Ref"
           />
         </div>
-        <div class="columns small-6"></div>
+        <div className="columns small-6"></div>
       </div>
     </div>
 
@@ -320,7 +311,7 @@ const validate = values => {
   const errors = {};
 
   if (!values.ref) {
-    errors.type = 'Required'
+    errors.ref = 'Required'
   }
   return errors
 };

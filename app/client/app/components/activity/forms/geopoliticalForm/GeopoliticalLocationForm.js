@@ -13,14 +13,14 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
     <div className="row no-margin">
       <Field
         component={renderSelectField}
-        name="geographicVocabulary"
+        name="location_vocabulary"
         label="Vocabulary"
         selectOptions={geographicVocabularyOptions}
         defaultOption="Select one of the following options"
       />
       <div className="columns small-6">
         <Field
-          name="geographicVocabularyCode"
+          name="location_code"
           type="text"
           component={renderField}
           label="Code"
@@ -143,7 +143,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
         <div className="row no-margin">
           <div className="columns small-6">
             <Field
-              name="name"
+              name="point_name"
               type="text"
               component={renderField}
               label="Srs name"
@@ -173,14 +173,14 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
         </div>
       </div>
       <div className="columns small-12">
-        Map here
+        {/*@TODO Map here*/}
       </div>
       <div className="columns small-12">
         <h6>Exactness</h6>
         <div className="row no-margin">
           <Field
             component={renderSelectField}
-            name="exactness[code"
+            name="exactness"
             label="Exactness"
             selectOptions={geographicExactnessOptions}
             defaultOption="Select one of the following options"
@@ -192,7 +192,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
         <div className="row no-margin">
           <Field
             component={renderSelectField}
-            name="location_class[code]"
+            name="location_class"
             label="Location Class"
             selectOptions={geographicLocationClassOptions}
             defaultOption="Select one of the following options"
@@ -204,7 +204,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
         <div className="row no-margin">
           <Field
             component={renderSelectField}
-            name="feature_designation[code]"
+            name="feature_designation"
             label="Feature Designation"
             selectOptions={geographicLocationClassOptions}
             defaultOption="Select one of the following options"
@@ -219,7 +219,7 @@ const validate = values => {
   const errors = {};
 
   if (!values.featureDesignation) {
-    errors.type = 'Required'
+    errors.featureDesignation = 'Required'
   }
   return errors
 };
@@ -273,7 +273,7 @@ class LocationForm extends Component {
                 <div className="row no-margin">
                   <div className="columns small-6">
                     <Field
-                      name="referenceText"
+                      name="ref"
                       type="text"
                       component={renderField}
                       label="Reference"
@@ -287,16 +287,15 @@ class LocationForm extends Component {
                 <div className="row no-margin">
                   <Field
                     component={renderSelectField}
-                    name="location_reach[code]"
+                    name="location_reach"
                     label="Code"
                     selectOptions={activity["GeographicLocationReach"]}
                     defaultOption="Select one of the following options"
                   />
                 </div>
               </div>
-              <h6>Location id</h6>
               <FieldArray
-                name="location_id"
+                name="locationRegion"
                 component={renderRegionFields}
                 geographicVocabularyOptions={activity["GeographicVocabulary"]}
               />
@@ -321,7 +320,7 @@ class LocationForm extends Component {
               <hr/>
               <h6 className="columns">Activity description</h6>
               <FieldArray
-                name="activity_description[code]"
+                name="activity_description"
                 component={renderNarrativeFields}
                 languageOptions={activity["Language"]}
                 textName="activeName"
@@ -335,7 +334,7 @@ class LocationForm extends Component {
               />
               <hr/>
               <FieldArray
-                name="point"
+                name="pointGeo"
                 component={renderPointFields}
                 geographicExactnessOptions={activity["GeographicExactness"]}
                 geographicLocationClassOptions={activity["GeographicLocationClass"]}

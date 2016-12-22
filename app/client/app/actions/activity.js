@@ -160,6 +160,9 @@ export const ADD_PARTICIPATING_ORGANISATION_SUCCESS = 'ADD_PARTICIPATING_ORGANIS
 export const ADD_PARTICIPATING_ORGANISATION_FAILURE = 'ADD_PARTICIPATING_ORGANISATION_FAILURE';
 
 export function addParticipatingOrganisation(formData, activity) {
+  const activityID = 666;
+  formData.activity = activityID;
+  formData.activity_id = activityID;
     return {
         [CALL_API]: {
             types: [ ADD_PARTICIPATING_ORGANISATION_REQUEST, ADD_PARTICIPATING_ORGANISATION_SUCCESS, ADD_PARTICIPATING_ORGANISATION_FAILURE ],
@@ -198,6 +201,10 @@ export const ADD_RELATIONS_SUCCESS = 'ADD_RELATIONS_SUCCESS';
 export const ADD_RELATIONS_FAILURE = 'ADD_RELATIONS_FAILURE';
 
 export function addRelations(formData, activity) {
+  const activityID = 666;
+  formData.activity = activityID;
+  formData.activity_id = activityID;
+
   return {
     [CALL_API]: {
       types: [ ADD_RELATIONS_REQUEST, ADD_RELATIONS_SUCCESS, ADD_RELATIONS_FAILURE ],

@@ -108,12 +108,13 @@ class SectorForm extends Component {
   componentWillMount() {
     this.props.getCodeListItems('SectorVocabulary');
     this.props.getCodeListItems('Sector');
+    this.props.getCodeListItems('Language');
   }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
 
-    if (!activity['SectorVocabulary'] || !activity['Sector']) {
+    if (!activity['SectorVocabulary'] || !activity['Sector'] || !activity['Language']) {
       return <GeneralLoader />
     }
 
@@ -126,39 +127,31 @@ class SectorForm extends Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <div className="row no-margin">
-              {
-                !activity["SectorVocabulary"] ?
-                  <GeneralLoader/> :
-                  <Field
-                    component={renderSelectField}
-                    name="sectorVocabulary[code]"
-                    label="Sector vocabulary"
-                    selectOptions={activity["SectorVocabulary"]}
-                    defaultOption="Select one of the following options"
-                  />
-              }
+              <Field
+                component={renderSelectField}
+                name="vocabulary"
+                label="Sector vocabulary"
+                selectOptions={activity["SectorVocabulary"]}
+                defaultOption="Select one of the following options"
+              />
               <div className="columns small-6">
                 <Field
-                  name="uriSectorText"
+                  name="vocabulary_uri"
                   type="text"
                   component={renderField}
                   label="Vocabulary URI"
                 />
               </div>
-              {
-                !activity["Sector"] ?
-                  <GeneralLoader/> :
-                  <Field
-                    component={renderSelectField}
-                    name="sector[code]"
-                    label="Sector code"
-                    selectOptions={activity["Sector"]}
-                    defaultOption="Select one of the following options"
-                  />
-              }
+              <Field
+                component={renderSelectField}
+                name="sector"
+                label="Sector code"
+                selectOptions={activity["Sector"]}
+                defaultOption="Select one of the following options"
+              />
               <div className="columns small-6">
                 <Field
-                  name="SectorText"
+                  name="percentage"
                   type="text"
                   component={renderField}
                   label="Percentage"

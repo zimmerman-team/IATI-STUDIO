@@ -6,7 +6,7 @@
 import _ from 'lodash'
 import querystring from 'querystring'
 import config from '../config/config'
-import {oipaPost, oipaGet} from '../config/request'
+import {oipaPost, oipaGet, oipaPut} from '../config/request'
 
 /**
  * Submit identification form data.
@@ -137,7 +137,6 @@ export const postDocumentLinkForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postRelationForm = function (formData, activity) {
-
   const processedData = {
     activity: formData.activityIdentifier,
     ref: formData.activityIdentifier,
@@ -149,7 +148,7 @@ export const postRelationForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activityIdentifier + '/related_activities/',
+    url: config.activities_url + formData.activity + '/related_activities/',
     body: processedData,
   };
 
@@ -164,11 +163,9 @@ export const postRelationForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postPerformanceConditionForm = function (formData, activity) {
-  const activityID = 666;
-
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + activityID + '/conditions/',
+    url: config.activities_url + formData.activity + '/conditions/',
     body: formData,
   };
 
@@ -183,11 +180,9 @@ export const postPerformanceConditionForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postPerformanceResultForm = function (formData, activity) {
-  const activityID = 666;
-
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + activityID + '/results/',
+    url: config.activities_url + formData.activity + '/results/',
     body: formData,
   };
 
@@ -202,11 +197,9 @@ export const postPerformanceResultForm = function (formData, activity) {
  * @returns {Promise|Promise.<T>}
  */
 export const postPerformanceCommentForm = function (formData, activity) {
-  const activityID = 666;
-
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + activityID + '/comments/',
+    url: config.activities_url + formData.activity + '/comments/',
     body: formData,
   };
 
@@ -314,7 +307,7 @@ export const postFinancialBudgetsForm = function (formData, activity) {
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + processedData.activityID + '/budgets/',
+        url: config.activities_url + formData.activity + '/budgets/',
         body: processedData,
     };
 
@@ -336,7 +329,7 @@ export const postFinancialPlannedDisbursementsForm = function (formData, activit
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + processedData.activityID + '/planned_disbursements/',
+        url: config.activities_url + formData.activity+ '/planned_disbursements/',
         body: processedData,
     };
 
@@ -363,7 +356,7 @@ export const postFinancialTransactionsForm = function (formData, activity) {
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + processedData.activityID + '/transactions/',
+        url: config.activities_url + formData.activity + '/transactions/',
         body: processedData,
     };
 
@@ -380,7 +373,7 @@ export const postFinancialTransactionsForm = function (formData, activity) {
 export const postFinancialCapitalSpendForm = function (formData, activity) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + formData.activityID + '/capital_spend/',
+        url: config.activities_url + formData.activity + '/capital_spend/',
         body: formData,
     };
 
@@ -441,12 +434,19 @@ export const postGeopoliticalLocationForm = function (formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.type = {"code": formData.type, "name": formData.type};
-  processedData.activity_description = {"code": formData.activity_description.code, "name": formData.activity_description.code};
-  processedData.location_class = {"code": formData.location_class.code, "name": formData.location_class.code};
-  processedData.exactness = {"code": formData.exactness.code, "name": formData.exactness.code};
-  processedData.location_reach = {"code": formData.location_reach.code, "name": formData.location_reach.code};
-  processedData.location_id = {"code": formData.location_id.code, "name": formData.location_id.code};
-  processedData.feature_designation = {"code": formData.feature_designation.code, "name": formData.feature_designation.code};
+  processedData.activity_description = {"narratives": [{"text": formData.activity_description}]};
+  processedData.location_class = {"code": formData.location_class, "name": formData.location_class};
+  processedData.exactness = {"code": formData.exactness, "name": formData.exactness};
+  processedData.location_reach = {"code": formData.location_reach, "name": formData.location_reach};
+  processedData.location_id = {"code": formData.location_code, "name": formData.location_code,
+      "vocabulary": {"code": formData.location_vocabulary, "name": formData.location_vocabulary}};
+  processedData.feature_designation = {"code": formData.feature_designation, "name": formData.feature_designation};
+  processedData.vocabulary = {"pos": formData.vocabulary, "srsName": formData.vocabulary};
+  processedData.point = {"srsName": formData.point_name, "pos": {"latitude": formData.latitude, "longitude": formData.longitude}};
+  processedData.description = {"narratives": []};
+  processedData.activity_description = {"narratives": []};
+  processedData.name = {"narratives": []};
+  processedData.narratives = [{"code": formData.narratives, "name": formData.narratives}];
 
   const req_options = {
     baseUrl: config.oipa_post_url,
@@ -467,7 +467,9 @@ export const postGeopoliticalLocationForm = function (formData, activity) {
 export const postClassificationSectorForm = function (formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
-  processedData.type = {"code": formData.type, "name": formData.type};
+  processedData.sector = {"code": formData.sector, "name": formData.sector};
+  processedData.vocabulary = {"code": formData.vocabulary, "name": formData.vocabulary};
+  processedData.narratives = [{"code": formData.narratives, "name": formData.narratives}];
 
   const req_options = {
     baseUrl: config.oipa_post_url,
@@ -512,51 +514,21 @@ export const postClassificationPolicyForm = function (formData, activity) {
 export const postClassificationSelectForm = function (formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
+  processedData.iati_identifier = formData.activity;
   processedData.collaboration_type = {"code": formData.collaboration_type, "name": formData.collaboration_type};
   processedData.default_flow_type = {"code": formData.default_flow_type, "name": formData.default_flow_type};
   processedData.default_finance_type = {"code": formData.default_finance_type, "name": formData.default_finance_type};
   processedData.default_aid_type = {"code": formData.default_aid_type, "name": formData.default_aid_type};
   processedData.default_tied_status = {"code": formData.default_tied_status, "name": formData.default_tied_status};
 
-  const req_options_collaboration = {
+  const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + processedData.activity + '/collaboration_type/',
-    body: processedData.collaboration_type,
-  };
-  const req_options_flow = {
-    baseUrl: config.oipa_post_url,
-    url: config.activities_url + processedData.activity + '/default_flow_type/',
-    body: processedData.collaboration_type,
-  };
-  const req_options_finance = {
-    baseUrl: config.oipa_post_url,
-    url: config.activities_url + processedData.activity + '/default_finance_type/',
-    body: processedData.collaboration_type,
-  };
-  const req_options_aid = {
-    baseUrl: config.oipa_post_url,
-    url: config.activities_url + processedData.activity + '/default_aid_type/',
-    body: processedData.collaboration_type,
-  };
-  const req_options_tied = {
-    baseUrl: config.oipa_post_url,
-    url: config.activities_url + processedData.activity + '/default_tied_status/',
-    body: processedData.collaboration_type,
+    url: config.activities_url + formData.activity + '/',
+    body: processedData,
   };
 
-  let parsedBodyList = [];
-  parsedBodyList[0] = oipaPost(req_options_collaboration)
-    .then(parsedBody => parsedBody);
-  parsedBodyList[1] =  oipaPost(req_options_flow)
-    .then(parsedBody => parsedBody);
-  parsedBodyList[2] =  oipaPost(req_options_finance)
-    .then(parsedBody => parsedBody);
-  parsedBodyList[3] =  oipaPost(req_options_aid)
-    .then(parsedBody => parsedBody);
-  parsedBodyList[3] =  oipaPost(req_options_tied)
-    .then(parsedBody => parsedBody);
-
-  return parsedBodyList[3]
+  return oipaPut(req_options)
+    .then(parsedBody => parsedBody)
 };
 
 /**
