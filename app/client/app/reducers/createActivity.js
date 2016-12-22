@@ -2,6 +2,8 @@
  * Create Activity reducers
  */
 
+import _ from 'lodash'
+import { createSelector } from 'reselect'
 import * as ActionTypes from '../actions/activity'
 
 const initialState = { }
@@ -49,5 +51,11 @@ function activity(state = initialState, action) {
             return state
     }
 }
+
+export const descriptionsSelector = createSelector(
+    state => state.activity.descriptions,
+    (descriptions) => _.map(descriptions, x => x) // to array
+)
+
 
 export default activity

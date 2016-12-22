@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, getDescriptions, createDescription, updateDescription, deleteDescription } from '../../../../actions/activity'
+import { descriptionsSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 import uuidV4 from 'uuid/v4'
@@ -45,7 +46,7 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
             </div>
             )}
             <div className="columns">
-                <button className="control-button add" type="button" onClick={() => fields.push({ _id: uuidV4() })}>Add More</button>
+                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
                 <button
                     type="button"
                     title="Remove Title"
@@ -115,10 +116,10 @@ class BasicInformationDescriptionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, initialValues, tab, subTab } = this.props
+        const { activityId, data, tab, subTab } = this.props
         const { lastSubmitted } = this.state
 
-        const lastDescriptions = (lastSubmitted && lastSubmitted.descriptions) || initialValues.descriptions
+        const lastDescriptions = data
         const descriptions = formData.descriptions
 
         console.log("SEPARATOR...");
@@ -157,8 +158,6 @@ class BasicInformationDescriptionForm extends Component {
             console.log(values);
         })
 
-        this.setState({ lastSubmitted: formData })
-
         // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
@@ -170,9 +169,19 @@ class BasicInformationDescriptionForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            console.log('initializing form...');
-            console.log(this.props.data);
-            this.props.initialize(nextProps.data);
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('descriptions', newData);
+
+            // change each item 
+            newData.forEach((d,i) => this.props.change(`descriptions[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('descriptions', i)
+            }
         }
 
         if (this.props.activityId !== nextProps.activityId) {
@@ -222,15 +231,11 @@ BasicInformationDescriptionForm = reduxForm({
 })(BasicInformationDescriptionForm);
 
 function mapStateToProps(state, props) {
-    console.log('rendering...');
-
-    console.log(state.activity);
+    const descriptions = descriptionsSelector(state)
 
     return {
-        initialValues: state.activity.descriptions ? {
-            descriptions: _.map(state.activity.descriptions, x => x),
-        } : null,
-        data: _.map(state.activity.descriptions, x => x),
+        // initialValues: descriptions.length ? { descriptions } : null,
+        data: descriptions,
         codelists: state.codelists,
         ...props,
     }
