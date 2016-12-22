@@ -18,13 +18,23 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_ACTIVITY_SUCCESS:
         case ActionTypes.CREATE_ACTIVITY_SUCCESS:
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
-                return _.merge({}, state, action.response)
+        case ActionTypes.CREATE_DESCRIPTION_SUCCESS:
+        case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
+                return _.merge({}, state, action.response.entities)
 
+        case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'descriptions': _.omit(state.descriptions, action.id),
+            }
+        case ActionTypes.DELETE_ACTIVITY_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'activity': {},
+            }
 
-        case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
-            return Object.assign({}, state, {
-                descriptions: action.response
-            });
         case ActionTypes.ADD_BASIC_INFORMATION_SUCCESS:
             return Object.assign({}, state, {
                 activity: action.response

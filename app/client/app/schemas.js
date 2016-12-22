@@ -52,7 +52,7 @@ export const publisherSchema = new Schema('publisher', {
  * for Activity
 */
 
-export const description = new Schema('description', {
+export const description = new Schema('descriptions', {
     idAttribute: "id",
 })
 

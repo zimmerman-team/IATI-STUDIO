@@ -105,6 +105,7 @@ export const UPDATE_DESCRIPTION_SUCCESS = 'UPDATE_DESCRIPTION_SUCCESS';
 export const UPDATE_DESCRIPTION_FAILURE = 'UPDATE_DESCRIPTION_FAILURE';
 export function updateDescription(activityId, id, description) {
     return {
+        id,
         [CALL_API]: {
             types: [ UPDATE_DESCRIPTION_REQUEST, UPDATE_DESCRIPTION_SUCCESS, UPDATE_DESCRIPTION_FAILURE ],
             endpoint: 'Activity.updateDescription',
@@ -123,6 +124,7 @@ export const DELETE_DESCRIPTION_SUCCESS = 'DELETE_DESCRIPTION_SUCCESS';
 export const DELETE_DESCRIPTION_FAILURE = 'DELETE_DESCRIPTION_FAILURE';
 export function deleteDescription(activityId, id) {
     return {
+        id,
         [CALL_API]: {
             types: [ DELETE_DESCRIPTION_REQUEST, DELETE_DESCRIPTION_SUCCESS, DELETE_DESCRIPTION_FAILURE ],
             endpoint: 'Activity.deleteDescription',

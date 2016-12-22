@@ -169,6 +169,12 @@ class BasicInformationDescriptionForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            console.log('initializing form...');
+            console.log(this.props.data);
+            this.props.initialize(nextProps.data);
+        }
+
         if (this.props.activityId !== nextProps.activityId) {
             this.props.getActivity(nextProps.activityId)
         }
@@ -217,11 +223,14 @@ BasicInformationDescriptionForm = reduxForm({
 
 function mapStateToProps(state, props) {
     console.log('rendering...');
+
+    console.log(state.activity);
+
     return {
         initialValues: state.activity.descriptions ? {
-            descriptions: state.activity.descriptions,
+            descriptions: _.map(state.activity.descriptions, x => x),
         } : null,
-        data: state.activity.descriptions,
+        data: _.map(state.activity.descriptions, x => x),
         codelists: state.codelists,
         ...props,
     }
