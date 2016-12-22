@@ -26,24 +26,29 @@ const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
     </div>
 );
 
-const renderDescription = ({fields, languageOptions, meta: {touched, error}}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
-                <div className="row no-margin">
-                    <Field
-                        name={`${description}.type[code]`}
-                        component={renderDescriptionTypeSelect}
-                        label="Type"
-                    />
-                    <hr/>
-                    <FieldArray
-                        name={`${description}.narratives`}
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                    />
+const renderDescription = ({fields, languageOptions, meta: {touched, error}}) => {
+    if (!fields.length) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((description, index) =>
+                <div className="field-list" key={index}>
+                    <div className="row no-margin">
+                        <Field
+                            name={`${description}.type[code]`}
+                            component={renderDescriptionTypeSelect}
+                            label="Type"
+                        />
+                        <hr/>
+                        <FieldArray
+                            name={`${description}.narratives`}
+                            component={renderNarrativeFields}
+                            languageOptions={languageOptions}
+                        />
+                    </div>
                 </div>
-            </div>
             )}
             <div className="columns">
                 <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
@@ -56,7 +61,8 @@ const renderDescription = ({fields, languageOptions, meta: {touched, error}}) =>
                 {touched && error && <span className="error">{error}</span>}
             </div>
         </div>
-);
+    )
+};
 
 const validate = (values, dispatch) => {
     let errors = {};

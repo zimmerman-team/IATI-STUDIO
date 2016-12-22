@@ -63,39 +63,45 @@ export const renderField = ({input, label, type, readOnly, onChange, meta: {touc
  * @param touched
  * @param error
  */
-export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName, textLabel, meta: {touched, error}}) => (
-  <div>
-    {fields && fields.map((title, index) =>
-      <div key={index}>
-        {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
-        <div className="columns small-6">
-          <Field
-            name={`${title}.text`}
-            type="text"
-            component={renderField}
-            label="Title"
-          />
-        </div>
-        <Field
-          component={renderSelectField}
-          name={`${title}.language[code]`}
-          label="Language"
-          selectOptions={languageOptions}
-            />
-      </div>
-    )}
-    <div className="columns">
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-      <button
-        type="button"
-        title="Remove Title"
-        className="control-button remove float-right"
-        onClick={() => fields.pop()}>Delete
-      </button>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
+export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName, textLabel, meta: {touched, error}}) => {
+    if (!fields.length) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields && fields.map((title, index) =>
+                <div key={index}>
+                    {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
+                    <div className="columns small-6">
+                        <Field
+                            name={`${title}.text`}
+                            type="text"
+                            component={renderField}
+                            label="Title"
+                        />
+                    </div>
+                    <Field
+                        component={renderSelectField}
+                        name={`${title}.language[code]`}
+                        label="Language"
+                        selectOptions={languageOptions}
+                    />
+                </div>
+                )}
+                <div className="columns">
+                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                    <button
+                        type="button"
+                        title="Remove Title"
+                        className="control-button remove float-right"
+                        onClick={() => fields.pop()}>Delete
+                    </button>
+                    {touched && error && <span className="error">{error}</span>}
+                </div>
+            </div>
+    )
+};
 
 export const RenderSingleSelect = ({name, label, selectOptions, defaultOption = 'Select one of the following options'}) => (
    <div className="columns small-centered small-12">
