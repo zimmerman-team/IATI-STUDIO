@@ -14,6 +14,8 @@ const config = {
     "codelists": "/api/codelists/",
     "activities_url": "/api/activities/",
     "aggregation_url": "/api/transactions/aggregations/",
+    "descriptionUrl": (activityId) => `/api/activities/${activityId}/descriptions/`,
+    "participatingOrganisationUrl": (activityId) => `/api/activities/${activityId}/participating_organisations/`,
     "iati_registry_url": "https://iati-staging.ckan.io/api/",
     "sessionStore": { // TODO: use redis for sessions - 2016-01-25
         "mongodb": {
