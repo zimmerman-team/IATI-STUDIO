@@ -256,6 +256,77 @@ export function addBasicInformationContact(formData, activity) {
     }
 }
 
+/*
+ * Get participating_organisations (Identification form)
+ */
+export const GET_PARTICIPATING_ORGANISATIONS_REQUEST = 'GET_PARTICIPATING_ORGANISATIONS_REQUEST';
+export const GET_PARTICIPATING_ORGANISATIONS_SUCCESS = 'GET_PARTICIPATING_ORGANISATIONS_SUCCESS';
+export const GET_PARTICIPATING_ORGANISATIONS_FAILURE = 'GET_PARTICIPATING_ORGANISATIONS_FAILURE';
+
+export function getParticipatingOrganisations(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_PARTICIPATING_ORGANISATIONS_REQUEST, GET_PARTICIPATING_ORGANISATIONS_SUCCESS, GET_PARTICIPATING_ORGANISATIONS_FAILURE ],
+            endpoint: 'Activity.getParticipatingOrganisations',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.participatingOrganisation),
+        }
+    }
+}
+
+/*
+ * Create participating_organisation (Identification form)
+ */
+export const CREATE_PARTICIPATING_ORGANISATION_REQUEST = 'CREATE_PARTICIPATING_ORGANISATION_REQUEST';
+export const CREATE_PARTICIPATING_ORGANISATION_SUCCESS = 'CREATE_PARTICIPATING_ORGANISATION_SUCCESS';
+export const CREATE_PARTICIPATING_ORGANISATION_FAILURE = 'CREATE_PARTICIPATING_ORGANISATION_FAILURE';
+export function createParticipatingOrganisation(activityId, participating_organisation) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_PARTICIPATING_ORGANISATION_REQUEST, CREATE_PARTICIPATING_ORGANISATION_SUCCESS, CREATE_PARTICIPATING_ORGANISATION_FAILURE ],
+            endpoint: 'Activity.createParticipatingOrganisation',
+            payload: [ activityId, participating_organisation ],
+            schema: Schemas.participatingOrganisation,
+        }
+    }
+}
+
+/*
+ * Update participating_organisation (Identification form)
+ */
+export const UPDATE_PARTICIPATING_ORGANISATION_REQUEST = 'UPDATE_PARTICIPATING_ORGANISATION_REQUEST';
+export const UPDATE_PARTICIPATING_ORGANISATION_SUCCESS = 'UPDATE_PARTICIPATING_ORGANISATION_SUCCESS';
+export const UPDATE_PARTICIPATING_ORGANISATION_FAILURE = 'UPDATE_PARTICIPATING_ORGANISATION_FAILURE';
+export function updateParticipatingOrganisation(activityId, id, participating_organisation) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_PARTICIPATING_ORGANISATION_REQUEST, UPDATE_PARTICIPATING_ORGANISATION_SUCCESS, UPDATE_PARTICIPATING_ORGANISATION_FAILURE ],
+            endpoint: 'Activity.updateParticipatingOrganisation',
+            payload: [ activityId, id, participating_organisation ],
+            schema: Schemas.participating_organisation,
+        }
+    }
+}
+
+
+/*
+ * Delete participating_organisation (Identification form)
+ */
+export const DELETE_PARTICIPATING_ORGANISATION_REQUEST = 'DELETE_PARTICIPATING_ORGANISATION_REQUEST';
+export const DELETE_PARTICIPATING_ORGANISATION_SUCCESS = 'DELETE_PARTICIPATING_ORGANISATION_SUCCESS';
+export const DELETE_PARTICIPATING_ORGANISATION_FAILURE = 'DELETE_PARTICIPATING_ORGANISATION_FAILURE';
+export function deleteParticipatingOrganisation(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_PARTICIPATING_ORGANISATION_REQUEST, DELETE_PARTICIPATING_ORGANISATION_SUCCESS, DELETE_PARTICIPATING_ORGANISATION_FAILURE ],
+            endpoint: 'Activity.deleteParticipatingOrganisation',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
 /**
  * Add participating organisation form data of activity
  *

@@ -66,7 +66,6 @@ const renderDescription = ({fields, languageOptions, meta: {touched, dirty, erro
 
 const validate = (values, dispatch) => {
     let errors = {};
-    // dispatch.dispatch(validateForm());   @TODO for async validation
 
     const descriptions = values.descriptions || []
 
@@ -103,6 +102,7 @@ const validate = (values, dispatch) => {
     if (!descriptions.length) {
         errors.descriptions._error = 'At least one description must be entered'
     }
+
     return errors
 };
 

@@ -56,9 +56,14 @@ export const description = new Schema('descriptions', {
     idAttribute: "id",
 })
 
+export const participatingOrganisation = new Schema('participatingOrganisations', {
+    idAttribute: "id",
+})
+
 export const activity = new Schema('activity', {
     idAttribute: "id",
     descriptions: arrayOf(description),
+    participatingOrganisations: arrayOf(participatingOrganisation),
 })
 
 
