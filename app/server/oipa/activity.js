@@ -160,7 +160,7 @@ const prepareActivityData = function (data) {
     //   data.additionalTitles.map((title, index) => narrativesItems.push(title));
     // }
 
-  data.title = {narratives: narrativesItems};
+  // data.title = {narratives: narrativesItems};
   return data
 }
 
