@@ -28,8 +28,6 @@ class ActivityEdit extends React.Component {
     constructor(props) {
         super(props);
 
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
         this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
         this.handleParticipatingOrganisationFormSubmit = this.handleParticipatingOrganisationFormSubmit.bind(this);
         this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this);
@@ -47,7 +45,6 @@ class ActivityEdit extends React.Component {
      */
     handleIdentificationFormSubmit(data) {
         this.props.createActivity(data)
-        this.nextPage();
     }
 
     /**
@@ -58,7 +55,6 @@ class ActivityEdit extends React.Component {
      */
     handleParticipatingOrganisationFormSubmit(data) {
         this.props.addParticipatingOrganisation(data)
-        this.nextPage();
     }
 
     componentDidMount() {
