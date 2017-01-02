@@ -24,8 +24,8 @@ const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
     </div>
 );
 
-const renderDescription = ({fields, languageOptions, meta: {touched, error}}) => {
-    if (!fields.length) {
+const renderDescription = ({fields, languageOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
         fields.push({})
     }
 

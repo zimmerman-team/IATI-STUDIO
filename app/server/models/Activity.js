@@ -9,9 +9,22 @@ mongoose.Promise = global.Promise; // use ES6 promises
 const Schema = mongoose.Schema;
 
 
+formItemValidationRequiredSchema = new Schema({
+    /*
+     * validation status can be valid, invalid or unspecified
+     * this is for required elements
+    */
+    status: {
+        type: String,
+        enum: [ 'valid', 'invalid', 'unspecified' ]
+        default: 'invalid'
+    },
+})
+
 formItemValidationSchema = new Schema({
     /*
      * validation status can be valid, invalid or unspecified
+     * this is for optional elements
     */
     status: {
         type: String,
@@ -24,15 +37,15 @@ const formValidationSchema = new Schema({
     /*
      * identification
      */
-    activity: formItemValidationSchema, // general activity
+    activity: formItemValidationRequiredSchema, // general activity
 
     /*
      * Basic information
      */
-    title: formItemValidationSchema,
-    description: formItemValidationSchema,
-    status: formItemValidationSchema,
-    date: formItemValidationSchema,
+    title: formItemValidationRequiredSchema,
+    description: formItemValidationRequiredSchema,
+    status: formItemValidationRequiredSchema,
+    date: formItemValidationRequiredSchema,
     contact: formItemValidationSchema,
 
     /*

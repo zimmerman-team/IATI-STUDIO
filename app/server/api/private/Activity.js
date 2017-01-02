@@ -12,6 +12,11 @@ import * as oipaMethods from '../../oipa/activity'
 
 var ActivityAPI = {
 
+    getValidationStatus: function() {
+        // TODO: how will this be determined? - 2016-12-23
+        
+    },
+
     get: function(user, id, res) {
         return getActivity(id)
             .then(result => res(null, result))
@@ -33,25 +38,29 @@ var ActivityAPI = {
     },
 
     getDescriptions: function(user, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
         return oipaMethods.getDescriptions(activityId)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
     createDescription: function(user, activityId, data, res) {
-        console.log(activityId, data);
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation, 
         return oipaMethods.postDescription(activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
     updateDescription: function(user, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
         return oipaMethods.updateDescription(activityId, id, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
     deleteDescription: function(user, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
         return oipaMethods.deleteDescription(activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
