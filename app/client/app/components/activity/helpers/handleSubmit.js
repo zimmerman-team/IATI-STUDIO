@@ -24,7 +24,6 @@ function handleSubmit(mainKey, activityId, prevData, currData, createAction, upd
             })
         ))
 
-        console.log('called');
 
         const updatePromises = toUpdate.map(description => (
             updateAction(activityId, description.id, {
@@ -33,12 +32,10 @@ function handleSubmit(mainKey, activityId, prevData, currData, createAction, upd
             })
         ))
 
-        console.log('called');
         toDelete.forEach(id => {
             deleteAction(activityId, id)
         })
 
-        console.log('called');
         return Promise.all(_.flatten([createPromises, updatePromises])).then(actions => {
 
             const errors = {}
@@ -47,12 +44,10 @@ function handleSubmit(mainKey, activityId, prevData, currData, createAction, upd
             errors[mainKey] = actions.map(action => {
                 if (action.error) {
                     hasError = true
-                    return action.response.error
+                    return action.error
                 }
                 return undefined
             })
-
-            console.log(errors);
 
             if (hasError) {
                 throw new SubmissionError(errors)
@@ -60,8 +55,6 @@ function handleSubmit(mainKey, activityId, prevData, currData, createAction, upd
 
             return actions
         })
-
-
 }
 
 export default handleSubmit

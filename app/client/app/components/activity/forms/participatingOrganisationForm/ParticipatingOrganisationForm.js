@@ -221,9 +221,6 @@ ParticipatingOrganisationForm = reduxForm({
 function mapStateToProps(state) {
     const participatingOrganisations = ParticipatingOrganisationsSelector(state)
 
-    console.log(state);
-    console.log(participatingOrganisations);
-
     return {
         activity: state.activity,
         data: participatingOrganisations,
