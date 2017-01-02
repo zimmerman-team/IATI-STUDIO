@@ -17,7 +17,7 @@ class ActivitySidebar extends Component {
 
     if (nextProps.form) {
       const reduxForms = Object.assign({}, nextProps.form);
-      dispatch(getBasicInformationData(reduxForms, mainForm, subForm));
+      // dispatch(getBasicInformationData(reduxForms, mainForm, subForm));
     }
   }
 

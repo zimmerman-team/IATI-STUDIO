@@ -48,6 +48,19 @@ export const publisherSchema = new Schema('publisher', {
     idAttribute: "_id",
 })
 
+/*
+ * for Activity
+*/
+
+export const description = new Schema('descriptions', {
+    idAttribute: "id",
+})
+
+export const activity = new Schema('activity', {
+    idAttribute: "id",
+    descriptions: arrayOf(description),
+})
+
 
 export const Schemas = {
     PUBLISHER: publisherSchema,
