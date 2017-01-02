@@ -9,6 +9,8 @@ import { getCodeListItems, getDescriptions, createDescription, updateDescription
 import { descriptionsSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
+import handleSubmit from '../../helpers/handleSubmit'
+
 const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
     <div className="columns small-6">
         <div>
@@ -119,46 +121,19 @@ class BasicInformationDescriptionForm extends Component {
      */
     handleFormSubmit(formData) {
         const { activityId, data, tab, subTab } = this.props
-        const { lastSubmitted } = this.state
 
         const lastDescriptions = data
         const descriptions = formData.descriptions
 
-        console.log("SEPARATOR...");
-        console.log(descriptions, lastDescriptions);
-
-        const oldIds = lastDescriptions.map(d => d.id).filter(d => d !== undefined)
-        const newIds = descriptions.map(d => d.id).filter(d => d !== undefined)
-
-        console.log(oldIds, newIds);
-
-        const toCreate = _.filter(descriptions, (d) => !('id' in d))
-        const toUpdate = _.filter(descriptions, (d) => 'id' in d)
-        const toDelete = _.difference(oldIds, newIds)
-
-        console.log(toCreate, toUpdate, toDelete);
-
-        const createPromises = toCreate.map(description => (
-            this.props.createDescription(activityId, {
-                activity: activityId,
-                ...description,
-            })
-        ))
-
-        toUpdate.forEach(description => {
-            this.props.updateDescription(activityId, description.id, {
-                activity: activityId,
-                    ...description,
-            })
-        })
-
-        toDelete.forEach(id => {
-            this.props.deleteDescription(activityId, id)
-        })
-
-        Promise.all(createPromises).then(values => {
-            console.log(values);
-        })
+        handleSubmit(
+            'descriptions',
+            activityId,
+            lastDescriptions,
+            descriptions,
+            this.props.createDescription,
+            this.props.updateDescription,
+            this.props.deleteDescription,
+        )
 
         // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
@@ -187,7 +162,7 @@ class BasicInformationDescriptionForm extends Component {
         }
 
         if (this.props.activityId !== nextProps.activityId) {
-            this.props.getActivity(nextProps.activityId)
+            this.props.getDescriptions(nextProps.activityId)
         }
     }
 
