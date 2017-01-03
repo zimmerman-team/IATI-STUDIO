@@ -67,7 +67,7 @@ export const deleteActivity = function (id) {
 export const getDescriptions = function (activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.description_url(activityId),
+        url: config.descriptionUrl(activityId),
     };
 
     return oipaGet(req_options)
@@ -77,7 +77,7 @@ export const getDescriptions = function (activityId) {
 export const postDescription = function (activityId, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.description_url(activityId),
+        url: config.descriptionUrl(activityId),
         body: descriptionData,
     };
 
@@ -87,7 +87,7 @@ export const postDescription = function (activityId, descriptionData) {
 export const updateDescription = function (activityId, id, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.description_url(activityId), `${id}`),
+        url: path.join(config.descriptionUrl(activityId), `${id}`),
         body: descriptionData,
     };
 
@@ -97,7 +97,46 @@ export const updateDescription = function (activityId, id, descriptionData) {
 export const deleteDescription = function (activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.description_url(activityId), `${id}`),
+        url: path.join(config.descriptionUrl(activityId), `${id}`),
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getParticipatingOrganisations = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.participatingOrganisationUrl(activityId),
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postParticipatingOrganisation = function (activityId, participating_organisationData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.participatingOrganisationUrl(activityId),
+        body: participating_organisationData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateParticipatingOrganisation = function (activityId, id, participating_organisationData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.participatingOrganisationUrl(activityId), `${id}`),
+        body: participating_organisationData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteParticipatingOrganisation = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.participatingOrganisationUrl(activityId), `${id}`),
     };
 
     return oipaDelete(req_options)

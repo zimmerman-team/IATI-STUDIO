@@ -82,7 +82,8 @@ class ActivityEdit extends React.Component {
             case 'performance':
                 return <PerformanceForm subTab={subTab} { ...this.props }/>;
             default:
-                return <IdentificationForm subTab={subTab} {...this.props}/>;
+                // TODO: return a nice not found screen here - 2017-01-02
+                return <h1>Not Found!</h1>
         }
     }
 

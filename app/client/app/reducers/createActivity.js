@@ -22,6 +22,9 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
         case ActionTypes.CREATE_DESCRIPTION_SUCCESS:
         case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
+        case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
+        case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_SUCCESS:
+        case ActionTypes.UPDATE_PARTICIPATING_ORGANISATION_SUCCESS:
                 return _.merge({}, state, action.response.entities)
 
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
@@ -29,6 +32,12 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'descriptions': _.omit(state.descriptions, action.id),
+            }
+        case ActionTypes.DELETE_PARTICIPATING_ORGANISATION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'participatingOrganisations': _.omit(state.participatingOrganisations, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
@@ -62,5 +71,10 @@ export const datesSelector = createSelector(
     (dates) => _.map(dates, x => x) // to array
 )
 
+
+export const ParticipatingOrganisationsSelector = createSelector(
+    state => state.activity.participatingOrganisations,
+    (participatingOrganisations) => _.map(participatingOrganisations, x => x) // to array
+)
 
 export default activity

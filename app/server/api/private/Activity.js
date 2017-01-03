@@ -126,9 +126,31 @@ var ActivityAPI = {
           .catch(error => res(error));
     },
 
-    addParticipatingOrganisation: function (user, form, activity, res) {
+    getParticipatingOrganisations: function(user, activityId, res) {
         // TODO: update validation status here - 2016-12-16
-        return postParticipatingOrganisationForm(form, activity)
+        return oipaMethods.getParticipatingOrganisations(activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createParticipatingOrganisation: function(user, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation, 
+        return oipaMethods.postParticipatingOrganisation(activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateParticipatingOrganisation: function(user, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateParticipatingOrganisation(activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteParticipatingOrganisation: function(user, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteParticipatingOrganisation(activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
