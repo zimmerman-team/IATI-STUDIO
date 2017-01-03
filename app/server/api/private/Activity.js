@@ -155,6 +155,35 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getRecipientCountries: function(user, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getRecipientCountries(activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createRecipientCountry: function(user, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation, 
+        return oipaMethods.postRecipientCountry(activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateRecipientCountry: function(user, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateRecipientCountry(activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteRecipientCountry: function(user, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteRecipientCountry(activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     addDocumentLink: function (user, form, activity, res) {
         return postDocumentLinkForm(form, activity)
             .then(result => res(null, result))

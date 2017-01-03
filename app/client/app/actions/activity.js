@@ -381,6 +381,77 @@ export function deleteParticipatingOrganisation(activityId, id) {
     }
 }
 
+/*
+ * Get recipientCountries (Identification form)
+ */
+export const GET_RECIPIENT_COUNTRIES_REQUEST = 'GET_RECIPIENT_COUNTRIES_REQUEST';
+export const GET_RECIPIENT_COUNTRIES_SUCCESS = 'GET_RECIPIENT_COUNTRIES_SUCCESS';
+export const GET_RECIPIENT_COUNTRIES_FAILURE = 'GET_RECIPIENT_COUNTRIES_FAILURE';
+
+export function getRecipientCountries(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_RECIPIENT_COUNTRIES_REQUEST, GET_RECIPIENT_COUNTRIES_SUCCESS, GET_RECIPIENT_COUNTRIES_FAILURE ],
+            endpoint: 'Activity.getRecipientCountries',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.recipientCountry),
+        }
+    }
+}
+
+/*
+ * Create recipientCountry (Identification form)
+ */
+export const CREATE_RECIPIENT_COUNTRY_REQUEST = 'CREATE_RECIPIENT_COUNTRY_REQUEST';
+export const CREATE_RECIPIENT_COUNTRY_SUCCESS = 'CREATE_RECIPIENT_COUNTRY_SUCCESS';
+export const CREATE_RECIPIENT_COUNTRY_FAILURE = 'CREATE_RECIPIENT_COUNTRY_FAILURE';
+export function createRecipientCountry(activityId, recipientCountry) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_RECIPIENT_COUNTRY_REQUEST, CREATE_RECIPIENT_COUNTRY_SUCCESS, CREATE_RECIPIENT_COUNTRY_FAILURE ],
+            endpoint: 'Activity.createRecipientCountry',
+            payload: [ activityId, recipientCountry ],
+            schema: Schemas.recipientCountry,
+        }
+    }
+}
+
+/*
+ * Update recipientCountry (Identification form)
+ */
+export const UPDATE_RECIPIENT_COUNTRY_REQUEST = 'UPDATE_RECIPIENT_COUNTRY_REQUEST';
+export const UPDATE_RECIPIENT_COUNTRY_SUCCESS = 'UPDATE_RECIPIENT_COUNTRY_SUCCESS';
+export const UPDATE_RECIPIENT_COUNTRY_FAILURE = 'UPDATE_RECIPIENT_COUNTRY_FAILURE';
+export function updateRecipientCountry(activityId, id, recipientCountry) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_RECIPIENT_COUNTRY_REQUEST, UPDATE_RECIPIENT_COUNTRY_SUCCESS, UPDATE_RECIPIENT_COUNTRY_FAILURE ],
+            endpoint: 'Activity.updateRecipientCountry',
+            payload: [ activityId, id, recipientCountry ],
+            schema: Schemas.recipientCountry,
+        }
+    }
+}
+
+
+/*
+ * Delete recipientCountry (Identification form)
+ */
+export const DELETE_RECIPIENT_COUNTRY_REQUEST = 'DELETE_RECIPIENT_COUNTRY_REQUEST';
+export const DELETE_RECIPIENT_COUNTRY_SUCCESS = 'DELETE_RECIPIENT_COUNTRY_SUCCESS';
+export const DELETE_RECIPIENT_COUNTRY_FAILURE = 'DELETE_RECIPIENT_COUNTRY_FAILURE';
+export function deleteRecipientCountry(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_RECIPIENT_COUNTRY_REQUEST, DELETE_RECIPIENT_COUNTRY_SUCCESS, DELETE_RECIPIENT_COUNTRY_FAILURE ],
+            endpoint: 'Activity.deleteRecipientCountry',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
 /**
  * Add participating organisation form data of activity
  *

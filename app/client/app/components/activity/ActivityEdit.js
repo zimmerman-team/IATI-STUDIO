@@ -28,23 +28,8 @@ class ActivityEdit extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleIdentificationFormSubmit = this.handleIdentificationFormSubmit.bind(this);
-        this.handleParticipatingOrganisationFormSubmit = this.handleParticipatingOrganisationFormSubmit.bind(this);
         this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this);
 
-        this.state = {
-            page: 1
-        }
-    }
-
-    /**
-     * Submit identification data and redirect
-     * to basic information form.
-     *
-     * @param data
-     */
-    handleIdentificationFormSubmit(data) {
-        this.props.createActivity(data)
     }
 
     /**
@@ -53,10 +38,6 @@ class ActivityEdit extends React.Component {
      *
      * @param data
      */
-    handleParticipatingOrganisationFormSubmit(data) {
-        this.props.addParticipatingOrganisation(data)
-    }
-
     componentDidMount() {
         this.props.toggleMainMenu(false)
     }
@@ -113,7 +94,6 @@ function mapStateToProps(state, props) {
 
     return {
         navState: state.navState,
-        page: state.page,
         codelists: state.codelists,
         activityId: props.params.activityId,
         tab: props.params.tab,

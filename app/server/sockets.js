@@ -81,6 +81,11 @@ module.exports = function(app) {
         socket.on('Activity.updateParticipatingOrganisation', Activity.updateParticipatingOrganisation.bind(null, user));
         socket.on('Activity.deleteParticipatingOrganisation', Activity.deleteParticipatingOrganisation.bind(null, user));
 
+        socket.on('Activity.getRecipientCountries', Activity.getRecipientCountries.bind(null, user));
+        socket.on('Activity.createRecipientCountry', Activity.createRecipientCountry.bind(null, user));
+        socket.on('Activity.updateRecipientCountry', Activity.updateRecipientCountry.bind(null, user));
+        socket.on('Activity.deleteRecipientCountry', Activity.deleteRecipientCountry.bind(null, user));
+
         socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
         socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));

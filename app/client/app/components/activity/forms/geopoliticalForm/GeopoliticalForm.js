@@ -9,24 +9,24 @@ class GeopoliticalForm extends React.Component {
     super(props)
   }
 
-  static getFormSubComponentComponentFromRoute(subTab) {
+  getFormSubComponentComponentFromRoute(subTab) {
 
     switch(subTab) {
       case 'country':
-        return <RecipientCountryForm/>;
+        return <RecipientCountryForm {...this.props} />;
       case 'region':
-        return <RecipientRegionForm/>;
+        return <RecipientRegionForm {...this.props} />;
       case 'location':
-        return <LocationForm/>;
+        return <LocationForm {...this.props} />;
 
       default:
-        return <RecipientCountryForm/>;
+        return <RecipientCountryForm {...this.props} />;
     }
   }
 
   render() {
     const {subTab} = this.props;
-    const formSubComponent = GeopoliticalForm.getFormSubComponentComponentFromRoute(subTab);
+    const formSubComponent = this.getFormSubComponentComponentFromRoute(subTab);
 
     return (
       <div>

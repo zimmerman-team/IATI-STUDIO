@@ -5,231 +5,222 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addGeopoliticalCountry } from '../../../../actions/activity'
+import { getCodeListItems, getRecipientCountries, createRecipientCountry, updateRecipientCountry, deleteRecipientCountry } from '../../../../actions/activity'
+import { recipientCountriesSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
-const renderCountry = ({fields, countryCodeOptions, meta: {touched, error}}) => (
-  <div>
-    {fields.map((title, index) =>
-      <div key={index}>
-        <Field
-          component={renderSelectField}
-          name={`${title}.country[code]`}
-          label="Country code"
-          selectOptions={countryCodeOptions}
-          defaultOption="Select one of the following options"
-        />
-        <div className="columns small-6">
-          <Field
-            name={`${title}.text`}
-            type="text"
-            component={renderField}
-            label="Percentage"
-          />
-        </div>
-      </div>
-    )}
-    <div className="columns">
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-      <button
-        type="button"
-        title="Remove Title"
-        className="control-button remove float-right"
-        onClick={() => fields.pop()}>Delete
-      </button>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
+import handleSubmit from '../../helpers/handleSubmit'
 
-const renderDescription = ({fields, languageOptions, meta: {touched, error}}) => (
-  <div>
-    {fields.map((description, index) =>
-      <div className="field-list" key={index}>
-        <div className="row no-margin">
-          <Field
-            name={`${description}.country[code]`}
-            component={renderCountryTypeSelect}
-            label="Country Code"
-          />
-          <div className="columns small-6">
-            <Field
-              name={`${description}.percentageText`}
-              type="text"
-              component={renderField}
-              label="Percentage"
-            />
-          </div>
-          <FieldArray name={`${description}.additionalCountry`} component={renderCountry}/>
-        </div>
-        <div className="row no-margin">
-          <FieldArray
-            name={`${description}.additionalDescription`}
-            component={renderNarrativeFields}
-            languageOptions={languageOptions}
-            textName="text"
-            textLabel="Title"
-          />
-        </div>
-      </div>
-    )}
-    <div className="columns">
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-      <button
-        type="button"
-        title="Remove Title"
-        className="control-button remove float-right"
-        onClick={() => fields.pop()}>Delete
-      </button>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
-);
+const renderRecipientCountry = ({fields, codelists, meta: {touched, error, dirty}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((recipientCountry, index) =>
+                <div className="field-list" key={index}>
+                    <div className="row no-margin">
+                        <Field
+                            name={`${recipientCountry}.country[code]`}
+                            component={renderSelectField}
+                            label="Country Code"
+                            selectOptions={codelists['Country']}
+                        />
+                        <div className="columns small-6">
+                            <Field
+                                name={`${recipientCountry}.percentage`}
+                                type="text"
+                                component={renderField}
+                                label="Percentage"
+                            />
+                        </div>
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${recipientCountry}.narratives`}
+                            component={renderNarrativeFields}
+                            languageOptions={codelists['Language']}
+                            textName="text"
+                            textLabel="Title"
+                        />
+                    </div>
+                </div>
+            )}
+            <div className="columns">
+                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                <button
+                    type="button"
+                    title="Remove Title"
+                    className="control-button remove float-right"
+                    onClick={() => fields.pop()}>Delete
+                </button>
+                {touched && error && <span className="error">{error}</span>}
+            </div>
+            </div>
+    )
+};
 
 const validate = values => {
-  const errors = {};
+    let errors = {};
 
-  if (!values.country) {
-    const typeLanguageObj = {};
-    typeLanguageObj.code = 'Required';
-    errors.country = typeLanguageObj
-  }
+    const recipientCountries = values.recipientCountries || []
 
-  if (values.additionalCountry) {
-    const narrativeArrayErrors = [];
+    errors.recipientCountries = recipientCountries.map(recipientCountry => {
+        let recipientCountryErrors = {}
 
-    values.additionalCountry.forEach((title, titleIndex) => {
-      const titleErrors = {};
-      if (!title || !title.country) {
-        const codeObj = {};
-        codeObj.code = 'Required';
-        titleErrors.country = codeObj;
-        narrativeArrayErrors[titleIndex] = titleErrors
-      }
-    });
+        if (!recipientCountry.country) {
+            recipientCountryErrors.country = { code: 'Required' }
+        }
 
-    if (narrativeArrayErrors.length) {
-      errors.additionalCountry = narrativeArrayErrors
+        if (!recipientCountry.percentage) {
+            recipientCountryErrors.percentage = 'Required'
+        }
+
+        const narratives = recipientCountry.narratives || []
+
+        recipientCountryErrors.narratives = narratives.map(narrative => {
+            let narrativeErrors = {}
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = { code: 'Required' }
+            }
+
+            return narrativeErrors
+        })
+
+        if (!narratives.length) {
+            recipientCountryErrors.narratives._error = 'At least one narrative must be entered'
+        }
+
+        return recipientCountryErrors
+    })
+
+    if (!recipientCountries.length) {
+        errors.recipientCountries._error = 'At least one recipient country must be entered'
     }
-  }
-  if (values.additionalDescription) {
-    const narrativeArrayErrors = [];
 
-    values.additionalDescription.forEach((title, titleIndex) => {
-      const titleErrors = {};
-      if (!title || !title.country) {
-        const codeObj = {};
-        codeObj.code = 'Required';
-        titleErrors.country = codeObj;
-        narrativeArrayErrors[titleIndex] = titleErrors
-      }
-    });
-
-    if (narrativeArrayErrors.length) {
-      errors.additionalDescription = narrativeArrayErrors
-    }
-  }
-  return errors
+    return errors
 };
 
 class RecipientCountryForm extends Component {
 
-  constructor(props) {
-    super(props);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-  }
-
-  /**
-   * Submit geopolitical's country data and redirect to region form.
-   *
-   * @param formData
-   */
-  handleFormSubmit(formData) {
-    this.props.dispatch(addGeopoliticalCountry(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/geopolitical-information/region');
-  }
-
-  static contextTypes = {
-    router: PropTypes.object,
-  };
-
-  componentWillMount() {
-    this.props.getCodeListItems('Country');
-    this.props.getCodeListItems('Language');
-  }
-
-  render() {
-    const {activity, handleSubmit, submitting} = this.props;
-
-    if (!activity['Language']) {
-      return <GeneralLoader />
+    constructor(props) {
+        super(props);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    return (
-      <div className="columns small-centered small-12">
-        <h2 className="page-title with-tip">Recipient Country</h2>
-        <Tooltip className="inline" tooltip="Description text goes here">
-          <i className="material-icons">info</i>
-        </Tooltip>
-          <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-            <div className="field-list">
-              <div className="row no-margin">
-                <Field
-                  component={renderSelectField}
-                  name="country[code]"
-                  label="Country code"
-                  selectOptions={activity["Country"]}
-                  defaultOption="Select one of the following options"
-                />
-                <div className="columns small-6">
-                  <Field
-                    name="percentage"
-                    type="text"
-                    component={renderField}
-                    label="Percentage"
-                  />
-                </div>
-                <FieldArray
-                  name="additionalCountry"
-                  component={renderCountry}
-                  countryCodeOptions={activity["Country"]}
-                />
-                <FieldArray
-                  name="additionalTitles"
-                  component={renderNarrativeFields}
-                  languageOptions={activity["Language"]}
-                  textName="textTitle"
-                  textLabel="Title"
-                />
-              </div>
-            </div>
-            <div className="columns small-12">
-              <Link className="button" to="/publisher/activity/participating-organisation/participating-organisation/">Back to participating organigation</Link>
-              <button className="button float-right" type="submit" disabled={submitting}>
-                Continue to Region
-              </button>
-            </div>
-          </form>
-        <FieldArray
-          name="additionalDescription"
-          component={renderDescription}
-          languageOptions={activity["Language"]}/>
-      </div>
-    )
-  }
-}
+    /**
+     * Submit basic information's description data and redirect to status form.
+     *
+     * @param formData
+     */
+    handleFormSubmit(formData) {
+        const { activityId, data, tab, subTab } = this.props
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+        console.log(activityId);
+
+        handleSubmit(
+            'recipientCountries',
+            activityId,
+            data,
+            formData.recipientCountries,
+            this.props.createRecipientCountry,
+            this.props.updateRecipientCountry,
+            this.props.deleteRecipientCountry,
+        )
+
+        // this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/region`);
+    }
+
+    componentWillMount() {
+        this.props.getCodeListItems('Country');
+        this.props.getCodeListItems('Language');
+        this.props.getRecipientCountries(this.props.activityId)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('descriptions', newData);
+
+            // change each item 
+            newData.forEach((d,i) => this.props.change(`recipientCountries[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('recipientCountries', i)
+            }
+        }
+
+        if (this.props.activityId !== nextProps.activityId) {
+            this.props.getRecipientCountries(nextProps.activityId)
+        }
+    }
+
+
+    render() {
+        const {data, codelists, handleSubmit, submitting} = this.props;
+
+        if (!data || !codelists['Language'] || !codelists['Country']) {
+            return <GeneralLoader />
+        }
+
+        return (
+            <div className="columns small-centered small-12">
+                <h2 className="page-title with-tip">Recipient Country</h2>
+                <Tooltip className="inline" tooltip="Description text goes here">
+                    <i className="material-icons">info</i>
+                </Tooltip>
+                <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+                    <div className="field-list">
+                        <FieldArray
+                            name="recipientCountries"
+                            component={renderRecipientCountry}
+                            codelists={codelists}
+                        />
+                    </div>
+                    <div className="columns small-12">
+                        <Link className="button" to="/publisher/activity/participating-organisation/participating-organisation/">Back to participating organigation</Link>
+                        <button className="button float-right" type="submit" disabled={submitting}>
+                            Continue to Region
+                        </button>
+                    </div>
+                </form>
+            </div>
+        )
+    }
 }
 
 RecipientCountryForm = reduxForm({
-  form: 'geopolitical-information-country',     // a unique identifier for this form
-  destroyOnUnmount: false,
-  validate
+    form: 'geopolitical-information-country',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    validate
 })(RecipientCountryForm);
 
+function mapStateToProps(state) {
+    const recipientCountries = recipientCountriesSelector(state)
 
-RecipientCountryForm = connect(mapStateToProps, {getCodeListItems, createActivity})(RecipientCountryForm);
-export default RecipientCountryForm;
+    return {
+        data: recipientCountries,
+        codelists: state.codelists,
+        activity: state.activity
+    }
+}
+
+RecipientCountryForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getRecipientCountries,
+    createRecipientCountry,
+    updateRecipientCountry,
+    deleteRecipientCountry
+})(RecipientCountryForm);
+
+export default withRouter(RecipientCountryForm);

@@ -183,6 +183,45 @@ export const deleteDate = function (activityId, id) {
 };
 
 
+export const getRecipientCountries = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.recipientCountryUrl(activityId),
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postRecipientCountry = function (activityId, recipientCountryData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.recipientCountryUrl(activityId),
+        body: recipientCountryData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateRecipientCountry = function (activityId, id, recipientCountryData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+        body: recipientCountryData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteRecipientCountry = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+    };
+
+    return oipaDelete(req_options)
+};
+
 /**
  * Post basic information description section form.
  *

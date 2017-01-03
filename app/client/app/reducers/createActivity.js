@@ -25,6 +25,9 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
         case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_SUCCESS:
         case ActionTypes.UPDATE_PARTICIPATING_ORGANISATION_SUCCESS:
+        case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
+        case ActionTypes.CREATE_RECIPIENT_COUNTRY_SUCCESS:
+        case ActionTypes.UPDATE_RECIPIENT_COUNTRY_SUCCESS:
                 return _.merge({}, state, action.response.entities)
 
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
@@ -38,6 +41,12 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'participatingOrganisations': _.omit(state.participatingOrganisations, action.id),
+            }
+        case ActionTypes.DELETE_RECIPIENT_COUNTRY_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'recipientCountries': _.omit(state.recipientCountries, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
@@ -76,5 +85,11 @@ export const ParticipatingOrganisationsSelector = createSelector(
     state => state.activity.participatingOrganisations,
     (participatingOrganisations) => _.map(participatingOrganisations, x => x) // to array
 )
+
+export const recipientCountriesSelector = createSelector(
+    state => state.activity.recipientCountries,
+    (recipient_countries) => _.map(recipient_countries, x => x) // to array
+)
+
 
 export default activity
