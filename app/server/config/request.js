@@ -25,10 +25,6 @@ export const oipaPost = oipaBase.defaults({
     method: 'POST',
 })
 
-export const oipaPut = oipaBase.defaults({
-    method: 'PUT',
-})
-
 export const oipaUpdate = oipaBase.defaults({
     method: 'PUT',
 })

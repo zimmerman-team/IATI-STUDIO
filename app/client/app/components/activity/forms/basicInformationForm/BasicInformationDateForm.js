@@ -5,7 +5,10 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, createActivity, addBasicInformationDate } from '../../../../actions/activity'
+import { getCodeListItems, getDates, createDate, updateDate, deleteDate } from '../../../../actions/activity'
+import { datesSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
+import handleSubmit from '../../helpers/handleSubmit'
 
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
@@ -56,8 +59,21 @@ class BasicInformationDateForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformationDate(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/basic-info/contact');
+      const { activityId, data, tab, subTab } = this.props
+
+      const lastDates = data
+      const dates = formData.dates
+
+      handleSubmit(
+          'dates',
+          activityId,
+          lastDates,
+          dates,
+          this.props.createDate,
+          this.props.updateDate,
+          this.props.deleteDate,
+      )
+      //this.context.router.push('/publisher/activity/basic-info/contact');
   }
 
   static contextTypes = {
@@ -65,13 +81,14 @@ class BasicInformationDateForm extends Component {
   };
 
   componentWillMount() {
-    this.props.getCodeListItems('ActivityDateType');
+      this.props.getCodeListItems('ActivityDateType');
+      this.props.getCodeListItems('Language');
   }
 
   render() {
-    const {activity, submitting, handleSubmit} = this.props;
+    const {codelists, submitting, handleSubmit} = this.props;
 
-    if (!activity["ActivityDateType"]) {
+    if (!codelists["ActivityDateType"] || !codelists["Language"]) {
       return <GeneralLoader/>
     }
 
@@ -96,19 +113,19 @@ class BasicInformationDateForm extends Component {
                 name="type"
                 component={renderSelectField}
                 label="Type"
-                selectOptions={activity["ActivityDateType"]}
+                selectOptions={codelists["ActivityDateType"]}
                 defaultOption="Select a type"
               />
               <hr/>
               <FieldArray
                 name="additionalTitles"
                 component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
+                languageOptions={codelists["Language"]}
                 textName="textTitle"
                 textLabel="Text"
               />
             </div>
-            <FieldArray name="additionalDate" component={renderDate} languageOptions={activity["Language"]}/>
+            <FieldArray name="additionalDate" component={renderDate} languageOptions={codelists["Language"]}/>
           </div>
           <div className="columns small-12">
             <Link className="button" to="/publisher/activity/basic-info/status">Back to status</Link>
@@ -122,10 +139,13 @@ class BasicInformationDateForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const dates = datesSelector(state)
+    return {
+        data: dates,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 BasicInformationDateForm = reduxForm({
@@ -134,7 +154,13 @@ BasicInformationDateForm = reduxForm({
   validate
 })(BasicInformationDateForm);
 
+BasicInformationDateForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getDates,
+    createDate,
+    updateDate,
+    deleteDate
+})(BasicInformationDateForm);
 
-BasicInformationDateForm = connect(mapStateToProps, {getCodeListItems, createActivity})(BasicInformationDateForm);
-export default BasicInformationDateForm;
+export default withRouter(BasicInformationDateForm)
 

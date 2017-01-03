@@ -66,6 +66,35 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getDates: function(user, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getDates(activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createDate: function(user, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postDate(activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateDate: function(user, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateDate(activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteDate: function(user, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteDate(activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     addBasicInformation: function (user, form, res) {
         // TODO: update validation status here - 2016-12-16
         return postActivityDescriptionForm(form)

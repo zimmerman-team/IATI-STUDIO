@@ -57,5 +57,10 @@ export const descriptionsSelector = createSelector(
     (descriptions) => _.map(descriptions, x => x) // to array
 )
 
+export const datesSelector = createSelector(
+    state => state.activity.dates,
+    (dates) => _.map(dates, x => x) // to array
+)
+
 
 export default activity

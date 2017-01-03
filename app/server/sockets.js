@@ -81,6 +81,13 @@ module.exports = function(app) {
         socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));
         socket.on('Activity.addRelations', Activity.addRelations.bind(null, user));
 
+        // BasicInformation Date CRUD
+        socket.on('Activity.getDate', Activity.getDates.bind(null, user));
+        socket.on('Activity.createDate', Activity.createDate.bind(null, user));
+        socket.on('Activity.updateDate', Activity.updateDate.bind(null, user));
+        socket.on('Activity.deleteDate', Activity.deleteDate.bind(null, user));
+
+
         // Add activity Basic Info
         socket.on('Activity.addBasicInformationDescription', Activity.addBasicInformationDescription.bind(null, user));
         socket.on('Activity.addBasicInformationStatus', Activity.addBasicInformationStatus.bind(null, user));

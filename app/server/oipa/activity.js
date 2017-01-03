@@ -7,7 +7,7 @@ import _ from 'lodash'
 import path from 'path'
 import querystring from 'querystring'
 import config from '../config/config'
-import { oipaPost, oipaGet, oipaPut, oipaUpdate, oipaDelete } from '../config/request'
+import { oipaPost, oipaGet, oipaUpdate, oipaDelete } from '../config/request'
 
 /**
  * Get all the languages form codeList.
@@ -98,6 +98,46 @@ export const deleteDescription = function (activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.description_url(activityId), `${id}`),
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const getDates = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.date_url(activityId),
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postDate = function (activityId, dateData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.date_url(activityId),
+        body: dateData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateDate = function (activityId, id, dateData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.date_url(activityId), `${id}`),
+        body: dateData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteDate = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.date_url(activityId), `${id}`),
     };
 
     return oipaDelete(req_options)
@@ -588,7 +628,7 @@ export const postClassificationSelectForm = function (formData, activity) {
     body: processedData,
   };
 
-  return oipaPut(req_options)
+  return oipaUpdate(req_options)
     .then(parsedBody => parsedBody)
 };
 

@@ -61,25 +61,6 @@ export function updateActivity(activity) {
 }
 
 
-
-/*
- * Get descriptions (Identification form)
- */
-export const GET_DESCRIPTIONS_REQUEST = 'GET_DESCRIPTIONS_REQUEST';
-export const GET_DESCRIPTIONS_SUCCESS = 'GET_DESCRIPTIONS_SUCCESS';
-export const GET_DESCRIPTIONS_FAILURE = 'GET_DESCRIPTIONS_FAILURE';
-
-export function getDescriptions(activityId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_DESCRIPTIONS_REQUEST, GET_DESCRIPTIONS_SUCCESS, GET_DESCRIPTIONS_FAILURE ],
-            endpoint: 'Activity.getDescriptions',
-            payload: [ activityId ],
-            schema: arrayOf(Schemas.description),
-        }
-    }
-}
-
 /*
  * Create description (Identification form)
  */
@@ -132,6 +113,79 @@ export function deleteDescription(activityId, id) {
         }
     }
 }
+
+
+/*
+ * Get Dates (BasicInformation form)
+ */
+export const GET_DATES_REQUEST = 'GET_DATES_REQUEST';
+export const GET_DATES_SUCCESS = 'GET_DATES_SUCCESS';
+export const GET_DATES_FAILURE = 'GET_DATES_FAILURE';
+
+export function getDates(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_DATES_REQUEST, GET_DATES_SUCCESS, GET_DATES_FAILURE ],
+            endpoint: 'Activity.getDates',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.date),
+        }
+    }
+}
+
+/*
+ * Create date (BasicInformation form)
+ */
+export const CREATE_DATE_REQUEST = 'CREATE_DATE_REQUEST';
+export const CREATE_DATE_SUCCESS = 'CREATE_DATE_SUCCESS';
+export const CREATE_DATE_FAILURE = 'CREATE_DATE_FAILURE';
+export function createDate(activityId, date) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_DATE_REQUEST, CREATE_DATE_SUCCESS, CREATE_DATE_FAILURE ],
+            endpoint: 'Activity.createDate',
+            payload: [ activityId, date ],
+            schema: Schemas.date,
+        }
+    }
+}
+
+/*
+ * Update Date (BasicInformation form)
+ */
+export const UPDATE_DATE_REQUEST = 'UPDATE_DATE_REQUEST';
+export const UPDATE_DATE_SUCCESS = 'UPDATE_DATE_SUCCESS';
+export const UPDATE_DATE_FAILURE = 'UPDATE_DATE_FAILURE';
+export function updateDate(activityId, id, date) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_DATE_REQUEST, UPDATE_DATE_SUCCESS, UPDATE_DATE_FAILURE ],
+            endpoint: 'Activity.updateDate',
+            payload: [ activityId, id, date ],
+            schema: Schemas.date,
+        }
+    }
+}
+
+
+/*
+ * Delete date (BasicInformation form)
+ */
+export const DELETE_DATE_REQUEST = 'DELETE_DATE_REQUEST';
+export const DELETE_DATE_SUCCESS = 'DELETE_DATE_SUCCESS';
+export const DELETE_DATE_FAILURE = 'DELETE_DATE_FAILURE';
+export function deleteDate(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_DATE_REQUEST, DELETE_DATE_SUCCESS, DELETE_DATE_FAILURE ],
+            endpoint: 'Activity.deleteDate',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
 
 export const GET_CODE_LIST_ITEMS_REQUEST = 'GET_CODE_LIST_ITEMS_REQUEST';
 export const GET_CODE_LIST_ITEMS_SUCCESS = 'GET_CODE_LIST_ITEMS_SUCCESS';
