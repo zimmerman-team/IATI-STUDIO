@@ -69,6 +69,10 @@ export const recipientCountry = new Schema('recipientCountries', {
 })
 
 
+export const date = new Schema('date', {
+    idAttribute: "id",
+})
+
 export const activity = new Schema('activity', {
     idAttribute: "id",
     descriptions: arrayOf(description),
