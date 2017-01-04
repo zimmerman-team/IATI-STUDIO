@@ -5,7 +5,10 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addBasicInformationStatus } from '../../../../actions/activity'
+import { getCodeListItems, getStatus, createStatus, updateStatus, deleteStatus } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { statusesSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const validate = values => {
   const errors = {};
@@ -29,8 +32,20 @@ class BasicInformationStatusForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformationStatus(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/basic-info/date');
+      const { activityId, data, tab, subTab } = this.props
+      const lastStatuses = data;
+      const statuses = formData.statuses;
+
+      handleSubmit(
+          'statuses',
+          activityId,
+          lastStatuses,
+          statuses,
+          this.props.createContact,
+          this.props.updateContact,
+          this.props.deleteContact,
+      )
+      //this.context.router.push('/publisher/activity/basic-info/date');
   }
 
   static contextTypes = {
@@ -42,9 +57,9 @@ class BasicInformationStatusForm extends Component {
   }
 
   render() {
-    const {activity, handleSubmit, submitting} = this.props;
+    const {codelists, handleSubmit, submitting} = this.props;
 
-    if (!activity["ActivityStatus"]) {
+    if (!codelists["ActivityStatus"]) {
       return <GeneralLoader/>
     }
 
@@ -62,7 +77,7 @@ class BasicInformationStatusForm extends Component {
                   name="status"
                   component={renderSelectField}
                   label="Status"
-                  selectOptions={activity["ActivityStatus"]}
+                  selectOptions={codelists["ActivityStatus"]}
                   defaultOption="Select status"
                 />
               </div>
@@ -80,10 +95,14 @@ class BasicInformationStatusForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const contacts = statusesSelector(state)
+
+    return {
+        data: contacts,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 BasicInformationStatusForm = reduxForm({
@@ -92,7 +111,12 @@ BasicInformationStatusForm = reduxForm({
   validate
 })(BasicInformationStatusForm);
 
-BasicInformationStatusForm = connect(mapStateToProps,
-  {getCodeListItems, createActivity})(BasicInformationStatusForm);
+BasicInformationStatusForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getStatus,
+    createStatus,
+    updateStatus,
+    deleteStatus
+})(BasicInformationStatusForm);
 
-export default BasicInformationStatusForm;
+export default withRouter(BasicInformationStatusForm)

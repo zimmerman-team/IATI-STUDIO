@@ -188,6 +188,15 @@ export const getRecipientCountries = function (activityId) {
         baseUrl: config.oipa_post_url,
         url: config.recipientCountryUrl(activityId),
     };
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const getStatus = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.status_url(activityId),
+    };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
@@ -203,11 +212,31 @@ export const postRecipientCountry = function (activityId, recipientCountryData) 
     return oipaPost(req_options)
 };
 
+export const postStatus = function (activityId, statusData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.status_url(activityId),
+        body: statusData,
+    };
+
+    return oipaPost(req_options)
+};
+
 export const updateRecipientCountry = function (activityId, id, recipientCountryData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.recipientCountryUrl(activityId), `${id}`),
         body: recipientCountryData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateStatus = function (activityId, id, statusData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.status_url(activityId), `${id}`),
+        body: statusData,
     };
 
     return oipaUpdate(req_options)
@@ -217,6 +246,55 @@ export const deleteRecipientCountry = function (activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+    };
+
+    return oipaPost(req_options)
+};
+
+export const deleteStatus = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.status_url(activityId), `${id}`),
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const getContact = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.contact_url(activityId),
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postContact = function (activityId, contactData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.contact_url(activityId),
+        body: contactData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateContact = function (activityId, id, contactData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.contact_url(activityId), `${id}`),
+        body: contactData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteContact = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.contact_url(activityId), `${id}`),
     };
 
     return oipaDelete(req_options)

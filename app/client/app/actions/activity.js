@@ -62,6 +62,24 @@ export function updateActivity(activity) {
 
 
 /*
+ * Get descriptions (Identification form)
+ */
+export const GET_DESCRIPTIONS_REQUEST = 'GET_DESCRIPTIONS_REQUEST';
+export const GET_DESCRIPTIONS_SUCCESS = 'GET_DESCRIPTIONS_SUCCESS';
+export const GET_DESCRIPTIONS_FAILURE = 'GET_DESCRIPTIONS_FAILURE';
+
+export function getDescriptions(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_DESCRIPTIONS_REQUEST, GET_DESCRIPTIONS_SUCCESS, GET_DESCRIPTIONS_FAILURE ],
+            endpoint: 'Activity.getDescriptions',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.description),
+        }
+    }
+}
+
+/*
  * Create description (Identification form)
  */
 export const CREATE_DESCRIPTION_REQUEST = 'CREATE_DESCRIPTION_REQUEST';
@@ -181,6 +199,150 @@ export function deleteDate(activityId, id) {
         [CALL_API]: {
             types: [ DELETE_DATE_REQUEST, DELETE_DATE_SUCCESS, DELETE_DATE_FAILURE ],
             endpoint: 'Activity.deleteDate',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get Status (BasicInformation form)
+ */
+export const GET_STATUS_REQUEST = 'GET_STATUS_REQUEST';
+export const GET_STATUS_SUCCESS = 'GET_STATUS_SUCCESS';
+export const GET_STATUS_FAILURE = 'GET_STATUS_FAILURE';
+
+export function getStatus(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_STATUS_REQUEST, GET_STATUS_SUCCESS, GET_STATUS_FAILURE ],
+            endpoint: 'Activity.getStatus',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.status),
+        }
+    }
+}
+
+/*
+ * Create status (BasicInformation form)
+ */
+export const CREATE_STATUS_REQUEST = 'CREATE_STATUS_REQUEST';
+export const CREATE_STATUS_SUCCESS = 'CREATE_STATUS_SUCCESS';
+export const CREATE_STATUS_FAILURE = 'CREATE_STATUS_FAILURE';
+export function createStatus(activityId, status) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_STATUS_REQUEST, CREATE_STATUS_SUCCESS, CREATE_STATUS_FAILURE ],
+            endpoint: 'Activity.createStatus',
+            payload: [ activityId, status ],
+            schema: Schemas.status,
+        }
+    }
+}
+
+/*
+ * Update Status (BasicInformation form)
+ */
+export const UPDATE_STATUS_REQUEST = 'UPDATE_STATUS_REQUEST';
+export const UPDATE_STATUS_SUCCESS = 'UPDATE_STATUS_SUCCESS';
+export const UPDATE_STATUS_FAILURE = 'UPDATE_STATUS_FAILURE';
+export function updateStatus(activityId, id, status) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_STATUS_REQUEST, UPDATE_STATUS_SUCCESS, UPDATE_STATUS_FAILURE ],
+            endpoint: 'Activity.updateStatus',
+            payload: [ activityId, id, status ],
+            schema: Schemas.status,
+        }
+    }
+}
+
+
+/*
+ * Delete Status (BasicInformation form)
+ */
+export const DELETE_STATUS_REQUEST = 'DELETE_STATUS_REQUEST';
+export const DELETE_STATUS_SUCCESS = 'DELETE_STATUS_SUCCESS';
+export const DELETE_STATUS_FAILURE = 'DELETE_STATUS_FAILURE';
+export function deleteStatus(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_STATUS_REQUEST, DELETE_STATUS_SUCCESS, DELETE_STATUS_FAILURE ],
+            endpoint: 'Activity.deleteStatus',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get Contact (BasicInformation form)
+ */
+export const GET_CONTACT_REQUEST = 'GET_CONTACT_REQUEST';
+export const GET_CONTACT_SUCCESS = 'GET_CONTACT_SUCCESS';
+export const GET_CONTACT_FAILURE = 'GET_CONTACT_FAILURE';
+
+export function getContact(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_CONTACT_REQUEST, GET_CONTACT_SUCCESS, GET_CONTACT_FAILURE ],
+            endpoint: 'Activity.getContact',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.contact),
+        }
+    }
+}
+
+/*
+ * Create contact (BasicInformation form)
+ */
+export const CREATE_CONTACT_REQUEST = 'CREATE_CONTACT_REQUEST';
+export const CREATE_CONTACT_SUCCESS = 'CREATE_CONTACT_SUCCESS';
+export const CREATE_CONTACT_FAILURE = 'CREATE_CONTACT_FAILURE';
+export function createContact(activityId, contact) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, CREATE_CONTACT_FAILURE ],
+            endpoint: 'Activity.createContact',
+            payload: [ activityId, contact ],
+            schema: Schemas.contact,
+        }
+    }
+}
+
+/*
+ * Update Contact (BasicInformation form)
+ */
+export const UPDATE_CONTACT_REQUEST = 'UPDATE_CONTACT_REQUEST';
+export const UPDATE_CONTACT_SUCCESS = 'UPDATE_CONTACT_SUCCESS';
+export const UPDATE_CONTACT_FAILURE = 'UPDATE_CONTACT_FAILURE';
+export function updateContact(activityId, id, contact) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_CONTACT_REQUEST, UPDATE_CONTACT_SUCCESS, UPDATE_CONTACT_FAILURE ],
+            endpoint: 'Activity.updateContact',
+            payload: [ activityId, id, contact ],
+            schema: Schemas.contact,
+        }
+    }
+}
+
+
+/*
+ * Delete Contact (BasicInformation form)
+ */
+export const DELETE_CONTACT_REQUEST = 'DELETE_CONTACT_REQUEST';
+export const DELETE_CONTACT_SUCCESS = 'DELETE_CONTACT_SUCCESS';
+export const DELETE_CONTACT_FAILURE = 'DELETE_CONTACT_FAILURE';
+export function deleteContact(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE ],
+            endpoint: 'Activity.deleteContact',
             payload: [ activityId, id ]
         }
     }

@@ -95,6 +95,65 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+
+    getStatus: function(user, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getStatus(activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createStatus: function(user, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postStatus(activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateStatus: function(user, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateStatus(activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteStatus: function(user, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteStatus(activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getContact: function(user, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getContact(activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createContact: function(user, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postContact(activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateContact: function(user, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateContact(activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteContact: function(user, activityId, id, res) {
+        // TODO: update validation status here
+        return oipaMethods.deleteContact(activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     addBasicInformation: function (user, form, res) {
         // TODO: update validation status here - 2016-12-16
         return postActivityDescriptionForm(form)

@@ -5,7 +5,10 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField, renderNarrativeFields, renderField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addBasicInformationContact } from '../../../../actions/activity'
+import { getCodeListItems, getContact, createContact, updateContact, deleteContact } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { contactsSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
   <div className="columns small-6">
@@ -439,8 +442,20 @@ class BasicInformationContactForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addBasicInformationContact(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/participating-organisation/participating-organisation');
+      const { activityId, data, tab, subTab } = this.props
+      const lastContacts = data;
+      const contacts = formData.contacts;
+
+      handleSubmit(
+          'contacts',
+          activityId,
+          lastContacts,
+          contacts,
+          this.props.createContact,
+          this.props.updateContact,
+          this.props.deleteContact,
+      )
+    //this.context.router.push('/publisher/activity/participating-organisation/participating-organisation');
   }
 
   static contextTypes = {
@@ -452,9 +467,9 @@ class BasicInformationContactForm extends Component {
   }
 
   render() {
-    const {activity, handleSubmit, submitting} = this.props;
+    const {codelists, handleSubmit, submitting} = this.props;
 
-    if (!activity["ContactType"]) {
+    if (!codelists["ContactType"]) {
       return <GeneralLoader/>
     }
 
@@ -471,8 +486,8 @@ class BasicInformationContactForm extends Component {
                 <FieldArray
                   name="participating-contact"
                   component={renderParticipatingContact}
-                  languageOptions={activity["Language"]}
-                  contactTypes={activity["ContactType"]}
+                  languageOptions={codelists["Language"]}
+                  contactTypes={codelists["ContactType"]}
                 />
               </div>
               <div className="columns small-12">
@@ -489,10 +504,14 @@ class BasicInformationContactForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const contacts = contactsSelector(state)
+
+    return {
+        data: contacts,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 BasicInformationContactForm = reduxForm({
@@ -502,6 +521,14 @@ BasicInformationContactForm = reduxForm({
 })(BasicInformationContactForm);
 
 
-BasicInformationContactForm = connect(mapStateToProps, {getCodeListItems, createActivity})(BasicInformationContactForm);
-export default BasicInformationContactForm;
+BasicInformationContactForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getContact,
+    createContact,
+    updateContact,
+    deleteContact
+})(BasicInformationContactForm);
+
+export default withRouter(BasicInformationContactForm)
+
 

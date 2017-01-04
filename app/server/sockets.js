@@ -92,11 +92,22 @@ module.exports = function(app) {
         socket.on('Activity.addRelations', Activity.addRelations.bind(null, user));
 
         // BasicInformation Date CRUD
-        socket.on('Activity.getDate', Activity.getDates.bind(null, user));
+        socket.on('Activity.getDates', Activity.getDates.bind(null, user));
         socket.on('Activity.createDate', Activity.createDate.bind(null, user));
         socket.on('Activity.updateDate', Activity.updateDate.bind(null, user));
         socket.on('Activity.deleteDate', Activity.deleteDate.bind(null, user));
 
+        // BasicInformation Status CRUD
+        socket.on('Activity.getStatus', Activity.getStatus.bind(null, user));
+        socket.on('Activity.createStatus', Activity.createStatus.bind(null, user));
+        socket.on('Activity.updateStatus', Activity.updateStatus.bind(null, user));
+        socket.on('Activity.deleteStatus', Activity.deleteStatus.bind(null, user));
+
+        // BasicInformation Contact CRUD
+        socket.on('Activity.getContact', Activity.getContact.bind(null, user));
+        socket.on('Activity.createContact', Activity.createContact.bind(null, user));
+        socket.on('Activity.updateContact', Activity.updateContact.bind(null, user));
+        socket.on('Activity.deleteContact', Activity.deleteContact.bind(null, user));
 
         // Add activity Basic Info
         socket.on('Activity.addBasicInformationDescription', Activity.addBasicInformationDescription.bind(null, user));

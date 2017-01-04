@@ -15,6 +15,9 @@ const config = {
     "activities_url": "/api/activities/",
     "aggregation_url": "/api/transactions/aggregations/",
     "descriptionUrl": (activityId) => `/api/activities/${activityId}/descriptions/`,
+    "date_url": (activityId) => `/api/activities/${activityId}/activity_dates/`,
+    "status_url": (activityId) => `/api/activities/${activityId}/activity_status/`,
+    "contact_url": (activityId) => `/api/activities/${activityId}/contact_info/`,
     "participatingOrganisationUrl": (activityId) => `/api/activities/${activityId}/participating_organisations/`,
     "recipientCountryUrl": (activityId) => `/api/activities/${activityId}/recipientCountries/`,
 
@@ -42,13 +45,14 @@ const config = {
     "visualization": {
         "max": 25,
         "itemFilters": ['recipient_country', 'recipient_region', 'sector', 'reporting_organisation'],
-        "contextFilters": ['recipient_country', 'recipient_region', 'sector', 'reporting_organisation', 'document_link_category', 'activity_status', 'collaboration_type', 'default_flow_type', 'default_aid_type', 'default_finance_type', 'default_tied_status']
+        "contextFilters": ['recipient_country', 'recipient_region', 'sector', 'reporting_organisation', 'document_link_category',
+            'activity_status', 'collaboration_type', 'default_flow_type', 'default_aid_type', 'default_finance_type', 'default_tied_status']
     },
 
 
     /*
      * Authentication
-    */
+     */
 
     "auth": auth,
 

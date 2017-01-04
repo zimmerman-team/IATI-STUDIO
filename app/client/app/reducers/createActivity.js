@@ -22,6 +22,15 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
         case ActionTypes.CREATE_DESCRIPTION_SUCCESS:
         case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
+        case ActionTypes.GET_DATES_SUCCESS:
+        case ActionTypes.CREATE_DATE_SUCCESS:
+        case ActionTypes.UPDATE_DATE_SUCCESS:
+        case ActionTypes.GET_STATUS_SUCCESS:
+        case ActionTypes.CREATE_STATUS_SUCCESS:
+        case ActionTypes.UPDATE_STATUS_SUCCESS:
+        case ActionTypes.GET_CONTACT_SUCCESS:
+        case ActionTypes.CREATE_CONTACT_SUCCESS:
+        case ActionTypes.UPDATE_CONTACT_SUCCESS:
         case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
         case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_SUCCESS:
         case ActionTypes.UPDATE_PARTICIPATING_ORGANISATION_SUCCESS:
@@ -78,6 +87,16 @@ export const descriptionsSelector = createSelector(
 export const datesSelector = createSelector(
     state => state.activity.dates,
     (dates) => _.map(dates, x => x) // to array
+)
+
+export const contactsSelector = createSelector(
+    state => state.activity.descriptions,
+    (contacts) => _.map(contacts, x => x) // to array
+)
+
+export const statusesSelector = createSelector(
+    state => state.activity.statuses,
+    (contacts) => _.map(contacts, x => x) // to array
 )
 
 
