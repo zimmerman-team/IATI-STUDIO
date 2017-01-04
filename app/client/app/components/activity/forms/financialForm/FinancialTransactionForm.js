@@ -6,7 +6,10 @@ import {renderNarrativeFields, renderField, renderSelectField, renderOrgFields,
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import { Link } from 'react-router';
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity, addFinancialTransactions } from '../../../../actions/activity'
+import { getCodeListItems, getTransactions, createTransaction, updateTransaction, deleteTransaction } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { transactionsSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const renderAdditionalRenderFinancialTransactionForm = ({fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
@@ -236,8 +239,20 @@ class FinancialTransactionForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addFinancialTransactions(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/financial/capital');
+      const { activityId, data, tab, subTab } = this.props
+      const lastTransaction = data;
+      const transactions = formData.transactions;
+
+      handleSubmit(
+          'transactions',
+          activityId,
+          lastTransaction,
+          transactions,
+          this.props.createTransaction,
+          this.props.updateTransaction,
+          this.props.deleteTransaction,
+      )
+      //this.context.router.push('/publisher/activity/financial/capital');
   }
 
   static contextTypes = {
@@ -261,12 +276,12 @@ class FinancialTransactionForm extends Component {
   }
 
   render() {
-    const {activity, handleSubmit, submitting} = this.props;
+    const {codelists, handleSubmit, submitting} = this.props;
 
-    if (!activity["HumanitarianScopeType"] || !activity["TransactionType"] || !activity["OrganisationType"]
-        || !activity["Currency"] || !activity["Language"] || !activity["DisbursementChannel"]
-        || !activity["SectorVocabulary"] || !activity["Sector"] || !activity["Country"]
-        || !activity["FlowType"] || !activity["FinanceType"] || !activity["AidType"] || !activity["TiedStatus"]) {
+    if (!codelists["HumanitarianScopeType"] || !codelists["TransactionType"] || !codelists["OrganisationType"]
+        || !codelists["Currency"] || !codelists["Language"] || !codelists["DisbursementChannel"]
+        || !codelists["SectorVocabulary"] || !codelists["Sector"] || !codelists["Country"]
+        || !codelists["FlowType"] || !codelists["FinanceType"] || !codelists["AidType"] || !codelists["TiedStatus"]) {
       return <GeneralLoader/>
     }
 
@@ -279,34 +294,34 @@ class FinancialTransactionForm extends Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <RenderFinancialTransactionForm
-              humanitarianOptions={activity["HumanitarianScopeType"]}
-              organisationOptions={activity["OrganisationType"]}
-              languageOptions={activity["Language"]}
-              currencyOptions={activity["Currency"]}
-              disbursementOptions={activity["DisbursementChannel"]}
-              transactionOptions={activity["TransactionType"]}
-              sectorVocabularyOptions={activity["SectorVocabulary"]}
-              sectorOptions={activity["Sector"]}
-              countryOptions={activity["Country"]}
-              flowOptions={activity["FlowType"]}
-              financeOptions={activity["FinanceType"]}
-              aidOptions={activity["AidType"]}
-              tiedOptions={activity["TiedStatus"]}
+              humanitarianOptions={codelists["HumanitarianScopeType"]}
+              organisationOptions={codelists["OrganisationType"]}
+              languageOptions={codelists["Language"]}
+              currencyOptions={codelists["Currency"]}
+              disbursementOptions={codelists["DisbursementChannel"]}
+              transactionOptions={codelists["TransactionType"]}
+              sectorVocabularyOptions={codelists["SectorVocabulary"]}
+              sectorOptions={codelists["Sector"]}
+              countryOptions={codelists["Country"]}
+              flowOptions={codelists["FlowType"]}
+              financeOptions={codelists["FinanceType"]}
+              aidOptions={codelists["AidType"]}
+              tiedOptions={codelists["TiedStatus"]}
             />
             <FieldArray
               name="additionalHumanitarianScope"
               component={renderAdditionalRenderFinancialTransactionForm}
-              humanitarianOptions={activity["HumanitarianScopeType"]}
-              organisationOptions={activity["OrganisationType"]}
-              languageOptions={activity["Language"]}
-              currencyOptions={activity["Currency"]}
-              disbursementOptions={activity["DisbursementChannel"]}
-              transactionOptions={activity["TransactionType"]}
-              countryOptions={activity["Country"]}
-              flowOptions={activity["FlowType"]}
-              financeOptions={activity["FinanceType"]}
-              aidOptions={activity["AidType"]}
-              tiedOptions={activity["TiedStatus"]}
+              humanitarianOptions={codelists["HumanitarianScopeType"]}
+              organisationOptions={codelists["OrganisationType"]}
+              languageOptions={codelists["Language"]}
+              currencyOptions={codelists["Currency"]}
+              disbursementOptions={codelists["DisbursementChannel"]}
+              transactionOptions={codelists["TransactionType"]}
+              countryOptions={codelists["Country"]}
+              flowOptions={codelists["FlowType"]}
+              financeOptions={codelists["FinanceType"]}
+              aidOptions={codelists["AidType"]}
+              tiedOptions={codelists["TiedStatus"]}
             />
             <div className="columns small-12">
               <Link className="button" to="/publisher/activity/financial/planned-disbursement">Back to planned disbursement</Link>
@@ -321,18 +336,28 @@ class FinancialTransactionForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const transactions = transactionsSelector(state)
+
+    return {
+        data: transactions,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 FinancialTransactionForm = reduxForm({
-  form: 'financial-transaction',     // a unique identifier for this form
-  destroyOnUnmount: false,
-  validate
+    form: 'financial-transaction',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    validate
 })(FinancialTransactionForm);
 
-FinancialTransactionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialTransactionForm);
-export default FinancialTransactionForm;
+FinancialTransactionForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getTransactions,
+    createTransaction,
+    updateTransaction,
+    deleteTransaction
+})(FinancialTransactionForm);
 
+export default withRouter(FinancialTransactionForm)

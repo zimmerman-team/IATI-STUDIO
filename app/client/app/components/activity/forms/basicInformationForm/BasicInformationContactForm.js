@@ -530,5 +530,3 @@ BasicInformationContactForm = connect(mapStateToProps, {
 })(BasicInformationContactForm);
 
 export default withRouter(BasicInformationContactForm)
-
-

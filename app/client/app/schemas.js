@@ -60,6 +60,30 @@ export const date = new Schema('date', {
     idAttribute: "id",
 })
 
+export const status = new Schema('status', {
+    idAttribute: "id",
+})
+
+export const contact = new Schema('contact', {
+    idAttribute: "id",
+})
+
+export const budget = new Schema('budget', {
+    idAttribute: "id",
+})
+
+export const capital = new Schema('capital', {
+    idAttribute: "id",
+})
+
+export const transaction = new Schema('transaction', {
+    idAttribute: "id",
+})
+
+export const plannedDisbursement = new Schema('plannedDisbursement', {
+    idAttribute: "id",
+})
+
 export const participatingOrganisation = new Schema('participatingOrganisations', {
     idAttribute: "id",
 })
@@ -71,7 +95,14 @@ export const recipientCountry = new Schema('recipientCountries', {
 export const activity = new Schema('activity', {
     idAttribute: "id",
     descriptions: arrayOf(description),
+    dates: arrayOf(date),
+    status: status,
+    contacts: arrayOf(contact),
+    budgets: arrayOf(budget),
+    transactions: arrayOf(transaction),
+    plannedDisbursements: arrayOf(plannedDisbursement),
     participatingOrganisations: arrayOf(participatingOrganisation),
+    date: arrayOf(date),
 })
 
 

@@ -5,7 +5,11 @@ import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addFinancialBudgets } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { budgetsSelector } from '../../../../reducers/createActivity.js'
+import { getCodeListItems, getBudgets, createBudget, updateBudget, deleteBudget } from '../../../../actions/activity'
+import { withRouter } from 'react-router'
+
 
 const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, error}}) => (
   <div>
@@ -137,8 +141,20 @@ class FinancialBudgetForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addFinancialBudgets(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/financial/planned-disbursement');
+      const { activityId, data, tab, subTab } = this.props
+      const lastBudget = data;
+      const budgets = formData.budgets;
+
+      handleSubmit(
+          'budgets',
+          activityId,
+          lastBudget,
+          budgets,
+          this.props.createBudget,
+          this.props.updateBudget,
+          this.props.deleteBudget,
+      )
+      //this.context.router.push('/publisher/activity/financial/planned-disbursement');
   }
 
   static contextTypes = {
@@ -152,7 +168,7 @@ class FinancialBudgetForm extends Component {
   }
 
   render() {
-    const {activity, handleSubmit, submitting} = this.props;
+    const {codelists, handleSubmit, submitting} = this.props;
 
     return (
       <div className="columns small-centered small-12">
@@ -163,17 +179,17 @@ class FinancialBudgetForm extends Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <RenderFinancialBudgetForm
-              budgetTypeOptions={activity["BudgetType"]}
-              budgetStatusOptions={activity["BudgetStatus"]}
-              currencyOptions={activity["Currency"]}
+              budgetTypeOptions={codelists["BudgetType"]}
+              budgetStatusOptions={codelists["BudgetStatus"]}
+              currencyOptions={codelists["Currency"]}
             />
           </div>
           <FieldArray
             name="additionalHumanitarianScope"
             component={renderAdditionalRenderFinancialBudgetForm}
-            budgetTypeOptions={activity["BudgetType"]}
-            budgetStatusOptions={activity["BudgetStatus"]}
-            currencyOptions={activity["Currency"]}
+            budgetTypeOptions={codelists["BudgetType"]}
+            budgetStatusOptions={codelists["BudgetStatus"]}
+            currencyOptions={codelists["Currency"]}
           />
           <div className="columns small-12">
             <Link className="button" to="/publisher/activity/classification/classification">Back to classification</Link>
@@ -187,10 +203,14 @@ class FinancialBudgetForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const budgets = budgetsSelector(state)
+
+    return {
+        data: budgets,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 FinancialBudgetForm = reduxForm({
@@ -200,5 +220,12 @@ FinancialBudgetForm = reduxForm({
 })(FinancialBudgetForm);
 
 
-FinancialBudgetForm = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialBudgetForm);
+FinancialBudgetForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getBudgets,
+    createBudget,
+    updateBudget,
+    deleteBudget
+})(FinancialBudgetForm);
+
 export default FinancialBudgetForm;

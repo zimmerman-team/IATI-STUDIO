@@ -96,9 +96,28 @@ export const contactsSelector = createSelector(
 
 export const statusesSelector = createSelector(
     state => state.activity.statuses,
-    (contacts) => _.map(contacts, x => x) // to array
+    (statuses) => _.map(statuses, x => x) // to array
 )
 
+export const budgetsSelector = createSelector(
+    state => state.activity.budgets,
+    (budgets) => _.map(budgets, x => x) // to array
+)
+
+export const capitalSelector = createSelector(
+    state => state.activity.capitals,
+    (capitals) => _.map(capitals, x => x) // to array
+)
+
+export const transactionsSelector = createSelector(
+    state => state.activity.transactions,
+    (transactions) => _.map(transactions, x => x) // to array
+)
+
+export const plannedDisbursementsSelector = createSelector(
+    state => state.activity.plannedDisbursements,
+    (plannedDisbursements) => _.map(plannedDisbursements, x => x) // to array
+)
 
 export const ParticipatingOrganisationsSelector = createSelector(
     state => state.activity.participatingOrganisations,

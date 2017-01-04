@@ -5,7 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
-import { getCodeListItems, getStatus, createStatus, updateStatus, deleteStatus } from '../../../../actions/activity'
+import { getCodeListItems, getStatus, updateStatus } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
 import { statusesSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
@@ -33,18 +33,7 @@ class BasicInformationStatusForm extends Component {
    */
   handleFormSubmit(formData) {
       const { activityId, data, tab, subTab } = this.props
-      const lastStatuses = data;
-      const statuses = formData.statuses;
-
-      handleSubmit(
-          'statuses',
-          activityId,
-          lastStatuses,
-          statuses,
-          this.props.createContact,
-          this.props.updateContact,
-          this.props.deleteContact,
-      )
+      this.props.dispatch(this.props.updateStatus(activityId, null, formData.status));
       //this.context.router.push('/publisher/activity/basic-info/date');
   }
 
@@ -114,9 +103,7 @@ BasicInformationStatusForm = reduxForm({
 BasicInformationStatusForm = connect(mapStateToProps, {
     getCodeListItems,
     getStatus,
-    createStatus,
     updateStatus,
-    deleteStatus
 })(BasicInformationStatusForm);
 
 export default withRouter(BasicInformationStatusForm)

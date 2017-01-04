@@ -103,6 +103,46 @@ export const deleteDescription = function (activityId, id) {
     return oipaDelete(req_options)
 };
 
+
+export const getBudgets = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.descriptionUrl(activityId),
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postBudget = function (activityId, descriptionData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.descriptionUrl(activityId),
+        body: descriptionData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateBudget = function (activityId, id, descriptionData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.descriptionUrl(activityId), `${id}`),
+        body: descriptionData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteBudget = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.descriptionUrl(activityId), `${id}`),
+    };
+
+    return oipaDelete(req_options)
+};
+
 export const getParticipatingOrganisations = function (activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,

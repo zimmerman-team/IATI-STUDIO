@@ -4,7 +4,10 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, addRelations } from '../../../../actions/activity'
+import { getCodeListItems, getRelations, createRelations, updateRelations, deleteRelations } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { relationsSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const renderRelation = ({fields, relatedActivityTypeOptions}) => (
   <div>
@@ -97,8 +100,8 @@ class RelationsForm extends Component {
   };
 
   render() {
-    const {handleSubmit, submitting, previousPage, activity} = this.props;
-    if (!activity['RelatedActivityType']) {
+    const {handleSubmit, submitting, previousPage, codelists} = this.props;
+    if (!codelists['RelatedActivityType']) {
           return <GeneralLoader />
     }
 
@@ -118,7 +121,7 @@ class RelationsForm extends Component {
           <FieldArray
             name="renderTitlesData"
             component={renderRelation}
-            relatedActivityTypeOptions={activity["RelatedActivityType"]}
+            relatedActivityTypeOptions={codelists["RelatedActivityType"]}
           />
           <div className="row no-margin">
             <div className="columns small-12">
@@ -134,10 +137,13 @@ class RelationsForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const contacts = relationsSelector(state)
+    return {
+        data: contacts,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 RelationsForm = reduxForm({
@@ -146,7 +152,13 @@ RelationsForm = reduxForm({
   validate
 })(RelationsForm);
 
+RelationsForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getRelations,
+    createRelations,
+    updateRelations,
+    deleteRelations
+})(RelationsForm);
 
-RelationsForm = connect(mapStateToProps, {getCodeListItems})(RelationsForm);
 export default RelationsForm;
 

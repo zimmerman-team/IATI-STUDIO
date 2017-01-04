@@ -348,6 +348,149 @@ export function deleteContact(activityId, id) {
     }
 }
 
+/*
+ * Get Transaction (Financial form)
+ */
+export const GET_TRANSACTION_REQUEST = 'GET_TRANSACTION_REQUEST';
+export const GET_TRANSACTION_SUCCESS = 'GET_TRANSACTION_SUCCESS';
+export const GET_TRANSACTION_FAILURE = 'GET_TRANSACTION_FAILURE';
+
+export function getTransactions(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_TRANSACTION_REQUEST, GET_TRANSACTION_SUCCESS, GET_TRANSACTION_FAILURE ],
+            endpoint: 'Activity.getTransaction',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.transaction),
+        }
+    }
+}
+
+/*
+ * Create transaction (Financial form)
+ */
+export const CREATE_TRANSACTION_REQUEST = 'CREATE_TRANSACTION_REQUEST';
+export const CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
+export const CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
+export function createTransaction(activityId, transaction) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_TRANSACTION_REQUEST, CREATE_TRANSACTION_SUCCESS, CREATE_TRANSACTION_FAILURE ],
+            endpoint: 'Activity.createTransaction',
+            payload: [ activityId, transaction ],
+            schema: Schemas.transaction,
+        }
+    }
+}
+
+/*
+ * Update Transaction (Financial form)
+ */
+export const UPDATE_TRANSACTION_REQUEST = 'UPDATE_TRANSACTION_REQUEST';
+export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
+export const UPDATE_TRANSACTION_FAILURE = 'UPDATE_TRANSACTION_FAILURE';
+export function updateTransaction(activityId, id, transaction) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_TRANSACTION_REQUEST, UPDATE_TRANSACTION_SUCCESS, UPDATE_TRANSACTION_FAILURE ],
+            endpoint: 'Activity.updateTransaction',
+            payload: [ activityId, id, transaction ],
+            schema: Schemas.transaction,
+        }
+    }
+}
+
+
+/*
+ * Delete Transaction (Financial form)
+ */
+export const DELETE_TRANSACTION_REQUEST = 'DELETE_TRANSACTION_REQUEST';
+export const DELETE_TRANSACTION_SUCCESS = 'DELETE_TRANSACTION_SUCCESS';
+export const DELETE_TRANSACTION_FAILURE = 'DELETE_TRANSACTION_FAILURE';
+export function deleteTransaction(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_TRANSACTION_REQUEST, DELETE_TRANSACTION_SUCCESS, DELETE_TRANSACTION_FAILURE ],
+            endpoint: 'Activity.deleteTransaction',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get Budget (Financial form)
+ */
+export const GET_BUDGET_REQUEST = 'GET_BUDGET_REQUEST';
+export const GET_BUDGET_SUCCESS = 'GET_BUDGET_SUCCESS';
+export const GET_BUDGET_FAILURE = 'GET_BUDGET_FAILURE';
+
+export function getBudgets(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_BUDGET_REQUEST, GET_BUDGET_SUCCESS, GET_BUDGET_FAILURE ],
+            endpoint: 'Activity.getBudget',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.budget),
+        }
+    }
+}
+
+/*
+ * Create budget (Financial form)
+ */
+export const CREATE_BUDGET_REQUEST = 'CREATE_BUDGET_REQUEST';
+export const CREATE_BUDGET_SUCCESS = 'CREATE_BUDGET_SUCCESS';
+export const CREATE_BUDGET_FAILURE = 'CREATE_BUDGET_FAILURE';
+export function createBudget(activityId, budget) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_BUDGET_REQUEST, CREATE_BUDGET_SUCCESS, CREATE_BUDGET_FAILURE ],
+            endpoint: 'Activity.createBudget',
+            payload: [ activityId, budget ],
+            schema: Schemas.budget,
+        }
+    }
+}
+
+/*
+ * Update Budget (Financial form)
+ */
+export const UPDATE_BUDGET_REQUEST = 'UPDATE_BUDGET_REQUEST';
+export const UPDATE_BUDGET_SUCCESS = 'UPDATE_BUDGET_SUCCESS';
+export const UPDATE_BUDGET_FAILURE = 'UPDATE_BUDGET_FAILURE';
+export function updateBudget(activityId, id, budget) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_BUDGET_REQUEST, UPDATE_BUDGET_SUCCESS, UPDATE_BUDGET_FAILURE ],
+            endpoint: 'Activity.updateBudget',
+            payload: [ activityId, id, budget ],
+            schema: Schemas.budget,
+        }
+    }
+}
+
+
+/*
+ * Delete Budget (Financial form)
+ */
+export const DELETE_BUDGET_REQUEST = 'DELETE_BUDGET_REQUEST';
+export const DELETE_BUDGET_SUCCESS = 'DELETE_BUDGET_SUCCESS';
+export const DELETE_BUDGET_FAILURE = 'DELETE_BUDGET_FAILURE';
+export function deleteBudget(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_BUDGET_REQUEST, DELETE_BUDGET_SUCCESS, DELETE_BUDGET_FAILURE ],
+            endpoint: 'Activity.deleteBudget',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
 
 export const GET_CODE_LIST_ITEMS_REQUEST = 'GET_CODE_LIST_ITEMS_REQUEST';
 export const GET_CODE_LIST_ITEMS_SUCCESS = 'GET_CODE_LIST_ITEMS_SUCCESS';
