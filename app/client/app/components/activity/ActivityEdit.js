@@ -80,7 +80,11 @@ class ActivityEdit extends React.Component {
                         {formComponent}
                     </div>
                     <div className="columns small-3 activity-nav-col">
-                        <ActivitySidebar mainForm={mainForm} subForm={subForm}/>
+                        <ActivitySidebar
+                            mainForm={mainForm}
+                            subForm={subForm}
+                            activityId={this.props.activityId}
+                        />
                     </div>
                 </div>
             </div>
