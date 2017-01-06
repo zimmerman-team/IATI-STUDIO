@@ -4,6 +4,7 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, getDocumentLinks, createDocumentLink, updateDocumentLink, deleteDocumentLink } from '../../../../actions/activity'
+import { documentLinksSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 const validate = values => {
@@ -24,6 +25,7 @@ class DocumentLinkForm extends Component {
   componentWillMount() {
     this.props.dispatch(getCodeListItems('DocumentCategory'));
     this.props.dispatch(getCodeListItems('FileFormat'));
+    this.props.getDocumentLinks(this.props.activityId);
   }
 
   /**
@@ -53,9 +55,31 @@ class DocumentLinkForm extends Component {
     router: PropTypes.object,
   };
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('descriptions', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`descriptions[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('descriptions', i)
+            }
+        }
+
+        if (this.props.activityId !== nextProps.activityId) {
+            this.props.getDescriptions(nextProps.activityId)
+        }
+    }
+
   render() {
-    const {submitting, previousPage, handleSubmit, activity} = this.props;
-    if (!activity['DocumentCategory'] || !activity['FileFormat']) {
+    const {submitting, previousPage, handleSubmit, codelists} = this.props;
+    if (!codelists['DocumentCategory'] || !codelists['FileFormat']) {
           return <GeneralLoader />
     }
 
@@ -83,7 +107,7 @@ class DocumentLinkForm extends Component {
                 component={renderSelectField}
                 name="format"
                 label="Format"
-                selectOptions={activity['FileFormat']}
+                selectOptions={codelists['FileFormat']}
                 defaultOption="Select one of the following options"
               />
             </div>
@@ -91,7 +115,7 @@ class DocumentLinkForm extends Component {
               <FieldArray
                 name='narrative'
                 component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
+                languageOptions={codelists["Language"]}
                 textName="textSector"
                 textLabel="Text"
               />
@@ -100,13 +124,13 @@ class DocumentLinkForm extends Component {
               component={renderSelectField}
               name='categories'
               label='Document Category'
-              selectOptions={activity['DocumentCategory']}
+              selectOptions={codelists['DocumentCategory']}
               defaultOption="Select one of the following options"/>
             <Field
               component={renderSelectField}
               name='document_language'
               label='Language'
-              selectOptions={activity['Language']}
+              selectOptions={codelists['Language']}
               defaultOption="Select one of the following options"/>
             <div className="columns small-6">
               <Field
