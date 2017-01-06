@@ -5,7 +5,11 @@ import {renderField, renderSelectField, renderOrgFields} from '../../helpers/For
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import { Link } from 'react-router';
 import {connect} from 'react-redux'
-import { getCodeListItems, createActivity, addFinancialPlannedDisbursements } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import {withRouter} from 'react-router'
+import {plannedDisbursementsSelector} from '../../../../reducers/createActivity.js'
+import { getCodeListItems, createActivity, getPlannedDisbursements, createPlannedDisbursement, updatePlannedDisbursement,
+    deletePlannedDisbursement } from '../../../../actions/activity'
 
 const renderAdditionalRenderFinancialPlannedDisbursementForm = ({fields, disbursementChannelOptions, currencyOptions,
     languageOptions, organisationOptions, meta: {touched, error}}) => (
@@ -151,8 +155,20 @@ class FinancialPlannedDisbursement extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addFinancialPlannedDisbursements(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/financial/transaction');
+      const {activityId, data, tab, subTab} = this.props
+      const lastPlannedDisbursement = data;
+      const plannedDisbursements = formData.plannedDisbursements;
+
+      handleSubmit(
+          'plannedDisbursements',
+          activityId,
+          lastPlannedDisbursement,
+          plannedDisbursements,
+          this.props.createPlannedDisbursement,
+          this.props.updatePlannedDisbursement,
+          this.props.deletePlannedDisbursement,
+      )
+      //this.context.router.push('/publisher/activity/financial/transaction');
   }
 
   static contextTypes = {
@@ -182,19 +198,19 @@ class FinancialPlannedDisbursement extends Component {
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
           <div className="field-list">
             <RenderFinancialPlannedDisbursementForm
-              currencyOptions={activity["Currency"]}
-              disbursementChannelOptions={activity["DisbursementChannel"]}
-              languageOptions={activity["Language"]}
-              organisationOptions={activity["OrganisationType"]}
+              currencyOptions={codelists["Currency"]}
+              disbursementChannelOptions={codelists["DisbursementChannel"]}
+              languageOptions={codelists["Language"]}
+              organisationOptions={codelists["OrganisationType"]}
             />
           </div>
           <FieldArray
-            name="additionalHumanitarianScope"
+            name="additionalPlannedDisbursement"
             component={renderAdditionalRenderFinancialPlannedDisbursementForm}
-            currencyOptions={activity["Currency"]}
-            languageOptions={activity["Language"]}
-            disbursementChannelOptions={activity["DisbursementChannel"]}
-            organisationOptions={activity["OrganisationType"]}
+            currencyOptions={codelists["Currency"]}
+            languageOptions={codelists["Language"]}
+            disbursementChannelOptions={codelists["DisbursementChannel"]}
+            organisationOptions={codelists["OrganisationType"]}
           />
           <div className="columns small-12">
             <Link className="button" to="/publisher/activity/financial/budget">Back to budget</Link>
@@ -208,10 +224,14 @@ class FinancialPlannedDisbursement extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const plannedDisbursements = plannedDisbursementsSelector(state)
+
+    return {
+        data: plannedDisbursements,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 FinancialPlannedDisbursement = reduxForm({
@@ -221,5 +241,13 @@ FinancialPlannedDisbursement = reduxForm({
 })(FinancialPlannedDisbursement);
 
 
+FinancialPlannedDisbursement = connect(mapStateToProps, {
+    getCodeListItems,
+    getPlannedDisbursements,
+    createPlannedDisbursement,
+    updatePlannedDisbursement,
+    deletePlannedDisbursement
+})(FinancialPlannedDisbursement);
+
 FinancialPlannedDisbursement = connect(mapStateToProps, {getCodeListItems, createActivity})(FinancialPlannedDisbursement);
-export default FinancialPlannedDisbursement;
+export default withRouter(FinancialPlannedDisbursement);

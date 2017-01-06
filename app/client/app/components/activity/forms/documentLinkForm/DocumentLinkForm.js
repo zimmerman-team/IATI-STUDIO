@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, addDocumentLink } from '../../../../actions/activity'
+import { getCodeListItems, getDocumentLinks, createDocumentLink, updateDocumentLink, deleteDocumentLink } from '../../../../actions/activity'
+import { withRouter } from 'react-router'
 
 const validate = values => {
   const errors = {};
@@ -32,8 +33,20 @@ class DocumentLinkForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addDocumentLink(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/relations')
+      const {activityId, data, tab, subTab} = this.props
+      const lastDocumentLink = data;
+      const documentLinks = formData.documentLinks;
+
+      handleSubmit(
+          'documentLinks',
+          activityId,
+          lastDocumentLink,
+          documentLinks,
+          this.props.createDocumentLink,
+          this.props.updateDocumentLink,
+          this.props.deleteDocumentLink,
+      )
+      //this.context.router.push('/publisher/activity/relations')
   }
 
   static contextTypes = {
@@ -64,6 +77,7 @@ class DocumentLinkForm extends Component {
                   component={renderField}
                   label="URL"
                 />
+
               </div>
               <Field
                 component={renderSelectField}
@@ -118,18 +132,28 @@ class DocumentLinkForm extends Component {
 }
 
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const documentLinks = documentLinksSelector(state)
+
+    return {
+        data: documentLinks,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 DocumentLinkForm = reduxForm({
-  form: 'document-link',
-  destroyOnUnmount: false,
-  validate
+    form: 'document-link',
+    destroyOnUnmount: false,
+    validate
 })(DocumentLinkForm);
 
+DocumentLinkForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getDocumentLinks,
+    createDocumentLink,
+    updateDocumentLink,
+    deleteDocumentLink
+})(DocumentLinkForm);
 
-DocumentLinkForm = connect(mapStateToProps, {getCodeListItems})(DocumentLinkForm);
-export default DocumentLinkForm;
+export default withRouter(DocumentLinkForm);

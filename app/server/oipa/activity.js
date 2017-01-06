@@ -340,6 +340,46 @@ export const deleteContact = function (activityId, id) {
     return oipaDelete(req_options)
 };
 
+
+export const getDocumentLink = function (activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.document_link_url(activityId),
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postDocumentLink = function (activityId, documentLinkData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.document_link_url(activityId),
+        body: documentLinkData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateDocumentLink = function (activityId, id, documentLinkData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.document_link_url(activityId), `${id}`),
+        body: documentLinkData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteDocumentLink = function (activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.document_link_url(activityId), `${id}`),
+    };
+
+    return oipaDelete(req_options)
+};
+
 /**
  * Post basic information description section form.
  *

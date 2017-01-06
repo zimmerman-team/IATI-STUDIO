@@ -421,6 +421,78 @@ export function deleteTransaction(activityId, id) {
 
 
 /*
+ * Get PlannedDisbursement (Financial form)
+ */
+export const GET_PLANNED_DISBURSEMENT_REQUEST = 'GET_PLANNED_DISBURSEMENT_REQUEST';
+export const GET_PLANNED_DISBURSEMENT_SUCCESS = 'GET_PLANNED_DISBURSEMENT_SUCCESS';
+export const GET_PLANNED_DISBURSEMENT_FAILURE = 'GET_PLANNED_DISBURSEMENT_FAILURE';
+
+export function getPlannedDisbursements(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_PLANNED_DISBURSEMENT_REQUEST, GET_PLANNED_DISBURSEMENT_SUCCESS, GET_PLANNED_DISBURSEMENT_FAILURE ],
+            endpoint: 'Activity.getPlannedDisbursement',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.plannedDisbursement),
+        }
+    }
+}
+
+/*
+ * Create plannedDisbursement (Financial form)
+ */
+export const CREATE_PLANNED_DISBURSEMENT_REQUEST = 'CREATE_PLANNED_DISBURSEMENT_REQUEST';
+export const CREATE_PLANNED_DISBURSEMENT_SUCCESS = 'CREATE_PLANNED_DISBURSEMENT_SUCCESS';
+export const CREATE_PLANNED_DISBURSEMENT_FAILURE = 'CREATE_PLANNED_DISBURSEMENT_FAILURE';
+export function createPlannedDisbursement(activityId, plannedDisbursement) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_PLANNED_DISBURSEMENT_REQUEST, CREATE_PLANNED_DISBURSEMENT_SUCCESS, CREATE_PLANNED_DISBURSEMENT_FAILURE ],
+            endpoint: 'Activity.createPlannedDisbursement',
+            payload: [ activityId, plannedDisbursement ],
+            schema: Schemas.plannedDisbursement,
+        }
+    }
+}
+
+/*
+ * Update PlannedDisbursement (Financial form)
+ */
+export const UPDATE_PLANNED_DISBURSEMENT_REQUEST = 'UPDATE_PLANNED_DISBURSEMENT_REQUEST';
+export const UPDATE_PLANNED_DISBURSEMENT_SUCCESS = 'UPDATE_PLANNED_DISBURSEMENT_SUCCESS';
+export const UPDATE_PLANNED_DISBURSEMENT_FAILURE = 'UPDATE_PLANNED_DISBURSEMENT_FAILURE';
+export function updatePlannedDisbursement(activityId, id, plannedDisbursement) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_PLANNED_DISBURSEMENT_REQUEST, UPDATE_PLANNED_DISBURSEMENT_SUCCESS, UPDATE_PLANNED_DISBURSEMENT_FAILURE ],
+            endpoint: 'Activity.updatePlannedDisbursement',
+            payload: [ activityId, id, plannedDisbursement ],
+            schema: Schemas.plannedDisbursement,
+        }
+    }
+}
+
+
+/*
+ * Delete PlannedDisbursement (Financial form)
+ */
+export const DELETE_PLANNED_DISBURSEMENT_REQUEST = 'DELETE_PLANNED_DISBURSEMENT_REQUEST';
+export const DELETE_PLANNED_DISBURSEMENT_SUCCESS = 'DELETE_PLANNED_DISBURSEMENT_SUCCESS';
+export const DELETE_PLANNED_DISBURSEMENT_FAILURE = 'DELETE_PLANNED_DISBURSEMENT_FAILURE';
+export function deletePlannedDisbursement(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_PLANNED_DISBURSEMENT_REQUEST, DELETE_PLANNED_DISBURSEMENT_SUCCESS, DELETE_PLANNED_DISBURSEMENT_FAILURE ],
+            endpoint: 'Activity.deletePlannedDisbursement',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
  * Get Budget (Financial form)
  */
 export const GET_BUDGET_REQUEST = 'GET_BUDGET_REQUEST';
@@ -486,6 +558,78 @@ export function deleteBudget(activityId, id) {
         [CALL_API]: {
             types: [ DELETE_BUDGET_REQUEST, DELETE_BUDGET_SUCCESS, DELETE_BUDGET_FAILURE ],
             endpoint: 'Activity.deleteBudget',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get Policy (Financial form)
+ */
+export const GET_POLICY_REQUEST = 'GET_POLICY_REQUEST';
+export const GET_POLICY_SUCCESS = 'GET_POLICY_SUCCESS';
+export const GET_POLICY_FAILURE = 'GET_POLICY_FAILURE';
+
+export function getPolicy(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_POLICY_REQUEST, GET_POLICY_SUCCESS, GET_POLICY_FAILURE ],
+            endpoint: 'Activity.getPolicy',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.policy),
+        }
+    }
+}
+
+/*
+ * Create policy (Financial form)
+ */
+export const CREATE_POLICY_REQUEST = 'CREATE_POLICY_REQUEST';
+export const CREATE_POLICY_SUCCESS = 'CREATE_POLICY_SUCCESS';
+export const CREATE_POLICY_FAILURE = 'CREATE_POLICY_FAILURE';
+export function createPolicy(activityId, policy) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_POLICY_REQUEST, CREATE_POLICY_SUCCESS, CREATE_POLICY_FAILURE ],
+            endpoint: 'Activity.createPolicy',
+            payload: [ activityId, policy ],
+            schema: Schemas.policy,
+        }
+    }
+}
+
+/*
+ * Update Policy (Financial form)
+ */
+export const UPDATE_POLICY_REQUEST = 'UPDATE_POLICY_REQUEST';
+export const UPDATE_POLICY_SUCCESS = 'UPDATE_POLICY_SUCCESS';
+export const UPDATE_POLICY_FAILURE = 'UPDATE_POLICY_FAILURE';
+export function updatePolicy(activityId, id, policy) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_POLICY_REQUEST, UPDATE_POLICY_SUCCESS, UPDATE_POLICY_FAILURE ],
+            endpoint: 'Activity.updatePolicy',
+            payload: [ activityId, id, policy ],
+            schema: Schemas.policy,
+        }
+    }
+}
+
+
+/*
+ * Delete Policy (Financial form)
+ */
+export const DELETE_POLICY_REQUEST = 'DELETE_POLICY_REQUEST';
+export const DELETE_POLICY_SUCCESS = 'DELETE_POLICY_SUCCESS';
+export const DELETE_POLICY_FAILURE = 'DELETE_POLICY_FAILURE';
+export function deletePolicy(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_POLICY_REQUEST, DELETE_POLICY_SUCCESS, DELETE_POLICY_FAILURE ],
+            endpoint: 'Activity.deletePolicy',
             payload: [ activityId, id ]
         }
     }
@@ -752,6 +896,150 @@ export function deleteRecipientCountry(activityId, id) {
         [CALL_API]: {
             types: [ DELETE_RECIPIENT_COUNTRY_REQUEST, DELETE_RECIPIENT_COUNTRY_SUCCESS, DELETE_RECIPIENT_COUNTRY_FAILURE ],
             endpoint: 'Activity.deleteRecipientCountry',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get DocumentLink
+ */
+export const GET_DOCUMENT_LINK_REQUEST = 'GET_DOCUMENT_LINK_REQUEST';
+export const GET_DOCUMENT_LINK_SUCCESS = 'GET_DOCUMENT_LINK_SUCCESS';
+export const GET_DOCUMENT_LINK_FAILURE = 'GET_DOCUMENT_LINK_FAILURE';
+
+export function getDocumentLinks(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_DOCUMENT_LINK_REQUEST, GET_DOCUMENT_LINK_SUCCESS, GET_DOCUMENT_LINK_FAILURE ],
+            endpoint: 'Activity.getDocumentLink',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.transaction),
+        }
+    }
+}
+
+/*
+ * Create DocumentLink
+ */
+export const CREATE_DOCUMENT_LINK_REQUEST = 'CREATE_DOCUMENT_LINK_REQUEST';
+export const CREATE_DOCUMENT_LINK_SUCCESS = 'CREATE_DOCUMENT_LINK_SUCCESS';
+export const CREATE_DOCUMENT_LINK_FAILURE = 'CREATE_DOCUMENT_LINK_FAILURE';
+export function createDocumentLink(activityId, transaction) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_DOCUMENT_LINK_REQUEST, CREATE_DOCUMENT_LINK_SUCCESS, CREATE_DOCUMENT_LINK_FAILURE ],
+            endpoint: 'Activity.createDocumentLink',
+            payload: [ activityId, transaction ],
+            schema: Schemas.documentLink,
+        }
+    }
+}
+
+/*
+ * Update DocumentLink
+ */
+export const UPDATE_DOCUMENT_LINK_REQUEST = 'UPDATE_DOCUMENT_LINK_REQUEST';
+export const UPDATE_DOCUMENT_LINK_SUCCESS = 'UPDATE_DOCUMENT_LINK_SUCCESS';
+export const UPDATE_DOCUMENT_LINK_FAILURE = 'UPDATE_DOCUMENT_LINK_FAILURE';
+export function updateDocumentLink(activityId, id, transaction) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_DOCUMENT_LINK_REQUEST, UPDATE_DOCUMENT_LINK_SUCCESS, UPDATE_DOCUMENT_LINK_FAILURE ],
+            endpoint: 'Activity.updateDocumentLink',
+            payload: [ activityId, id, transaction ],
+            schema: Schemas.documentLink,
+        }
+    }
+}
+
+
+/*
+ * Delete DocumentLink
+ */
+export const DELETE_DOCUMENT_LINK_REQUEST = 'DELETE_DOCUMENT_LINK_REQUEST';
+export const DELETE_DOCUMENT_LINK_SUCCESS = 'DELETE_DOCUMENT_LINK_SUCCESS';
+export const DELETE_DOCUMENT_LINK_FAILURE = 'DELETE_DOCUMENT_LINK_FAILURE';
+export function deleteDocumentLink(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_DOCUMENT_LINK_REQUEST, DELETE_DOCUMENT_LINK_SUCCESS, DELETE_DOCUMENT_LINK_FAILURE ],
+            endpoint: 'Activity.deleteDocumentLink',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get HumanitariansScope
+ */
+export const GET_HUMANITARIAN_SCOPE_REQUEST = 'GET_HUMANITARIAN_SCOPE_REQUEST';
+export const GET_HUMANITARIAN_SCOPE_SUCCESS = 'GET_HUMANITARIAN_SCOPE_SUCCESS';
+export const GET_HUMANITARIAN_SCOPE_FAILURE = 'GET_HUMANITARIAN_SCOPE_FAILURE';
+
+export function getHumanitarianScopes(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_HUMANITARIAN_SCOPE_REQUEST, GET_HUMANITARIAN_SCOPE_SUCCESS, GET_HUMANITARIAN_SCOPE_FAILURE ],
+            endpoint: 'Activity.getHumanitarianScope',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.humanitarianScope),
+        }
+    }
+}
+
+/*
+ * Create HumanitarianScope
+ */
+export const CREATE_HUMANITARIAN_SCOPE_REQUEST = 'CREATE_HUMANITARIAN_SCOPE_REQUEST';
+export const CREATE_HUMANITARIAN_SCOPE_SUCCESS = 'CREATE_HUMANITARIAN_SCOPE_SUCCESS';
+export const CREATE_HUMANITARIAN_SCOPE_FAILURE = 'CREATE_HUMANITARIAN_SCOPE_FAILURE';
+export function createHumanitarianScope(activityId, humanitarianScope) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_HUMANITARIAN_SCOPE_REQUEST, CREATE_HUMANITARIAN_SCOPE_SUCCESS, CREATE_HUMANITARIAN_SCOPE_FAILURE ],
+            endpoint: 'Activity.createHumanitarianScope',
+            payload: [ activityId, humanitarianScope ],
+            schema: Schemas.transaction,
+        }
+    }
+}
+
+/*
+ * Update HumanitarianScope
+ */
+export const UPDATE_HUMANITARIAN_SCOPE_REQUEST = 'UPDATE_HUMANITARIAN_SCOPE_REQUEST';
+export const UPDATE_HUMANITARIAN_SCOPE_SUCCESS = 'UPDATE_HUMANITARIAN_SCOPE_SUCCESS';
+export const UPDATE_HUMANITARIAN_SCOPE_FAILURE = 'UPDATE_HUMANITARIAN_SCOPE_FAILURE';
+export function updateHumanitarianScope(activityId, id, humanitarianScope) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_HUMANITARIAN_SCOPE_REQUEST, UPDATE_HUMANITARIAN_SCOPE_SUCCESS, UPDATE_HUMANITARIAN_SCOPE_FAILURE ],
+            endpoint: 'Activity.updateHumanitarianScope',
+            payload: [ activityId, id, humanitarianScope ],
+            schema: Schemas.humanitarianScope,
+        }
+    }
+}
+
+
+/*
+ * Delete HumanitarianScope
+ */
+export const DELETE_HUMANITARIAN_SCOPE_REQUEST = 'DELETE_HUMANITARIAN_SCOPE_REQUEST';
+export const DELETE_HUMANITARIAN_SCOPE_SUCCESS = 'DELETE_HUMANITARIAN_SCOPE_SUCCESS';
+export const DELETE_HUMANITARIAN_SCOPE_FAILURE = 'DELETE_HUMANITARIAN_SCOPE_FAILURE';
+export function deleteHumanitarianScope(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_HUMANITARIAN_SCOPE_REQUEST, DELETE_HUMANITARIAN_SCOPE_SUCCESS, DELETE_HUMANITARIAN_SCOPE_FAILURE ],
+            endpoint: 'Activity.deleteHumanitarianScope',
             payload: [ activityId, id ]
         }
     }

@@ -10,7 +10,6 @@ import { budgetsSelector } from '../../../../reducers/createActivity.js'
 import { getCodeListItems, getBudgets, createBudget, updateBudget, deleteBudget } from '../../../../actions/activity'
 import { withRouter } from 'react-router'
 
-
 const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, error}}) => (
   <div>
     {fields.map((description, index) =>
@@ -219,7 +218,6 @@ FinancialBudgetForm = reduxForm({
   validate
 })(FinancialBudgetForm);
 
-
 FinancialBudgetForm = connect(mapStateToProps, {
     getCodeListItems,
     getBudgets,
@@ -228,4 +226,4 @@ FinancialBudgetForm = connect(mapStateToProps, {
     deleteBudget
 })(FinancialBudgetForm);
 
-export default FinancialBudgetForm;
+export default withRouter(FinancialBudgetForm)

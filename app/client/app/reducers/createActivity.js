@@ -31,6 +31,9 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_CONTACT_SUCCESS:
         case ActionTypes.CREATE_CONTACT_SUCCESS:
         case ActionTypes.UPDATE_CONTACT_SUCCESS:
+        case ActionTypes.GET_DOCUMENT_LINK_SUCCESS:
+        case ActionTypes.CREATE_DOCUMENT_LINK_SUCCESS:
+        case ActionTypes.UPDATE_DOCUMENT_LINK_SUCCESS:
         case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
         case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_SUCCESS:
         case ActionTypes.UPDATE_PARTICIPATING_ORGANISATION_SUCCESS:
@@ -117,6 +120,21 @@ export const transactionsSelector = createSelector(
 export const plannedDisbursementsSelector = createSelector(
     state => state.activity.plannedDisbursements,
     (plannedDisbursements) => _.map(plannedDisbursements, x => x) // to array
+)
+
+export const documentLinksSelector = createSelector(
+    state => state.activity.documentLink,
+    (documentLinks) => _.map(documentLinks, x => x) // to array
+)
+
+export const policySelector = createSelector(
+    state => state.activity.policy,
+    (policy) => _.map(policy, x => x) // to array
+)
+
+export const humanitarianScopesSelector = createSelector(
+    state => state.activity.humanitarianScope,
+    (humanitarianScope) => _.map(humanitarianScope, x => x) // to array
 )
 
 export const ParticipatingOrganisationsSelector = createSelector(

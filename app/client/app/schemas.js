@@ -80,7 +80,19 @@ export const transaction = new Schema('transaction', {
     idAttribute: "id",
 })
 
+export const policy = new Schema('policy', {
+    idAttribute: "id",
+})
+
 export const plannedDisbursement = new Schema('plannedDisbursement', {
+    idAttribute: "id",
+})
+
+export const documentLink = new Schema('documentLink', {
+    idAttribute: "id",
+})
+
+export const humanitarianScope = new Schema('humanitarianScope', {
     idAttribute: "id",
 })
 
@@ -97,7 +109,10 @@ export const activity = new Schema('activity', {
     descriptions: arrayOf(description),
     dates: arrayOf(date),
     status: status,
+    documentLink: arrayOf(documentLink),
+    policy: arrayOf(policy),
     contacts: arrayOf(contact),
+    humanitarianScopes: arrayOf(humanitarianScope),
     budgets: arrayOf(budget),
     transactions: arrayOf(transaction),
     plannedDisbursements: arrayOf(plannedDisbursement),

@@ -5,7 +5,10 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router'
-import { getCodeListItems, createActivity, addClassificationPolicy } from '../../../../actions/activity'
+import { getCodeListItems, getPolicy, createPolicy, updatePolicy, deletePolicy } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { policySelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const renderPolicy = ({fields, languageOptions, policyCodeOptions, policyVocabularyOptions, meta: {touched, error}}) => (
   <div>
@@ -90,8 +93,20 @@ class PolicyMakerForm extends React.Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addClassificationPolicy(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/classifications/select');
+      const { activityId, data, tab, subTab } = this.props
+      const lastPolicy = data;
+      const policy = formData.policy;
+
+      handleSubmit(
+          'policy',
+          activityId,
+          lastPolicy,
+          policy,
+          this.props.createPolicy,
+          this.props.updatePolicy,
+          this.props.deletePolicy,
+      )
+      //this.context.router.push('/publisher/activity/classifications/select');
   }
 
   static contextTypes = {
@@ -183,18 +198,29 @@ class PolicyMakerForm extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+
+function mapStateToProps(state, props) {
+    const policy = policySelector(state)
+
+    return {
+        data: policy,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 PolicyMakerForm = reduxForm({
-  form: 'classifications-policy-maker',     // a unique identifier for this form
-  destroyOnUnmount: false,
-  validate
+    form: 'classifications-policy-maker',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    validate
 })(PolicyMakerForm);
 
+PolicyMakerForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getPolicy,
+    createPolicy,
+    updatePolicy,
+    deletePolicy
+})(PolicyMakerForm);
 
-PolicyMakerForm = connect(mapStateToProps, {getCodeListItems, createActivity})(PolicyMakerForm);
-export default PolicyMakerForm;
+export default withRouter(PolicyMakerForm);
