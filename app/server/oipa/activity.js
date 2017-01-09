@@ -26,6 +26,19 @@ export const getCodeListItems = function (codeListName) {
     )
 };
 
+export const getActivities = function (user, publisherId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.activities_url(publisherId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
 export const getActivity = function (id) {
     const req_options = {
         baseUrl: config.oipa_post_url,

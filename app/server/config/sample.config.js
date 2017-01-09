@@ -14,7 +14,7 @@ const config = {
     "oipa_delete_url": "https://dev.oipa.nl",
     "codelists": "/api/codelists/",
 
-    "activities_url": "/api/activities/",
+    "activities_url": (pid) => `/api/publisher/${pid}/activities/`,
     "aggregation_url": "/api/transactions/aggregations/",
     "descriptionUrl": (activityId) => `/api/activities/${activityId}/descriptions/`,
     "date_url": (activityId) => `/api/activities/${activityId}/activity_dates/`,

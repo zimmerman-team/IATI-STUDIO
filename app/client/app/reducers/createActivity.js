@@ -82,6 +82,19 @@ function activity(state = initialState, action) {
     }
 }
 
+export const activitiesSelector = createSelector(
+    state => state.entities.activities,
+    (activities) => _.map(activities, x => x) // to array
+)
+
+// export const publisherSelector = createSelector(
+//     /*
+//      * Select the publisher object from the first admin_group (if the user is in one)
+//     */
+//     state => state.entities.activities
+//     (activities) => _.map(activities, x => x) // to array
+// )
+
 export const descriptionsSelector = createSelector(
     state => state.activity.descriptions,
     (descriptions) => _.map(descriptions, x => x) // to array

@@ -9,6 +9,24 @@ import * as Schemas from '../schemas'
 
 
 /*
+ * Get activities (Identification form)
+ */
+export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
+export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
+export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
+
+export function getActivities(publisherId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITIES_FAILURE ],
+            endpoint: 'Activity.getAll',
+            schema: arrayOf(Schemas.activity),
+            payload: [ publisherId ]
+        }
+    }
+}
+
+/*
  * Get activity (Identification form)
  */
 export const GET_ACTIVITY_REQUEST = 'GET_ACTIVITY_REQUEST';

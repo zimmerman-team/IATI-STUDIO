@@ -17,6 +17,12 @@ var ActivityAPI = {
         
     },
 
+    getAll: function(user, publisherId, res) {
+        return oipaMethods.getActivities(user, publisherId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     get: function(user, id, res) {
         return getActivity(id)
             .then(result => res(null, result))
