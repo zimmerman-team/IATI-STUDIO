@@ -413,7 +413,7 @@ export function deleteTransaction(activityId, id) {
         id,
         [CALL_API]: {
             types: [ DELETE_TRANSACTION_REQUEST, DELETE_TRANSACTION_SUCCESS, DELETE_TRANSACTION_FAILURE ],
-            endpoint: 'Activity.deleteTransaction',
+            endpoint: 'Activity.deleteLocation',
             payload: [ activityId, id ]
         }
     }
@@ -635,6 +635,149 @@ export function deletePolicy(activityId, id) {
     }
 }
 
+
+/*
+ * Get Location (Geopolitical form)
+ */
+export const GET_LOCATION_REQUEST = 'GET_LOCATION_REQUEST';
+export const GET_LOCATION_SUCCESS = 'GET_LOCATION_SUCCESS';
+export const GET_LOCATION_FAILURE = 'GET_LOCATION_FAILURE';
+
+export function getLocations(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_LOCATION_REQUEST, GET_LOCATION_SUCCESS, GET_LOCATION_FAILURE ],
+            endpoint: 'Activity.getLocation',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.location),
+        }
+    }
+}
+
+/*
+ * Create Location (Geopolitical form)
+ */
+export const CREATE_LOCATION_REQUEST = 'CREATE_LOCATION_REQUEST';
+export const CREATE_LOCATION_SUCCESS = 'CREATE_LOCATION_SUCCESS';
+export const CREATE_LOCATION_FAILURE = 'CREATE_LOCATION_FAILURE';
+export function createLocation(activityId, location) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_LOCATION_REQUEST, CREATE_LOCATION_SUCCESS, CREATE_LOCATION_FAILURE ],
+            endpoint: 'Activity.createLocation',
+            payload: [ activityId, location ],
+            schema: Schemas.location,
+        }
+    }
+}
+
+/*
+ * Update Location (Geopolitical form)
+ */
+export const UPDATE_LOCATION_REQUEST = 'UPDATE_LOCATION_REQUEST';
+export const UPDATE_LOCATION_SUCCESS = 'UPDATE_LOCATION_SUCCESS';
+export const UPDATE_LOCATION_FAILURE = 'UPDATE_LOCATION_FAILURE';
+export function updateLocation(activityId, id, location) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_LOCATION_REQUEST, UPDATE_LOCATION_SUCCESS, UPDATE_LOCATION_FAILURE ],
+            endpoint: 'Activity.updateLocation',
+            payload: [ activityId, id, location ],
+            schema: Schemas.location,
+        }
+    }
+}
+
+
+/*
+ * Delete Location (Geopolitical form)
+ */
+export const DELETE_LOCATION_REQUEST = 'DELETE_LOCATION_REQUEST';
+export const DELETE_LOCATION_SUCCESS = 'DELETE_LOCATION_SUCCESS';
+export const DELETE_LOCATION_FAILURE = 'DELETE_LOCATION_FAILURE';
+export function deleteLocation(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_LOCATION_REQUEST, DELETE_LOCATION_SUCCESS, DELETE_LOCATION_FAILURE ],
+            endpoint: 'Activity.deleteLocation',
+            payload: [ activityId, id ]
+        }
+    }
+}
+
+
+/*
+ * Get Region (Geopolitical form)
+ */
+export const GET_REGION_REQUEST = 'GET_REGION_REQUEST';
+export const GET_REGION_SUCCESS = 'GET_REGION_SUCCESS';
+export const GET_REGION_FAILURE = 'GET_REGION_FAILURE';
+
+export function getRegions(activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_REGION_REQUEST, GET_REGION_SUCCESS, GET_REGION_FAILURE ],
+            endpoint: 'Activity.getRegion',
+            payload: [ activityId ],
+            schema: arrayOf(Schemas.region),
+        }
+    }
+}
+
+/*
+ * Create Region (Geopolitical form)
+ */
+export const CREATE_REGION_REQUEST = 'CREATE_REGION_REQUEST';
+export const CREATE_REGION_SUCCESS = 'CREATE_REGION_SUCCESS';
+export const CREATE_REGION_FAILURE = 'CREATE_REGION_FAILURE';
+export function createRegion(activityId, region) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_REGION_REQUEST, CREATE_REGION_SUCCESS, CREATE_REGION_FAILURE ],
+            endpoint: 'Activity.createRegion',
+            payload: [ activityId, region ],
+            schema: Schemas.region,
+        }
+    }
+}
+
+/*
+ * Update Region (Geopolitical form)
+ */
+export const UPDATE_REGION_REQUEST = 'UPDATE_REGION_REQUEST';
+export const UPDATE_REGION_SUCCESS = 'UPDATE_REGION_SUCCESS';
+export const UPDATE_REGION_FAILURE = 'UPDATE_REGION_FAILURE';
+export function updateRegion(activityId, id, region) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_REGION_REQUEST, UPDATE_REGION_SUCCESS, UPDATE_REGION_FAILURE ],
+            endpoint: 'Activity.updateRegion',
+            payload: [ activityId, id, region ],
+            schema: Schemas.region,
+        }
+    }
+}
+
+
+/*
+ * Delete Region (Geopolitical form)
+ */
+export const DELETE_REGION_REQUEST = 'DELETE_REGION_REQUEST';
+export const DELETE_REGION_SUCCESS = 'DELETE_REGION_SUCCESS';
+export const DELETE_REGION_FAILURE = 'DELETE_REGION_FAILURE';
+export function deleteRegion(activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_REGION_REQUEST, DELETE_REGION_SUCCESS, DELETE_REGION_FAILURE ],
+            endpoint: 'Activity.deleteRegion',
+            payload: [ activityId, id ]
+        }
+    }
+}
 
 export const GET_CODE_LIST_ITEMS_REQUEST = 'GET_CODE_LIST_ITEMS_REQUEST';
 export const GET_CODE_LIST_ITEMS_SUCCESS = 'GET_CODE_LIST_ITEMS_SUCCESS';
@@ -915,7 +1058,7 @@ export function getDocumentLinks(activityId) {
             types: [ GET_DOCUMENT_LINK_REQUEST, GET_DOCUMENT_LINK_SUCCESS, GET_DOCUMENT_LINK_FAILURE ],
             endpoint: 'Activity.getDocumentLink',
             payload: [ activityId ],
-            schema: arrayOf(Schemas.transaction),
+            schema: arrayOf(Schemas.documentLink),
         }
     }
 }
@@ -926,12 +1069,12 @@ export function getDocumentLinks(activityId) {
 export const CREATE_DOCUMENT_LINK_REQUEST = 'CREATE_DOCUMENT_LINK_REQUEST';
 export const CREATE_DOCUMENT_LINK_SUCCESS = 'CREATE_DOCUMENT_LINK_SUCCESS';
 export const CREATE_DOCUMENT_LINK_FAILURE = 'CREATE_DOCUMENT_LINK_FAILURE';
-export function createDocumentLink(activityId, transaction) {
+export function createDocumentLink(activityId, documentLink) {
     return {
         [CALL_API]: {
             types: [ CREATE_DOCUMENT_LINK_REQUEST, CREATE_DOCUMENT_LINK_SUCCESS, CREATE_DOCUMENT_LINK_FAILURE ],
             endpoint: 'Activity.createDocumentLink',
-            payload: [ activityId, transaction ],
+            payload: [ activityId, documentLink ],
             schema: Schemas.documentLink,
         }
     }
@@ -943,13 +1086,13 @@ export function createDocumentLink(activityId, transaction) {
 export const UPDATE_DOCUMENT_LINK_REQUEST = 'UPDATE_DOCUMENT_LINK_REQUEST';
 export const UPDATE_DOCUMENT_LINK_SUCCESS = 'UPDATE_DOCUMENT_LINK_SUCCESS';
 export const UPDATE_DOCUMENT_LINK_FAILURE = 'UPDATE_DOCUMENT_LINK_FAILURE';
-export function updateDocumentLink(activityId, id, transaction) {
+export function updateDocumentLink(activityId, id, documentLink) {
     return {
         id,
         [CALL_API]: {
             types: [ UPDATE_DOCUMENT_LINK_REQUEST, UPDATE_DOCUMENT_LINK_SUCCESS, UPDATE_DOCUMENT_LINK_FAILURE ],
             endpoint: 'Activity.updateDocumentLink',
-            payload: [ activityId, id, transaction ],
+            payload: [ activityId, id, documentLink ],
             schema: Schemas.documentLink,
         }
     }
@@ -1004,7 +1147,7 @@ export function createHumanitarianScope(activityId, humanitarianScope) {
             types: [ CREATE_HUMANITARIAN_SCOPE_REQUEST, CREATE_HUMANITARIAN_SCOPE_SUCCESS, CREATE_HUMANITARIAN_SCOPE_FAILURE ],
             endpoint: 'Activity.createHumanitarianScope',
             payload: [ activityId, humanitarianScope ],
-            schema: Schemas.transaction,
+            schema: Schemas.humanitarianScope,
         }
     }
 }

@@ -5,7 +5,11 @@ import {renderField, renderNarrativeFields, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router'
-import { getCodeListItems, createActivity, addGeopoliticalLocation } from '../../../../actions/activity'
+
+import { getCodeListItems, getLocations, createLocation, updateLocation, deleteLocation } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { locationsSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
   <div className="columns small-12">
@@ -142,7 +146,6 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
       <div className="columns small-12">
         <div className="row no-margin">
           <div className="columns small-6">
-            <Field
               name="point_name"
               type="text"
               component={renderField}
@@ -237,8 +240,20 @@ class LocationForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addGeopoliticalLocation(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/classifications/sector');
+      const { activityId, data, tab, subTab } = this.props
+      const lastLocation = data;
+      const locations = formData.locations;
+
+      handleSubmit(
+          'locations',
+          activityId,
+          lastLocation,
+          locations,
+          this.props.createLocation,
+          this.props.updateLocation,
+          this.props.deleteLocation,
+      )
+      //this.context.router.push('/publisher/activity/classifications/sector');
   }
 
   static contextTypes = {
@@ -254,9 +269,9 @@ class LocationForm extends Component {
   }
 
   render() {
-    const {activity, handleSubmit, submitting} = this.props;
-    if (!activity['GeographicLocationReach'] || !activity['GeographicVocabulary'] || !activity['GeographicExactness']
-        || !activity['GeographicLocationClass'] || !activity['Language']) {
+    const {codelists, handleSubmit, submitting} = this.props;
+    if (!codelists['GeographicLocationReach'] || !codelists['GeographicVocabulary'] || !codelists['GeographicExactness']
+        || !codelists['GeographicLocationClass'] || !codelists['Language']) {
       return <GeneralLoader />
     }
 
@@ -289,7 +304,7 @@ class LocationForm extends Component {
                     component={renderSelectField}
                     name="location_reach"
                     label="Code"
-                    selectOptions={activity["GeographicLocationReach"]}
+                    selectOptions={codelists["GeographicLocationReach"]}
                     defaultOption="Select one of the following options"
                   />
                 </div>
@@ -297,14 +312,14 @@ class LocationForm extends Component {
               <FieldArray
                 name="locationRegion"
                 component={renderRegionFields}
-                geographicVocabularyOptions={activity["GeographicVocabulary"]}
+                geographicVocabularyOptions={codelists["GeographicVocabulary"]}
               />
               <hr/>
               <h6 className="columns">Name</h6>
               <FieldArray
                 name="additionalName"
                 component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
+                languageOptions={codelists["Language"]}
                 textName="name"
                 textLabel="Name"
               />
@@ -313,16 +328,16 @@ class LocationForm extends Component {
               <FieldArray
                 name="additionalLocation"
                 component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
+                languageOptions={codelists["Language"]}
                 textName="locationName"
                 textLabel="Location description"
               />
               <hr/>
               <h6 className="columns">Activity description</h6>
               <FieldArray
-                name="activity_description"
+                name="codelists_description"
                 component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
+                languageOptions={codelists["Language"]}
                 textName="activeName"
                 textLabel="Activity description"
               />
@@ -330,14 +345,14 @@ class LocationForm extends Component {
               <FieldArray
                 name="administrative"
                 component={renderAdministrativeFields}
-                geographicVocabularyOptions={activity["GeographicVocabulary"]}
+                geographicVocabularyOptions={codelists["GeographicVocabulary"]}
               />
               <hr/>
               <FieldArray
                 name="pointGeo"
                 component={renderPointFields}
-                geographicExactnessOptions={activity["GeographicExactness"]}
-                geographicLocationClassOptions={activity["GeographicLocationClass"]}
+                geographicExactnessOptions={codelists["GeographicExactness"]}
+                geographicLocationClassOptions={codelists["GeographicLocationClass"]}
               />
             </div>
           </div>
@@ -353,18 +368,28 @@ class LocationForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
+function mapStateToProps(state, props) {
+    const locations = locationsSelector(state)
+
+    return {
+        data: locations,
+        codelists: state.codelists,
+        ...props,
+    }
 }
 
 LocationForm = reduxForm({
-  form: 'geopolitical-information-location',     // a unique identifier for this form
-  destroyOnUnmount: false,
-  validate
+    form: 'geopolitical-information-location',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    validate
 })(LocationForm);
 
+LocationForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getLocations,
+    createLocation,
+    updateLocation,
+    deleteLocation
+})(LocationForm);
 
-LocationForm = connect(mapStateToProps, {getCodeListItems, createActivity})(LocationForm);
-export default LocationForm;
+export default withRouter(LocationForm)

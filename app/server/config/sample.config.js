@@ -11,6 +11,7 @@ const config = {
 
     "oipa_url": "http://localhost:8000",
     "oipa_post_url": "https://dev-post.oipa.nl",
+    "oipa_delete_url": "https://dev.oipa.nl",
     "codelists": "/api/codelists/",
 
     "activities_url": "/api/activities/",

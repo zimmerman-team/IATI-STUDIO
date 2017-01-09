@@ -132,6 +132,16 @@ export const policySelector = createSelector(
     (policy) => _.map(policy, x => x) // to array
 )
 
+export const locationsSelector = createSelector(
+    state => state.activity.locations,
+    (locations) => _.map(locations, x => x)  // to array
+)
+
+export const regionsSelector = createSelector(
+    state => state.activity.regions,
+    (regions) => _.map(regions, x => x) // to array
+)
+
 export const humanitarianScopesSelector = createSelector(
     state => state.activity.humanitarianScope,
     (humanitarianScope) => _.map(humanitarianScope, x => x) // to array

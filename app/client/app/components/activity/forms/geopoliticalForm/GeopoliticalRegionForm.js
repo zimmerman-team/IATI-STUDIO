@@ -5,7 +5,10 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router';
-import { getCodeListItems, createActivity, addGeopoliticalRegion } from '../../../../actions/activity'
+import { getCodeListItems, getRegions, createRegion, updateRegion, deleteRegion } from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import { regionsSelector } from '../../../../reducers/createActivity.js'
+import { withRouter } from 'react-router'
 
 const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error}}) => (
   <div>
@@ -81,8 +84,20 @@ class RecipientRegionForm extends React.Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-    this.props.dispatch(addGeopoliticalRegion(formData, this.props.activity));
-    this.context.router.push('/publisher/activity/geopolitical-information/location');
+      const { activityId, data, tab, subTab } = this.props
+      const lastRegion = data;
+      const regions = formData.regions;
+
+      handleSubmit(
+          'regions',
+          activityId,
+          lastRegion,
+          regions,
+          this.props.createRegion,
+          this.props.updateRegion,
+          this.props.deleteRegion,
+      )
+      //this.context.router.push('/publisher/activity/geopolitical-information/location');
   }
 
   static contextTypes = {
@@ -96,8 +111,8 @@ class RecipientRegionForm extends React.Component {
   }
 
   render() {
-    const {activity, handleSubmit, submitting} = this.props;
-    if (!activity['Region'] || !activity['RegionVocabulary'] || !activity['Language']) {
+    const {codelists, handleSubmit, submitting} = this.props;
+    if (!codelists['Region'] || !codelists['RegionVocabulary'] || !codelists['Language']) {
       return <GeneralLoader />
     }
 
@@ -114,14 +129,14 @@ class RecipientRegionForm extends React.Component {
                 component={renderSelectField}
                 name="region[code]"
                 label="Region code"
-                selectOptions={activity["Region"]}
+                selectOptions={codelists["Region"]}
                 defaultOption="Select one of the following options"
               />
               <Field
                 component={renderSelectField}
                 name="vocabulary[code]"
                 label="Region vocabulary"
-                selectOptions={activity["RegionVocabulary"]}
+                selectOptions={codelists["RegionVocabulary"]}
                 defaultOption="Select one of the following options"
               />
             </div>
@@ -147,7 +162,7 @@ class RecipientRegionForm extends React.Component {
               <FieldArray
                 name="additionalTitles"
                 component={renderNarrativeFields}
-                languageOptions={activity["Language"]}
+                languageOptions={codelists["Language"]}
                 textName="textTitle"
                 textLabel="Title"
               />
@@ -163,19 +178,14 @@ class RecipientRegionForm extends React.Component {
         <FieldArray
           name="additionalRegion"
           component={renderAdditionalRegion}
-          regionOptions={activity["Region"]}
-          regionVocabularyOptions={activity["RegionVocabulary"]}
+          regionOptions={codelists["Region"]}
+          regionVocabularyOptions={codelists["RegionVocabulary"]}
         />
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activity: state.activity
-  }
-}
 
 RecipientRegionForm = reduxForm({
   form: 'geopolitical-information-recipient-region',     // a unique identifier for this form
@@ -184,5 +194,22 @@ RecipientRegionForm = reduxForm({
 })(RecipientRegionForm);
 
 
-RecipientRegionForm = connect(mapStateToProps, {getCodeListItems, createActivity})(RecipientRegionForm);
-export default RecipientRegionForm;
+function mapStateToProps(state, props) {
+    const regions = regionsSelector(state)
+
+    return {
+        data: regions,
+        codelists: state.codelists,
+        ...props,
+    }
+}
+
+RecipientRegionForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getRegions,
+    createRegion,
+    updateRegion,
+    deleteRegion
+})(RecipientRegionForm);
+
+export default withRouter(RecipientRegionForm)

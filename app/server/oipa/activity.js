@@ -288,7 +288,7 @@ export const deleteRecipientCountry = function (activityId, id) {
         url: path.join(config.recipientCountryUrl(activityId), `${id}`),
     };
 
-    return oipaPost(req_options)
+    return oipaDelete(req_options)
 };
 
 export const deleteStatus = function (activityId, id) {
