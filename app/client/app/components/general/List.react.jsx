@@ -15,12 +15,12 @@ import onClickOutside from 'react-onclickoutside'
 
 import { Tooltip } from './Tooltip.react.jsx'
 
-export const ButtonList = React.createClass({
+export class ButtonList extends React.Component {
     /*
      * A list of accordions, acting as containers
      */
 
-    propTypes: {
+    static propTypes = {
         // containers: PropTypes.arrayOf(PropTypes.elements).isRequired, // what is rendered in accordion
         onClick: PropTypes.func, // when clicking on the list item
 
@@ -29,9 +29,9 @@ export const ButtonList = React.createClass({
         ulClass: PropTypes.string,
         liClass: PropTypes.string,
         activeClass: PropTypes.string,
-    },
+    };
 
-    render: function() {
+    render() {
 
         // required
         let { children } = this.props
@@ -44,14 +44,14 @@ export const ButtonList = React.createClass({
             </ul>
         )
     }
-})
+}
 
-export const NestedButtonList = React.createClass({
+export class NestedButtonList extends React.Component {
     /*
      * A list of accordions, acting as containers
      */
 
-    propTypes: {
+    static propTypes = {
         // containers: PropTypes.arrayOf(PropTypes.elements).isRequired, // what is rendered in accordion
         onClick: PropTypes.func, // when clicking on the list item
 
@@ -60,9 +60,9 @@ export const NestedButtonList = React.createClass({
         ulClass: PropTypes.string,
         liClass: PropTypes.string,
         activeClass: PropTypes.string,
-    },
+    };
 
-    render: function() {
+    render() {
 
         // required
         let { children } = this.props
@@ -75,14 +75,14 @@ export const NestedButtonList = React.createClass({
             </ul>
         )
     }
-})
+}
 
-export const NestedButtonListItem = React.createClass({
+export class NestedButtonListItem extends React.Component {
     /*
      * A button list with an extra nested levels in the form of a div with an additional back button
     */
 
-    propTypes: {
+    static propTypes = {
         title: PropTypes.string.isRequired,
         initialActive: PropTypes.bool,
         tooltip: PropTypes.string,
@@ -92,36 +92,34 @@ export const NestedButtonListItem = React.createClass({
         divClass: PropTypes.string, // div
 
         onClick: PropTypes.func,
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            active: this.props.initialActive || false
-        }
-    },
+    state = {
+        active: this.props.initialActive || false
+    };
 
-    onClickFwd: function(e) {
+    onClickFwd = (e) => {
         e.preventDefault()
         this.setState({ active: !this.state.active })
-    },
+    };
 
-    resetSearchString: function(){
+    resetSearchString = () => {
         console.log('TO DO: resetSearchString');
-    },
+    };
 
-    onClickBkwd: function(e) {
+    onClickBkwd = (e) => {
         this.setState({ active: !this.state.active })
         this.resetSearchString()
-    },
+    };
 
-    handleClickOutside: function(e) {
+    handleClickOutside = (e) => {
         var target = typeof e.target.className === 'string' ? e.target.className : ''
         if(target.indexOf('datepicker') == -1) {
             this.setState({ active: false })
         }
-    },
+    };
 
-    render: function() {
+    render() {
         let active = this.state.active
         let { title, length } = this.props
         let {liClass, hrefClass, divClass } = this.props
@@ -147,13 +145,14 @@ export const NestedButtonListItem = React.createClass({
             </li>
         )
     }
-})
+}
 
-const SubMenu = onClickOutside(React.createClass({
-    handleClickOutside: function(e) {
+const SubMenu = onClickOutside(class extends React.Component {
+    handleClickOutside = (e) => {
         this.props.handleClickOutside(e)
-    },
-    render: function(){
+    };
+
+    render() {
         return (
             <GeminiScrollbar autoshow={true} forceGemini={false} className={this.props.className}>
                 <a className="close" onClick={this.props.onClickClose}><i className="material-icons">close</i></a>
@@ -161,7 +160,7 @@ const SubMenu = onClickOutside(React.createClass({
             </GeminiScrollbar>
         )
     }
-}))
+})
 
 export const Checkbox = (props) => (
     <div>
@@ -183,28 +182,19 @@ export const Radiobutton = (props) => {
     )
 }
 
-export const CheckboxList = React.createClass({
+export class CheckboxList extends React.Component {
     /*
      * a list of checkboxes, with a submit and cancel button
      * list of objects with checked: true/false for initial value
      */
 
-    PropTypes: {
-        // items: PropTypes.arrayOf(PropTypes.object).isrequired, // rendered as checkboxes
-        onSubmit: PropTypes.func,
-        onCancel: PropTypes.func,
-
-        cancelClass: PropTypes.string,
-        submitClass: PropTypes.string,
-    },
-
-    onSubmit: function() {
+    onSubmit = () => {
         // this.props.onSubmit(
         //     _.map(this.state.selected, (i) => this.props.items[i])
         // )
-    },
+    };
 
-    render: function() {
+    render() {
 
         return (
             <div className='selectfield checkboxes'>
@@ -212,7 +202,7 @@ export const CheckboxList = React.createClass({
             </div>
         )
     }
-})
+}
 
 export const SearchInput = (props) => (
     <label className='selectfield filter-list'>
@@ -226,21 +216,21 @@ SearchInput.propTypes = {
 }
 
 // TODO: Make this a stand-alone component like Orderable - 2016-03-15
-export const SearchableCheckboxList = React.createClass({
+export class SearchableCheckboxList extends React.Component {
     /*
      * a list of checkboxes, with a search input
      * list of objects with checked: true/false for initial value
      */
 
-    propTypes: {
+    static propTypes = {
         onSearch: PropTypes.func
-    },
+    };
 
-    onInputChange: function(event) {
+    onInputChange = (event) => {
         this.props.onSearch(event.target.value)
-    },
+    };
 
-    render: function() {
+    render() {
 
         return (
             <div>
@@ -251,17 +241,16 @@ export const SearchableCheckboxList = React.createClass({
             </div>
         )
     }
-})
+}
 
 
-export const OrderButton = React.createClass({
-
-    propTypes: {
+export class OrderButton extends React.Component {
+    static propTypes = {
         active: PropTypes.bool.isRequired,
         reverse: PropTypes.bool.isRequired,
-    },
+    };
 
-    render: function() {
+    render() {
 
 
         let classes = classNames({
@@ -273,26 +262,25 @@ export const OrderButton = React.createClass({
             <button className={classes} onClick={this.props.onClick}>{this.props.children}</button>
         )
     }
-})
+}
 
-export const Orderable = React.createClass({
-
-    propTypes: {
+export class Orderable extends React.Component {
+    static propTypes = {
         orderables: PropTypes.arrayOf(PropTypes.string).isRequired,
         active: PropTypes.string.isRequired, // which orderable is active?
         reverse: PropTypes.bool, // reversed or not
-    },
+    };
 
-    dispatchAction: function(value) {
+    dispatchAction = (value) => {
         store.dispatch(changeOrder(value))
-    },
+    };
 
-    onOrderChange: function(newOrder, event) {
+    onOrderChange = (newOrder, event) => {
         // this.setState({ filter: value })
         store.dispatch(changeOrder(newOrder, !this.props.reverse))
-    },
+    };
 
-    render: function() {
+    render() {
         const { active, orderables } = this.props
 
         return (
@@ -310,5 +298,5 @@ export const Orderable = React.createClass({
             </div>
         )
     }
-})
+}
 

@@ -105,20 +105,24 @@ function loadData(props) {
 }
 
 // A state container: all children are stateless
-let ChartBuilder = React.createClass({
+class ChartBuilder extends React.Component {
+    state = {
+        steps: steps,
+        joyride: this.props.uiState.joyride,
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         if (this.state.joyride) {
             this.refs.joyride.start(true)
         }
-    },
+    }
 
-    componentWillMount: function() {
+    componentWillMount() {
         loadData(this.props)
         this.props.toggleMainMenu(false)
-    },
+    }
 
-    onItemChange: function(filter, aggregation, added, type) {
+    onItemChange = (filter, aggregation, added, type) => {
         let { visualization, items, contextFilters } = this.props
 
         // let filter = contextFilters[type][i];
@@ -157,9 +161,9 @@ let ChartBuilder = React.createClass({
 
             return this.props.removeItem(visualization._id, item._id)
         }
-    },
+    };
 
-    onContextChange: function(filter, added, type) {
+    onContextChange = (filter, added, type) => {
         /*
          * filter that can be applied multiple times with different values
         */
@@ -177,9 +181,9 @@ let ChartBuilder = React.createClass({
             // TODO: Make sure _id is set on passed context 2016-02-17
             return this.props.removeContext(visualization._id, filter._id)
         }
-    },
+    };
 
-    replaceContext: function(type, value, name) {
+    replaceContext = (type, value, name) => {
         /*
          * singular filter
         */
@@ -203,9 +207,9 @@ let ChartBuilder = React.createClass({
                 name,
             })
         }
-    },
+    };
 
-    hideItem: function(_id) {
+    hideItem = (_id) => {
         /*
          * Hide item with id ${id}
         */
@@ -215,32 +219,32 @@ let ChartBuilder = React.createClass({
         let newItem = Object.assign({}, oldItem, { hidden: !oldItem.hidden })
 
         return this.props.replaceItem(visualization._id, _id, newItem)
-    },
+    };
 
-    removeItem: function(_id) {
+    removeItem = (_id) => {
         /*
          * Remove item with id ${id}
         */
         let { visualization } = this.props
         return this.props.removeItem(visualization._id, _id)
-    },
+    };
 
-    removeContext: function(_id) {
+    removeContext = (_id) => {
         /*
          * Remove context with id ${id}
         */
 
         let { visualization } = this.props
         return this.props.removeContext(visualization._id, _id)
-    },
+    };
 
-    changeCurrency: function(currency) {
+    changeCurrency = (currency) => {
         let { visualization, context } = this.props
 
         this.props.refreshVisualization(visualization._id, { currency: currency.value, currencyType: currency.currencyType })
-    },
+    };
 
-    changeChartType: function(e, b) {
+    changeChartType = (e, b) => {
         let { visualization } = this.props
 
         let prevType = visualization.type
@@ -266,57 +270,51 @@ let ChartBuilder = React.createClass({
                         type: newType
                     }, false)
         }
-    },
+    };
 
-    saveDescription: function(value, valuePlainText) {
+    saveDescription = (value, valuePlainText) => {
         let { visualization } = this.props
         this.props.updateVisualization(visualization, { description: value })
             .then( this.props.updateVisualization(visualization, { descriptionPlainText: valuePlainText }) )
             .then( this.props.setEditState(false) )
-    },
+    };
 
-    saveTitle: function(e) {
+    saveTitle = (e) => {
         let { visualization } = this.props
         let title = e.target.value
         this.props.updateVisualization(visualization, { name: title })
             .then( this.props.setEditState(false) )
-    },
-    editTitle: function() {
+    };
+
+    editTitle = () => {
         if (!this.props.editing) {
             this.props.setEditState(true)
         }
-    },
+    };
 
-    toggleInterpolation: function(interpolate) {
+    toggleInterpolation = (interpolate) => {
         let { visualization } = this.props
         this.props.updateVisualization(visualization, { chartProps: {interpolation: interpolate} })
-    },
+    };
 
-    changeColorRange: function([range]) {
+    changeColorRange = ([range]) => {
         //todo
         let { visualization } = this.props
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            steps: steps,
-            joyride: this.props.uiState.joyride,
-        }
-    },
-
-    completeCallback: function() {
+    completeCallback = () => {
         this.props.updateUserUI({
             joyride: false,
             splashScreen: this.props.uiState.splashScreen,
         })
-    },
+    };
 
-    startTour: function() {
+    startTour = () => {
         this.refs.joyride.reset()
         this.refs.joyride.start(true)
-    },
+    };
 
-    render: function() {
+    render() {
         if (!this.props.visualization) {
             return <YetAnotherLoader />
         }
@@ -432,7 +430,7 @@ let ChartBuilder = React.createClass({
         )
 
     }
-})
+}
 
 import { 
     activeVisualizationSelector,

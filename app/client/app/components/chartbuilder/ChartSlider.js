@@ -3,13 +3,13 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { InputNumber } from '../general/Input.react.jsx'
 
-export const ChartRangeFilter = React.createClass({
+export class ChartRangeFilter extends React.Component {
     /*
      * Chart context by type
      * A range filter
     */
 
-    propTypes: {
+    static propTypes = {
         type: PropTypes.string, // the types being contained here, array of min, max
         selected: PropTypes.array, // array of two selected types
 
@@ -18,9 +18,9 @@ export const ChartRangeFilter = React.createClass({
         value: PropTypes.array,
 
         onChange: PropTypes.func,
-    },
+    };
 
-    render: function() {
+    render() {
         let { contextFilters } = this.props
         
         let min = this.props.min || this.props.minRange
@@ -38,35 +38,33 @@ export const ChartRangeFilter = React.createClass({
             />
         )
     }
-})
+}
 
 // TODO: instead, make this components compose - 2016-03-03
-export const ReactSliderInput = React.createClass({
+export class ReactSliderInput extends React.Component {
     /*
      * react-slider input with number inputs
     */
 
-    propTypes: {
+    static propTypes = {
         min: PropTypes.number,
         max: PropTypes.number,
         labels: PropTypes.array, // for values
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            values: this.props.value
-        };
-    },
+    state = {
+        values: this.props.value
+    };
 
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.values) {
             this.setState({
                 values: nextProps.values
             })
         }
-    },
+    }
 
-    onInputChange: function(i, value) {
+    onInputChange = (i, value) => {
         // let value = parseInt(event.target.value)
         let values = this.state.values
 
@@ -77,19 +75,19 @@ export const ReactSliderInput = React.createClass({
                 ...values.slice(i+1)
             ]
         })
-    },
+    };
 
-    onInputBlur: function() {
+    onInputBlur = () => {
         this.props.onAfterChange(this.state.values)
-    },
+    };
 
-    syncInputs: function(values) {
+    syncInputs = (values) => {
         this.setState({
             values: values
         })
-    },
+    };
 
-    renderInputs: function(values) {
+    renderInputs = (values) => {
         let n = values.length
         
         return _.map(values, (value, i) => {
@@ -114,9 +112,9 @@ export const ReactSliderInput = React.createClass({
                 </div>
             )
         })
-    },
+    };
 
-    render: function() {
+    render() {
 
         let inputs = this.renderInputs(this.state.values)
 
@@ -130,4 +128,4 @@ export const ReactSliderInput = React.createClass({
             </div>
         )
     }
-})
+}

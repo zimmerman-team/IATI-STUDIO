@@ -5,12 +5,12 @@ import classNames from 'classnames'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { Link } from 'react-router'
 
-export const Accordion = React.createClass({
+export class Accordion extends React.Component {
     /*
      * A list of accordions, acting as containers
      */
 
-    propTypes: {
+    static propTypes = {
         // containers: PropTypes.arrayOf(PropTypes.elements).isRequired, // what is rendered in accordion
         onClick: PropTypes.func, // when clicking on the list item
 
@@ -19,9 +19,9 @@ export const Accordion = React.createClass({
         ulClass: PropTypes.string,
         liClass: PropTypes.string,
         activeClass: PropTypes.string,
-    },
+    };
 
-    render: function() {
+    render() {
 
         // required
         let { children } = this.props
@@ -41,23 +41,22 @@ export const Accordion = React.createClass({
             </ul>
         )
     }
-})
+}
 
 // TODO: Write Searchable composer - 2016-03-01
 import store from '../../app'
 import { SearchInput } from './List.react.jsx'
 
-export const SearchableAccordion = React.createClass({
-
-    propTypes: {
+export class SearchableAccordion extends React.Component {
+    static propTypes = {
         onSearch: PropTypes.func
-    },
+    };
 
-    onInputChange: function(event) {
+    onInputChange = (event) => {
         this.props.onSearch(event.target.value)
-    },
+    };
 
-    render: function() {
+    render() {
         const { } = this.props
 
         return (
@@ -69,32 +68,29 @@ export const SearchableAccordion = React.createClass({
             </div>
         )
     }
-})
+}
 
 // TODO: Make this more a wrapper, making the a tag and div a React component - 2016-03-17
-export const AccordionItem = React.createClass({
-
-    propTypes: {
+export class AccordionItem extends React.Component {
+    static propTypes = {
         title: PropTypes.string.isRequired,
         initialActive: PropTypes.bool,
 
         liClass: PropTypes.string,
         hrefClass: PropTypes.string, // title
         divClass: PropTypes.string, // div
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            active: this.props.initialActive || false
-        }
-    },
+    state = {
+        active: this.props.initialActive || false
+    };
 
-    onClick: function(e) {
+    onClick = (e) => {
         e.preventDefault();
         this.setState({ active: !this.state.active })
-    },
+    };
 
-    render: function() {
+    render() {
         let active = this.state.active
         let { title } = this.props
         let {liClass, hrefClass, divClass } = this.props
@@ -113,5 +109,5 @@ export const AccordionItem = React.createClass({
             </li>
         )
     }
-})
+}
 

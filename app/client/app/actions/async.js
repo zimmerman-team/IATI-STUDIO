@@ -3,8 +3,7 @@
  * Async actions
  */
 
-import fetchJSON from '../utils/fetch'
-import { normalize, Schema, arrayOf } from 'normalizr'
+import { Schema } from 'normalizr'
 import querystring from 'querystring'
 
 import Schemas from '../schemas'

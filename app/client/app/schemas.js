@@ -48,6 +48,78 @@ export const publisherSchema = new Schema('publisher', {
     idAttribute: "_id",
 })
 
+/*
+ * for Activity
+*/
+
+export const description = new Schema('descriptions', {
+    idAttribute: "id",
+})
+
+export const date = new Schema('date', {
+    idAttribute: "id",
+})
+
+export const status = new Schema('status', {
+    idAttribute: "id",
+})
+
+export const contact = new Schema('contact', {
+    idAttribute: "id",
+})
+
+export const budget = new Schema('budget', {
+    idAttribute: "id",
+})
+
+export const capital = new Schema('capital', {
+    idAttribute: "id",
+})
+
+export const transaction = new Schema('transaction', {
+    idAttribute: "id",
+})
+
+export const policy = new Schema('policy', {
+    idAttribute: "id",
+})
+
+export const plannedDisbursement = new Schema('plannedDisbursement', {
+    idAttribute: "id",
+})
+
+export const documentLink = new Schema('documentLink', {
+    idAttribute: "id",
+})
+
+export const humanitarianScope = new Schema('humanitarianScope', {
+    idAttribute: "id",
+})
+
+export const participatingOrganisation = new Schema('participatingOrganisations', {
+    idAttribute: "id",
+})
+
+export const recipientCountry = new Schema('recipientCountries', {
+    idAttribute: "id",
+})
+
+export const activity = new Schema('activity', {
+    idAttribute: "id",
+    descriptions: arrayOf(description),
+    dates: arrayOf(date),
+    status: status,
+    documentLink: arrayOf(documentLink),
+    policy: arrayOf(policy),
+    contacts: arrayOf(contact),
+    humanitarianScopes: arrayOf(humanitarianScope),
+    budgets: arrayOf(budget),
+    transactions: arrayOf(transaction),
+    plannedDisbursements: arrayOf(plannedDisbursement),
+    participatingOrganisations: arrayOf(participatingOrganisation),
+    date: arrayOf(date),
+})
+
 
 export const Schemas = {
     PUBLISHER: publisherSchema,

@@ -6,16 +6,19 @@ import fetchJSON from '../../utils/fetch'
 import getHeaders from '../../../auth/headers'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
-export const ContactForm = React.createClass({
-	propTypes: {
+export class ContactForm extends React.Component {
+    static propTypes = {
         className: PropTypes.string,
         onSubmit: PropTypes.func
-    },
-    getInitialState: function() {
-        var fullname = this.props.firstName + ' ' + this.props.lastName
-        return {
+    };
+
+    constructor(props) {
+        super(props);
+        var fullname = props.firstName + ' ' + props.lastName
+
+        this.state = {
             name: fullname.length > 3 ? fullname : '',
-            email: this.props.email,
+            email: props.email,
             message: '',
             nameError: false,
             emailError: false,
@@ -24,9 +27,10 @@ export const ContactForm = React.createClass({
             formSent: false,
             formError: false,
             serverResponse: ''
-        }
-    },
-	handleResponse: function(response) {
+        };
+    }
+
+    handleResponse = (response) => {
 		console.log(response)
 		if (response.success) {
 			this.setState({
@@ -53,14 +57,15 @@ export const ContactForm = React.createClass({
 		// 	console.log(json.errors)
 		// 	return this.setState({errors: json.errors})
 		// }
-	},
+	};
 
-	handleError: function(response) {
+    handleError = (response) => {
 		if (response) {
 			console.error(response)
 		}
-	},
-    handleSubmit: function(e) {
+	};
+
+    handleSubmit = (e) => {
     	e.preventDefault()
     	var name = this.state.name.trim()
 	    var email = this.state.email.trim()
@@ -88,8 +93,9 @@ export const ContactForm = React.createClass({
 	    })
 	    .then(this.handleResponse)
 	    .catch(this.handleError)
-    },
-    changeName: function(e) {
+    };
+
+    changeName = (e) => {
         this.setState({ name: e.target.value })
         if (e.target.value.length < 3) {
         	this.setState({nameError: true})
@@ -97,8 +103,9 @@ export const ContactForm = React.createClass({
         else {
         	this.setState({nameError: false})
         }
-    },
-    changeEmail: function(e) {
+    };
+
+    changeEmail = (e) => {
         this.setState({ email: e.target.value })
         var emailCheck = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!emailCheck.test(e.target.value)) {
@@ -107,8 +114,9 @@ export const ContactForm = React.createClass({
         else {
         	this.setState({emailError: false})
         }
-    },
-    changeMessage: function(e) {
+    };
+
+    changeMessage = (e) => {
         this.setState({ message: e.target.value })
         if (e.target.value.length < 10) {
         	this.setState({messageError: true})
@@ -116,8 +124,9 @@ export const ContactForm = React.createClass({
         else {
         	this.setState({messageError: false})
         }
-    },
-	render: function() {
+    };
+
+    render() {
 		var nameClass = classNames({'error' : this.state.nameError})
 		var emailClass = classNames({'error' : this.state.emailError})
 		var messageClass = classNames({'error' : this.state.messageError})
@@ -161,6 +170,6 @@ export const ContactForm = React.createClass({
 			</div>
 		)
 	}
-})
+}
 
 

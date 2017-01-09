@@ -10,35 +10,34 @@ import { createVisualization }  from '../../actions/async'
 import { updateUserUI }         from '../../actions/async'
 import ReactCSSTransitionGroup  from 'react-addons-css-transition-group'
 
-let SplashScreen = React.createClass({
-
-    getInitialState: function () {
-      return {
-        splashScreen: true
-      }
-    },
-
-    contextTypes: {
+class SplashScreen extends React.Component {
+    static contextTypes = {
       router: React.PropTypes.object.isRequired
-    },
+    };
 
-    toggleSplash: function() {
+    state = {
+      splashScreen: true
+    };
+
+    toggleSplash = () => {
   		this.setState({
         splashScreen: !this.state.splashScreen
       })
-    },
+    };
 
-    importSettings: function() {
+    importSettings = () => {
     	alert('to do');
-    },
-    setupOrganisation: function() {
-    	alert('to do');
-    },
-    goToFAQ: function() {
-    	alert('to do');
-    },
+    };
 
-    render: function() {
+    setupOrganisation = () => {
+    	alert('to do');
+    };
+
+    goToFAQ = () => {
+    	alert('to do');
+    };
+
+    render() {
 		let splashClass = classNames({'hidden' : !this.state.splashScreen })
 		return (
       <div id="splashscreen" className={splashClass}>
@@ -79,7 +78,7 @@ let SplashScreen = React.createClass({
 			</div>
 		)
     }
-})
+}
 
 const mapStateToProps = function(state, props) {
     return {}

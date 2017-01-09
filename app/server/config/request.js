@@ -25,6 +25,14 @@ export const oipaPost = oipaBase.defaults({
     method: 'POST',
 })
 
+export const oipaUpdate = oipaBase.defaults({
+    method: 'PUT',
+})
+
+export const oipaDelete = oipaBase.defaults({
+    method: 'DELETE',
+})
+
 export const oipaGetXml = request.defaults({
     baseUrl: config.oipa_url,
     method: 'GET',

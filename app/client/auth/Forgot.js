@@ -7,9 +7,13 @@ import { Link } from 'react-router'
 import { RenderErrors, ValidationErrors } from './Error'
 import getHeaders from './headers'
 
-const Forgot = React.createClass({
+class Forgot extends React.Component {
+  state = {
+      errors: [],
+      validationErrors: {},
+  };
 
-  handleResponse: function(json, response) {
+  handleResponse = (json, response) => {
       this.setState({
         errors: [],
         validationErrors: {},
@@ -22,20 +26,13 @@ const Forgot = React.createClass({
       }
 
       this.props.router.push('/auth/login/forgot/success')
-  },
+  };
 
-  handleError: function(error) {
+  handleError = (error) => {
     console.error(error)
-  },
+  };
 
-  getInitialState: function() {
-      return {
-          errors: [],
-          validationErrors: {},
-      }
-  },
-
-  render: function() {
+  render() {
     const {
         errors,
         validationErrors,
@@ -61,26 +58,23 @@ const Forgot = React.createClass({
       
     )
   }
-})
+}
 
 export default withRouter(Forgot)
 
-export const ForgotForm = React.createClass({
+export class ForgotForm extends React.Component {
+  static propTypes = {
+      handleError: PropTypes.func.isRequired,
+      handleResponse: PropTypes.func.isRequired,
+      validationErrors: PropTypes.object,
+      renderErrors: PropTypes.array,
+  };
 
-    propTypes: {
-        handleError: PropTypes.func.isRequired,
-        handleResponse: PropTypes.func.isRequired,
-        validationErrors: PropTypes.object,
-        renderErrors: PropTypes.array,
-    },
+  state = {
+    email: '',
+  };
 
-  getInitialState: function() {
-    return {
-      email: '',
-    }
-  },
-
-  handleSubmit: function(e) {
+  handleSubmit = (e) => {
       e.preventDefault()
 
       fetchJSON('/auth/login/forgot', {
@@ -92,10 +86,9 @@ export const ForgotForm = React.createClass({
       })
       .then(this.props.handleResponse)
       .catch(this.props.handleError)
-  },
+  };
 
-
-  render: function() {
+  render() {
     return (
         <form id="signup-form" ref={c => this._form = c}>
             <input 
@@ -109,7 +102,7 @@ export const ForgotForm = React.createClass({
         </form>
     )
   }
-})
+}
 
 export const ForgotPassword = (props) => (
     <Link to='/auth/login/forgot'>Forgot your password?</Link>

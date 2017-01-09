@@ -953,6 +953,9 @@ form .error {
 .margin-bottom-2 {
     margin-bottom: 2rem;
 }
+.no-margin {
+  margin: 0!important;
+}
 
 table {
     &.material-table {

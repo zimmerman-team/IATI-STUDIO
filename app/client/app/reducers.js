@@ -7,6 +7,10 @@
 
 import { combineReducers } from 'redux'
 import _ from 'lodash'
+import activity from './reducers/createActivity'
+import codelists from './reducers/codelists'
+import sidebar from './reducers/sidebar'
+
 
 // TODO: just import everything - 2016-03-23
 import {
@@ -648,6 +652,7 @@ function user(state={}, action) {
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer as routing } from 'react-router-redux'
 
+
 const rootReducer = combineReducers({
     entities,
     activeVisualization,
@@ -663,6 +668,9 @@ const rootReducer = combineReducers({
     user,
     pagination,
     publisher,
+    activity,
+    codelists,
+    sidebar,
     apiKeyValidationForm,
     form: formReducer
 })

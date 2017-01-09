@@ -7,11 +7,12 @@ import { Link, withRouter } from 'react-router'
 import {ModalButton} from '../general/Modal.react.jsx'
 import {ContactForm} from './ContactForm.react.jsx'
 
-const HelpBar = withRouter(React.createClass({
-	gotoFAQ: function() {
+const HelpBar = withRouter(class extends React.Component {
+    gotoFAQ = () => {
 		this.props.router.push('/help')
-	},
-	render: function() {
+	};
+
+    render() {
 		return (
 			<div id="help-bar">
 				<div id="feedback" className="bar">
@@ -35,7 +36,7 @@ const HelpBar = withRouter(React.createClass({
 			</div>
 		)
 	}
-}))
+})
 
 
 function mapStateToProps(state, props) {
