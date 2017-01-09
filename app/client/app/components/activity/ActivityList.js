@@ -9,18 +9,18 @@ import { toggleMainMenu }     from '../../actions/sync'
 import { Link } from 'react-router'
 
 
-export const ActivityListItem = ({ activity, deleteActivity }) => (
+export const ActivityListItem = ({ publisher, activity, deleteActivity }) => (
     <tr>
         <td>{ activity.iati_identifier }</td>
         <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
         <td><Link 
-                to={`/app/publisher/activities/${activity.id}/`} 
+                to={`/publisher/activities/${activity.id}/`} 
                 className={'button'}
             >Edit</Link></td>
         <td><a 
                 href="#" 
                 className="button alert"
-                onClick={() => deleteActivity(activity.id)}
+                onClick={() => deleteActivity(publisher.id, activity.id)}
             >Delete</a></td>
     </tr>
 
@@ -33,6 +33,12 @@ class ActivityList extends React.Component {
 
     componentDidMount() {
         this.props.toggleMainMenu(true)
+    }
+
+    componentWillMount() {
+        if (this.props.publisher) {
+            this.props.getActivities(this.props.publisher.id)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -62,28 +68,12 @@ class ActivityList extends React.Component {
                             <tbody>
                                 { this.props.activities.map(a => (
                                     <ActivityListItem 
+                                        key={a.id}
                                         activity={a}
+                                        publisher={this.props.publisher}
                                         deleteActivity={this.props.deleteActivity}
                                     />
                                     ))}
-                                    <tr>
-                                        <td>Content Goes Here</td>
-                                        <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-                                        <td>Content Goes Here</td>
-                                        <td>Content Goes Here</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Content Goes Here</td>
-                                        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-                                        <td>Content Goes Here</td>
-                                        <td>Content Goes Here</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Content Goes Here</td>
-                                        <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-                                        <td>Content Goes Here</td>
-                                        <td>Content Goes Here</td>
-                                    </tr>
                                 </tbody>
                             </table>
                             <hr />
@@ -94,16 +84,14 @@ class ActivityList extends React.Component {
     }
 }
 
-import { activitiesSelector } from '../../reducers/createActivity'
+import { activitiesSelector, publisherSelector } from '../../reducers/createActivity'
 
 function mapStateToProps(state, props) { 
-
-    const publisher = state.user.oipaUser && state.user.oipaUser.admin_groups[0] && state.user.oipaUser.admin_groups[0].publisher
 
     return {
         navState: state.navState,
         activities: activitiesSelector(state),
-        publisher,
+        publisher: publisherSelector(state),
     } 
 }
 

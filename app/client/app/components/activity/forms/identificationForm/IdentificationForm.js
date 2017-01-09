@@ -72,12 +72,15 @@ class IdentificationForm extends PureComponent {
 
     componentWillMount() {
         this.props.getCodeListItems('Language');
-        this.props.getActivity(this.props.activityId)
+        // this.props.getActivity(this.props.activityId)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.activityId !== nextProps.activityId) {
-            this.props.getActivity(nextProps.activityId)
+        // if (this.props.activityId !== nextProps.activityId) {
+        //     this.props.getActivity(nextProps.activityId)
+        // }
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -159,6 +162,7 @@ import {
     getCodeListItems,
 } from '../../../../actions/activity'
 
+import { publisherSelector } from '../../../../reducers/createActivity'
 
 function mapStateToProps(state, props) {
     return {
@@ -166,6 +170,7 @@ function mapStateToProps(state, props) {
         activity: state.activity.activity,
         initialValues: state.activity.activity,
         codelists: state.codelists,
+        publisher: publisherSelector(state),
     }
 }
 

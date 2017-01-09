@@ -87,13 +87,13 @@ export const activitiesSelector = createSelector(
     (activities) => _.map(activities, x => x) // to array
 )
 
-// export const publisherSelector = createSelector(
-//     /*
-//      * Select the publisher object from the first admin_group (if the user is in one)
-//     */
-//     state => state.entities.activities
-//     (activities) => _.map(activities, x => x) // to array
-// )
+export const publisherSelector = createSelector(
+    /*
+     * Select the publisher object from the first admin_group (if the user is in one)
+    */
+    state => state.user.oipaUser && state.user.oipaUser.admin_groups[0] && state.user.oipaUser.admin_groups[0].publisher,
+    (p) => p
+)
 
 export const descriptionsSelector = createSelector(
     state => state.activity.descriptions,

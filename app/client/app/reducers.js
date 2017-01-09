@@ -41,6 +41,7 @@ import {
 } from './actions/sync'
 
 import * as ActionTypes from './actions/async'
+import * as ActivityActionTypes from './actions/activity'
 
 // items array of Id's
 // // TODO: Should be handled by normalizr - 2016-02-16
@@ -596,12 +597,25 @@ const pagination = combineReducers({
     // })
 })
 
+function activities(state={}, action) {
+    switch(action.type) {
+        case ActivityActionTypes.DELETE_ACTIVITY_SUCCESS:
+            return _.omit(state, action.id)
+        default:
+            if (action.response && action.response.entities && action.response.entities.activity) {
+                return _.merge({}, state, action.response.entities.activity)
+            }
+
+            return state
+    }
+}
 
 const entities = combineReducers({
     visualizations,
     items,
     context,
-    itemFilters
+    itemFilters,
+    activities
 })
 
 // error handling, for displaying to user

@@ -23,331 +23,338 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    get: function(user, id, res) {
-        return getActivity(id)
+    get: function(user, publisherId, id, res) {
+        return getActivity(user, publisherId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    create: function(user, form, res) {
+    create: function(user, publisherId, form, res) {
+        console.log(form);
         // TODO: update validation status here - 2016-12-16
-        return postActivity(form)
+        return postActivity(user, publisherId, form)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    update: function(user, id, form, res) {
+    update: function(user, publisherId, id, form, res) {
         // TODO: update validation status here - 2016-12-16
-        return updateActivity(id, form)
+        return updateActivity(user, publisherId, id, form)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    getDescriptions: function(user, activityId, res) {
+    delete: function(user, publisherId, id, res) {
+        return oipaMethods.deleteActivity(user, publisherId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getDescriptions: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getDescriptions(activityId)
+        return oipaMethods.getDescriptions(user, publisherId, activityId)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    createDescription: function(user, activityId, data, res) {
-        // TODO: update validation status here - 2016-12-16
-        // on succesful creation, 
-        return oipaMethods.postDescription(activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    updateDescription: function(user, activityId, id, data, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.updateDescription(activityId, id, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    deleteDescription: function(user, activityId, id, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteDescription(activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    getDates: function(user, activityId, res) {
-        // TODO: update validation status here
-        return oipaMethods.getDates(activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createDate: function(user, activityId, data, res) {
-        // TODO: update validation status here
-        // on succesful creation,
-        return oipaMethods.postDate(activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    updateDate: function(user, activityId, id, data, res) {
-        // TODO: update validation status here
-        return oipaMethods.updateDate(activityId, id, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    deleteDate: function(user, activityId, id, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteDate(activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-
-    getStatus: function(user, activityId, res) {
-        // TODO: update validation status here
-        return oipaMethods.getStatus(activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createStatus: function(user, activityId, data, res) {
-        // TODO: update validation status here
-        // on succesful creation,
-        return oipaMethods.postStatus(activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    updateStatus: function(user, activityId, id, data, res) {
-        // TODO: update validation status here
-        return oipaMethods.updateStatus(activityId, id, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    deleteStatus: function(user, activityId, id, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteStatus(activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    getContact: function(user, activityId, res) {
-        // TODO: update validation status here
-        return oipaMethods.getContact(activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createContact: function(user, activityId, data, res) {
-        // TODO: update validation status here
-        // on succesful creation,
-        return oipaMethods.postContact(activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    updateContact: function(user, activityId, id, data, res) {
-        // TODO: update validation status here
-        return oipaMethods.updateContact(activityId, id, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    deleteContact: function(user, activityId, id, res) {
-        // TODO: update validation status here
-        return oipaMethods.deleteContact(activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addBasicInformation: function (user, form, res) {
-        // TODO: update validation status here - 2016-12-16
-        return postActivityDescriptionForm(form)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addBasicInformationDescription: function (user, form, res) {
-        return postBasicInformationDescriptionForm(form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addBasicInformationStatus: function (user, form, res) {
-        return postBasicInformationStatusForm(form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addBasicInformationDate: function (user, form, res) {
-        return postBasicInformationDateForm(form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addBasicInformationContact: function (user, form, res) {
-        return postBasicInformationContactForm(form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    getParticipatingOrganisations: function(user, activityId, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getParticipatingOrganisations(activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createParticipatingOrganisation: function(user, activityId, data, res) {
+    createDescription: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation, 
-        return oipaMethods.postParticipatingOrganisation(activityId, data)
+        return oipaMethods.postDescription(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    updateParticipatingOrganisation: function(user, activityId, id, data, res) {
+    updateDescription: function(user, publisherId, activityId, id, data, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.updateParticipatingOrganisation(activityId, id, data)
+        return oipaMethods.updateDescription(user, publisherId, activityId, id, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    deleteParticipatingOrganisation: function(user, activityId, id, res) {
+    deleteDescription: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteParticipatingOrganisation(activityId, id)
+        return oipaMethods.deleteDescription(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    getRecipientCountries: function(user, activityId, res) {
+    getDates: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getDates(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createDate: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postDate(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateDate: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateDate(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteDate: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getRecipientCountries(activityId)
+        return oipaMethods.deleteDate(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    createRecipientCountry: function(user, activityId, data, res) {
+
+    getStatus: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getStatus(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createStatus: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postStatus(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateStatus: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateStatus(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteStatus: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteStatus(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getContact: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getContact(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createContact: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postContact(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateContact: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateContact(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteContact: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here
+        return oipaMethods.deleteContact(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addBasicInformation: function (user, publisherId, form, res) {
+        // TODO: update validation status here - 2016-12-16
+        return postActivityDescriptionForm(user, publisherId, form)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addBasicInformationDescription: function (user, publisherId, form, res) {
+        return postBasicInformationDescriptionForm(user, publisherId, form)
+          .then(result => res(null, result))
+          .catch(error => res(error));
+    },
+
+    addBasicInformationStatus: function (user, publisherId, form, res) {
+        return postBasicInformationStatusForm(user, publisherId, form)
+          .then(result => res(null, result))
+          .catch(error => res(error));
+    },
+
+    addBasicInformationDate: function (user, publisherId, form, res) {
+        return postBasicInformationDateForm(user, publisherId, form)
+          .then(result => res(null, result))
+          .catch(error => res(error));
+    },
+
+    addBasicInformationContact: function (user, publisherId, form, res) {
+        return postBasicInformationContactForm(user, publisherId, form)
+          .then(result => res(null, result))
+          .catch(error => res(error));
+    },
+
+    getParticipatingOrganisations: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getParticipatingOrganisations(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createParticipatingOrganisation: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation, 
-        return oipaMethods.postRecipientCountry(activityId, data)
+        return oipaMethods.postParticipatingOrganisation(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    updateRecipientCountry: function(user, activityId, id, data, res) {
+    updateParticipatingOrganisation: function(user, publisherId, activityId, id, data, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.updateRecipientCountry(activityId, id, data)
+        return oipaMethods.updateParticipatingOrganisation(user, publisherId, activityId, id, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    deleteRecipientCountry: function(user, activityId, id, res) {
+    deleteParticipatingOrganisation: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteRecipientCountry(activityId, id)
+        return oipaMethods.deleteParticipatingOrganisation(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addDocumentLink: function (user, form, activity, res) {
-        return postDocumentLinkForm(form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addRelations: function (user, form, activity, res) {
+    getRecipientCountries: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
-        return postRelationForm(form, activity)
+        return oipaMethods.getRecipientCountries(user, publisherId, activityId)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addPerformanceCondition: function (user, form, activity, res) {
-        return postPerformanceConditionForm(form, activity)
+    createRecipientCountry: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation, 
+        return oipaMethods.postRecipientCountry(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addPerformanceResult: function (user, form, activity, res) {
-        return postPerformanceResultForm(form, activity)
+    updateRecipientCountry: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateRecipientCountry(user, publisherId, activityId, id, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addPerformanceComment: function (user, form, activity, res) {
-        return postPerformanceCommentForm(form, activity)
+    deleteRecipientCountry: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteRecipientCountry(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addFinancialBudgets: function (user, form, activity, res) {
-        return postFinancialBudgetsForm(form, activity)
+    addDocumentLink: function (user, publisherId, form, activity, res) {
+        return postDocumentLinkForm(user, publisherId, form, activity)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addFinancialPlannedDisbursements: function (user, form, activity, res) {
-        return postFinancialPlannedDisbursementsForm(form, activity)
+    addRelations: function (user, publisherId, form, activity, res) {
+        // TODO: update validation status here - 2016-12-16
+        return postRelationForm(user, publisherId, form, activity)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addFinancialTransactions: function (user, form, activity, res) {
-        return postFinancialTransactionsForm(form, activity)
+    addPerformanceCondition: function (user, publisherId, form, activity, res) {
+        return postPerformanceConditionForm(user, publisherId, form, activity)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addFinancialCapitalSpend: function (user, form, activity, res) {
-        return postFinancialCapitalSpendForm(form, activity)
+    addPerformanceResult: function (user, publisherId, form, activity, res) {
+        return postPerformanceResultForm(user, publisherId, form, activity)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addGeopoliticalCountry: function (user, form, activity, res) {
-        return postGeopoliticalCountryForm(form, activity)
+    addPerformanceComment: function (user, publisherId, form, activity, res) {
+        return postPerformanceCommentForm(user, publisherId, form, activity)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addFinancialBudgets: function (user, publisherId, form, activity, res) {
+        return postFinancialBudgetsForm(user, publisherId, form, activity)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addFinancialPlannedDisbursements: function (user, publisherId, form, activity, res) {
+        return postFinancialPlannedDisbursementsForm(user, publisherId, form, activity)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addFinancialTransactions: function (user, publisherId, form, activity, res) {
+        return postFinancialTransactionsForm(user, publisherId, form, activity)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addFinancialCapitalSpend: function (user, publisherId, form, activity, res) {
+        return postFinancialCapitalSpendForm(user, publisherId, form, activity)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    addGeopoliticalCountry: function (user, publisherId, form, activity, res) {
+        return postGeopoliticalCountryForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },
 
-    addGeopoliticalRegion: function (user, form, activity, res) {
-        return postGeopoliticalRegionForm(form, activity)
+    addGeopoliticalRegion: function (user, publisherId, form, activity, res) {
+        return postGeopoliticalRegionForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },
 
-    addGeopoliticalLocation: function (user, form, activity, res) {
-        return postGeopoliticalLocationForm(form, activity)
+    addGeopoliticalLocation: function (user, publisherId, form, activity, res) {
+        return postGeopoliticalLocationForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },
 
-    addClassificationSector: function (user, form, activity, res) {
-        return postClassificationSectorForm(form, activity)
+    addClassificationSector: function (user, publisherId, form, activity, res) {
+        return postClassificationSectorForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },
 
-    addClassificationPolicy: function (user, form, activity, res) {
-        return postClassificationPolicyForm(form, activity)
+    addClassificationPolicy: function (user, publisherId, form, activity, res) {
+        return postClassificationPolicyForm(user, publisherId, form, activity)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
-    addClassificationSelect: function (user, form, activity, res) {
-        return postClassificationSelectForm(form, activity)
+    addClassificationSelect: function (user, publisherId, form, activity, res) {
+        return postClassificationSelectForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },
 
-    addClassificationCountryBudget: function (user, form, activity, res) {
-        return postClassificationCountryBudgetForm(form, activity)
+    addClassificationCountryBudget: function (user, publisherId, form, activity, res) {
+        return postClassificationCountryBudgetForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },
 
-    addClassificationHumanitarian: function (user, form, activity, res) {
-        return postClassificationHumanitarianForm(form, activity)
+    addClassificationHumanitarian: function (user, publisherId, form, activity, res) {
+        return postClassificationHumanitarianForm(user, publisherId, form, activity)
           .then(result => res(null, result))
           .catch(error => res(error));
     },

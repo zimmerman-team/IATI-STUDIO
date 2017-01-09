@@ -100,12 +100,12 @@ class ActivitySidebar extends Component {
     }
 
     componentWillMount() {
-        this.props.getActivity(this.props.activityId)
+        // this.props.getActivity(this.props.activityId)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.activityId !== nextProps.activityId) {
-            this.props.getActivity(nextProps.activityId)
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
     render() {
@@ -207,10 +207,13 @@ const SubNavItem = ({ isValid, hasData, navValidationClass, canNavigate, title, 
     </li>
 )
 
+import { publisherSelector } from '../../reducers/createActivity'
+
 function mapStateToProps(state) {
     return {
         form: state.form,
         activity: state.activity,
+        publisher: publisherSelector(state),
         // navigation: sidebar.navigation,
         // page: sidebar.page,
     };

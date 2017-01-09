@@ -39,355 +39,463 @@ export const getActivities = function (user, publisherId) {
         .then(parsedBody => parsedBody.results)
 };
 
-export const getActivity = function (id) {
+export const getActivity = function (user, publisherId, id) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: path.join(config.activities_url, id)
+        url: path.join(config.activities_url(publisherId), id),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
 };
 
-export const postActivity = function (activityData) {
+export const postActivity = function (user, publisherId, activityData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url,
+        url: config.activities_url(publisherId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: prepareActivityData(activityData),
     };
 
     return oipaPost(req_options)
 };
 
-export const updateActivity = function (id, activityData) {
+export const updateActivity = function (user, publisherId, id, activityData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.activities_url, id),
+        url: path.join(config.activities_url(publisherId), id),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: prepareActivityData(activityData),
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteActivity = function (id) {
+export const deleteActivity = function (user, publisherId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.activities_url, id),
+        url: path.join(config.activities_url(publisherId), id) + '/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
-export const getDescriptions = function (activityId) {
+export const getDescriptions = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postDescription = function (activityId, descriptionData) {
+export const postDescription = function (user, publisherId, activityId, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: descriptionData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateDescription = function (activityId, id, descriptionData) {
+export const updateDescription = function (user, publisherId, activityId, id, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.descriptionUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: descriptionData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteDescription = function (activityId, id) {
+export const deleteDescription = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.descriptionUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
 
-export const getBudgets = function (activityId) {
+export const getBudgets = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postBudget = function (activityId, descriptionData) {
+export const postBudget = function (user, publisherId, activityId, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: descriptionData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateBudget = function (activityId, id, descriptionData) {
+export const updateBudget = function (user, publisherId, activityId, id, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.descriptionUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: descriptionData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteBudget = function (activityId, id) {
+export const deleteBudget = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.descriptionUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
-export const getParticipatingOrganisations = function (activityId) {
+export const getParticipatingOrganisations = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.participatingOrganisationUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postParticipatingOrganisation = function (activityId, participating_organisationData) {
+export const postParticipatingOrganisation = function (user, publisherId, activityId, participating_organisationData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.participatingOrganisationUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: participating_organisationData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateParticipatingOrganisation = function (activityId, id, participating_organisationData) {
+export const updateParticipatingOrganisation = function (user, publisherId, activityId, id, participating_organisationData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.participatingOrganisationUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: participating_organisationData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteParticipatingOrganisation = function (activityId, id) {
+export const deleteParticipatingOrganisation = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.participatingOrganisationUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
 
-export const getDates = function (activityId) {
+export const getDates = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.date_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postDate = function (activityId, dateData) {
+export const postDate = function (user, publisherId, activityId, dateData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.date_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: dateData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateDate = function (activityId, id, dateData) {
+export const updateDate = function (user, publisherId, activityId, id, dateData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.date_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: dateData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteDate = function (activityId, id) {
+export const deleteDate = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.date_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
 
-export const getRecipientCountries = function (activityId) {
+export const getRecipientCountries = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.recipientCountryUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const getStatus = function (activityId) {
+export const getStatus = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.status_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postRecipientCountry = function (activityId, recipientCountryData) {
+export const postRecipientCountry = function (user, publisherId, activityId, recipientCountryData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.recipientCountryUrl(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: recipientCountryData,
     };
 
     return oipaPost(req_options)
 };
 
-export const postStatus = function (activityId, statusData) {
+export const postStatus = function (user, publisherId, activityId, statusData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.status_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: statusData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateRecipientCountry = function (activityId, id, recipientCountryData) {
+export const updateRecipientCountry = function (user, publisherId, activityId, id, recipientCountryData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: recipientCountryData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateStatus = function (activityId, id, statusData) {
+export const updateStatus = function (user, publisherId, activityId, id, statusData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.status_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: statusData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteRecipientCountry = function (activityId, id) {
+export const deleteRecipientCountry = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
-export const deleteStatus = function (activityId, id) {
+export const deleteStatus = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.status_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
 
-export const getContact = function (activityId) {
+export const getContact = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.contact_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postContact = function (activityId, contactData) {
+export const postContact = function (user, publisherId, activityId, contactData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.contact_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: contactData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateContact = function (activityId, id, contactData) {
+export const updateContact = function (user, publisherId, activityId, id, contactData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.contact_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: contactData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteContact = function (activityId, id) {
+export const deleteContact = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.contact_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
 };
 
 
-export const getDocumentLink = function (activityId) {
+export const getDocumentLink = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.document_link_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
-export const postDocumentLink = function (activityId, documentLinkData) {
+export const postDocumentLink = function (user, publisherId, activityId, documentLinkData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.document_link_url(activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: documentLinkData,
     };
 
     return oipaPost(req_options)
 };
 
-export const updateDocumentLink = function (activityId, id, documentLinkData) {
+export const updateDocumentLink = function (user, publisherId, activityId, id, documentLinkData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.document_link_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: documentLinkData,
     };
 
     return oipaUpdate(req_options)
 };
 
-export const deleteDocumentLink = function (activityId, id) {
+export const deleteDocumentLink = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.document_link_url(activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     };
 
     return oipaDelete(req_options)
@@ -400,10 +508,13 @@ export const deleteDocumentLink = function (activityId, id) {
  * @returns {Promise|Promise.<T>}
  */
 //@todo: Change it to a promise pass it to promise.all.
-export const postActivityDescriptionForm = function (formData) {
+export const postActivityDescriptionForm = function (user, publisherId, formData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + 'test32' + '/descriptions/',
+        url: config.activities_url(publisherId) + 'test32' + '/descriptions/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: prepareActivityData(formData),
     };
 
@@ -418,10 +529,13 @@ export const postActivityDescriptionForm = function (formData) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postParticipatingOrganisationForm = function (formData, activity) {
+export const postParticipatingOrganisationForm = function (user, publisherId, formData, activity) {
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activityID + '/participating_organisations/',
+    url: config.activities_url(publisherId) + formData.activityID + '/participating_organisations/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: formData,
   };
 
@@ -459,7 +573,7 @@ const prepareActivityData = function (data) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postDocumentLinkForm = function (formData, activity) {
+export const postDocumentLinkForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
 
   const ISO_DATE = new Date(formData.document_date).toISOString();
@@ -472,7 +586,10 @@ export const postDocumentLinkForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + processedData.activity + '/document_links/',
+    url: config.activities_url(publisherId) + processedData.activity + '/document_links/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: prepareActivityData(processedData),
   };
 
@@ -486,7 +603,7 @@ export const postDocumentLinkForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postRelationForm = function (formData, activity) {
+export const postRelationForm = function (user, publisherId, formData, activity) {
   const processedData = {
     activity: formData.activityIdentifier,
     ref: formData.activityIdentifier,
@@ -498,7 +615,10 @@ export const postRelationForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/related_activities/',
+    url: config.activities_url(publisherId) + formData.activity + '/related_activities/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -512,10 +632,13 @@ export const postRelationForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postPerformanceConditionForm = function (formData, activity) {
+export const postPerformanceConditionForm = function (user, publisherId, formData, activity) {
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/conditions/',
+    url: config.activities_url(publisherId) + formData.activity + '/conditions/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: formData,
   };
 
@@ -529,10 +652,13 @@ export const postPerformanceConditionForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postPerformanceResultForm = function (formData, activity) {
+export const postPerformanceResultForm = function (user, publisherId, formData, activity) {
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/results/',
+    url: config.activities_url(publisherId) + formData.activity + '/results/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: formData,
   };
 
@@ -546,10 +672,13 @@ export const postPerformanceResultForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postPerformanceCommentForm = function (formData, activity) {
+export const postPerformanceCommentForm = function (user, publisherId, formData, activity) {
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/comments/',
+    url: config.activities_url(publisherId) + formData.activity + '/comments/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: formData,
   };
 
@@ -563,14 +692,17 @@ export const postPerformanceCommentForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postBasicInformationDescriptionForm = function (formData, activity) {
+export const postBasicInformationDescriptionForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.type = {"code": formData.type, "name": formData.type};
     processedData.narratives = [{"code": formData.narratives, "name": formData.narratives}];
     processedData.activity
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + processedData.activity + '/descriptions/',
+        url: config.activities_url(publisherId) + processedData.activity + '/descriptions/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -584,13 +716,16 @@ export const postBasicInformationDescriptionForm = function (formData, activity)
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postBasicInformationStatusForm = function (formData, activity) {
+export const postBasicInformationStatusForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.type = {"code": formData.type, "name": formData.type};
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + processedData.activity + '/activity_status/',
+        url: config.activities_url(publisherId) + processedData.activity + '/activity_status/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -604,14 +739,17 @@ export const postBasicInformationStatusForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postBasicInformationDateForm = function (formData, activity) {
+export const postBasicInformationDateForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.iso_date = new Date(processedData.iso_date).toISOString();
     processedData.type = {"code": formData.type, "name": formData.type};
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + processedData.activity + '/activity_dates/',
+        url: config.activities_url(publisherId) + processedData.activity + '/activity_dates/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -625,14 +763,17 @@ export const postBasicInformationDateForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postBasicInformationContactForm = function (formData, activity) {
+export const postBasicInformationContactForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.activity = formData.activity;
     processedData.type = {"code": formData.type, "name": formData.type};
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + formData.activity + '/contact_info/',
+        url: config.activities_url(publisherId) + formData.activity + '/contact_info/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -646,7 +787,7 @@ export const postBasicInformationContactForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postFinancialBudgetsForm = function (formData, activity) {
+export const postFinancialBudgetsForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.type = {"code": formData.type, "name": formData.type};
     processedData.status = {"code": formData.status, "name": formData.status};
@@ -657,7 +798,10 @@ export const postFinancialBudgetsForm = function (formData, activity) {
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + formData.activity + '/budgets/',
+        url: config.activities_url(publisherId) + formData.activity + '/budgets/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -671,7 +815,7 @@ export const postFinancialBudgetsForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postFinancialPlannedDisbursementsForm = function (formData, activity) {
+export const postFinancialPlannedDisbursementsForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.type = {"code": formData.type, "name": formData.type};
     processedData.value = {"date": formData.valueDate, "currency": {"code": formData.currency, "name": formData.currency},
@@ -679,7 +823,10 @@ export const postFinancialPlannedDisbursementsForm = function (formData, activit
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + formData.activity+ '/planned_disbursements/',
+        url: config.activities_url(publisherId) + formData.activity+ '/planned_disbursements/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -693,7 +840,7 @@ export const postFinancialPlannedDisbursementsForm = function (formData, activit
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postFinancialTransactionsForm = function (formData, activity) {
+export const postFinancialTransactionsForm = function (user, publisherId, formData, activity) {
     let processedData = Object.assign({}, formData);
     processedData.type = {"code": formData.type, "name": formData.type};
     processedData.transaction_type = {"code": formData.transaction_type, "name": formData.transaction_type};
@@ -706,7 +853,10 @@ export const postFinancialTransactionsForm = function (formData, activity) {
 
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + formData.activity + '/transactions/',
+        url: config.activities_url(publisherId) + formData.activity + '/transactions/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: processedData,
     };
 
@@ -720,10 +870,13 @@ export const postFinancialTransactionsForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postFinancialCapitalSpendForm = function (formData, activity) {
+export const postFinancialCapitalSpendForm = function (user, publisherId, formData, activity) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url + formData.activity + '/capital_spend/',
+        url: config.activities_url(publisherId) + formData.activity + '/capital_spend/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
         body: formData,
     };
 
@@ -737,14 +890,17 @@ export const postFinancialCapitalSpendForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postGeopoliticalCountryForm = function (formData, activity) {
+export const postGeopoliticalCountryForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.country = {"code": formData.country.code, "name": formData.country.code};
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/recipient_countries/',
+    url: config.activities_url(publisherId) + formData.activity + '/recipient_countries/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -758,7 +914,7 @@ export const postGeopoliticalCountryForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postGeopoliticalRegionForm = function (formData, activity) {
+export const postGeopoliticalRegionForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.region = {"code": formData.region.code, "name": formData.region.code};
@@ -766,7 +922,10 @@ export const postGeopoliticalRegionForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/recipient_regions/',
+    url: config.activities_url(publisherId) + formData.activity + '/recipient_regions/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -780,7 +939,7 @@ export const postGeopoliticalRegionForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postGeopoliticalLocationForm = function (formData, activity) {
+export const postGeopoliticalLocationForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.type = {"code": formData.type, "name": formData.type};
@@ -800,7 +959,10 @@ export const postGeopoliticalLocationForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/locations/',
+    url: config.activities_url(publisherId) + formData.activity + '/locations/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -814,7 +976,7 @@ export const postGeopoliticalLocationForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postClassificationSectorForm = function (formData, activity) {
+export const postClassificationSectorForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.sector = {"code": formData.sector, "name": formData.sector};
@@ -823,7 +985,10 @@ export const postClassificationSectorForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/sectors/',
+    url: config.activities_url(publisherId) + formData.activity + '/sectors/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -837,7 +1002,7 @@ export const postClassificationSectorForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postClassificationPolicyForm = function (formData, activity) {
+export const postClassificationPolicyForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.policy_marker = {"code": formData.policy.code, "name": formData.policy.code};
@@ -847,7 +1012,10 @@ export const postClassificationPolicyForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/policy_markers/',
+    url: config.activities_url(publisherId) + formData.activity + '/policy_markers/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -861,7 +1029,7 @@ export const postClassificationPolicyForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postClassificationSelectForm = function (formData, activity) {
+export const postClassificationSelectForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.iati_identifier = formData.activity;
@@ -873,7 +1041,10 @@ export const postClassificationSelectForm = function (formData, activity) {
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/',
+    url: config.activities_url(publisherId) + formData.activity + '/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -887,7 +1058,7 @@ export const postClassificationSelectForm = function (formData, activity) {
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postClassificationCountryBudgetForm = function (formData, activity) {
+export const postClassificationCountryBudgetForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.vocabulary = {"code": formData.vocabulary, "name": formData.vocabulary};
@@ -895,7 +1066,10 @@ export const postClassificationCountryBudgetForm = function (formData, activity)
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/country_budget_items/',
+    url: config.activities_url(publisherId) + formData.activity + '/country_budget_items/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
@@ -909,7 +1083,7 @@ export const postClassificationCountryBudgetForm = function (formData, activity)
  * @param formData
  * @returns {Promise|Promise.<T>}
  */
-export const postClassificationHumanitarianForm = function (formData, activity) {
+export const postClassificationHumanitarianForm = function (user, publisherId, formData, activity) {
   let processedData = Object.assign({}, formData);
   processedData.activity = formData.activity;
   processedData.vocabulary = {"code": formData.vocabulary, "name": formData.vocabulary};
@@ -917,7 +1091,10 @@ export const postClassificationHumanitarianForm = function (formData, activity) 
 
   const req_options = {
     baseUrl: config.oipa_post_url,
-    url: config.activities_url + formData.activity + '/humanitarian_scopes/',
+    url: config.activities_url(publisherId) + formData.activity + '/humanitarian_scopes/',
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
     body: processedData,
   };
 
