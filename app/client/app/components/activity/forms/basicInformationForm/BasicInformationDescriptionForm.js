@@ -119,12 +119,13 @@ class BasicInformationDescriptionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, data, tab, subTab } = this.props
+        const { activityId, publisher, data, tab, subTab } = this.props
 
         const lastDescriptions = data
         const descriptions = formData.descriptions
 
         handleSubmit(
+            publisher.id,
             'descriptions',
             activityId,
             lastDescriptions,
@@ -140,7 +141,7 @@ class BasicInformationDescriptionForm extends Component {
     componentWillMount() {
         this.props.getCodeListItems('DescriptionType');
         this.props.getCodeListItems('Language');
-        this.props.getDescriptions('', this.props.activityId);     // publisherID and Activity ID
+        // this.props.getDescriptions('', this.props.activityId);     // publisherID and Activity ID
     }
 
     componentWillReceiveProps(nextProps) {
@@ -160,8 +161,10 @@ class BasicInformationDescriptionForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId) {
-            this.props.getDescriptions(nextProps.activityId)
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -199,6 +202,7 @@ class BasicInformationDescriptionForm extends Component {
     }
 }
 
+import { publisherSelector } from '../../../../reducers/createActivity'
 
 BasicInformationDescriptionForm = reduxForm({
     form: 'basic-info-description',     // a unique identifier for this form
@@ -214,6 +218,7 @@ function mapStateToProps(state, props) {
         data: descriptions,
         codelists: state.codelists,
         initialValues: {"descriptions": descriptions},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
