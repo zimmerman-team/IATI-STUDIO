@@ -16,7 +16,7 @@ const renderAdditionalRenderFinancialTransactionForm = ({fields, humanitarianOpt
     disbursementOptions, sectorVocabularyOptions, sectorOptions, countryOptions,
     flowOptions, financeOptions, aidOptions, tiedOptions, meta: {touched, error}}) => (
   <div>
-    {fields.map((description, index) =>
+    {fields.map((transaction, index) =>
       <div className="field-list" key={index}>
         <RenderFinancialTransactionForm
           humanitarianOptions={humanitarianOptions}
@@ -119,7 +119,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     </div>
     <div className="row no-margin">
       <FieldArray
-        name="description"
+        name="transaction"
         component={renderNarrativeFields}
         languageOptions={languageOptions}
         textName="textTitle"
@@ -190,7 +190,7 @@ const RenderFinancialTransactionForm = ({humanitarianOptions, transactionOptions
     </div>
     <div className="row no-margin">
       <FieldArray
-        name="description"
+        name="transaction"
         component={renderNarrativeFields}
         languageOptions={languageOptions}
         textName="textTitle"
@@ -239,11 +239,12 @@ class FinancialTransactionForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const { activityId, data, tab, subTab } = this.props
+      const { activityId, data, tab, subTab, publisher } = this.props
       const lastTransaction = data;
       const transactions = formData.transactions;
 
       handleSubmit(
+          publisher.id,
           'transactions',
           activityId,
           lastTransaction,
@@ -274,6 +275,30 @@ class FinancialTransactionForm extends Component {
     this.props.getCodeListItems('AidType');
     this.props.getCodeListItems('TiedStatus');
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('transactions', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`transactions[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('transactions', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getTransactions(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   render() {
     const {codelists, handleSubmit, submitting} = this.props;
@@ -342,6 +367,8 @@ function mapStateToProps(state, props) {
     return {
         data: transactions,
         codelists: state.codelists,
+        initialValues: {"budgets": budgets},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -349,6 +376,7 @@ function mapStateToProps(state, props) {
 FinancialTransactionForm = reduxForm({
     form: 'financial-transaction',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(FinancialTransactionForm);
 

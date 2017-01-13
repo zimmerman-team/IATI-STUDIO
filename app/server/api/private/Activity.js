@@ -196,6 +196,35 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getPolicy: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getPolicy(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createPolicy: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on succesful creation,
+        return oipaMethods.postPolicy(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updatePolicy: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updatePolicy(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deletePolicy: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here
+        return oipaMethods.deletePolicy(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     addBasicInformation: function (user, publisherId, form, res) {
         // TODO: update validation status here - 2016-12-16
         return postActivityDescriptionForm(user, publisherId, form)

@@ -7,7 +7,7 @@ import {renderSelectField, renderNarrativeFields, renderField} from '../../helpe
 import { Link } from 'react-router';
 import { getCodeListItems, getContact, createContact, updateContact, deleteContact } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import { contactsSelector } from '../../../../reducers/createActivity.js'
+import { contactsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 const renderLanguageSelect = ({name, label, meta: {touched, error}}) => (
@@ -41,70 +41,50 @@ const renderContactTypeSelect = ({name, label, meta: {touched, error}}) => (
   </div>
 );
 
-const renderParticipatingContact = ({fields, languageOptions, contactTypes}) => (
+const renderParticipatingContact = ({fields, languageOptions, contactTypes}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
   <div>
-    <div className="field-list">
-      <Field
-        name="type"
-        component={renderSelectField}
-        label="Contact type"
-        selectOptions={contactTypes}
-        defaultOption="Select a type"
-      />
-      <div className="clearfix"></div>
-      <div className="columns small-12">
-        <h2 className="page-title">Organisation</h2>
-        <FieldArray
-          name="ContactOrganisation"
-          component={renderNarrativeFields}
-          languageOptions={languageOptions}
-          textName="narrativeOrganisation[text]"
-          textLabel="Title"
-        />
-      </div>
-      <FieldArray name="ContactDepartment" component={renderContactDepartment}/>
-      <FieldArray name="ContactPerson" component={renderContactPerson}/>
-      <FieldArray name="ContactJob" component={renderContactJob}/>
-      <FieldArray name="ContactPhone" component={renderContactPhone}/>
-      <FieldArray name="ContactEmail" component={renderContactEmail}/>
-      <FieldArray name="ContactWeb" component={renderContactWebsite}/>
-      <FieldArray name="ContactMailAddress" component={renderContactMailAddress}/>
-      {fields.map((participatingOrganisation, index) =>
+      {fields.map((contact, index) =>
         <div key={index}>
           <h6>Contact Info #{index + 2}</h6>
-          <Field name={`${participatingOrganisation}.contact`} label="Contact type"
+          <Field name={`${contact}.contact`} label="Contact type"
                  component={renderContactTypeSelect}/>
           <div>
             <h2 className="page-title">Organisation</h2>
             <FieldArray
-              name={`${participatingOrganisation}.ContactOrganisation`}
+              name={`${contact}.ContactOrganisation`}
               component={renderNarrativeFields}
               languageOptions={languageOptions}
               textName="narrativeOrganisation[text]"
               textLabel="Title"
             />
           </div>
-          <FieldArray name={`${participatingOrganisation}.ContactDepartment`} component={renderContactDepartment}/>
-          <FieldArray name={`${participatingOrganisation}.ContactPerson`} component={renderContactPerson}/>
-          <FieldArray name={`${participatingOrganisation}.ContactJob`} component={renderContactJob}/>
-          <FieldArray name={`${participatingOrganisation}.ContactPhone`} component={renderContactPhone}/>
-          <FieldArray name={`${participatingOrganisation}.ContactEmail`} component={renderContactEmail}/>
-          <FieldArray name={`${participatingOrganisation}.ContactWeb`} component={renderContactWebsite}/>
-          <FieldArray name={`${participatingOrganisation}.ContactMailAddress`} component={renderContactMailAddress}/>
-          <button
-            type="button"
-            title="Remove Participating organisation"
-            className="control-button remove float-right"
-            onClick={() => fields.remove(index)}>Delete
-          </button>
+          <FieldArray name={`${contact}.ContactDepartment`} component={renderContactDepartment}/>
+          <FieldArray name={`${contact}.ContactPerson`} component={renderContactPerson}/>
+          <FieldArray name={`${contact}.ContactJob`} component={renderContactJob}/>
+          <FieldArray name={`${contact}.ContactPhone`} component={renderContactPhone}/>
+          <FieldArray name={`${contact}.ContactEmail`} component={renderContactEmail}/>
+          <FieldArray name={`${contact}.ContactWeb`} component={renderContactWebsite}/>
+          <FieldArray name={`${contact}.ContactMailAddress`} component={renderContactMailAddress}/>
         </div>
-      )}
-    </div>
-    <div>
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-    </div>
+        )}
+      <div className="columns">
+          <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+          <button
+              type="button"
+              title="Remove Title"
+              className="control-button remove float-right"
+              onClick={() => fields.pop()}>Delete
+          </button>
+          {touched && error && <span className="error">{error}</span>}
+      </div>
   </div>
-);
+    )
+};
 
 const renderContactDepartment = ({fields, meta: {error}}) => (
   <div className="field-list">
@@ -442,11 +422,12 @@ class BasicInformationContactForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const { activityId, data, tab, subTab } = this.props
+      const { activityId, data, tab, subTab, publisher } = this.props
       const lastContacts = data;
       const contacts = formData.contacts;
 
       handleSubmit(
+          publisher.id,
           'contacts',
           activityId,
           lastContacts,
@@ -465,6 +446,30 @@ class BasicInformationContactForm extends Component {
   componentWillMount() {
     this.props.getCodeListItems('ContactType');
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('contacts', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`contacts[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('contacts', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getContact(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   render() {
     const {codelists, handleSubmit, submitting} = this.props;
@@ -505,11 +510,13 @@ class BasicInformationContactForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const contacts = contactsSelector(state)
+    const contacts = contactsSelector(state);
 
     return {
         data: contacts,
         codelists: state.codelists,
+        initialValues: {"contacts": contacts},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -517,6 +524,7 @@ function mapStateToProps(state, props) {
 BasicInformationContactForm = reduxForm({
   form: 'basic-info-contact',     // a unique identifier for this form
   destroyOnUnmount: false,
+  enableReinitialize: true,
   validate
 })(BasicInformationContactForm);
 

@@ -117,6 +117,12 @@ module.exports = function(app) {
         socket.on('Activity.updateDocumentLink', Activity.updateDocumentLink.bind(null, user));
         socket.on('Activity.deleteDocumentLink', Activity.deleteDocumentLink.bind(null, user));
 
+        // Policy Form CRUD
+        socket.on('Activity.getPolicy', Activity.getPolicy.bind(null, user));
+        socket.on('Activity.createPolicy', Activity.createPolicy.bind(null, user));
+        socket.on('Activity.updatePolicy', Activity.updatePolicy.bind(null, user));
+        socket.on('Activity.deletePolicy', Activity.deletePolicy.bind(null, user));
+
         // Add activity Basic Info
         socket.on('Activity.addBasicInformationDescription', Activity.addBasicInformationDescription.bind(null, user));
         socket.on('Activity.addBasicInformationStatus', Activity.addBasicInformationStatus.bind(null, user));

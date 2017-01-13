@@ -7,7 +7,7 @@ import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
 import { getCodeListItems, getStatus, updateStatus } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import { statusesSelector } from '../../../../reducers/createActivity.js'
+import { statusesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 const validate = values => {
@@ -25,6 +25,31 @@ class BasicInformationStatusForm extends Component {
     super(props);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
+
+    /**
+     * Submit basic information's description data and redirect to status form.
+     *
+     * @param formData
+     */
+    handleFormSubmit(formData) {
+        const { activityId, publisher, data, tab, subTab } = this.props
+
+        const lastStatus = data
+        const status = formData.status
+
+        handleSubmit(
+            publisher.id,
+            'status',
+            activityId,
+            lastStatus,
+            status,
+            this.props.createDescription,
+            this.props.updateDescription,
+            this.props.deleteDescription,
+        )
+
+        // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+    }
 
   /**
    * Submit basic information's status data and redirect to status form.
@@ -44,6 +69,30 @@ class BasicInformationStatusForm extends Component {
   componentWillMount() {
     this.props.getCodeListItems('ActivityStatus');
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('status', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`status[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('status', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getStatus(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   render() {
     const {codelists, handleSubmit, submitting} = this.props;
@@ -85,11 +134,13 @@ class BasicInformationStatusForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const contacts = statusesSelector(state)
+    const status = statusesSelector(state)
 
     return {
-        data: contacts,
+        data: status,
         codelists: state.codelists,
+        initialValues: {"status": status},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -97,6 +148,7 @@ function mapStateToProps(state, props) {
 BasicInformationStatusForm = reduxForm({
   form: 'basic-info-status',     // a unique identifier for this form
   destroyOnUnmount: false,
+    enableReinitialize: true,
   validate
 })(BasicInformationStatusForm);
 

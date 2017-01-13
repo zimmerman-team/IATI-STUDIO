@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import routes from '../routes'
 import { Router, applyRouterMiddleware } from 'react-router'
 import useScroll from 'react-router-scroll'
-import DevTools from './DevTools';
 
 export default class Root extends Component {
   render() {
@@ -12,7 +11,6 @@ export default class Root extends Component {
       <Provider store={store}>
           <div>
               <Router history={history} routes={routes} render={applyRouterMiddleware(useScroll())} />
-              <DevTools />
           </div>
       </Provider>
     )

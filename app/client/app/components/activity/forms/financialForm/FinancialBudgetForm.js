@@ -6,7 +6,7 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router';
 import handleSubmit from '../../helpers/handleSubmit'
-import { budgetsSelector } from '../../../../reducers/createActivity.js'
+import { budgetsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { getCodeListItems, getBudgets, createBudget, updateBudget, deleteBudget } from '../../../../actions/activity'
 import { withRouter } from 'react-router'
 
@@ -140,11 +140,12 @@ class FinancialBudgetForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const { activityId, data, tab, subTab } = this.props
+      const { activityId, data, tab, subTab, publisher } = this.props
       const lastBudget = data;
       const budgets = formData.budgets;
 
       handleSubmit(
+          publisher.id,
           'budgets',
           activityId,
           lastBudget,
@@ -165,6 +166,30 @@ class FinancialBudgetForm extends Component {
     this.props.getCodeListItems('BudgetStatus');
     this.props.getCodeListItems('Currency');
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('budgets', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`budgets[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('budgets', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getBudgets(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   render() {
     const {codelists, handleSubmit, submitting} = this.props;
@@ -208,6 +233,8 @@ function mapStateToProps(state, props) {
     return {
         data: budgets,
         codelists: state.codelists,
+        initialValues: {"budgets": budgets},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -215,6 +242,7 @@ function mapStateToProps(state, props) {
 FinancialBudgetForm = reduxForm({
   form: 'financial-budget',     // a unique identifier for this form
   destroyOnUnmount: false,
+  enableReinitialize: true,
   validate
 })(FinancialBudgetForm);
 

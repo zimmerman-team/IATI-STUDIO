@@ -30,9 +30,9 @@ export const getActivities = function (user, publisherId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.activities_url(publisherId),
-        headers: {
+        /*headers: {
             'Authorization': 'Token ' + user.oipaToken
-        },
+        },*/
     };
 
     return oipaGet(req_options)
@@ -97,20 +97,27 @@ export const getDescriptions = function (user, publisherId, activityId) {
             'Authorization': 'Token ' + user.oipaToken
         },
     };
+    console.log('<req_options descriptions', req_options);
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
 
 export const postDescription = function (user, publisherId, activityId, descriptionData) {
+
+    let processedData = Object.assign({}, descriptionData);
+    processedData.type = {"code": "dsa", "name": "ds"};
+    processedData.narratives = [{"code": descriptionData.narratives, "name": descriptionData.narratives}];
+    processedData.narratives = [{ text: 'dasds', language: {code: "aa", name: "xa"} }];
     console.log(descriptionData);
+    console.log('<<descriptionData.narratives');
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: descriptionData,
+        body: processedData,
     };
 
     return oipaPost(req_options)
@@ -137,6 +144,7 @@ export const deleteDescription = function (user, publisherId, activityId, id) {
             'Authorization': 'Token ' + user.oipaToken
         },
     };
+    console.log('<<<delete ', req_options);
 
     return oipaDelete(req_options)
 };
@@ -451,7 +459,7 @@ export const deleteContact = function (user, publisherId, activityId, id) {
 };
 
 
-export const getDocumentLink = function (user, publisherId, activityId) {
+export const getDocumentLinks = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.document_link_url(publisherId, activityId),
@@ -459,6 +467,7 @@ export const getDocumentLink = function (user, publisherId, activityId) {
             'Authorization': 'Token ' + user.oipaToken
         },
     };
+    console.log('<<<req_options', req_options);
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
@@ -499,6 +508,61 @@ export const deleteDocumentLink = function (user, publisherId, activityId, id) {
         },
     };
 
+    console.log('<<<delete', req_options);
+    return oipaDelete(req_options)
+};
+
+
+export const getPolicy = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.policy_markers_url(publisherId, activityId),
+        /*headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },*/
+    };
+    console.log('<<<getPolicy server', req_options);
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postPolicy = function (user, publisherId, activityId, policyData) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.policy_markers_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: policyData,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePolicy = function (user, publisherId, activityId, id, policyData) {
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.policy_markers_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: policyData,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePolicy = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.policy_markers_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    console.log('<<<delete', req_options);
     return oipaDelete(req_options)
 };
 
@@ -697,7 +761,9 @@ export const postBasicInformationDescriptionForm = function (user, publisherId, 
     let processedData = Object.assign({}, formData);
     processedData.type = {"code": formData.type, "name": formData.type};
     processedData.narratives = [{"code": formData.narratives, "name": formData.narratives}];
-    processedData.activity
+    //processedData.activity;
+    console.log('<<<formData.narratives', formData.narratives);
+    console.log('<<<processedData', processedData);
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.activities_url(publisherId) + processedData.activity + '/descriptions/',

@@ -9,8 +9,9 @@ const config = {
     "env": env,
     "static_root": path.join(process.cwd(), "public"),
 
-    "oipa_url": "http://localhost:8000",
-    "oipa_post_url": "https://dev-post.oipa.nl",
+    //"oipa_url": "http://localhost:8000",
+    "oipa_url": "https://dev.oipa.nl",
+    "oipa_post_url": "https://dev.oipa.nl",
     "oipa_delete_url": "https://dev.oipa.nl",
     "codelists": "/api/codelists/",
 
@@ -38,8 +39,6 @@ const config = {
     "conditions_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/conditions/`,
     "related_activities_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/related_activities/`,
     "humanitarian_scopes_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/humanitarian_scopes/`,
-
-
 
     "iati_registry_url": "https://iati-staging.ckan.io/api/",
     "sessionStore": { // TODO: use redis for sessions - 2016-01-25

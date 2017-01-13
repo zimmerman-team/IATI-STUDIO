@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import { getCodeListItems, getHumanitarianScopes, createHumanitarianScope, updateHumanitarianScope, deleteHumanitarianScope } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {humanitarianScopesSelector} from '../../../../reducers/createActivity.js'
+import {humanitarianScopesSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 
 const renderAdditionalRenderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, languageOptions, meta: {touched, error}}) => (
@@ -118,11 +118,12 @@ class HumanitarianScopeForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, data, tab, subTab} = this.props
+        const {activityId, data, tab, subTab, publisher} = this.props
         const lastHumanitarianScope = data;
         const humanitarianScopes = formData.humanitarianScopes;
 
         handleSubmit(
+            publisher.id,
             'humanitarianScopes',
             activityId,
             lastHumanitarianScope,
@@ -143,6 +144,31 @@ class HumanitarianScopeForm extends Component {
         this.props.getCodeListItems('HumanitarianScopeVocabulary');
         this.props.getCodeListItems('Language');
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('humanitarianScopes', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`humanitarianScopes[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('humanitarianScopes', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getHumanitarianScopes(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
+
 
     render() {
         const {codelists, handleSubmit, submitting} = this.props;
@@ -191,6 +217,8 @@ function mapStateToProps(state, props) {
     return {
         data: humanitarian,
         codelists: state.codelists,
+        initialValues: {"humanitarian": humanitarian},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -198,6 +226,7 @@ function mapStateToProps(state, props) {
 HumanitarianScopeForm = reduxForm({
     form: 'classifications-humanitarian-scope',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(HumanitarianScopeForm);
 

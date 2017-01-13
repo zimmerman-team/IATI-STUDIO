@@ -4,7 +4,7 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, getDocumentLinks, createDocumentLink, updateDocumentLink, deleteDocumentLink } from '../../../../actions/activity'
-import { documentLinksSelector } from '../../../../reducers/createActivity.js'
+import { documentLinksSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
@@ -106,8 +106,33 @@ class DocumentLinkForm extends Component {
     this.props.dispatch(getCodeListItems('DocumentCategory'));
     this.props.dispatch(getCodeListItems('FileFormat'));
     this.props.dispatch(getCodeListItems('Language'));
-    this.props.getDocumentLinks('', this.props.activityId);     // publisherID and Activity ID
+    //this.props.getDocumentLinks((this.props.publisher && this.props.publisher.id), this.props.activityId);     // publisherID and Activity ID
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('descriptions', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`descriptions[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('descriptions', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            console.log('<<<nextProps.publisher.id', nextProps.publisher.id);
+            this.props.getDocumentLinks(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   /**
    * Submit document link data and redirect
@@ -116,11 +141,12 @@ class DocumentLinkForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const {activityId, data, tab, subTab} = this.props
+      const {activityId, data, tab, subTab, publisher} = this.props
       const lastDocumentLink = data;
       const documentLinks = formData.documentLink;
 
       handleSubmit(
+          publisher.id,
           'documentLink',
           activityId,
           lastDocumentLink,
@@ -195,7 +221,7 @@ class DocumentLinkForm extends Component {
               Continue to Relation
             </button>
           </div>
-          </div>
+        </div>
         </form>
       </div>
     )
@@ -210,6 +236,7 @@ function mapStateToProps(state, props) {
         data: documentLinks,
         codelists: state.codelists,
         initialValues: {"documentLink": documentLinks},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }

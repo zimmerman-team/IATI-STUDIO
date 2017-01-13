@@ -32,9 +32,9 @@ function handleSubmit(publisherId, mainKey, activityId, prevData, currData, crea
             })
         ))
 
-        toDelete.forEach(publisherId, id => {
-            deleteAction(activityId, id)
-        })
+        toDelete.map(description => (
+            deleteAction(publisherId, activityId, id)
+        ));
 
         return Promise.all(_.flatten([createPromises, updatePromises])).then(actions => {
 

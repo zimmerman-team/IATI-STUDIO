@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import {connect} from 'react-redux'
 import handleSubmit from '../../helpers/handleSubmit'
 import {withRouter} from 'react-router'
-import {plannedDisbursementsSelector} from '../../../../reducers/createActivity.js'
+import {plannedDisbursementsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import { getCodeListItems, createActivity, getPlannedDisbursements, createPlannedDisbursement, updatePlannedDisbursement,
     deletePlannedDisbursement } from '../../../../actions/activity'
 
@@ -155,11 +155,12 @@ class FinancialPlannedDisbursement extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const {activityId, data, tab, subTab} = this.props
+      const {activityId, data, tab, subTab, publisher} = this.props
       const lastPlannedDisbursement = data;
       const plannedDisbursements = formData.plannedDisbursements;
 
       handleSubmit(
+          publisher.id,
           'plannedDisbursements',
           activityId,
           lastPlannedDisbursement,
@@ -181,6 +182,30 @@ class FinancialPlannedDisbursement extends Component {
     this.props.getCodeListItems('Language');
     this.props.getCodeListItems('OrganisationType');
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('plannedDisbursements', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`plannedDisbursements[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('plannedDisbursements', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getPlannedDisbursements(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   render() {
     const {activity, handleSubmit, submitting} = this.props;
@@ -230,6 +255,8 @@ function mapStateToProps(state, props) {
     return {
         data: plannedDisbursements,
         codelists: state.codelists,
+        initialValues: {"plannedDisbursements": plannedDisbursements},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -237,6 +264,7 @@ function mapStateToProps(state, props) {
 FinancialPlannedDisbursement = reduxForm({
   form: 'financial-planned-disbursement',     // a unique identifier for this form
   destroyOnUnmount: false,
+    enableReinitialize: true,
   validate
 })(FinancialPlannedDisbursement);
 

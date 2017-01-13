@@ -6,7 +6,7 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import { Link } from 'react-router';
 import { getCodeListItems, getRecipientCountries, createRecipientCountry, updateRecipientCountry, deleteRecipientCountry } from '../../../../actions/activity'
-import { recipientCountriesSelector } from '../../../../reducers/createActivity.js'
+import { recipientCountriesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 import handleSubmit from '../../helpers/handleSubmit'
@@ -120,11 +120,12 @@ class RecipientCountryForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, data, tab, subTab } = this.props
+        const { activityId, data, tab, subTab, publisher } = this.props
 
         console.log(activityId);
 
         handleSubmit(
+            publisher.id,
             'recipientCountries',
             activityId,
             data,
@@ -149,9 +150,9 @@ class RecipientCountryForm extends Component {
             const newData = nextProps.data
 
             // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('descriptions', newData);
+            // this.props.change('recipientCountries', newData);
 
-            // change each item 
+            // change each item
             newData.forEach((d,i) => this.props.change(`recipientCountries[${i}]`, d))
 
             // remove any removed elements if newData < oldData
@@ -160,11 +161,12 @@ class RecipientCountryForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId) {
-            this.props.getRecipientCountries(nextProps.activityId)
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getRecipientCountries(nextProps.publisher.id, nextProps.activityId)
         }
     }
-
 
     render() {
         const {data, codelists, handleSubmit, submitting} = this.props;
@@ -202,6 +204,7 @@ class RecipientCountryForm extends Component {
 RecipientCountryForm = reduxForm({
     form: 'geopolitical-information-country',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(RecipientCountryForm);
 
@@ -211,7 +214,9 @@ function mapStateToProps(state) {
     return {
         data: recipientCountries,
         codelists: state.codelists,
-        activity: state.activity
+        activity: state.activity,
+        initialValues: {"recipientCountries": recipientCountries},  // populate initial values for redux form
+        publisher: publisherSelector(state),
     }
 }
 

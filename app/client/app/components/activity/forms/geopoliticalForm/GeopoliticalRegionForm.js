@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import { Link } from 'react-router';
 import { getCodeListItems, getRegions, createRegion, updateRegion, deleteRegion } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import { regionsSelector } from '../../../../reducers/createActivity.js'
+import { regionsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error}}) => (
@@ -84,11 +84,12 @@ class RecipientRegionForm extends React.Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const { activityId, data, tab, subTab } = this.props
+      const { activityId, data, tab, subTab, publisher } = this.props
       const lastRegion = data;
       const regions = formData.regions;
 
       handleSubmit(
+          publisher.id,
           'regions',
           activityId,
           lastRegion,
@@ -109,6 +110,30 @@ class RecipientRegionForm extends React.Component {
     this.props.getCodeListItems('RegionVocabulary');
     this.props.getCodeListItems('Language');
   }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('regions', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`regions[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('regions', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getRegions(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
   render() {
     const {codelists, handleSubmit, submitting} = this.props;
@@ -190,6 +215,7 @@ class RecipientRegionForm extends React.Component {
 RecipientRegionForm = reduxForm({
   form: 'geopolitical-information-recipient-region',     // a unique identifier for this form
   destroyOnUnmount: false,
+    enableReinitialize: true,
   validate
 })(RecipientRegionForm);
 
@@ -200,6 +226,8 @@ function mapStateToProps(state, props) {
     return {
         data: regions,
         codelists: state.codelists,
+        initialValues: {"regions": regions},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }

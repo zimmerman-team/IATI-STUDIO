@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields} from '../../helpers/FormHelper'
 import { getCodeListItems, getDescriptions, createDescription, updateDescription, deleteDescription } from '../../../../actions/activity'
-import { descriptionsSelector } from '../../../../reducers/createActivity.js'
+import { descriptionsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 import handleSubmit from '../../helpers/handleSubmit'
@@ -26,7 +26,7 @@ const renderDescriptionTypeSelect = ({name, textName, label, meta: {touched, err
     </div>
 );
 
-const renderDescription = ({fields, languageOptions, meta: {touched, dirty, error}}) => {
+const renderDescription = ({fields, languageOptions, deleteHandler, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -34,6 +34,7 @@ const renderDescription = ({fields, languageOptions, meta: {touched, dirty, erro
     return (
         <div>
             {fields.map((description, index) =>
+            <div>
                 <div className="field-list" key={index}>
                     <div className="row no-margin">
                         <Field
@@ -50,17 +51,19 @@ const renderDescription = ({fields, languageOptions, meta: {touched, dirty, erro
                         />
                     </div>
                 </div>
-            )}
-            <div className="columns">
-                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-                <button
-                    type="button"
-                    title="Remove Title"
-                    className="control-button remove float-right"
-                    onClick={() => fields.pop()}>Delete
-                </button>
-                {touched && error && <span className="error">{error}</span>}
+                <div className="columns">
+                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                    <button
+                        type="button"
+                        title="Remove Title"
+                        className="control-button remove float-right"
+                        onClick={() => deleteHandler(fields, index, description)}>Delete
+                    </button>
+                    {touched && error && <span className="error">{error}</span>}
+                </div>
+                <br/><br/>
             </div>
+            )}
         </div>
     )
 };
@@ -111,6 +114,7 @@ class BasicInformationDescriptionForm extends Component {
     constructor(props) {
         super(props);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleDeleteDocumentLink = this.handleDeleteDocumentLink.bind(this);
     }
 
     /**
@@ -122,7 +126,8 @@ class BasicInformationDescriptionForm extends Component {
         const { activityId, publisher, data, tab, subTab } = this.props
 
         const lastDescriptions = data
-        const descriptions = formData.descriptions
+        const descriptions = formData.descriptions;
+        console.log('<<before handle')
 
         handleSubmit(
             publisher.id,
@@ -135,9 +140,20 @@ class BasicInformationDescriptionForm extends Component {
             this.props.deleteDescription,
         )
 
-        // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
+    static contextTypes = {
+        router: PropTypes.object,
+    };
+
+    //TODO remove after testing
+    handleDeleteDocumentLink(fields, index, description) {
+        //fields.remove(index);
+        console.log('<<<description delete handler', description);
+        console.log('<<<fields delete handler', fields);
+        this.props.deleteDescription(this.props.publisher.id, this.props.activityId, descriptionID);     // publisherID and Activity ID
+    }
     componentWillMount() {
         this.props.getCodeListItems('DescriptionType');
         this.props.getCodeListItems('Language');
@@ -187,6 +203,7 @@ class BasicInformationDescriptionForm extends Component {
                             name="descriptions"
                             component={renderDescription}
                             languageOptions={codelists["Language"]}
+                            deleteHandler={this.handleDeleteDocumentLink}
                         />
 
                     <div className="columns small-12">
@@ -201,8 +218,6 @@ class BasicInformationDescriptionForm extends Component {
         )
     }
 }
-
-import { publisherSelector } from '../../../../reducers/createActivity'
 
 BasicInformationDescriptionForm = reduxForm({
     form: 'basic-info-description',     // a unique identifier for this form

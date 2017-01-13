@@ -6,63 +6,54 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, getRelations, createRelations, updateRelations, deleteRelations } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import { relationsSelector } from '../../../../reducers/createActivity.js'
+import { relationsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
-const renderRelation = ({fields, relatedActivityTypeOptions}) => (
-  <div>
-    <div className="field-list clearfix">
-      <div className="row no-margin">
-        <Field
-          component={renderSelectField}
-          name="relatedActivityType"
-          label='Type of Relationship'
-          selectOptions={relatedActivityTypeOptions}
-          defaultOption="Select one of the following options"
-        />
-        <div className="columns small-6">
-          <Field
-            name="activityIdentifier"
-            type="text"
-            component={renderField}
-            label="Activity Identifier"
-          />
-        </div>
-      </div>
-      <div className="columns">
-        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-      </div>
-
-      {fields.map((relations, index) =>
-        <div key={index}>
-          <hr/>
-          <div className="field-list clearfix">
-            <div className="row no-margin">
-              <Field
-                component={renderSelectField}
-                name={`${relations}.relatedActivityType`}
-                label='Type of Relationship'
-                selectOptions={relatedActivityTypeOptions}
-                defaultOption="Select one of the following options"
-              />
-              <div className="columns small-6">
-                <Field
-                  name={`${relations}.activityIdentifier`}
-                  type="text"
-                  component={renderField}
-                  label="Activity Identifier"
-                />
+const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+    return (
+      <div>
+          {fields.map((relations, index) =>
+            <div key={index}>
+              <hr/>
+              <div className="field-list clearfix">
+                <div className="row no-margin">
+                  <Field
+                    component={renderSelectField}
+                    name={`${relations}.relatedActivityType`}
+                    label='Type of Relationship'
+                    selectOptions={relatedActivityTypeOptions}
+                    defaultOption="Select one of the following options"
+                  />
+                  <div className="columns small-6">
+                    <Field
+                      name={`${relations}.activityIdentifier`}
+                      type="text"
+                      component={renderField}
+                      label="Activity Identifier"
+                    />
+                  </div>
+                </div>
+                <div className="columns">
+                  <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                </div>
               </div>
+                <div className="columns">
+                  <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                  <button
+                  type="button"
+                  title="Remove Title"
+                  className="control-button remove float-right"
+                  onClick={() => fields.remove(index)}>Delete
+                  </button>
+                    {touched && error && <span className="error">{error}</span>}
+                </div>
             </div>
-            <div className="columns">
-              <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  </div>
-);
+          )}
+      </div>
+)}
 
 const validate = values => {
   const errors = {};

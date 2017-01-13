@@ -136,8 +136,8 @@ export const plannedDisbursementsSelector = createSelector(
 )
 
 export const documentLinksSelector = createSelector(
-    state => state.activity.documentLinks,
-    (documentLinks) => _.map(documentLinks, x => x) // to array
+    state => state.activity.documentLink,
+    (documentLink) => _.map(documentLink, x => x) // to array
 )
 
 export const policySelector = createSelector(
@@ -156,11 +156,11 @@ export const regionsSelector = createSelector(
 )
 
 export const humanitarianScopesSelector = createSelector(
-    state => state.activity.humanitarianScope,
-    (humanitarianScope) => _.map(humanitarianScope, x => x) // to array
+    state => state.activity.humanitarianScopes,
+    (humanitarianScopes) => _.map(humanitarianScopes, x => x) // to array
 )
 
-export const ParticipatingOrganisationsSelector = createSelector(
+export const participatingOrganisationsSelector = createSelector(
     state => state.activity.participatingOrganisations,
     (participatingOrganisations) => _.map(participatingOrganisations, x => x) // to array
 )
@@ -170,5 +170,9 @@ export const recipientCountriesSelector = createSelector(
     (recipient_countries) => _.map(recipient_countries, x => x) // to array
 )
 
+export const relationsSelector = createSelector(
+    state => state.activity.relations,
+    (relations) => _.map(relations, x => x) // to array
+)
 
 export default activity

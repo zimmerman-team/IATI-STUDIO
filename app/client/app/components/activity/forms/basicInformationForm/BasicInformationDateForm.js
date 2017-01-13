@@ -6,17 +6,17 @@ import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, getDates, createDate, updateDate, deleteDate } from '../../../../actions/activity'
-import { datesSelector } from '../../../../reducers/createActivity.js'
+import { datesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
   <div>
-    {fields.map((description, index) =>
+    {fields.map((date, index) =>
       <div key={index}>
         <div className="columns small-6">
           <Field
-            name={`${description}.iso_date`}
+            name={`${date}.iso_date`}
             type="text"
             component={renderField}
             label="Date"
@@ -24,10 +24,10 @@ const renderDate = ({fields, languageOptions, meta: {touched, error}}) => (
         </div>
         <hr/>
         <FieldArray
-          name={`${description}.type`}
+          name={`${date}.type`}
           component={renderNarrativeFields}
           languageOptions={languageOptions}
-          textName={`${description}.narrativeText`}
+          textName={`${date}.narrativeText`}
           textLabel="Title"
         />
       </div>
@@ -59,12 +59,13 @@ class BasicInformationDateForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const { activityId, data, tab, subTab } = this.props
+      const { activityId, data, tab, subTab, publisher } = this.props
 
       const lastDates = data
       const dates = formData.dates
 
       handleSubmit(
+          publisher.id,
           'dates',
           activityId,
           lastDates,
@@ -85,7 +86,32 @@ class BasicInformationDateForm extends Component {
       this.props.getCodeListItems('Language');
   }
 
-  render() {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('dates', newData);
+
+            // change each item
+            newData.forEach((d,i) => this.props.change(`dates[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('dates', i)
+            }
+        }
+
+        console.log(nextProps.publisher);
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getDates(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
+
+
+    render() {
     const {codelists, submitting, handleSubmit} = this.props;
 
     if (!codelists["ActivityDateType"] || !codelists["Language"]) {
@@ -144,6 +170,8 @@ function mapStateToProps(state, props) {
     return {
         data: dates,
         codelists: state.codelists,
+        initialValues: {"dates": dates},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
@@ -151,6 +179,7 @@ function mapStateToProps(state, props) {
 BasicInformationDateForm = reduxForm({
   form: 'basic-info-date',     // a unique identifier for this form
   destroyOnUnmount: false,
+  enableReinitialize: true,
   validate
 })(BasicInformationDateForm);
 

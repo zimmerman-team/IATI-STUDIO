@@ -6,7 +6,7 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import { withRouter, Link } from 'react-router';
 import { getCodeListItems, getParticipatingOrganisations, createParticipatingOrganisation, updateParticipatingOrganisation, deleteParticipatingOrganisation } from '../../../../actions/activity'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
-import { ParticipatingOrganisationsSelector } from '../../../../reducers/createActivity.js'
+import { participatingOrganisationsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 
 import handleSubmit from '../../helpers/handleSubmit'
 
@@ -18,13 +18,14 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
     return (
         <div>
             <div className="field-list clearfix">
-                {fields.map((organisations, index) =>
+                {fields.map((organisation, index) =>
                     <div key={index}>
                         <hr/>
                         <h6 className="columns">Participating organisation</h6>
                         <Field
                             component={renderSelectField}
-                            name={`${organisations}.role[code]`}
+                            name={`${organisation}role.name`}
+                            textName={`${organisation}role.name`}
                             label="Organisation role"
                             selectOptions={roleOptions}
                             defaultOption="Select an organisation role"
@@ -32,14 +33,15 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
                         <div className="columns small-6">
                             <Field
                                 component={renderField}
-                                name={`${organisations}.ref`}
+                                name={`${organisation}ref`}
                                 label="Organisation identifier"
                                 type="text"
                             />
                         </div>
                         <Field
                             component={renderSelectField}
-                            name={`${organisations}.type[code]`}
+                            name={`${organisation}type.name`}
+                            textName={`${organisation}type.name`}
                             label="Organisation Type"
                             selectOptions={typeOptions}
                             defaultOption="Select an organisation type"
@@ -47,13 +49,13 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
                         <div className="columns small-6">
                             <Field
                                 component={renderField}
-                                name={`${organisations}.activity_id`}
+                                name={`${organisation}activity_id`}
                                 label="Activity identifier"
                                 type="text"
                             />
                         </div>
                         <FieldArray
-                            name={`${organisations}.narratives`}
+                            name={`${organisation}narratives`}
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                         />
@@ -125,11 +127,12 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     handleFormSubmit(formData) {
-        const { activityId, data, tab, subTab } = this.props
+        const { activityId, data, tab, subTab, publisher } = this.props
 
         console.log('submitting...');
 
         handleSubmit(
+            publisher.id,
             'participatingOrganisations', // form key
             activityId,
             data,
@@ -146,7 +149,7 @@ class ParticipatingOrganisationForm extends Component {
         this.props.getCodeListItems('OrganisationRole');
         this.props.getCodeListItems('OrganisationType');
         this.props.getCodeListItems('Language');
-        this.props.getParticipatingOrganisations(this.props.activityId)
+        this.props.getParticipatingOrganisations('', this.props.activityId)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -157,7 +160,7 @@ class ParticipatingOrganisationForm extends Component {
             // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
             // this.props.change('participatingOrganisations', newData);
 
-            // change each item 
+            // change each item
             newData.forEach((d,i) => this.props.change(`participatingOrganisations[${i}]`, d))
 
             // remove any removed elements if newData < oldData
@@ -219,13 +222,14 @@ ParticipatingOrganisationForm = reduxForm({
     validate,
 })(ParticipatingOrganisationForm);
 
-function mapStateToProps(state) {
-    const participatingOrganisations = ParticipatingOrganisationsSelector(state)
+function mapStateToProps(state, props) {
+    const participatingOrganisations = participatingOrganisationsSelector(state);
 
     return {
         activity: state.activity,
         data: participatingOrganisations,
-        initialValues: {"documentLink": participatingOrganisations},  // populate initial values for redux form
+        initialValues: {"participatingOrganisation": participatingOrganisations},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
