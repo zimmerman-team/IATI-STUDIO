@@ -92,7 +92,7 @@ export const deleteActivity = function (user, publisherId, id) {
 export const getDescriptions = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.descriptionUrl(activityId),
+        url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -103,9 +103,10 @@ export const getDescriptions = function (user, publisherId, activityId) {
 };
 
 export const postDescription = function (user, publisherId, activityId, descriptionData) {
+    console.log(descriptionData);
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.descriptionUrl(activityId),
+        url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -118,7 +119,7 @@ export const postDescription = function (user, publisherId, activityId, descript
 export const updateDescription = function (user, publisherId, activityId, id, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.descriptionUrl(activityId), `${id}`),
+        url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -131,7 +132,7 @@ export const updateDescription = function (user, publisherId, activityId, id, de
 export const deleteDescription = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.descriptionUrl(activityId), `${id}`),
+        url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -144,7 +145,7 @@ export const deleteDescription = function (user, publisherId, activityId, id) {
 export const getBudgets = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.descriptionUrl(activityId),
+        url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -157,7 +158,7 @@ export const getBudgets = function (user, publisherId, activityId) {
 export const postBudget = function (user, publisherId, activityId, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.descriptionUrl(activityId),
+        url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -170,7 +171,7 @@ export const postBudget = function (user, publisherId, activityId, descriptionDa
 export const updateBudget = function (user, publisherId, activityId, id, descriptionData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.descriptionUrl(activityId), `${id}`),
+        url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -183,7 +184,7 @@ export const updateBudget = function (user, publisherId, activityId, id, descrip
 export const deleteBudget = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.descriptionUrl(activityId), `${id}`),
+        url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -195,7 +196,7 @@ export const deleteBudget = function (user, publisherId, activityId, id) {
 export const getParticipatingOrganisations = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.participatingOrganisationUrl(activityId),
+        url: config.participatingOrganisationUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -208,7 +209,7 @@ export const getParticipatingOrganisations = function (user, publisherId, activi
 export const postParticipatingOrganisation = function (user, publisherId, activityId, participating_organisationData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.participatingOrganisationUrl(activityId),
+        url: config.participatingOrganisationUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -221,7 +222,7 @@ export const postParticipatingOrganisation = function (user, publisherId, activi
 export const updateParticipatingOrganisation = function (user, publisherId, activityId, id, participating_organisationData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.participatingOrganisationUrl(activityId), `${id}`),
+        url: path.join(config.participatingOrganisationUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -234,7 +235,7 @@ export const updateParticipatingOrganisation = function (user, publisherId, acti
 export const deleteParticipatingOrganisation = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.participatingOrganisationUrl(activityId), `${id}`),
+        url: path.join(config.participatingOrganisationUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -247,7 +248,7 @@ export const deleteParticipatingOrganisation = function (user, publisherId, acti
 export const getDates = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.date_url(activityId),
+        url: config.date_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -260,7 +261,7 @@ export const getDates = function (user, publisherId, activityId) {
 export const postDate = function (user, publisherId, activityId, dateData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.date_url(activityId),
+        url: config.date_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -273,7 +274,7 @@ export const postDate = function (user, publisherId, activityId, dateData) {
 export const updateDate = function (user, publisherId, activityId, id, dateData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.date_url(activityId), `${id}`),
+        url: path.join(config.date_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -286,7 +287,7 @@ export const updateDate = function (user, publisherId, activityId, id, dateData)
 export const deleteDate = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.date_url(activityId), `${id}`),
+        url: path.join(config.date_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -299,7 +300,7 @@ export const deleteDate = function (user, publisherId, activityId, id) {
 export const getRecipientCountries = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.recipientCountryUrl(activityId),
+        url: config.recipientCountryUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -311,7 +312,7 @@ export const getRecipientCountries = function (user, publisherId, activityId) {
 export const getStatus = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.status_url(activityId),
+        url: config.status_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -324,7 +325,7 @@ export const getStatus = function (user, publisherId, activityId) {
 export const postRecipientCountry = function (user, publisherId, activityId, recipientCountryData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.recipientCountryUrl(activityId),
+        url: config.recipientCountryUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -337,7 +338,7 @@ export const postRecipientCountry = function (user, publisherId, activityId, rec
 export const postStatus = function (user, publisherId, activityId, statusData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.status_url(activityId),
+        url: config.status_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -350,7 +351,7 @@ export const postStatus = function (user, publisherId, activityId, statusData) {
 export const updateRecipientCountry = function (user, publisherId, activityId, id, recipientCountryData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+        url: path.join(config.recipientCountryUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -363,7 +364,7 @@ export const updateRecipientCountry = function (user, publisherId, activityId, i
 export const updateStatus = function (user, publisherId, activityId, id, statusData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.status_url(activityId), `${id}`),
+        url: path.join(config.status_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -376,7 +377,7 @@ export const updateStatus = function (user, publisherId, activityId, id, statusD
 export const deleteRecipientCountry = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.recipientCountryUrl(activityId), `${id}`),
+        url: path.join(config.recipientCountryUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -388,7 +389,7 @@ export const deleteRecipientCountry = function (user, publisherId, activityId, i
 export const deleteStatus = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.status_url(activityId), `${id}`),
+        url: path.join(config.status_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -401,7 +402,7 @@ export const deleteStatus = function (user, publisherId, activityId, id) {
 export const getContact = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.contact_url(activityId),
+        url: config.contact_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -414,7 +415,7 @@ export const getContact = function (user, publisherId, activityId) {
 export const postContact = function (user, publisherId, activityId, contactData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.contact_url(activityId),
+        url: config.contact_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -427,7 +428,7 @@ export const postContact = function (user, publisherId, activityId, contactData)
 export const updateContact = function (user, publisherId, activityId, id, contactData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.contact_url(activityId), `${id}`),
+        url: path.join(config.contact_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -440,7 +441,7 @@ export const updateContact = function (user, publisherId, activityId, id, contac
 export const deleteContact = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.contact_url(activityId), `${id}`),
+        url: path.join(config.contact_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -453,7 +454,7 @@ export const deleteContact = function (user, publisherId, activityId, id) {
 export const getDocumentLink = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.document_link_url(activityId),
+        url: config.document_link_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -466,7 +467,7 @@ export const getDocumentLink = function (user, publisherId, activityId) {
 export const postDocumentLink = function (user, publisherId, activityId, documentLinkData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.document_link_url(activityId),
+        url: config.document_link_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -479,7 +480,7 @@ export const postDocumentLink = function (user, publisherId, activityId, documen
 export const updateDocumentLink = function (user, publisherId, activityId, id, documentLinkData) {
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.document_link_url(activityId), `${id}`),
+        url: path.join(config.document_link_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -492,7 +493,7 @@ export const updateDocumentLink = function (user, publisherId, activityId, id, d
 export const deleteDocumentLink = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(config.document_link_url(activityId), `${id}`),
+        url: path.join(config.document_link_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },

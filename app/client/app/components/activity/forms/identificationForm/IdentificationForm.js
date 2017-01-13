@@ -89,11 +89,11 @@ class IdentificationForm extends PureComponent {
      * to basic information form.
      */
     handleFormSubmit(data) {
-        const { activityId, tab, subTab } = this.props
+        const { activityId, tab, subTab, publisher } = this.props
 
         console.log(data);
 
-        this.props.updateActivity({
+        this.props.updateActivity(publisher.id, {
             id: activityId,
             ...data,
         })

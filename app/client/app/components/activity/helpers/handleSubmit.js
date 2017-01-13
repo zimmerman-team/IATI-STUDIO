@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from 'react'
 import { SubmissionError } from 'redux-form'
 
-function handleSubmit(mainKey, activityId, prevData, currData, createAction, updateAction, deleteAction) {
+function handleSubmit(publisherId, mainKey, activityId, prevData, currData, createAction, updateAction, deleteAction) {
         const oldIds = prevData.map(d => d.id).filter(d => d !== undefined)
         const newIds = currData.map(d => d.id).filter(d => d !== undefined)
 
@@ -18,7 +18,7 @@ function handleSubmit(mainKey, activityId, prevData, currData, createAction, upd
         console.log(toCreate, toUpdate, toDelete);
 
         const createPromises = toCreate.map(description => (
-            createAction(activityId, {
+            createAction(publisherId, activityId, {
                 activity: activityId,
                 ...description,
             })
@@ -26,13 +26,13 @@ function handleSubmit(mainKey, activityId, prevData, currData, createAction, upd
 
 
         const updatePromises = toUpdate.map(description => (
-            updateAction(activityId, description.id, {
+            updateAction(publisherId, activityId, description.id, {
                 activity: activityId,
                     ...description,
             })
         ))
 
-        toDelete.forEach(id => {
+        toDelete.forEach(publisherId, id => {
             deleteAction(activityId, id)
         })
 
