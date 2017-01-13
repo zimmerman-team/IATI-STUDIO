@@ -9,7 +9,6 @@ const config = {
     "env": env,
     "static_root": path.join(process.cwd(), "public"),
 
-    //"oipa_url": "http://localhost:8000",
     "oipa_url": "https://dev.oipa.nl",
     "oipa_post_url": "https://dev.oipa.nl",
     "oipa_delete_url": "https://dev.oipa.nl",
