@@ -5,19 +5,19 @@ import {Tooltip} from '../../general/Tooltip.react.jsx'
 /**
  * Prepare language select field.
  *
- * @param {string} name
+ * @param {string} textName
  * @param {string} label
  * @param {object} selectOptions
  * @param {string} defaultOption
  * @param touched
  * @param error
  */
-export const renderSelectField = ({name, label, selectOptions, defaultOption, meta: {touched, error}}) => (
+export const renderSelectField = ({name, textName = "", label, selectOptions, defaultOption, meta: {touched, error}}) => (
   <div className="columns small-6">
     <div>
       <label>{label}</label>
       <div>
-        <Field name={name} component="select">
+        <Field name={textName} component="select">
           <option>{defaultOption}</option>
           {
             selectOptions && selectOptions.map((value, index) => <option key={index} value={value.code}>{value.name}</option>)
@@ -74,7 +74,7 @@ export const renderTextArea = ({textArea, label, type, readOnly, onChange, meta:
  * @param touched
  * @param error
  */
-export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName, textLabel, meta: {touched, error}}) => {
+export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName="", textLabel, meta: {touched, error}}) => {
     if (!fields.length) {
         fields.push({})
     }
@@ -94,9 +94,11 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
                     </div>
                     <Field
                         component={renderSelectField}
-                        name={`${title}.language[code]`}
+                        name={`${title}.language[name]`}
+                        textName={`${title}.language[name]`}
                         label="Language"
                         selectOptions={languageOptions}
+                        defaultOption="Select one of the following options"
                     />
                 </div>
                 )}

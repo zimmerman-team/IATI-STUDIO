@@ -136,7 +136,7 @@ export const plannedDisbursementsSelector = createSelector(
 )
 
 export const documentLinksSelector = createSelector(
-    state => state.activity.documentLink,
+    state => state.activity.documentLinks,
     (documentLinks) => _.map(documentLinks, x => x) // to array
 )
 

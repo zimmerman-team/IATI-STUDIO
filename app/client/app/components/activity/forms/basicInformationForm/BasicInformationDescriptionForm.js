@@ -11,12 +11,12 @@ import { withRouter } from 'react-router'
 
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderDescriptionTypeSelect = ({name, label, meta: {touched, error}}) => (
+const renderDescriptionTypeSelect = ({name, textName, label, meta: {touched, error}}) => (
     <div className="columns small-6">
         <div>
             <label>{label}</label>
             <div>
-                <Field name={name} component="select">
+                <Field name={textName} component="select">
                     <option></option>
                     <option value="1">General</option>
                 </Field>
@@ -39,6 +39,7 @@ const renderDescription = ({fields, languageOptions, meta: {touched, dirty, erro
                         <Field
                             name={`${description}.type[code]`}
                             component={renderDescriptionTypeSelect}
+                            textName={`${description}type.code`}
                             label="Type"
                         />
                         <hr/>
@@ -139,7 +140,7 @@ class BasicInformationDescriptionForm extends Component {
     componentWillMount() {
         this.props.getCodeListItems('DescriptionType');
         this.props.getCodeListItems('Language');
-        this.props.getDescriptions(this.props.activityId)
+        this.props.getDescriptions('', this.props.activityId);     // publisherID and Activity ID
     }
 
     componentWillReceiveProps(nextProps) {
@@ -202,16 +203,17 @@ class BasicInformationDescriptionForm extends Component {
 BasicInformationDescriptionForm = reduxForm({
     form: 'basic-info-description',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(BasicInformationDescriptionForm);
 
 function mapStateToProps(state, props) {
-    const descriptions = descriptionsSelector(state)
-
+    const descriptions = descriptionsSelector(state);
     return {
         // initialValues: descriptions.length ? { descriptions } : null,
         data: descriptions,
         codelists: state.codelists,
+        initialValues: {"descriptions": descriptions},  // populate initial values for redux form
         ...props,
     }
 }

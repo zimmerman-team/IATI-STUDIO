@@ -111,6 +111,12 @@ module.exports = function(app) {
         socket.on('Activity.updateContact', Activity.updateContact.bind(null, user));
         socket.on('Activity.deleteContact', Activity.deleteContact.bind(null, user));
 
+        // DocumentLink Form CRUD
+        socket.on('Activity.getDocumentLinks', Activity.getDocumentLinks.bind(null, user));
+        socket.on('Activity.createDocumentLink', Activity.createDocumentLink.bind(null, user));
+        socket.on('Activity.updateDocumentLink', Activity.updateDocumentLink.bind(null, user));
+        socket.on('Activity.deleteDocumentLink', Activity.deleteDocumentLink.bind(null, user));
+
         // Add activity Basic Info
         socket.on('Activity.addBasicInformationDescription', Activity.addBasicInformationDescription.bind(null, user));
         socket.on('Activity.addBasicInformationStatus', Activity.addBasicInformationStatus.bind(null, user));

@@ -1090,7 +1090,7 @@ export function getDocumentLinks(publisherId, activityId) {
     return {
         [CALL_API]: {
             types: [ GET_DOCUMENT_LINK_REQUEST, GET_DOCUMENT_LINK_SUCCESS, GET_DOCUMENT_LINK_FAILURE ],
-            endpoint: 'Activity.getDocumentLink',
+            endpoint: 'Activity.getDocumentLinks',
             payload: [ publisherId, activityId ],
             schema: arrayOf(Schemas.documentLink),
         }

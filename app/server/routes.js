@@ -68,7 +68,7 @@ module.exports = function(app) {
                 return res.end(JSON.stringify(body))
             })
             .catch(error => {
-                return res.status(500).end(JSON.stringify(error.response.body))
+                return res.status(500).end(JSON.stringify(error.response && error.response.body))
             })
     })
     app.post('/api/oipa/*', ensureAuthenticated, function(req, res) {

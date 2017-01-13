@@ -215,7 +215,8 @@ class ParticipatingOrganisationForm extends Component {
 ParticipatingOrganisationForm = reduxForm({
     form: 'participating-organisation',
     destroyOnUnmount: false,
-    validate
+    enableReinitialize: true,
+    validate,
 })(ParticipatingOrganisationForm);
 
 function mapStateToProps(state) {
@@ -224,6 +225,8 @@ function mapStateToProps(state) {
     return {
         activity: state.activity,
         data: participatingOrganisations,
+        initialValues: {"documentLink": participatingOrganisations},  // populate initial values for redux form
+        ...props,
     }
 }
 

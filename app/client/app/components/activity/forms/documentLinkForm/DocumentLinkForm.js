@@ -6,6 +6,7 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import { getCodeListItems, getDocumentLinks, createDocumentLink, updateDocumentLink, deleteDocumentLink } from '../../../../actions/activity'
 import { documentLinksSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
+import handleSubmit from '../../helpers/handleSubmit'
 
 const validate = values => {
   const errors = {};
@@ -16,16 +17,96 @@ const validate = values => {
   return errors
 };
 
+const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, documentCategoryOptions, deleteHandler, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({});
+    }
+    return(
+    <div>
+        {fields.map((documentLink, index) =>
+            <div key={index}>
+                <div className="field-list">
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${documentLink}url`}
+                                type="text"
+                                component={renderField}
+                                label="URL"
+                            />
+                        </div>
+                        <Field
+                            component={renderSelectField}
+                            name={`${documentLink}format.code`}
+                            textName={`${documentLink}format.code`}
+                            label="Format"
+                            selectOptions={fileFormatOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${documentLink}title.narratives`}
+                            component={renderNarrativeFields}
+                            languageOptions={languageOptions}
+                            textLabel="Text"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <Field
+                            component={renderSelectField}
+                            name={`${documentLink}categories[0].category.name`}
+                            textName={`${documentLink}categories[0].category.name`}
+                            label='Document Category'
+                            selectOptions={documentCategoryOptions}
+                            defaultOption="Select one of the following options"/>
+                        <Field
+                            component={renderSelectField}
+                            name={`${documentLink}document_language`}
+                            textName={`${documentLink}document_language`}
+                            label='Language'
+                            selectOptions={languageOptions}
+                            defaultOption="Select one of the following options"/>
+                    </div>
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${documentLink}document_date.iso_date`}
+                                type="date"
+                                component={renderField}
+                                label="Document Date"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="columns">
+                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                    <button
+                        type="button"
+                        title="Remove Document"
+                        className="control-button remove float-right"
+                        onClick={() => fields.remove(index)}>Delete
+                    </button>
+                </div>
+                <br/><br/>
+            </div>
+        )}
+    </div>
+)}
+
 class DocumentLinkForm extends Component {
 
   constructor(props) {
     super(props);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleDeleteDocumentLink = this.handleDeleteDocumentLink.bind(this);
   }
+
   componentWillMount() {
     this.props.dispatch(getCodeListItems('DocumentCategory'));
     this.props.dispatch(getCodeListItems('FileFormat'));
-    this.props.getDocumentLinks(this.props.activityId);
+    this.props.dispatch(getCodeListItems('Language'));
+    this.props.getDocumentLinks('', this.props.activityId);     // publisherID and Activity ID
   }
 
   /**
@@ -37,10 +118,10 @@ class DocumentLinkForm extends Component {
   handleFormSubmit(formData) {
       const {activityId, data, tab, subTab} = this.props
       const lastDocumentLink = data;
-      const documentLinks = formData.documentLinks;
+      const documentLinks = formData.documentLink;
 
       handleSubmit(
-          'documentLinks',
+          'documentLink',
           activityId,
           lastDocumentLink,
           documentLinks,
@@ -51,16 +132,22 @@ class DocumentLinkForm extends Component {
       //this.context.router.push('/publisher/activity/relations')
   }
 
-  static contextTypes = {
-    router: PropTypes.object,
-  };
+    static contextTypes = {
+        router: PropTypes.object,
+    };
+
+  //TODO remove after testing
+    handleDeleteDocumentLink(fields, index) {
+        fields.remove(index);
+        this.props.deleteDocumentLink('', this.props.activityId, index);     // publisherID and Activity ID
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             const oldData = this.props.data
             const newData = nextProps.data
 
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+              // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
             // this.props.change('descriptions', newData);
 
             // change each item
@@ -78,10 +165,11 @@ class DocumentLinkForm extends Component {
     }
 
   render() {
-    const {submitting, previousPage, handleSubmit, codelists} = this.props;
-    if (!codelists['DocumentCategory'] || !codelists['FileFormat']) {
-          return <GeneralLoader />
+    const {submitting, previousPage, handleSubmit, codelists, data} = this.props;
+    if (!codelists['DocumentCategory'] || !codelists['FileFormat'] || !codelists['Language']) {
+      return <GeneralLoader />
     }
+
 
     return (
       <div>
@@ -92,62 +180,21 @@ class DocumentLinkForm extends Component {
           </div>
         </div>
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-          <div className="field-list">
-            <div className="row no-margin">
-              <div className="columns small-6">
-                <Field
-                  name="url"
-                  type="text"
-                  component={renderField}
-                  label="URL"
-                />
-
-              </div>
-              <Field
-                component={renderSelectField}
-                name="format"
-                label="Format"
-                selectOptions={codelists['FileFormat']}
-                defaultOption="Select one of the following options"
-              />
-            </div>
-            <div className="row no-margin">
-              <FieldArray
-                name='narrative'
-                component={renderNarrativeFields}
-                languageOptions={codelists["Language"]}
-                textName="textSector"
-                textLabel="Text"
-              />
-            </div>
-            <Field
-              component={renderSelectField}
-              name='categories'
-              label='Document Category'
-              selectOptions={codelists['DocumentCategory']}
-              defaultOption="Select one of the following options"/>
-            <Field
-              component={renderSelectField}
-              name='document_language'
-              label='Language'
-              selectOptions={codelists['Language']}
-              defaultOption="Select one of the following options"/>
-            <div className="columns small-6">
-              <Field
-                name="document_date"
-                type="date"
-                component={renderField}
-                label="Document Date"
-              />
-            </div>
-            <div className="row no-margin">
-              <div className="columns small-12">
-                <button type="button" className="button" onClick={previousPage}>Back to Relations</button>
-                <button className="button float-right" type="submit" disabled={submitting} >
-                  Continue to Relation
-                </button>
-              </div>
-            </div>
+        <FieldArray
+            name="documentLink"
+            component={renderDocumentLink}
+            languageOptions={codelists["Language"]}
+            documentCategoryOptions={codelists["DocumentCategory"]}
+            fileFormatOptions={codelists["FileFormat"]}
+            deleteHandler={this.handleDeleteDocumentLink}
+        />
+        <div className="row no-margin">
+          <div className="columns small-12">
+            <button type="button" className="button" onClick={previousPage}>Back to Relations</button>
+            <button className="button float-right" type="submit" disabled={submitting} >
+              Continue to Relation
+            </button>
+          </div>
           </div>
         </form>
       </div>
@@ -157,11 +204,12 @@ class DocumentLinkForm extends Component {
 
 
 function mapStateToProps(state, props) {
-    const documentLinks = documentLinksSelector(state)
+    const documentLinks = documentLinksSelector(state);
 
     return {
         data: documentLinks,
         codelists: state.codelists,
+        initialValues: {"documentLink": documentLinks},  // populate initial values for redux form
         ...props,
     }
 }
@@ -169,6 +217,7 @@ function mapStateToProps(state, props) {
 DocumentLinkForm = reduxForm({
     form: 'document-link',
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(DocumentLinkForm);
 
