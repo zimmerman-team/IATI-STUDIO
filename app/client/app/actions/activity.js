@@ -6,6 +6,7 @@
 import { CALL_API } from '../middleware/api'
 import { arrayOf } from 'normalizr'
 import * as Schemas from '../schemas'
+import _ from 'lodash'
 
 
 /*
@@ -68,11 +69,12 @@ export const UPDATE_ACTIVITY_REQUEST = 'UPDATE_ACTIVITY_REQUEST';
 export const UPDATE_ACTIVITY_SUCCESS = 'UPDATE_ACTIVITY_SUCCESS';
 export const UPDATE_ACTIVITY_FAILURE = 'UPDATE_ACTIVITY_FAILURE';
 export function updateActivity(publisherId, activity) {
+    let filterActivity = _.omitBy(activity, _.isNil);
     return {
         [CALL_API]: {
             types: [ UPDATE_ACTIVITY_REQUEST, UPDATE_ACTIVITY_SUCCESS, UPDATE_ACTIVITY_FAILURE ],
             endpoint: 'Activity.update',
-            payload: [ publisherId, activity],
+            payload: [ publisherId, JSON.stringify(filterActivity)],
             schema: Schemas.activity,
         }
     }
@@ -124,7 +126,7 @@ export function createDescription(publisherId, activityId, description) {
         [CALL_API]: {
             types: [ CREATE_DESCRIPTION_REQUEST, CREATE_DESCRIPTION_SUCCESS, CREATE_DESCRIPTION_FAILURE ],
             endpoint: 'Activity.createDescription',
-            payload: [ publisherId, activityId, description ],
+            payload: [ publisherId, activityId, JSON.stringify(description) ],
             schema: Schemas.description,
         }
     }
@@ -137,14 +139,12 @@ export const UPDATE_DESCRIPTION_REQUEST = 'UPDATE_DESCRIPTION_REQUEST';
 export const UPDATE_DESCRIPTION_SUCCESS = 'UPDATE_DESCRIPTION_SUCCESS';
 export const UPDATE_DESCRIPTION_FAILURE = 'UPDATE_DESCRIPTION_FAILURE';
 export function updateDescription(publisherId, activityId, id, description) {
-    const languages = [];
-    description.narratives.forEach((data,i) => languages.push[{code: data.code, name: data.code}]);
     return {
         id,
         [CALL_API]: {
             types: [ UPDATE_DESCRIPTION_REQUEST, UPDATE_DESCRIPTION_SUCCESS, UPDATE_DESCRIPTION_FAILURE ],
             endpoint: 'Activity.updateDescription',
-            payload: [ publisherId, activityId, id, description ],
+            payload: [ publisherId, activityId, id, JSON.stringify(description) ],
             schema: Schemas.description,
         }
     }
@@ -967,7 +967,7 @@ export function createParticipatingOrganisation(publisherId, activityId, partici
         [CALL_API]: {
             types: [ CREATE_PARTICIPATING_ORGANISATION_REQUEST, CREATE_PARTICIPATING_ORGANISATION_SUCCESS, CREATE_PARTICIPATING_ORGANISATION_FAILURE ],
             endpoint: 'Activity.createParticipatingOrganisation',
-            payload: [ publisherId, activityId, participating_organisation ],
+            payload: [ publisherId, activityId, JSON.stringify(participating_organisation) ],
             schema: Schemas.participatingOrganisation,
         }
     }
@@ -985,8 +985,8 @@ export function updateParticipatingOrganisation(publisherId, activityId, id, par
         [CALL_API]: {
             types: [ UPDATE_PARTICIPATING_ORGANISATION_REQUEST, UPDATE_PARTICIPATING_ORGANISATION_SUCCESS, UPDATE_PARTICIPATING_ORGANISATION_FAILURE ],
             endpoint: 'Activity.updateParticipatingOrganisation',
-            payload: [ publisherId, activityId, id, participating_organisation ],
-            schema: Schemas.participating_organisation,
+            payload: [ publisherId, activityId, id, JSON.stringify(participating_organisation) ],
+            schema: Schemas.participatingOrganisation,
         }
     }
 }

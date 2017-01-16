@@ -65,13 +65,14 @@ export const postActivity = function (user, publisherId, activityData) {
 };
 
 export const updateActivity = function (user, publisherId, activityData) {
+    const activityDataJSON = JSON.parse(activityData);
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.activities_url(publisherId), activityData.id),
+        url: path.join(config.activities_url(publisherId), `${activityDataJSON.id}/`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: prepareActivityData(activityData),
+        body: prepareActivityData(activityDataJSON),
     };
 
     return oipaUpdate(req_options)
@@ -104,36 +105,26 @@ export const getDescriptions = function (user, publisherId, activityId) {
 };
 
 export const postDescription = function (user, publisherId, activityId, descriptionData) {
-    let processedData = Object.assign({}, descriptionData);
-    const type = (descriptionData.type && descriptionData.type.code) || "";
-    processedData.type = {"code": type, "name": type};
-    processedData.narratives = [{ text: descriptionData.narratives[0].text, language: {code: "en", name: "en"} }];
-
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: processedData,
+        body: descriptionData,
     };
 
     return oipaPost(req_options)
 };
 
 export const updateDescription = function (user, publisherId, activityId, id, descriptionData) {
-    let processedData = Object.assign({}, descriptionData);
-    const type = (descriptionData.type && descriptionData.type.code) || "";
-    processedData.type = {"code": type, "name": type};
-    processedData.narratives = [{ text: descriptionData.narratives[0].text, language: {code: "en", name: "en"} }];
-
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: processedData,
+        body: descriptionData,
     };
 
     return oipaUpdate(req_options)
@@ -225,6 +216,8 @@ export const postParticipatingOrganisation = function (user, publisherId, activi
         },
         body: participating_organisationData,
     };
+
+
 
     return oipaPost(req_options)
 };

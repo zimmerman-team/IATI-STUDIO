@@ -142,10 +142,6 @@ class BasicInformationDescriptionForm extends Component {
         this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
-
     //TODO remove after testing
     handleDeleteDocumentLink(fields, index, description) {
         //fields.remove(index);

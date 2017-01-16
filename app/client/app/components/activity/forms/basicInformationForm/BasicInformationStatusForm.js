@@ -6,7 +6,7 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
 import { getCodeListItems, getActivity, updateActivity, } from '../../../../actions/activity'
-import { statusesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
+import { statusSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
 const validate = values => {
@@ -30,56 +30,24 @@ class BasicInformationStatusForm extends Component {
      *
      * @param formData
      */
-    handleFormSubmit(formData) {
-        const { activityId, tab, subTab, publisher, data } = this.props
+    handleFormSubmit(data) {
+        const { activityId, publisher } = this.props;
 
         this.props.updateActivity(publisher.id, {
             id: activityId,
-            ...data,
-        })
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+            ...data.activity,
+        });
+        this.props.router.push(`/publisher/activities/${activityId}/basic-info/date`)
     }
 
-  /**
-   * Submit basic information's status data and redirect to status form.
-   *
-   * @param formData
-   */
-  handleFormSubmit(formData) {
-      const { activityId } = this.props
-      this.props.dispatch(this.props.updateStatus(activityId, null, formData.status));
-      this.context.router.push('/publisher/activity/basic-info/date');
-  }
-
-  static contextTypes = {
-    router: PropTypes.object,
-  };
 
   componentWillMount() {
     this.props.getCodeListItems('ActivityStatus');
   }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
-
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('status', newData);
-
-            // change each item
-            newData.forEach((d,i) => this.props.change(`status[${i}]`, d))
-
-            // remove any removed elements if newData < oldData
-            for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('status', i)
-            }
-        }
-
-        console.log(nextProps.publisher);
-
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getStatus(nextProps.publisher.id, nextProps.activityId)
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -101,8 +69,8 @@ class BasicInformationStatusForm extends Component {
             <div className="field-list">
               <div className="row no-margin">
                 <Field
-                  name="activity_status"
-                  textName="activity_status"
+                  name="activity.activity_status.code"
+                  textName="activity.activity_status.code"
                   component={renderSelectField}
                   label="Status"
                   selectOptions={codelists["ActivityStatus"]}
@@ -124,12 +92,15 @@ class BasicInformationStatusForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const status = statusesSelector(state)
+    const status = statusSelector(state);
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
 
     return {
         data: status,
         codelists: state.codelists,
-        initialValues: {"status": status},  // populate initial values for redux form
+        activity: state.activity.activity,
+        initialValues: {"activity": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }
@@ -138,7 +109,7 @@ function mapStateToProps(state, props) {
 BasicInformationStatusForm = reduxForm({
   form: 'basic-info-status',     // a unique identifier for this form
   destroyOnUnmount: false,
-    enableReinitialize: true,
+  enableReinitialize: true,
   validate
 })(BasicInformationStatusForm);
 

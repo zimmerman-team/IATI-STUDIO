@@ -110,9 +110,9 @@ export const contactsSelector = createSelector(
     (contacts) => _.map(contacts, x => x) // to array
 )
 
-export const statusesSelector = createSelector(
-    state => state.activity.statuses,
-    (statuses) => _.map(statuses, x => x) // to array
+export const statusSelector = createSelector(
+    state => state.activity.activity_status,
+    (activity_status) => _.map(activity_status, x => x) // to array
 )
 
 export const budgetsSelector = createSelector(
