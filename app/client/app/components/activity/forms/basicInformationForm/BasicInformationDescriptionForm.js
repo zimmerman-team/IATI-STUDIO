@@ -25,7 +25,7 @@ const renderDescription = ({fields, languageOptions, descriptionTypes, meta: {to
     return (
         <div>
             {fields.map((description, index) =>
-                <div>
+                <div key={index}>
                     <div className="field-list" key={index}>
                         <div className="row no-margin">
                             <Field

@@ -170,24 +170,6 @@ export function deleteDescription(publisherId, activityId, id) {
 
 
 /*
- * Get Dates (BasicInformation form)
- */
-export const GET_DATES_REQUEST = 'GET_DATES_REQUEST';
-export const GET_DATES_SUCCESS = 'GET_DATES_SUCCESS';
-export const GET_DATES_FAILURE = 'GET_DATES_FAILURE';
-
-export function getDates(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_DATES_REQUEST, GET_DATES_SUCCESS, GET_DATES_FAILURE ],
-            endpoint: 'Activity.getDates',
-            payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.date),
-        }
-    }
-}
-
-/*
  * Create date (BasicInformation form)
  */
 export const CREATE_DATE_REQUEST = 'CREATE_DATE_REQUEST';
@@ -198,7 +180,7 @@ export function createDate(publisherId, activityId, date) {
         [CALL_API]: {
             types: [ CREATE_DATE_REQUEST, CREATE_DATE_SUCCESS, CREATE_DATE_FAILURE ],
             endpoint: 'Activity.createDate',
-            payload: [ publisherId, activityId, date ],
+            payload: [ publisherId, activityId, JSON.stringify(date) ],
             schema: Schemas.date,
         }
     }

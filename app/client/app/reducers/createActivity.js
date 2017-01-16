@@ -40,6 +40,7 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
         case ActionTypes.CREATE_RECIPIENT_COUNTRY_SUCCESS:
         case ActionTypes.UPDATE_RECIPIENT_COUNTRY_SUCCESS:
+        case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
                 return _.merge({}, state, action.response.entities)
 
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:

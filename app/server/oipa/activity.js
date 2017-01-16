@@ -208,6 +208,7 @@ export const getParticipatingOrganisations = function (user, publisherId, activi
 };
 
 export const postParticipatingOrganisation = function (user, publisherId, activityId, participating_organisationData) {
+    const dateJSON = JSON.parse(participating_organisationData);
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.participatingOrganisationUrl(publisherId, activityId),
@@ -217,19 +218,18 @@ export const postParticipatingOrganisation = function (user, publisherId, activi
         body: participating_organisationData,
     };
 
-
-
     return oipaPost(req_options)
 };
 
 export const updateParticipatingOrganisation = function (user, publisherId, activityId, id, participating_organisationData) {
+    const dateJSON = JSON.parse(participating_organisationData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.participatingOrganisationUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: participating_organisationData,
+        body: dateJSON,
     };
 
     return oipaUpdate(req_options)
@@ -248,40 +248,30 @@ export const deleteParticipatingOrganisation = function (user, publisherId, acti
 };
 
 
-export const getDates = function (user, publisherId, activityId) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.date_url(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-
-    return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
-};
-
 export const postDate = function (user, publisherId, activityId, dateData) {
+    const dateJSON = JSON.parse(dateData);
+
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.date_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateData,
+        body: dateJSON,
     };
 
     return oipaPost(req_options)
 };
 
 export const updateDate = function (user, publisherId, activityId, id, dateData) {
+    const dateJSON = JSON.parse(dateData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.date_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateData,
+        body: dateJSON,
     };
 
     return oipaUpdate(req_options)

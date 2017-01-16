@@ -96,7 +96,7 @@ module.exports = function(app) {
         socket.on('Activity.addRelations', Activity.addRelations.bind(null, user));
 
         // BasicInformation Date CRUD
-        socket.on('Activity.getDates', Activity.getDates.bind(null, user));
+        //socket.on('Activity.getDates', Activity.getDates.bind(null, user));   //Date endpoint not working using activity data
         socket.on('Activity.createDate', Activity.createDate.bind(null, user));
         socket.on('Activity.updateDate', Activity.updateDate.bind(null, user));
         socket.on('Activity.deleteDate', Activity.deleteDate.bind(null, user));

@@ -41,7 +41,7 @@ const renderContactTypeSelect = ({name, label, meta: {touched, error}}) => (
   </div>
 );
 
-const renderParticipatingContact = ({fields, languageOptions, contactTypes}) => {
+const renderParticipatingContact = ({ fields, languageOptions, contactTypes, meta: {dirty, touched, error} }) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -511,11 +511,14 @@ class BasicInformationContactForm extends Component {
 
 function mapStateToProps(state, props) {
     const contacts = contactsSelector(state);
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
 
     return {
         data: contacts,
         codelists: state.codelists,
-        initialValues: {"contacts": contacts},  // populate initial values for redux form
+        activity: state.activity.activity,
+        initialValues: {"contacts": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

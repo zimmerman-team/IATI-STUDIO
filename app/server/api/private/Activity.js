@@ -30,7 +30,6 @@ var ActivityAPI = {
     },
 
     create: function(user, publisherId, form, res) {
-        console.log(form);
         // TODO: update validation status here - 2016-12-16
         return postActivity(user, publisherId, form)
             .then(result => res(null, result))
@@ -75,13 +74,6 @@ var ActivityAPI = {
     deleteDescription: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.deleteDescription(user, publisherId, activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    getDates: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here
-        return oipaMethods.getDates(user, publisherId, activityId)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

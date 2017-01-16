@@ -146,7 +146,7 @@ class ParticipatingOrganisationForm extends Component {
             this.props.deleteParticipatingOrganisation,
         )
 
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        this.props.router.push(`/publisher/activities/${activityId}/geopolitical-information/country`)
     }
 
     componentWillMount() {
