@@ -4,10 +4,16 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import { Link } from 'react-router';
-import { getCodeListItems, getRecipientCountries, createRecipientCountry, updateRecipientCountry, deleteRecipientCountry } from '../../../../actions/activity'
-import { recipientCountriesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
-import { withRouter } from 'react-router'
+import {Link} from 'react-router';
+import {
+    getCodeListItems,
+    getRecipientCountries,
+    createRecipientCountry,
+    updateRecipientCountry,
+    deleteRecipientCountry
+} from '../../../../actions/activity'
+import {recipientCountriesSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {withRouter} from 'react-router'
 
 import handleSubmit from '../../helpers/handleSubmit'
 
@@ -57,7 +63,7 @@ const renderRecipientCountry = ({fields, codelists, meta: {touched, error, dirty
                 </button>
                 {touched && error && <span className="error">{error}</span>}
             </div>
-            </div>
+        </div>
     )
 };
 
@@ -70,7 +76,7 @@ const validate = values => {
         let recipientCountryErrors = {}
 
         if (!recipientCountry.country) {
-            recipientCountryErrors.country = { code: 'Required' }
+            recipientCountryErrors.country = {code: 'Required'}
         }
 
         if (!recipientCountry.percentage) {
@@ -87,7 +93,7 @@ const validate = values => {
             }
 
             if (!narrative.language) {
-                narrativeErrors.language = { code: 'Required' }
+                narrativeErrors.language = {code: 'Required'}
             }
 
             return narrativeErrors
@@ -120,9 +126,7 @@ class RecipientCountryForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, data, tab, subTab, publisher } = this.props
-
-        console.log(activityId);
+        const {activityId, data, publisher} = this.props;
 
         handleSubmit(
             publisher.id,
@@ -133,7 +137,7 @@ class RecipientCountryForm extends Component {
             this.props.createRecipientCountry,
             this.props.updateRecipientCountry,
             this.props.deleteRecipientCountry,
-        )
+        );
 
         // this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/region`);
     }
@@ -153,15 +157,13 @@ class RecipientCountryForm extends Component {
             // this.props.change('recipientCountries', newData);
 
             // change each item
-            newData.forEach((d,i) => this.props.change(`recipientCountries[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`recipientCountries[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
                 this.props.array.remove('recipientCountries', i)
             }
         }
-
-        console.log(nextProps.publisher);
 
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getRecipientCountries(nextProps.publisher.id, nextProps.activityId)
@@ -190,7 +192,9 @@ class RecipientCountryForm extends Component {
                         />
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/participating-organisation/participating-organisation/">Back to participating organigation</Link>
+                        <Link className="button"
+                              to="/publisher/activity/participating-organisation/participating-organisation/">Back to
+                            participating organigation</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Region
                         </button>
