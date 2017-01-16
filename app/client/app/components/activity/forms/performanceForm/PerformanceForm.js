@@ -5,40 +5,39 @@ import PerformanceCommentForm from "./PerformanceCommentForm";
 
 class PerformanceForm extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
-  static getFormSubComponentComponentFromRoute(subTab) {
-    switch(subTab) {
-      case 'condition':
-        return <PerformanceConditionForm/>;
-      case 'result':
-        return <PerformanceResultForm/>;
-      case 'comment':
-        return <PerformanceCommentForm/>;
-
-      default:
-        return <PerformanceConditionForm/>;
+    constructor(props) {
+        super(props);
     }
-  }
 
-  render() {
-    const {subTab} = this.props;
-    const formSubComponent = PerformanceForm.getFormSubComponentComponentFromRoute(subTab);
+    static getFormSubComponentComponentFromRoute(subTab) {
+        switch (subTab) {
+            case 'condition':
+                return <PerformanceConditionForm { ...this.props }/>;
+            case 'result':
+                return <PerformanceResultForm { ...this.props }/>;
+            case 'comment':
+                return <PerformanceCommentForm { ...this.props }/>;
+            default:
+                return <PerformanceConditionForm { ...this.props }/>;
+        }
+    }
 
-    return (
-      <div>
-        <div className="row controls">
-          <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Performance</h2>
-            <hr />
-          </div>
-        </div>
-        {formSubComponent}
-      </div>
-    )
-  }
+    render() {
+        const {subTab} = this.props;
+        const formSubComponent = PerformanceForm.getFormSubComponentComponentFromRoute(subTab);
+
+        return (
+            <div>
+                <div className="row controls">
+                    <div className="columns small-centered small-12">
+                        <h2 className="page-title with-tip">Performance</h2>
+                        <hr />
+                    </div>
+                </div>
+                {formSubComponent}
+            </div>
+        )
+    }
 }
 
 export default PerformanceForm;
