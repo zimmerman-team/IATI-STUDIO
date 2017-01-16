@@ -17,23 +17,23 @@ function handleSubmit(publisherId, mainKey, activityId, prevData, currData, crea
 
         console.log(toCreate, toUpdate, toDelete);
 
-        const createPromises = toCreate.map(description => (
+        const createPromises = toCreate.map(data => (
             createAction(publisherId, activityId, {
                 activity: activityId,
-                ...description,
+                ...data,
             })
         ))
 
 
-        const updatePromises = toUpdate.map(description => (
-            updateAction(publisherId, activityId, description.id, {
+        const updatePromises = toUpdate.map(data => (
+            updateAction(publisherId, activityId, data.id, {
                 activity: activityId,
-                    ...description,
+                    ...data,
             })
         ))
 
-        toDelete.map(description => (
-            deleteAction(publisherId, activityId, id)
+        toDelete.map(dataID => (
+            deleteAction(publisherId, activityId, dataID)
         ));
 
         return Promise.all(_.flatten([createPromises, updatePromises])).then(actions => {

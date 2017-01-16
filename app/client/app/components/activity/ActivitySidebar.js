@@ -17,7 +17,7 @@ const navigation = [
     navHeading: 'Identification',
     link: (id) => `/publisher/activities/${id}/identification/identification`,
     subHeading: [
-        { form: '', title: "identification", link: (id) => `/publisher/activities/${id}/basic-info/identification`, requires: [ 'activity.iati_identifier', 'activity.hierarchy' ]}
+        { form: '', title: "identification", link: (id) => `/publisher/activities/${id}/identification/identification`, requires: [ 'activity.iati_identifier', 'activity.hierarchy' ]}
     ]
 },
 {

@@ -11,6 +11,7 @@ const config = {
 
     "oipa_url": "https://dev.oipa.nl",
     "oipa_post_url": "https://dev.oipa.nl",
+    "oipa_update_url": "https://dev.oipa.nl",
     "oipa_delete_url": "https://dev.oipa.nl",
     "codelists": "/api/codelists/",
 

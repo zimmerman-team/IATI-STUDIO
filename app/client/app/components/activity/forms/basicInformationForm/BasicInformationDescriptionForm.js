@@ -57,7 +57,7 @@ const renderDescription = ({fields, languageOptions, deleteHandler, meta: {touch
                         type="button"
                         title="Remove Title"
                         className="control-button remove float-right"
-                        onClick={() => deleteHandler(fields, index, description)}>Delete
+                        onClick={() => fields.remove(index)}>Delete
                     </button>
                     {touched && error && <span className="error">{error}</span>}
                 </div>
@@ -127,7 +127,6 @@ class BasicInformationDescriptionForm extends Component {
 
         const lastDescriptions = data
         const descriptions = formData.descriptions;
-        console.log('<<before handle')
 
         handleSubmit(
             publisher.id,
@@ -150,8 +149,6 @@ class BasicInformationDescriptionForm extends Component {
     //TODO remove after testing
     handleDeleteDocumentLink(fields, index, description) {
         //fields.remove(index);
-        console.log('<<<description delete handler', description);
-        console.log('<<<fields delete handler', fields);
         this.props.deleteDescription(this.props.publisher.id, this.props.activityId, descriptionID);     // publisherID and Activity ID
     }
     componentWillMount() {
@@ -176,8 +173,6 @@ class BasicInformationDescriptionForm extends Component {
                 this.props.array.remove('descriptions', i)
             }
         }
-
-        console.log(nextProps.publisher);
 
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)

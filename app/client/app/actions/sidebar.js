@@ -16,7 +16,7 @@ export const sidebarNav = {page: 0,
       navHeading: 'Identification',
       link: '/publisher/activity/identification/identification',
       activeSubForm: 'identification',
-      subHeading: [{title: "identification", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/basic-info/identification'}]
+      subHeading: [{title: "identification", navValidationClass: '', status: FIELD_BLANK, isActive: true, canNavigate: true, link: '/publisher/activity/identification/identification'}]
     },
     {
       page: 1,

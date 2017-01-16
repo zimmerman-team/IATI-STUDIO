@@ -1,6 +1,6 @@
 "use strict"
 
-import { getActivity, postActivity, getCodeListItems, postActivityDescriptionForm, postParticipatingOrganisationForm, postDocumentLinkForm,
+import { getActivity, postActivity, updateActivity, getCodeListItems, postActivityDescriptionForm, postParticipatingOrganisationForm, postDocumentLinkForm,
     postRelationForm, postPerformanceConditionForm, postPerformanceResultForm, postPerformanceCommentForm,
     postFinancialBudgetsForm, postFinancialPlannedDisbursementsForm, postFinancialTransactionsForm, postFinancialCapitalSpendForm,
     postBasicInformationDescriptionForm, postBasicInformationStatusForm, postBasicInformationDateForm, postBasicInformationContactForm,
@@ -37,9 +37,9 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    update: function(user, publisherId, id, form, res) {
+    update: function(user, publisherId, form, res) {
         // TODO: update validation status here - 2016-12-16
-        return updateActivity(user, publisherId, id, form)
+        return updateActivity(user, publisherId, form)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
@@ -59,7 +59,7 @@ var ActivityAPI = {
 
     createDescription: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
-        // on succesful creation, 
+        // on succesful creation,
         return oipaMethods.postDescription(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));

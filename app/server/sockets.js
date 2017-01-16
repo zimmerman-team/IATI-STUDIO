@@ -71,9 +71,11 @@ module.exports = function(app) {
         socket.on('Activity.getAll', Activity.getAll.bind(null, user));
         socket.on('Activity.get', Activity.get.bind(null, user));
         socket.on('Activity.create', Activity.create.bind(null, user));
+        socket.on('Activity.update', Activity.update.bind(null, user));
         socket.on('Activity.delete', Activity.delete.bind(null, user));
 
         socket.on('Activity.getDescriptions', Activity.getDescriptions.bind(null, user));
+
         socket.on('Activity.createDescription', Activity.createDescription.bind(null, user));
         socket.on('Activity.updateDescription', Activity.updateDescription.bind(null, user));
         socket.on('Activity.deleteDescription', Activity.deleteDescription.bind(null, user));

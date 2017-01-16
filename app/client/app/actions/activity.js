@@ -137,6 +137,8 @@ export const UPDATE_DESCRIPTION_REQUEST = 'UPDATE_DESCRIPTION_REQUEST';
 export const UPDATE_DESCRIPTION_SUCCESS = 'UPDATE_DESCRIPTION_SUCCESS';
 export const UPDATE_DESCRIPTION_FAILURE = 'UPDATE_DESCRIPTION_FAILURE';
 export function updateDescription(publisherId, activityId, id, description) {
+    const languages = [];
+    description.narratives.forEach((data,i) => languages.push[{code: data.code, name: data.code}]);
     return {
         id,
         [CALL_API]: {

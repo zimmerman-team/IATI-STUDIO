@@ -5,8 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
-import { getCodeListItems, getStatus, updateStatus } from '../../../../actions/activity'
-import handleSubmit from '../../helpers/handleSubmit'
+import { getCodeListItems, getActivity, updateActivity, } from '../../../../actions/activity'
 import { statusesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
@@ -32,23 +31,13 @@ class BasicInformationStatusForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, publisher, data, tab, subTab } = this.props
+        const { activityId, tab, subTab, publisher, data } = this.props
 
-        const lastStatus = data
-        const status = formData.status
-
-        handleSubmit(
-            publisher.id,
-            'status',
-            activityId,
-            lastStatus,
-            status,
-            this.props.createDescription,
-            this.props.updateDescription,
-            this.props.deleteDescription,
-        )
-
-        // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        this.props.updateActivity(publisher.id, {
+            id: activityId,
+            ...data,
+        })
+        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
   /**
@@ -112,7 +101,8 @@ class BasicInformationStatusForm extends Component {
             <div className="field-list">
               <div className="row no-margin">
                 <Field
-                  name="status"
+                  name="activity_status"
+                  textName="activity_status"
                   component={renderSelectField}
                   label="Status"
                   selectOptions={codelists["ActivityStatus"]}
@@ -154,8 +144,8 @@ BasicInformationStatusForm = reduxForm({
 
 BasicInformationStatusForm = connect(mapStateToProps, {
     getCodeListItems,
-    getStatus,
-    updateStatus,
+    getActivity,
+    updateActivity,
 })(BasicInformationStatusForm);
 
 export default withRouter(BasicInformationStatusForm)

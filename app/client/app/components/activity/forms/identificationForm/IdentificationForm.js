@@ -2,9 +2,11 @@ import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import { withRouter } from 'react-router'
 import {Field, FieldArray, reduxForm} from 'redux-form'
+import { Link } from 'react-router';
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {renderField, renderNarrativeFields} from '../../helpers/FormHelper'
 import { GeneralLoader } from '../../../general/Loaders.react.jsx'
+import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
 
 import ActivityTooltip from '../../ActivityTooltip'
 
@@ -89,9 +91,7 @@ class IdentificationForm extends PureComponent {
      * to basic information form.
      */
     handleFormSubmit(data) {
-        const { activityId, tab, subTab, publisher } = this.props
-
-        console.log(data);
+        const { activityId, tab, subTab, publisher, data } = this.props
 
         this.props.updateActivity(publisher.id, {
             id: activityId,
@@ -113,14 +113,6 @@ class IdentificationForm extends PureComponent {
                     text="An IATI Activity"
                 />
                 <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
-                    <FieldArray
-                        name="additionalTitles"
-                        component={renderNarrativeFields}
-                        languageOptions={codelists["Language"]}
-                        narrativeLabel={false}
-                        textName="textTitle"
-                        textLabel="Title"
-                    />
                     <div className="columns small-6">
                         <Field
                             name="iati_identifier"
@@ -156,11 +148,6 @@ IdentificationForm = reduxForm({
     validate
 })(IdentificationForm);
 
-import { 
-    getActivity,
-    updateActivity,
-    getCodeListItems,
-} from '../../../../actions/activity'
 
 import { publisherSelector } from '../../../../reducers/createActivity'
 
