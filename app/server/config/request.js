@@ -17,6 +17,22 @@ export const oipaBase = request.defaults({
     ]
 })
 
+
+export const oipaXmlBase = request.defaults({
+    baseUrl: config.oipa_url,
+    headers: [
+        {
+           name: 'Content-type',
+           value: 'application/xml'
+        }
+    ]
+})
+
+
+export const oipaExport = oipaXmlBase.defaults({
+    method: 'GET',
+})
+
 export const oipaGet = oipaBase.defaults({
     method: 'GET',
 })

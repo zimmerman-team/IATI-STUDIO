@@ -68,6 +68,9 @@ module.exports = function(app) {
         socket.on('IatiRegistryMeta.deleteDataset', IatiRegistryMeta.deleteDataset.bind(null, user));
         socket.on('IatiRegistryMeta.updateDataset', IatiRegistryMeta.updateDataset.bind(null, user));
 
+        // TODO: different url - 2017-01-13
+        socket.on('Activity.publish', Activity.publish.bind(null, user));
+
         socket.on('Activity.getAll', Activity.getAll.bind(null, user));
         socket.on('Activity.get', Activity.get.bind(null, user));
         socket.on('Activity.create', Activity.create.bind(null, user));

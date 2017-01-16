@@ -551,58 +551,21 @@ export function hideVisualizationFromFeed(id) {
     }
 }
 
+
 // (Create and ) publish Dataset
-export const PUBLISH_DATASET_REQUEST = 'PUBLISH_DATASET_REQUEST'
-export const PUBLISH_DATASET_SUCCESS = 'PUBLISH_DATASET_SUCCESS'
-export const PUBLISH_DATASET_FAILURE = 'PUBLISH_DATASET_FAILURE'
-export function publishDataset(publisher, name, title, filetype) {
+export const PUBLISH_ACTIVITIES_REQUEST = 'PUBLISH_ACTIVITIES_REQUEST'
+export const PUBLISH_ACTIVITIES_SUCCESS = 'PUBLISH_ACTIVITIES_SUCCESS'
+export const PUBLISH_ACTIVITIES_FAILURE = 'PUBLISH_ACTIVITIES_FAILURE'
+export function publishActivities(publisherId) {
     return {
         [CALL_API]: {
-            types: [ PUBLISH_DATASET_REQUEST, PUBLISH_DATASET_SUCCESS, PUBLISH_DATASET_FAILURE ],
-            endpoint: 'IatiRegistryMeta.publishDataset',
-            payload: [publisher, name, title, filetype]
+            types: [ PUBLISH_ACTIVITIES_REQUEST, PUBLISH_ACTIVITIES_SUCCESS, PUBLISH_ACTIVITIES_FAILURE ],
+            endpoint: 'Activity.publish',
+            payload: [ publisherId ]
         }
     }
 }
-// Delete Dataset
-export const DELETE_DATASET_REQUEST = 'DELETE_DATASET_REQUEST'
-export const DELETE_DATASET_SUCCESS = 'DELETE_DATASET_SUCCESS'
-export const DELETE_DATASET_FAILURE = 'DELETE_DATASET_FAILURE'
-export function deleteDataset(publisher, dataset) {
-    return {
-        [CALL_API]: {
-            types: [ DELETE_DATASET_REQUEST, DELETE_DATASET_SUCCESS, DELETE_DATASET_FAILURE ],
-            endpoint: 'IatiRegistryMeta.deleteDataset',
-            payload: [publisher, dataset]
-        }
-    }
-}
-// Update Dataset
-export const UPDATE_DATASET_REQUEST = 'UPDATE_DATASET_REQUEST'
-export const UPDATE_DATASET_SUCCESS = 'UPDATE_DATASET_SUCCESS'
-export const UPDATE_DATASET_FAILURE = 'UPDATE_DATASET_FAILURE'
-export function updateDataset(publisher, dataset) {
-    return {
-        [CALL_API]: {
-            types: [ UPDATE_DATASET_REQUEST, UPDATE_DATASET_SUCCESS, UPDATE_DATASET_FAILURE ],
-            endpoint: 'IatiRegistryMeta.updateDataset',
-            payload: [publisher, dataset]
-        }
-    }
-}
-// GENERATE_XML_FILE
-export const GENERATE_XML_FILE_REQUEST = 'GENERATE_XML_FILE_REQUEST'
-export const GENERATE_XML_FILE_SUCCESS = 'GENERATE_XML_FILE_SUCCESS'
-export const GENERATE_XML_FILE_FAILURE = 'GENERATE_XML_FILE_FAILURE'
-export function generateXmlFile(publisher, dataset) {
-    return {
-        [CALL_API]: {
-            types: [ GENERATE_XML_FILE_REQUEST, GENERATE_XML_FILE_SUCCESS, GENERATE_XML_FILE_FAILURE ],
-            endpoint: 'Publisher.generateXmlFile',
-            payload: [publisher, dataset]
-        }
-    }
-}
+
 
 // GET_OIPA_USER
 export const GET_OIPA_USER_REQUEST = 'GET_OIPA_USER_REQUEST'

@@ -5,7 +5,7 @@
 
 import path from 'path'
 import config from '../config/config'
-import { oipaPost, oipaGet, oipaUpdate, oipaDelete } from '../config/request'
+import { oipaExport, oipaPost, oipaGet, oipaUpdate, oipaDelete } from '../config/request'
 
 /**
  * Get all the languages form codeList.
@@ -23,6 +23,34 @@ export const getCodeListItems = function (codeListName) {
         parsedBody => parsedBody
     )
 };
+
+export const getActivityXMLByPublisher = function (user, publisherId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.activities_url(publisherId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken,
+            'Content-type': 'application/xml'
+        },
+        // get all activities that are ready-to-publish and published
+        url: path.join(config.publisherUrl(publisherId), 'next_published_activities')
+    };
+
+    return oipaExport(req_options)
+};
+
+export const publishActivities = function (user, publisherId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.publishActivitiesUrl(publisherId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaPost(req_options)
+};
+
 
 export const getActivities = function (user, publisherId) {
     const req_options = {

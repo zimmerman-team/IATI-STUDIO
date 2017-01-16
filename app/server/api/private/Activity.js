@@ -1,14 +1,48 @@
 "use strict"
 
-import { getActivity, postActivity, updateActivity, getCodeListItems} from '../../oipa/activity'
+import fs from 'fs'
+import path from 'path'
 
+import { getActivity, postActivity, updateActivity, getCodeListItems} from '../../oipa/activity'
 import * as oipaMethods from '../../oipa/activity'
+
+import config from '../../config/config'
 
 var ActivityAPI = {
 
     getValidationStatus: function() {
         // TODO: how will this be determined? - 2016-12-23
+    },
+
+    publish: function(user, publisherId, res) {
+        // 1. get an XML export from OIPA
+        console.log('called publish...', publisherId);
+        oipaMethods.getActivityXMLByPublisher(user, publisherId)
+            .then((xml) => {
+                console.log("GOT XML");
+                console.log(xml);
+
+                // 2. Serve this xml export in IATI Studio
+                const fileName = `${publisherId}-activities.xml`
+
+                fs.writeFile(path.join(config.publishDirectory, fileName), (error) => {
+                    if (error) {
+                        console.error(error)
+                        res("Can't save XML")
+                    }
+
+                    const sourceUrl = path.join(config.exportPath, fileName)
+
+                    // 3. POST to OIPA to sync with the IATI registry
+                    return oipaMethods.publishActivities(user, publisherId, sourceUrl)
+                        .then(result => res(null, result))
+                        .catch(error => res(error));
+                })
+            })
+    
         
+
+
     },
 
     getAll: function(user, publisherId, res) {

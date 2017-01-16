@@ -15,8 +15,14 @@ const config = {
     "oipa_post_url": OIPA_URL,
     "oipa_update_url": OIPA_URL,
     "oipa_delete_url": OIPA_URL,
+
+    "publishDirectory": "server/published_iati",
+
     "codelists": "/api/codelists/",
 
+    "publishActivitiesUrl": (pid) => `/api/datasets/${pid}/publish_activities/`,
+
+    "publisherUrl": (pid) => `/api/publishers/${pid}/`,
     "activities_url": (pid) => `/api/publishers/${pid}/activities/`,
     "aggregation_url": "/api/transactions/aggregations/",
     "descriptionUrl": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/descriptions/`,
