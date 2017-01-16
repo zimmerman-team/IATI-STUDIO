@@ -91,12 +91,13 @@ class IdentificationForm extends PureComponent {
      * to basic information form.
      */
     handleFormSubmit(data) {
-        const { activityId, tab, subTab, publisher } = this.props
+        const { activityId, publisher } = this.props;
 
         this.props.updateActivity(publisher.id, {
             id: activityId,
-            ...data,
-        })
+            ...data.activity,
+        });
+
         this.props.router.push(`/publisher/activities/${activityId}/basic-info`)
     }
 
@@ -115,7 +116,7 @@ class IdentificationForm extends PureComponent {
                 <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
                     <div className="columns small-6">
                         <Field
-                            name="iati_identifier"
+                            name="activity.iati_identifier"
                             type="text"
                             id="iati_identifier"
                             component={renderField}
@@ -124,7 +125,7 @@ class IdentificationForm extends PureComponent {
                     </div>
                     <div className="columns small-6">
                         <Field
-                            name="hierarchy"
+                            name="activity.hierarchy"
                             type="number"
                             id="hierarchy"
                             component={renderField}
@@ -145,6 +146,7 @@ class IdentificationForm extends PureComponent {
 IdentificationForm = reduxForm({
     form: 'identification',     // a unique identifier for this form,
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(IdentificationForm);
 
@@ -152,10 +154,13 @@ IdentificationForm = reduxForm({
 import { publisherSelector } from '../../../../reducers/createActivity'
 
 function mapStateToProps(state, props) {
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+
     return {
         submitting: state.activity.submitting,
         activity: state.activity.activity,
-        initialValues: state.activity.activity,
+        initialValues: {"activity": currentActivity},  // populate initial values for redux form
         codelists: state.codelists,
         publisher: publisherSelector(state),
     }
