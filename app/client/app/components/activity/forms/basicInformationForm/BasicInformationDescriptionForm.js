@@ -123,9 +123,9 @@ class BasicInformationDescriptionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, publisher, data, tab, subTab } = this.props
+        const { activityId, publisher, data } = this.props
 
-        const lastDescriptions = data
+        const lastDescriptions = data;
         const descriptions = formData.descriptions;
 
         handleSubmit(
@@ -149,12 +149,11 @@ class BasicInformationDescriptionForm extends Component {
     //TODO remove after testing
     handleDeleteDocumentLink(fields, index, description) {
         //fields.remove(index);
-        this.props.deleteDescription(this.props.publisher.id, this.props.activityId, descriptionID);     // publisherID and Activity ID
+        this.props.deleteDescription(this.props.publisher.id, this.props.activityId, description);     // publisherID and Activity ID
     }
     componentWillMount() {
         this.props.getCodeListItems('DescriptionType');
         this.props.getCodeListItems('Language');
-        // this.props.getDescriptions('', this.props.activityId);     // publisherID and Activity ID
     }
 
     componentWillReceiveProps(nextProps) {

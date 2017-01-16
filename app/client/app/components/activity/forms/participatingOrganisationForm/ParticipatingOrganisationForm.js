@@ -40,8 +40,8 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
                         </div>
                         <Field
                             component={renderSelectField}
-                            name={`${organisation}type.name`}
-                            textName={`${organisation}type.name`}
+                            name={`${organisation}type.code`}
+                            textName={`${organisation}type.code`}
                             label="Organisation Type"
                             selectOptions={typeOptions}
                             defaultOption="Select an organisation type"
@@ -127,7 +127,7 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     handleFormSubmit(formData) {
-        const { activityId, data, tab, subTab, publisher } = this.props
+        const { activityId, data, publisher } = this.props
 
         console.log('submitting...');
 
@@ -142,14 +142,13 @@ class ParticipatingOrganisationForm extends Component {
             this.props.deleteParticipatingOrganisation,
         )
 
-        // this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
     componentWillMount() {
         this.props.getCodeListItems('OrganisationRole');
         this.props.getCodeListItems('OrganisationType');
         this.props.getCodeListItems('Language');
-        this.props.getParticipatingOrganisations('', this.props.activityId)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -169,8 +168,8 @@ class ParticipatingOrganisationForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId) {
-            this.props.getParticipatingOrganisations(nextProps.activityId)
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getParticipatingOrganisations(nextProps.publisher.id, nextProps.activityId)
         }
     }
 

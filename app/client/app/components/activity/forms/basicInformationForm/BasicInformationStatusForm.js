@@ -46,9 +46,9 @@ class BasicInformationStatusForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const { activityId, data, tab, subTab } = this.props
+      const { activityId } = this.props
       this.props.dispatch(this.props.updateStatus(activityId, null, formData.status));
-      //this.context.router.push('/publisher/activity/basic-info/date');
+      this.context.router.push('/publisher/activity/basic-info/date');
   }
 
   static contextTypes = {
