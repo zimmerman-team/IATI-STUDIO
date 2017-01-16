@@ -3,14 +3,20 @@ import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import { withRouter, Link } from 'react-router';
-import { getCodeListItems, getParticipatingOrganisations, createParticipatingOrganisation, updateParticipatingOrganisation, deleteParticipatingOrganisation } from '../../../../actions/activity'
+import {withRouter, Link} from 'react-router';
+import {
+    getCodeListItems,
+    getParticipatingOrganisations,
+    createParticipatingOrganisation,
+    updateParticipatingOrganisation,
+    deleteParticipatingOrganisation
+} from '../../../../actions/activity'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
-import { participatingOrganisationsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
+import {participatingOrganisationsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions, meta: { touched, error, dirty }}) => {
+const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions, meta: {dirty}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -67,12 +73,12 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
                         >Delete
                         </button>
                     </div>
-                    )}
-                </div>
-                <div className="columns">
-                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-                </div>
+                )}
             </div>
+            <div className="columns">
+                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+            </div>
+        </div>
     )
 };
 
@@ -86,7 +92,7 @@ const validate = values => {
         let participatingOrganisationErrors = {}
 
         if (!participatingOrganisation.type) {
-            participatingOrganisationErrors.type = { code: 'Required' }
+            participatingOrganisationErrors.type = {code: 'Required'}
         }
 
         const narratives = participatingOrganisation.narratives || []
@@ -99,7 +105,7 @@ const validate = values => {
             }
 
             if (!narrative.language) {
-                narrativeErrors.language = { code: 'Required' }
+                narrativeErrors.language = {code: 'Required'}
             }
 
             return narrativeErrors
@@ -127,9 +133,7 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     handleFormSubmit(formData) {
-        const { activityId, data, publisher } = this.props
-
-        console.log('submitting...');
+        const {activityId, data, publisher} = this.props
 
         handleSubmit(
             publisher.id,
@@ -160,7 +164,7 @@ class ParticipatingOrganisationForm extends Component {
             // this.props.change('participatingOrganisations', newData);
 
             // change each item
-            newData.forEach((d,i) => this.props.change(`participatingOrganisations[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`participatingOrganisations[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
@@ -203,7 +207,8 @@ class ParticipatingOrganisationForm extends Component {
                         </div>
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/basic-info/basic-info">Back to basic information</Link>
+                        <Link className="button" to="/publisher/activity/basic-info/basic-info">Back to basic
+                            information</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to geopolitical information
                         </button>
