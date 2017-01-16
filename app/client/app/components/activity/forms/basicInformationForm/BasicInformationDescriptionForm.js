@@ -2,31 +2,22 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {renderNarrativeFields} from '../../helpers/FormHelper'
-import { getCodeListItems, getDescriptions, createDescription, updateDescription, deleteDescription } from '../../../../actions/activity'
-import { descriptionsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
-import { withRouter } from 'react-router'
+import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
+import {
+    getCodeListItems,
+    getDescriptions,
+    createDescription,
+    updateDescription,
+    deleteDescription
+} from '../../../../actions/activity'
+import {descriptionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {withRouter} from 'react-router'
 
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderDescriptionTypeSelect = ({name, textName, label, meta: {touched, error}}) => (
-    <div className="columns small-6">
-        <div>
-            <label>{label}</label>
-            <div>
-                <Field name={textName} component="select">
-                    <option></option>
-                    <option value="1">General</option>
-                </Field>
-            </div>
-            {touched && error && <span className="error">{error}</span>}
-        </div>
-    </div>
-);
-
-const renderDescription = ({fields, languageOptions, deleteHandler, meta: {touched, dirty, error}}) => {
+const renderDescription = ({fields, languageOptions, descriptionTypes, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -34,35 +25,38 @@ const renderDescription = ({fields, languageOptions, deleteHandler, meta: {touch
     return (
         <div>
             {fields.map((description, index) =>
-            <div>
-                <div className="field-list" key={index}>
-                    <div className="row no-margin">
-                        <Field
-                            name={`${description}.type[code]`}
-                            component={renderDescriptionTypeSelect}
-                            textName={`${description}type.code`}
-                            label="Type"
-                        />
-                        <hr/>
-                        <FieldArray
-                            name={`${description}.narratives`}
-                            component={renderNarrativeFields}
-                            languageOptions={languageOptions}
-                        />
+                <div>
+                    <div className="field-list" key={index}>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${description}.type[code]`}
+                                textName={`${description}type.code`}
+                                label="Type"
+                                selectOptions={descriptionTypes}
+                                defaultOption="Select one of the following options"
+                            />
+                            <hr/>
+                            <FieldArray
+                                name={`${description}.narratives`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                            />
+                        </div>
                     </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
                 </div>
-                <div className="columns">
-                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-                    <button
-                        type="button"
-                        title="Remove Title"
-                        className="control-button remove float-right"
-                        onClick={() => fields.remove(index)}>Delete
-                    </button>
-                    {touched && error && <span className="error">{error}</span>}
-                </div>
-                <br/><br/>
-            </div>
             )}
         </div>
     )
@@ -77,7 +71,7 @@ const validate = (values, dispatch) => {
         let descriptionErrors = {}
 
         if (!description.type) {
-            descriptionErrors.type = { code: 'Required' }
+            descriptionErrors.type = {code: 'Required'}
         }
 
         const narratives = description.narratives || []
@@ -90,7 +84,7 @@ const validate = (values, dispatch) => {
             }
 
             if (!narrative.language) {
-                narrativeErrors.language = { code: 'Required' }
+                narrativeErrors.language = {code: 'Required'}
             }
 
             return narrativeErrors
@@ -123,21 +117,19 @@ class BasicInformationDescriptionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const { activityId, publisher, data } = this.props
-
-        const lastDescriptions = data;
+        const {activityId, publisher, data} = this.props;
         const descriptions = formData.descriptions;
 
         handleSubmit(
             publisher.id,
             'descriptions',
             activityId,
-            lastDescriptions,
+            data,
             descriptions,
             this.props.createDescription,
             this.props.updateDescription,
             this.props.deleteDescription,
-        )
+        );
 
         this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
@@ -147,6 +139,7 @@ class BasicInformationDescriptionForm extends Component {
         //fields.remove(index);
         this.props.deleteDescription(this.props.publisher.id, this.props.activityId, description);     // publisherID and Activity ID
     }
+
     componentWillMount() {
         this.props.getCodeListItems('DescriptionType');
         this.props.getCodeListItems('Language');
@@ -161,7 +154,7 @@ class BasicInformationDescriptionForm extends Component {
             // this.props.change('descriptions', newData);
 
             // change each item 
-            newData.forEach((d,i) => this.props.change(`descriptions[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`descriptions[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
@@ -175,7 +168,7 @@ class BasicInformationDescriptionForm extends Component {
     }
 
     render() {
-        const {data, codelists, handleSubmit, submitting, previousPage} = this.props;
+        const {data, codelists, handleSubmit, submitting} = this.props;
 
         if (!data || !codelists.DescriptionType || !codelists.Language) {
             return <GeneralLoader/>
@@ -193,15 +186,17 @@ class BasicInformationDescriptionForm extends Component {
                             name="descriptions"
                             component={renderDescription}
                             languageOptions={codelists["Language"]}
+                            descriptionTypes={codelists["DescriptionType"]}
                             deleteHandler={this.handleDeleteDocumentLink}
                         />
 
-                    <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/identification/identification">Back to identification</Link>
-                        <button className="button float-right" type="submit" disabled={submitting}>
-                            Continue to Status
-                        </button>
-                    </div>
+                        <div className="columns small-12">
+                            <Link className="button" to="/publisher/activity/identification/identification">Back to
+                                identification</Link>
+                            <button className="button float-right" type="submit" disabled={submitting}>
+                                Continue to Status
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
