@@ -5,7 +5,13 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import { getCodeListItems, getHumanitarianScopes, createHumanitarianScope, updateHumanitarianScope, deleteHumanitarianScope } from '../../../../actions/activity'
+import {
+    getCodeListItems,
+    getHumanitarianScopes,
+    createHumanitarianScope,
+    updateHumanitarianScope,
+    deleteHumanitarianScope
+} from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
 import {humanitarianScopesSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
@@ -118,15 +124,14 @@ class HumanitarianScopeForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, data, tab, subTab, publisher} = this.props
-        const lastHumanitarianScope = data;
+        const {activityId, data, publisher} = this.props;
         const humanitarianScopes = formData.humanitarianScopes;
 
         handleSubmit(
             publisher.id,
             'humanitarianScopes',
             activityId,
-            lastHumanitarianScope,
+            data,
             humanitarianScopes,
             this.props.createHumanitarianScope,
             this.props.updateHumanitarianScope,
@@ -154,7 +159,7 @@ class HumanitarianScopeForm extends Component {
             // this.props.change('humanitarianScopes', newData);
 
             // change each item
-            newData.forEach((d,i) => this.props.change(`humanitarianScopes[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`humanitarianScopes[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
