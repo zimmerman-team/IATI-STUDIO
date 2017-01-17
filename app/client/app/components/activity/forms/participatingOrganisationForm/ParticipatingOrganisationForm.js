@@ -178,7 +178,7 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, data, codelists} = this.props;
+        const {handleSubmit, submitting, data, codelists, activityId} = this.props;
 
         if (!data || !codelists.OrganisationRole || !codelists.OrganisationType || !codelists.Language) {
             return <GeneralLoader/>
@@ -207,7 +207,7 @@ class ParticipatingOrganisationForm extends Component {
                         </div>
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/basic-info/basic-info">Back to basic
+                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/basic-info`}>Back to basic
                             information</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to geopolitical information

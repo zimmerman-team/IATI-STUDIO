@@ -105,26 +105,28 @@ export const getDescriptions = function (user, publisherId, activityId) {
 };
 
 export const postDescription = function (user, publisherId, activityId, descriptionData) {
+    const dateJSON = JSON.parse(descriptionData);
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: descriptionData,
+        body: dateJSON,
     };
 
     return oipaPost(req_options)
 };
 
 export const updateDescription = function (user, publisherId, activityId, id, descriptionData) {
+    const dateJSON = JSON.parse(descriptionData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: descriptionData,
+        body: dateJSON,
     };
 
     return oipaUpdate(req_options)
@@ -208,28 +210,28 @@ export const getParticipatingOrganisations = function (user, publisherId, activi
 };
 
 export const postParticipatingOrganisation = function (user, publisherId, activityId, participating_organisationData) {
-    const dateJSON = JSON.parse(participating_organisationData);
+    const dataJSON = JSON.parse(participating_organisationData);
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.participatingOrganisationUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: participating_organisationData,
+        body: dataJSON,
     };
 
     return oipaPost(req_options)
 };
 
 export const updateParticipatingOrganisation = function (user, publisherId, activityId, id, participating_organisationData) {
-    const dateJSON = JSON.parse(participating_organisationData);
+    const dataJSON = JSON.parse(participating_organisationData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.participatingOrganisationUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateJSON,
+        body: dataJSON,
     };
 
     return oipaUpdate(req_options)
@@ -249,7 +251,7 @@ export const deleteParticipatingOrganisation = function (user, publisherId, acti
 
 
 export const postDate = function (user, publisherId, activityId, dateData) {
-    const dateJSON = JSON.parse(dateData);
+    const dataJSON = JSON.parse(dateData);
 
     const req_options = {
         baseUrl: config.oipa_post_url,
@@ -257,7 +259,7 @@ export const postDate = function (user, publisherId, activityId, dateData) {
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateJSON,
+        body: dataJSON,
     };
 
     return oipaPost(req_options)
@@ -303,18 +305,6 @@ export const getStatus = function (user, publisherId, activityId) {
         .then(parsedBody => parsedBody.results)
 };
 
-export const getRecipientCountries = function (user, publisherId, activityId) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.recipientCountryUrl(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-    return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
-};
-
 export const postStatus = function (user, publisherId, activityId, statusData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
@@ -351,6 +341,18 @@ export const deleteStatus = function (user, publisherId, activityId, id) {
     };
 
     return oipaDelete(req_options)
+};
+
+export const getRecipientCountries = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.recipientCountryUrl(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
 };
 
 export const postRecipientCountry = function (user, publisherId, activityId, recipientCountryData) {
@@ -394,27 +396,82 @@ export const deleteRecipientCountry = function (user, publisherId, activityId, i
 };
 
 
+export const getRegions = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.recipient_regions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postRegion = function (user, publisherId, activityId, regionData) {
+    const dataJSON = JSON.parse(regionData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.recipient_regions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateRegion = function (user, publisherId, activityId, id, regionData) {
+    const dataJSON = JSON.parse(regionData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.recipient_regions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteRegion = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.recipient_regions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
 export const postContact = function (user, publisherId, activityId, contactData) {
+    const dataJSON = JSON.parse(contactData);
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.contact_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: contactData,
+        body: dataJSON,
     };
 
     return oipaPost(req_options)
 };
 
 export const updateContact = function (user, publisherId, activityId, id, contactData) {
+    const dataJSON = JSON.parse(contactData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.contact_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: contactData,
+        body: dataJSON,
     };
 
     return oipaUpdate(req_options)

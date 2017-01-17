@@ -92,6 +92,7 @@ class BasicInformationDateForm extends Component {
 
         const lastDates = data;
         let activityDates = formData.activity.activity_dates;
+
         activityDates = activityDates.map(function(date) {
             if (date.iso_date) {
                 let dateObj = new Date(date.iso_date);
@@ -127,7 +128,7 @@ class BasicInformationDateForm extends Component {
 
 
     render() {
-        const {codelists, submitting, handleSubmit, activity} = this.props;
+        const {codelists, submitting, handleSubmit, activity, activityId} = this.props;
 
         if (!activity ||  !codelists["ActivityDateType"] || !codelists["Language"]) {
           return <GeneralLoader/>
@@ -147,7 +148,7 @@ class BasicInformationDateForm extends Component {
                     dateTypeOptions={codelists["ActivityDateType"]}
                 />
                 <div className="columns small-12">
-                    <Link className="button" to="/publisher/activity/basic-info/status">Back to status</Link>
+                    <Link className="button" to={`/publisher/activities/${activityId}/basic-info/status`}>Back to status</Link>
                     <button className="button float-right" type="submit" disabled={submitting}>
                         Continue to contact
                     </button>
@@ -162,6 +163,7 @@ function mapStateToProps(state, props) {
     const dates = datesSelector(state);
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    console.log('<<<currentActivity', currentActivity);
 
     return {
         data: dates,

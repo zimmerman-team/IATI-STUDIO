@@ -6,6 +6,7 @@ import { getActivity, postActivity, updateActivity, getCodeListItems, postActivi
     postBasicInformationDescriptionForm, postBasicInformationStatusForm, postBasicInformationDateForm, postBasicInformationContactForm,
     postGeopoliticalCountryForm, postGeopoliticalRegionForm, postGeopoliticalLocationForm,
     postClassificationSectorForm, postClassificationPolicyForm, postClassificationSelectForm, postClassificationCountryBudgetForm, postClassificationHumanitarianForm,
+    postRegion, updateRegion, deleteRegion,
 } from '../../oipa/activity'
 
 import * as oipaMethods from '../../oipa/activity'
@@ -277,16 +278,16 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getRecipientCountries: function(user, publisherId, activityId, res) {
+    getRegions: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getRecipientCountries(user, publisherId, activityId)
+        return oipaMethods.getRegions(user, publisherId, activityId)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
 
     createRecipientCountry: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
-        // on succesful creation, 
+        // on succesful creation,
         return oipaMethods.postRecipientCountry(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
@@ -302,6 +303,35 @@ var ActivityAPI = {
     deleteRecipientCountry: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.deleteRecipientCountry(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getRecipientCountries: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getRecipientCountries(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createRegion: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation, 
+        return oipaMethods.postRegion(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateRegion: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateRegion(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteRegion: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteRegion(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

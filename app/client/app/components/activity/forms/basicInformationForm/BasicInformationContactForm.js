@@ -149,8 +149,8 @@ class BasicInformationContactForm extends Component {
    */
   handleFormSubmit(formData) {
       const {activityId, publisher, data} = this.props;
+
       let lastContacts = data;
-      formData.activity.contact_info = formData.contact_info;
       let contacts = formData.activity.contact_info;
       lastContacts = _.filter(lastContacts, {});
       contacts = _.filter(contacts, {});
@@ -204,7 +204,7 @@ class BasicInformationContactForm extends Component {
                 />
               </div>
               <div className="columns small-12">
-                <Link className="button" to={`/publisher/activity${activityId}/basic-info/date`}>Back to date</Link>
+                <Link className="button" to={`/publisher/activities/${activityId}/basic-info/date`}>Back to date</Link>
                 <button className="button float-right" type="submit" disabled={submitting}>
                   Continue to Participating organisation
                 </button>

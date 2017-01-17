@@ -22,13 +22,11 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
         case ActionTypes.CREATE_DESCRIPTION_SUCCESS:
         case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
-        case ActionTypes.GET_DATES_SUCCESS:
         case ActionTypes.CREATE_DATE_SUCCESS:
         case ActionTypes.UPDATE_DATE_SUCCESS:
         case ActionTypes.GET_STATUS_SUCCESS:
         case ActionTypes.CREATE_STATUS_SUCCESS:
         case ActionTypes.UPDATE_STATUS_SUCCESS:
-        case ActionTypes.GET_CONTACT_SUCCESS:
         case ActionTypes.CREATE_CONTACT_SUCCESS:
         case ActionTypes.UPDATE_CONTACT_SUCCESS:
         case ActionTypes.GET_DOCUMENT_LINK_SUCCESS:
@@ -40,6 +38,8 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
         case ActionTypes.CREATE_RECIPIENT_COUNTRY_SUCCESS:
         case ActionTypes.UPDATE_RECIPIENT_COUNTRY_SUCCESS:
+        case ActionTypes.CREATE_REGION_SUCCESS:
+        case ActionTypes.UPDATE_REGION_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
                 return _.merge({}, state, action.response.entities)
 
@@ -107,8 +107,8 @@ export const datesSelector = createSelector(
 )
 
 export const contactsSelector = createSelector(
-    state => state.activity.contact,
-    (contact) => _.map(contact, x => x) // to array
+    state => state.activity.contact_info,
+    (contact_info) => _.map(contact_info, x => x) // to array
 )
 
 export const statusSelector = createSelector(
@@ -152,8 +152,8 @@ export const locationsSelector = createSelector(
 )
 
 export const regionsSelector = createSelector(
-    state => state.activity.regions,
-    (regions) => _.map(regions, x => x) // to array
+    state => state.activity.recipient_region,
+    (recipient_region) => _.map(recipient_region, x => x) // to array
 )
 
 export const humanitarianScopesSelector = createSelector(

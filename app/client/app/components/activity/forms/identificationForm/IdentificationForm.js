@@ -98,7 +98,7 @@ class IdentificationForm extends PureComponent {
             ...data.activity,
         });
 
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info`)
+        this.props.router.push(`/publisher/activities/${activityId}/basic-info/description`)
     }
 
     render() {

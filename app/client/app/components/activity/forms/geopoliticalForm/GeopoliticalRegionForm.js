@@ -10,17 +10,22 @@ import handleSubmit from '../../helpers/handleSubmit'
 import {regionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 
-const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error}}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
+const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error, dirty}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+    return (
+        <div>
+            {fields.map((recipientRegion, index) =>
+                <div key={index}>
+                    <div className="field-list">
                 <div className="row no-margin">
                     {
                         !regionOptions ?
                             <GeneralLoader/> :
                             <Field
                                 component={renderSelectField}
-                                name={`${description}.region[code]`}
+                                name={`${recipientRegion}.region[code]`}
                                 label="Region code"
                                 selectOptions={regionOptions}
                                 defaultOption="Select one of the following options"
@@ -31,7 +36,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                             <GeneralLoader/> :
                             <Field
                                 component={renderSelectField}
-                                name={`${description}.vocabulary[code]`}
+                                name={`${recipientRegion}.vocabulary[code]`}
                                 label="Region vocabulary"
                                 selectOptions={regionVocabularyOptions}
                                 defaultOption="Select one of the following options"
@@ -40,7 +45,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                 </div>
                 <div className="row no-margin">
                     <FieldArray
-                        name={`${description}.additionalDescription`}
+                        name={`${recipientRegion}.narratives`}
                         component={renderNarrativeFields}
                         languageOptions={languageOptions}
                         textName="text"
@@ -48,19 +53,23 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                     />
                 </div>
             </div>
-        )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
+            <div className="columns">
+                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                </button>
+                <button
+                    type="button"
+                    title="Remove Title"
+                    className="control-button remove float-right"
+                    onClick={() => fields.remove(index)}>Delete
+                </button>
+                {touched && error && <span className="error">{error}</span>}
+            </div>
+            <br/><br/>
+            </div>
+            )}
         </div>
-    </div>
-);
+    )
+};
 
 const validate = values => {
     const errors = {};
@@ -85,11 +94,11 @@ class RecipientRegionForm extends React.Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props
-        const regions = formData.regions;
+        const regions = formData.recipient_region;
 
         handleSubmit(
             publisher.id,
-            'regions',
+            'recipient_region',
             activityId,
             data,
             regions,
@@ -97,12 +106,8 @@ class RecipientRegionForm extends React.Component {
             this.props.updateRegion,
             this.props.deleteRegion,
         )
-        //this.context.router.push('/publisher/activity/geopolitical-information/location');
+        this.props.router.push(`/publisher/activity/${this.props.activityId}/geopolitical-information/location`);
     }
-
-    static contextTypes = {
-        router: PropTypes.object,
-    };
 
     componentWillMount() {
         this.props.getCodeListItems('Region');
@@ -145,51 +150,12 @@ class RecipientRegionForm extends React.Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name="region[code]"
-                                label="Region code"
-                                selectOptions={codelists["Region"]}
-                                defaultOption="Select one of the following options"
-                            />
-                            <Field
-                                component={renderSelectField}
-                                name="vocabulary[code]"
-                                label="Region vocabulary"
-                                selectOptions={codelists["RegionVocabulary"]}
-                                defaultOption="Select one of the following options"
-                            />
-                        </div>
-                        <div className="row no-margin">
-                            <div className="columns small-6">
-                                <Field
-                                    name="uri"
-                                    type="text"
-                                    component={renderField}
-                                    label="Vocabulary URI"
-                                />
-                            </div>
-                            <div className="columns small-6">
-                                <Field
-                                    name="percentage"
-                                    type="text"
-                                    component={renderField}
-                                    label="Percentage"
-                                />
-                            </div>
-                        </div>
-                        <div className="row no-margin">
-                            <FieldArray
-                                name="additionalTitles"
-                                component={renderNarrativeFields}
-                                languageOptions={codelists["Language"]}
-                                textName="textTitle"
-                                textLabel="Title"
-                            />
-                        </div>
-                    </div>
+                    <FieldArray
+                        name="additionalRegion"
+                        component={renderAdditionalRegion}
+                        regionOptions={codelists["Region"]}
+                        regionVocabularyOptions={codelists["RegionVocabulary"]}
+                    />
                     <div className="columns small-12">
                         <Link className="button" to="/publisher/activity/geopolitical-information/country/">Back to
                             participating organigation</Link>
@@ -198,12 +164,6 @@ class RecipientRegionForm extends React.Component {
                         </button>
                     </div>
                 </form>
-                <FieldArray
-                    name="additionalRegion"
-                    component={renderAdditionalRegion}
-                    regionOptions={codelists["Region"]}
-                    regionVocabularyOptions={codelists["RegionVocabulary"]}
-                />
             </div>
         )
     }
@@ -219,12 +179,12 @@ RecipientRegionForm = reduxForm({
 
 
 function mapStateToProps(state, props) {
-    const regions = regionsSelector(state)
+    const recipient_region = regionsSelector(state)
 
     return {
-        data: regions,
+        data: recipient_region,
         codelists: state.codelists,
-        initialValues: {"regions": regions},  // populate initial values for redux form
+        initialValues: {"recipient_region": recipient_region},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

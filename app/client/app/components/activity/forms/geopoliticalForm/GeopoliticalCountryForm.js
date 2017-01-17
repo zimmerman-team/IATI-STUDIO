@@ -175,7 +175,7 @@ class RecipientCountryForm extends Component {
     }
 
     render() {
-        const {data, codelists, handleSubmit, submitting} = this.props;
+        const {data, codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!data || !codelists['Language'] || !codelists['Country']) {
             return <GeneralLoader />
@@ -195,7 +195,7 @@ class RecipientCountryForm extends Component {
                         countryOptions={codelists["Country"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/participating-organisation/participating-organisation/">
+                        <Link className="button" to={`/publisher/activities/${activityId}/participating-organisation/participating-organisation/`}>
                             Back to participating organigation
                         </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>

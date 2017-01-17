@@ -14,6 +14,7 @@ import {
 } from '../../../../actions/activity'
 import {descriptionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
+import _ from 'lodash';
 
 import handleSubmit from '../../helpers/handleSubmit'
 
@@ -118,6 +119,12 @@ class BasicInformationDescriptionForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
         const descriptions = formData.descriptions;
+        /* TODO add name field
+         descriptions = _.filter(descriptions, {});
+        descriptions = descriptions.map(function(data) {
+            let code = data.narratives
+        });
+         }*/
 
         handleSubmit(
             publisher.id,
@@ -161,7 +168,7 @@ class BasicInformationDescriptionForm extends Component {
     }
 
     render() {
-        const {data, codelists, handleSubmit, submitting} = this.props;
+        const {data, codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!data || !codelists.DescriptionType || !codelists.Language) {
             return <GeneralLoader/>
@@ -183,7 +190,7 @@ class BasicInformationDescriptionForm extends Component {
                         />
 
                         <div className="columns small-12">
-                            <Link className="button" to="/publisher/activity/identification/identification">Back to
+                            <Link className="button" to={`/publisher/activities/${activityId}/identification/identification`}>Back to
                                 identification</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to Status

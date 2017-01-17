@@ -94,8 +94,8 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
                     </div>
                     <Field
                         component={renderSelectField}
-                        name={`${title}.language[name]`}
-                        textName={`${title}.language[name]`}
+                        name={`${title}.language[code]`}
+                        textName={`${title}.language[code]`}
                         label="Language"
                         selectOptions={languageOptions}
                         defaultOption="Select one of the following options"

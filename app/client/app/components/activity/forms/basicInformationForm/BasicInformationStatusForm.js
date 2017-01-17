@@ -52,7 +52,7 @@ class BasicInformationStatusForm extends Component {
     }
 
   render() {
-    const {codelists, handleSubmit, submitting} = this.props;
+    const {codelists, handleSubmit, submitting, activityId} = this.props;
 
     if (!codelists["ActivityStatus"]) {
       return <GeneralLoader/>
@@ -79,7 +79,7 @@ class BasicInformationStatusForm extends Component {
               </div>
             </div>
             <div className="columns small-12">
-              <Link className="button" to="/publisher/activity/basic-info/description">Back to description</Link>
+              <Link className="button" to={`/publisher/activities/${activityId}/basic-info/description`}>Back to description</Link>
               <button className="button float-right" type="submit" disabled={submitting}>
                 Continue to Date
               </button>

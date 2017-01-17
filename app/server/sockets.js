@@ -90,6 +90,11 @@ module.exports = function(app) {
         socket.on('Activity.updateRecipientCountry', Activity.updateRecipientCountry.bind(null, user));
         socket.on('Activity.deleteRecipientCountry', Activity.deleteRecipientCountry.bind(null, user));
 
+        socket.on('Activity.getRegions', Activity.getRegions.bind(null, user));
+        socket.on('Activity.createRegions', Activity.createRegion.bind(null, user));
+        socket.on('Activity.updateRegions', Activity.updateRegion.bind(null, user));
+        socket.on('Activity.deleteRegions', Activity.deleteRegion.bind(null, user));
+
         socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
         socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));
@@ -108,7 +113,6 @@ module.exports = function(app) {
         socket.on('Activity.deleteStatus', Activity.deleteStatus.bind(null, user));
 
         // BasicInformation Contact CRUD
-        socket.on('Activity.getContact', Activity.getContact.bind(null, user));
         socket.on('Activity.createContact', Activity.createContact.bind(null, user));
         socket.on('Activity.updateContact', Activity.updateContact.bind(null, user));
         socket.on('Activity.deleteContact', Activity.deleteContact.bind(null, user));
