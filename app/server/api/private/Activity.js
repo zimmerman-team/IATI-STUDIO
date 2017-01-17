@@ -2,6 +2,7 @@
 
 import fs from 'fs'
 import path from 'path'
+import url from 'url'
 
 import { getActivity, postActivity, updateActivity, getCodeListItems} from '../../oipa/activity'
 import * as oipaMethods from '../../oipa/activity'
@@ -14,7 +15,7 @@ var ActivityAPI = {
         // TODO: how will this be determined? - 2016-12-23
     },
 
-    publish: function(user, publisherId, res) {
+    publish: function(user, publisherId, datasetId, res) {
         // 1. get an XML export from OIPA
         console.log('called publish...', publisherId);
         oipaMethods.getActivityXMLByPublisher(user, publisherId)
@@ -25,18 +26,29 @@ var ActivityAPI = {
                 // 2. Serve this xml export in IATI Studio
                 const fileName = `${publisherId}-activities.xml`
 
-                fs.writeFile(path.join(config.publishDirectory, fileName), (error) => {
+                fs.writeFile(path.join(config.publishDirectory, fileName), xml, (error) => {
                     if (error) {
                         console.error(error)
                         res("Can't save XML")
                     }
 
-                    const sourceUrl = path.join(config.exportPath, fileName)
+                    const sourceUrl = url.resolve(config.fullUrl + 'arie', path.join(config.exportPath, fileName))
 
                     // 3. POST to OIPA to sync with the IATI registry
-                    return oipaMethods.publishActivities(user, publisherId, sourceUrl)
-                        .then(result => res(null, result))
-                        .catch(error => res(error));
+
+                    // push nothing to IATI registry, just update activity states
+                    if (datasetId) {
+                        return oipaMethods.publishActivitiesUpdate(user, publisherId, sourceUrl, datasetId)
+                            .then(result => res(null, result))
+                            .catch(error => res(error));
+                    } 
+                    // push to IATI registry
+                    else {
+                        return oipaMethods.publishActivities(user, publisherId, sourceUrl)
+                            .then(result => res(null, result))
+                            .catch(error => res(error));
+                    }
+
                 })
             })
     

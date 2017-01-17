@@ -556,12 +556,12 @@ export function hideVisualizationFromFeed(id) {
 export const PUBLISH_ACTIVITIES_REQUEST = 'PUBLISH_ACTIVITIES_REQUEST'
 export const PUBLISH_ACTIVITIES_SUCCESS = 'PUBLISH_ACTIVITIES_SUCCESS'
 export const PUBLISH_ACTIVITIES_FAILURE = 'PUBLISH_ACTIVITIES_FAILURE'
-export function publishActivities(publisherId) {
+export function publishActivities(publisherId, datasetId) {
     return {
         [CALL_API]: {
             types: [ PUBLISH_ACTIVITIES_REQUEST, PUBLISH_ACTIVITIES_SUCCESS, PUBLISH_ACTIVITIES_FAILURE ],
             endpoint: 'Activity.publish',
-            payload: [ publisherId ]
+            payload: [ publisherId, datasetId ]
         }
     }
 }

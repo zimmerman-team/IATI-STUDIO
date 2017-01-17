@@ -78,23 +78,25 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
             'pushed' : this.props.navState.menuState
         })
 
-        console.log(publisher);
-
         let datasetsPublisher;
 
         if(this.props.publisher){
-            const activityDataset = _.find(publisher.datasets, (p) => p.filetype === 'Activity')
-            const organisationDataset = _.find(publisher.datasets, (p) => p.filetype === 'Organisation')
+            console.log(publisher.datasets);
+            const activityDataset = _.find(publisher.datasets, (p) => p.id && p.filetype === 'Activity' && p.added_manually)
+            const organisationDataset = _.find(publisher.datasets, (p) => p.id && p.filetype === 'Organisation' && p.added_manually)
+
+            console.log(activityDataset);
+            console.log(organisationDataset);
 
             datasetsPublisher = 
                 <div>
                     <DatasetActivityPublisher
                         dataset={activityDataset}
-                        publish={() => this.props.publishActivities(publisher.id)}
+                        publish={() => this.props.publishActivities(publisher.id, activityDataset && activityDataset.id)}
                     />
                     <DatasetOrganisationPublisher
                         dataset={organisationDataset}
-                        publish={() => this.props.publishActivities(publisher.id)}
+                        publish={() => this.props.publishActivities(publisher.id, organisationDataset && organisationDataset.id)}
                     />
                 </div>
 

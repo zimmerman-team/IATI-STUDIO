@@ -39,18 +39,36 @@ export const getActivityXMLByPublisher = function (user, publisherId) {
     return oipaExport(req_options)
 };
 
-export const publishActivities = function (user, publisherId) {
+export const publishActivities = function (user, publisherId, sourceUrl) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.publishActivitiesUrl(publisherId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
+        body: {
+            'source_url': sourceUrl
+        }
     };
 
     return oipaPost(req_options)
 };
 
+
+export const publishActivitiesUpdate = function (user, publisherId, sourceUrl, datasetId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.publishActivitiesUpdateUrl(publisherId, datasetId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: {
+            'source_url': sourceUrl
+        }
+    };
+
+    return oipaUpdate(req_options)
+};
 
 export const getActivities = function (user, publisherId) {
     const req_options = {
