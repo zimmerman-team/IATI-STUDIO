@@ -23,6 +23,11 @@ class DatasetActivityPublisher extends React.Component {
             <div className="row">
                 <div className="activity-publish columns small-centered small-12">
                     <h3>Activity Dataset</h3>
+                    { !dataset ?
+                        <p>You have not yet published to the registry, click publish to publish your first IATI dataset</p>
+                        :
+                        <p>Update your dataset</p>
+                    }
                     <a onClick={this.props.publish} className="button">Publish</a>
                 </div>
             </div>
@@ -43,6 +48,11 @@ class DatasetOrganisationPublisher extends React.Component {
             <div className="row">
                 <div className="organisation-publish columns small-centered small-12">
                     <h3>Organisation Dataset</h3>
+                    { !dataset ?
+                        <p>You have not yet published to the registry, click publish to publish your first IATI dataset</p>
+                        :
+                        <p>Update your dataset</p>
+                    }
                 </div>
             </div>
         )
