@@ -167,8 +167,6 @@ class HumanitarianScopeForm extends Component {
             }
         }
 
-        console.log(nextProps.publisher);
-
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getHumanitarianScopes(nextProps.publisher.id, nextProps.activityId)
         }

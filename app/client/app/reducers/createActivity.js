@@ -107,8 +107,8 @@ export const datesSelector = createSelector(
 )
 
 export const contactsSelector = createSelector(
-    state => state.activity.descriptions,
-    (contacts) => _.map(contacts, x => x) // to array
+    state => state.activity.contact,
+    (contact) => _.map(contact, x => x) // to array
 )
 
 export const statusSelector = createSelector(

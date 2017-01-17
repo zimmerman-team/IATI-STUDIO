@@ -108,7 +108,6 @@ class BasicInformationDescriptionForm extends Component {
     constructor(props) {
         super(props);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleDeleteDocumentLink = this.handleDeleteDocumentLink.bind(this);
     }
 
     /**
@@ -132,12 +131,6 @@ class BasicInformationDescriptionForm extends Component {
         );
 
         this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
-    }
-
-    //TODO remove after testing
-    handleDeleteDocumentLink(fields, index, description) {
-        //fields.remove(index);
-        this.props.deleteDescription(this.props.publisher.id, this.props.activityId, description);     // publisherID and Activity ID
     }
 
     componentWillMount() {
@@ -187,7 +180,6 @@ class BasicInformationDescriptionForm extends Component {
                             component={renderDescription}
                             languageOptions={codelists["Language"]}
                             descriptionTypes={codelists["DescriptionType"]}
-                            deleteHandler={this.handleDeleteDocumentLink}
                         />
 
                         <div className="columns small-12">

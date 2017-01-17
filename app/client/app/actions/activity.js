@@ -198,7 +198,7 @@ export function updateDate(publisherId, activityId, id, date) {
         [CALL_API]: {
             types: [ UPDATE_DATE_REQUEST, UPDATE_DATE_SUCCESS, UPDATE_DATE_FAILURE ],
             endpoint: 'Activity.updateDate',
-            payload: [ publisherId, activityId, id, date ],
+            payload: [ publisherId, activityId, id, JSON.stringify(date) ],
             schema: Schemas.date,
         }
     }
@@ -296,24 +296,6 @@ export function deleteStatus(publisherId, activityId, id) {
 
 
 /*
- * Get Contact (BasicInformation form)
- */
-export const GET_CONTACT_REQUEST = 'GET_CONTACT_REQUEST';
-export const GET_CONTACT_SUCCESS = 'GET_CONTACT_SUCCESS';
-export const GET_CONTACT_FAILURE = 'GET_CONTACT_FAILURE';
-
-export function getContact(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_CONTACT_REQUEST, GET_CONTACT_SUCCESS, GET_CONTACT_FAILURE ],
-            endpoint: 'Activity.getContact',
-            payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.contact),
-        }
-    }
-}
-
-/*
  * Create contact (BasicInformation form)
  */
 export const CREATE_CONTACT_REQUEST = 'CREATE_CONTACT_REQUEST';
@@ -324,7 +306,7 @@ export function createContact(publisherId, activityId, contact) {
         [CALL_API]: {
             types: [ CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, CREATE_CONTACT_FAILURE ],
             endpoint: 'Activity.createContact',
-            payload: [ publisherId, activityId, contact ],
+            payload: [ publisherId, activityId, JSON.stringify(contact) ],
             schema: Schemas.contact,
         }
     }
@@ -342,7 +324,7 @@ export function updateContact(publisherId, activityId, id, contact) {
         [CALL_API]: {
             types: [ UPDATE_CONTACT_REQUEST, UPDATE_CONTACT_SUCCESS, UPDATE_CONTACT_FAILURE ],
             endpoint: 'Activity.updateContact',
-            payload: [ publisherId, activityId, id, contact ],
+            payload: [ publisherId, activityId, id, JSON.stringify(contact) ],
             schema: Schemas.contact,
         }
     }
@@ -655,76 +637,75 @@ export function deletePolicy(publisherId, activityId, id) {
 
 
 /*
- * Get Location (Geopolitical form)
+ * Get recipientCountries (Geopolitical form)
  */
-export const GET_LOCATION_REQUEST = 'GET_LOCATION_REQUEST';
-export const GET_LOCATION_SUCCESS = 'GET_LOCATION_SUCCESS';
-export const GET_LOCATION_FAILURE = 'GET_LOCATION_FAILURE';
+export const GET_RECIPIENT_COUNTRIES_REQUEST = 'GET_RECIPIENT_COUNTRIES_REQUEST';
+export const GET_RECIPIENT_COUNTRIES_SUCCESS = 'GET_RECIPIENT_COUNTRIES_SUCCESS';
+export const GET_RECIPIENT_COUNTRIES_FAILURE = 'GET_RECIPIENT_COUNTRIES_FAILURE';
 
-export function getLocations(publisherId, activityId) {
+export function getRecipientCountries(publisherId, activityId) {
     return {
         [CALL_API]: {
-            types: [ GET_LOCATION_REQUEST, GET_LOCATION_SUCCESS, GET_LOCATION_FAILURE ],
-            endpoint: 'Activity.getLocation',
+            types: [ GET_RECIPIENT_COUNTRIES_REQUEST, GET_RECIPIENT_COUNTRIES_SUCCESS, GET_RECIPIENT_COUNTRIES_FAILURE ],
+            endpoint: 'Activity.getRecipientCountries',
             payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.location),
+            schema: arrayOf(Schemas.recipientCountry),
         }
     }
 }
 
 /*
- * Create Location (Geopolitical form)
+ * Create recipientCountry (Geopolitical form)
  */
-export const CREATE_LOCATION_REQUEST = 'CREATE_LOCATION_REQUEST';
-export const CREATE_LOCATION_SUCCESS = 'CREATE_LOCATION_SUCCESS';
-export const CREATE_LOCATION_FAILURE = 'CREATE_LOCATION_FAILURE';
-export function createLocation(publisherId, activityId, location) {
+export const CREATE_RECIPIENT_COUNTRY_REQUEST = 'CREATE_RECIPIENT_COUNTRY_REQUEST';
+export const CREATE_RECIPIENT_COUNTRY_SUCCESS = 'CREATE_RECIPIENT_COUNTRY_SUCCESS';
+export const CREATE_RECIPIENT_COUNTRY_FAILURE = 'CREATE_RECIPIENT_COUNTRY_FAILURE';
+export function createRecipientCountry(publisherId, activityId, recipientCountry) {
     return {
         [CALL_API]: {
-            types: [ CREATE_LOCATION_REQUEST, CREATE_LOCATION_SUCCESS, CREATE_LOCATION_FAILURE ],
-            endpoint: 'Activity.createLocation',
-            payload: [ publisherId, activityId, location ],
-            schema: Schemas.location,
+            types: [ CREATE_RECIPIENT_COUNTRY_REQUEST, CREATE_RECIPIENT_COUNTRY_SUCCESS, CREATE_RECIPIENT_COUNTRY_FAILURE ],
+            endpoint: 'Activity.createRecipientCountry',
+            payload: [ publisherId, activityId, JSON.stringify(recipientCountry) ],
+            schema: Schemas.recipientCountry,
         }
     }
 }
 
 /*
- * Update Location (Geopolitical form)
+ * Update recipientCountry (Geopolitical form)
  */
-export const UPDATE_LOCATION_REQUEST = 'UPDATE_LOCATION_REQUEST';
-export const UPDATE_LOCATION_SUCCESS = 'UPDATE_LOCATION_SUCCESS';
-export const UPDATE_LOCATION_FAILURE = 'UPDATE_LOCATION_FAILURE';
-export function updateLocation(publisherId, activityId, id, location) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [ UPDATE_LOCATION_REQUEST, UPDATE_LOCATION_SUCCESS, UPDATE_LOCATION_FAILURE ],
-            endpoint: 'Activity.updateLocation',
-            payload: [ publisherId, activityId, id, location ],
-            schema: Schemas.location,
-        }
-    }
-}
-
-
-/*
- * Delete Location (Geopolitical form)
- */
-export const DELETE_LOCATION_REQUEST = 'DELETE_LOCATION_REQUEST';
-export const DELETE_LOCATION_SUCCESS = 'DELETE_LOCATION_SUCCESS';
-export const DELETE_LOCATION_FAILURE = 'DELETE_LOCATION_FAILURE';
-export function deleteLocation(publisherId, activityId, id) {
+export const UPDATE_RECIPIENT_COUNTRY_REQUEST = 'UPDATE_RECIPIENT_COUNTRY_REQUEST';
+export const UPDATE_RECIPIENT_COUNTRY_SUCCESS = 'UPDATE_RECIPIENT_COUNTRY_SUCCESS';
+export const UPDATE_RECIPIENT_COUNTRY_FAILURE = 'UPDATE_RECIPIENT_COUNTRY_FAILURE';
+export function updateRecipientCountry(publisherId, activityId, id, recipientCountry) {
     return {
         id,
         [CALL_API]: {
-            types: [ DELETE_LOCATION_REQUEST, DELETE_LOCATION_SUCCESS, DELETE_LOCATION_FAILURE ],
-            endpoint: 'Activity.deleteLocation',
+            types: [ UPDATE_RECIPIENT_COUNTRY_REQUEST, UPDATE_RECIPIENT_COUNTRY_SUCCESS, UPDATE_RECIPIENT_COUNTRY_FAILURE ],
+            endpoint: 'Activity.updateRecipientCountry',
+            payload: [ publisherId, activityId, id, JSON.stringify(recipientCountry) ],
+            schema: Schemas.recipientCountry,
+        }
+    }
+}
+
+
+/*
+ * Delete recipientCountry (Geopolitical form)
+ */
+export const DELETE_RECIPIENT_COUNTRY_REQUEST = 'DELETE_RECIPIENT_COUNTRY_REQUEST';
+export const DELETE_RECIPIENT_COUNTRY_SUCCESS = 'DELETE_RECIPIENT_COUNTRY_SUCCESS';
+export const DELETE_RECIPIENT_COUNTRY_FAILURE = 'DELETE_RECIPIENT_COUNTRY_FAILURE';
+export function deleteRecipientCountry(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_RECIPIENT_COUNTRY_REQUEST, DELETE_RECIPIENT_COUNTRY_SUCCESS, DELETE_RECIPIENT_COUNTRY_FAILURE ],
+            endpoint: 'Activity.deleteRecipientCountry',
             payload: [ publisherId, activityId, id ]
         }
     }
 }
-
 
 /*
  * Get Region (Geopolitical form)
@@ -796,6 +777,78 @@ export function deleteRegion(publisherId, activityId, id) {
         }
     }
 }
+
+/*
+ * Get Location (Geopolitical form)
+ */
+export const GET_LOCATION_REQUEST = 'GET_LOCATION_REQUEST';
+export const GET_LOCATION_SUCCESS = 'GET_LOCATION_SUCCESS';
+export const GET_LOCATION_FAILURE = 'GET_LOCATION_FAILURE';
+
+export function getLocations(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_LOCATION_REQUEST, GET_LOCATION_SUCCESS, GET_LOCATION_FAILURE ],
+            endpoint: 'Activity.getLocation',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.location),
+        }
+    }
+}
+
+/*
+ * Create Location (Geopolitical form)
+ */
+export const CREATE_LOCATION_REQUEST = 'CREATE_LOCATION_REQUEST';
+export const CREATE_LOCATION_SUCCESS = 'CREATE_LOCATION_SUCCESS';
+export const CREATE_LOCATION_FAILURE = 'CREATE_LOCATION_FAILURE';
+export function createLocation(publisherId, activityId, location) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_LOCATION_REQUEST, CREATE_LOCATION_SUCCESS, CREATE_LOCATION_FAILURE ],
+            endpoint: 'Activity.createLocation',
+            payload: [ publisherId, activityId, location ],
+            schema: Schemas.location,
+        }
+    }
+}
+
+/*
+ * Update Location (Geopolitical form)
+ */
+export const UPDATE_LOCATION_REQUEST = 'UPDATE_LOCATION_REQUEST';
+export const UPDATE_LOCATION_SUCCESS = 'UPDATE_LOCATION_SUCCESS';
+export const UPDATE_LOCATION_FAILURE = 'UPDATE_LOCATION_FAILURE';
+export function updateLocation(publisherId, activityId, id, location) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_LOCATION_REQUEST, UPDATE_LOCATION_SUCCESS, UPDATE_LOCATION_FAILURE ],
+            endpoint: 'Activity.updateLocation',
+            payload: [ publisherId, activityId, id, location ],
+            schema: Schemas.location,
+        }
+    }
+}
+
+
+/*
+ * Delete Location (Geopolitical form)
+ */
+export const DELETE_LOCATION_REQUEST = 'DELETE_LOCATION_REQUEST';
+export const DELETE_LOCATION_SUCCESS = 'DELETE_LOCATION_SUCCESS';
+export const DELETE_LOCATION_FAILURE = 'DELETE_LOCATION_FAILURE';
+export function deleteLocation(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_LOCATION_REQUEST, DELETE_LOCATION_SUCCESS, DELETE_LOCATION_FAILURE ],
+            endpoint: 'Activity.deleteLocation',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
+
 
 export const GET_CODE_LIST_ITEMS_REQUEST = 'GET_CODE_LIST_ITEMS_REQUEST';
 export const GET_CODE_LIST_ITEMS_SUCCESS = 'GET_CODE_LIST_ITEMS_SUCCESS';
@@ -990,78 +1043,6 @@ export function deleteParticipatingOrganisation(publisherId, activityId, id) {
         }
     }
 }
-
-/*
- * Get recipientCountries (Identification form)
- */
-export const GET_RECIPIENT_COUNTRIES_REQUEST = 'GET_RECIPIENT_COUNTRIES_REQUEST';
-export const GET_RECIPIENT_COUNTRIES_SUCCESS = 'GET_RECIPIENT_COUNTRIES_SUCCESS';
-export const GET_RECIPIENT_COUNTRIES_FAILURE = 'GET_RECIPIENT_COUNTRIES_FAILURE';
-
-export function getRecipientCountries(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_RECIPIENT_COUNTRIES_REQUEST, GET_RECIPIENT_COUNTRIES_SUCCESS, GET_RECIPIENT_COUNTRIES_FAILURE ],
-            endpoint: 'Activity.getRecipientCountries',
-            payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.recipientCountry),
-        }
-    }
-}
-
-/*
- * Create recipientCountry (Identification form)
- */
-export const CREATE_RECIPIENT_COUNTRY_REQUEST = 'CREATE_RECIPIENT_COUNTRY_REQUEST';
-export const CREATE_RECIPIENT_COUNTRY_SUCCESS = 'CREATE_RECIPIENT_COUNTRY_SUCCESS';
-export const CREATE_RECIPIENT_COUNTRY_FAILURE = 'CREATE_RECIPIENT_COUNTRY_FAILURE';
-export function createRecipientCountry(publisherId, activityId, recipientCountry) {
-    return {
-        [CALL_API]: {
-            types: [ CREATE_RECIPIENT_COUNTRY_REQUEST, CREATE_RECIPIENT_COUNTRY_SUCCESS, CREATE_RECIPIENT_COUNTRY_FAILURE ],
-            endpoint: 'Activity.createRecipientCountry',
-            payload: [ publisherId, activityId, recipientCountry ],
-            schema: Schemas.recipientCountry,
-        }
-    }
-}
-
-/*
- * Update recipientCountry (Identification form)
- */
-export const UPDATE_RECIPIENT_COUNTRY_REQUEST = 'UPDATE_RECIPIENT_COUNTRY_REQUEST';
-export const UPDATE_RECIPIENT_COUNTRY_SUCCESS = 'UPDATE_RECIPIENT_COUNTRY_SUCCESS';
-export const UPDATE_RECIPIENT_COUNTRY_FAILURE = 'UPDATE_RECIPIENT_COUNTRY_FAILURE';
-export function updateRecipientCountry(publisherId, activityId, id, recipientCountry) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [ UPDATE_RECIPIENT_COUNTRY_REQUEST, UPDATE_RECIPIENT_COUNTRY_SUCCESS, UPDATE_RECIPIENT_COUNTRY_FAILURE ],
-            endpoint: 'Activity.updateRecipientCountry',
-            payload: [ publisherId, activityId, id, recipientCountry ],
-            schema: Schemas.recipientCountry,
-        }
-    }
-}
-
-
-/*
- * Delete recipientCountry (Identification form)
- */
-export const DELETE_RECIPIENT_COUNTRY_REQUEST = 'DELETE_RECIPIENT_COUNTRY_REQUEST';
-export const DELETE_RECIPIENT_COUNTRY_SUCCESS = 'DELETE_RECIPIENT_COUNTRY_SUCCESS';
-export const DELETE_RECIPIENT_COUNTRY_FAILURE = 'DELETE_RECIPIENT_COUNTRY_FAILURE';
-export function deleteRecipientCountry(publisherId, activityId, id) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [ DELETE_RECIPIENT_COUNTRY_REQUEST, DELETE_RECIPIENT_COUNTRY_SUCCESS, DELETE_RECIPIENT_COUNTRY_FAILURE ],
-            endpoint: 'Activity.deleteRecipientCountry',
-            payload: [ publisherId, activityId, id ]
-        }
-    }
-}
-
 
 /*
  * Get DocumentLink

@@ -89,6 +89,8 @@ class BasicInformationDateForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
+
+        const lastDates = data;
         let activityDates = formData.activity.activity_dates;
         activityDates = activityDates.map(function(date) {
             if (date.iso_date) {
@@ -102,7 +104,7 @@ class BasicInformationDateForm extends Component {
             publisher.id,
             'activity_dates',
             activityId,
-            data,
+            lastDates,
             activityDates,
             this.props.createDate,
             this.props.updateDate,
@@ -125,9 +127,9 @@ class BasicInformationDateForm extends Component {
 
 
     render() {
-        const {codelists, submitting, handleSubmit} = this.props;
+        const {codelists, submitting, handleSubmit, activity} = this.props;
 
-        if (!codelists["ActivityDateType"] || !codelists["Language"]) {
+        if (!activity ||  !codelists["ActivityDateType"] || !codelists["Language"]) {
           return <GeneralLoader/>
         }
 
@@ -138,8 +140,12 @@ class BasicInformationDateForm extends Component {
               <i className="material-icons">info</i>
             </Tooltip>
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                <FieldArray name="activity_dates" component={renderDate} languageOptions={codelists["Language"]}
-                            dateTypeOptions={codelists["ActivityDateType"]} />
+                <FieldArray
+                    name="activity_dates"
+                    component={renderDate}
+                    languageOptions={codelists["Language"]}
+                    dateTypeOptions={codelists["ActivityDateType"]}
+                />
                 <div className="columns small-12">
                     <Link className="button" to="/publisher/activity/basic-info/status">Back to status</Link>
                     <button className="button float-right" type="submit" disabled={submitting}>
@@ -159,6 +165,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: dates,
+        activity: state.activity.activity,
         codelists: state.codelists,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),

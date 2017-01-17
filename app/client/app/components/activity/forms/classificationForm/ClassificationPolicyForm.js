@@ -130,7 +130,6 @@ class PolicyMakerForm extends Component {
         this.props.getCodeListItems('PolicyMarkerVocabulary');
         this.props.getCodeListItems('PolicySignificance');
         this.props.getCodeListItems('Language');
-        console.log('this.props.publisher', this.props);
         //this.props.getPolicy('', this.props.activityId);     // publisherID and Activity ID
     }
 
@@ -150,8 +149,6 @@ class PolicyMakerForm extends Component {
                 this.props.array.remove('policy', i)
             }
         }
-
-        console.log('nextProps.publisher', nextProps.publisher);
 
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getPolicy(nextProps.publisher.id, nextProps.activityId)

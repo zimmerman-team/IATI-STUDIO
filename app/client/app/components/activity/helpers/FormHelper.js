@@ -74,7 +74,7 @@ export const renderTextArea = ({textArea, label, type, readOnly, onChange, meta:
  * @param touched
  * @param error
  */
-export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName="", textLabel, meta: {touched, error}}) => {
+export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName="", textLabel="", meta: {touched, error}}) => {
     if (!fields.length) {
         fields.push({})
     }
@@ -83,7 +83,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
         <div>
             {fields && fields.map((title, index) =>
                 <div key={index}>
-                    {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
+                    {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : <div className="columns"><h6>{textLabel}</h6></div>}
                     <div className="columns small-6">
                         <Field
                             name={`${title}.text`}
