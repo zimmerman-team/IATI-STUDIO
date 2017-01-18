@@ -265,7 +265,7 @@ class FinancialTransactionForm extends Component {
             this.props.updateTransaction,
             this.props.deleteTransaction,
         )
-        //this.context.router.push('/publisher/activity/financial/capital');
+        //this.context.router.push('/publisher/activities/financial/capital');
     }
 
     static contextTypes = {
@@ -359,7 +359,7 @@ class FinancialTransactionForm extends Component {
                             tiedOptions={codelists["TiedStatus"]}
                         />
                         <div className="columns small-12">
-                            <Link className="button" to="/publisher/activity/financial/planned-disbursement">Back to
+                            <Link className="button" to="/publisher/activities/financial/planned-disbursement">Back to
                                 planned disbursement</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to capital

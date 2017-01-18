@@ -98,7 +98,7 @@ class SectorForm extends Component {
      */
     handleFormSubmit(formData) {
         this.props.dispatch(addClassificationSector(formData, this.props.activity));
-        this.context.router.push('/publisher/activity/classifications/policy');
+        this.context.router.push('/publisher/activities/classifications/policy');
     }
 
     static contextTypes = {
@@ -174,7 +174,7 @@ class SectorForm extends Component {
                         sectorOptions={codelists["Sector"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/geopolitical/geopolitical">Back to
+                        <Link className="button" to="/publisher/activities/geopolitical/geopolitical">Back to
                             Geopolitical</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Policy

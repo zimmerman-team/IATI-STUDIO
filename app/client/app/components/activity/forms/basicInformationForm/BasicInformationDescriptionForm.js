@@ -14,7 +14,6 @@ import {
 } from '../../../../actions/activity'
 import {descriptionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
-import _ from 'lodash';
 
 import handleSubmit from '../../helpers/handleSubmit'
 

@@ -196,7 +196,7 @@ class RecipientCountryForm extends Component {
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/participating-organisation/participating-organisation/`}>
-                            Back to participating organigation
+                            Back to participating organisation
                         </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Region

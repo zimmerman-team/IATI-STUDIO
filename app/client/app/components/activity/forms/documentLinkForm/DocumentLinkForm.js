@@ -160,7 +160,7 @@ class DocumentLinkForm extends Component {
             this.props.updateDocumentLink,
             this.props.deleteDocumentLink,
         );
-        //this.context.router.push('/publisher/activity/relations')
+        //this.context.router.push('/publisher/activities/relations')
     }
 
     static contextTypes = {

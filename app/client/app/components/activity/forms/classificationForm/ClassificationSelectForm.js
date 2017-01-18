@@ -28,7 +28,7 @@ class ClassificationSelectForm extends Component {
      */
     handleFormSubmit(formData) {
         this.props.dispatch(addClassificationSelect(formData, this.props.activity));
-        this.context.router.push('/publisher/activity/classifications/country');
+        this.context.router.push('/publisher/activities/classifications/country');
     }
 
     static contextTypes = {
@@ -81,7 +81,7 @@ class ClassificationSelectForm extends Component {
                             selectOptions={codelists['TiedStatus']}/>
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/classifications/policy">Back to policy</Link>
+                        <Link className="button" to="/publisher/activities/classifications/policy">Back to policy</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Country
                         </button>

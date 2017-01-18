@@ -97,7 +97,7 @@ class RelationsForm extends Component {
      */
     handleFormSubmit(formData) {
         this.props.dispatch(addRelations(formData, this.props.activity));
-        this.context.router.push('/publisher/activity/performance')
+        this.context.router.push('/publisher/activities/performance')
     }
 
     static contextTypes = {

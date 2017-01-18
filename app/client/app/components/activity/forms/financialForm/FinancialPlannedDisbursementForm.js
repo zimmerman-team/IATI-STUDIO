@@ -174,7 +174,7 @@ class FinancialPlannedDisbursement extends Component {
             this.props.updatePlannedDisbursement,
             this.props.deletePlannedDisbursement,
         );
-        //this.context.router.push('/publisher/activity/financial/transaction');
+        //this.context.router.push('/publisher/activities/financial/transaction');
     }
 
     static contextTypes = {
@@ -243,7 +243,7 @@ class FinancialPlannedDisbursement extends Component {
                         organisationOptions={codelists["OrganisationType"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/financial/budget">Back to budget</Link>
+                        <Link className="button" to="/publisher/activities/financial/budget">Back to budget</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to transaction
                         </button>

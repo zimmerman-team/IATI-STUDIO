@@ -80,6 +80,10 @@ export const transaction = new Schema('transaction', {
     idAttribute: "id",
 })
 
+export const region = new Schema('region', {
+    idAttribute: "id",
+})
+
 export const policy = new Schema('policy', {
     idAttribute: "id",
 })

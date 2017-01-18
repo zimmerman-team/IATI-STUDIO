@@ -153,7 +153,7 @@ class FinancialBudgetForm extends Component {
             this.props.updateBudget,
             this.props.deleteBudget,
         )
-        //this.context.router.push('/publisher/activity/financial/planned-disbursement');
+        //this.context.router.push('/publisher/activities/financial/planned-disbursement');
     }
 
     static contextTypes = {
@@ -213,7 +213,7 @@ class FinancialBudgetForm extends Component {
                         currencyOptions={codelists["Currency"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/classification/classification">Back to
+                        <Link className="button" to="/publisher/activities/classification/classification">Back to
                             classification</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Planned Disbursement

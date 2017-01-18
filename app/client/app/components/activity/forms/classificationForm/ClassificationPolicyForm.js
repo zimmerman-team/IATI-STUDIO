@@ -118,7 +118,7 @@ class PolicyMakerForm extends Component {
             this.props.updatePolicy,
             this.props.deletePolicy,
         )
-        //this.context.router.push('/publisher/activity/classifications/select');
+        //this.context.router.push('/publisher/activities/classifications/select');
     }
 
     static contextTypes = {

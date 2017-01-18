@@ -259,7 +259,7 @@ class LocationForm extends Component {
             this.props.updateLocation,
             this.props.deleteLocation,
         )
-        //this.context.router.push('/publisher/activity/classifications/sector');
+        //this.context.router.push('/publisher/activities/classifications/sector');
     }
 
     static contextTypes = {
@@ -385,7 +385,7 @@ class LocationForm extends Component {
                         </div>
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/geopolitical-information/region/">Back to
+                        <Link className="button" to="/publisher/activities/geopolitical-information/region/">Back to
                             region</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Classifications

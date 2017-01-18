@@ -29,7 +29,7 @@ class FinancialCapitalForm extends Component {
      */
     handleFormSubmit(formData) {
         this.props.dispatch(addFinancialCapitalSpend(formData, this.props.activity));
-        this.context.router.push('/publisher/activity/document-link/document-link');
+        this.context.router.push('/publisher/activities/document-link/document-link');
     }
 
     static contextTypes = {
@@ -61,7 +61,7 @@ class FinancialCapitalForm extends Component {
                             </div>
                         </div>
                         <div className="columns small-12">
-                            <Link className="button" to="/publisher/activity/financial/transaction">Back to
+                            <Link className="button" to="/publisher/activities/financial/transaction">Back to
                                 transaction</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to documents

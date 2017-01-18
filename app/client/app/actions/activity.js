@@ -718,7 +718,7 @@ export function getRegions(publisherId, activityId) {
     return {
         [CALL_API]: {
             types: [ GET_REGION_REQUEST, GET_REGION_SUCCESS, GET_REGION_FAILURE ],
-            endpoint: 'Activity.getRegion',
+            endpoint: 'Activity.getRegions',
             payload: [ publisherId, activityId ],
             schema: arrayOf(Schemas.region),
         }
@@ -736,7 +736,7 @@ export function createRegion(publisherId, activityId, region) {
         [CALL_API]: {
             types: [ CREATE_REGION_REQUEST, CREATE_REGION_SUCCESS, CREATE_REGION_FAILURE ],
             endpoint: 'Activity.createRegion',
-            payload: [ publisherId, activityId, region ],
+            payload: [ publisherId, activityId, JSON.stringify(region) ],
             schema: Schemas.region,
         }
     }
@@ -754,7 +754,7 @@ export function updateRegion(publisherId, activityId, id, region) {
         [CALL_API]: {
             types: [ UPDATE_REGION_REQUEST, UPDATE_REGION_SUCCESS, UPDATE_REGION_FAILURE ],
             endpoint: 'Activity.updateRegion',
-            payload: [ publisherId, activityId, id, region ],
+            payload: [ publisherId, activityId, id, JSON.stringify(region) ],
             schema: Schemas.region,
         }
     }

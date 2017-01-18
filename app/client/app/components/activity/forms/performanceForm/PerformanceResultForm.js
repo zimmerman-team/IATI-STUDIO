@@ -337,7 +337,7 @@ class PerformanceResultForm extends Component {
      */
     handleFormSubmit(formData) {
         this.props.dispatch(addPerformanceResult(formData, this.props.activity));
-        this.context.router.push('/publisher/activity/performance/comment');
+        this.context.router.push('/publisher/activities/performance/comment');
     }
 
     componentWillMount() {
@@ -376,7 +376,7 @@ class PerformanceResultForm extends Component {
                         languageOptions={codelists.Language}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/performance/condition">
+                        <Link className="button" to="/publisher/activities/performance/condition">
                             Back to performance condition
                         </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>

@@ -137,7 +137,7 @@ class HumanitarianScopeForm extends Component {
             this.props.updateHumanitarianScope,
             this.props.deleteHumanitarianScope,
         )
-        //this.context.router.push('/publisher/activity/financial/financial');
+        //this.context.router.push('/publisher/activities/financial/financial');
     }
 
     static contextTypes = {
@@ -202,7 +202,7 @@ class HumanitarianScopeForm extends Component {
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/classifications/country">Back to Country
+                        <Link className="button" to="/publisher/activities/classifications/country">Back to Country
                             Budget</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Financial

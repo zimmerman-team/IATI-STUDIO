@@ -91,7 +91,7 @@ module.exports = function(app) {
         socket.on('Activity.deleteRecipientCountry', Activity.deleteRecipientCountry.bind(null, user));
 
         socket.on('Activity.getRegions', Activity.getRegions.bind(null, user));
-        socket.on('Activity.createRegions', Activity.createRegion.bind(null, user));
+        socket.on('Activity.createRegion', Activity.createRegion.bind(null, user));
         socket.on('Activity.updateRegions', Activity.updateRegion.bind(null, user));
         socket.on('Activity.deleteRegions', Activity.deleteRegion.bind(null, user));
 

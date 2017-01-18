@@ -104,7 +104,7 @@ class PerformanceCommentForm extends Component {
             component={renderAdditionalRenderPerformanceCommentForm}
           />
           <div className="columns small-12">
-            <Link className="button" to="/publisher/activity/performance/result">Back to performance result</Link>
+            <Link className="button" to="/publisher/activities/performance/result">Back to performance result</Link>
             <button className="button float-right" type="submit" disabled={submitting}>
               Submit
             </button>

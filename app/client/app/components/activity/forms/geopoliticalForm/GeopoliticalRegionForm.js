@@ -26,6 +26,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                             <Field
                                 component={renderSelectField}
                                 name={`${recipientRegion}.region[code]`}
+                                textName={`${recipientRegion}.region[code]`}
                                 label="Region code"
                                 selectOptions={regionOptions}
                                 defaultOption="Select one of the following options"
@@ -37,6 +38,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                             <Field
                                 component={renderSelectField}
                                 name={`${recipientRegion}.vocabulary[code]`}
+                                textName={`${recipientRegion}.vocabulary[code]`}
                                 label="Region vocabulary"
                                 selectOptions={regionVocabularyOptions}
                                 defaultOption="Select one of the following options"
@@ -48,9 +50,25 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                         name={`${recipientRegion}.narratives`}
                         component={renderNarrativeFields}
                         languageOptions={languageOptions}
-                        textName="text"
-                        textLabel="Title"
                     />
+                </div>
+                <div className="row no-margin">
+                    <div className="columns small-6">
+                        <Field
+                            name={`${recipientRegion}.percentage`}
+                            type="number"
+                            component={renderField}
+                            label="Percentage"
+                        />
+                    </div>
+                    <div className="columns small-6">
+                        <Field
+                            name={`${recipientRegion}.region[name]`}
+                            type="text"
+                            component={renderField}
+                            label="Region Name"
+                        />
+                    </div>
                 </div>
             </div>
             <div className="columns">
@@ -93,7 +111,7 @@ class RecipientRegionForm extends React.Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, data, publisher} = this.props
+        const {activityId, data, publisher} = this.props;
         const regions = formData.recipient_region;
 
         handleSubmit(
@@ -106,7 +124,7 @@ class RecipientRegionForm extends React.Component {
             this.props.updateRegion,
             this.props.deleteRegion,
         )
-        this.props.router.push(`/publisher/activity/${this.props.activityId}/geopolitical-information/location`);
+        this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/location`);
     }
 
     componentWillMount() {
@@ -138,7 +156,7 @@ class RecipientRegionForm extends React.Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
         if (!codelists['Region'] || !codelists['RegionVocabulary'] || !codelists['Language']) {
             return <GeneralLoader />
         }
@@ -151,14 +169,15 @@ class RecipientRegionForm extends React.Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FieldArray
-                        name="additionalRegion"
+                        name="recipient_region"
                         component={renderAdditionalRegion}
                         regionOptions={codelists["Region"]}
                         regionVocabularyOptions={codelists["RegionVocabulary"]}
+                        languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/geopolitical-information/country/">Back to
-                            participating organigation</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}geopolitical-information/country/`}>Back to
+                            participating organisation</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Location
                         </button>
@@ -179,7 +198,7 @@ RecipientRegionForm = reduxForm({
 
 
 function mapStateToProps(state, props) {
-    const recipient_region = regionsSelector(state)
+    const recipient_region = regionsSelector(state);
 
     return {
         data: recipient_region,

@@ -110,7 +110,7 @@ class CountryBudgetForm extends Component {
      */
     handleFormSubmit(formData) {
         this.props.dispatch(addClassificationCountryBudget(formData, this.props.activity));
-        this.context.router.push('/publisher/activity/classifications/humanitarian');
+        this.context.router.push('/publisher/activities/classifications/humanitarian');
     }
 
     static contextTypes = {
@@ -152,7 +152,7 @@ class CountryBudgetForm extends Component {
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activity/classifications/select">Back to
+                        <Link className="button" to="/publisher/activities/classifications/select">Back to
                             Selection</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Humanitarian

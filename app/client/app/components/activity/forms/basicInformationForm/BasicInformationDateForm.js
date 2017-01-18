@@ -130,6 +130,7 @@ class BasicInformationDateForm extends Component {
     render() {
         const {codelists, submitting, handleSubmit, activity, activityId} = this.props;
 
+
         if (!activity ||  !codelists["ActivityDateType"] || !codelists["Language"]) {
           return <GeneralLoader/>
         }
@@ -163,7 +164,6 @@ function mapStateToProps(state, props) {
     const dates = datesSelector(state);
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    console.log('<<<currentActivity', currentActivity);
 
     return {
         data: dates,
