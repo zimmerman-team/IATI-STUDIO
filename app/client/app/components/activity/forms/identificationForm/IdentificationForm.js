@@ -29,7 +29,7 @@ class IdentificationForm extends PureComponent {
         super(props);
 
         this.state = {
-            iatiIdentifier: ''
+            iatiIdentifier: 0
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.createActivity = this.createActivity.bind(this);
@@ -60,11 +60,13 @@ class IdentificationForm extends PureComponent {
 
     createActivity() {
         // just generate something random
-        this.props.createActivity(this.props.publisher.id, {
-            iati_identifier: this.state.iatiIdentifier,
-        }).then((action) => {
-            this.props.router.push(`/publisher/activities/${action.response.result}/identification`)
-        })
+        if(this.state.iatiIdentifier !== 0){
+            this.props.createActivity(this.props.publisher.id, {
+                iati_identifier: this.state.iatiIdentifier,
+            }).then((action) => {
+                this.props.router.push(`/publisher/activities/${action.response.result}/identification`)
+            })
+        }
     }
 
     render() {
