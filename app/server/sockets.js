@@ -92,8 +92,23 @@ module.exports = function(app) {
 
         socket.on('Activity.getRegions', Activity.getRegions.bind(null, user));
         socket.on('Activity.createRegion', Activity.createRegion.bind(null, user));
-        socket.on('Activity.updateRegions', Activity.updateRegion.bind(null, user));
-        socket.on('Activity.deleteRegions', Activity.deleteRegion.bind(null, user));
+        socket.on('Activity.updateRegion', Activity.updateRegion.bind(null, user));
+        socket.on('Activity.deleteRegion', Activity.deleteRegion.bind(null, user));
+
+        socket.on('Activity.getSectors', Activity.getSectors.bind(null, user));
+        socket.on('Activity.createSector', Activity.createSector.bind(null, user));
+        socket.on('Activity.updateSector', Activity.updateSector.bind(null, user));
+        socket.on('Activity.deleteSector', Activity.deleteSector.bind(null, user));
+
+        socket.on('Activity.getPolicy', Activity.getPolicy.bind(null, user));
+        socket.on('Activity.createPolicy', Activity.createPolicy.bind(null, user));
+        socket.on('Activity.updatePolicy', Activity.updatePolicy.bind(null, user));
+        socket.on('Activity.deletePolicy', Activity.deletePolicy.bind(null, user));
+
+        socket.on('Activity.getHumanitarianScope', Activity.getHumanitarianScope.bind(null, user));
+        socket.on('Activity.createHumanitarianScope', Activity.createHumanitarianScope.bind(null, user));
+        socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
+        socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
 
         socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));

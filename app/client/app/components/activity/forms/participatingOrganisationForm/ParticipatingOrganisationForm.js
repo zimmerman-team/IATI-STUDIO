@@ -172,7 +172,8 @@ class ParticipatingOrganisationForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+                || !(this.props.data && this.props.data.length))) {
             this.props.getParticipatingOrganisations(nextProps.publisher.id, nextProps.activityId)
         }
     }

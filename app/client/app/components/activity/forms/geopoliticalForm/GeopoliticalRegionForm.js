@@ -46,13 +46,6 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                     }
                 </div>
                 <div className="row no-margin">
-                    <FieldArray
-                        name={`${recipientRegion}.narratives`}
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                    />
-                </div>
-                <div className="row no-margin">
                     <div className="columns small-6">
                         <Field
                             name={`${recipientRegion}.percentage`}
@@ -69,6 +62,23 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                             label="Region Name"
                         />
                     </div>
+                </div>
+                <div className="row no-margin">
+                    <div className="columns small-6">
+                        <Field
+                            name={`${recipientRegion}.vocabulary_uri`}
+                            type="text"
+                            component={renderField}
+                            label="Vocabulary URI"
+                        />
+                    </div>
+                </div>
+                <div className="row no-margin">
+                    <FieldArray
+                        name={`${recipientRegion}.narratives`}
+                        component={renderNarrativeFields}
+                        languageOptions={languageOptions}
+                    />
                 </div>
             </div>
             <div className="columns">
@@ -93,8 +103,12 @@ const validate = values => {
     const errors = {};
 
     if (!values.region) {
-        errors.type = 'Required'
+        errors.region = 'Required'
     }
+    if (!values.vocabulary_uri) {
+        errors.vocabulary_uri = 'Required'
+    }
+
     return errors
 };
 
@@ -150,7 +164,8 @@ class RecipientRegionForm extends React.Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+                || !(this.props.data && this.props.data.length))) {
             this.props.getRegions(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -176,7 +191,7 @@ class RecipientRegionForm extends React.Component {
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}geopolitical-information/country/`}>Back to
+                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/country/`}>Back to
                             participating organisation</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Location

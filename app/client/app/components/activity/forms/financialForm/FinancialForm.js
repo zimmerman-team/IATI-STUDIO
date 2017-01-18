@@ -9,9 +9,10 @@ class FinancialForm extends React.Component {
 
     constructor(props) {
         super(props);
+        this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this)
     }
 
-    static getFormSubComponentComponentFromRoute(subTab) {
+    getFormComponentFromRoute(subTab) {
         switch (subTab) {
             case 'budget':
                 return <FinancialBudgetForm {...this.props}/>;
@@ -29,7 +30,7 @@ class FinancialForm extends React.Component {
 
     render() {
         const {subTab} = this.props;
-        const formSubComponent = FinancialForm.getFormSubComponentComponentFromRoute(subTab);
+        const formSubComponent = this.getFormComponentFromRoute(subTab);
 
         return (
             <div>

@@ -7,10 +7,11 @@ import HumanitarianScopeForm from './ClassificationHumanitarianScopeForm'
 
 class ClassificationsForm extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this)
     }
 
-    static getFormSubComponentComponentFromRoute(subTab) {
+    getFormComponentFromRoute(subTab) {
         switch (subTab) {
             case 'sector':
                 return <SectorForm {...this.props} />;
@@ -29,7 +30,7 @@ class ClassificationsForm extends Component {
 
     render() {
         const {subTab} = this.props;
-        const formSubComponent = ClassificationsForm.getFormSubComponentComponentFromRoute(subTab);
+        const formSubComponent = this.getFormComponentFromRoute(subTab);
 
         return (
             <div>

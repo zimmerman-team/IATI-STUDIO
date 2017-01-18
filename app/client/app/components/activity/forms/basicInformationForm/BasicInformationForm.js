@@ -11,7 +11,6 @@ class BasicInformationForm extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this)
     }
 

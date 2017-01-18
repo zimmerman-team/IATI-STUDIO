@@ -16,88 +16,74 @@ import handleSubmit from '../../helpers/handleSubmit'
 import {humanitarianScopesSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 
-const renderAdditionalRenderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, languageOptions, meta: {touched, error}}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
-                <RenderHumanitarianScopeForm
-                    vocabularyOptions={vocabularyOptions}
-                    scopeOptions={scopeOptions}/>
-                <div className="row no-margin">
-                    <FieldArray
-                        name={`${description}`}
-                        component={renderNarrativeFields}
-                        narrativeAddMore={false}
-                        languageOptions={languageOptions}
-                        textName="textPolicy"
-                        textLabel="Title"
-                    />
-                </div>
-            </div>
-        )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
-        </div>
-    </div>
-);
-
-
-const RenderHumanitarianScopeForm = ({vocabularyOptions, scopeOptions, languageOptions}) =>
-    (
+const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, languageOptions, meta: {touched, error, dirty}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+    return (
         <div>
-            <div className="row no-margin">
-                <Field
-                    component={renderSelectField}
-                    name="type"
-                    label="Type"
-                    selectOptions={scopeOptions}
-                    defaultOption="Select one of the following options"
-                />
-                <Field
-                    component={renderSelectField}
-                    name="vocabulary"
-                    label="Vocabulary"
-                    selectOptions={vocabularyOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    <Field
-                        name="vocabulary_uri"
-                        type="text"
-                        component={renderField}
-                        label="Vocabulary URI"
-                    />
+            {fields.map((humanitarianScope, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${humanitarianScope}.type[code]`}
+                                textName={`${humanitarianScope}.type[code]`}
+                                label="Type"
+                                selectOptions={scopeOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                            <Field
+                                component={renderSelectField}
+                                name={`${humanitarianScope}.vocabulary[code]`}
+                                textName={`${humanitarianScope}.vocabulary[code]`}
+                                label="Vocabulary"
+                                selectOptions={vocabularyOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${humanitarianScope}vocabulary_uri`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Vocabulary URI"
+                                />
+                            </div>
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${humanitarianScope}code`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Code"
+                                />
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${humanitarianScope}.narratives`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                            />
+                        </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button type="button" title="Remove Title" className="control-button remove float-right"
+                                onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
                 </div>
-                <div className="columns small-6">
-                    <Field
-                        name="code"
-                        type="text"
-                        component={renderField}
-                        label="Code"
-                    />
-                </div>
-            </div>
-            <div className="row no-margin">
-                <FieldArray
-                    name="additionalTitles"
-                    component={renderNarrativeFields}
-                    narrativeAddMore={false}
-                    languageOptions={languageOptions}
-                    textName="textPolicyTitle"
-                    textLabel="Title"
-                />
-            </div>
+            )}
         </div>
-    );
+    )
+};
+
 
 const validate = values => {
     const errors = {};
@@ -125,11 +111,11 @@ class HumanitarianScopeForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
-        const humanitarianScopes = formData.humanitarianScopes;
+        const humanitarianScopes = formData.humanitarianScope;
 
         handleSubmit(
             publisher.id,
-            'humanitarianScopes',
+            'humanitarianScope',
             activityId,
             data,
             humanitarianScopes,
@@ -137,12 +123,8 @@ class HumanitarianScopeForm extends Component {
             this.props.updateHumanitarianScope,
             this.props.deleteHumanitarianScope,
         )
-        //this.context.router.push('/publisher/activities/financial/financial');
+        this.props.router.push(`/publisher/activities/${this.props.activityId}/financial/financial`);
     }
-
-    static contextTypes = {
-        router: PropTypes.object,
-    };
 
     componentWillMount() {
         this.props.getCodeListItems('HumanitarianScopeType');
@@ -167,14 +149,15 @@ class HumanitarianScopeForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+                || !(this.props.data && this.props.data.length))) {
             this.props.getHumanitarianScopes(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codelists['HumanitarianScopeType'] || !codelists['HumanitarianScopeVocabulary'] || !codelists['Language']) {
             return <GeneralLoader />
@@ -187,23 +170,16 @@ class HumanitarianScopeForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <RenderHumanitarianScopeForm
-                            vocabularyOptions={codelists["HumanitarianScopeVocabulary"]}
-                            scopeOptions={codelists["HumanitarianScopeType"]}
-                            languageOptions={codelists["Language"]}
-                        />
-                    </div>
                     <FieldArray
-                        name="additionalHumanitarianScope"
-                        component={renderAdditionalRenderHumanitarianScopeForm}
+                        name="humanitarianScope"
+                        component={renderHumanitarianScopeForm}
                         vocabularyOptions={codelists["HumanitarianScopeVocabulary"]}
                         scopeOptions={codelists["HumanitarianScopeType"]}
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/classifications/country">Back to Country
-                            Budget</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/classifications/country`}>Back to
+                            Country</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Financial
                         </button>
@@ -215,12 +191,12 @@ class HumanitarianScopeForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const humanitarian = humanitarianScopesSelector(state)
+    const humanitarianScope = humanitarianScopesSelector(state);
 
     return {
-        data: humanitarian,
+        data: humanitarianScope,
         codelists: state.codelists,
-        initialValues: {"humanitarian": humanitarian},  // populate initial values for redux form
+        initialValues: {"humanitarianScope": humanitarianScope},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

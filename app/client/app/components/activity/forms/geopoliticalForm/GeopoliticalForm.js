@@ -7,10 +7,10 @@ class GeopoliticalForm extends React.Component {
 
     constructor(props) {
         super(props)
+        this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this)
     }
 
-    getFormSubComponentComponentFromRoute(subTab) {
-
+    getFormComponentFromRoute(subTab) {
         switch (subTab) {
             case 'country':
                 return <RecipientCountryForm {...this.props} />;
@@ -26,7 +26,7 @@ class GeopoliticalForm extends React.Component {
 
     render() {
         const {subTab} = this.props;
-        const formSubComponent = this.getFormSubComponentComponentFromRoute(subTab);
+        const formSubComponent = this.getFormComponentFromRoute(subTab);
 
         return (
             <div>

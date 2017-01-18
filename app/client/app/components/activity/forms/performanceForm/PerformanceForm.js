@@ -7,9 +7,10 @@ class PerformanceForm extends Component {
 
     constructor(props) {
         super(props);
+        this.getFormComponentFromRoute = this.getFormComponentFromRoute.bind(this)
     }
 
-    static getFormSubComponentComponentFromRoute(subTab) {
+    getFormComponentFromRoute(subTab) {
         switch (subTab) {
             case 'condition':
                 return <PerformanceConditionForm { ...this.props }/>;
@@ -24,7 +25,7 @@ class PerformanceForm extends Component {
 
     render() {
         const {subTab} = this.props;
-        const formSubComponent = PerformanceForm.getFormSubComponentComponentFromRoute(subTab);
+        const formSubComponent = this.getFormComponentFromRoute(subTab);
 
         return (
             <div>

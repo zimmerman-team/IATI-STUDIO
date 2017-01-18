@@ -24,7 +24,6 @@ const config = {
     "participatingOrganisationUrl": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/participating_organisations/`,
     "recipientCountryUrl": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/recipient_countries/`,
     "document_link_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/document_links/`,
-    "country_budget_items_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/country_budget_items/`,
     "policy_markers_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/policy_markers/`,
     "sectors_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/sectors/`,
     "locations_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/locations/`,

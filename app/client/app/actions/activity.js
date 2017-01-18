@@ -377,7 +377,7 @@ export function createTransaction(publisherId, activityId, transaction) {
         [CALL_API]: {
             types: [ CREATE_TRANSACTION_REQUEST, CREATE_TRANSACTION_SUCCESS, CREATE_TRANSACTION_FAILURE ],
             endpoint: 'Activity.createTransaction',
-            payload: [ publisherId, activityId, transaction ],
+            payload: [ publisherId, activityId, JSON.stringify(transaction) ],
             schema: Schemas.transaction,
         }
     }
@@ -395,7 +395,7 @@ export function updateTransaction(publisherId, activityId, id, transaction) {
         [CALL_API]: {
             types: [ UPDATE_TRANSACTION_REQUEST, UPDATE_TRANSACTION_SUCCESS, UPDATE_TRANSACTION_FAILURE ],
             endpoint: 'Activity.updateTransaction',
-            payload: [ publisherId, activityId, id, transaction ],
+            payload: [ publisherId, activityId, id, JSON.stringify(transaction)],
             schema: Schemas.transaction,
         }
     }
@@ -558,78 +558,6 @@ export function deleteBudget(publisherId, activityId, id) {
         [CALL_API]: {
             types: [ DELETE_BUDGET_REQUEST, DELETE_BUDGET_SUCCESS, DELETE_BUDGET_FAILURE ],
             endpoint: 'Activity.deleteBudget',
-            payload: [ publisherId, activityId, id ]
-        }
-    }
-}
-
-
-/*
- * Get Policy (Financial form)
- */
-export const GET_POLICY_REQUEST = 'GET_POLICY_REQUEST';
-export const GET_POLICY_SUCCESS = 'GET_POLICY_SUCCESS';
-export const GET_POLICY_FAILURE = 'GET_POLICY_FAILURE';
-
-export function getPolicy(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_POLICY_REQUEST, GET_POLICY_SUCCESS, GET_POLICY_FAILURE ],
-            endpoint: 'Activity.getPolicy',
-            payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.policy),
-        }
-    }
-}
-
-/*
- * Create policy (Financial form)
- */
-export const CREATE_POLICY_REQUEST = 'CREATE_POLICY_REQUEST';
-export const CREATE_POLICY_SUCCESS = 'CREATE_POLICY_SUCCESS';
-export const CREATE_POLICY_FAILURE = 'CREATE_POLICY_FAILURE';
-export function createPolicy(publisherId, activityId, policy) {
-    return {
-        [CALL_API]: {
-            types: [ CREATE_POLICY_REQUEST, CREATE_POLICY_SUCCESS, CREATE_POLICY_FAILURE ],
-            endpoint: 'Activity.createPolicy',
-            payload: [ publisherId, activityId, policy ],
-            schema: Schemas.policy,
-        }
-    }
-}
-
-/*
- * Update Policy (Financial form)
- */
-export const UPDATE_POLICY_REQUEST = 'UPDATE_POLICY_REQUEST';
-export const UPDATE_POLICY_SUCCESS = 'UPDATE_POLICY_SUCCESS';
-export const UPDATE_POLICY_FAILURE = 'UPDATE_POLICY_FAILURE';
-export function updatePolicy(publisherId, activityId, id, policy) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [ UPDATE_POLICY_REQUEST, UPDATE_POLICY_SUCCESS, UPDATE_POLICY_FAILURE ],
-            endpoint: 'Activity.updatePolicy',
-            payload: [ publisherId, activityId, id, policy ],
-            schema: Schemas.policy,
-        }
-    }
-}
-
-
-/*
- * Delete Policy (Financial form)
- */
-export const DELETE_POLICY_REQUEST = 'DELETE_POLICY_REQUEST';
-export const DELETE_POLICY_SUCCESS = 'DELETE_POLICY_SUCCESS';
-export const DELETE_POLICY_FAILURE = 'DELETE_POLICY_FAILURE';
-export function deletePolicy(publisherId, activityId, id) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [ DELETE_POLICY_REQUEST, DELETE_POLICY_SUCCESS, DELETE_POLICY_FAILURE ],
-            endpoint: 'Activity.deletePolicy',
             payload: [ publisherId, activityId, id ]
         }
     }
@@ -849,6 +777,147 @@ export function deleteLocation(publisherId, activityId, id) {
     }
 }
 
+/*
+ * Get Sector (Classifications form)
+ */
+export const GET_SECTOR_REQUEST = 'GET_SECTOR_REQUEST';
+export const GET_SECTOR_SUCCESS = 'GET_SECTOR_SUCCESS';
+export const GET_SECTOR_FAILURE = 'GET_SECTOR_FAILURE';
+
+export function getSectors(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_SECTOR_REQUEST, GET_SECTOR_SUCCESS, GET_SECTOR_FAILURE ],
+            endpoint: 'Activity.getSectors',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.sector),
+        }
+    }
+}
+
+/*
+ * Create Sector (Classifications form)
+ */
+export const CREATE_SECTOR_REQUEST = 'CREATE_SECTOR_REQUEST';
+export const CREATE_SECTOR_SUCCESS = 'CREATE_SECTOR_SUCCESS';
+export const CREATE_SECTOR_FAILURE = 'CREATE_SECTOR_FAILURE';
+export function createSector(publisherId, activityId, sector) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_SECTOR_REQUEST, CREATE_SECTOR_SUCCESS, CREATE_SECTOR_FAILURE ],
+            endpoint: 'Activity.createSector',
+            payload: [ publisherId, activityId, JSON.stringify(sector) ],
+            schema: Schemas.sector,
+        }
+    }
+}
+
+/*
+ * Update Sector (Classifications form)
+ */
+export const UPDATE_SECTOR_REQUEST = 'UPDATE_SECTOR_REQUEST';
+export const UPDATE_SECTOR_SUCCESS = 'UPDATE_SECTOR_SUCCESS';
+export const UPDATE_SECTOR_FAILURE = 'UPDATE_SECTOR_FAILURE';
+export function updateSector(publisherId, activityId, id, sector) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_SECTOR_REQUEST, UPDATE_SECTOR_SUCCESS, UPDATE_SECTOR_FAILURE ],
+            endpoint: 'Activity.updateSector',
+            payload: [ publisherId, activityId, id, JSON.stringify(sector) ],
+            schema: Schemas.sector,
+        }
+    }
+}
+
+
+/*
+ * Delete Sector (Geopolitical form)
+ */
+export const DELETE_SECTOR_REQUEST = 'DELETE_SECTOR_REQUEST';
+export const DELETE_SECTOR_SUCCESS = 'DELETE_SECTOR_SUCCESS';
+export const DELETE_SECTOR_FAILURE = 'DELETE_SECTOR_FAILURE';
+export function deleteSector(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_SECTOR_REQUEST, DELETE_SECTOR_SUCCESS, DELETE_SECTOR_FAILURE ],
+            endpoint: 'Activity.deleteSector',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
+
+/*
+ * Get Policy (Financial form)
+ */
+export const GET_POLICY_REQUEST = 'GET_POLICY_REQUEST';
+export const GET_POLICY_SUCCESS = 'GET_POLICY_SUCCESS';
+export const GET_POLICY_FAILURE = 'GET_POLICY_FAILURE';
+
+export function getPolicy(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_POLICY_REQUEST, GET_POLICY_SUCCESS, GET_POLICY_FAILURE ],
+            endpoint: 'Activity.getPolicy',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.policy),
+        }
+    }
+}
+
+/*
+ * Create policy (Financial form)
+ */
+export const CREATE_POLICY_REQUEST = 'CREATE_POLICY_REQUEST';
+export const CREATE_POLICY_SUCCESS = 'CREATE_POLICY_SUCCESS';
+export const CREATE_POLICY_FAILURE = 'CREATE_POLICY_FAILURE';
+export function createPolicy(publisherId, activityId, policy) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_POLICY_REQUEST, CREATE_POLICY_SUCCESS, CREATE_POLICY_FAILURE ],
+            endpoint: 'Activity.createPolicy',
+            payload: [ publisherId, activityId, JSON.stringify(policy) ],
+            schema: Schemas.policy,
+        }
+    }
+}
+
+/*
+ * Update Policy (Financial form)
+ */
+export const UPDATE_POLICY_REQUEST = 'UPDATE_POLICY_REQUEST';
+export const UPDATE_POLICY_SUCCESS = 'UPDATE_POLICY_SUCCESS';
+export const UPDATE_POLICY_FAILURE = 'UPDATE_POLICY_FAILURE';
+export function updatePolicy(publisherId, activityId, id, policy) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_POLICY_REQUEST, UPDATE_POLICY_SUCCESS, UPDATE_POLICY_FAILURE ],
+            endpoint: 'Activity.updatePolicy',
+            payload: [ publisherId, activityId, id, JSON.stringify(policy) ],
+            schema: Schemas.policy,
+        }
+    }
+}
+
+
+/*
+ * Delete Policy (Financial form)
+ */
+export const DELETE_POLICY_REQUEST = 'DELETE_POLICY_REQUEST';
+export const DELETE_POLICY_SUCCESS = 'DELETE_POLICY_SUCCESS';
+export const DELETE_POLICY_FAILURE = 'DELETE_POLICY_FAILURE';
+export function deletePolicy(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_POLICY_REQUEST, DELETE_POLICY_SUCCESS, DELETE_POLICY_FAILURE ],
+            endpoint: 'Activity.deletePolicy',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
 
 export const GET_CODE_LIST_ITEMS_REQUEST = 'GET_CODE_LIST_ITEMS_REQUEST';
 export const GET_CODE_LIST_ITEMS_SUCCESS = 'GET_CODE_LIST_ITEMS_SUCCESS';
@@ -1145,7 +1214,7 @@ export function createHumanitarianScope(publisherId, activityId, humanitarianSco
         [CALL_API]: {
             types: [ CREATE_HUMANITARIAN_SCOPE_REQUEST, CREATE_HUMANITARIAN_SCOPE_SUCCESS, CREATE_HUMANITARIAN_SCOPE_FAILURE ],
             endpoint: 'Activity.createHumanitarianScope',
-            payload: [ publisherId, activityId, humanitarianScope ],
+            payload: [ publisherId, activityId, JSON.stringify(humanitarianScope) ],
             schema: Schemas.humanitarianScope,
         }
     }
@@ -1163,7 +1232,7 @@ export function updateHumanitarianScope(publisherId, activityId, id, humanitaria
         [CALL_API]: {
             types: [ UPDATE_HUMANITARIAN_SCOPE_REQUEST, UPDATE_HUMANITARIAN_SCOPE_SUCCESS, UPDATE_HUMANITARIAN_SCOPE_FAILURE ],
             endpoint: 'Activity.updateHumanitarianScope',
-            payload: [ publisherId, activityId, id, humanitarianScope ],
+            payload: [ publisherId, activityId, id, JSON.stringify(humanitarianScope) ],
             schema: Schemas.humanitarianScope,
         }
     }

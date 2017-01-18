@@ -404,6 +404,7 @@ export const getRegions = function (user, publisherId, activityId) {
             'Authorization': 'Token ' + user.oipaToken
         },
     };
+
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
 };
@@ -441,6 +442,168 @@ export const deleteRegion = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.recipient_regions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getSectors = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.sectors_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postSector = function (user, publisherId, activityId, sectorData) {
+    const dataJSON = JSON.parse(sectorData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.sectors_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateSector = function (user, publisherId, activityId, id, sectorData) {
+    const dataJSON = JSON.parse(sectorData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.sectors_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteSector = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.sectors_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getPolicy = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.policy_markers_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postPolicy = function (user, publisherId, activityId, policyData) {
+    const dataJSON = JSON.parse(policyData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.policy_markers_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePolicy = function (user, publisherId, activityId, id, policyData) {
+    const dataJSON = JSON.parse(policyData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.policy_markers_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePolicy = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.policy_markers_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getHumanitarianScope = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.humanitarian_scopes_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postHumanitarianScope = function (user, publisherId, activityId, humanitarianScopeData) {
+    const dataJSON = JSON.parse(humanitarianScopeData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.humanitarian_scopes_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateHumanitarianScope = function (user, publisherId, activityId, id, humanitarianScopeData) {
+    const dataJSON = JSON.parse(humanitarianScopeData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.humanitarian_scopes_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteHumanitarianScope = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.humanitarian_scopes_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -533,57 +696,6 @@ export const deleteDocumentLink = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.document_link_url(publisherId, activityId), `${id}`),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-
-    return oipaDelete(req_options)
-};
-
-
-export const getPolicy = function (user, publisherId, activityId) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.policy_markers_url(publisherId, activityId),
-        /*headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },*/
-    };
-    return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
-};
-
-export const postPolicy = function (user, publisherId, activityId, policyData) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.policy_markers_url(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-        body: policyData,
-    };
-
-    return oipaPost(req_options)
-};
-
-export const updatePolicy = function (user, publisherId, activityId, id, policyData) {
-    const req_options = {
-        baseUrl: config.oipa_update_url,
-        url: path.join(config.policy_markers_url(publisherId, activityId), `${id}`),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-        body: policyData,
-    };
-
-    return oipaUpdate(req_options)
-};
-
-export const deletePolicy = function (user, publisherId, activityId, id) {
-    const req_options = {
-        baseUrl: config.oipa_delete_url,
-        url: path.join(config.policy_markers_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },

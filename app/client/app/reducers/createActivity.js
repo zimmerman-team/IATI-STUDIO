@@ -38,10 +38,24 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
         case ActionTypes.CREATE_RECIPIENT_COUNTRY_SUCCESS:
         case ActionTypes.UPDATE_RECIPIENT_COUNTRY_SUCCESS:
+        case ActionTypes.GET_REGION_SUCCESS:
         case ActionTypes.CREATE_REGION_SUCCESS:
         case ActionTypes.UPDATE_REGION_SUCCESS:
+        case ActionTypes.DELETE_REGION_SUCCESS:
+        case ActionTypes.GET_SECTOR_SUCCESS:
+        case ActionTypes.CREATE_SECTOR_SUCCESS:
+        case ActionTypes.UPDATE_SECTOR_SUCCESS:
+        case ActionTypes.DELETE_SECTOR_SUCCESS:
+        case ActionTypes.GET_POLICY_SUCCESS:
+        case ActionTypes.CREATE_POLICY_SUCCESS:
+        case ActionTypes.UPDATE_POLICY_SUCCESS:
+        case ActionTypes.DELETE_POLICY_SUCCESS:
+        case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.DELETE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
-                return _.merge({}, state, action.response.entities)
+                return _.merge({}, state, (action.response && action.response.entities))
 
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
             return {
@@ -152,13 +166,18 @@ export const locationsSelector = createSelector(
 )
 
 export const regionsSelector = createSelector(
-    state => state.activity.recipient_region,
-    (recipient_region) => _.map(recipient_region, x => x) // to array
+    state => state.activity.region,
+    (region) => _.map(region, x => x) // to array
+)
+
+export const sectorsSelector = createSelector(
+    state => state.activity.sector,
+    (sector) => _.map(sector, x => x) // to array
 )
 
 export const humanitarianScopesSelector = createSelector(
-    state => state.activity.humanitarianScopes,
-    (humanitarianScopes) => _.map(humanitarianScopes, x => x) // to array
+    state => state.activity.humanitarian_scope,
+    (humanitarian_scope) => _.map(humanitarian_scope, x => x) // to array
 )
 
 export const participatingOrganisationsSelector = createSelector(

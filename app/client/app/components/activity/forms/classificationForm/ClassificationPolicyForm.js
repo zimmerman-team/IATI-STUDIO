@@ -22,15 +22,15 @@ const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignif
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name={`${policy}policyMarkerVocabulary[code]`}
-                                textName={`${policy}policyMarkerVocabulary[code]`}
+                                name={`${policy}.vocabulary[code]`}
+                                textName={`${policy}.vocabulary[code]`}
                                 label="Vocabulary"
                                 selectOptions={policyVocabularyOptions}
                                 defaultOption="Select one of the following options"
                             />
                             <div className="columns small-6">
                                 <Field
-                                    name={`${policy}vocabulary_uri`}
+                                    name={`${policy}.vocabulary_uri`}
                                     type="text"
                                     component={renderField}
                                     label="Vocabulary URI"
@@ -40,16 +40,16 @@ const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignif
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name={`${policy}significance[code]`}
-                                textName={`${policy}significance[code]`}
+                                name={`${policy}.significance[code]`}
+                                textName={`${policy}.significance[code]`}
                                 label="Significance"
                                 selectOptions={policySignificanceOptions}
                                 defaultOption="Select one of the following options"
                             />
                             <Field
                                 component={renderSelectField}
-                                name={`${policy}policy[code]`}
-                                textName={`${policy}policy[code]`}
+                                name={`${policy}.policy_marker[code]`}
+                                textName={`${policy}.policy_marker[code]`}
                                 label="Policy Marker"
                                 selectOptions={policyMakerOptions}
                                 defaultOption="Select one of the following options"
@@ -57,26 +57,21 @@ const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignif
                         </div>
                         <div className="row no-margin">
                             <FieldArray
-                                name={`${policy}.additionalPolicy`}
+                                name={`${policy}.narratives`}
                                 component={renderNarrativeFields}
-                                narrativeAddMore={false}
                                 languageOptions={languageOptions}
-                                textName="textPolicy"
-                                textLabel="Title"
                             />
                         </div>
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
                         </button>
-                        <button
-                            type="button"
-                            title="Remove Title"
-                            className="control-button remove float-right"
-                            onClick={() => fields.remove(index)}>Delete
+                        <button type="button" title="Remove Title" className="control-button remove float-right"
+                                onClick={() => fields.remove(index)}>Delete
                         </button>
                         {touched && error && <span className="error">{error}</span>}
                     </div>
+                    <br/><br/>
                 </div>
             )}
         </div>
@@ -87,7 +82,7 @@ const validate = values => {
     const errors = {};
 
     if (!values.vocabulary_uri) {
-        errors.type = 'Required'
+        errors.vocabulary_uri = 'Required'
     }
 
     return errors
@@ -105,6 +100,7 @@ class PolicyMakerForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
+        console.log('<<<handleFormSubmit', formData);
         const {activityId, publisher, data} = this.props;
         const policy = formData.policy;
 
@@ -117,20 +113,15 @@ class PolicyMakerForm extends Component {
             this.props.createPolicy,
             this.props.updatePolicy,
             this.props.deletePolicy,
-        )
-        //this.context.router.push('/publisher/activities/classifications/select');
+        );
+        this.props.router.push(`/publisher/activities/${this.props.activityId}/classifications/select`);
     }
-
-    static contextTypes = {
-        router: PropTypes.object,
-    };
 
     componentWillMount() {
         this.props.getCodeListItems('PolicyMarker');
         this.props.getCodeListItems('PolicyMarkerVocabulary');
         this.props.getCodeListItems('PolicySignificance');
         this.props.getCodeListItems('Language');
-        //this.props.getPolicy('', this.props.activityId);     // publisherID and Activity ID
     }
 
     componentWillReceiveProps(nextProps) {
@@ -150,7 +141,8 @@ class PolicyMakerForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+                || !(this.props.data && this.props.data.length))) {
             this.props.getPolicy(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -180,15 +172,15 @@ class PolicyMakerForm extends Component {
                         textName="textPolicyTitle"
                         textLabel="Title"
                     />
-                </form>
-                <div className="row no-margin">
-                    <div className="columns small-12">
-                        <button type="button" className="button" onClick={previousPage}>Back to Sector</button>
-                        <button className="button float-right" type="submit" disabled={submitting}>
-                            Continue to Selection
-                        </button>
+                    <div className="row no-margin">
+                        <div className="columns small-12">
+                            <button type="button" className="button" onClick={previousPage}>Back to Sector</button>
+                            <button className="button float-right" type="submit" disabled={submitting}>
+                                Continue to Selection
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         )
     }

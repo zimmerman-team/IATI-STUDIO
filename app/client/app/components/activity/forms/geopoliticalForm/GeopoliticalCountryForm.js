@@ -169,7 +169,8 @@ class RecipientCountryForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+                || !(this.props.data && this.props.data.length))) {
             this.props.getRecipientCountries(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -216,7 +217,7 @@ RecipientCountryForm = reduxForm({
 })(RecipientCountryForm);
 
 function mapStateToProps(state) {
-    const recipient_countries = recipientCountriesSelector(state)
+    const recipient_countries = recipientCountriesSelector(state);
 
     return {
         data: recipient_countries,

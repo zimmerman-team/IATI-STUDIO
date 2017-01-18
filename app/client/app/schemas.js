@@ -84,6 +84,10 @@ export const region = new Schema('region', {
     idAttribute: "id",
 })
 
+export const sector = new Schema('sector', {
+    idAttribute: "id",
+})
+
 export const policy = new Schema('policy', {
     idAttribute: "id",
 })
@@ -96,7 +100,7 @@ export const documentLink = new Schema('documentLink', {
     idAttribute: "id",
 })
 
-export const humanitarianScope = new Schema('humanitarianScope', {
+export const humanitarianScope = new Schema('humanitarian_scope', {
     idAttribute: "id",
 })
 
@@ -117,7 +121,7 @@ export const activity = new Schema('activity', {
     policy: arrayOf(policy),
     contact_info: arrayOf(contact),
     activity_dates: arrayOf(date),
-    humanitarianScopes: arrayOf(humanitarianScope),
+    humanitarian_scope: arrayOf(humanitarianScope),
     budgets: arrayOf(budget),
     transactions: arrayOf(transaction),
     plannedDisbursements: arrayOf(plannedDisbursement),

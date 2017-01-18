@@ -5,81 +5,101 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCodeListItems, createActivity, addClassificationSector} from '../../../../actions/activity'
+import {getCodeListItems, getSectors, createSector, updateSector, deleteSector} from '../../../../actions/activity'
+import handleSubmit from '../../helpers/handleSubmit'
+import {sectorsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {withRouter} from 'react-router'
 
-const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorOptions, meta: {touched, error}}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
-                <div className="row no-margin">
-                    {
-                        !sectorVocabularyOptions ?
-                            <GeneralLoader/> :
-                            <Field
-                                component={renderSelectField}
-                                name={`${description}.region[code]`}
-                                label="Sector vocabulary"
-                                selectOptions={sectorVocabularyOptions}
-                                defaultOption="Select one of the following options"
+const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorOptions, meta: {touched, error, dirty}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+    return (
+        <div>
+            {fields.map((sector, index) =>
+                <div key={index}>
+                    <div className="field-list">
+                        <div className="row no-margin">
+                            {
+                                !sectorVocabularyOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${sector}.vocabulary[code]`}
+                                        textName={`${sector}.vocabulary[code]`}
+                                        label="Sector vocabulary"
+                                        selectOptions={sectorVocabularyOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${sector}.vocabulary_uri`}
+                                    textName={`${sector}.vocabulary_uri`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Vocabulary URI"
+                                />
+                            </div>
+                            {
+                                !sectorOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${sector}.sector[code]`}
+                                        textName={`${sector}.sector[code]`}
+                                        label="Sector"
+                                        selectOptions={sectorOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${sector}.percentage`}
+                                    type="number"
+                                    component={renderField}
+                                    label="Percentage"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <div className="columns small-6">
+                                    <Field
+                                        name={`${sector}.sector[name]`}
+                                        type="text"
+                                        component={renderField}
+                                        label="Sector Name"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${sector}.narratives`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
                             />
-                    }
-                    <div className="columns small-6">
-                        <Field
-                            name="uriSectorText"
-                            type="text"
-                            component={renderField}
-                            label="Vocabulary URI"
-                        />
+                        </div>
                     </div>
-                    {
-                        !sectorOptions ?
-                            <GeneralLoader/> :
-                            <Field
-                                component={renderSelectField}
-                                name={`${description}.sector[code]`}
-                                label="Sector"
-                                selectOptions={sectorOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                    }
-                    <div className="columns small-6">
-                        <Field
-                            name="SectorText"
-                            type="text"
-                            component={renderField}
-                            label="Percentage"
-                        />
-                    </div>
+                <div className="columns">
+                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                    </button>
+                    <button type="button" title="Remove Title" className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                    </button>
+                    {touched && error && <span className="error">{error}</span>}
                 </div>
-                <div className="row no-margin">
-                    <FieldArray
-                        name={`${description}.additionalSector`}
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                        textName="textSector"
-                        textLabel="Title"
-                    />
-                </div>
+                <br/><br/>
             </div>
         )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
         </div>
-    </div>
-);
+    )
+};
 
 const validate = values => {
     const errors = {};
 
-    if (!values.SectorText) {
-        errors.type = 'Required'
+    if (!values.percentage) {
+        errors.percentage = 'Required'
     }
     return errors
 };
@@ -91,19 +111,28 @@ class SectorForm extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
+
     /**
-     * Submit classification's select data and redirect to status form.
+     * Submit geopolitical's region data and redirect to location form.
      *
      * @param formData
      */
     handleFormSubmit(formData) {
-        this.props.dispatch(addClassificationSector(formData, this.props.activity));
-        this.context.router.push('/publisher/activities/classifications/policy');
-    }
+        const {activityId, data, publisher} = this.props;
+        const sectors = formData.sector;
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
+        handleSubmit(
+            publisher.id,
+            'sector',
+            activityId,
+            data,
+            sectors,
+            this.props.createSector,
+            this.props.updateSector,
+            this.props.deleteSector,
+        );
+        this.props.router.push(`/publisher/activities/${this.props.activityId}/classifications/policy`);
+    }
 
     componentWillMount() {
         this.props.getCodeListItems('SectorVocabulary');
@@ -111,8 +140,30 @@ class SectorForm extends Component {
         this.props.getCodeListItems('Language');
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+
+            // change each item
+            newData.forEach((d, i) => this.props.change(`sectors[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('sectors', i)
+            }
+        }
+
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+                || !(this.props.data && this.props.data.length))) {
+            this.props.getSectors(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
+
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codelists['SectorVocabulary'] || !codelists['Sector'] || !codelists['Language']) {
             return <GeneralLoader />
@@ -125,56 +176,15 @@ class SectorForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name="vocabulary"
-                                label="Sector vocabulary"
-                                selectOptions={codelists["SectorVocabulary"]}
-                                defaultOption="Select one of the following options"
-                            />
-                            <div className="columns small-6">
-                                <Field
-                                    name="vocabulary_uri"
-                                    type="text"
-                                    component={renderField}
-                                    label="Vocabulary URI"
-                                />
-                            </div>
-                            <Field
-                                component={renderSelectField}
-                                name="sector"
-                                label="Sector code"
-                                selectOptions={codelists["Sector"]}
-                                defaultOption="Select one of the following options"
-                            />
-                            <div className="columns small-6">
-                                <Field
-                                    name="percentage"
-                                    type="text"
-                                    component={renderField}
-                                    label="Percentage"
-                                />
-                            </div>
-                            <FieldArray
-                                name="additionalTitles"
-                                component={renderNarrativeFields}
-                                languageOptions={codelists["Language"]}
-                                textName="textSectorTitle"
-                                textLabel="Title"
-                            />
-                        </div>
-                    </div>
                     <FieldArray
-                        name="additionalSector"
+                        name="sector"
                         component={renderSector}
                         languageOptions={codelists["Language"]}
                         sectorVocabularyOptions={codelists["SectorVocabulary"]}
                         sectorOptions={codelists["Sector"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/geopolitical/geopolitical">Back to
+                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical/geopolitical`}>Back to
                             Geopolitical</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Policy
@@ -186,19 +196,32 @@ class SectorForm extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        activity: state.activity,
-        codelists: state.codelists
-    }
-}
-
 SectorForm = reduxForm({
     form: 'classifications-sector',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(SectorForm);
 
 
-SectorForm = connect(mapStateToProps, {getCodeListItems, createActivity})(SectorForm);
-export default SectorForm;
+function mapStateToProps(state, props) {
+    const sectors = sectorsSelector(state);
+
+    return {
+        data: sectors,
+        codelists: state.codelists,
+        initialValues: {"sector": sectors},  // populate initial values for redux form
+        publisher: publisherSelector(state),
+        ...props,
+    }
+}
+
+SectorForm = connect(mapStateToProps, {
+    getCodeListItems,
+    getSectors,
+    createSector,
+    updateSector,
+    deleteSector
+})(SectorForm);
+
+export default withRouter(SectorForm)

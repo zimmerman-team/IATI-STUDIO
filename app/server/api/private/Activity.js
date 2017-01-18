@@ -6,7 +6,6 @@ import { getActivity, postActivity, updateActivity, getCodeListItems, postActivi
     postBasicInformationDescriptionForm, postBasicInformationStatusForm, postBasicInformationDateForm, postBasicInformationContactForm,
     postGeopoliticalCountryForm, postGeopoliticalRegionForm, postGeopoliticalLocationForm,
     postClassificationSectorForm, postClassificationPolicyForm, postClassificationSelectForm, postClassificationCountryBudgetForm, postClassificationHumanitarianForm,
-    postRegion, updateRegion, deleteRegion,
 } from '../../oipa/activity'
 
 import * as oipaMethods from '../../oipa/activity'
@@ -198,7 +197,7 @@ var ActivityAPI = {
 
     createPolicy: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here
-        // on succesful creation,
+        // on successful creation,
         return oipaMethods.postPolicy(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
@@ -214,6 +213,35 @@ var ActivityAPI = {
     deletePolicy: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here
         return oipaMethods.deletePolicy(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getHumanitarianScope: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getHumanitarianScope(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createHumanitarianScope: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on successful creation,
+        return oipaMethods.postHumanitarianScope(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateHumanitarianScope: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateHumanitarianScope(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteHumanitarianScope: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here
+        return oipaMethods.deleteHumanitarianScope(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
@@ -278,13 +306,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getRegions: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getRegions(user, publisherId, activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
     createRecipientCountry: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation,
@@ -314,9 +335,45 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    createRegion: function(user, publisherId, activityId, data, res) {
+    getSectors: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getSectors(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createSector: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation, 
+        return oipaMethods.postSector(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateSector: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateSector(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteSector: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteSector(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getRegions: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getRegions(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createRegion: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
         return oipaMethods.postRegion(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));

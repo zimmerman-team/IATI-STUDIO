@@ -161,7 +161,7 @@ class BasicInformationDescriptionForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
             this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)
         }
     }

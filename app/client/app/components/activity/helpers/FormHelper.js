@@ -117,7 +117,7 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
     )
 };
 
-export const RenderSingleSelect = ({name, label, selectOptions, defaultOption = 'Select one of the following options'}) => (
+export const RenderSingleSelect = ({name, textName = "", label, selectOptions, defaultOption = 'Select one of the following options'}) => (
    <div className="columns small-centered small-12">
        <h2 className="page-title with-tip">{label}</h2>
        <Tooltip className="inline" tooltip="Description text goes here">
@@ -128,6 +128,7 @@ export const RenderSingleSelect = ({name, label, selectOptions, defaultOption = 
                <Field
                    component={renderSelectField}
                    name={name}
+                   textName={textName}
                    label={label}
                    selectOptions={selectOptions}
                    defaultOption={defaultOption}

@@ -77,8 +77,6 @@ const API_ROOT = '/api/'
 function callApi(method, body, endpoint, schema) {
     const fullUrl = !endpoint.startsWith(API_ROOT) ? API_ROOT + endpoint : endpoint
 
-    console.log('fetching with body ', body);
-
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
