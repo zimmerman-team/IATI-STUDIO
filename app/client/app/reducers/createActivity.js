@@ -54,6 +54,9 @@ function activity(state = initialState, action) {
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.DELETE_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.CREATE_BUDGET_SUCCESS:
+        case ActionTypes.UPDATE_BUDGET_SUCCESS:
+        case ActionTypes.DELETE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
                 return _.merge({}, state, (action.response && action.response.entities))
 
@@ -133,6 +136,11 @@ export const statusSelector = createSelector(
 export const budgetsSelector = createSelector(
     state => state.activity.budgets,
     (budgets) => _.map(budgets, x => x) // to array
+)
+
+export const countryBudgetsSelector = createSelector(
+    state => state.activity.country_budget_items,
+    (country_budget_items) => _.map(country_budget_items, x => x) // to array
 )
 
 export const capitalSelector = createSelector(

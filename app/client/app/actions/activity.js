@@ -491,25 +491,6 @@ export function deletePlannedDisbursement(publisherId, activityId, id) {
     }
 }
 
-
-/*
- * Get Budget (Financial form)
- */
-export const GET_BUDGET_REQUEST = 'GET_BUDGET_REQUEST';
-export const GET_BUDGET_SUCCESS = 'GET_BUDGET_SUCCESS';
-export const GET_BUDGET_FAILURE = 'GET_BUDGET_FAILURE';
-
-export function getBudgets(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [ GET_BUDGET_REQUEST, GET_BUDGET_SUCCESS, GET_BUDGET_FAILURE ],
-            endpoint: 'Activity.getBudget',
-            payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.budget),
-        }
-    }
-}
-
 /*
  * Create budget (Financial form)
  */
@@ -521,7 +502,7 @@ export function createBudget(publisherId, activityId, budget) {
         [CALL_API]: {
             types: [ CREATE_BUDGET_REQUEST, CREATE_BUDGET_SUCCESS, CREATE_BUDGET_FAILURE ],
             endpoint: 'Activity.createBudget',
-            payload: [ publisherId, activityId, budget ],
+            payload: [ publisherId, activityId, JSON.stringify(budget) ],
             schema: Schemas.budget,
         }
     }
@@ -539,7 +520,7 @@ export function updateBudget(publisherId, activityId, id, budget) {
         [CALL_API]: {
             types: [ UPDATE_BUDGET_REQUEST, UPDATE_BUDGET_SUCCESS, UPDATE_BUDGET_FAILURE ],
             endpoint: 'Activity.updateBudget',
-            payload: [ publisherId, activityId, id, budget ],
+            payload: [ publisherId, activityId, id, JSON.stringify(budget) ],
             schema: Schemas.budget,
         }
     }

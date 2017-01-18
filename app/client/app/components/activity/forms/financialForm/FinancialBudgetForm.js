@@ -10,113 +10,112 @@ import {budgetsSelector, publisherSelector} from '../../../../reducers/createAct
 import {getCodeListItems, getBudgets, createBudget, updateBudget, deleteBudget} from '../../../../actions/activity'
 import {withRouter} from 'react-router'
 
-const renderAdditionalRenderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, error}}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
-                <RenderFinancialBudgetForm
-                    budgetTypeOptions={budgetTypeOptions}
-                    budgetStatusOptions={budgetStatusOptions}
-                    currencyOptions={currencyOptions}/>
-            </div>
-        )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
-        </div>
-    </div>
-);
+const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
 
-
-const RenderFinancialBudgetForm = ({budgetTypeOptions, budgetStatusOptions, currencyOptions}) =>
-    (
+    return (
         <div>
-            <div className="row no-margin">
-                {
-                    !budgetTypeOptions ?
-                        <GeneralLoader/> :
-                        <Field
-                            component={renderSelectField}
-                            name="type"
-                            label="Budget Type Options"
-                            selectOptions={budgetTypeOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                }
-                {
-                    !budgetStatusOptions ?
-                        <GeneralLoader/> :
-                        <Field
-                            component={renderSelectField}
-                            name="status"
-                            label="Budget Status Options"
-                            selectOptions={budgetStatusOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                }
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    Period start
-                    <Field
-                        name="period_start"
-                        type="date"
-                        component={renderField}
-                        label="Date"
-                    />
+            {fields.map((date, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="row no-margin">
+                            {
+                                !budgetTypeOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name="type"
+                                        label="Budget Type Options"
+                                        selectOptions={budgetTypeOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                            {
+                                !budgetStatusOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name="status"
+                                        label="Budget Status Options"
+                                        selectOptions={budgetStatusOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                Period start
+                                <Field
+                                    name="period_start"
+                                    type="date"
+                                    component={renderField}
+                                    label="Date"
+                                />
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                Period end
+                                <Field
+                                    name="period_end"
+                                    type="date"
+                                    component={renderField}
+                                    label="Date"
+                                />
+                            </div>
+                        </div>
+                        Value
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name="amount"
+                                    type="text"
+                                    component={renderField}
+                                    label="Amount"
+                                />
+                            </div>
+                            {
+                                !currencyOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name="currency"
+                                        label="Currency"
+                                        selectOptions={currencyOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name="valueDate"
+                                    type="date"
+                                    component={renderField}
+                                    label="Value date"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
                 </div>
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    Period end
-                    <Field
-                        name="period_end"
-                        type="date"
-                        component={renderField}
-                        label="Date"
-                    />
-                </div>
-            </div>
-            Value
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    <Field
-                        name="amount"
-                        type="text"
-                        component={renderField}
-                        label="Amount"
-                    />
-                </div>
-                {
-                    !currencyOptions ?
-                        <GeneralLoader/> :
-                        <Field
-                            component={renderSelectField}
-                            name="currency"
-                            label="Currency"
-                            selectOptions={currencyOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                }
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    <Field
-                        name="valueDate"
-                        type="date"
-                        component={renderField}
-                        label="Value date"
-                    />
-                </div>
-            </div>
+            )}
         </div>
-    );
+    )
+};
+
 
 const validate = values => {
     const errors = {};
@@ -152,13 +151,10 @@ class FinancialBudgetForm extends Component {
             this.props.createBudget,
             this.props.updateBudget,
             this.props.deleteBudget,
-        )
-        //this.context.router.push('/publisher/activities/financial/planned-disbursement');
-    }
+        );
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
+        this.props.router.push(`/publisher/activities/${activityId}/financial/planned-disbursement`)
+    }
 
     componentWillMount() {
         this.props.getCodeListItems('BudgetType');
@@ -189,7 +185,11 @@ class FinancialBudgetForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activity, activityId} = this.props;
+
+        if (!activity ||  !codelists["BudgetType"] || !codelists["BudgetStatus"] || !codelists["Currency"]) {
+            return <GeneralLoader/>
+        }
 
         return (
             <div className="columns small-centered small-12">
@@ -198,23 +198,15 @@ class FinancialBudgetForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <RenderFinancialBudgetForm
-                            budgetTypeOptions={codelists["BudgetType"]}
-                            budgetStatusOptions={codelists["BudgetStatus"]}
-                            currencyOptions={codelists["Currency"]}
-                        />
-                    </div>
                     <FieldArray
-                        name="additionalHumanitarianScope"
-                        component={renderAdditionalRenderFinancialBudgetForm}
+                        name="budget"
+                        component={renderFinancialBudgetForm}
                         budgetTypeOptions={codelists["BudgetType"]}
                         budgetStatusOptions={codelists["BudgetStatus"]}
                         currencyOptions={codelists["Currency"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/classification/classification">Back to
-                            classification</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/classifications/humanitarian`}>Back to humanitarian</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Planned Disbursement
                         </button>

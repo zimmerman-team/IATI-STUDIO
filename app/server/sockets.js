@@ -110,6 +110,10 @@ module.exports = function(app) {
         socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
         socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
 
+        socket.on('Activity.createBudget', Activity.createBudget.bind(null, user));
+        socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
+        socket.on('Activity.deleteBudget', Activity.deleteBudget.bind(null, user));
+
         socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
         socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
         socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));

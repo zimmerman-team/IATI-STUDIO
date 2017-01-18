@@ -246,6 +246,29 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+
+    createBudget: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on successful creation,
+        return oipaMethods.postBudget(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateBudget: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateBudget(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteBudget: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here
+        return oipaMethods.deleteBudget(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     addBasicInformation: function (user, publisherId, form, res) {
         // TODO: update validation status here - 2016-12-16
         return postActivityDescriptionForm(user, publisherId, form)
