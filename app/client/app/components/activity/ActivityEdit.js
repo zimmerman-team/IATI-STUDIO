@@ -2,7 +2,7 @@ import React from 'react'
 import {connect}            from 'react-redux'
 import {toggleMainMenu} from '../../actions/sync'
 
-import { 
+import {
     getActivity,
     createActivity,
     getCodeListItems,
@@ -42,10 +42,18 @@ class ActivityEdit extends React.Component {
         this.props.toggleMainMenu(false)
     }
 
-    getFormComponentFromRoute(tab, subTab) {
-        switch(tab) {
+    /**
+     * Redirects to the specific form basis of route.
+     *
+     * @param tab
+     * @param subTab
+     * @param activityId
+     * @returns {XML}
+     */
+    getFormComponentFromRoute(tab, subTab, activityId) {
+        switch (tab) {
             case 'identification':
-                return <IdentificationForm subTab={subTab} { ...this.props } />;
+                return <IdentificationForm { ...this.props } />;
             case 'basic-info':
                 return <BasicInformationForm subTab={subTab} { ...this.props }/>;
             case 'participating-organisation':
@@ -64,14 +72,14 @@ class ActivityEdit extends React.Component {
                 return <PerformanceForm subTab={subTab} { ...this.props }/>;
             default:
                 // TODO: return a nice not found screen here - 2017-01-02
-                return <h1>Not Found!</h1>
+                return (activityId === "identification") ? <IdentificationForm { ...this.props } /> :
+                    <h1>Not Found!</h1>;
         }
     }
 
     render() {
-        const mainForm = this.props.tab;
-        const subForm = this.props.subTab;
-        const formComponent = this.getFormComponentFromRoute(mainForm, subForm);
+        const {tab, subTab, activityId} = this.props;
+        const formComponent = this.getFormComponentFromRoute(tab, subTab, activityId);
 
         return (
             <div>
@@ -81,9 +89,9 @@ class ActivityEdit extends React.Component {
                     </div>
                     <div className="columns small-3 activity-nav-col">
                         <ActivitySidebar
-                            mainForm={mainForm}
-                            subForm={subForm}
-                            activityId={this.props.activityId}
+                            mainForm={tab}
+                            subForm={subTab}
+                            activityId={activityId}
                         />
                     </div>
                 </div>

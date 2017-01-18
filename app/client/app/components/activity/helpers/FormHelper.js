@@ -38,14 +38,15 @@ export const renderSelectField = ({name, textName = "", label, selectOptions, de
  * @param {string} readOnly
  * @param {string} onChange
  * @param {object} touched
+ * @param {boolean} disabled
  * @param {object} error
  * @param {object} warning
  */
-export const renderField = ({input, label, type, readOnly, onChange, meta: {touched, error, warning}}) => (
+export const renderField = ({input, label, type, readOnly, onChange, disabled = false, meta: {touched, error, warning}}) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type} readOnly={readOnly}/>
+      <input {...input} placeholder={label} type={type} readOnly={readOnly} disabled={disabled} />
       {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>

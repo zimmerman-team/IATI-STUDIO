@@ -681,6 +681,12 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
     z-index: 9998;
     background:rgba(0,0,0,.6);
 }
+
+.createActivityModalOverlay {
+  z-index: 18;
+}
+
+
 .modal-container {
     position: fixed;
     top:0;
@@ -734,6 +740,10 @@ input[type=checkbox]:not(:disabled) ~ .lever:active:after {
             color:$primary-color;
         }
     }
+}
+
+.createActivityModal {
+  z-index: 19;
 }
 
 //tooltip

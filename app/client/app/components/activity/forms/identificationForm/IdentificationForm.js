@@ -1,61 +1,19 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
-import { withRouter } from 'react-router'
-import {Field, FieldArray, reduxForm} from 'redux-form'
-import { Link } from 'react-router';
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderField, renderNarrativeFields} from '../../helpers/FormHelper'
-import { GeneralLoader } from '../../../general/Loaders.react.jsx'
-import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
-
+import {withRouter} from 'react-router'
+import {Field, reduxForm} from 'redux-form'
+import {renderField} from '../../helpers/FormHelper'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
+import {getActivity, updateActivity} from '../../../../actions/activity'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import ActivityTooltip from '../../ActivityTooltip'
 
 const validate = values => {
     const errors = {};
 
-    if (!values.activityIdentifier) {
-        errors.activityIdentifier = 'Required'
-    }
-
-    if (!values.textTitle) {
-        errors.textTitle = 'At least one title must be entered'
-    }
-
-    if (!values.titleLanguage) {
-        const titleLanguageCodeObj = {};
-        titleLanguageCodeObj.code = 'Required';
-        errors.titleLanguage = titleLanguageCodeObj
-    }
-
     if (!values.iati_identifier) {
         errors.iati_identifier = 'Required'
     }
-
-    if (values.additionalTitles) {
-        const titlesArrayErrors = [];
-
-        values.additionalTitles.forEach((title, titleIndex) => {
-            const titleErrors = {};
-            if (!title || !title.text) {
-                titleErrors.text = 'Required';
-                titlesArrayErrors[titleIndex] = titleErrors
-            }
-            if (!title || !title.language) {
-                const codeObj = {};
-                codeObj.code = 'Required';
-                titleErrors.language = codeObj;
-                titlesArrayErrors[titleIndex] = titleErrors
-            }
-        });
-
-        if (titlesArrayErrors.length) {
-            errors.additionalTitles = titlesArrayErrors
-        }
-    }
-
-    // if (/[^\/\&\|\?]+/g.test(values.iati_identifier)) {
-    //   errors.iati_identifier = 'Invalid data entered'
-    // }
 
     if (!values.hierarchy) {
         errors.hierarchy = 'Required'
@@ -69,20 +27,19 @@ class IdentificationForm extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    }
 
-    componentWillMount() {
-        this.props.getCodeListItems('Language');
-        // this.props.getActivity(this.props.activityId)
+        this.state = {
+            iatiIdentifier: ''
+        };
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.createActivity = this.createActivity.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        // if (this.props.activityId !== nextProps.activityId) {
-        //     this.props.getActivity(nextProps.activityId)
-        // }
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+        if (this.props.activityId !== 'identification') {
+            if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+                this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+            }
         }
     }
 
@@ -91,7 +48,7 @@ class IdentificationForm extends PureComponent {
      * to basic information form.
      */
     handleFormSubmit(data) {
-        const { activityId, publisher } = this.props;
+        const {activityId, publisher} = this.props;
 
         this.props.updateActivity(publisher.id, {
             id: activityId,
@@ -101,10 +58,20 @@ class IdentificationForm extends PureComponent {
         this.props.router.push(`/publisher/activities/${activityId}/basic-info/description`)
     }
 
-    render() {
-        const {submitting, activity, codelists, handleSubmit } = this.props;
+    createActivity() {
+        // just generate something random
+        this.props.createActivity(this.props.publisher.id, {
+            iati_identifier: this.state.iatiIdentifier,
+        }).then((action) => {
+            this.props.router.push(`/publisher/activities/${action.response.result}/identification`)
+        })
+    }
 
-        if (!activity || !codelists["Language"]) {
+    render() {
+        const {submitting, activity, handleSubmit, activityId} = this.props;
+        const blankIdentificationForm = (activityId !== 'identification');
+
+        if (blankIdentificationForm && !activity) {
             return <GeneralLoader/>
         }
 
@@ -113,6 +80,35 @@ class IdentificationForm extends PureComponent {
                 <ActivityTooltip
                     text="An IATI Activity"
                 />
+                {!blankIdentificationForm ?
+                    <div className="createActivityModal">
+                        <ReactCSSTransitionGroup transitionName="fade-slow" transitionEnterTimeout={400}
+                                                 transitionLeaveTimeout={400}>
+                            <div className="modal-overlay createActivityModalOverlay"></div>
+                        </ReactCSSTransitionGroup>
+                        <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={600}
+                                                 transitionLeaveTimeout={600}>
+                            <div className="modal-container createActivityModal">
+                                <div className="modal ignore-react-onclickoutside">
+                                    <div className="modal-inside">
+                                        <h6>Create an activity</h6>
+                                        <p>Fill in a unique IATI identifier</p>
+                                        <input name="createIatiIdentifier"
+                                               type="number"
+                                               onChange={(e) => this.setState({iatiIdentifier: e.target.value})}
+                                               value={this.state.iatiIdentifier}
+                                               required="required"
+                                               min={1}
+                                        />
+                                        <button className="button" type="submit" onClick={this.createActivity}>
+                                            Create
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ReactCSSTransitionGroup>
+                    </div>
+                    : ''}
                 <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
                     <div className="columns small-6">
                         <Field
@@ -121,6 +117,7 @@ class IdentificationForm extends PureComponent {
                             id="iati_identifier"
                             component={renderField}
                             label="IATI Identifier"
+                            disabled={!blankIdentificationForm}
                         />
                     </div>
                     <div className="columns small-6">
@@ -130,10 +127,11 @@ class IdentificationForm extends PureComponent {
                             id="hierarchy"
                             component={renderField}
                             label="Hierarchy"
+                            disabled={!blankIdentificationForm}
                         />
                     </div>
                     <div className="columns small-12">
-                        <button className="button" type="submit" disabled={submitting}>
+                        <button className="button" type="submit" disabled={submitting || !blankIdentificationForm}>
                             Continue to basic information
                         </button>
                     </div>
@@ -151,23 +149,21 @@ IdentificationForm = reduxForm({
 })(IdentificationForm);
 
 
-import { publisherSelector } from '../../../../reducers/createActivity'
+import {publisherSelector} from '../../../../reducers/createActivity'
 
 function mapStateToProps(state, props) {
-    const { activityId } = props;
+    const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
 
     return {
         submitting: state.activity.submitting,
         activity: state.activity.activity,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
-        codelists: state.codelists,
         publisher: publisherSelector(state),
     }
 }
 
 IdentificationForm = connect(mapStateToProps, {
-    getCodeListItems,
     getActivity,
     updateActivity,
 })(IdentificationForm);

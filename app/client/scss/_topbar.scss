@@ -192,7 +192,7 @@
 	font-weight:700;
 	@include card(1);
 	width:13.2rem;
-	z-index:2;
+	z-index:99999;
 	transform:translate(-10.2rem,0);
 	transition:transform .2s ease;
 	height:100%;
