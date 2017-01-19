@@ -16,6 +16,108 @@ import handleSubmit from '../../helpers/handleSubmit'
 import {locationsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 
+const renderLocation = ({fields, geographicLocationReachOptions, geographicVocabularyOptions, geographicExactnessOptions,
+        geographicLocationClassOptions, languageOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((location, index) =>
+                <div key={index}>
+                    <div className="field-list">
+                        <div className="row no-margin">
+                            <div className="columns small-12">
+                                <div className="row no-margin">
+                                    <div className="columns small-6">
+                                        <Field
+                                            name="ref"
+                                            type="text"
+                                            component={renderField}
+                                            label="Reference"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="clearfix"></div>
+                            <div className="columns small-12">
+                                <h6>Location Reach</h6>
+                                <div className="row no-margin">
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${location}location_reach.code`}
+                                        textName={`${location}location_reach.code`}
+                                        label="Code"
+                                        selectOptions={geographicLocationReachOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                                </div>
+                            </div>
+                            <FieldArray
+                                name={`${location}locationRegion`}
+                                component={renderRegionFields}
+                                geographicVocabularyOptions={geographicVocabularyOptions}
+                            />
+                            <hr/>
+                            <h6 className="columns">Name</h6>
+                            <FieldArray
+                                name={`${location}name`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textName="name"
+                                textLabel="Name"
+                            />
+                            <hr/>
+                            <h6 className="columns">Location description</h6>
+                            <FieldArray
+                                name={`${location}additionalLocation`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textName="locationName"
+                                textLabel="Location description"
+                            />
+                            <hr/>
+                            <h6 className="columns">Activity description</h6>
+                            <FieldArray
+                                name={`${location}activity_description`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textName="activeName"
+                                textLabel="Activity description"
+                            />
+                            <hr/>
+                            <FieldArray
+                                name={`${location}administrative`}
+                                component={renderAdministrativeFields}
+                                geographicVocabularyOptions={geographicVocabularyOptions}
+                            />
+                            <hr/>
+                            <FieldArray
+                                name={`${location}point`}
+                                component={renderPointFields}
+                                geographicExactnessOptions={geographicExactnessOptions}
+                                geographicLocationClassOptions={geographicLocationClassOptions}
+                            />
+                        </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
 const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
     <div className="columns small-12">
         <h6>Location id</h6>
@@ -23,6 +125,7 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
             <Field
                 component={renderSelectField}
                 name="location_vocabulary"
+                textName="location_vocabulary"
                 label="Vocabulary"
                 selectOptions={geographicVocabularyOptions}
                 defaultOption="Select one of the following options"
@@ -40,6 +143,7 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
                     <Field
                         component={renderSelectField}
                         name={`${vocabulary}.textCode`}
+                        textName={`${vocabulary}.textCode`}
                         label="Vocabulary"
                         selectOptions={geographicVocabularyOptions}
                         defaultOption="Select one of the following options"
@@ -75,6 +179,7 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
             <Field
                 component={renderSelectField}
                 name="administrativeVocabulary"
+                textName="administrativeVocabulary"
                 label="Vocabulary"
                 selectOptions={geographicVocabularyOptions}
                 defaultOption="Select one of the following options"
@@ -104,6 +209,7 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
                     <Field
                         component={renderSelectField}
                         name={`${vocabulary}.textCode`}
+                        textName={`${vocabulary}.textCode`}
                         label="Vocabulary"
                         selectOptions={geographicVocabularyOptions}
                         defaultOption="Select one of the following options"
@@ -190,6 +296,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
                     <Field
                         component={renderSelectField}
                         name="exactness"
+                        textName="exactness"
                         label="Exactness"
                         selectOptions={geographicExactnessOptions}
                         defaultOption="Select one of the following options"
@@ -202,6 +309,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
                     <Field
                         component={renderSelectField}
                         name="location_class"
+                        textName="location_class"
                         label="Location Class"
                         selectOptions={geographicLocationClassOptions}
                         defaultOption="Select one of the following options"
@@ -214,6 +322,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
                     <Field
                         component={renderSelectField}
                         name="feature_designation"
+                        textName="feature_designation"
                         label="Feature Designation"
                         selectOptions={geographicLocationClassOptions}
                         defaultOption="Select one of the following options"
@@ -248,6 +357,8 @@ class LocationForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
         const locations = formData.locations;
+        console.log('<<<locations', locations);
+        console.log('<<<formData', formData);
 
         handleSubmit(
             publisher.id,
@@ -259,12 +370,9 @@ class LocationForm extends Component {
             this.props.updateLocation,
             this.props.deleteLocation,
         )
-        //this.context.router.push('/publisher/activities/classifications/sector');
+        //this.props.router.push(`/publisher/activities/${activityId}/classifications/sector`)
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
 
     componentWillMount() {
         this.props.getCodeListItems('GeographicLocationReach');
@@ -297,7 +405,7 @@ class LocationForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
         if (!codelists['GeographicLocationReach'] || !codelists['GeographicVocabulary'] || !codelists['GeographicExactness']
             || !codelists['GeographicLocationClass'] || !codelists['Language']) {
             return <GeneralLoader />
@@ -310,85 +418,19 @@ class LocationForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <div className="row no-margin">
-                            <div className="columns small-12">
-                                <div className="row no-margin">
-                                    <div className="columns small-6">
-                                        <Field
-                                            name="ref"
-                                            type="text"
-                                            component={renderField}
-                                            label="Reference"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                            <div className="columns small-12">
-                                <h6>Location Reach</h6>
-                                <div className="row no-margin">
-                                    <Field
-                                        component={renderSelectField}
-                                        name="location_reach"
-                                        label="Code"
-                                        selectOptions={codelists["GeographicLocationReach"]}
-                                        defaultOption="Select one of the following options"
-                                    />
-                                </div>
-                            </div>
-                            <FieldArray
-                                name="locationRegion"
-                                component={renderRegionFields}
-                                geographicVocabularyOptions={codelists["GeographicVocabulary"]}
-                            />
-                            <hr/>
-                            <h6 className="columns">Name</h6>
-                            <FieldArray
-                                name="additionalName"
-                                component={renderNarrativeFields}
-                                languageOptions={codelists["Language"]}
-                                textName="name"
-                                textLabel="Name"
-                            />
-                            <hr/>
-                            <h6 className="columns">Location description</h6>
-                            <FieldArray
-                                name="additionalLocation"
-                                component={renderNarrativeFields}
-                                languageOptions={codelists["Language"]}
-                                textName="locationName"
-                                textLabel="Location description"
-                            />
-                            <hr/>
-                            <h6 className="columns">Activity description</h6>
-                            <FieldArray
-                                name="codelists_description"
-                                component={renderNarrativeFields}
-                                languageOptions={codelists["Language"]}
-                                textName="activeName"
-                                textLabel="Activity description"
-                            />
-                            <hr/>
-                            <FieldArray
-                                name="administrative"
-                                component={renderAdministrativeFields}
-                                geographicVocabularyOptions={codelists["GeographicVocabulary"]}
-                            />
-                            <hr/>
-                            <FieldArray
-                                name="pointGeo"
-                                component={renderPointFields}
-                                geographicExactnessOptions={codelists["GeographicExactness"]}
-                                geographicLocationClassOptions={codelists["GeographicLocationClass"]}
-                            />
-                        </div>
-                    </div>
+                    <FieldArray
+                        name="locations"
+                        component={renderLocation}
+                        geographicLocationReachOptions={codelists["GeographicLocationReach"]}
+                        geographicVocabularyOptions={codelists["GeographicVocabulary"]}
+                        geographicExactnessOptions={codelists["GeographicExactness"]}
+                        geographicLocationClassOptions={codelists["GeographicLocationClass"]}
+                        languageOptions={codelists["Language"]}
+                    />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/geopolitical-information/region/">Back to
-                            region</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/status`}>Back to status</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
-                            Continue to Classifications
+                            Continue to contact
                         </button>
                     </div>
                 </form>

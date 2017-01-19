@@ -104,7 +104,7 @@ class CountryBudgetForm extends Component {
         const {activityId, publisher, data} = this.props;
 
         const lastDates = data;
-        let countryBudgetItems = formData.activity.country_budget_items;
+        let countryBudgetItems = formData.country_budget_items;
 
         handleSubmit(
             publisher.id,
@@ -140,16 +140,9 @@ class CountryBudgetForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <RenderCountryBudgetItemForm
-                            vocabularyOptions={codelists["BudgetIdentifierVocabulary"]}
-                            codeOptions={codelists["BudgetIdentifier"]}
-                            languageOptions={codelists["Language"]}
-                        />
-                    </div>
                     <FieldArray
-                        name="additionalCountryBudgetItem"
-                        component={renderAdditionalRenderCountryBudgetItemForm}
+                        name="country_budget_items"
+                        component={renderCountryBudgetItemForm}
                         vocabularyOptions={codelists["BudgetIdentifierVocabulary"]}
                         codeOptions={codelists["BudgetIdentifier"]}
                         languageOptions={codelists["Language"]}
@@ -170,13 +163,16 @@ class CountryBudgetForm extends Component {
 
 function mapStateToProps(state, props) {
     // TODO country and financial budget are different
-    const countryBudgetsItems = countryBudgetItemSelector(state);
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let country_budget_items = currentActivity && currentActivity.country_budget_items;
+
 
     return {
-        data: countryBudgetsItems,
+        data: country_budget_items,
         activity: state.activity.activity,
         codelists: state.codelists,
-        initialValues: {"activity": countryBudgetsItems},  // populate initial values for redux form
+        initialValues: {"country_budget_items": country_budget_items},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

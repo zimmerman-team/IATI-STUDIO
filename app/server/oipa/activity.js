@@ -396,6 +396,48 @@ export const deleteRegion = function (user, publisherId, activityId, id) {
     return oipaDelete(req_options)
 };
 
+export const postLocation = function (user, publisherId, activityId, locationData) {
+    const dataJSON = JSON.parse(locationData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.locations_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+    console.log('<<<postLocation', locationData);
+
+    return oipaPost(req_options)
+};
+
+export const updateLocation = function (user, publisherId, activityId, id, locationData) {
+    const dataJSON = JSON.parse(locationData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.locations_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+    console.log('<<<update location', locationData);
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteLocation = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.locations_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
 export const getSectors = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
@@ -515,6 +557,7 @@ export const postBudget = function (user, publisherId, activityId, budgetData) {
         },
         body: dataJSON,
     };
+    console.log('<<<<post budget', budgetData);
 
     return oipaPost(req_options)
 };
@@ -529,6 +572,7 @@ export const updateBudget = function (user, publisherId, activityId, id, budgetD
         },
         body: dataJSON,
     };
+    console.log('<<<<update budget', budgetData);
 
     return oipaUpdate(req_options)
 };
@@ -569,6 +613,7 @@ export const postHumanitarianScope = function (user, publisherId, activityId, hu
         },
         body: dataJSON,
     };
+    console.log('<<<postHumanitarianScope', humanitarianScopeData);
 
     return oipaPost(req_options)
 };
@@ -584,6 +629,7 @@ export const updateHumanitarianScope = function (user, publisherId, activityId, 
         body: dataJSON,
     };
 
+    console.log('<<<updateHumanitarianScope', humanitarianScopeData);
     return oipaUpdate(req_options)
 };
 
@@ -609,6 +655,7 @@ export const postContact = function (user, publisherId, activityId, contactData)
         },
         body: dataJSON,
     };
+    console.log('<<<contactData1 ', contactData);
 
     return oipaPost(req_options)
 };
@@ -623,6 +670,7 @@ export const updateContact = function (user, publisherId, activityId, id, contac
         },
         body: dataJSON,
     };
+    console.log('<<<contactData2 ', contactData);
 
     return oipaUpdate(req_options)
 };

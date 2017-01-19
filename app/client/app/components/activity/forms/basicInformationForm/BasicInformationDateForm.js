@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
 import { getCodeListItems, getActivity, createDate, updateDate, deleteDate } from '../../../../actions/activity'
-import { datesSelector, publisherSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 

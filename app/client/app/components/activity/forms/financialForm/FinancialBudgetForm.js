@@ -6,8 +6,8 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import handleSubmit from '../../helpers/handleSubmit'
-import {budgetsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
-import {getCodeListItems, getBudgets, createBudget, updateBudget, deleteBudget} from '../../../../actions/activity'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
+import {getCodeListItems, getActivity, createBudget, updateBudget, deleteBudget} from '../../../../actions/activity'
 import {withRouter} from 'react-router'
 
 const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, dirty, error}}) => {
@@ -17,7 +17,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
 
     return (
         <div>
-            {fields.map((date, index) =>
+            {fields.map((budget, index) =>
                 <div key={index}>
                     <div className="field-list" key={index}>
                         <div className="row no-margin">
@@ -26,7 +26,8 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                                     <GeneralLoader/> :
                                     <Field
                                         component={renderSelectField}
-                                        name="type"
+                                        name={`${budget}type.code`}
+                                        textName={`${budget}type.code`}
                                         label="Budget Type Options"
                                         selectOptions={budgetTypeOptions}
                                         defaultOption="Select one of the following options"
@@ -37,7 +38,8 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                                     <GeneralLoader/> :
                                     <Field
                                         component={renderSelectField}
-                                        name="status"
+                                        name={`${budget}status.code`}
+                                        textName={`${budget}status.code`}
                                         label="Budget Status Options"
                                         selectOptions={budgetStatusOptions}
                                         defaultOption="Select one of the following options"
@@ -48,7 +50,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                             <div className="columns small-6">
                                 Period start
                                 <Field
-                                    name="period_start"
+                                    name={`${budget}period_start`}
                                     type="date"
                                     component={renderField}
                                     label="Date"
@@ -59,7 +61,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                             <div className="columns small-6">
                                 Period end
                                 <Field
-                                    name="period_end"
+                                    name={`${budget}period_end`}
                                     type="date"
                                     component={renderField}
                                     label="Date"
@@ -70,7 +72,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                         <div className="row no-margin">
                             <div className="columns small-6">
                                 <Field
-                                    name="amount"
+                                    name={`${budget}value.value`}
                                     type="text"
                                     component={renderField}
                                     label="Amount"
@@ -81,7 +83,8 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                                     <GeneralLoader/> :
                                     <Field
                                         component={renderSelectField}
-                                        name="currency"
+                                        name={`${budget}value.currency`}
+                                        tesxtName={`${budget}value.currency`}
                                         label="Currency"
                                         selectOptions={currencyOptions}
                                         defaultOption="Select one of the following options"
@@ -91,7 +94,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                         <div className="row no-margin">
                             <div className="columns small-6">
                                 <Field
-                                    name="valueDate"
+                                    name={`${budget}value.date`}
                                     type="date"
                                     component={renderField}
                                     label="Value date"
@@ -139,7 +142,7 @@ class FinancialBudgetForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, data, publisher} = this.props
+        const {activityId, data, publisher} = this.props;
         const budgets = formData.budgets;
 
         handleSubmit(
@@ -163,24 +166,9 @@ class FinancialBudgetForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
-
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('budgets', newData);
-
-            // change each item
-            newData.forEach((d, i) => this.props.change(`budgets[${i}]`, d))
-
-            // remove any removed elements if newData < oldData
-            for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('budgets', i)
-            }
-        }
-
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getBudgets(nextProps.publisher.id, nextProps.activityId)
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -199,7 +187,7 @@ class FinancialBudgetForm extends Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FieldArray
-                        name="budget"
+                        name="budgets"
                         component={renderFinancialBudgetForm}
                         budgetTypeOptions={codelists["BudgetType"]}
                         budgetStatusOptions={codelists["BudgetStatus"]}
@@ -218,10 +206,13 @@ class FinancialBudgetForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const budgets = budgetsSelector(state);
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let budgets = currentActivity && currentActivity.budgets;
 
     return {
         data: budgets,
+        activity: state.activity.activity,
         codelists: state.codelists,
         initialValues: {"budgets": budgets},  // populate initial values for redux form
         publisher: publisherSelector(state),
@@ -238,7 +229,7 @@ FinancialBudgetForm = reduxForm({
 
 FinancialBudgetForm = connect(mapStateToProps, {
     getCodeListItems,
-    getBudgets,
+    getActivity,
     createBudget,
     updateBudget,
     deleteBudget

@@ -19,215 +19,205 @@ import handleSubmit from '../../helpers/handleSubmit'
 import {transactionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 
-const renderAdditionalRenderFinancialTransactionForm = ({
+const renderFinancialTransactionForm = ({
     fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
     disbursementOptions, sectorVocabularyOptions, sectorOptions, countryOptions,
-    flowOptions, financeOptions, aidOptions, tiedOptions, meta: {touched, error}
-}) => (
-    <div>
-        {fields.map((transaction, index) =>
-            <div className="field-list" key={index}>
-                <RenderFinancialTransactionForm
-                    humanitarianOptions={humanitarianOptions}
-                    organisationOptions={organisationOptions}
-                    languageOptions={languageOptions}
-                    currencyOptions={currencyOptions}
-                    transactionOptions={transactionOptions}
-                    countryOptions={countryOptions}
-                    flowOptions={flowOptions}
-                    financeOptions={financeOptions}
-                    aidOptions={aidOptions}
-                    tiedOptions={tiedOptions}
-                />
-            </div>
-        )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
-        </div>
-    </div>
-);
+    flowOptions, financeOptions, aidOptions, tiedOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
 
-
-const RenderFinancialTransactionForm = ({
-    humanitarianOptions, transactionOptions,
-    organisationOptions, languageOptions, currencyOptions, disbursementOptions,
-    sectorVocabularyOptions, sectorOptions, countryOptions,
-    flowOptions, financeOptions, aidOptions, tiedOptions
-}) =>
-    (
+    return (
         <div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    <Field
-                        name="reference"
-                        type="text"
-                        component={renderField}
-                        label="Reference"
-                    />
-                </div>
-                <Field
-                    name="humanitarian"
-                    component={renderSelectField}
-                    label="Humanitarian"
-                    selectOptions={humanitarianOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <div className="row no-margin">
-                <Field
-                    name="transaction_type"
-                    component={renderSelectField}
-                    label="Transaction type"
-                    selectOptions={transactionOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    Transaction date
-                    <Field
-                        name="transaction_date"
-                        type="date"
-                        component={renderField}
-                        label="Date"
-                    />
-                </div>
-            </div>
-            Value
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    <Field
-                        name="amount"
-                        type="text"
-                        component={renderField}
-                        label="Amount"
-                    />
-                </div>
-                <div className="columns small-6">
-                    <Field
-                        name="value_date"
-                        type="date"
-                        component={renderField}
-                        label="Value date"
-                    />
-                </div>
-            </div>
-            <div className="row no-margin">
-                <Field
-                    name="currency"
-                    component={renderSelectField}
-                    label="Currency"
-                    selectOptions={currencyOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <div className="row no-margin">
-                <FieldArray
-                    name="transaction"
-                    component={renderNarrativeFields}
-                    languageOptions={languageOptions}
-                    textName="textTitle"
-                    textLabel="Text"
-                    narrativeLabel="Description"
-                />
-            </div>
-            <div className="row no-margin">
-                <FieldArray
-                    name="provider_organisation"
-                    component={renderOrgFields}
-                    languageOptions={languageOptions}
-                    organisationOptions={organisationOptions}
-                    textName="receiverOrg[text]"
-                    mainLabel="Provider org"
-                    textLabel="Title"
-                />
-            </div>
-            <div className="row no-margin">
-                <FieldArray
-                    name="receiver_organisation"
-                    component={renderOrgFields}
-                    languageOptions={languageOptions}
-                    organisationOptions={organisationOptions}
-                    textName="receiverOrg[text]"
-                    mainLabel="Receiver org"
-                    textLabel="Title"
-                />
-            </div>
-            <div>
-                <div className=""><h6>Disbursement channel</h6></div>
-                <div className="row no-margin">
-                    {
-                        !disbursementOptions ?
-                            <GeneralLoader/> :
+            {fields.map((transaction, index) =>
+                <div key={index}>
+            <div className="field-list">
+                <div>
+                    <div className="row no-margin">
+                        <div className="columns small-6">
                             <Field
-                                component={renderSelectField}
-                                name="disbursement_channel"
-                                label="Type"
-                                selectOptions={disbursementOptions}
-                                defaultOption="Select one of the following options"
+                                name={`${transaction}reference`}
+                                type="text"
+                                component={renderField}
+                                label="Reference"
                             />
-                    }
+                        </div>
+                        <Field
+                            name={`${transaction}humanitarian`}
+                            component={renderSelectField}
+                            label="Humanitarian"
+                            selectOptions={humanitarianOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <Field
+                            name={`${transaction}transaction_type`}
+                            component={renderSelectField}
+                            label="Transaction type"
+                            selectOptions={transactionOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            Transaction date
+                            <Field
+                                name={`${transaction}transaction_date`}
+                                type="date"
+                                component={renderField}
+                                label="Date"
+                            />
+                        </div>
+                    </div>
+                    Value
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${transaction}amount`}
+                                type="text"
+                                component={renderField}
+                                label="Amount"
+                            />
+                        </div>
+                        <div className="columns small-6">
+                            <Field
+                                name={`${transaction}value_date`}
+                                type="date"
+                                component={renderField}
+                                label="Value date"
+                            />
+                        </div>
+                    </div>
+                    <div className="row no-margin">
+                        <Field
+                            name={`${transaction}currency`}
+                            component={renderSelectField}
+                            label="Currency"
+                            selectOptions={currencyOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${transaction}transaction`}
+                            component={renderNarrativeFields}
+                            languageOptions={languageOptions}
+                            textName="textTitle"
+                            textLabel="Text"
+                            narrativeLabel="Description"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${transaction}provider_organisation`}
+                            component={renderOrgFields}
+                            languageOptions={languageOptions}
+                            organisationOptions={organisationOptions}
+                            textName="receiverOrg[text]"
+                            mainLabel="Provider org"
+                            textLabel="Title"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${transaction}receiver_organisation`}
+                            component={renderOrgFields}
+                            languageOptions={languageOptions}
+                            organisationOptions={organisationOptions}
+                            textName="receiverOrg[text]"
+                            mainLabel="Receiver org"
+                            textLabel="Title"
+                        />
+                    </div>
+                    <div>
+                        <div className=""><h6>Disbursement channel</h6></div>
+                        <div className="row no-margin">
+                            {
+                                !disbursementOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${transaction}disbursement_channel`}
+                                        label="Type"
+                                        selectOptions={disbursementOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                        </div>
+                    </div>
+                    <FieldArray
+                        name="Sector"
+                        component={renderSectorFields}
+                        sectorVocabularyOptions={sectorVocabularyOptions}
+                        sectorOptions={sectorOptions}
+                        languageOptions={languageOptions}
+                        textName="Sector[text]"
+                        textLabel="Sector"
+                    />
+                    <div className="row no-margin">
+                        <div className="columns small-centered small-12">
+                            <h2 className="page-title with-tip">Recipient country</h2>
+                        </div>
+                    </div>
+                    <div className="row no-margin">
+                        <Field
+                            name={`${transaction}country`}
+                            component={renderSelectField}
+                            label="Country"
+                            selectOptions={countryOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${transaction}transaction`}
+                            component={renderNarrativeFields}
+                            languageOptions={languageOptions}
+                            textName="textTitle"
+                            textLabel="Text"
+                            narrativeLabel="Description"
+                        />
+                    </div>
+                    <RenderSingleSelect
+                        name='flow_type'
+                        textName='flow_type'
+                        label='Flow Type'
+                        selectOptions={flowOptions}/>
+                    <RenderSingleSelect
+                        name='finance_type'
+                        textName='finance_type'
+                        label='Finance Type'
+                        selectOptions={financeOptions}/>
+                    <RenderSingleSelect
+                        name='aid_type'
+                        textName='aid_type'
+                        label='Aid Type'
+                        selectOptions={aidOptions}/>
+                    <RenderSingleSelect
+                        name='tied_status'
+                        textName='tied_status'
+                        label='Tied Status'
+                        selectOptions={tiedOptions}/>
                 </div>
             </div>
-            <FieldArray
-                name="Sector"
-                component={renderSectorFields}
-                sectorVocabularyOptions={sectorVocabularyOptions}
-                sectorOptions={sectorOptions}
-                languageOptions={languageOptions}
-                textName="Sector[text]"
-                textLabel="Sector"
-            />
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title with-tip">Recipient country</h2>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
                 </div>
-            </div>
-            <div className="row no-margin">
-                <Field
-                    name="country"
-                    component={renderSelectField}
-                    label="Country"
-                    selectOptions={countryOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <div className="row no-margin">
-                <FieldArray
-                    name="transaction"
-                    component={renderNarrativeFields}
-                    languageOptions={languageOptions}
-                    textName="textTitle"
-                    textLabel="Text"
-                    narrativeLabel="Description"
-                />
-            </div>
-            <RenderSingleSelect
-                name='flow_type'
-                label='Flow Type'
-                selectOptions={flowOptions}/>
-            <RenderSingleSelect
-                name='finance_type'
-                label='Finance Type'
-                selectOptions={financeOptions}/>
-            <RenderSingleSelect
-                name='aid_type'
-                label='Aid Type'
-                selectOptions={aidOptions}/>
-            <RenderSingleSelect
-                name='tied_status'
-                label='Tied Status'
-                selectOptions={tiedOptions}/>
+            )}
         </div>
-    );
+    )
+};
 
 const validate = values => {
     const errors = {};
@@ -251,9 +241,11 @@ class FinancialTransactionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, data, tab, subTab, publisher} = this.props
+        const {activityId, data, publisher} = this.props
         const lastTransaction = data;
         const transactions = formData.transactions;
+
+        console.log('<<<formData', formData);
 
         handleSubmit(
             publisher.id,
@@ -327,25 +319,9 @@ class FinancialTransactionForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <RenderFinancialTransactionForm
-                            humanitarianOptions={codelists["HumanitarianScopeType"]}
-                            organisationOptions={codelists["OrganisationType"]}
-                            languageOptions={codelists["Language"]}
-                            currencyOptions={codelists["Currency"]}
-                            disbursementOptions={codelists["DisbursementChannel"]}
-                            transactionOptions={codelists["TransactionType"]}
-                            sectorVocabularyOptions={codelists["SectorVocabulary"]}
-                            sectorOptions={codelists["Sector"]}
-                            countryOptions={codelists["Country"]}
-                            flowOptions={codelists["FlowType"]}
-                            financeOptions={codelists["FinanceType"]}
-                            aidOptions={codelists["AidType"]}
-                            tiedOptions={codelists["TiedStatus"]}
-                        />
                         <FieldArray
                             name="additionalHumanitarianScope"
-                            component={renderAdditionalRenderFinancialTransactionForm}
+                            component={renderFinancialTransactionForm}
                             humanitarianOptions={codelists["HumanitarianScopeType"]}
                             organisationOptions={codelists["OrganisationType"]}
                             languageOptions={codelists["Language"]}
@@ -365,7 +341,6 @@ class FinancialTransactionForm extends Component {
                                 Continue to capital
                             </button>
                         </div>
-                    </div>
                 </form>
             </div>
         )

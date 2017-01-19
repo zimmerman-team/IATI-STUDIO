@@ -379,9 +379,24 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getLocations: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getLocations(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     getRelation: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.getRelation(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createLocation: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.postLocation(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
@@ -394,9 +409,23 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    updateLocation: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateLocation(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+        },
+
     updateRelation: function(user, publisherId, activityId, id, data, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.updateRelation(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteLocation: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteLocation(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
@@ -408,9 +437,24 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getTransactions: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getTransactions(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     getPerformanceCondition: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.getPerformanceCondition(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createTransaction: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.postTransaction(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
@@ -423,9 +467,23 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    updateTransaction: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateTransaction(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     updatePerformanceCondition: function(user, publisherId, activityId, id, data, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.updatePerformanceCondition(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteTransaction: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteTransaction(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
