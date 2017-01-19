@@ -126,7 +126,7 @@ module.exports = function(app) {
         socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
         socket.on('Activity.deleteBudget', Activity.deleteBudget.bind(null, user));
 
-        socket.on('Activity.getTransaction', Activity.getTransaction.bind(null, user));
+        socket.on('Activity.getTransaction', Activity.getTransactions.bind(null, user));
         socket.on('Activity.createTransaction', Activity.createTransaction.bind(null, user));
         socket.on('Activity.updateTransaction', Activity.updateTransaction.bind(null, user));
         socket.on('Activity.deleteTransaction', Activity.deleteTransaction.bind(null, user));
@@ -183,5 +183,11 @@ module.exports = function(app) {
         socket.on('Activity.createPerformanceComment', Activity.createPerformanceComment.bind(null, user));
         socket.on('Activity.updatePerformanceComment', Activity.updatePerformanceComment.bind(null, user));
         socket.on('Activity.deletePerformanceComment', Activity.deletePerformanceComment.bind(null, user));
+
+        // Capital comment Form CRUD
+        socket.on('Activity.getCapital', Activity.getCapital.bind(null, user));
+        socket.on('Activity.createCapital', Activity.createCapital.bind(null, user));
+        socket.on('Activity.updateCapital', Activity.updateCapital.bind(null, user));
+        socket.on('Activity.deleteCapital', Activity.deleteCapital.bind(null, user));
     })
 };

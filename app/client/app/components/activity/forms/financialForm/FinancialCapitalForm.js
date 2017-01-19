@@ -4,7 +4,15 @@ import {Field, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {Link} from 'react-router';
 import {renderField} from '../../helpers/FormHelper'
-import {addFinancialCapitalSpend} from '../../../../actions/activity'
+import {
+    getCapital,
+    createCapital,
+    updateCapital,
+    deleteCapital
+} from '../../../../actions/activity'
+
+import handleSubmit from '../../helpers/handleSubmit'
+
 
 const validate = values => {
     const errors = {};
@@ -28,8 +36,21 @@ class FinancialCapitalForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        this.props.dispatch(addFinancialCapitalSpend(formData, this.props.activity));
-        this.context.router.push('/publisher/activities/document-link/document-link');
+        const {activityId, publisher, data} = this.props;
+        const capitalSpend = formData.capital_spend;
+
+        handleSubmit(
+            publisher.id,
+            'capital_spend',
+            activityId,
+            data,
+            capitalSpend,
+            this.props.createCapital,
+            this.props.updateCapital,
+            this.props.deleteCapital,
+        );
+
+        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
     }
 
     static contextTypes = {
@@ -37,7 +58,7 @@ class FinancialCapitalForm extends Component {
     };
 
     render() {
-        const {handleSubmit, submitting} = this.props;
+        const {handleSubmit, submitting, activityId} = this.props;
 
         return (
             <div>
@@ -52,7 +73,7 @@ class FinancialCapitalForm extends Component {
                             <div className="row no-margin">
                                 <div className="columns small-6">
                                     <Field
-                                        name="capitalSpend"
+                                        name="capital_spend"
                                         type="text"
                                         component={renderField}
                                         label="Capital Spend"
@@ -61,8 +82,9 @@ class FinancialCapitalForm extends Component {
                             </div>
                         </div>
                         <div className="columns small-12">
-                            <Link className="button" to="/publisher/activities/financial/transaction">Back to
-                                transaction</Link>
+                            <Link className="button" to={`/publisher/activities/${activityId}/financial/transaction`}>
+                                Back to transaction
+                            </Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to documents
                             </button>
@@ -83,10 +105,16 @@ function mapStateToProps(state) {
 FinancialCapitalForm = reduxForm({
     form: 'financial-capital-form',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(FinancialCapitalForm);
 
-FinancialCapitalForm = connect(mapStateToProps)(FinancialCapitalForm);
+FinancialCapitalForm = connect(mapStateToProps, {
+    getCapital,
+    createCapital,
+    updateCapital,
+    deleteCapital
+})(FinancialCapitalForm);
 
 export default FinancialCapitalForm;
 
