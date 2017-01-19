@@ -7,7 +7,7 @@ import {renderSelectField, renderNarrativeFields, renderField} from '../../helpe
 import { Link } from 'react-router';
 import { getCodeListItems, getActivity, createContact, updateContact, deleteContact } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import { contactsSelector, publisherSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 import _ from 'lodash';
 
@@ -24,47 +24,47 @@ const renderContactInfo = ({ fields, languageOptions, contactTypes, meta: {dirty
                       <div className="row no-margin">
                         <Field
                             component={renderSelectField}
-                            name={`activity.${contact}type.code`}
-                            textName={`activity.${contact}type.code`}
+                            name={`${contact}type.code`}
+                            textName={`${contact}type.code`}
                             label="Contact type"
                             selectOptions={contactTypes}
                             defaultOption="Select a type"
                         />
                         <FieldArray
-                            name={`activity.${contact}.narratives`}
+                            name={`${contact}.narratives`}
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                         />
                         <FieldArray
-                            name={`activity.${contact}.department.narratives`}
+                            name={`${contact}.department.narratives`}
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                             textLabel="Department"
                             narrativeLabel={false}
                         />
                         <FieldArray
-                          name={`activity.${contact}.organisation.narratives`}
+                          name={`${contact}.organisation.narratives`}
                           component={renderNarrativeFields}
                           languageOptions={languageOptions}
                           textLabel="Organisation"
                           narrativeLabel={false}
                         />
                         <FieldArray
-                            name={`activity.${contact}.person_name.narratives`}
+                            name={`${contact}.person_name.narratives`}
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                             textLabel="Person name"
                             narrativeLabel={false}
                         />
                         <FieldArray
-                            name={`activity.${contact}.job_title.narratives`}
+                            name={`${contact}.job_title.narratives`}
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                             textLabel="Job title"
                             narrativeLabel={false}
                         />
                           <FieldArray
-                              name={`activity.${contact}.mailing_address.narratives`}
+                              name={`${contact}.mailing_address.narratives`}
                               component={renderNarrativeFields}
                               languageOptions={languageOptions}
                               textLabel="Mailing Address"
@@ -73,7 +73,7 @@ const renderContactInfo = ({ fields, languageOptions, contactTypes, meta: {dirty
                           <div className="row no-margin">
                               <div className="columns small-6">
                                   <Field
-                                      name={`activity.${contact}.phone`}
+                                      name={`${contact}.telephone`}
                                       type="text"
                                       component={renderField}
                                       label="Phone"
@@ -83,7 +83,7 @@ const renderContactInfo = ({ fields, languageOptions, contactTypes, meta: {dirty
                           <div className="row no-margin">
                               <div className="columns small-6">
                                   <Field
-                                      name={`activity.${contact}.email`}
+                                      name={`${contact}.email`}
                                       type="text"
                                       component={renderField}
                                       label="Email"
@@ -93,7 +93,7 @@ const renderContactInfo = ({ fields, languageOptions, contactTypes, meta: {dirty
                           <div className="row no-margin">
                               <div className="columns small-6">
                                   <Field
-                                      name={`activity.${contact}.website`}
+                                      name={`${contact}.website`}
                                       type="text"
                                       component={renderField}
                                       label="Website"
@@ -151,7 +151,7 @@ class BasicInformationContactForm extends Component {
       const {activityId, publisher, data} = this.props;
 
       let lastContacts = data;
-      let contacts = formData.activity.contact_info;
+      let contacts = formData.contact_info;
       lastContacts = _.filter(lastContacts, {});
       contacts = _.filter(contacts, {});
 
@@ -174,7 +174,8 @@ class BasicInformationContactForm extends Component {
   }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -218,15 +219,16 @@ class BasicInformationContactForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const contacts = contactsSelector(state);
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let contact_info = currentActivity && currentActivity.contact_info;
+
 
     return {
-        data: contacts,
+        data: contact_info,
         codelists: state.codelists,
         activity: state.activity.activity,
-        initialValues: {"activity": currentActivity},  // populate initial values for redux form
+        initialValues: {"contact_info": contact_info},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

@@ -629,7 +629,7 @@ export function getRegions(publisherId, activityId) {
             types: [ GET_REGION_REQUEST, GET_REGION_SUCCESS, GET_REGION_FAILURE ],
             endpoint: 'Activity.getRegions',
             payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.region),
+            schema: arrayOf(Schemas.recipientRegion),
         }
     }
 }
@@ -646,7 +646,7 @@ export function createRegion(publisherId, activityId, region) {
             types: [ CREATE_REGION_REQUEST, CREATE_REGION_SUCCESS, CREATE_REGION_FAILURE ],
             endpoint: 'Activity.createRegion',
             payload: [ publisherId, activityId, JSON.stringify(region) ],
-            schema: Schemas.region,
+            schema: Schemas.recipientRegion,
         }
     }
 }
@@ -664,7 +664,7 @@ export function updateRegion(publisherId, activityId, id, region) {
             types: [ UPDATE_REGION_REQUEST, UPDATE_REGION_SUCCESS, UPDATE_REGION_FAILURE ],
             endpoint: 'Activity.updateRegion',
             payload: [ publisherId, activityId, id, JSON.stringify(region) ],
-            schema: Schemas.region,
+            schema: Schemas.recipientRegion,
         }
     }
 }
@@ -1063,6 +1063,77 @@ export function deleteDocumentLink(publisherId, activityId, id) {
     }
 }
 
+
+/*
+ * Get CountryBudgetItems
+ */
+export const GET_COUNTRY_BUDGET_ITEM_REQUEST = 'GET_COUNTRY_BUDGET_ITEM_REQUEST';
+export const GET_COUNTRY_BUDGET_ITEM_SUCCESS = 'GET_COUNTRY_BUDGET_ITEM_SUCCESS';
+export const GET_COUNTRY_BUDGET_ITEM_FAILURE = 'GET_COUNTRY_BUDGET_ITEM_FAILURE';
+
+export function getCountryBudgetItems(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_COUNTRY_BUDGET_ITEM_REQUEST, GET_COUNTRY_BUDGET_ITEM_SUCCESS, GET_COUNTRY_BUDGET_ITEM_FAILURE ],
+            endpoint: 'Activity.getCountryBudgetItem',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.countryBudgetItem),
+        }
+    }
+}
+
+/*
+ * Create CountryBudgetItem
+ */
+export const CREATE_COUNTRY_BUDGET_ITEM_REQUEST = 'CREATE_COUNTRY_BUDGET_ITEM_REQUEST';
+export const CREATE_COUNTRY_BUDGET_ITEM_SUCCESS = 'CREATE_COUNTRY_BUDGET_ITEM_SUCCESS';
+export const CREATE_COUNTRY_BUDGET_ITEM_FAILURE = 'CREATE_COUNTRY_BUDGET_ITEM_FAILURE';
+export function createCountryBudgetItem(publisherId, activityId, countryBudgetItem) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_COUNTRY_BUDGET_ITEM_REQUEST, CREATE_COUNTRY_BUDGET_ITEM_SUCCESS, CREATE_COUNTRY_BUDGET_ITEM_FAILURE ],
+            endpoint: 'Activity.createCountryBudgetItem',
+            payload: [ publisherId, activityId, JSON.stringify(countryBudgetItem) ],
+            schema: Schemas.countryBudgetItem,
+        }
+    }
+}
+
+/*
+ * Update CountryBudgetItem
+ */
+export const UPDATE_COUNTRY_BUDGET_ITEM_REQUEST = 'UPDATE_COUNTRY_BUDGET_ITEM_REQUEST';
+export const UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS = 'UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS';
+export const UPDATE_COUNTRY_BUDGET_ITEM_FAILURE = 'UPDATE_COUNTRY_BUDGET_ITEM_FAILURE';
+export function updateCountryBudgetItem(publisherId, activityId, id, countryBudgetItem) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_COUNTRY_BUDGET_ITEM_REQUEST, UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS, UPDATE_COUNTRY_BUDGET_ITEM_FAILURE ],
+            endpoint: 'Activity.updateCountryBudgetItem',
+            payload: [ publisherId, activityId, id, JSON.stringify(countryBudgetItem) ],
+            schema: Schemas.countryBudgetItem,
+        }
+    }
+}
+
+
+/*
+ * Delete CountryBudgetItem
+ */
+export const DELETE_COUNTRY_BUDGET_ITEM_REQUEST = 'DELETE_COUNTRY_BUDGET_ITEM_REQUEST';
+export const DELETE_COUNTRY_BUDGET_ITEM_SUCCESS = 'DELETE_COUNTRY_BUDGET_ITEM_SUCCESS';
+export const DELETE_COUNTRY_BUDGET_ITEM_FAILURE = 'DELETE_COUNTRY_BUDGET_ITEM_FAILURE';
+export function deleteCountryBudgetItem(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_COUNTRY_BUDGET_ITEM_REQUEST, DELETE_COUNTRY_BUDGET_ITEM_SUCCESS, DELETE_COUNTRY_BUDGET_ITEM_FAILURE ],
+            endpoint: 'Activity.deleteCountryBudgetItem',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
 
 /*
  * Get HumanitariansScope

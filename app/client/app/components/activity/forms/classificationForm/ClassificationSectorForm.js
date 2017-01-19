@@ -148,16 +148,17 @@ class SectorForm extends Component {
             // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
 
             // change each item
-            newData.forEach((d, i) => this.props.change(`sectors[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`sector[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('sectors', i)
+                this.props.array.remove('sector', i)
             }
         }
 
         if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
                 || !(this.props.data && this.props.data.length))) {
+            console.log('getSectors again');
             this.props.getSectors(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -205,12 +206,12 @@ SectorForm = reduxForm({
 
 
 function mapStateToProps(state, props) {
-    const sectors = sectorsSelector(state);
+    const sector = sectorsSelector(state);
 
     return {
         data: sectors,
         codelists: state.codelists,
-        initialValues: {"sector": sectors},  // populate initial values for redux form
+        initialValues: {"sector": sector},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

@@ -112,6 +112,11 @@ module.exports = function(app) {
         socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
         socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
 
+        socket.on('Activity.getHumanitarianScope', Activity.getHumanitarianScope.bind(null, user));
+        socket.on('Activity.createHumanitarianScope', Activity.createHumanitarianScope.bind(null, user));
+        socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
+        socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
+
         socket.on('Activity.createBudget', Activity.createBudget.bind(null, user));
         socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
         socket.on('Activity.deleteBudget', Activity.deleteBudget.bind(null, user));

@@ -6,11 +6,11 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import { getCodeListItems, getActivity } from '../../../../actions/activity'
-import { publisherSelector, countryBudgetsSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector, countryBudgetItemSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderCountryBugetForm = ({fields, vocabularyOptions, codeOptions, languageOptions, meta: {touched, dirty, error}}) => {
+const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, languageOptions, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -96,18 +96,29 @@ class CountryBudgetForm extends Component {
     }
 
     /**
-     * Submit classification's policy data.
+     * Submit form data and redirect to status form.
      *
      * @param formData
      */
     handleFormSubmit(formData) {
-        this.props.dispatch(addClassificationCountryBudget(formData, this.props.activity));
-        this.context.router.push('/publisher/activities/classifications/humanitarian');
-    }
+        const {activityId, publisher, data} = this.props;
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
+        const lastDates = data;
+        let countryBudgetItems = formData.activity.country_budget_items;
+
+        handleSubmit(
+            publisher.id,
+            'country_budget_items',
+            activityId,
+            lastDates,
+            countryBudgetItems,
+            this.props.createDate,
+            this.props.updateDate,
+            this.props.deleteDate,
+        );
+
+        this.props.router.push(`/publisher/activities/${activityId}/classifications/humanitarian`)
+    }
 
     componentWillMount() {
         this.props.getCodeListItems('BudgetIdentifier');
@@ -130,15 +141,15 @@ class CountryBudgetForm extends Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <div className="field-list">
-                        <RenderCountryBugetForm
+                        <RenderCountryBudgetItemForm
                             vocabularyOptions={codelists["BudgetIdentifierVocabulary"]}
                             codeOptions={codelists["BudgetIdentifier"]}
                             languageOptions={codelists["Language"]}
                         />
                     </div>
                     <FieldArray
-                        name="additionalCountryBuget"
-                        component={renderAdditionalRenderCountryBugetForm}
+                        name="additionalCountryBudgetItem"
+                        component={renderAdditionalRenderCountryBudgetItemForm}
                         vocabularyOptions={codelists["BudgetIdentifierVocabulary"]}
                         codeOptions={codelists["BudgetIdentifier"]}
                         languageOptions={codelists["Language"]}
@@ -159,14 +170,13 @@ class CountryBudgetForm extends Component {
 
 function mapStateToProps(state, props) {
     // TODO country and financial budget are different
-    const countryBudgets = countryBudgetsSelector(state);
-    console.log('<<<countryBudgets')
+    const countryBudgetsItems = countryBudgetItemSelector(state);
 
     return {
-        data: dates,
+        data: countryBudgetsItems,
         activity: state.activity.activity,
         codelists: state.codelists,
-        initialValues: {"activity": countryBudgets},  // populate initial values for redux form
+        initialValues: {"activity": countryBudgetsItems},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

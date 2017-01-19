@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {getCodeListItems, getPolicy, createPolicy, updatePolicy, deletePolicy} from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
 import {policySelector, publisherSelector} from '../../../../reducers/createActivity.js'
-import {withRouter} from 'react-router'
+import {withRouter, Link} from 'react-router'
 
 const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignificanceOptions, policyVocabularyOptions, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
@@ -148,7 +148,7 @@ class PolicyMakerForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, previousPage} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codelists['PolicyMarker'] || !codelists['PolicyMarkerVocabulary'] || !codelists['PolicySignificance'] || !codelists['Language']) {
             return <GeneralLoader />
@@ -174,7 +174,7 @@ class PolicyMakerForm extends Component {
                     />
                     <div className="row no-margin">
                         <div className="columns small-12">
-                            <button type="button" className="button" onClick={previousPage}>Back to Sector</button>
+                            <Link className="button" to={`/publisher/activities/${activityId}/classifications/sector`}>Back to sector</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to Selection
                             </button>
