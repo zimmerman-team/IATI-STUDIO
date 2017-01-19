@@ -1020,7 +1020,7 @@ export function createDocumentLink(publisherId, activityId, documentLink) {
         [CALL_API]: {
             types: [CREATE_DOCUMENT_LINK_REQUEST, CREATE_DOCUMENT_LINK_SUCCESS, CREATE_DOCUMENT_LINK_FAILURE],
             endpoint: 'Activity.createDocumentLink',
-            payload: [publisherId, activityId, documentLink],
+            payload: [publisherId, activityId, JSON.stringify(documentLink)],
             schema: Schemas.documentLink,
         }
     }
@@ -1038,7 +1038,7 @@ export function updateDocumentLink(publisherId, activityId, id, documentLink) {
         [CALL_API]: {
             types: [UPDATE_DOCUMENT_LINK_REQUEST, UPDATE_DOCUMENT_LINK_SUCCESS, UPDATE_DOCUMENT_LINK_FAILURE],
             endpoint: 'Activity.updateDocumentLink',
-            payload: [publisherId, activityId, id, documentLink],
+            payload: [publisherId, activityId, id, JSON.stringify(documentLink)],
             schema: Schemas.documentLink,
         }
     }
