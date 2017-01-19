@@ -120,6 +120,11 @@ export const countryBudgetItems = new Schema('country_budget_items', {
     idAttribute: "id",
 })
 
+export const relatedActivities = new Schema('related_activities', {
+    idAttribute: "id",
+})
+
+
 export const activity = new Schema('activity', {
     idAttribute: "id",
     descriptions: arrayOf(description),
@@ -137,6 +142,7 @@ export const activity = new Schema('activity', {
     plannedDisbursements: arrayOf(plannedDisbursement),
     participatingOrganisations: arrayOf(participatingOrganisation),
     date: arrayOf(date),
+    related_activities: arrayOf(relatedActivities),
 })
 
 
