@@ -4,15 +4,17 @@ const env = process.env.NODE_ENV;
 
 import auth from './oauth'
 
+const OIPA_URL = "https://dev.oipa.nl";
+
 const config = {
     'port': process.env.PORT || 2000,
     "env": env,
     "static_root": path.join(process.cwd(), "public"),
 
-    "oipa_url": "https://dev.oipa.nl",
-    "oipa_post_url": "https://dev.oipa.nl",
-    "oipa_update_url": "https://dev.oipa.nl",
-    "oipa_delete_url": "https://dev.oipa.nl",
+    "oipa_url": OIPA_URL,
+    "oipa_post_url": OIPA_URL,
+    "oipa_update_url": OIPA_URL,
+    "oipa_delete_url": OIPA_URL,
     "codelists": "/api/codelists/",
 
     "activities_url": (pid) => `/api/publishers/${pid}/activities/`,
