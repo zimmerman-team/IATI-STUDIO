@@ -45,15 +45,17 @@ const renderFinancialTransactionForm = ({
                         </div>
                         <Field
                             name={`${transaction}humanitarian`}
+                            textName={`${transaction}humanitarian`}
                             component={renderSelectField}
                             label="Humanitarian"
-                            selectOptions={humanitarianOptions}
+                            selectOptions={[{code: "true", name: "true"}, {code: "false", name: "false"}]}
                             defaultOption="Select one of the following options"
                         />
                     </div>
                     <div className="row no-margin">
                         <Field
-                            name={`${transaction}transaction_type`}
+                            name={`${transaction}transaction_type.code`}
+                            textName={`${transaction}transaction_type.code`}
                             component={renderSelectField}
                             label="Transaction type"
                             selectOptions={transactionOptions}
@@ -70,13 +72,21 @@ const renderFinancialTransactionForm = ({
                                 label="Date"
                             />
                         </div>
+                        <div className="columns small-6">
+                            <Field
+                                name={`${transaction}activity_id`}
+                                type="text"
+                                component={renderField}
+                                label="Activity ID"
+                            />
+                        </div>
                     </div>
                     Value
                     <div className="row no-margin">
                         <div className="columns small-6">
                             <Field
-                                name={`${transaction}amount`}
-                                type="text"
+                                name={`${transaction}value`}
+                                type="number"
                                 component={renderField}
                                 label="Amount"
                             />
@@ -92,7 +102,8 @@ const renderFinancialTransactionForm = ({
                     </div>
                     <div className="row no-margin">
                         <Field
-                            name={`${transaction}currency`}
+                            name={`${transaction}currency.code`}
+                            textName={`${transaction}currency.code`}
                             component={renderSelectField}
                             label="Currency"
                             selectOptions={currencyOptions}
@@ -112,34 +123,37 @@ const renderFinancialTransactionForm = ({
                     <div className="row no-margin">
                         <FieldArray
                             name={`${transaction}provider_organisation`}
+                            textName={`${transaction}provider_organisation`}
                             component={renderOrgFields}
                             languageOptions={languageOptions}
                             organisationOptions={organisationOptions}
-                            textName="receiverOrg[text]"
                             mainLabel="Provider org"
+                            activityKey="provider_activity_id"
                             textLabel="Title"
                         />
                     </div>
                     <div className="row no-margin">
                         <FieldArray
                             name={`${transaction}receiver_organisation`}
+                            textName={`${transaction}receiver_organisation`}
                             component={renderOrgFields}
                             languageOptions={languageOptions}
                             organisationOptions={organisationOptions}
-                            textName="receiverOrg[text]"
                             mainLabel="Receiver org"
+                            activityKey="receiver_activity_id"
                             textLabel="Title"
                         />
                     </div>
                     <div>
-                        <div className=""><h6>Disbursement channel</h6></div>
+                    <div className=""><h6>Disbursement channel</h6></div>
                         <div className="row no-margin">
                             {
                                 !disbursementOptions ?
                                     <GeneralLoader/> :
                                     <Field
                                         component={renderSelectField}
-                                        name={`${transaction}disbursement_channel`}
+                                        name={`${transaction}disbursement_channel.code`}
+                                        textName={`${transaction}disbursement_channel.code`}
                                         label="Type"
                                         selectOptions={disbursementOptions}
                                         defaultOption="Select one of the following options"
@@ -148,12 +162,12 @@ const renderFinancialTransactionForm = ({
                         </div>
                     </div>
                     <FieldArray
-                        name="Sector"
+                        name={`${transaction}sector`}
+                        textName={`${transaction}sector`}
                         component={renderSectorFields}
                         sectorVocabularyOptions={sectorVocabularyOptions}
                         sectorOptions={sectorOptions}
                         languageOptions={languageOptions}
-                        textName="Sector[text]"
                         textLabel="Sector"
                     />
                     <div className="row no-margin">
@@ -164,6 +178,7 @@ const renderFinancialTransactionForm = ({
                     <div className="row no-margin">
                         <Field
                             name={`${transaction}country`}
+                            textName={`${transaction}country`}
                             component={renderSelectField}
                             label="Country"
                             selectOptions={countryOptions}
@@ -172,7 +187,7 @@ const renderFinancialTransactionForm = ({
                     </div>
                     <div className="row no-margin">
                         <FieldArray
-                            name={`${transaction}transaction`}
+                            name={`${transaction}description.narratives`}
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                             textName="textTitle"
@@ -181,23 +196,23 @@ const renderFinancialTransactionForm = ({
                         />
                     </div>
                     <RenderSingleSelect
-                        name='flow_type'
-                        textName='flow_type'
+                        name={`${transaction}flow_type.code`}
+                        textName={`${transaction}flow_type.code`}
                         label='Flow Type'
                         selectOptions={flowOptions}/>
                     <RenderSingleSelect
-                        name='finance_type'
-                        textName='finance_type'
+                        name={`${transaction}finance_type.code`}
+                        textName={`${transaction}finance_type.code`}
                         label='Finance Type'
                         selectOptions={financeOptions}/>
                     <RenderSingleSelect
-                        name='aid_type'
-                        textName='aid_type'
+                        name={`${transaction}aid_type.code`}
+                        textName={`${transaction}aid_type.code`}
                         label='Aid Type'
                         selectOptions={aidOptions}/>
                     <RenderSingleSelect
-                        name='tied_status'
-                        textName='tied_status'
+                        name={`${transaction}tied_status.code`}
+                        textName={`${transaction}tied_status.code`}
                         label='Tied Status'
                         selectOptions={tiedOptions}/>
                 </div>
@@ -243,9 +258,8 @@ class FinancialTransactionForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props
         const lastTransaction = data;
-        const transactions = formData.transactions;
-
-        console.log('<<<formData', formData);
+        let transactions = formData.transactions;
+        transactions.activity_id = activityId;
 
         handleSubmit(
             publisher.id,
@@ -257,12 +271,9 @@ class FinancialTransactionForm extends Component {
             this.props.updateTransaction,
             this.props.deleteTransaction,
         )
-        //this.context.router.push('/publisher/activities/financial/capital');
+        this.props.router.push(`/publisher/activities/${activityId}/financial/capital`);
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
 
     componentWillMount() {
         this.props.getCodeListItems('HumanitarianScopeType');
@@ -320,7 +331,7 @@ class FinancialTransactionForm extends Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                         <FieldArray
-                            name="additionalHumanitarianScope"
+                            name="transactions"
                             component={renderFinancialTransactionForm}
                             humanitarianOptions={codelists["HumanitarianScopeType"]}
                             organisationOptions={codelists["OrganisationType"]}
