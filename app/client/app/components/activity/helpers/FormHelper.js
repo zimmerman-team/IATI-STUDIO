@@ -151,13 +151,13 @@ export const RenderSingleSelect = ({name, textName = "", label, selectOptions, d
  * @param error
  */
 export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
-      textName, mainLabel, organisationOptions, textLabel, meta: {touched, error}}) => (
+      textName, mainLabel, organisationOptions, activityKey = "provider_activity_id", textLabel, meta: {touched, error}}) => (
   <div>
     {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Provider org"}
     <div className="row no-margin">
       <div className="columns small-6">
         <Field
-          name="ref"
+          name={`${textName}.ref`}
           type="text"
           component={renderField}
           label="Ref"
@@ -165,7 +165,7 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
       </div>
       <div className="columns small-6">
         <Field
-          name="activityID"
+          name={`${textName}.${activityKey}`}
           type="text"
           component={renderField}
           label="Activity id"
@@ -175,38 +175,20 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
     <div className="row no-margin">
       <Field
         component={renderSelectField}
-        name="OrgType"
+        name={`${textName}.type.code`}
+        textName={`${textName}.type.code`}
         label="Type"
         selectOptions={organisationOptions}
         defaultOption="Select a type"
       />
     </div>
-    {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
-    <div className="columns small-6">
-      <Field name={textName} component={renderTextArea} label={textLabel}/>
-    </div>
-    <Field
-      component={renderSelectField}
-      name="titleLanguage[code]"
-      label="Language"
-      selectOptions={languageOptions}
-      defaultOption="Select a language"
-    />
-    {fields && fields.map((title, index) =>
-      <div key={index}>
-        {narrativeLabel ? <div className="columns"><h6>Narrative</h6></div> : ""}
-        <div className="columns small-6">
-          <Field name={`${title}.text`} component={renderTextArea} label="Title"/>
-        </div>
-        <Field
-          component={renderSelectField}
-          name={`${title}.language[code]`}
-          label="Language"
-          selectOptions={languageOptions}
-          defaultOption="Select a language"
-        />
-      </div>
-    )}
+      <FieldArray
+          name={`${textName}.narratives`}
+          component={renderNarrativeFields}
+          languageOptions={languageOptions}
+          textName="textTitle"
+          textLabel="Text"
+      />
     <div className="columns">
       <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
       <button

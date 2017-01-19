@@ -76,7 +76,7 @@ export const capital = new Schema('capital', {
     idAttribute: "id",
 })
 
-export const transaction = new Schema('transaction', {
+export const transaction = new Schema('transactions', {
     idAttribute: "id",
 })
 

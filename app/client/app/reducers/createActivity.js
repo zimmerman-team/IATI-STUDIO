@@ -55,6 +55,9 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.GET_TRANSACTION_SUCCESS:
+        case ActionTypes.CREATE_TRANSACTION_SUCCESS:
+        case ActionTypes.UPDATE_TRANSACTION_SUCCESS:
         case ActionTypes.CREATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
@@ -109,6 +112,12 @@ function activity(state = initialState, action) {
                 ...state.entities,
                 'budgets': _.omit(state.budgets, action.id),
             }
+        case ActionTypes.DELETE_TRANSACTION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'transactions': _.omit(state.transaction, action.id),
+            }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
                 ...state,
@@ -116,15 +125,6 @@ function activity(state = initialState, action) {
                 'activity': {},
             }
 
-        case ActionTypes.ADD_BASIC_INFORMATION_SUCCESS:
-            return Object.assign({}, state, {
-                activity: action.response
-            });
-            // case ActionTypes.ADD_DOCUMENT_LINK_REQUEST:
-        case ActionTypes.ADD_DOCUMENT_LINK_SUCCESS:
-            return Object.assign({}, state, {
-                activity: action.response
-            });
         // case ActionTypes.ADD_DOCUMENT_LINK_FAILURE:
         default:
             return state

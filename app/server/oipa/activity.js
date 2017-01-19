@@ -613,7 +613,6 @@ export const postHumanitarianScope = function (user, publisherId, activityId, hu
         },
         body: dataJSON,
     };
-    console.log('<<<postHumanitarianScope', humanitarianScopeData);
 
     return oipaPost(req_options)
 };
@@ -629,7 +628,6 @@ export const updateHumanitarianScope = function (user, publisherId, activityId, 
         body: dataJSON,
     };
 
-    console.log('<<<updateHumanitarianScope', humanitarianScopeData);
     return oipaUpdate(req_options)
 };
 
@@ -789,6 +787,62 @@ export const deleteRelation = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.related_activities_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getTransactions = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.transactions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+    console.log('<<<getTransactions', req_options)
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postTransaction = function (user, publisherId, activityId, transactionData) {
+    const dataJSON = JSON.parse(transactionData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.transactions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+    console.log('<<<postTransaction', transactionData)
+
+    return oipaPost(req_options)
+};
+
+export const updateTransaction = function (user, publisherId, activityId, id, transactionData) {
+    const dataJSON = JSON.parse(transactionData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.transactions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteTransaction = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.transactions_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
