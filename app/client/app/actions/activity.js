@@ -1308,7 +1308,7 @@ export function createPerformanceCondition(publisherId, activityId, conditionDat
         [CALL_API]: {
             types: [ CREATE_PERFORMANCE_CONDITION_REQUEST, CREATE_PERFORMANCE_CONDITION_SUCCESS, CREATE_PERFORMANCE_CONDITION_FAILURE ],
             endpoint: 'Activity.createPerformanceCondition',
-            payload: [ publisherId, activityId, JSON.stringify(conditionData) ],
+            payload: [ publisherId, activityId, conditionData ],
             schema: Schemas.related_activities,
         }
     }

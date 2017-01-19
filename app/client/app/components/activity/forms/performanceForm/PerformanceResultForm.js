@@ -7,307 +7,82 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import {getCodeListItems, createActivity, addPerformanceResult} from '../../../../actions/activity'
 
-const renderAdditionalRenderPerformanceResultForm = ({
-    fields, resultOptions, languageOptions, indicatorMeasureOptions,
-    indicatorVocabularyOptions, meta: {touched, error}
-}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
-                <RenderPerformanceResultForm
-                    resultOptions={resultOptions}
-                    languageOptions={languageOptions}
-                    indicatorMeasureOptions={indicatorMeasureOptions}
-                    indicatorVocabularyOptions={indicatorVocabularyOptions}
-                />
-            </div>
-        )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
-        </div>
-    </div>
-);
+const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureOptions, indicatorVocabularyOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
 
-
-const RenderPerformanceResultForm = ({resultOptions, languageOptions, indicatorMeasureOptions, indicatorVocabularyOptions}) =>
-    (
+    return (
         <div>
-            <div className="row">
-                <Field
-                    component={renderSelectField}
-                    name="resultAttached"
-                    label="Type"
-                    selectOptions={resultOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <FieldArray
-                name="additionalTitles"
-                component={renderNarrativeFields}
-                languageOptions={languageOptions}
-                textName="additionalTitles"
-                textLabel="Text"
-                narrativeLabel="Title"
-            />
-            <FieldArray
-                name="additionalDescriptions"
-                component={renderNarrativeFields}
-                languageOptions={languageOptions}
-                textName="additionalDescriptions"
-                textLabel="Descriptions"
-                narrativeLabel="Description"
-            />
-            <div className="row no-margin">
-                <Field
-                    component={renderSelectField}
-                    name="indicatorMeasure"
-                    textName="indicatorMeasure"
-                    textLabel="Measure"
-                    selectOptions={indicatorMeasureOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-            <div className="row no-margin">
-                <FieldArray
-                    name="additionalTitle"
-                    component={renderNarrativeFields}
-                    languageOptions={languageOptions}
-                    textName="textTitle"
-                    textLabel="Text"
-                    narrativeLabel="Title"
-                />
-            </div>
-            <div className="row no-margin">
-                <Field
-                    component={renderSelectField}
-                    name="vocabulary"
-                    label="Vocabulary"
-                    selectOptions={indicatorVocabularyOptions}
-                    defaultOption="Select one of the following options"
-                />
-                <div className="columns small-6">
-                    <Field
-                        name="Code"
-                        type="text"
-                        component={renderField}
-                        label="Code"
-                    />
-                </div>
-            </div>
-            <div className="row no-margin">
-                <Field
-                    component={renderSelectField}
-                    name="indicatorURI"
-                    label="Indicator URI"
-                    selectOptions={indicatorMeasureOptions}
-                    defaultOption="Select one of the following options"
-                />
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Baseline</h2>
-                    <div className="row no-margin">
-                        <div className="columns small-6">
+            {fields.map((result, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="row no-margin">
                             <Field
-                                name="year"
-                                type="text"
-                                component={renderField}
-                                label="Year"
+                                component={renderSelectField}
+                                name={`${result}.type[code]`}
+                                textName={`${result}type.code`}
+                                label="Type"
+                                selectOptions={resultOptions}
+                                defaultOption="Select one of the following options"
                             />
                         </div>
-                        <div className="columns small-6">
+                        <div className="row no-margin">
                             <Field
-                                name="value"
-                                type="text"
-                                component={renderField}
-                                label="Value"
+                                component={renderSelectField}
+                                name={`${result}.aggregation_status`}
+                                textName={`${result}.aggregation_status`}
+                                label="Condition Attached"
+                                selectOptions={[{code: '1', name: 'True'}, {code: '0', name: 'False'}]}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${result}.title[narratives]`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textLabel="Title"
+                                narrativeLabel={false}
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${result}.description[narratives]`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textLabel="Description"
+                                narrativeLabel={false}
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${result}.indicator`}
+                                textName={`${result}.indicator`}
+                                label="Measure"
+                                selectOptions={indicatorMeasureOptions}
+                                defaultOption="Select one of the following options"
                             />
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Comment</h2>
-                    <FieldArray
-                        name="additionalTitle"
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                        textName="textTitle"
-                        textLabel="Description"
-                        narrativeLabel="Description"
-                    />
-                </div>
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    Period start
-                    <Field
-                        name="dateStart"
-                        type="date"
-                        component={renderField}
-                        label="Date"
-                    />
-                </div>
-            </div>
-            <div className="row no-margin">
-                <div className="columns small-6">
-                    Period end
-                    <Field
-                        name="dateEnd"
-                        type="date"
-                        component={renderField}
-                        label="Date"
-                    />
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Target</h2>
-                    <div className="columns small-6">
-                        <Field
-                            name="value"
-                            type="text"
-                            component={renderField}
-                            label="Value"
-                        />
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
                     </div>
-                    <div className="columns small-6"></div>
+                    <br/><br/>
                 </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Location</h2>
-                    <div className="columns small-6">
-                        <Field
-                            name="ref"
-                            type="text"
-                            component={renderField}
-                            label="Ref"
-                        />
-                    </div>
-                    <div className="columns small-6"></div>
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Dimension</h2>
-                    <div className="row no-margin">
-                        <div className="columns small-6">
-                            <Field
-                                name="name"
-                                type="text"
-                                component={renderField}
-                                label="Name"
-                            />
-                        </div>
-                        <div className="columns small-6">
-                            <Field
-                                name="value"
-                                type="text"
-                                component={renderField}
-                                label="Value"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Comment</h2>
-                    <FieldArray
-                        name="additionalTitle"
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                        textName="textTitle"
-                        textLabel="Text"
-                        narrativeLabel="Text"
-                    />
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Actual</h2>
-                    <div className="columns small-6">
-                        <Field
-                            name="value"
-                            type="text"
-                            component={renderField}
-                            label="Value"
-                        />
-                    </div>
-                    <div className="columns small-6"></div>
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Location</h2>
-                    <div className="columns small-6">
-                        <Field
-                            name="ref"
-                            type="text"
-                            component={renderField}
-                            label="Ref"
-                        />
-                    </div>
-                    <div className="columns small-6"></div>
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Dimension</h2>
-                    <div className="row no-margin">
-                        <div className="columns small-6">
-                            <Field
-                                name="name"
-                                type="text"
-                                component={renderField}
-                                label="Name"
-                            />
-                        </div>
-                        <div className="columns small-6">
-                            <Field
-                                name="value"
-                                type="text"
-                                component={renderField}
-                                label="Value"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="row no-margin">
-                <div className="columns small-centered small-12">
-                    <h2 className="page-title">Comment</h2>
-                    <FieldArray
-                        name="additionalTitle"
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                        textName="textTitle"
-                        textLabel="Text"
-                        narrativeLabel="Text"
-                    />
-                </div>
-            </div>
+            )}
         </div>
-    );
+    )
+};
 
 const validate = values => {
     const errors = {};
@@ -348,7 +123,7 @@ class PerformanceResultForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, codelists} = this.props;
+        const {handleSubmit, submitting, codelists, activityId} = this.props;
 
         if (!codelists.ResultType || !codelists.Language || !codelists.IndicatorMeasure || !codelists.IndicatorVocabulary) {
             return <GeneralLoader/>
@@ -361,22 +136,30 @@ class PerformanceResultForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <RenderPerformanceResultForm
-                            resultOptions={codelists.ResultType}
-                            languageOptions={codelists.Language}
-                            indicatorMeasureOptions={codelists.IndicatorMeasure}
-                            indicatorVocabularyOptions={codelists.IndicatorVocabulary}
-                        />
-                    </div>
                     <FieldArray
-                        name="additionalHumanitarianScope"
-                        component={renderAdditionalRenderPerformanceResultForm}
+                        name="results"
+                        component={renderResult}
                         resultOptions={codelists.ResultType}
                         languageOptions={codelists.Language}
+                        indicatorMeasureOptions={codelists.IndicatorMeasure}
+                        indicatorVocabularyOptions={codelists.IndicatorVocabulary}
                     />
+                    {/*<div className="field-list">*/}
+                    {/*<RenderPerformanceResultForm*/}
+                    {/*resultOptions={codelists.ResultType}*/}
+                    {/*languageOptions={codelists.Language}*/}
+                    {/*indicatorMeasureOptions={codelists.IndicatorMeasure}*/}
+                    {/*indicatorVocabularyOptions={codelists.IndicatorVocabulary}*/}
+                    {/*/>*/}
+                    {/*</div>*/}
+                    {/*<FieldArray*/}
+                    {/*name="additionalHumanitarianScope"*/}
+                    {/*component={renderAdditionalRenderPerformanceResultForm}*/}
+                    {/*resultOptions={codelists.ResultType}*/}
+                    {/*languageOptions={codelists.Language}*/}
+                    {/*/>*/}
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/performance/condition">
+                        <Link className="button" to={`/publisher/activities/${activityId}/performance/condition`}>
                             Back to performance condition
                         </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>

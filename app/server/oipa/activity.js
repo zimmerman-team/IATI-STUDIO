@@ -764,30 +764,26 @@ export const getPerformanceCondition = function (user, publisherId, activityId) 
 
 
 export const createPerformanceCondition = function (user, publisherId, activityId, conditionData) {
-    const dataJSON = JSON.parse(conditionData);
-
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.conditions_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dataJSON,
+        body: conditionData,
     };
 
     return oipaPost(req_options)
 };
 
 export const updatePerformanceCondition = function (user, publisherId, activityId, id, conditionData) {
-    const dataJSON = JSON.parse(conditionData);
-
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.conditions_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dataJSON,
+        body: conditionData,
     };
 
     return oipaUpdate(req_options)
