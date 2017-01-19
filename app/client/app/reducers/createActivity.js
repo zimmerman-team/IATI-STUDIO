@@ -12,6 +12,7 @@ function activity(state = initialState, action) {
     // if (action.type.startsWith('REQUEST')) {
     //     return { ...state, submitting: true, }
     // }
+
     switch (action.type) {
         // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
         //     return Object.assign({}, state, {
@@ -41,24 +42,20 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_REGION_SUCCESS:
         case ActionTypes.CREATE_REGION_SUCCESS:
         case ActionTypes.UPDATE_REGION_SUCCESS:
-        case ActionTypes.DELETE_REGION_SUCCESS:
         case ActionTypes.GET_SECTOR_SUCCESS:
         case ActionTypes.CREATE_SECTOR_SUCCESS:
         case ActionTypes.UPDATE_SECTOR_SUCCESS:
-        case ActionTypes.DELETE_SECTOR_SUCCESS:
         case ActionTypes.GET_POLICY_SUCCESS:
         case ActionTypes.CREATE_POLICY_SUCCESS:
         case ActionTypes.UPDATE_POLICY_SUCCESS:
-        case ActionTypes.DELETE_POLICY_SUCCESS:
         case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
-        case ActionTypes.DELETE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_BUDGET_SUCCESS:
-        case ActionTypes.DELETE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
-                return _.merge({}, state, (action.response && action.response.entities))
+                return _.merge({}, state, (action.response.entities))
+
 
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
             return {
@@ -77,6 +74,36 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'recipientCountries': _.omit(state.recipientCountries, action.id),
+            }
+        case ActionTypes.DELETE_REGION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'recipient_region': _.omit(state.recipient_region, action.id),
+            }
+        case ActionTypes.DELETE_SECTOR_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'sector': _.omit(state.sector, action.id),
+            }
+        case ActionTypes.DELETE_POLICY_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'policy': _.omit(state.policy, action.id),
+            }
+        case ActionTypes.DELETE_HUMANITARIAN_SCOPE_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'humanitarian_scope': _.omit(state.humanitarian_scope, action.id),
+            }
+        case ActionTypes.DELETE_BUDGET_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'budgets': _.omit(state.budgets, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
@@ -123,11 +150,6 @@ export const datesSelector = createSelector(
     (dates) => _.map(dates, x => x) // to array
 )
 
-export const contactsSelector = createSelector(
-    state => state.activity.contact_info,
-    (contact_info) => _.map(contact_info, x => x) // to array
-)
-
 export const statusSelector = createSelector(
     state => state.activity.activity_status,
     (activity_status) => _.map(activity_status, x => x) // to array
@@ -138,7 +160,7 @@ export const budgetsSelector = createSelector(
     (budgets) => _.map(budgets, x => x) // to array
 )
 
-export const countryBudgetsSelector = createSelector(
+export const countryBudgetItemSelector = createSelector(
     state => state.activity.country_budget_items,
     (country_budget_items) => _.map(country_budget_items, x => x) // to array
 )
@@ -174,8 +196,8 @@ export const locationsSelector = createSelector(
 )
 
 export const regionsSelector = createSelector(
-    state => state.activity.region,
-    (region) => _.map(region, x => x) // to array
+    state => state.activity.recipient_region,
+    (recipient_region) => _.map(recipient_region, x => x) // to array
 )
 
 export const sectorsSelector = createSelector(

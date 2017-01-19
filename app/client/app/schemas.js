@@ -80,7 +80,7 @@ export const transaction = new Schema('transaction', {
     idAttribute: "id",
 })
 
-export const region = new Schema('region', {
+export const recipientRegion = new Schema('recipient_region', {
     idAttribute: "id",
 })
 
@@ -112,6 +112,10 @@ export const recipientCountry = new Schema('recipientCountries', {
     idAttribute: "id",
 })
 
+export const countryBudgetItems = new Schema('country_budget_items', {
+    idAttribute: "id",
+})
+
 export const activity = new Schema('activity', {
     idAttribute: "id",
     descriptions: arrayOf(description),
@@ -122,6 +126,7 @@ export const activity = new Schema('activity', {
     contact_info: arrayOf(contact),
     activity_dates: arrayOf(date),
     humanitarian_scope: arrayOf(humanitarianScope),
+    countryBudgetItems: arrayOf(countryBudgetItems),
     budgets: arrayOf(budget),
     transactions: arrayOf(transaction),
     plannedDisbursements: arrayOf(plannedDisbursement),

@@ -156,11 +156,11 @@ class RecipientRegionForm extends React.Component {
             // this.props.change('regions', newData);
 
             // change each item
-            newData.forEach((d, i) => this.props.change(`regions[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`recipient_region[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('regions', i)
+                this.props.array.remove('recipient_region', i)
             }
         }
 
@@ -171,8 +171,8 @@ class RecipientRegionForm extends React.Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
-        if (!codelists['Region'] || !codelists['RegionVocabulary'] || !codelists['Language']) {
+        const {codelists, handleSubmit, submitting, activityId, data} = this.props;
+        if (!data || !codelists['Region'] || !codelists['RegionVocabulary'] || !codelists['Language']) {
             return <GeneralLoader />
         }
 

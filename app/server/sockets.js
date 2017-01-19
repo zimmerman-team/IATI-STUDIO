@@ -74,6 +74,8 @@ module.exports = function(app) {
         socket.on('Activity.update', Activity.update.bind(null, user));
         socket.on('Activity.delete', Activity.delete.bind(null, user));
 
+        socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
+
         socket.on('Activity.getDescriptions', Activity.getDescriptions.bind(null, user));
 
         socket.on('Activity.createDescription', Activity.createDescription.bind(null, user));
@@ -110,14 +112,15 @@ module.exports = function(app) {
         socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
         socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
 
+        socket.on('Activity.getHumanitarianScope', Activity.getHumanitarianScope.bind(null, user));
+        socket.on('Activity.createHumanitarianScope', Activity.createHumanitarianScope.bind(null, user));
+        socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
+        socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
+
         socket.on('Activity.createBudget', Activity.createBudget.bind(null, user));
         socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
         socket.on('Activity.deleteBudget', Activity.deleteBudget.bind(null, user));
 
-        socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
-        socket.on('Activity.addBasicInformation', Activity.addBasicInformation.bind(null, user));
-        socket.on('Activity.addDocumentLink', Activity.addDocumentLink.bind(null, user));
-        socket.on('Activity.addRelations', Activity.addRelations.bind(null, user));
 
         // BasicInformation Date CRUD
         //socket.on('Activity.getDates', Activity.getDates.bind(null, user));   //Date endpoint not working using activity data
@@ -147,34 +150,5 @@ module.exports = function(app) {
         socket.on('Activity.createPolicy', Activity.createPolicy.bind(null, user));
         socket.on('Activity.updatePolicy', Activity.updatePolicy.bind(null, user));
         socket.on('Activity.deletePolicy', Activity.deletePolicy.bind(null, user));
-
-        // Add activity Basic Info
-        socket.on('Activity.addBasicInformationDescription', Activity.addBasicInformationDescription.bind(null, user));
-        socket.on('Activity.addBasicInformationStatus', Activity.addBasicInformationStatus.bind(null, user));
-        socket.on('Activity.addBasicInformationDate', Activity.addBasicInformationDate.bind(null, user));
-        socket.on('Activity.addBasicInformationContact', Activity.addBasicInformationContact.bind(null, user));
-
-        // Add activity Performance
-        socket.on('Activity.addPerformanceCondition', Activity.addPerformanceCondition.bind(null, user));
-        socket.on('Activity.addPerformanceResult', Activity.addPerformanceResult.bind(null, user));
-        socket.on('Activity.addPerformanceComment', Activity.addPerformanceComment.bind(null, user));
-
-        // Add activity Financial
-        socket.on('Activity.addFinancialBudgets', Activity.addFinancialBudgets.bind(null, user));
-        socket.on('Activity.addFinancialPlannedDisbursements', Activity.addFinancialPlannedDisbursements.bind(null, user));
-        socket.on('Activity.addFinancialTransactions', Activity.addFinancialTransactions.bind(null, user));
-        socket.on('Activity.addFinancialCapitalSpend', Activity.addFinancialCapitalSpend.bind(null, user));
-
-        // Add activity Contact
-        socket.on('Activity.addGeopoliticalCountry', Activity.addGeopoliticalCountry.bind(null, user));
-        socket.on('Activity.addGeopoliticalRegion', Activity.addGeopoliticalRegion.bind(null, user));
-        socket.on('Activity.addGeopoliticalLocation', Activity.addGeopoliticalLocation.bind(null, user));
-
-      // Add activity Classification
-      socket.on('Activity.addClassificationSector', Activity.addClassificationSector.bind(null, user));
-      socket.on('Activity.addClassificationPolicy', Activity.addClassificationPolicy.bind(null, user));
-      socket.on('Activity.addClassificationSelect', Activity.addClassificationSelect.bind(null, user));
-      socket.on('Activity.addClassificationCountryBudget', Activity.addClassificationCountryBudget.bind(null, user));
-      socket.on('Activity.addClassificationHumanitarian', Activity.addClassificationHumanitarian.bind(null, user));
     })
-}
+};

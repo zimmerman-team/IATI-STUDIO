@@ -17,21 +17,21 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
 
     return (
         <div>
-            {fields.map((date, index) =>
+            {fields.map((activity_dates, index) =>
                 <div key={index}>
                     <div className="field-list">
                         <div className="row no-margin">
                             <div className="columns small-6">
                                 <Field
-                                    name={`activity.${date}.iso_date`}
+                                    name={`${activity_dates}.iso_date`}
                                     type="date"
                                     component={renderField}
                                     label="Date"
                                 />
                             </div>
                             <Field
-                                name={`activity.${date}.type[code]`}
-                                textName={`activity.${date}type.code`}
+                                name={`${activity_dates}.type[code]`}
+                                textName={`${activity_dates}.type.code`}
                                 component={renderSelectField}
                                 label="Type"
                                 selectOptions={dateTypeOptions}
@@ -39,7 +39,7 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
                             />
                             <hr/>
                             <FieldArray
-                                name={`activity.${date}.narratives`}
+                                name={`${activity_dates}.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="textTitle"
@@ -91,7 +91,7 @@ class BasicInformationDateForm extends Component {
         const {activityId, publisher, data} = this.props;
 
         const lastDates = data;
-        let activityDates = formData.activity.activity_dates;
+        let activityDates = formData.activity_dates;
 
         activityDates = activityDates.map(function(date) {
             if (date.iso_date) {
@@ -121,7 +121,8 @@ class BasicInformationDateForm extends Component {
   }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -161,15 +162,15 @@ class BasicInformationDateForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const dates = datesSelector(state);
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let activity_dates = currentActivity && currentActivity.activity_dates;
 
     return {
-        data: dates,
+        data: activity_dates,
         activity: state.activity.activity,
         codelists: state.codelists,
-        initialValues: {"activity": currentActivity},  // populate initial values for redux form
+        initialValues: {"activity_dates": activity_dates},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

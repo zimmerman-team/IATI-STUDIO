@@ -1,12 +1,6 @@
 "use strict"
 
-import { getActivity, postActivity, updateActivity, getCodeListItems, postActivityDescriptionForm, postParticipatingOrganisationForm, postDocumentLinkForm,
-    postRelationForm, postPerformanceConditionForm, postPerformanceResultForm, postPerformanceCommentForm,
-    postFinancialBudgetsForm, postFinancialPlannedDisbursementsForm, postFinancialTransactionsForm, postFinancialCapitalSpendForm,
-    postBasicInformationDescriptionForm, postBasicInformationStatusForm, postBasicInformationDateForm, postBasicInformationContactForm,
-    postGeopoliticalCountryForm, postGeopoliticalRegionForm, postGeopoliticalLocationForm,
-    postClassificationSectorForm, postClassificationPolicyForm, postClassificationSelectForm, postClassificationCountryBudgetForm, postClassificationHumanitarianForm,
-} from '../../oipa/activity'
+import { getActivity, postActivity, updateActivity, getCodeListItems} from '../../oipa/activity'
 
 import * as oipaMethods from '../../oipa/activity'
 
@@ -269,37 +263,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    addBasicInformation: function (user, publisherId, form, res) {
-        // TODO: update validation status here - 2016-12-16
-        return postActivityDescriptionForm(user, publisherId, form)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addBasicInformationDescription: function (user, publisherId, form, res) {
-        return postBasicInformationDescriptionForm(user, publisherId, form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addBasicInformationStatus: function (user, publisherId, form, res) {
-        return postBasicInformationStatusForm(user, publisherId, form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addBasicInformationDate: function (user, publisherId, form, res) {
-        return postBasicInformationDateForm(user, publisherId, form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addBasicInformationContact: function (user, publisherId, form, res) {
-        return postBasicInformationContactForm(user, publisherId, form)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
     getParticipatingOrganisations: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.getParticipatingOrganisations(user, publisherId, activityId)
@@ -416,12 +379,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    addDocumentLink: function (user, publisherId, form, activity, res) {
-        return postDocumentLinkForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
     createRelation: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation,
@@ -442,96 +399,6 @@ var ActivityAPI = {
         return oipaMethods.deleteRegion(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
-    },
-
-    addPerformanceCondition: function (user, publisherId, form, activity, res) {
-        return postPerformanceConditionForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addPerformanceResult: function (user, publisherId, form, activity, res) {
-        return postPerformanceResultForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addPerformanceComment: function (user, publisherId, form, activity, res) {
-        return postPerformanceCommentForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addFinancialBudgets: function (user, publisherId, form, activity, res) {
-        return postFinancialBudgetsForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addFinancialPlannedDisbursements: function (user, publisherId, form, activity, res) {
-        return postFinancialPlannedDisbursementsForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addFinancialTransactions: function (user, publisherId, form, activity, res) {
-        return postFinancialTransactionsForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addFinancialCapitalSpend: function (user, publisherId, form, activity, res) {
-        return postFinancialCapitalSpendForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addGeopoliticalCountry: function (user, publisherId, form, activity, res) {
-        return postGeopoliticalCountryForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addGeopoliticalRegion: function (user, publisherId, form, activity, res) {
-        return postGeopoliticalRegionForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addGeopoliticalLocation: function (user, publisherId, form, activity, res) {
-        return postGeopoliticalLocationForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addClassificationSector: function (user, publisherId, form, activity, res) {
-        return postClassificationSectorForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addClassificationPolicy: function (user, publisherId, form, activity, res) {
-        return postClassificationPolicyForm(user, publisherId, form, activity)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    addClassificationSelect: function (user, publisherId, form, activity, res) {
-        return postClassificationSelectForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addClassificationCountryBudget: function (user, publisherId, form, activity, res) {
-        return postClassificationCountryBudgetForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
-    },
-
-    addClassificationHumanitarian: function (user, publisherId, form, activity, res) {
-        return postClassificationHumanitarianForm(user, publisherId, form, activity)
-          .then(result => res(null, result))
-          .catch(error => res(error));
     },
 
     getCodeListItems: function(user, codeListType, res) {

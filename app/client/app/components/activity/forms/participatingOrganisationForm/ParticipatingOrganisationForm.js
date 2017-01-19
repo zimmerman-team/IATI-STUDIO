@@ -208,7 +208,7 @@ class ParticipatingOrganisationForm extends Component {
                         </div>
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/basic-info`}>Back to basic
+                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/contact`}>Back to basic
                             information</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to geopolitical information

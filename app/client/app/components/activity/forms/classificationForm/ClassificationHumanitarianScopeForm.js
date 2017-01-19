@@ -24,7 +24,7 @@ const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, l
         <div>
             {fields.map((humanitarianScope, index) =>
                 <div key={index}>
-                    <div className="field-list" key={index}>
+                    <div className="field-list">
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
@@ -111,11 +111,11 @@ class HumanitarianScopeForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
-        const humanitarianScopes = formData.humanitarianScope;
+        const humanitarianScopes = formData.humanitarian_scope;
 
         handleSubmit(
             publisher.id,
-            'humanitarianScope',
+            'humanitarian_scope',
             activityId,
             data,
             humanitarianScopes,
@@ -141,11 +141,11 @@ class HumanitarianScopeForm extends Component {
             // this.props.change('humanitarianScopes', newData);
 
             // change each item
-            newData.forEach((d, i) => this.props.change(`humanitarianScopes[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`humanitarian_scope[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('humanitarianScopes', i)
+                this.props.array.remove('humanitarian_scope', i)
             }
         }
 
@@ -171,7 +171,7 @@ class HumanitarianScopeForm extends Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FieldArray
-                        name="humanitarianScope"
+                        name="humanitarian_scope"
                         component={renderHumanitarianScopeForm}
                         vocabularyOptions={codelists["HumanitarianScopeVocabulary"]}
                         scopeOptions={codelists["HumanitarianScopeType"]}
@@ -191,12 +191,12 @@ class HumanitarianScopeForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const humanitarianScope = humanitarianScopesSelector(state);
+    const humanitarian_scope = humanitarianScopesSelector(state);
 
     return {
-        data: humanitarianScope,
+        data: humanitarian_scope,
         codelists: state.codelists,
-        initialValues: {"humanitarianScope": humanitarianScope},  // populate initial values for redux form
+        initialValues: {"humanitarian_scope": humanitarian_scope},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }
