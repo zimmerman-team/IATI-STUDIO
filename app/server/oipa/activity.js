@@ -692,3 +692,225 @@ export const deleteDocumentLink = function (user, publisherId, activityId, id) {
 
     return oipaDelete(req_options)
 };
+
+
+export const getRelation = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.related_activities_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postRelation = function (user, publisherId, activityId, relationData) {
+    const dataJSON = JSON.parse(relationData);
+    console.log("asd",dataJSON)
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.related_activities_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateRelation = function (user, publisherId, activityId, id, relationData) {
+    const dataJSON = JSON.parse(relationData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.related_activities_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteRelation = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.related_activities_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getPerformanceCondition = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.conditions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const createPerformanceCondition = function (user, publisherId, activityId, conditionData) {
+    const dataJSON = JSON.parse(conditionData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.conditions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePerformanceCondition = function (user, publisherId, activityId, id, conditionData) {
+    const dataJSON = JSON.parse(conditionData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.conditions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePerformanceCondition = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.conditions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getPerformanceResult = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.results_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createPerformanceResult = function (user, publisherId, activityId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.results_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePerformanceResult = function (user, publisherId, activityId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.results_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePerformanceResult = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.results_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+export const getPerformanceComment = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.comments_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createPerformanceComment = function (user, publisherId, activityId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.comments_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePerformanceComment = function (user, publisherId, activityId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.comments_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePerformanceComment = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.comments_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};

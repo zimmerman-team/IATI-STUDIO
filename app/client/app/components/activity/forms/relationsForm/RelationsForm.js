@@ -6,12 +6,12 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import {
     getCodeListItems,
-    getRelations,
-    createRelations,
-    updateRelations,
-    deleteRelations
+    getRelation,
+    createRelation,
+    updateRelation,
+    deleteRelation
 } from '../../../../actions/activity'
-import {relationsSelector} from '../../../../reducers/createActivity.js'
+import {relationsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dirty, error}}) => {
@@ -35,7 +35,7 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
                             />
                             <div className="columns small-6">
                                 <Field
-                                    name={`${relations}.activityIdentifier`}
+                                    name={`${relations}.ref`}
                                     type="text"
                                     component={renderField}
                                     label="Activity Identifier"
@@ -84,6 +84,7 @@ class RelationsForm extends Component {
         this.props.dispatch(getCodeListItems('RelatedActivityType'));
     }
 
+
     /**
      * Submit relations data and redirect
      * to performance form.
@@ -110,10 +111,13 @@ class RelationsForm extends Component {
         // this.context.router.push('/publisher/activities/performance')
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
 
+    componentWillReceiveProps(nextProps) {
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
     render() {
         const {handleSubmit, submitting, previousPage, codelists} = this.props;
 
@@ -155,27 +159,33 @@ class RelationsForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const contacts = relationsSelector(state);
+
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let related_activities = currentActivity && currentActivity.activity_dates;
 
     return {
-        data: contacts,
+        data: related_activities,
         codelists: state.codelists,
+        initialValues: {"related_activities": related_activities},  // populate initial values for redux form
+        publisher: publisherSelector(state),
         ...props,
     }
 }
 
 RelationsForm = reduxForm({
-    form: 'relations',
+    form: 'related_activities',
     destroyOnUnmount: false,
-    validate
+    enableReinitialize: true,
+    //validate
 })(RelationsForm);
 
 RelationsForm = connect(mapStateToProps, {
     getCodeListItems,
-    getRelations,
-    createRelations,
-    updateRelations,
-    deleteRelations
+    getRelation,
+    createRelation,
+    updateRelation,
+    deleteRelation
 })(RelationsForm);
 
 export default RelationsForm;

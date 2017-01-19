@@ -1206,3 +1206,290 @@ export function deleteHumanitarianScope(publisherId, activityId, id) {
     }
 }
 
+/*
+ * Get relations (Relation form)
+ */
+export const GET_RELATION_REQUEST = 'GET_RELATION_REQUEST';
+export const GET_RELATION_SUCCESS = 'GET_RELATION_SUCCESS';
+export const GET_RELATION_FAILURE = 'GET_RELATION_FAILURE';
+
+export function getRelation(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_RELATION_REQUEST, GET_RELATION_SUCCESS, GET_RELATION_FAILURE ],
+            endpoint: 'Activity.getRelation',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.related_activities),
+        }
+    }
+}
+
+
+/*
+ * Create relation (Relations form)
+ */
+export const CREATE_RELATION_REQUEST = 'CREATE_RELATION_REQUEST';
+export const CREATE_RELATION_SUCCESS = 'CREATE_RELATION_SUCCESS';
+export const CREATE_RELATION_FAILURE = 'CREATE_RELATION_FAILURE';
+export function createRelation(publisherId, activityId, relationData) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_RELATION_REQUEST, CREATE_RELATION_SUCCESS, CREATE_RELATION_FAILURE ],
+            endpoint: 'Activity.createRelation',
+            payload: [ publisherId, activityId, JSON.stringify(relationData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+/*
+ * Update relations (Relations form)
+ */
+export const UPDATE_RELATION_REQUEST = 'UPDATE_RELATION_REQUEST';
+export const UPDATE_RELATION_SUCCESS = 'UPDATE_RELATION_SUCCESS';
+export const UPDATE_RELATION_FAILURE = 'UPDATE_RELATION_FAILURE';
+export function updateRelation(publisherId, activityId, id, relationData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_RELATION_REQUEST, UPDATE_RELATION_SUCCESS, UPDATE_RELATION_FAILURE ],
+            endpoint: 'Activity.updateRelation',
+            payload: [ publisherId, activityId, id, JSON.stringify(relationData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+
+/*
+ * Delete relations (Relations form)
+ */
+export const DELETE_RELATION_REQUEST = 'DELETE_RELATION_REQUEST';
+export const DELETE_RELATION_SUCCESS = 'DELETE_RELATION_SUCCESS';
+export const DELETE_RELATION_FAILURE = 'DELETE_RELATION_FAILURE';
+export function deleteRelation(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_RELATION_REQUEST, DELETE_RELATION_SUCCESS, DELETE_RELATION_FAILURE ],
+            endpoint: 'Activity.deleteRelation',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
+
+/*
+ * Get performance condition (Performance condition form)
+ */
+export const GET_PERFORMANCE_CONDITION_REQUEST = 'GET_PERFORMANCE_CONDITION_REQUEST';
+export const GET_PERFORMANCE_CONDITION_SUCCESS = 'GET_PERFORMANCE_CONDITION_SUCCESS';
+export const GET_PERFORMANCE_CONDITION_FAILURE = 'GET_PERFORMANCE_CONDITION_FAILURE';
+
+export function getPerformanceCondition(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_PERFORMANCE_CONDITION_REQUEST, GET_PERFORMANCE_CONDITION_SUCCESS, GET_PERFORMANCE_CONDITION_FAILURE ],
+            endpoint: 'Activity.getPerformanceCondition',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.related_activities),
+        }
+    }
+}
+
+
+/*
+ * Create performance condition (Performance condition form)
+ */
+export const CREATE_PERFORMANCE_CONDITION_REQUEST = 'CREATE_PERFORMANCE_CONDITION_REQUEST';
+export const CREATE_PERFORMANCE_CONDITION_SUCCESS = 'CREATE_PERFORMANCE_CONDITION_SUCCESS';
+export const CREATE_PERFORMANCE_CONDITION_FAILURE = 'CREATE_PERFORMANCE_CONDITION_FAILURE';
+export function createPerformanceCondition(publisherId, activityId, conditionData) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_PERFORMANCE_CONDITION_REQUEST, CREATE_PERFORMANCE_CONDITION_SUCCESS, CREATE_PERFORMANCE_CONDITION_FAILURE ],
+            endpoint: 'Activity.createPerformanceCondition',
+            payload: [ publisherId, activityId, JSON.stringify(conditionData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+/*
+ * Update performance condition (Performance condition form)
+ */
+export const UPDATE_PERFORMANCE_CONDITION_REQUEST = 'UPDATE_PERFORMANCE_CONDITION_REQUEST';
+export const UPDATE_PERFORMANCE_CONDITION_SUCCESS = 'UPDATE_PERFORMANCE_CONDITION_SUCCESS';
+export const UPDATE_PERFORMANCE_CONDITION_FAILURE = 'UPDATE_PERFORMANCE_CONDITION_FAILURE';
+export function updatePerformanceCondition(publisherId, activityId, id, conditionData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_PERFORMANCE_CONDITION_REQUEST, UPDATE_PERFORMANCE_CONDITION_SUCCESS, UPDATE_PERFORMANCE_CONDITION_FAILURE ],
+            endpoint: 'Activity.updatePerformanceCondition',
+            payload: [ publisherId, activityId, id, JSON.stringify(conditionData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+
+/*
+ * Delete performance condition (Performance condition form)
+ */
+export const DELETE_PERFORMANCE_CONDITION_REQUEST = 'DELETE_PERFORMANCE_CONDITION_REQUEST';
+export const DELETE_PERFORMANCE_CONDITION_SUCCESS = 'DELETE_PERFORMANCE_CONDITION_SUCCESS';
+export const DELETE_PERFORMANCE_CONDITION_FAILURE = 'DELETE_PERFORMANCE_CONDITION_FAILURE';
+export function deletePerformanceCondition(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_PERFORMANCE_CONDITION_REQUEST, DELETE_PERFORMANCE_CONDITION_SUCCESS, DELETE_PERFORMANCE_CONDITION_FAILURE ],
+            endpoint: 'Activity.deletePerformanceCondition',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
+
+/*
+ * Get performance result (Performance result form)
+ */
+export const GET_PERFORMANCE_RESULT_REQUEST = 'GET_PERFORMANCE_RESULT_REQUEST';
+export const GET_PERFORMANCE_RESULT_SUCCESS = 'GET_PERFORMANCE_RESULT_SUCCESS';
+export const GET_PERFORMANCE_RESULT_FAILURE = 'GET_PERFORMANCE_RESULT_FAILURE';
+
+export function getPerformanceResult(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_PERFORMANCE_RESULT_REQUEST, GET_PERFORMANCE_RESULT_SUCCESS, GET_PERFORMANCE_RESULT_FAILURE ],
+            endpoint: 'Activity.getPerformanceCondition',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.related_activities),
+        }
+    }
+}
+
+
+/*
+ * Create performance result (Performance result form)
+ */
+export const CREATE_PERFORMANCE_RESULT_REQUEST = 'CREATE_PERFORMANCE_RESULT_REQUEST';
+export const CREATE_PERFORMANCE_RESULT_SUCCESS = 'CREATE_PERFORMANCE_RESULT_SUCCESS';
+export const CREATE_PERFORMANCE_RESULT_FAILURE = 'CREATE_PERFORMANCE_RESULT_FAILURE';
+export function createPerformanceResult(publisherId, activityId, conditionData) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_PERFORMANCE_RESULT_REQUEST, CREATE_PERFORMANCE_RESULT_SUCCESS, CREATE_PERFORMANCE_RESULT_FAILURE ],
+            endpoint: 'Activity.createPerformanceCondition',
+            payload: [ publisherId, activityId, JSON.stringify(conditionData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+/*
+ * Update performance result (Performance result form)
+ */
+export const UPDATE_PERFORMANCE_RESULT_REQUEST = 'UPDATE_PERFORMANCE_RESULT_REQUEST';
+export const UPDATE_PERFORMANCE_RESULT_SUCCESS = 'UPDATE_PERFORMANCE_RESULT_SUCCESS';
+export const UPDATE_PERFORMANCE_RESULT_FAILURE = 'UPDATE_PERFORMANCE_RESULT_FAILURE';
+export function updatePerformanceResult(publisherId, activityId, id, conditionData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_PERFORMANCE_RESULT_REQUEST, UPDATE_PERFORMANCE_RESULT_SUCCESS, UPDATE_PERFORMANCE_RESULT_FAILURE ],
+            endpoint: 'Activity.updatePerformanceCondition',
+            payload: [ publisherId, activityId, id, JSON.stringify(conditionData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+
+/*
+ * Delete performance result (Performance result form)
+ */
+export const DELETE_PERFORMANCE_RESULT_REQUEST = 'DELETE_PERFORMANCE_RESULT_REQUEST';
+export const DELETE_PERFORMANCE_RESULT_SUCCESS = 'DELETE_PERFORMANCE_RESULT_SUCCESS';
+export const DELETE_PERFORMANCE_RESULT_FAILURE = 'DELETE_PERFORMANCE_RESULT_FAILURE';
+export function deletePerformanceResult(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_PERFORMANCE_RESULT_REQUEST, DELETE_PERFORMANCE_RESULT_SUCCESS, DELETE_PERFORMANCE_RESULT_FAILURE ],
+            endpoint: 'Activity.deletePerformanceCondition',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}
+
+/*
+ * Get performance comment (Performance comment form)
+ */
+export const GET_PERFORMANCE_COMMENT_REQUEST = 'GET_PERFORMANCE_COMMENT_REQUEST';
+export const GET_PERFORMANCE_COMMENT_SUCCESS = 'GET_PERFORMANCE_COMMENT_SUCCESS';
+export const GET_PERFORMANCE_COMMENT_FAILURE = 'GET_PERFORMANCE_COMMENT_FAILURE';
+
+export function getPerformanceComment(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [ GET_PERFORMANCE_COMMENT_REQUEST, GET_PERFORMANCE_COMMENT_SUCCESS, GET_PERFORMANCE_COMMENT_FAILURE ],
+            endpoint: 'Activity.getPerformanceComment',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.related_activities),
+        }
+    }
+}
+
+
+/*
+ * Create performance comment (Performance comment form)
+ */
+export const CREATE_PERFORMANCE_COMMENT_REQUEST = 'CREATE_PERFORMANCE_COMMENT_REQUEST';
+export const CREATE_PERFORMANCE_COMMENT_SUCCESS = 'CREATE_PERFORMANCE_COMMENT_SUCCESS';
+export const CREATE_PERFORMANCE_COMMENT_FAILURE = 'CREATE_PERFORMANCE_COMMENT_FAILURE';
+export function createPerformanceComment(publisherId, activityId, commentData) {
+    return {
+        [CALL_API]: {
+            types: [ CREATE_PERFORMANCE_COMMENT_REQUEST, CREATE_PERFORMANCE_COMMENT_SUCCESS, CREATE_PERFORMANCE_COMMENT_FAILURE ],
+            endpoint: 'Activity.createPerformanceComment',
+            payload: [ publisherId, activityId, JSON.stringify(commentData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+/*
+ * Update performance comment (Performance comment form)
+ */
+export const UPDATE_PERFORMANCE_COMMENT_REQUEST = 'UPDATE_PERFORMANCE_COMMENT_REQUEST';
+export const UPDATE_PERFORMANCE_COMMENT_SUCCESS = 'UPDATE_PERFORMANCE_COMMENT_SUCCESS';
+export const UPDATE_PERFORMANCE_COMMENT_FAILURE = 'UPDATE_PERFORMANCE_COMMENT_FAILURE';
+export function updatePerformanceComment(publisherId, activityId, id, commentData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ UPDATE_PERFORMANCE_COMMENT_REQUEST, UPDATE_PERFORMANCE_COMMENT_SUCCESS, UPDATE_PERFORMANCE_COMMENT_FAILURE ],
+            endpoint: 'Activity.updatePerformanceComment',
+            payload: [ publisherId, activityId, id, JSON.stringify(commentData) ],
+            schema: Schemas.related_activities,
+        }
+    }
+}
+
+
+/*
+ * Delete performance comment (Performance comment form)
+ */
+export const DELETE_PERFORMANCE_COMMENT_REQUEST = 'DELETE_PERFORMANCE_COMMENT_REQUEST';
+export const DELETE_PERFORMANCE_COMMENT_SUCCESS = 'DELETE_PERFORMANCE_COMMENT_SUCCESS';
+export const DELETE_PERFORMANCE_COMMENT_FAILURE = 'DELETE_PERFORMANCE_COMMENT_FAILURE';
+export function deletePerformanceComment(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [ DELETE_PERFORMANCE_COMMENT_REQUEST, DELETE_PERFORMANCE_COMMENT_SUCCESS, DELETE_PERFORMANCE_COMMENT_FAILURE ],
+            endpoint: 'Activity.deletePerformanceComment',
+            payload: [ publisherId, activityId, id ]
+        }
+    }
+}

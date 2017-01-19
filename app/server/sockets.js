@@ -150,5 +150,29 @@ module.exports = function(app) {
         socket.on('Activity.createPolicy', Activity.createPolicy.bind(null, user));
         socket.on('Activity.updatePolicy', Activity.updatePolicy.bind(null, user));
         socket.on('Activity.deletePolicy', Activity.deletePolicy.bind(null, user));
+
+        // Relations Form CRUD
+        socket.on('Activity.getRelation', Activity.getRelation.bind(null, user));
+        socket.on('Activity.createRelation', Activity.createRelation.bind(null, user));
+        socket.on('Activity.updateRelation', Activity.updateRelation.bind(null, user));
+        socket.on('Activity.deleteRelation', Activity.deleteRelation.bind(null, user));
+
+        // Performance condition Form CRUD
+        socket.on('Activity.getPerformanceCondition', Activity.getPerformanceCondition.bind(null, user));
+        socket.on('Activity.createPerformanceCondition', Activity.createPerformanceCondition.bind(null, user));
+        socket.on('Activity.updatePerformanceCondition', Activity.updatePerformanceCondition.bind(null, user));
+        socket.on('Activity.deletePerformanceCondition', Activity.deletePerformanceCondition.bind(null, user));
+
+        // Performance result Form CRUD
+        socket.on('Activity.getPerformanceResult', Activity.getPerformanceResult.bind(null, user));
+        socket.on('Activity.createPerformanceResult', Activity.createPerformanceResult.bind(null, user));
+        socket.on('Activity.updatePerformanceResult', Activity.updatePerformanceResult.bind(null, user));
+        socket.on('Activity.deletePerformanceResult', Activity.deletePerformanceResult.bind(null, user));
+
+        // Performance comment Form CRUD
+        socket.on('Activity.getPerformanceComment', Activity.getPerformanceComment.bind(null, user));
+        socket.on('Activity.createPerformanceComment', Activity.createPerformanceComment.bind(null, user));
+        socket.on('Activity.updatePerformanceComment', Activity.updatePerformanceComment.bind(null, user));
+        socket.on('Activity.deletePerformanceComment', Activity.deletePerformanceComment.bind(null, user));
     })
 };

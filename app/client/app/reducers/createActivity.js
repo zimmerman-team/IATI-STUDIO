@@ -221,8 +221,23 @@ export const recipientCountriesSelector = createSelector(
 )
 
 export const relationsSelector = createSelector(
-    state => state.activity.relations,
-    (relations) => _.map(relations, x => x) // to array
+    state => state.activity.related_activities,
+    (related_activities) => _.map(related_activities, x => x) // to array
+)
+
+export const conditionsSelector = createSelector(
+    state => state.activity.conditions,
+    (conditions) => _.map(conditions, x => x) // to array
+)
+
+export const resultsSelector = createSelector(
+    state => state.activity.results,
+    (results) => _.map(results, x => x) // to array
+)
+
+export const commentsSelector = createSelector(
+    state => state.activity.comments,
+    (comments) => _.map(comments, x => x) // to array
 )
 
 export default activity
