@@ -108,6 +108,10 @@ export const humanitarianScope = new Schema('humanitarian_scope', {
     idAttribute: "id",
 })
 
+export const condition = new Schema('conditions', {
+    idAttribute: "id",
+})
+
 export const participatingOrganisation = new Schema('participatingOrganisations', {
     idAttribute: "id",
 })
@@ -139,6 +143,7 @@ export const activity = new Schema('activity', {
     budgets: arrayOf(budget),
     locations: arrayOf(location),
     transactions: arrayOf(transaction),
+    transactions: arrayOf(condition),
     plannedDisbursements: arrayOf(plannedDisbursement),
     participatingOrganisations: arrayOf(participatingOrganisation),
     date: arrayOf(date),

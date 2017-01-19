@@ -406,7 +406,6 @@ export const postLocation = function (user, publisherId, activityId, locationDat
         },
         body: dataJSON,
     };
-    console.log('<<<postLocation', locationData);
 
     return oipaPost(req_options)
 };
@@ -421,7 +420,6 @@ export const updateLocation = function (user, publisherId, activityId, id, locat
         },
         body: dataJSON,
     };
-    console.log('<<<update location', locationData);
 
     return oipaUpdate(req_options)
 };
@@ -557,7 +555,6 @@ export const postBudget = function (user, publisherId, activityId, budgetData) {
         },
         body: dataJSON,
     };
-    console.log('<<<<post budget', budgetData);
 
     return oipaPost(req_options)
 };
@@ -572,7 +569,6 @@ export const updateBudget = function (user, publisherId, activityId, id, budgetD
         },
         body: dataJSON,
     };
-    console.log('<<<<update budget', budgetData);
 
     return oipaUpdate(req_options)
 };
@@ -653,7 +649,6 @@ export const postContact = function (user, publisherId, activityId, contactData)
         },
         body: dataJSON,
     };
-    console.log('<<<contactData1 ', contactData);
 
     return oipaPost(req_options)
 };
@@ -668,7 +663,6 @@ export const updateContact = function (user, publisherId, activityId, id, contac
         },
         body: dataJSON,
     };
-    console.log('<<<contactData2 ', contactData);
 
     return oipaUpdate(req_options)
 };
@@ -756,7 +750,6 @@ export const getRelation = function (user, publisherId, activityId) {
 
 export const postRelation = function (user, publisherId, activityId, relationData) {
     const dataJSON = JSON.parse(relationData);
-    console.log("asd",dataJSON)
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.related_activities_url(publisherId, activityId),
@@ -803,7 +796,6 @@ export const getTransactions = function (user, publisherId, activityId) {
             'Authorization': 'Token ' + user.oipaToken
         },
     };
-    console.log('<<<getTransactions', req_options)
 
     return oipaGet(req_options)
         .then(parsedBody => parsedBody.results)
@@ -820,7 +812,6 @@ export const postTransaction = function (user, publisherId, activityId, transact
         },
         body: dataJSON,
     };
-    console.log('<<<postTransaction', transactionData)
 
     return oipaPost(req_options)
 };

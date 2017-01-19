@@ -1289,12 +1289,11 @@ export function getPerformanceCondition(publisherId, activityId) {
         [CALL_API]: {
             types: [GET_PERFORMANCE_CONDITION_REQUEST, GET_PERFORMANCE_CONDITION_SUCCESS, GET_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.getPerformanceCondition',
-            payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.related_activities),
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.condition),
         }
     }
 }
-
 
 /*
  * Create performance condition (Performance condition form)
@@ -1307,8 +1306,8 @@ export function createPerformanceCondition(publisherId, activityId, conditionDat
         [CALL_API]: {
             types: [CREATE_PERFORMANCE_CONDITION_REQUEST, CREATE_PERFORMANCE_CONDITION_SUCCESS, CREATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.createPerformanceCondition',
-            payload: [publisherId, activityId, conditionData],
-            schema: Schemas.related_activities,
+            payload: [ publisherId, activityId, conditionData ],
+            schema: Schemas.condition,
         }
     }
 }
@@ -1325,8 +1324,8 @@ export function updatePerformanceCondition(publisherId, activityId, id, conditio
         [CALL_API]: {
             types: [UPDATE_PERFORMANCE_CONDITION_REQUEST, UPDATE_PERFORMANCE_CONDITION_SUCCESS, UPDATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.updatePerformanceCondition',
-            payload: [publisherId, activityId, id, JSON.stringify(conditionData)],
-            schema: Schemas.related_activities,
+            payload: [ publisherId, activityId, id, JSON.stringify(conditionData) ],
+            schema: Schemas.condition,
         }
     }
 }

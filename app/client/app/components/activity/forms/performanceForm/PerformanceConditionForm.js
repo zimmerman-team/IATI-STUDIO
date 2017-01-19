@@ -4,7 +4,6 @@ import Tooltip from '../../../general/Tooltip.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
-import {Link} from 'react-router';
 import {
     getCodeListItems,
     getPerformanceCondition,
@@ -13,6 +12,8 @@ import {
     deletePerformanceCondition
 } from '../../../../actions/activity'
 import {conditionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import { Link } from 'react-router';
+import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 
@@ -136,7 +137,7 @@ class PerformanceConditionForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, codelists} = this.props;
+        const {handleSubmit, submitting, codelists, activityId} = this.props;
 
         if (!codelists.ConditionType || !codelists.Language) {
             return <GeneralLoader/>
@@ -155,7 +156,7 @@ class PerformanceConditionForm extends Component {
                         conditionOptions={codelists.ConditionType}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/relation/relation">Back to relation</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/relations/relations`}>Back to relation</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to performance result
                         </button>
@@ -193,5 +194,5 @@ PerformanceConditionForm = connect(mapStateToProps, {
     deletePerformanceCondition
 })(PerformanceConditionForm);
 
-export default PerformanceConditionForm;
+export default withRouter(PerformanceConditionForm);
 

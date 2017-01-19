@@ -11,7 +11,9 @@ import {
     updateRelation,
     deleteRelation
 } from '../../../../actions/activity'
-import {relationsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
+import { Link } from 'react-router';
+import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dirty, error}}) => {
@@ -106,9 +108,7 @@ class RelationsForm extends Component {
             this.props.deleteRelation,
         );
 
-        //this.props.router.push(`/publisher/activities/${activityId}/performance/condition`);
-        // this.props.dispatch(addRelations(formData, this.props.activity));
-        // this.context.router.push('/publisher/activities/performance')
+        this.props.router.push(`/publisher/activities/${activityId}/performance/condition`);
     }
 
 
@@ -119,7 +119,7 @@ class RelationsForm extends Component {
         }
     }
     render() {
-        const {handleSubmit, submitting, previousPage, codelists} = this.props;
+        const {handleSubmit, submitting, previousPage, codelists, activityId} = this.props;
 
         if (!codelists['RelatedActivityType']) {
             return <GeneralLoader />
@@ -143,14 +143,11 @@ class RelationsForm extends Component {
                         component={renderRelation}
                         relatedActivityTypeOptions={codelists["RelatedActivityType"]}
                     />
-                    <div className="row no-margin">
-                        <div className="columns small-12">
-                            <button type="button" className="button" onClick={previousPage}>Back to Document Link
-                            </button>
-                            <button className="button float-right" type="submit" disabled={submitting}>
-                                Continue to Performance
-                            </button>
-                        </div>
+                    <div className="columns small-12">
+                        <Link className="button" to={`/publisher/activities/${activityId}/document-link/document-link`}>Back to Document Link</Link>
+                        <button className="button float-right" type="submit" disabled={submitting}>
+                            Continue to Performance
+                        </button>
                     </div>
                 </form>
             </div>
@@ -159,10 +156,9 @@ class RelationsForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    let related_activities = currentActivity && currentActivity.activity_dates;
+    let related_activities = currentActivity && currentActivity.related_activities;
 
     return {
         data: related_activities,
@@ -177,7 +173,7 @@ RelationsForm = reduxForm({
     form: 'related_activities',
     destroyOnUnmount: false,
     enableReinitialize: true,
-    //validate
+    validate
 })(RelationsForm);
 
 RelationsForm = connect(mapStateToProps, {
@@ -188,5 +184,5 @@ RelationsForm = connect(mapStateToProps, {
     deleteRelation
 })(RelationsForm);
 
-export default RelationsForm;
+export default withRouter(RelationsForm);
 
