@@ -13,6 +13,10 @@ function activity(state = initialState, action) {
     //     return { ...state, submitting: true, }
     // }
 
+    if(action.type.indexOf("@@") === -1 && action.type.indexOf("GET_CODE_LIST_ITEMS_REQUEST") === -1 && action.type.indexOf("GET_CODE_LIST_ITEMS_SUCCESS") === -1) {
+        console.log('<<<action', action);
+    }
+
     switch (action.type) {
         // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
         //     return Object.assign({}, state, {

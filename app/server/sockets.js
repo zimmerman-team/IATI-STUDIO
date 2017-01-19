@@ -97,6 +97,11 @@ module.exports = function(app) {
         socket.on('Activity.updateRegion', Activity.updateRegion.bind(null, user));
         socket.on('Activity.deleteRegion', Activity.deleteRegion.bind(null, user));
 
+        socket.on('Activity.getLocations', Activity.getLocations.bind(null, user));
+        socket.on('Activity.createLocation', Activity.createLocation.bind(null, user));
+        socket.on('Activity.updateLocation', Activity.updateLocation.bind(null, user));
+        socket.on('Activity.deleteLocation', Activity.deleteLocation.bind(null, user));
+
         socket.on('Activity.getSectors', Activity.getSectors.bind(null, user));
         socket.on('Activity.createSector', Activity.createSector.bind(null, user));
         socket.on('Activity.updateSector', Activity.updateSector.bind(null, user));
@@ -121,6 +126,10 @@ module.exports = function(app) {
         socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
         socket.on('Activity.deleteBudget', Activity.deleteBudget.bind(null, user));
 
+        socket.on('Activity.getTransaction', Activity.getTransaction.bind(null, user));
+        socket.on('Activity.createTransaction', Activity.createTransaction.bind(null, user));
+        socket.on('Activity.updateTransaction', Activity.updateTransaction.bind(null, user));
+        socket.on('Activity.deleteTransaction', Activity.deleteTransaction.bind(null, user));
 
         // BasicInformation Date CRUD
         //socket.on('Activity.getDates', Activity.getDates.bind(null, user));   //Date endpoint not working using activity data

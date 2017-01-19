@@ -716,7 +716,7 @@ export function createLocation(publisherId, activityId, location) {
         [CALL_API]: {
             types: [ CREATE_LOCATION_REQUEST, CREATE_LOCATION_SUCCESS, CREATE_LOCATION_FAILURE ],
             endpoint: 'Activity.createLocation',
-            payload: [ publisherId, activityId, location ],
+            payload: [ publisherId, activityId, JSON.stringify(location) ],
             schema: Schemas.location,
         }
     }
@@ -734,7 +734,7 @@ export function updateLocation(publisherId, activityId, id, location) {
         [CALL_API]: {
             types: [ UPDATE_LOCATION_REQUEST, UPDATE_LOCATION_SUCCESS, UPDATE_LOCATION_FAILURE ],
             endpoint: 'Activity.updateLocation',
-            payload: [ publisherId, activityId, id, location ],
+            payload: [ publisherId, activityId, id, JSON.stringify(location) ],
             schema: Schemas.location,
         }
     }
