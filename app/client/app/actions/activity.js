@@ -1359,7 +1359,7 @@ export function getPerformanceResult(publisherId, activityId) {
     return {
         [CALL_API]: {
             types: [GET_PERFORMANCE_RESULT_REQUEST, GET_PERFORMANCE_RESULT_SUCCESS, GET_PERFORMANCE_RESULT_FAILURE],
-            endpoint: 'Activity.getPerformanceCondition',
+            endpoint: 'Activity.getPerformanceResult',
             payload: [publisherId, activityId],
             schema: arrayOf(Schemas.related_activities),
         }
@@ -1377,9 +1377,9 @@ export function createPerformanceResult(publisherId, activityId, conditionData) 
     return {
         [CALL_API]: {
             types: [CREATE_PERFORMANCE_RESULT_REQUEST, CREATE_PERFORMANCE_RESULT_SUCCESS, CREATE_PERFORMANCE_RESULT_FAILURE],
-            endpoint: 'Activity.createPerformanceCondition',
+            endpoint: 'Activity.createPerformanceResult',
             payload: [publisherId, activityId, JSON.stringify(conditionData)],
-            schema: Schemas.related_activities,
+            schema: Schemas.result,
         }
     }
 }
@@ -1395,9 +1395,9 @@ export function updatePerformanceResult(publisherId, activityId, id, conditionDa
         id,
         [CALL_API]: {
             types: [UPDATE_PERFORMANCE_RESULT_REQUEST, UPDATE_PERFORMANCE_RESULT_SUCCESS, UPDATE_PERFORMANCE_RESULT_FAILURE],
-            endpoint: 'Activity.updatePerformanceCondition',
+            endpoint: 'Activity.updatePerformanceResult',
             payload: [publisherId, activityId, id, JSON.stringify(conditionData)],
-            schema: Schemas.related_activities,
+            schema: Schemas.result,
         }
     }
 }
@@ -1414,7 +1414,7 @@ export function deletePerformanceResult(publisherId, activityId, id) {
         id,
         [CALL_API]: {
             types: [DELETE_PERFORMANCE_RESULT_REQUEST, DELETE_PERFORMANCE_RESULT_SUCCESS, DELETE_PERFORMANCE_RESULT_FAILURE],
-            endpoint: 'Activity.deletePerformanceCondition',
+            endpoint: 'Activity.deletePerformanceResult',
             payload: [publisherId, activityId, id]
         }
     }

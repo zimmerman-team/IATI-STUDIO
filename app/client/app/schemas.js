@@ -112,6 +112,10 @@ export const condition = new Schema('conditions', {
     idAttribute: "id",
 })
 
+export const result = new Schema('results', {
+    idAttribute: "id",
+})
+
 export const participatingOrganisation = new Schema('participatingOrganisations', {
     idAttribute: "id",
 })
@@ -141,9 +145,10 @@ export const activity = new Schema('activity', {
     humanitarian_scope: arrayOf(humanitarianScope),
     country_budget_items: arrayOf(countryBudgetItems),
     budgets: arrayOf(budget),
+    results: arrayOf(result),
     locations: arrayOf(location),
     transactions: arrayOf(transaction),
-    transactions: arrayOf(condition),
+    conditions: arrayOf(condition),
     plannedDisbursements: arrayOf(plannedDisbursement),
     participatingOrganisations: arrayOf(participatingOrganisation),
     date: arrayOf(date),

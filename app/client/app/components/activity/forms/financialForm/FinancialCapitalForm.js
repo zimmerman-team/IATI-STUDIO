@@ -1,17 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {Field, reduxForm} from 'redux-form'
+import {Field} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {Link} from 'react-router';
 import {renderField} from '../../helpers/FormHelper'
-import {
-    getCapital,
-    createCapital,
-    updateCapital,
-    deleteCapital
-} from '../../../../actions/activity'
+import { getActivity, updateActivity } from '../../../../actions/activity'
+import {publisherSelector} from '../../../../reducers/createActivity'
+import {reduxForm} from  'redux-form'
 
-import handleSubmit from '../../helpers/handleSubmit'
+import { withRouter } from 'react-router'
 
 
 const validate = values => {
@@ -36,26 +33,23 @@ class FinancialCapitalForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, publisher, data} = this.props;
-        const capitalSpend = formData.capital_spend;
+        const {activityId, publisher} = this.props;
+        console.log('<<<formData', formData);
 
-        handleSubmit(
-            publisher.id,
-            'capital_spend',
-            activityId,
-            data,
-            capitalSpend,
-            this.props.createCapital,
-            this.props.updateCapital,
-            this.props.deleteCapital,
-        );
+        this.props.updateActivity(publisher.id, {
+            id: activityId,
+            ...formData.activity,
+        });
 
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        this.props.router.push(`/publisher/activities/${activityId}/document-link/document-link`)
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
+    componentWillReceiveProps(nextProps) {
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
 
     render() {
         const {handleSubmit, submitting, activityId} = this.props;
@@ -73,8 +67,8 @@ class FinancialCapitalForm extends Component {
                             <div className="row no-margin">
                                 <div className="columns small-6">
                                     <Field
-                                        name="capital_spend"
-                                        type="text"
+                                        name="activity.capital_spend.percentage"
+                                        type="number"
                                         component={renderField}
                                         label="Capital Spend"
                                     />
@@ -96,25 +90,31 @@ class FinancialCapitalForm extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        activity: state.activity
-    }
-}
-
 FinancialCapitalForm = reduxForm({
-    form: 'financial-capital-form',     // a unique identifier for this form
+    form: 'financial-capital-form',     // a unique identifier for this form,
     destroyOnUnmount: false,
     enableReinitialize: true,
     validate
 })(FinancialCapitalForm);
 
+
+function mapStateToProps(state, props) {
+    const {activityId} = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    console.log('<<currentActivity', currentActivity);
+
+    return {
+        submitting: state.activity.submitting,
+        activity: state.activity.activity,
+        initialValues: {"activity": currentActivity},  // populate initial values for redux form
+        publisher: publisherSelector(state),
+    }
+}
+
 FinancialCapitalForm = connect(mapStateToProps, {
-    getCapital,
-    createCapital,
-    updateCapital,
-    deleteCapital
+    getActivity,
+    updateActivity,
 })(FinancialCapitalForm);
 
-export default FinancialCapitalForm;
+export default withRouter(FinancialCapitalForm)
 

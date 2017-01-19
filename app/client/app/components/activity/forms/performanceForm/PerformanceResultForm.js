@@ -1,13 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
-import {getCodeListItems, createActivity, addPerformanceResult} from '../../../../actions/activity'
 
-const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureOptions, indicatorVocabularyOptions, meta: {touched, dirty, error}}) => {
+import {getCodeListItems, createPerformanceResult, updatePerformanceResult, deletePerformanceResult} from '../../../../actions/activity'
+import {resultsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {withRouter} from 'react-router'
+import handleSubmit from '../../helpers/handleSubmit'
+
+const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureOptions, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -101,25 +105,44 @@ class PerformanceResultForm extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
-
     /**
-     * Submit performance's comment data and redirect to comment form
+     * Submit performance's result data and redirect to comment form
      *
      * @param formData
      */
     handleFormSubmit(formData) {
-        this.props.dispatch(addPerformanceResult(formData, this.props.activity));
-        this.context.router.push('/publisher/activities/performance/comment');
+        const {activityId, publisher, data} = this.props;
+
+        const lastResults = data;
+        let results = formData.results;
+
+        handleSubmit(
+            publisher.id,
+            'results',
+            activityId,
+            lastResults,
+            results,
+            this.props.createPerformanceResult,
+            this.props.updatePerformanceResult,
+            this.props.deletePerformanceResult
+        );
+
+        this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
     }
+
 
     componentWillMount() {
         this.props.getCodeListItems('ResultType');
         this.props.getCodeListItems('Language');
         this.props.getCodeListItems('IndicatorMeasure');
         this.props.getCodeListItems('IndicatorVocabulary');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+        }
     }
 
     render() {
@@ -172,21 +195,28 @@ class PerformanceResultForm extends Component {
     }
 }
 
-
-function mapStateToProps(state) {
-    return {
-        activity: state.activity,
-        codelists: state.codelists,
-    }
-}
-
 PerformanceResultForm = reduxForm({
     form: 'performance-result',     // a unique identifier for this form
     destroyOnUnmount: false,
+    enableReinitialize: true,
     validate
 })(PerformanceResultForm);
 
+function mapStateToProps(state, props) {
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let results = currentActivity && currentActivity.results;
 
-PerformanceResultForm = connect(mapStateToProps, {getCodeListItems, createActivity})(PerformanceResultForm);
-export default PerformanceResultForm;
+    return {
+        data: results,
+        activity: state.activity.activity,
+        codelists: state.codelists,
+        initialValues: {"results": results},  // populate initial values for redux form
+        publisher: publisherSelector(state),
+        ...props,
+    }
+}
+
+PerformanceResultForm = connect(mapStateToProps, {getCodeListItems, createPerformanceResult, updatePerformanceResult, deletePerformanceResult})(PerformanceResultForm);
+export default withRouter(PerformanceResultForm);
 

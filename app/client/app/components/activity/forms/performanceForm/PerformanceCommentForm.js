@@ -87,7 +87,7 @@ class PerformanceCommentForm extends Component {
   }
 
   render() {
-    const {handleSubmit, submitting} = this.props;
+    const {handleSubmit, submitting, activityId} = this.props;
 
     return (
       <div className="columns small-centered small-12">
@@ -104,7 +104,7 @@ class PerformanceCommentForm extends Component {
             component={renderAdditionalRenderPerformanceCommentForm}
           />
           <div className="columns small-12">
-            <Link className="button" to="/publisher/activities/performance/result">Back to performance result</Link>
+            <Link className="button" to={`/publisher/activities/${activityId}/performance/result`}>Back to performance result</Link>
             <button className="button float-right" type="submit" disabled={submitting}>
               Submit
             </button>
