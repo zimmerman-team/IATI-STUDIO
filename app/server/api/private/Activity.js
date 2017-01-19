@@ -168,7 +168,7 @@ var ActivityAPI = {
 
     createDocumentLink: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here
-        // on succesful creation,
+        // on successful creation,
         return oipaMethods.postDocumentLink(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
@@ -422,9 +422,24 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    addRelations: function (user, publisherId, form, activity, res) {
+    createRelation: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
-        return postRelationForm(user, publisherId, form, activity)
+        // on succesful creation,
+        return oipaMethods.postDescription(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateRelation: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateRegion(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteRelation: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteRegion(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

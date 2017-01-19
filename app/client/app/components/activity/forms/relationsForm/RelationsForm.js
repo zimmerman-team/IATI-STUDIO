@@ -12,7 +12,7 @@ import {
     deleteRelations
 } from '../../../../actions/activity'
 import {relationsSelector} from '../../../../reducers/createActivity.js'
-
+import handleSubmit from '../../helpers/handleSubmit'
 
 const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
@@ -23,12 +23,12 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
         <div>
             {fields.map((relations, index) =>
                 <div key={index}>
-                    <hr/>
                     <div className="field-list clearfix">
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name={`${relations}.relatedActivityType`}
+                                name={`${relations}.type[code]`}
+                                textName={`${relations}type.code`}
                                 label='Type of Relationship'
                                 selectOptions={relatedActivityTypeOptions}
                                 defaultOption="Select one of the following options"
@@ -41,11 +41,6 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
                                     label="Activity Identifier"
                                 />
                             </div>
-                        </div>
-                        <div className="columns">
-                            <button className="control-button add" type="button" onClick={() => fields.push({})}>
-                                Add More
-                            </button>
                         </div>
                     </div>
                     <div className="columns">
@@ -71,7 +66,7 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
 const validate = values => {
     const errors = {};
 
-    if (!values.activityIdentifier || !values.relatedActivityType) {
+    if(!values.renderTitlesData) {
         errors.type = 'Required'
     }
 
@@ -96,8 +91,23 @@ class RelationsForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        this.props.dispatch(addRelations(formData, this.props.activity));
-        this.context.router.push('/publisher/activities/performance')
+        const {activityId, publisher, data} = this.props;
+        const relationData = formData.related_activities;
+
+        handleSubmit(
+            publisher.id,
+            'related_activities',
+            activityId,
+            data,
+            relationData,
+            this.props.createRelation,
+            this.props.updateRelation,
+            this.props.deleteRelation,
+        );
+
+        //this.props.router.push(`/publisher/activities/${activityId}/performance/condition`);
+        // this.props.dispatch(addRelations(formData, this.props.activity));
+        // this.context.router.push('/publisher/activities/performance')
     }
 
     static contextTypes = {
@@ -125,7 +135,7 @@ class RelationsForm extends Component {
                 </div>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FieldArray
-                        name="renderTitlesData"
+                        name="related_activities"
                         component={renderRelation}
                         relatedActivityTypeOptions={codelists["RelatedActivityType"]}
                     />

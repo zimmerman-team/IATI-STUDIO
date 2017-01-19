@@ -656,13 +656,15 @@ export const getDocumentLinks = function (user, publisherId, activityId) {
 };
 
 export const postDocumentLink = function (user, publisherId, activityId, documentLinkData) {
+    const dataJSON = JSON.parse(documentLinkData);
+
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.document_link_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: documentLinkData,
+        body: dataJSON,
     };
 
     return oipaPost(req_options)
