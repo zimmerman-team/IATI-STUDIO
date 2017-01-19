@@ -41,6 +41,9 @@ const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, documen
                                     component={renderField}
                                     label="URL"
                                 />
+                                <span>If your document is not uploaded, Upload it in IATI Studio. You can also add from
+                                    your existing documents in IATI Studio.
+                                </span>
                             </div>
                             <Field
                                 component={renderSelectField}
