@@ -344,6 +344,8 @@ class FinancialTransactionForm extends Component {
                             financeOptions={codelists["FinanceType"]}
                             aidOptions={codelists["AidType"]}
                             tiedOptions={codelists["TiedStatus"]}
+                            sectorVocabularyOptions={codelists["SectorVocabulary"]}
+                            sectorOptions={codelists["Sector"]}
                         />
                         <div className="columns small-12">
                             <Link className="button" to="/publisher/activities/financial/planned-disbursement">Back to
