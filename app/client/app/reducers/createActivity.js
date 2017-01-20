@@ -13,10 +13,6 @@ function activity(state = initialState, action) {
     //     return { ...state, submitting: true, }
     // }
 
-    if(action.type.indexOf("@@") === -1 && action.type.indexOf("GET_CODE_LIST_ITEMS_REQUEST") === -1 && action.type.indexOf("GET_CODE_LIST_ITEMS_SUCCESS") === -1) {
-        console.log('<<<action', action);
-    }
-
     switch (action.type) {
         // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
         //     return Object.assign({}, state, {
@@ -159,19 +155,9 @@ export const statusSelector = createSelector(
     (activity_status) => _.map(activity_status, x => x) // to array
 )
 
-export const budgetsSelector = createSelector(
-    state => state.activity.budgets,
-    (budgets) => _.map(budgets, x => x) // to array
-)
-
 export const countryBudgetItemSelector = createSelector(
     state => state.activity.country_budget_items,
     (country_budget_items) => _.map(country_budget_items, x => x) // to array
-)
-
-export const capitalSelector = createSelector(
-    state => state.activity.capitals,
-    (capitals) => _.map(capitals, x => x) // to array
 )
 
 export const transactionsSelector = createSelector(
@@ -192,11 +178,6 @@ export const documentLinksSelector = createSelector(
 export const policySelector = createSelector(
     state => state.activity.policy,
     (policy) => _.map(policy, x => x) // to array
-)
-
-export const locationsSelector = createSelector(
-    state => state.activity.locations,
-    (locations) => _.map(locations, x => x)  // to array
 )
 
 export const regionsSelector = createSelector(
@@ -224,11 +205,6 @@ export const recipientCountriesSelector = createSelector(
     (recipient_countries) => _.map(recipient_countries, x => x) // to array
 )
 
-export const relationsSelector = createSelector(
-    state => state.activity.related_activities,
-    (related_activities) => _.map(related_activities, x => x) // to array
-)
-
 export const conditionsSelector = createSelector(
     state => state.activity.conditions,
     (conditions) => _.map(conditions, x => x) // to array
@@ -237,11 +213,6 @@ export const conditionsSelector = createSelector(
 export const resultsSelector = createSelector(
     state => state.activity.results,
     (results) => _.map(results, x => x) // to array
-)
-
-export const commentsSelector = createSelector(
-    state => state.activity.comments,
-    (comments) => _.map(comments, x => x) // to array
 )
 
 export default activity

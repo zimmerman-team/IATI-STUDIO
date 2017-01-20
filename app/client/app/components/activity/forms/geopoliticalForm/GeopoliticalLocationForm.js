@@ -7,13 +7,13 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {
     getCodeListItems,
-    getLocations,
+    getActivity,
     createLocation,
     updateLocation,
     deleteLocation
 } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {locationsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 
 const renderLocation = ({fields, geographicLocationReachOptions, geographicVocabularyOptions, geographicExactnessOptions,
@@ -32,7 +32,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 <div className="row no-margin">
                                     <div className="columns small-6">
                                         <Field
-                                            name="ref"
+                                            name={`${location}ref`}
                                             type="text"
                                             component={renderField}
                                             label="Reference"
@@ -62,7 +62,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             <hr/>
                             <h6 className="columns">Name</h6>
                             <FieldArray
-                                name={`${location}name`}
+                                name={`${location}name.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="name"
@@ -71,7 +71,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             <hr/>
                             <h6 className="columns">Location description</h6>
                             <FieldArray
-                                name={`${location}additionalLocation`}
+                                name={`${location}description.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="locationName"
@@ -80,7 +80,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             <hr/>
                             <h6 className="columns">Activity description</h6>
                             <FieldArray
-                                name={`${location}activity_description`}
+                                name={`${location}activity_description.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="activeName"
@@ -88,17 +88,58 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             />
                             <hr/>
                             <FieldArray
-                                name={`${location}administrative`}
+                                name={`${location}.location_id`}
+                                textName={`${location}.location_id`}
                                 component={renderAdministrativeFields}
                                 geographicVocabularyOptions={geographicVocabularyOptions}
                             />
                             <hr/>
                             <FieldArray
                                 name={`${location}point`}
+                                textName={`${location}point`}
                                 component={renderPointFields}
                                 geographicExactnessOptions={geographicExactnessOptions}
                                 geographicLocationClassOptions={geographicLocationClassOptions}
                             />
+                            <div className="columns small-12">
+                                <h6>Exactness</h6>
+                                <div className="row no-margin">
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${location}.exactness.code`}
+                                        textName={`${location}.exactness.code`}
+                                        label="Exactness"
+                                        selectOptions={geographicExactnessOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                                </div>
+                            </div>
+                            <div className="columns small-12">
+                                <h6>Location class</h6>
+                                <div className="row no-margin">
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${location}.location_class.code`}
+                                        textName={`${location}.location_class.code`}
+                                        label="Location Class"
+                                        selectOptions={geographicLocationClassOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                                </div>
+                            </div>
+                            <div className="columns small-12">
+                                <h6>Feature designation</h6>
+                                <div className="row no-margin">
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${location}.feature_designation.code`}
+                                        textName={`${location}.feature_designation.code`}
+                                        label="Feature Designation"
+                                        selectOptions={geographicLocationClassOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="columns">
@@ -172,21 +213,21 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
     </div>
 );
 
-const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
+const renderAdministrativeFields = ({fields, textName="", geographicVocabularyOptions, meta: {touched, error}}) => (
     <div className="columns small-12">
         <h6>Administrative</h6>
         <div className="row no-margin">
             <Field
                 component={renderSelectField}
-                name="administrativeVocabulary"
-                textName="administrativeVocabulary"
+                name={`${textName}.vocabulary.code`}
+                textName={`${textName}.vocabulary.code`}
                 label="Vocabulary"
                 selectOptions={geographicVocabularyOptions}
                 defaultOption="Select one of the following options"
             />
             <div className="columns small-6">
                 <Field
-                    name="administrativeVocabularyCode"
+                    name={`${textName}.code`}
                     type="text"
                     component={renderField}
                     label="Code"
@@ -196,7 +237,7 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
                 <div className="row no-margin">
                     <div className="columns small-6">
                         <Field
-                            name="administrativeLevel"
+                            name={`${textName}.level`}
                             type="text"
                             component={renderField}
                             label="Level"
@@ -204,53 +245,11 @@ const renderAdministrativeFields = ({fields, geographicVocabularyOptions, meta: 
                     </div>
                 </div>
             </div>
-            {fields.map((vocabulary, index) =>
-                <div key={index}>
-                    <Field
-                        component={renderSelectField}
-                        name={`${vocabulary}.textCode`}
-                        textName={`${vocabulary}.textCode`}
-                        label="Vocabulary"
-                        selectOptions={geographicVocabularyOptions}
-                        defaultOption="Select one of the following options"
-                    />
-                    <div className="columns small-6">
-                        <Field
-                            name={`${vocabulary}.geographicVocabularyCode`}
-                            type="text"
-                            component={renderField}
-                            label="Code"
-                        />
-                    </div>
-                    <div className="columns small-12">
-                        <div className="row no-margin">
-                            <div className="columns small-6">
-                                <Field
-                                    name={`${vocabulary}.administrativeLevel`}
-                                    type="text"
-                                    component={renderField}
-                                    label="Level"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
         </div>
     </div>
 );
 
-const renderPointFields = ({fields, geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => (
+const renderPointFields = ({fields, textName="", geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => (
     <div className="columns small-12">
         <h6>Point</h6>
         <div className="row no-margin">
@@ -258,7 +257,7 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
                 <div className="row no-margin">
                     <div className="columns small-6">
                         <Field
-                            name="point_name"
+                            name={`${textName}.srsName`}
                             type="text"
                             component={renderField}
                             label="Srs name"
@@ -271,16 +270,16 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
                 <div className="row no-margin">
                     <div className="columns small-6">
                         <Field
-                            name="latitude"
-                            type="text"
+                            name={`${textName}.pos.latitude`}
+                            type="number"
                             component={renderField}
                             label="Latitude"
                         />
                     </div>
                     <div className="columns small-6">
                         <Field
-                            name="longitude"
-                            type="text"
+                            name={`${textName}.pos.longitude`}
+                            type="number"
                             component={renderField}
                             label="Longitude"
                         />
@@ -289,45 +288,6 @@ const renderPointFields = ({fields, geographicExactnessOptions, geographicLocati
             </div>
             <div className="columns small-12">
                 {/*@TODO Map here*/}
-            </div>
-            <div className="columns small-12">
-                <h6>Exactness</h6>
-                <div className="row no-margin">
-                    <Field
-                        component={renderSelectField}
-                        name="exactness"
-                        textName="exactness"
-                        label="Exactness"
-                        selectOptions={geographicExactnessOptions}
-                        defaultOption="Select one of the following options"
-                    />
-                </div>
-            </div>
-            <div className="columns small-12">
-                <h6>Location class</h6>
-                <div className="row no-margin">
-                    <Field
-                        component={renderSelectField}
-                        name="location_class"
-                        textName="location_class"
-                        label="Location Class"
-                        selectOptions={geographicLocationClassOptions}
-                        defaultOption="Select one of the following options"
-                    />
-                </div>
-            </div>
-            <div className="columns small-12">
-                <h6>Feature designation</h6>
-                <div className="row no-margin">
-                    <Field
-                        component={renderSelectField}
-                        name="feature_designation"
-                        textName="feature_designation"
-                        label="Feature Designation"
-                        selectOptions={geographicLocationClassOptions}
-                        defaultOption="Select one of the following options"
-                    />
-                </div>
             </div>
         </div>
     </div>
@@ -357,8 +317,6 @@ class LocationForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
         const locations = formData.locations;
-        console.log('<<<locations', locations);
-        console.log('<<<formData', formData);
 
         handleSubmit(
             publisher.id,
@@ -370,7 +328,7 @@ class LocationForm extends Component {
             this.props.updateLocation,
             this.props.deleteLocation,
         )
-        //this.props.router.push(`/publisher/activities/${activityId}/classifications/sector`)
+        this.props.router.push(`/publisher/activities/${activityId}/classifications/sector`)
     }
 
 
@@ -383,24 +341,9 @@ class LocationForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
-
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('locations', newData);
-
-            // change each item
-            newData.forEach((d, i) => this.props.change(`locations[${i}]`, d))
-
-            // remove any removed elements if newData < oldData
-            for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('locations', i)
-            }
-        }
-
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getLocations(nextProps.publisher.id, nextProps.activityId)
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId &&  this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -440,12 +383,25 @@ class LocationForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const locations = locationsSelector(state);
+    const { activityId } = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let locations = currentActivity && currentActivity.locations;
+
+    // @TODO remove this when feature_designation is fixed on location form
+    let formLocations = [];
+    if (locations && locations.length) {
+        locations.forEach(function (formLocation) {
+            let newformLocation = Object.assign({}, formLocation);
+            newformLocation.feature_designation = {"code": 2, "name": "Populated Place"};
+            formLocations.push(newformLocation);
+        });
+    }
 
     return {
-        data: locations,
+        data: formLocations,
+        activity: state.activity.activity,
         codelists: state.codelists,
-        initialValues: {"locations": locations},  // populate initial values for redux form
+        initialValues: {"locations": formLocations},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }
@@ -460,7 +416,7 @@ LocationForm = reduxForm({
 
 LocationForm = connect(mapStateToProps, {
     getCodeListItems,
-    getLocations,
+    getActivity,
     createLocation,
     updateLocation,
     deleteLocation

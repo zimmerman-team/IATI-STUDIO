@@ -185,7 +185,7 @@ class SectorForm extends Component {
                         sectorOptions={codelists["Sector"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical/geopolitical`}>Back to
+                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/location`}>Back to
                             Geopolitical</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Policy
@@ -209,7 +209,7 @@ function mapStateToProps(state, props) {
     const sector = sectorsSelector(state);
 
     return {
-        data: sectors,
+        data: sector,
         codelists: state.codelists,
         initialValues: {"sector": sector},  // populate initial values for redux form
         publisher: publisherSelector(state),
