@@ -14,7 +14,7 @@ export const ActivityListItem = ({ publisher, activity, deleteActivity }) => (
         <td>{ activity.iati_identifier }</td>
         <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
         <td><Link 
-                to={`/publisher/activities/${activity.id}/`} 
+                to={`/publisher/activities/${activity.id}/identification/`}
                 className={'button'}
             >Edit</Link></td>
         <td><a 
