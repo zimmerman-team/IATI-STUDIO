@@ -178,8 +178,8 @@ export const transactionsSelector = createSelector(
 )
 
 export const plannedDisbursementsSelector = createSelector(
-    state => state.activity.plannedDisbursements,
-    (plannedDisbursements) => _.map(plannedDisbursements, x => x) // to array
+    state => state.activity.planned_disbursements,
+    (planned_disbursements) => _.map(planned_disbursements, x => x) // to array
 )
 
 export const documentLinksSelector = createSelector(

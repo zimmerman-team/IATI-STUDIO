@@ -131,6 +131,10 @@ module.exports = function(app) {
         socket.on('Activity.updateTransaction', Activity.updateTransaction.bind(null, user));
         socket.on('Activity.deleteTransaction', Activity.deleteTransaction.bind(null, user));
 
+        socket.on('Activity.createPlannedDisbursement', Activity.createPlannedDisbursement.bind(null, user));
+        socket.on('Activity.updatePlannedDisbursement', Activity.updatePlannedDisbursement.bind(null, user));
+        socket.on('Activity.deletePlannedDisbursement', Activity.deletePlannedDisbursement.bind(null, user));
+
         // BasicInformation Date CRUD
         //socket.on('Activity.getDates', Activity.getDates.bind(null, user));   //Date endpoint not working using activity data
         socket.on('Activity.createDate', Activity.createDate.bind(null, user));

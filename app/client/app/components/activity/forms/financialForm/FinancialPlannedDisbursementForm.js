@@ -7,137 +7,134 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux'
 import handleSubmit from '../../helpers/handleSubmit'
 import {withRouter} from 'react-router'
-import {plannedDisbursementsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {
-    getCodeListItems, createActivity, getPlannedDisbursements, createPlannedDisbursement, updatePlannedDisbursement,
+    getCodeListItems, createActivity, getActivity, createPlannedDisbursement, updatePlannedDisbursement,
     deletePlannedDisbursement
 } from '../../../../actions/activity'
 
-const renderAdditionalRenderFinancialPlannedDisbursementForm = ({
+const renderFinancialPlannedDisbursementForm = ({
     fields, disbursementChannelOptions, currencyOptions,
-    languageOptions, organisationOptions, meta: {touched, error}
-}) => (
-    <div>
-        {fields.map((description, index) =>
-            <div className="field-list" key={index}>
-                <RenderFinancialPlannedDisbursementForm
-                    disbursementChannelOptions={disbursementChannelOptions}
-                    currencyOptions={currencyOptions}
-                    languageOptions={languageOptions}
-                    organisationOptions={organisationOptions}
-                />
-            </div>
-        )}
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
-        </div>
-    </div>
-);
+    languageOptions, organisationOptions, meta: {touched, error, dirty}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
 
+    return (
+        <div>
+            {fields.map((plannedDisbursement, index) =>
+                <div key={index}>
+                <div className="field-list">
+                    <div className="row no-margin">
+                        {
+                            !disbursementChannelOptions ?
+                                <GeneralLoader/> :
+                                <Field
+                                    component={renderSelectField}
+                                    name={`${plannedDisbursement}type.code`}
+                                    textName={`${plannedDisbursement}type.code`}
+                                    label="Type"
+                                    selectOptions={disbursementChannelOptions}
+                                    defaultOption="Select one of the following options"
+                                />
+                        }
+                    </div>
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            Period start
+                            <Field
+                                name={`${plannedDisbursement}period_start`}
+                                type="date"
+                                component={renderField}
+                                label="Date"
+                            />
+                        </div>
+                    </div>
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            Period end
+                            <Field
+                                name={`${plannedDisbursement}period_end`}
+                                type="date"
+                                component={renderField}
+                                label="Date"
+                            />
+                        </div>
+                    </div>
+                    Value
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${plannedDisbursement}.value.value`}
+                                type="number"
+                                component={renderField}
+                                label="Amount"
+                            />
+                        </div>
+                        {
+                            !currencyOptions ?
+                                <GeneralLoader/> :
+                                <Field
+                                    component={renderSelectField}
+                                    name={`${plannedDisbursement}.value.currency.code`}
+                                    textName={`${plannedDisbursement}.value.currency.code`}
+                                    label="Currency"
+                                    selectOptions={currencyOptions}
+                                    defaultOption="Select one of the following options"
+                                />
+                        }
+                    </div>
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${plannedDisbursement}.value.date`}
+                                type="date"
+                                component={renderField}
+                                label="Value date"
+                            />
+                        </div>
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${plannedDisbursement}ProviderOrg`}
+                            component={renderOrgFields}
+                            languageOptions={languageOptions}
+                            organisationOptions={organisationOptions}
+                            textName={`${plannedDisbursement}receiverOrg[text]`}
+                            mainLabel="Provider org"
+                            textLabel="Title"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <FieldArray
+                            name={`${plannedDisbursement}ReceiverOrg`}
+                            component={renderOrgFields}
+                            languageOptions={languageOptions}
+                            organisationOptions={organisationOptions}
+                            textName={`${plannedDisbursement}receiverOrg[text]`}
+                            mainLabel="Receiver org"
+                            textLabel="Title"
+                        />
+                    </div>
+                </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
 
-const RenderFinancialPlannedDisbursementForm = ({
-    disbursementChannelOptions, currencyOptions,
-    languageOptions, organisationOptions
-}) => (
-    <div>
-        <div className="row no-margin">
-            {
-                !disbursementChannelOptions ?
-                    <GeneralLoader/> :
-                    <Field
-                        component={renderSelectField}
-                        name="type"
-                        label="Type"
-                        selectOptions={disbursementChannelOptions}
-                        defaultOption="Select one of the following options"
-                    />
-            }
-        </div>
-        <div className="row no-margin">
-            <div className="columns small-6">
-                Period start
-                <Field
-                    name="period_start"
-                    type="date"
-                    component={renderField}
-                    label="Date"
-                />
-            </div>
-        </div>
-        <div className="row no-margin">
-            <div className="columns small-6">
-                Period end
-                <Field
-                    name="period_end"
-                    type="date"
-                    component={renderField}
-                    label="Date"
-                />
-            </div>
-        </div>
-        Value
-        <div className="row no-margin">
-            <div className="columns small-6">
-                <Field
-                    name="amount"
-                    type="text"
-                    component={renderField}
-                    label="Amount"
-                />
-            </div>
-            {
-                !currencyOptions ?
-                    <GeneralLoader/> :
-                    <Field
-                        component={renderSelectField}
-                        name="currency"
-                        label="Currency"
-                        selectOptions={currencyOptions}
-                        defaultOption="Select one of the following options"
-                    />
-            }
-        </div>
-        <div className="row no-margin">
-            <div className="columns small-6">
-                <Field
-                    name="valueDate"
-                    type="date"
-                    component={renderField}
-                    label="Value date"
-                />
-            </div>
-        </div>
-        <div className="row no-margin">
-            <FieldArray
-                name="ProviderOrg"
-                component={renderOrgFields}
-                languageOptions={languageOptions}
-                organisationOptions={organisationOptions}
-                textName="receiverOrg[text]"
-                mainLabel="Provider org"
-                textLabel="Title"
-            />
-        </div>
-        <div className="row no-margin">
-            <FieldArray
-                name="ReceiverOrg"
-                component={renderOrgFields}
-                languageOptions={languageOptions}
-                organisationOptions={organisationOptions}
-                textName="receiverOrg[text]"
-                mainLabel="Receiver org"
-                textLabel="Title"
-            />
-        </div>
-    </div>
-);
 
 const validate = values => {
     const errors = {};
@@ -162,14 +159,15 @@ class FinancialPlannedDisbursement extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
-        const plannedDisbursements = formData.plannedDisbursements;
+        const planned_disbursements = formData.planned_disbursements;
+        console.log('<<<handleFormSubmit planned_disbursements', planned_disbursements);
 
         handleSubmit(
             publisher.id,
-            'plannedDisbursements',
+            'planned_disbursements',
             activityId,
             data,
-            plannedDisbursements,
+            planned_disbursements,
             this.props.createPlannedDisbursement,
             this.props.updatePlannedDisbursement,
             this.props.deletePlannedDisbursement,
@@ -191,26 +189,9 @@ class FinancialPlannedDisbursement extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
-
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('plannedDisbursements', newData);
-
-            // change each item
-            newData.forEach((d, i) => this.props.change(`plannedDisbursements[${i}]`, d))
-
-            // remove any removed elements if newData < oldData
-            for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('plannedDisbursements', i)
-            }
-        }
-
-        console.log(nextProps.publisher);
-
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getPlannedDisbursements(nextProps.publisher.id, nextProps.activityId)
+        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
+        if (this.props.activityId && this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -228,17 +209,9 @@ class FinancialPlannedDisbursement extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <div className="field-list">
-                        <RenderFinancialPlannedDisbursementForm
-                            currencyOptions={codelists["Currency"]}
-                            disbursementChannelOptions={codelists["DisbursementChannel"]}
-                            languageOptions={codelists["Language"]}
-                            organisationOptions={codelists["OrganisationType"]}
-                        />
-                    </div>
                     <FieldArray
-                        name="additionalPlannedDisbursement"
-                        component={renderAdditionalRenderFinancialPlannedDisbursementForm}
+                        name="planned_disbursements"
+                        component={renderFinancialPlannedDisbursementForm}
                         currencyOptions={codelists["Currency"]}
                         languageOptions={codelists["Language"]}
                         disbursementChannelOptions={codelists["DisbursementChannel"]}
@@ -259,12 +232,14 @@ class FinancialPlannedDisbursement extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const plannedDisbursements = plannedDisbursementsSelector(state)
+    const {activityId} = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let planned_disbursements = currentActivity && currentActivity.planned_disbursements;
 
     return {
-        data: plannedDisbursements,
+        data: planned_disbursements,
         codelists: state.codelists,
-        initialValues: {"plannedDisbursements": plannedDisbursements},  // populate initial values for redux form
+        initialValues: {"planned_disbursements": planned_disbursements},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }
@@ -280,7 +255,7 @@ FinancialPlannedDisbursement = reduxForm({
 
 FinancialPlannedDisbursement = connect(mapStateToProps, {
     getCodeListItems,
-    getPlannedDisbursements,
+    getActivity,
     createPlannedDisbursement,
     updatePlannedDisbursement,
     deletePlannedDisbursement
