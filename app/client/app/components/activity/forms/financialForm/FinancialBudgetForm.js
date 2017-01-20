@@ -73,7 +73,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                             <div className="columns small-6">
                                 <Field
                                     name={`${budget}value.value`}
-                                    type="text"
+                                    type="number"
                                     component={renderField}
                                     label="Amount"
                                 />
@@ -83,8 +83,8 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                                     <GeneralLoader/> :
                                     <Field
                                         component={renderSelectField}
-                                        name={`${budget}value.currency`}
-                                        tesxtName={`${budget}value.currency`}
+                                        name={`${budget}value.currency.code`}
+                                        textName={`${budget}value.currency.code`}
                                         label="Currency"
                                         selectOptions={currencyOptions}
                                         defaultOption="Select one of the following options"
