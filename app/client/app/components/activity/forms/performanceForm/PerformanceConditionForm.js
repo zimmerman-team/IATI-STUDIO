@@ -104,9 +104,13 @@ class PerformanceConditionForm extends Component {
             this.props.createPerformanceCondition,
             this.props.updatePerformanceCondition,
             this.props.deletePerformanceCondition,
-        );
-
-        router.push(`/publisher/activities/${activityId}/performance/result`)
+        ).then((result) => {
+            if (!result.error) {
+                router.push(`/publisher/activities/${activityId}/performance/result`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
     componentWillMount() {

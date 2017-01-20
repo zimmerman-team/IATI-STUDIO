@@ -38,9 +38,11 @@ class ClassificationSelectForm extends Component {
         this.props.updateActivity(publisher.id, {
             id: activityId,
             ...data.activity,
-        });
-
-        this.props.router.push(`/publisher/activities/${activityId}/classifications/country`);
+        }).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/classifications/country`);
+            }
+        })
     }
 
     componentWillMount() {

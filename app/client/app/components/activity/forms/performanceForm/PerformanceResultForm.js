@@ -6,7 +6,12 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
 
-import {getCodeListItems, createPerformanceResult, updatePerformanceResult, deletePerformanceResult} from '../../../../actions/activity'
+import {
+    getCodeListItems,
+    createPerformanceResult,
+    updatePerformanceResult,
+    deletePerformanceResult
+} from '../../../../actions/activity'
 import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
@@ -58,18 +63,19 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
                                 textLabel="Description"
                                 narrativeLabel={false}
                             />
-                        </div>{/*
-                        <div className="row no-margin">
-                            <FieldArray
-                                component={renderIndicator}
-                                name={`${result}.indicator`}
-                                textName={`${result}.indicator`}
-                                textLabel="Measure"
-                                indicatorMeasureOptions={indicatorMeasureOptions}
-                                indicatorVocabularyOptions={indicatorVocabularyOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                        </div>*/}
+                        </div>
+                        {/*
+                         <div className="row no-margin">
+                         <FieldArray
+                         component={renderIndicator}
+                         name={`${result}.indicator`}
+                         textName={`${result}.indicator`}
+                         textLabel="Measure"
+                         indicatorMeasureOptions={indicatorMeasureOptions}
+                         indicatorVocabularyOptions={indicatorVocabularyOptions}
+                         defaultOption="Select one of the following options"
+                         />
+                         </div>*/}
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
@@ -99,7 +105,7 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
  * @param touched
  * @param error
  */
-export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMeasureOptions, textName="", mainLabel="", meta: {touched, error}}) => {
+export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMeasureOptions, textName = "", mainLabel = "", meta: {touched, error}}) => {
     if (fields && !fields.length) {
         fields.push({})
     }
@@ -108,65 +114,67 @@ export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMe
             {fields && fields.map((title, index) =>
                 <div key={index}>
                     {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Indicator"}
-                        <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name={`${title}.vocabulary`}
-                                textName={`${title}.vocabulary`}
-                                label="Vocabulary"
-                                selectOptions={indicatorVocabularyOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                        </div>
-                        <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name={`${title}.indicatorURI`}
-                                textName={`${title}.indicatorURI`}
-                                label="Indicator URI"
-                                selectOptions={indicatorMeasureOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                        </div>
+                    <div className="row no-margin">
+                        <Field
+                            component={renderSelectField}
+                            name={`${title}.vocabulary`}
+                            textName={`${title}.vocabulary`}
+                            label="Vocabulary"
+                            selectOptions={indicatorVocabularyOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
+                    <div className="row no-margin">
+                        <Field
+                            component={renderSelectField}
+                            name={`${title}.indicatorURI`}
+                            textName={`${title}.indicatorURI`}
+                            label="Indicator URI"
+                            selectOptions={indicatorMeasureOptions}
+                            defaultOption="Select one of the following options"
+                        />
+                    </div>
 
-                        <div className="row no-margin">
-                            <div className="columns small-centered small-12">
-                                <h2 className="page-title">Baseline</h2>
-                                <div className="row no-margin">
-                                    <div className="columns small-6">
-                                        <Field
-                                            name={`${title}.baseline.year`}
-                                            type="text"
-                                            component={renderField}
-                                            label="Year"
-                                        />
-                                    </div>
-                                    <div className="columns small-6">
-                                        <Field
-                                            name={`${textName}.value`}
-                                            type="text"
-                                            component={renderField}
-                                            label="Value"
-                                        />
-                                    </div>
+                    <div className="row no-margin">
+                        <div className="columns small-centered small-12">
+                            <h2 className="page-title">Baseline</h2>
+                            <div className="row no-margin">
+                                <div className="columns small-6">
+                                    <Field
+                                        name={`${title}.baseline.year`}
+                                        type="text"
+                                        component={renderField}
+                                        label="Year"
+                                    />
+                                </div>
+                                <div className="columns small-6">
+                                    <Field
+                                        name={`${textName}.value`}
+                                        type="text"
+                                        component={renderField}
+                                        label="Value"
+                                    />
                                 </div>
                             </div>
                         </div>
-
-                        <div className="columns">
-                            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-                            <button
-                                type="button"
-                                title="Remove Title"
-                                className="control-button remove float-right"
-                                onClick={() => fields.pop()}>Delete
-                            </button>
-                            {touched && error && <span className="error">{error}</span>}
-                        </div>
                     </div>
+
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.pop()}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                </div>
             )}
         </div>
-)};
+    )
+};
 
 const validate = values => {
     const errors = {};
@@ -205,9 +213,13 @@ class PerformanceResultForm extends Component {
             this.props.createPerformanceResult,
             this.props.updatePerformanceResult,
             this.props.deletePerformanceResult
-        );
-
-        this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
 
@@ -220,7 +232,7 @@ class PerformanceResultForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId &&  this.props.publisher) {
+        if (this.props.activityId && this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -283,7 +295,7 @@ PerformanceResultForm = reduxForm({
 })(PerformanceResultForm);
 
 function mapStateToProps(state, props) {
-    const { activityId } = props;
+    const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let results = currentActivity && currentActivity.results;
 
@@ -297,6 +309,11 @@ function mapStateToProps(state, props) {
     }
 }
 
-PerformanceResultForm = connect(mapStateToProps, {getCodeListItems, createPerformanceResult, updatePerformanceResult, deletePerformanceResult})(PerformanceResultForm);
+PerformanceResultForm = connect(mapStateToProps, {
+    getCodeListItems,
+    createPerformanceResult,
+    updatePerformanceResult,
+    deletePerformanceResult
+})(PerformanceResultForm);
 export default withRouter(PerformanceResultForm);
 

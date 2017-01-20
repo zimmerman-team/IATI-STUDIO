@@ -80,17 +80,17 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                             />
                         </div>
                     </div>
-                <div className="columns">
-                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
-                    </button>
-                    <button type="button" title="Remove Title" className="control-button remove float-right"
-                            onClick={() => fields.remove(index)}>Delete
-                    </button>
-                    {touched && error && <span className="error">{error}</span>}
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button type="button" title="Remove Title" className="control-button remove float-right"
+                                onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
                 </div>
-                <br/><br/>
-            </div>
-        )}
+            )}
         </div>
     )
 };
@@ -130,8 +130,13 @@ class SectorForm extends Component {
             this.props.createSector,
             this.props.updateSector,
             this.props.deleteSector,
-        );
-        this.props.router.push(`/publisher/activities/${this.props.activityId}/classifications/policy`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${this.props.activityId}/classifications/policy`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
     componentWillMount() {
@@ -157,7 +162,7 @@ class SectorForm extends Component {
         }
 
         if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-                || !(this.props.data && this.props.data.length))) {
+            || !(this.props.data && this.props.data.length))) {
             console.log('getSectors again');
             this.props.getSectors(nextProps.publisher.id, nextProps.activityId)
         }
@@ -185,7 +190,8 @@ class SectorForm extends Component {
                         sectorOptions={codelists["Sector"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/location`}>Back to
+                        <Link className="button"
+                              to={`/publisher/activities/${activityId}/geopolitical-information/location`}>Back to
                             Geopolitical</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Policy

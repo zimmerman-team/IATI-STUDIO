@@ -327,8 +327,13 @@ class LocationForm extends Component {
             this.props.createLocation,
             this.props.updateLocation,
             this.props.deleteLocation,
-        )
-        this.props.router.push(`/publisher/activities/${activityId}/classifications/sector`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/classifications/sector`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
 

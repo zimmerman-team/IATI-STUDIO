@@ -103,7 +103,8 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                         </div>
                     </div>
                     <div className="columns">
-                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
                         <button
                             type="button"
                             title="Remove Title"
@@ -154,9 +155,13 @@ class FinancialBudgetForm extends Component {
             this.props.createBudget,
             this.props.updateBudget,
             this.props.deleteBudget,
-        );
-
-        this.props.router.push(`/publisher/activities/${activityId}/financial/planned-disbursement`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/financial/planned-disbursement`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
     componentWillMount() {
@@ -167,7 +172,7 @@ class FinancialBudgetForm extends Component {
 
     componentWillReceiveProps(nextProps) {
         //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId &&  this.props.publisher) {
+        if (this.props.activityId && this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -175,7 +180,7 @@ class FinancialBudgetForm extends Component {
     render() {
         const {codelists, handleSubmit, submitting, activity, activityId} = this.props;
 
-        if (!activity ||  !codelists["BudgetType"] || !codelists["BudgetStatus"] || !codelists["Currency"]) {
+        if (!activity || !codelists["BudgetType"] || !codelists["BudgetStatus"] || !codelists["Currency"]) {
             return <GeneralLoader/>
         }
 
@@ -194,7 +199,9 @@ class FinancialBudgetForm extends Component {
                         currencyOptions={codelists["Currency"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/classifications/humanitarian`}>Back to humanitarian</Link>
+                        <Link className="button"
+                              to={`/publisher/activities/${activityId}/classifications/humanitarian`}>Back to
+                            humanitarian</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Planned Disbursement
                         </button>
@@ -206,7 +213,7 @@ class FinancialBudgetForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const { activityId } = props;
+    const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let budgets = currentActivity && currentActivity.budgets;
 

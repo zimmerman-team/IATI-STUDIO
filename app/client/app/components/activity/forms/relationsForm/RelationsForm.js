@@ -12,8 +12,8 @@ import {
     deleteRelation
 } from '../../../../actions/activity'
 import {publisherSelector} from '../../../../reducers/createActivity.js'
-import { Link } from 'react-router';
-import { withRouter } from 'react-router'
+import {Link} from 'react-router';
+import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dirty, error}}) => {
@@ -69,7 +69,7 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
 const validate = values => {
     const errors = {};
 
-    if(!values.renderTitlesData) {
+    if (!values.renderTitlesData) {
         errors.type = 'Required'
     }
 
@@ -107,18 +107,23 @@ class RelationsForm extends Component {
             this.props.createRelation,
             this.props.updateRelation,
             this.props.deleteRelation,
-        );
-
-        this.props.router.push(`/publisher/activities/${activityId}/performance/condition`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/performance/condition`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
 
     componentWillReceiveProps(nextProps) {
         //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId &&  this.props.publisher) {
+        if (this.props.activityId && this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
+
     render() {
         const {handleSubmit, submitting, previousPage, codelists, activityId} = this.props;
 
@@ -145,7 +150,8 @@ class RelationsForm extends Component {
                         relatedActivityTypeOptions={codelists["RelatedActivityType"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/document-link/document-link`}>Back to Document Link</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/document-link/document-link`}>Back
+                            to Document Link</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Performance
                         </button>
@@ -157,7 +163,7 @@ class RelationsForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const { activityId } = props;
+    const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let related_activities = currentActivity && currentActivity.related_activities;
 

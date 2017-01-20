@@ -19,81 +19,81 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
             {fields.map((recipientRegion, index) =>
                 <div key={index}>
                     <div className="field-list">
-                <div className="row no-margin">
-                    {
-                        !regionOptions ?
-                            <GeneralLoader/> :
-                            <Field
-                                component={renderSelectField}
-                                name={`${recipientRegion}.region[code]`}
-                                textName={`${recipientRegion}.region[code]`}
-                                label="Region code"
-                                selectOptions={regionOptions}
-                                defaultOption="Select one of the following options"
+                        <div className="row no-margin">
+                            {
+                                !regionOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${recipientRegion}.region[code]`}
+                                        textName={`${recipientRegion}.region[code]`}
+                                        label="Region code"
+                                        selectOptions={regionOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                            {
+                                !regionVocabularyOptions ?
+                                    <GeneralLoader/> :
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${recipientRegion}.vocabulary[code]`}
+                                        textName={`${recipientRegion}.vocabulary[code]`}
+                                        label="Region vocabulary"
+                                        selectOptions={regionVocabularyOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
+                            }
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${recipientRegion}.percentage`}
+                                    type="number"
+                                    component={renderField}
+                                    label="Percentage"
+                                />
+                            </div>
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${recipientRegion}.region[name]`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Region Name"
+                                />
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${recipientRegion}.vocabulary_uri`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Vocabulary URI"
+                                />
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${recipientRegion}.narratives`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
                             />
-                    }
-                    {
-                        !regionVocabularyOptions ?
-                            <GeneralLoader/> :
-                            <Field
-                                component={renderSelectField}
-                                name={`${recipientRegion}.vocabulary[code]`}
-                                textName={`${recipientRegion}.vocabulary[code]`}
-                                label="Region vocabulary"
-                                selectOptions={regionVocabularyOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                    }
-                </div>
-                <div className="row no-margin">
-                    <div className="columns small-6">
-                        <Field
-                            name={`${recipientRegion}.percentage`}
-                            type="number"
-                            component={renderField}
-                            label="Percentage"
-                        />
+                        </div>
                     </div>
-                    <div className="columns small-6">
-                        <Field
-                            name={`${recipientRegion}.region[name]`}
-                            type="text"
-                            component={renderField}
-                            label="Region Name"
-                        />
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
                     </div>
+                    <br/><br/>
                 </div>
-                <div className="row no-margin">
-                    <div className="columns small-6">
-                        <Field
-                            name={`${recipientRegion}.vocabulary_uri`}
-                            type="text"
-                            component={renderField}
-                            label="Vocabulary URI"
-                        />
-                    </div>
-                </div>
-                <div className="row no-margin">
-                    <FieldArray
-                        name={`${recipientRegion}.narratives`}
-                        component={renderNarrativeFields}
-                        languageOptions={languageOptions}
-                    />
-                </div>
-            </div>
-            <div className="columns">
-                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
-                </button>
-                <button
-                    type="button"
-                    title="Remove Title"
-                    className="control-button remove float-right"
-                    onClick={() => fields.remove(index)}>Delete
-                </button>
-                {touched && error && <span className="error">{error}</span>}
-            </div>
-            <br/><br/>
-            </div>
             )}
         </div>
     )
@@ -137,8 +137,14 @@ class RecipientRegionForm extends React.Component {
             this.props.createRegion,
             this.props.updateRegion,
             this.props.deleteRegion,
-        )
-        this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/location`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/location`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
+
     }
 
     componentWillMount() {
@@ -165,7 +171,7 @@ class RecipientRegionForm extends React.Component {
         }
 
         if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-                || !(this.props.data && this.props.data.length))) {
+            || !(this.props.data && this.props.data.length))) {
             this.props.getRegions(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -191,7 +197,8 @@ class RecipientRegionForm extends React.Component {
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/country/`}>Back to
+                        <Link className="button"
+                              to={`/publisher/activities/${activityId}/geopolitical-information/country/`}>Back to
                             to Country</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Location

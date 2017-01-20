@@ -4,11 +4,11 @@ import {Field} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {Link} from 'react-router';
 import {renderField} from '../../helpers/FormHelper'
-import { getActivity, updateActivity } from '../../../../actions/activity'
+import {getActivity, updateActivity} from '../../../../actions/activity'
 import {publisherSelector} from '../../../../reducers/createActivity'
 import {reduxForm} from  'redux-form'
 
-import { withRouter } from 'react-router'
+import {withRouter} from 'react-router'
 
 
 const validate = values => {
@@ -38,14 +38,16 @@ class FinancialCapitalForm extends Component {
         this.props.updateActivity(publisher.id, {
             id: activityId,
             ...formData.activity,
-        });
-
-        this.props.router.push(`/publisher/activities/${activityId}/document-link/document-link`)
+        }).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/document-link/document-link`)
+            }
+        })
     }
 
     componentWillReceiveProps(nextProps) {
         //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId &&  this.props.publisher) {
+        if (this.props.activityId && this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }

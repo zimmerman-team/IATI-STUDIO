@@ -173,8 +173,14 @@ class FinancialPlannedDisbursement extends Component {
             this.props.createPlannedDisbursement,
             this.props.updatePlannedDisbursement,
             this.props.deletePlannedDisbursement,
-        );
-        //this.context.router.push('/publisher/activities/financial/transaction');
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/financial/transaction`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
+
     }
 
     static contextTypes = {

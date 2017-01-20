@@ -5,9 +5,9 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import { getCodeListItems, getActivity } from '../../../../actions/activity'
-import { publisherSelector, countryBudgetItemSelector } from '../../../../reducers/createActivity.js'
-import { withRouter } from 'react-router'
+import {getCodeListItems, getActivity} from '../../../../actions/activity'
+import {publisherSelector, countryBudgetItemSelector} from '../../../../reducers/createActivity.js'
+import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, languageOptions, meta: {touched, dirty, error}}) => {
@@ -59,7 +59,8 @@ const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, la
                         </div>
                     </div>
                     <div className="columns">
-                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
                         <button
                             type="button"
                             title="Remove Title"
@@ -115,9 +116,13 @@ class CountryBudgetForm extends Component {
             this.props.createDate,
             this.props.updateDate,
             this.props.deleteDate,
-        );
-
-        this.props.router.push(`/publisher/activities/${activityId}/classifications/humanitarian`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/classifications/humanitarian`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
     componentWillMount() {
@@ -164,7 +169,7 @@ class CountryBudgetForm extends Component {
 
 function mapStateToProps(state, props) {
     // TODO country and financial budget are different
-    const { activityId } = props;
+    const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let country_budget_items = currentActivity && currentActivity.country_budget_items;
 

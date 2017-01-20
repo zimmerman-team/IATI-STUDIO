@@ -23,7 +23,8 @@ const renderFinancialTransactionForm = ({
     fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
     disbursementOptions, sectorVocabularyOptions, sectorOptions, countryOptions,
-    flowOptions, financeOptions, aidOptions, tiedOptions, meta: {touched, dirty, error}}) => {
+    flowOptions, financeOptions, aidOptions, tiedOptions, meta: {touched, dirty, error}
+}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -32,193 +33,194 @@ const renderFinancialTransactionForm = ({
         <div>
             {fields.map((transaction, index) =>
                 <div key={index}>
-            <div className="field-list">
-                <div>
-                    <div className="row no-margin">
-                        <div className="columns small-6">
-                            <Field
-                                name={`${transaction}reference`}
-                                type="text"
-                                component={renderField}
-                                label="Reference"
-                            />
-                        </div>
-                        <Field
-                            name={`${transaction}humanitarian.code`}
-                            textName={`${transaction}humanitarian.code`}
-                            component={renderSelectField}
-                            label="Humanitarian"
-                            selectOptions={[{code: "true", name: "true"}, {code: "false", name: "false"}]}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <Field
-                            name={`${transaction}transaction_type.code`}
-                            textName={`${transaction}transaction_type.code`}
-                            component={renderSelectField}
-                            label="Transaction type"
-                            selectOptions={transactionOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <div className="columns small-6">
-                            Transaction date
-                            <Field
-                                name={`${transaction}transaction_date`}
-                                type="date"
-                                component={renderField}
-                                label="Date"
-                            />
-                        </div>
-                        <div className="columns small-6">
-                            <Field
-                                name={`${transaction}activity_id`}
-                                type="text"
-                                component={renderField}
-                                label="Activity ID"
-                            />
-                        </div>
-                    </div>
-                    Value
-                    <div className="row no-margin">
-                        <div className="columns small-6">
-                            <Field
-                                name={`${transaction}value`}
-                                type="number"
-                                component={renderField}
-                                label="Amount"
-                            />
-                        </div>
-                        <div className="columns small-6">
-                            <Field
-                                name={`${transaction}value_date`}
-                                type="date"
-                                component={renderField}
-                                label="Value date"
-                            />
-                        </div>
-                    </div>
-                    <div className="row no-margin">
-                        <Field
-                            name={`${transaction}currency.code`}
-                            textName={`${transaction}currency.code`}
-                            component={renderSelectField}
-                            label="Currency"
-                            selectOptions={currencyOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <FieldArray
-                            name={`${transaction}transaction`}
-                            component={renderNarrativeFields}
-                            languageOptions={languageOptions}
-                            textName="textTitle"
-                            textLabel="Text"
-                            narrativeLabel="Description"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <FieldArray
-                            name={`${transaction}provider_organisation`}
-                            textName={`${transaction}provider_organisation`}
-                            component={renderOrgFields}
-                            languageOptions={languageOptions}
-                            organisationOptions={organisationOptions}
-                            mainLabel="Provider org"
-                            activityKey="provider_activity_id"
-                            textLabel="Title"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <FieldArray
-                            name={`${transaction}receiver_organisation`}
-                            textName={`${transaction}receiver_organisation`}
-                            component={renderOrgFields}
-                            languageOptions={languageOptions}
-                            organisationOptions={organisationOptions}
-                            mainLabel="Receiver org"
-                            activityKey="receiver_activity_id"
-                            textLabel="Title"
-                        />
-                    </div>
-                    <div>
-                    <div className=""><h6>Disbursement channel</h6></div>
-                        <div className="row no-margin">
-                            {
-                                !disbursementOptions ?
-                                    <GeneralLoader/> :
+                    <div className="field-list">
+                        <div>
+                            <div className="row no-margin">
+                                <div className="columns small-6">
                                     <Field
-                                        component={renderSelectField}
-                                        name={`${transaction}disbursement_channel.code`}
-                                        textName={`${transaction}disbursement_channel.code`}
-                                        label="Type"
-                                        selectOptions={disbursementOptions}
-                                        defaultOption="Select one of the following options"
+                                        name={`${transaction}reference`}
+                                        type="text"
+                                        component={renderField}
+                                        label="Reference"
                                     />
-                            }
+                                </div>
+                                <Field
+                                    name={`${transaction}humanitarian.code`}
+                                    textName={`${transaction}humanitarian.code`}
+                                    component={renderSelectField}
+                                    label="Humanitarian"
+                                    selectOptions={[{code: "true", name: "true"}, {code: "false", name: "false"}]}
+                                    defaultOption="Select one of the following options"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <Field
+                                    name={`${transaction}transaction_type.code`}
+                                    textName={`${transaction}transaction_type.code`}
+                                    component={renderSelectField}
+                                    label="Transaction type"
+                                    selectOptions={transactionOptions}
+                                    defaultOption="Select one of the following options"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <div className="columns small-6">
+                                    Transaction date
+                                    <Field
+                                        name={`${transaction}transaction_date`}
+                                        type="date"
+                                        component={renderField}
+                                        label="Date"
+                                    />
+                                </div>
+                                <div className="columns small-6">
+                                    <Field
+                                        name={`${transaction}activity_id`}
+                                        type="text"
+                                        component={renderField}
+                                        label="Activity ID"
+                                    />
+                                </div>
+                            </div>
+                            Value
+                            <div className="row no-margin">
+                                <div className="columns small-6">
+                                    <Field
+                                        name={`${transaction}value`}
+                                        type="number"
+                                        component={renderField}
+                                        label="Amount"
+                                    />
+                                </div>
+                                <div className="columns small-6">
+                                    <Field
+                                        name={`${transaction}value_date`}
+                                        type="date"
+                                        component={renderField}
+                                        label="Value date"
+                                    />
+                                </div>
+                            </div>
+                            <div className="row no-margin">
+                                <Field
+                                    name={`${transaction}currency.code`}
+                                    textName={`${transaction}currency.code`}
+                                    component={renderSelectField}
+                                    label="Currency"
+                                    selectOptions={currencyOptions}
+                                    defaultOption="Select one of the following options"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <FieldArray
+                                    name={`${transaction}transaction`}
+                                    component={renderNarrativeFields}
+                                    languageOptions={languageOptions}
+                                    textName="textTitle"
+                                    textLabel="Text"
+                                    narrativeLabel="Description"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <FieldArray
+                                    name={`${transaction}provider_organisation`}
+                                    textName={`${transaction}provider_organisation`}
+                                    component={renderOrgFields}
+                                    languageOptions={languageOptions}
+                                    organisationOptions={organisationOptions}
+                                    mainLabel="Provider org"
+                                    activityKey="provider_activity_id"
+                                    textLabel="Title"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <FieldArray
+                                    name={`${transaction}receiver_organisation`}
+                                    textName={`${transaction}receiver_organisation`}
+                                    component={renderOrgFields}
+                                    languageOptions={languageOptions}
+                                    organisationOptions={organisationOptions}
+                                    mainLabel="Receiver org"
+                                    activityKey="receiver_activity_id"
+                                    textLabel="Title"
+                                />
+                            </div>
+                            <div>
+                                <div className=""><h6>Disbursement channel</h6></div>
+                                <div className="row no-margin">
+                                    {
+                                        !disbursementOptions ?
+                                            <GeneralLoader/> :
+                                            <Field
+                                                component={renderSelectField}
+                                                name={`${transaction}disbursement_channel.code`}
+                                                textName={`${transaction}disbursement_channel.code`}
+                                                label="Type"
+                                                selectOptions={disbursementOptions}
+                                                defaultOption="Select one of the following options"
+                                            />
+                                    }
+                                </div>
+                            </div>
+                            <FieldArray
+                                name={`${transaction}sector.code`}
+                                textName={`${transaction}sector.code`}
+                                component={renderSectorFields}
+                                sectorVocabularyOptions={sectorVocabularyOptions}
+                                sectorOptions={sectorOptions}
+                                languageOptions={languageOptions}
+                                textLabel="Sector"
+                            />
+                            <div className="row no-margin">
+                                <div className="columns small-centered small-12">
+                                    <h2 className="page-title with-tip">Recipient country</h2>
+                                </div>
+                            </div>
+                            <div className="row no-margin">
+                                <Field
+                                    name={`${transaction}country`}
+                                    textName={`${transaction}country`}
+                                    component={renderSelectField}
+                                    label="Country"
+                                    selectOptions={countryOptions}
+                                    defaultOption="Select one of the following options"
+                                />
+                            </div>
+                            <div className="row no-margin">
+                                <FieldArray
+                                    name={`${transaction}description.narratives`}
+                                    component={renderNarrativeFields}
+                                    languageOptions={languageOptions}
+                                    textName="textTitle"
+                                    textLabel="Text"
+                                    narrativeLabel="Description"
+                                />
+                            </div>
+                            <RenderSingleSelect
+                                name={`${transaction}flow_type.code`}
+                                textName={`${transaction}flow_type.code`}
+                                label='Flow Type'
+                                selectOptions={flowOptions}/>
+                            <RenderSingleSelect
+                                name={`${transaction}finance_type.code`}
+                                textName={`${transaction}finance_type.code`}
+                                label='Finance Type'
+                                selectOptions={financeOptions}/>
+                            <RenderSingleSelect
+                                name={`${transaction}aid_type.code`}
+                                textName={`${transaction}aid_type.code`}
+                                label='Aid Type'
+                                selectOptions={aidOptions}/>
+                            <RenderSingleSelect
+                                name={`${transaction}tied_status.code`}
+                                textName={`${transaction}tied_status.code`}
+                                label='Tied Status'
+                                selectOptions={tiedOptions}/>
                         </div>
                     </div>
-                    <FieldArray
-                        name={`${transaction}sector.code`}
-                        textName={`${transaction}sector.code`}
-                        component={renderSectorFields}
-                        sectorVocabularyOptions={sectorVocabularyOptions}
-                        sectorOptions={sectorOptions}
-                        languageOptions={languageOptions}
-                        textLabel="Sector"
-                    />
-                    <div className="row no-margin">
-                        <div className="columns small-centered small-12">
-                            <h2 className="page-title with-tip">Recipient country</h2>
-                        </div>
-                    </div>
-                    <div className="row no-margin">
-                        <Field
-                            name={`${transaction}country`}
-                            textName={`${transaction}country`}
-                            component={renderSelectField}
-                            label="Country"
-                            selectOptions={countryOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <FieldArray
-                            name={`${transaction}description.narratives`}
-                            component={renderNarrativeFields}
-                            languageOptions={languageOptions}
-                            textName="textTitle"
-                            textLabel="Text"
-                            narrativeLabel="Description"
-                        />
-                    </div>
-                    <RenderSingleSelect
-                        name={`${transaction}flow_type.code`}
-                        textName={`${transaction}flow_type.code`}
-                        label='Flow Type'
-                        selectOptions={flowOptions}/>
-                    <RenderSingleSelect
-                        name={`${transaction}finance_type.code`}
-                        textName={`${transaction}finance_type.code`}
-                        label='Finance Type'
-                        selectOptions={financeOptions}/>
-                    <RenderSingleSelect
-                        name={`${transaction}aid_type.code`}
-                        textName={`${transaction}aid_type.code`}
-                        label='Aid Type'
-                        selectOptions={aidOptions}/>
-                    <RenderSingleSelect
-                        name={`${transaction}tied_status.code`}
-                        textName={`${transaction}tied_status.code`}
-                        label='Tied Status'
-                        selectOptions={tiedOptions}/>
-                </div>
-            </div>
                     <div className="columns">
-                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
                         <button
                             type="button"
                             title="Remove Title"
@@ -270,8 +272,13 @@ class FinancialTransactionForm extends Component {
             this.props.createTransaction,
             this.props.updateTransaction,
             this.props.deleteTransaction,
-        )
-        this.props.router.push(`/publisher/activities/${activityId}/financial/capital`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/financial/capital`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
 
@@ -330,31 +337,32 @@ class FinancialTransactionForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                        <FieldArray
-                            name="transactions"
-                            component={renderFinancialTransactionForm}
-                            humanitarianOptions={codelists["HumanitarianScopeType"]}
-                            organisationOptions={codelists["OrganisationType"]}
-                            languageOptions={codelists["Language"]}
-                            currencyOptions={codelists["Currency"]}
-                            disbursementOptions={codelists["DisbursementChannel"]}
-                            transactionOptions={codelists["TransactionType"]}
-                            countryOptions={codelists["Country"]}
-                            flowOptions={codelists["FlowType"]}
-                            financeOptions={codelists["FinanceType"]}
-                            aidOptions={codelists["AidType"]}
-                            tiedOptions={codelists["TiedStatus"]}
-                            sectorVocabularyOptions={codelists["SectorVocabulary"]}
-                            sectorOptions={codelists["Sector"]}
-                        />
-                        <div className="columns small-12">
-                            <Link className="button" to={`/publisher/activities/${activityId}/financial/planned-disbursement`}>
-                                Back to Planned Disbursement
-                            </Link>
-                            <button className="button float-right" type="submit" disabled={submitting}>
-                                Continue to capital
-                            </button>
-                        </div>
+                    <FieldArray
+                        name="transactions"
+                        component={renderFinancialTransactionForm}
+                        humanitarianOptions={codelists["HumanitarianScopeType"]}
+                        organisationOptions={codelists["OrganisationType"]}
+                        languageOptions={codelists["Language"]}
+                        currencyOptions={codelists["Currency"]}
+                        disbursementOptions={codelists["DisbursementChannel"]}
+                        transactionOptions={codelists["TransactionType"]}
+                        countryOptions={codelists["Country"]}
+                        flowOptions={codelists["FlowType"]}
+                        financeOptions={codelists["FinanceType"]}
+                        aidOptions={codelists["AidType"]}
+                        tiedOptions={codelists["TiedStatus"]}
+                        sectorVocabularyOptions={codelists["SectorVocabulary"]}
+                        sectorOptions={codelists["Sector"]}
+                    />
+                    <div className="columns small-12">
+                        <Link className="button"
+                              to={`/publisher/activities/${activityId}/financial/planned-disbursement`}>
+                            Back to Planned Disbursement
+                        </Link>
+                        <button className="button float-right" type="submit" disabled={submitting}>
+                            Continue to capital
+                        </button>
+                    </div>
                 </form>
             </div>
         )

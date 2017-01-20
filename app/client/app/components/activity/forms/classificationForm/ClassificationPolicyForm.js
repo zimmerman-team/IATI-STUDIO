@@ -112,8 +112,13 @@ class PolicyMakerForm extends Component {
             this.props.createPolicy,
             this.props.updatePolicy,
             this.props.deletePolicy,
-        );
-        this.props.router.push(`/publisher/activities/${this.props.activityId}/classifications/select`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${this.props.activityId}/classifications/select`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
     componentWillMount() {
@@ -141,7 +146,7 @@ class PolicyMakerForm extends Component {
         }
 
         if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-                || !(this.props.data && this.props.data.length))) {
+            || !(this.props.data && this.props.data.length))) {
             this.props.getPolicy(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -173,7 +178,8 @@ class PolicyMakerForm extends Component {
                     />
                     <div className="row no-margin">
                         <div className="columns small-12">
-                            <Link className="button" to={`/publisher/activities/${activityId}/classifications/sector`}>Back to sector</Link>
+                            <Link className="button" to={`/publisher/activities/${activityId}/classifications/sector`}>Back
+                                to sector</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to Selection
                             </button>

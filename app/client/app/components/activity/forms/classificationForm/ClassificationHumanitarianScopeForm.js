@@ -122,8 +122,14 @@ class HumanitarianScopeForm extends Component {
             this.props.createHumanitarianScope,
             this.props.updateHumanitarianScope,
             this.props.deleteHumanitarianScope,
-        )
-        this.props.router.push(`/publisher/activities/${this.props.activityId}/financial/financial`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${this.props.activityId}/financial/financial`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
+
     }
 
     componentWillMount() {

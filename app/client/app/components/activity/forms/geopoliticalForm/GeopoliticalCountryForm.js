@@ -143,8 +143,13 @@ class RecipientCountryForm extends Component {
             this.props.createRecipientCountry,
             this.props.updateRecipientCountry,
             this.props.deleteRecipientCountry,
-        );
-         this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/region`);
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${this.props.activityId}/geopolitical-information/region`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        });
     }
 
     componentWillMount() {
@@ -170,7 +175,7 @@ class RecipientCountryForm extends Component {
         }
 
         if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-                || !(this.props.data && this.props.data.length))) {
+            || !(this.props.data && this.props.data.length))) {
             this.props.getRecipientCountries(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -196,7 +201,8 @@ class RecipientCountryForm extends Component {
                         countryOptions={codelists["Country"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/participating-organisation/participating-organisation/`}>
+                        <Link className="button"
+                              to={`/publisher/activities/${activityId}/participating-organisation/participating-organisation/`}>
                             Back to participating organisation
                         </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>

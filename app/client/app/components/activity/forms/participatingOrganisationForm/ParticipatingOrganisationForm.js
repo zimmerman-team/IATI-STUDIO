@@ -144,9 +144,13 @@ class ParticipatingOrganisationForm extends Component {
             this.props.createParticipatingOrganisation,
             this.props.updateParticipatingOrganisation,
             this.props.deleteParticipatingOrganisation,
-        )
-
-        this.props.router.push(`/publisher/activities/${activityId}/geopolitical-information/country`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/geopolitical-information/country`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        })
     }
 
     componentWillMount() {
@@ -173,7 +177,7 @@ class ParticipatingOrganisationForm extends Component {
         }
 
         if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-                || !(this.props.data && this.props.data.length))) {
+            || !(this.props.data && this.props.data.length))) {
             this.props.getParticipatingOrganisations(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -208,7 +212,8 @@ class ParticipatingOrganisationForm extends Component {
                         </div>
                     </div>
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/contact`}>Back to basic
+                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/contact`}>Back to
+                            basic
                             information</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to geopolitical information
