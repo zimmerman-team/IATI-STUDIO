@@ -183,10 +183,6 @@ class FinancialPlannedDisbursement extends Component {
 
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
-
     componentWillMount() {
         this.props.getCodeListItems('DisbursementChannel');
         this.props.getCodeListItems('Currency');

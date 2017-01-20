@@ -1542,7 +1542,7 @@ export function updateCapital(publisherId, activityId, id, capitalData) {
             types: [UPDATE_FINANCIAL_CAPITAL_REQUEST, UPDATE_FINANCIAL_CAPITAL_SUCCESS, UPDATE_FINANCIAL_CAPITAL_FAILURE],
             endpoint: 'Activity.updatePerformanceComment',
             payload: [publisherId, activityId, id, capitalData],
-            schema: Schemas.related_activities,
+            schema: Schemas.capital,
         }
     }
 }
