@@ -55,7 +55,7 @@ const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, l
                             <div className="columns small-6">
                                 <Field
                                     name={`${humanitarianScope}code`}
-                                    type="text"
+                                    type="number"
                                     component={renderField}
                                     label="Code"
                                 />
