@@ -118,12 +118,6 @@ class BasicInformationDescriptionForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
         const descriptions = formData.descriptions;
-        /* TODO add name field
-         descriptions = _.filter(descriptions, {});
-        descriptions = descriptions.map(function(data) {
-            let code = data.narratives
-        });
-         }*/
 
         handleSubmit(
             publisher.id,
@@ -134,9 +128,11 @@ class BasicInformationDescriptionForm extends Component {
             this.props.createDescription,
             this.props.updateDescription,
             this.props.deleteDescription,
-        );
-
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/basic-info/status`)
+            }
+        });
     }
 
     componentWillMount() {
@@ -162,7 +158,9 @@ class BasicInformationDescriptionForm extends Component {
         }
 
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
-            this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)
+            if (nextProps.publisher) {
+                this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)
+            }
         }
     }
 
@@ -189,7 +187,8 @@ class BasicInformationDescriptionForm extends Component {
                         />
 
                         <div className="columns small-12">
-                            <Link className="button" to={`/publisher/activities/${activityId}/identification/identification`}>Back to
+                            <Link className="button"
+                                  to={`/publisher/activities/${activityId}/identification/identification`}>Back to
                                 identification</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to Status

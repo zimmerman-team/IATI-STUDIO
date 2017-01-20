@@ -2,12 +2,12 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
-import { getCodeListItems, getActivity, createDate, updateDate, deleteDate } from '../../../../actions/activity'
-import { publisherSelector } from '../../../../reducers/createActivity.js'
-import { withRouter } from 'react-router'
+import {getCodeListItems, getActivity, createDate, updateDate, deleteDate} from '../../../../actions/activity'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
+import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, dirty, error}}) => {
@@ -48,7 +48,8 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
                         </div>
                     </div>
                     <div className="columns">
-                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
                         <button
                             type="button"
                             title="Remove Title"
@@ -65,22 +66,34 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
 };
 
 const validate = values => {
-  const errors = {};
+    let errors = {};
 
-  if (!values.iso_date) {
-    errors.iso_date = 'Required'
-  }
+    const activityDates = values.activity_dates || []
 
-  return errors
+    errors.activity_dates = activityDates.map(dateData => {
+        let descriptionErrors = {}
+
+        if (!dateData.type) {
+            descriptionErrors.type = {code: 'Required'}
+        }
+
+        if (!dateData.iso_date) {
+            descriptionErrors.iso_date = 'Required'
+        }
+
+        return descriptionErrors
+    });
+
+    return errors
 };
 
 
 class BasicInformationDateForm extends Component {
 
-  constructor(props) {
-    super(props)
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-  }
+    constructor(props) {
+        super(props)
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    }
 
     /**
      * Submit basic information's description data and redirect to status form.
@@ -93,7 +106,7 @@ class BasicInformationDateForm extends Component {
         const lastDates = data;
         let activityDates = formData.activity_dates;
 
-        activityDates = activityDates.map(function(date) {
+        activityDates = activityDates.map(function (date) {
             if (date.iso_date) {
                 let dateObj = new Date(date.iso_date);
                 date.iso_date = dateObj.toISOString();
@@ -110,19 +123,23 @@ class BasicInformationDateForm extends Component {
             this.props.createDate,
             this.props.updateDate,
             this.props.deleteDate,
-        );
-
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/contact`)
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/basic-info/contact`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        });
     }
 
-  componentWillMount() {
-      this.props.getCodeListItems('ActivityDateType');
-      this.props.getCodeListItems('Language');
-  }
+    componentWillMount() {
+        this.props.getCodeListItems('ActivityDateType');
+        this.props.getCodeListItems('Language');
+    }
 
     componentWillReceiveProps(nextProps) {
         //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId &&  this.props.publisher) {
+        if (this.props.activityId && this.props.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -132,37 +149,38 @@ class BasicInformationDateForm extends Component {
         const {codelists, submitting, handleSubmit, activity, activityId} = this.props;
 
 
-        if (!activity ||  !codelists["ActivityDateType"] || !codelists["Language"]) {
-          return <GeneralLoader/>
+        if (!activity || !codelists["ActivityDateType"] || !codelists["Language"]) {
+            return <GeneralLoader/>
         }
 
         return (
-          <div className="columns small-centered small-12">
-            <h2 className="page-title with-tip">Date</h2>
-            <Tooltip className="inline" tooltip="Date text goes here">
-              <i className="material-icons">info</i>
-            </Tooltip>
-            <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                <FieldArray
-                    name="activity_dates"
-                    component={renderDate}
-                    languageOptions={codelists["Language"]}
-                    dateTypeOptions={codelists["ActivityDateType"]}
-                />
-                <div className="columns small-12">
-                    <Link className="button" to={`/publisher/activities/${activityId}/basic-info/status`}>Back to status</Link>
-                    <button className="button float-right" type="submit" disabled={submitting}>
-                        Continue to contact
-                    </button>
-                </div>
-            </form>
-          </div>
+            <div className="columns small-centered small-12">
+                <h2 className="page-title with-tip">Date</h2>
+                <Tooltip className="inline" tooltip="Date text goes here">
+                    <i className="material-icons">info</i>
+                </Tooltip>
+                <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+                    <FieldArray
+                        name="activity_dates"
+                        component={renderDate}
+                        languageOptions={codelists["Language"]}
+                        dateTypeOptions={codelists["ActivityDateType"]}
+                    />
+                    <div className="columns small-12">
+                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/status`}>Back to
+                            status</Link>
+                        <button className="button float-right" type="submit" disabled={submitting}>
+                            Continue to contact
+                        </button>
+                    </div>
+                </form>
+            </div>
         )
-      }
+    }
 }
 
 function mapStateToProps(state, props) {
-    const { activityId } = props;
+    const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let activity_dates = currentActivity && currentActivity.activity_dates;
 
@@ -177,10 +195,10 @@ function mapStateToProps(state, props) {
 }
 
 BasicInformationDateForm = reduxForm({
-  form: 'basic-info-date',     // a unique identifier for this form
-  destroyOnUnmount: false,
-  enableReinitialize: true,
-  validate
+    form: 'basic-info-date',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    enableReinitialize: true,
+    validate
 })(BasicInformationDateForm);
 
 BasicInformationDateForm = connect(mapStateToProps, {
