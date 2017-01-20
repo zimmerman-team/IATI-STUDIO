@@ -371,7 +371,7 @@ class LocationForm extends Component {
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to={`/publisher/activities/${activityId}/basic-info/status`}>Back to status</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/region`}>Back to region</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to contact
                         </button>

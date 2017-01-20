@@ -192,7 +192,7 @@ class RecipientRegionForm extends React.Component {
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/country/`}>Back to
-                            to Region</Link>
+                            to Country</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Location
                         </button>

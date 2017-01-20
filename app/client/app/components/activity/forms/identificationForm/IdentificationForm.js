@@ -96,11 +96,10 @@ class IdentificationForm extends PureComponent {
                                         <h6>Create an activity</h6>
                                         <p>Fill in a unique IATI identifier</p>
                                         <input name="createIatiIdentifier"
-                                               type="number"
+                                               type="text"
                                                onChange={(e) => this.setState({iatiIdentifier: e.target.value})}
                                                value={this.state.iatiIdentifier}
                                                required="required"
-                                               min={1}
                                         />
                                         <button className="button" type="submit" onClick={this.createActivity}>
                                             Create
