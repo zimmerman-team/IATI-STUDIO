@@ -132,6 +132,9 @@ export const relatedActivities = new Schema('related_activities', {
     idAttribute: "id",
 })
 
+export const comment = new Schema('comments', {
+    idAttribute: "id",
+})
 
 export const activity = new Schema('activity', {
     idAttribute: "id",
@@ -149,6 +152,7 @@ export const activity = new Schema('activity', {
     locations: arrayOf(location),
     transactions: arrayOf(transaction),
     conditions: arrayOf(condition),
+    comments: arrayOf(comment),
     plannedDisbursements: arrayOf(plannedDisbursement),
     participatingOrganisations: arrayOf(participatingOrganisation),
     date: arrayOf(date),

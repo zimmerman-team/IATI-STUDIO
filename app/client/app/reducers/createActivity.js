@@ -12,6 +12,9 @@ function activity(state = initialState, action) {
     // if (action.type.startsWith('REQUEST')) {
     //     return { ...state, submitting: true, }
     // }
+    if (action.type === ActionTypes.GET_ACTIVITY_SUCCESS) {
+        console.log('<<<GET_ACTIVITY_SUCCESS', action)
+    }
 
     switch (action.type) {
         // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
@@ -119,6 +122,12 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'results': _.omit(state.results, action.id),
+            }
+        case ActionTypes.DELETE_RELATION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'activity.related_activities': _.omit(state.activity.related_activities, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {

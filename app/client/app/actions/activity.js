@@ -1093,7 +1093,7 @@ export function createCountryBudgetItem(publisherId, activityId, countryBudgetIt
             types: [CREATE_COUNTRY_BUDGET_ITEM_REQUEST, CREATE_COUNTRY_BUDGET_ITEM_SUCCESS, CREATE_COUNTRY_BUDGET_ITEM_FAILURE],
             endpoint: 'Activity.createCountryBudgetItem',
             payload: [publisherId, activityId, JSON.stringify(countryBudgetItem)],
-            schema: Schemas.countryBudgetItem,
+            schema: Schemas.countryBudgetItems,
         }
     }
 }
@@ -1111,7 +1111,7 @@ export function updateCountryBudgetItem(publisherId, activityId, id, countryBudg
             types: [UPDATE_COUNTRY_BUDGET_ITEM_REQUEST, UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS, UPDATE_COUNTRY_BUDGET_ITEM_FAILURE],
             endpoint: 'Activity.updateCountryBudgetItem',
             payload: [publisherId, activityId, id, JSON.stringify(countryBudgetItem)],
-            schema: Schemas.countryBudgetItem,
+            schema: Schemas.countryBudgetItems,
         }
     }
 }
@@ -1218,7 +1218,7 @@ export function getRelation(publisherId, activityId) {
             types: [GET_RELATION_REQUEST, GET_RELATION_SUCCESS, GET_RELATION_FAILURE],
             endpoint: 'Activity.getRelation',
             payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.related_activities),
+            schema: arrayOf(Schemas.relatedActivities),
         }
     }
 }
@@ -1236,7 +1236,7 @@ export function createRelation(publisherId, activityId, relationData) {
             types: [CREATE_RELATION_REQUEST, CREATE_RELATION_SUCCESS, CREATE_RELATION_FAILURE],
             endpoint: 'Activity.createRelation',
             payload: [publisherId, activityId, JSON.stringify(relationData)],
-            schema: Schemas.related_activities,
+            schema: Schemas.relatedActivities,
         }
     }
 }
@@ -1254,7 +1254,7 @@ export function updateRelation(publisherId, activityId, id, relationData) {
             types: [UPDATE_RELATION_REQUEST, UPDATE_RELATION_SUCCESS, UPDATE_RELATION_FAILURE],
             endpoint: 'Activity.updateRelation',
             payload: [publisherId, activityId, id, JSON.stringify(relationData)],
-            schema: Schemas.related_activities,
+            schema: Schemas.relatedActivities,
         }
     }
 }
@@ -1451,7 +1451,7 @@ export function createPerformanceComment(publisherId, activityId, commentData) {
             types: [CREATE_PERFORMANCE_COMMENT_REQUEST, CREATE_PERFORMANCE_COMMENT_SUCCESS, CREATE_PERFORMANCE_COMMENT_FAILURE],
             endpoint: 'Activity.createPerformanceComment',
             payload: [publisherId, activityId, JSON.stringify(commentData)],
-            schema: Schemas.related_activities,
+            schema: Schemas.comment,
         }
     }
 }
@@ -1469,7 +1469,7 @@ export function updatePerformanceComment(publisherId, activityId, id, commentDat
             types: [UPDATE_PERFORMANCE_COMMENT_REQUEST, UPDATE_PERFORMANCE_COMMENT_SUCCESS, UPDATE_PERFORMANCE_COMMENT_FAILURE],
             endpoint: 'Activity.updatePerformanceComment',
             payload: [publisherId, activityId, id, JSON.stringify(commentData)],
-            schema: Schemas.related_activities,
+            schema: Schemas.comment,
         }
     }
 }
@@ -1506,7 +1506,7 @@ export function getCapital(publisherId, activityId) {
             types: [GET_FINANCIAL_CAPITAL_REQUEST, GET_FINANCIAL_CAPITAL_SUCCESS, GET_FINANCIAL_CAPITAL_FAILURE],
             endpoint: 'Activity.getCapital',
             payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.related_activities),
+            schema: arrayOf(Schemas.capital),
         }
     }
 }
@@ -1523,8 +1523,8 @@ export function createCapital(publisherId, activityId, capitalData) {
         [CALL_API]: {
             types: [CREATE_FINANCIAL_CAPITAL_REQUEST, CREATE_FINANCIAL_CAPITAL_SUCCESS, CREATE_FINANCIAL_CAPITAL_FAILURE],
             endpoint: 'Activity.createCapital',
-            payload: [publisherId, activityId, commentData],
-            schema: Schemas.related_activities,
+            payload: [publisherId, activityId, capitalData],
+            schema: Schemas.capital,
         }
     }
 }
