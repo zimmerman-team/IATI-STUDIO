@@ -59,6 +59,7 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
                         </button>
                         {touched && error && <span className="error">{error}</span>}
                     </div>
+                    <br/>
                 </div>
             )}
         </div>

@@ -58,18 +58,18 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
                                 textLabel="Description"
                                 narrativeLabel={false}
                             />
-                        </div>
+                        </div>{/*
                         <div className="row no-margin">
                             <FieldArray
                                 component={renderIndicator}
-                                name="indicatorMeasure"
-                                textName="indicatorMeasure"
+                                name={`${result}.indicator`}
+                                textName={`${result}.indicator`}
                                 textLabel="Measure"
                                 indicatorMeasureOptions={indicatorMeasureOptions}
                                 indicatorVocabularyOptions={indicatorVocabularyOptions}
                                 defaultOption="Select one of the following options"
                             />
-                        </div>
+                        </div>*/}
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
@@ -111,7 +111,8 @@ export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMe
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name="vocabulary"
+                                name={`${title}.vocabulary`}
+                                textName={`${title}.vocabulary`}
                                 label="Vocabulary"
                                 selectOptions={indicatorVocabularyOptions}
                                 defaultOption="Select one of the following options"
@@ -121,6 +122,7 @@ export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMe
                             <Field
                                 component={renderSelectField}
                                 name={`${title}.indicatorURI`}
+                                textName={`${title}.indicatorURI`}
                                 label="Indicator URI"
                                 selectOptions={indicatorMeasureOptions}
                                 defaultOption="Select one of the following options"
@@ -133,7 +135,7 @@ export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMe
                                 <div className="row no-margin">
                                     <div className="columns small-6">
                                         <Field
-                                            name={`${title}.year`}
+                                            name={`${title}.baseline.year`}
                                             type="text"
                                             component={renderField}
                                             label="Year"

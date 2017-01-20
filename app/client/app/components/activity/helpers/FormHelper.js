@@ -70,12 +70,11 @@ export const renderTextArea = ({textArea, label, type, readOnly, onChange, meta:
  * @param {object} fields
  * @param {object} languageOptions
  * @param {boolean} narrativeLabel
- * @param {string} textName
  * @param {string} textLabel
  * @param touched
  * @param error
  */
-export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textName="", textLabel="", meta: {touched, error}}) => {
+export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel = true, textLabel="", meta: {touched, error}}) => {
     if (!fields.length) {
         fields.push({})
     }

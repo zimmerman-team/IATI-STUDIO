@@ -112,7 +112,13 @@ function activity(state = initialState, action) {
             return {
                 ...state,
                 ...state.entities,
-                'transactions': _.omit(state.transaction, action.id),
+                'transactions': _.omit(state.transactions, action.id),
+            }
+        case ActionTypes.DELETE_PERFORMANCE_RESULT_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'results': _.omit(state.results, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {

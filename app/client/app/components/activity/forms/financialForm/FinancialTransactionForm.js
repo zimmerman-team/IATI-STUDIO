@@ -44,8 +44,8 @@ const renderFinancialTransactionForm = ({
                             />
                         </div>
                         <Field
-                            name={`${transaction}humanitarian`}
-                            textName={`${transaction}humanitarian`}
+                            name={`${transaction}humanitarian.code`}
+                            textName={`${transaction}humanitarian.code`}
                             component={renderSelectField}
                             label="Humanitarian"
                             selectOptions={[{code: "true", name: "true"}, {code: "false", name: "false"}]}
@@ -162,8 +162,8 @@ const renderFinancialTransactionForm = ({
                         </div>
                     </div>
                     <FieldArray
-                        name={`${transaction}sector`}
-                        textName={`${transaction}sector`}
+                        name={`${transaction}sector.code`}
+                        textName={`${transaction}sector.code`}
                         component={renderSectorFields}
                         sectorVocabularyOptions={sectorVocabularyOptions}
                         sectorOptions={sectorOptions}
