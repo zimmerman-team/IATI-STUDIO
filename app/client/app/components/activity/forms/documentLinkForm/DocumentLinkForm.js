@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderNarrativeFields, renderField, renderSelectField} from '../../helpers/FormHelper'
+import {Link} from 'react-router'
 import {
     getCodeListItems,
     getDocumentLinks,
@@ -177,7 +178,7 @@ class DocumentLinkForm extends Component {
     }
 
     render() {
-        const {submitting, previousPage, handleSubmit, codelists} = this.props;
+        const {submitting, previousPage, handleSubmit, codelists, activityId} = this.props;
         if (!codelists['DocumentCategory'] || !codelists['FileFormat'] || !codelists['Language']) {
             return <GeneralLoader />
         }
@@ -202,7 +203,7 @@ class DocumentLinkForm extends Component {
                     />
                     <div className="row no-margin">
                         <div className="columns small-12">
-                            <button type="button" className="button" onClick={previousPage}>Back to Relations</button>
+                            <Link className="button" to={`/publisher/activities/${activityId}/financial/capital`}>Back to Financial Capital</Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to Relation
                             </button>

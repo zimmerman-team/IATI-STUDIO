@@ -213,7 +213,7 @@ class FinancialPlannedDisbursement extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codelists["DisbursementChannel"] || !codelists["Currency"] || !codelists["Language"] || !codelists["OrganisationType"]) {
             return <GeneralLoader/>
@@ -243,7 +243,9 @@ class FinancialPlannedDisbursement extends Component {
                         organisationOptions={codelists["OrganisationType"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/financial/budget">Back to budget</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/financial/budget`}>
+                            Back to Budget
+                        </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to transaction
                         </button>

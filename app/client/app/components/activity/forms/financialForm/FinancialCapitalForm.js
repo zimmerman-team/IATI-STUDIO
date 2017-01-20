@@ -34,7 +34,6 @@ class FinancialCapitalForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, publisher} = this.props;
-        console.log('<<<formData', formData);
 
         this.props.updateActivity(publisher.id, {
             id: activityId,
@@ -101,7 +100,6 @@ FinancialCapitalForm = reduxForm({
 function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    console.log('<<currentActivity', currentActivity);
 
     return {
         submitting: state.activity.submitting,

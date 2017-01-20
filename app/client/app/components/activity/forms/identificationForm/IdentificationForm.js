@@ -2,7 +2,7 @@ import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {Field, reduxForm} from 'redux-form'
-import {renderField} from '../../helpers/FormHelper'
+import {renderField, renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {getActivity, updateActivity} from '../../../../actions/activity'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -124,12 +124,12 @@ class IdentificationForm extends PureComponent {
                     </div>
                     <div className="columns small-6">
                         <Field
+                            component={renderSelectField}
                             name="activity.hierarchy"
-                            type="number"
-                            id="hierarchy"
-                            component={renderField}
+                            textName="activity.hierarchy"
                             label="Hierarchy"
-                            disabled={!blankIdentificationForm}
+                            selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
+                            defaultOption="Select one of the following options"
                         />
                     </div>
                     <div className="columns small-12">

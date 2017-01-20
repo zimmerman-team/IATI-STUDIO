@@ -100,7 +100,6 @@ class PolicyMakerForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        console.log('<<<handleFormSubmit', formData);
         const {activityId, publisher, data} = this.props;
         const policy = formData.policy;
 

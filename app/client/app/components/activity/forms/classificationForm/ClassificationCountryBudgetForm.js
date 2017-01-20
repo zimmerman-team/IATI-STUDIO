@@ -127,7 +127,7 @@ class CountryBudgetForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codelists['BudgetIdentifier'] || !codelists['BudgetIdentifierVocabulary'] || !codelists['Language']) {
             return <GeneralLoader />
@@ -148,8 +148,9 @@ class CountryBudgetForm extends Component {
                         languageOptions={codelists["Language"]}
                     />
                     <div className="columns small-12">
-                        <Link className="button" to="/publisher/activities/classifications/select">Back to
-                            Selection</Link>
+                        <Link className="button" to={`/publisher/activities/${activityId}/classifications/select`}>
+                            Back to Selection
+                        </Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
                             Continue to Humanitarian
                         </button>

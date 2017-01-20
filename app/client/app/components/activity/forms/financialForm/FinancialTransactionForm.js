@@ -314,7 +314,7 @@ class FinancialTransactionForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting} = this.props;
+        const {codelists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codelists["HumanitarianScopeType"] || !codelists["TransactionType"] || !codelists["OrganisationType"]
             || !codelists["Currency"] || !codelists["Language"] || !codelists["DisbursementChannel"]
@@ -348,8 +348,9 @@ class FinancialTransactionForm extends Component {
                             sectorOptions={codelists["Sector"]}
                         />
                         <div className="columns small-12">
-                            <Link className="button" to="/publisher/activities/financial/planned-disbursement">Back to
-                                planned disbursement</Link>
+                            <Link className="button" to={`/publisher/activities/${activityId}/financial/planned-disbursement`}>
+                                Back to Planned Disbursement
+                            </Link>
                             <button className="button float-right" type="submit" disabled={submitting}>
                                 Continue to capital
                             </button>
