@@ -121,17 +121,19 @@ const renderContactInfo = ({fields, languageOptions, contactTypes, meta: {dirty,
 };
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.type) {
-        errors.type = 'Required'
-    }
+    const activityDates = values.contact_info || []
 
-    if (!values.narrative) {
-        const narrativeTextObj = {};
-        narrativeTextObj.text = 'Required';
-        errors.narrative = narrativeTextObj
-    }
+    errors.contact_info = activityDates.map(dateData => {
+        let descriptionErrors = {}
+
+        if (!dateData.type) {
+            descriptionErrors.type = {code: 'Required'}
+        }
+
+        return descriptionErrors
+    });
 
     return errors
 };

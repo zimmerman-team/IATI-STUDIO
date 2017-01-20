@@ -76,45 +76,25 @@ const renderRecipientCountry = ({fields, languageOptions, countryOptions, meta: 
 const validate = values => {
     let errors = {};
 
-    const countries = values.countries || []
+    const countries = values.recipient_countries || []
 
-    errors.countries = countries.map(recipientCountry => {
-        let recipientCountryErrors = {}
+    errors.recipient_countries = countries.map(countryData => {
+        let descriptionErrors = {}
 
-        if (!recipientCountry.country) {
-            recipientCountryErrors.country = {code: 'Required'}
+        if (!countryData.percentage) {
+            descriptionErrors.percentage = 'Required'
         }
 
-        if (!recipientCountry.percentage) {
-            recipientCountryErrors.percentage = 'Required'
+        if (countryData.percentage && countryData.percentage > 100) {
+            descriptionErrors.percentage = 'Percentage should not be more than 100'
         }
 
-        const narratives = recipientCountry.narratives || []
-
-        recipientCountryErrors.narratives = narratives.map(narrative => {
-            let narrativeErrors = {}
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language) {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors
-        })
-
-        if (!narratives.length) {
-            recipientCountryErrors.narratives._error = 'At least one narrative must be entered'
+        if (!countryData.type) {
+            descriptionErrors.type = {code: 'Required'}
         }
 
-        return recipientCountryErrors
-    })
-
-    if (!countries.length) {
-        errors.countries._error = 'At least one recipient country must be entered'
-    }
+        return descriptionErrors
+    });
 
     return errors
 };

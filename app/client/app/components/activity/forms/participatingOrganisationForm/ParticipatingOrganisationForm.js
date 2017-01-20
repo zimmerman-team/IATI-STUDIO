@@ -95,6 +95,18 @@ const validate = values => {
             participatingOrganisationErrors.type = {code: 'Required'}
         }
 
+        if (!participatingOrganisation.role) {
+            participatingOrganisationErrors.role = {name: 'Required'}
+        }
+
+        if(!participatingOrganisation.ref) {
+            participatingOrganisationErrors.ref = 'Required'
+        }
+
+        if(!participatingOrganisation.activity_id) {
+            participatingOrganisationErrors.activity_id = 'Required'
+        }
+
         const narratives = participatingOrganisation.narratives || []
 
         participatingOrganisationErrors.narratives = narratives.map(narrative => {
