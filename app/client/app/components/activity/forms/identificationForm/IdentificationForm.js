@@ -9,17 +9,16 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import ActivityTooltip from '../../ActivityTooltip'
 
 const validate = values => {
-    const errors = {};
+    const activity = {};
+    if (values.activity) {
+        const activityData = values.activity;
 
-    if (!values.iati_identifier) {
-        errors.iati_identifier = 'Required'
+        if (!activityData.iati_identifier) {
+            activity.iati_identifier = 'Required'
+        }
     }
 
-    if (!values.hierarchy) {
-        errors.hierarchy = 'Required'
-    }
-
-    return errors
+    return {activity};
 };
 
 
@@ -29,7 +28,7 @@ class IdentificationForm extends PureComponent {
         super(props);
 
         this.state = {
-            iatiIdentifier: 0
+            iatiIdentifier: ''
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.createActivity = this.createActivity.bind(this);
@@ -53,19 +52,23 @@ class IdentificationForm extends PureComponent {
         this.props.updateActivity(publisher.id, {
             id: activityId,
             ...data.activity,
+        }).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/basic-info/description`)
+            }
         });
 
-        this.props.router.push(`/publisher/activities/${activityId}/basic-info/description`)
+
     }
 
     createActivity() {
         // just generate something random
-        if(this.state.iatiIdentifier !== 0){
+        if (this.state.iatiIdentifier !== '') {
             this.props.createActivity(this.props.publisher.id, {
                 iati_identifier: this.state.iatiIdentifier,
             }).then((action) => {
                 this.props.router.push(`/publisher/activities/${action.response.result}/identification`)
-            })
+            });
         }
     }
 
@@ -121,16 +124,14 @@ class IdentificationForm extends PureComponent {
                             disabled={!blankIdentificationForm}
                         />
                     </div>
-                    <div className="columns small-6">
-                        <Field
-                            component={renderSelectField}
-                            name="activity.hierarchy"
-                            textName="activity.hierarchy"
-                            label="Hierarchy"
-                            selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
+                    <Field
+                        component={renderSelectField}
+                        name="activity.hierarchy"
+                        textName="activity.hierarchy"
+                        label="Hierarchy"
+                        selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
+                        defaultOption="Select one of the following options"
+                    />
                     <div className="columns small-12">
                         <button className="button" type="submit" disabled={submitting || !blankIdentificationForm}>
                             Continue to basic information
