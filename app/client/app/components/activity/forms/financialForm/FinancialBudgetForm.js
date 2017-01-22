@@ -122,11 +122,36 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
 
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.status) {
-        errors.status = 'Required'
-    }
+    const financialBudgets = values.budgets || [];
+
+    errors.budgets = financialBudgets.map(budgetData => {
+        let budgetErrors = {};
+
+        if (!budgetData.status) {
+            budgetErrors.status = {code: 'Required'}
+        }
+
+        if (!budgetData.type) {
+            budgetErrors.type = {code: 'Required'}
+        }
+
+        if (!budgetData.value) {
+            budgetErrors.value = {date: 'Required', currency: 'Required', value: 'Required'}
+        }
+
+        if (!budgetData.period_start) {
+            budgetErrors.period_start = 'Required'
+        }
+
+        if (!budgetData.period_end) {
+            budgetErrors.period_end = 'Required'
+        }
+
+        return budgetErrors
+    });
+
     return errors
 };
 

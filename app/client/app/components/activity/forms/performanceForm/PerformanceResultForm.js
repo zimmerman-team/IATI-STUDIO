@@ -95,86 +95,6 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
     )
 };
 
-/**
- * Prepare render indicator fields html.
- *
- * @param {object} fields
- * @param {object} indicatorMeasureOptions
- * @param {string} textName
- * @param {string} mainLabel
- * @param touched
- * @param error
- */
-export const renderIndicator = ({fields, indicatorVocabularyOptions, indicatorMeasureOptions, textName = "", mainLabel = "", meta: {touched, error}}) => {
-    if (fields && !fields.length) {
-        fields.push({})
-    }
-    return (
-        <div>
-            {fields && fields.map((title, index) =>
-                <div key={index}>
-                    {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Indicator"}
-                    <div className="row no-margin">
-                        <Field
-                            component={renderSelectField}
-                            name={`${title}.vocabulary`}
-                            textName={`${title}.vocabulary`}
-                            label="Vocabulary"
-                            selectOptions={indicatorVocabularyOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
-                    <div className="row no-margin">
-                        <Field
-                            component={renderSelectField}
-                            name={`${title}.indicatorURI`}
-                            textName={`${title}.indicatorURI`}
-                            label="Indicator URI"
-                            selectOptions={indicatorMeasureOptions}
-                            defaultOption="Select one of the following options"
-                        />
-                    </div>
-
-                    <div className="row no-margin">
-                        <div className="columns small-centered small-12">
-                            <h2 className="page-title">Baseline</h2>
-                            <div className="row no-margin">
-                                <div className="columns small-6">
-                                    <Field
-                                        name={`${title}.baseline.year`}
-                                        type="text"
-                                        component={renderField}
-                                        label="Year"
-                                    />
-                                </div>
-                                <div className="columns small-6">
-                                    <Field
-                                        name={`${textName}.value`}
-                                        type="text"
-                                        component={renderField}
-                                        label="Value"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="columns">
-                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
-                        </button>
-                        <button
-                            type="button"
-                            title="Remove Title"
-                            className="control-button remove float-right"
-                            onClick={() => fields.pop()}>Delete
-                        </button>
-                        {touched && error && <span className="error">{error}</span>}
-                    </div>
-                </div>
-            )}
-        </div>
-    )
-};
 
 const validate = values => {
     const errors = {};
@@ -259,20 +179,6 @@ class PerformanceResultForm extends Component {
                         indicatorMeasureOptions={codelists.IndicatorMeasure}
                         indicatorVocabularyOptions={codelists.IndicatorVocabulary}
                     />
-                    {/*<div className="field-list">*/}
-                    {/*<RenderPerformanceResultForm*/}
-                    {/*resultOptions={codelists.ResultType}*/}
-                    {/*languageOptions={codelists.Language}*/}
-                    {/*indicatorMeasureOptions={codelists.IndicatorMeasure}*/}
-                    {/*indicatorVocabularyOptions={codelists.IndicatorVocabulary}*/}
-                    {/*/>*/}
-                    {/*</div>*/}
-                    {/*<FieldArray*/}
-                    {/*name="additionalHumanitarianScope"*/}
-                    {/*component={renderAdditionalRenderPerformanceResultForm}*/}
-                    {/*resultOptions={codelists.ResultType}*/}
-                    {/*languageOptions={codelists.Language}*/}
-                    {/*/>*/}
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/performance/condition`}>
                             Back to performance condition

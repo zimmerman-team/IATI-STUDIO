@@ -89,8 +89,8 @@ const validate = values => {
             descriptionErrors.percentage = 'Percentage should not be more than 100'
         }
 
-        if (!countryData.type) {
-            descriptionErrors.type = {code: 'Required'}
+        if (!countryData.country) {
+            descriptionErrors.country = {code: 'Required'}
         }
 
         return descriptionErrors

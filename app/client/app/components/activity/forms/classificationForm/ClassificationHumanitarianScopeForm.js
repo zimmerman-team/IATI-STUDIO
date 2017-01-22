@@ -86,14 +86,31 @@ const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, l
 
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.vocabulary_uri) {
-        errors.vocabulary_uri = 'Required'
-    }
-    if (!values.code) {
-        errors.code = 'Required'
-    }
+    const scopes = values.humanitarian_scope || [];
+
+    errors.humanitarian_scope = scopes.map(scopeData => {
+        let scopeErrors = {};
+
+        if (!scopeData.type) {
+            scopeErrors.type = {code: 'Required'}
+        }
+
+        if (!scopeData.vocabulary) {
+            scopeErrors.vocabulary = {code: 'Required'}
+        }
+
+        if (!scopeData.vocabulary_uri) {
+            scopeErrors.vocabulary_uri = 'Required'
+        }
+
+        if (!scopeData.code) {
+            scopeErrors.code = 'Required'
+        }
+
+        return scopeErrors
+    });
 
     return errors
 };

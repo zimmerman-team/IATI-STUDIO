@@ -79,11 +79,31 @@ const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignif
 };
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.vocabulary_uri) {
-        errors.vocabulary_uri = 'Required'
-    }
+    const policies = values.policy || []
+
+    errors.policy = policies.map(policyData => {
+        let descriptionErrors = {}
+
+        if (!policyData.policy_marker) {
+            descriptionErrors.policy_marker = {code: 'Required'}
+        }
+
+        if (!policyData.significance) {
+            descriptionErrors.significance = {code: 'Required'}
+        }
+
+        if (!policyData.vocabulary_uri) {
+            descriptionErrors.vocabulary_uri = 'Required'
+        }
+
+        if (!policyData.vocabulary) {
+            descriptionErrors.vocabulary = 'Required'
+        }
+
+        return descriptionErrors
+    });
 
     return errors
 };

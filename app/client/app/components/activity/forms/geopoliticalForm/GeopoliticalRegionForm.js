@@ -100,14 +100,35 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
 };
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.region) {
-        errors.region = 'Required'
-    }
-    if (!values.vocabulary_uri) {
-        errors.vocabulary_uri = 'Required'
-    }
+    const regions = values.recipient_region || []
+
+    errors.recipient_region = regions.map(regionData => {
+        let descriptionErrors = {}
+
+        if (!regionData.percentage) {
+            descriptionErrors.percentage = 'Required'
+        }
+
+        if (regionData.percentage && regionData.percentage > 100) {
+            descriptionErrors.percentage = 'Percentage should not be more than 100'
+        }
+
+        if (!regionData.region) {
+            descriptionErrors.region = {code: 'Required'}
+        }
+
+        if (!regionData.vocabulary) {
+            descriptionErrors.vocabulary = {code: 'Required'}
+        }
+
+        if (!regionData.region) {
+            descriptionErrors.region = {name: 'Required'}
+        }
+
+        return descriptionErrors
+    });
 
     return errors
 };

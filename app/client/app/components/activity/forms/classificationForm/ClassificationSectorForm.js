@@ -98,9 +98,42 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
 const validate = values => {
     const errors = {};
 
-    if (!values.percentage) {
-        errors.percentage = 'Required'
-    }
+    const regions = values.sector || []
+
+    errors.sector = regions.map(regionData => {
+        let descriptionErrors = {}
+
+        if (!regionData.percentage) {
+            descriptionErrors.percentage = 'Required'
+        }
+
+        if (!regionData.vocabulary_uri) {
+            descriptionErrors.vocabulary_uri = 'Required'
+        }
+
+        if (!regionData.sector) {
+            descriptionErrors.sector = {code: 'Required'}
+        }
+
+        if (!regionData.vocabulary) {
+            descriptionErrors.vocabulary = {code: 'Required'}
+        }
+
+        if (!regionData.sector) {
+            descriptionErrors.sector = {name: 'Required'}
+        }
+
+        if (!regionData.sector) {
+            descriptionErrors.sector = {code: 'Required'}
+        }
+
+        if (regionData.percentage && regionData.percentage > 100) {
+            descriptionErrors.percentage = 'Percentage should not be more than 100'
+        }
+
+        return descriptionErrors
+    });
+
     return errors
 };
 
