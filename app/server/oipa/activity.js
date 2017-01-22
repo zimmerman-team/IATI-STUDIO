@@ -842,6 +842,46 @@ export const deleteTransaction = function (user, publisherId, activityId, id) {
     return oipaDelete(req_options)
 };
 
+export const postPlannedDisbursement = function (user, publisherId, activityId, plannedDisbursementData) {
+    const dataJSON = JSON.parse(plannedDisbursementData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.planned_disbursements_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePlannedDisbursement = function (user, publisherId, activityId, id, plannedDisbursementData) {
+    const dataJSON = JSON.parse(plannedDisbursementData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.planned_disbursements_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePlannedDisbursement = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.planned_disbursements_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
 export const getPerformanceCondition = function (user, publisherId, activityId) {
     const req_options = {
         baseUrl: config.oipa_post_url,

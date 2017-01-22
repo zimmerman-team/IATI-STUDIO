@@ -448,7 +448,7 @@ export function createPlannedDisbursement(publisherId, activityId, plannedDisbur
         [CALL_API]: {
             types: [CREATE_PLANNED_DISBURSEMENT_REQUEST, CREATE_PLANNED_DISBURSEMENT_SUCCESS, CREATE_PLANNED_DISBURSEMENT_FAILURE],
             endpoint: 'Activity.createPlannedDisbursement',
-            payload: [publisherId, activityId, plannedDisbursement],
+            payload: [publisherId, activityId, JSON.stringify(plannedDisbursement)],
             schema: Schemas.plannedDisbursement,
         }
     }
@@ -466,7 +466,7 @@ export function updatePlannedDisbursement(publisherId, activityId, id, plannedDi
         [CALL_API]: {
             types: [UPDATE_PLANNED_DISBURSEMENT_REQUEST, UPDATE_PLANNED_DISBURSEMENT_SUCCESS, UPDATE_PLANNED_DISBURSEMENT_FAILURE],
             endpoint: 'Activity.updatePlannedDisbursement',
-            payload: [publisherId, activityId, id, plannedDisbursement],
+            payload: [publisherId, activityId, id, JSON.stringify(plannedDisbursement)],
             schema: Schemas.plannedDisbursement,
         }
     }

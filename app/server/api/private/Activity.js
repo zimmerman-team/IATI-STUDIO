@@ -444,25 +444,10 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getPerformanceCondition: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getPerformanceCondition(user, publisherId, activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
     createTransaction: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation,
         return oipaMethods.postTransaction(user, publisherId, activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createPerformanceCondition: function(user, publisherId, activityId, data, res) {
-        // TODO: update validation status here - 2016-12-16
-        // on succesful creation,
-        return oipaMethods.createPerformanceCondition(user, publisherId, activityId, data)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
@@ -474,6 +459,51 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    deleteTransaction: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteTransaction(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createPlannedDisbursement: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.postPlannedDisbursement(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updatePlannedDisbursement: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updatePlannedDisbursement(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deletePlannedDisbursement: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deletePlannedDisbursement(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getPerformanceCondition: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getPerformanceCondition(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
+    createPerformanceCondition: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createPerformanceCondition(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     updatePerformanceCondition: function(user, publisherId, activityId, id, data, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.updatePerformanceCondition(user, publisherId, activityId, id, data)
@@ -481,12 +511,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    deleteTransaction: function(user, publisherId, activityId, id, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteTransaction(user, publisherId, activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
 
     deletePerformanceCondition: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16

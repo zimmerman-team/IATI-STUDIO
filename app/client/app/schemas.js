@@ -96,7 +96,7 @@ export const policy = new Schema('policy', {
     idAttribute: "id",
 })
 
-export const plannedDisbursement = new Schema('plannedDisbursement', {
+export const plannedDisbursement = new Schema('planned_disbursements', {
     idAttribute: "id",
 })
 
@@ -153,7 +153,7 @@ export const activity = new Schema('activity', {
     transactions: arrayOf(transaction),
     conditions: arrayOf(condition),
     comments: arrayOf(comment),
-    plannedDisbursements: arrayOf(plannedDisbursement),
+    planned_disbursements: arrayOf(plannedDisbursement),
     participatingOrganisations: arrayOf(participatingOrganisation),
     date: arrayOf(date),
     related_activities: arrayOf(relatedActivities),
