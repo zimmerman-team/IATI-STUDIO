@@ -15,7 +15,7 @@ const navigation = [
                 form: '',
                 title: "identification",
                 link: (id) => `/publisher/activities/${id}/identification/identification`,
-                requires: ['activity.iati_identifier', 'activity.hierarchy']
+                requires: ['iati_identifier', 'hierarchy'],
             }
         ]
     },
@@ -31,13 +31,18 @@ const navigation = [
             },
             {
                 title: "status",
-                requires: ['activity.status'],
+                requires: ['activity_status'],
                 link: (id) => `/publisher/activities/${id}/basic-info/status`
             },
-            {title: "date", requires: ['dates.length'], link: (id) => `/publisher/activities/${id}/basic-info/date`},
+            {
+                title: "date",
+                requires: [],
+                data: ['actual_start', 'actual_end', 'planned_start', 'planned_end'],
+                link: (id) => `/publisher/activities/${id}/basic-info/date`},
             {
                 title: "contact",
-                requires: ['contacts.length'],
+                requires: [],
+                data: ['contact_info.length'],
                 link: (id) => `/publisher/activities/${id}/basic-info/contact`
             }
         ],
@@ -49,7 +54,7 @@ const navigation = [
         subHeading: [
             {
                 title: "participating-organisation",
-                requires: ['participatingOrganisations.length'],
+                requires: ['participating_organisations.length'],
                 link: (id) => `/publisher/activities/${id}/participating-organisation/participating-organisation`
             }
         ]
@@ -61,12 +66,12 @@ const navigation = [
         subHeading: [
             {
                 title: "country",
-                requires: ['recipientCountries.length'],
+                requires: ['recipient_countries.length'],
                 link: (id) => `/publisher/activities/${id}/geopolitical-information/country`
             },
             {
                 title: "region",
-                requires: ['recipientRegions.length'],
+                requires: ['recipient_regions.length'],
                 link: (id) => `/publisher/activities/${id}/geopolitical-information/region`
             },
             {
@@ -88,22 +93,22 @@ const navigation = [
             },
             {
                 title: "policy",
-                requires: ['policyMarkers.length'],
+                data: ['policy_markers.length'],
                 link: (id) => `/publisher/activities/${id}/classifications/policy`
             },
             {
                 title: "select",
-                data: ['activity.collaboration_type', 'activity.default_flow_type', 'activity.default_finance_type', 'activity.default_aid_type', 'activity.default_tied_status'],
+                data: ['collaboration_type', 'default_flow_type', 'default_finance_type', 'default_aid_type', 'default_tied_status'],
                 link: (id) => `/publisher/activities/${id}/classifications/select`
             },
             {
                 title: "country",
-                requires: ['activity.countryBudgetItems.length'],
+                data: ['country_budget_items.length'],
                 link: (id) => `/publisher/activities/${id}/classifications/country`
             },
             {
                 title: "humanitarian",
-                requires: ['activity.humanitarianScope.length'],
+                data: ['humanitarian_scope.length'],
                 link: (id) => `/publisher/activities/${id}/classifications/humanitarian`
             }
         ]
@@ -112,30 +117,74 @@ const navigation = [
         navHeading: 'Financial',
         link: (id) => `/publisher/activities/${id}/financial/financial`,
         form: 'financial',
-        subHeading: [{title: "budget", link: (id) => `/publisher/activities/${id}/financial/budget`},
-            {title: "planned-disbursement", link: (id) => `/publisher/activities/${id}/financial/planned-disbursement`},
-            {title: "transaction", link: (id) => `/publisher/activities/${id}/financial/transaction`},
-            {title: "capital", link: (id) => `/publisher/activities/${id}/financial/capital`}]
+        subHeading: [
+            {
+                title: "budget",
+                link: (id) => `/publisher/activities/${id}/financial/budget`,
+                data: ['budgets.length']
+            },
+            {
+                title: "planned-disbursement",
+                link: (id) => `/publisher/activities/${id}/financial/planned-disbursement`,
+                data: ['planned_disbursements']
+            },
+            {
+                title: "transaction",
+                link: (id) => `/publisher/activities/${id}/financial/transaction`,
+                requires: ['transactions.length']
+            },
+            {
+                title: "capital",
+                link: (id) => `/publisher/activities/${id}/financial/capital`,
+                data: ['capital_spend']
+            }
+        ]
     },
     {
         navHeading: 'Documents',
         link: (id) => `/publisher/activities/${id}/document-link/document-link`,
         form: 'document-link',
-        subHeading: [{title: "documentLink", link: (id) => `/publisher/activities/${id}/document-link/document-link`}]
+        subHeading: [
+            {
+                title: "documentLink",
+                link: (id) => `/publisher/activities/${id}/document-link/document-link`,
+                data: ['document_links.length']
+            }
+        ]
     },
     {
         navHeading: 'Relations',
         link: (id) => `/publisher/activities/${id}/relations/relations`,
         form: 'relations',
-        subHeading: [{title: "relations", link: (id) => `/publisher/activities/${id}/relations/relations`}]
+        subHeading: [
+            {
+                title: "relations",
+                link: (id) => `/publisher/activities/${id}/relations/relations`,
+                data: ['related_activities.length']
+            }
+        ]
     },
     {
         navHeading: 'Performance',
         link: (id) => `/publisher/activities/${id}/performance/performance`,
         form: 'performance',
-        subHeading: [{title: "condition", link: (id) => `/publisher/activities/${id}/performance/condition`},
-            {title: "result", link: (id) => `/publisher/activities/${id}/performance/result`},
-            {title: "comment", link: (id) => `/publisher/activities/${id}/performance/comment`}]
+        subHeading: [
+            {
+                title: "condition",
+                link: (id) => `/publisher/activities/${id}/performance/condition`,
+                data: ['conditions.length']
+            },
+            {
+                title: "result",
+                link: (id) => `/publisher/activities/${id}/performance/result`,
+                data: ['results.length']
+            },
+            {
+                title: "comment",
+                link: (id) => `/publisher/activities/${id}/performance/comment`,
+                data: ['legacy_data.length']
+            }
+        ]
     }
 ]
 
@@ -223,7 +272,7 @@ const NavItem = ({activityId, activity, navLink, navHeading, subHeadings, isActi
                         link={subHeading.link(activityId)}
                         activity={activity}
                         isValid={navItemIsValid(activity, subHeading.requires)}
-                        hasData={navItemHasData(activity, subHeading.data)}
+                        hasData={navItemHasData(activity, subHeading.data || subHeading.requires)}
                     />
                 ))
                 }
@@ -254,10 +303,13 @@ const SubNavItem = ({isValid, hasData, navValidationClass, canNavigate, title, l
 
 import {publisherSelector} from '../../reducers/createActivity'
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+    const {activityId} = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+
     return {
         form: state.form,
-        activity: state.activity,
+        activity: currentActivity,
         publisher: publisherSelector(state),
         // navigation: sidebar.navigation,
         // page: sidebar.page,
