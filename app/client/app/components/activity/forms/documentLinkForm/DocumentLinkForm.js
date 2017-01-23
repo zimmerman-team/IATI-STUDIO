@@ -85,15 +85,6 @@ const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, meta: {
                             />
                         </div>
                         <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name={`${documentLink}language.code`}
-                                textName={`${documentLink}language.code`}
-                                label='Language'
-                                selectOptions={languageOptions}
-                                defaultOption="Select one of the following options"/>
-                        </div>
-                        <div className="row no-margin">
                             <div className="columns small-6">
                                 <Field
                                     name={`${documentLink}document_date.iso_date`}
@@ -165,11 +156,11 @@ class DocumentLinkForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
-        const documentLinks = formData.documentLink;
+        const documentLinks = formData.document_links;
 
         handleSubmit(
             publisher.id,
-            'documentLink',
+            'document_links',
             activityId,
             data,
             documentLinks,

@@ -16,7 +16,7 @@ import {participatingOrganisationsSelector, publisherSelector} from '../../../..
 
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions, meta: {touched, dirty}}) => {
+const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions, meta: {touched, error, dirty}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -87,9 +87,9 @@ const validate = values => {
 
     let errors = {};
 
-    const participatingOrganisations = values.participatingOrganisations || []
+    const participatingOrganisations = values.participating_organisations || []
 
-    errors.participatingOrganisations = participatingOrganisations.map(participatingOrganisation => {
+    errors.participating_organisations = participatingOrganisations.map(participatingOrganisation => {
         let participatingOrganisationErrors = {}
 
         if (!participatingOrganisation.type) {
@@ -124,15 +124,11 @@ const validate = values => {
             return narrativeErrors
         })
 
-        if (!narratives.length) {
-            participatingOrganisationErrors.narratives._error = 'At least one narrative must be entered'
-        }
-
         return participatingOrganisationErrors
     })
 
     if (!participatingOrganisations.length) {
-        errors.participatingOrganisations._error = 'At least one participatingOrganisation must be entered'
+        errors.participating_organisations._error = 'At least one participatingOrganisation must be entered'
     }
 
     return errors
