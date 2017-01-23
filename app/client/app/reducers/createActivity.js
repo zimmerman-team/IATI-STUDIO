@@ -18,46 +18,50 @@ function activity(state = initialState, action) {
         //     return Object.assign({}, state, {
         //         [action.extra]: action.response
         //     });
+
+        // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
         case ActionTypes.GET_ACTIVITY_SUCCESS:
-        case ActionTypes.CREATE_ACTIVITY_SUCCESS:
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
+        case ActionTypes.GET_STATUS_SUCCESS:
+        case ActionTypes.GET_DOCUMENT_LINK_SUCCESS:
+        case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
+        case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
+        case ActionTypes.GET_REGION_SUCCESS:
+        case ActionTypes.GET_SECTOR_SUCCESS:
+        case ActionTypes.GET_POLICY_SUCCESS:
+        case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.GET_TRANSACTION_SUCCESS:
+            return _.assign({}, state, action.response.entities)
+
+        case ActionTypes.CREATE_BUDGET_SUCCESS:
+        case ActionTypes.UPDATE_BUDGET_SUCCESS:
+        case ActionTypes.CREATE_ACTIVITY_SUCCESS:
         case ActionTypes.CREATE_DESCRIPTION_SUCCESS:
         case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
         case ActionTypes.CREATE_DATE_SUCCESS:
         case ActionTypes.UPDATE_DATE_SUCCESS:
-        case ActionTypes.GET_STATUS_SUCCESS:
         case ActionTypes.CREATE_STATUS_SUCCESS:
         case ActionTypes.UPDATE_STATUS_SUCCESS:
         case ActionTypes.CREATE_CONTACT_SUCCESS:
         case ActionTypes.UPDATE_CONTACT_SUCCESS:
-        case ActionTypes.GET_DOCUMENT_LINK_SUCCESS:
         case ActionTypes.CREATE_DOCUMENT_LINK_SUCCESS:
         case ActionTypes.UPDATE_DOCUMENT_LINK_SUCCESS:
-        case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
         case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_SUCCESS:
         case ActionTypes.UPDATE_PARTICIPATING_ORGANISATION_SUCCESS:
-        case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
         case ActionTypes.CREATE_RECIPIENT_COUNTRY_SUCCESS:
         case ActionTypes.UPDATE_RECIPIENT_COUNTRY_SUCCESS:
-        case ActionTypes.GET_REGION_SUCCESS:
         case ActionTypes.CREATE_REGION_SUCCESS:
         case ActionTypes.UPDATE_REGION_SUCCESS:
-        case ActionTypes.GET_SECTOR_SUCCESS:
         case ActionTypes.CREATE_SECTOR_SUCCESS:
         case ActionTypes.UPDATE_SECTOR_SUCCESS:
-        case ActionTypes.GET_POLICY_SUCCESS:
         case ActionTypes.CREATE_POLICY_SUCCESS:
         case ActionTypes.UPDATE_POLICY_SUCCESS:
-        case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
-        case ActionTypes.GET_TRANSACTION_SUCCESS:
         case ActionTypes.CREATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_TRANSACTION_SUCCESS:
-        case ActionTypes.CREATE_BUDGET_SUCCESS:
-        case ActionTypes.UPDATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
-                return _.merge({}, state, (action.response.entities))
+            return _.merge({}, state, action.response.entities)
 
 
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
