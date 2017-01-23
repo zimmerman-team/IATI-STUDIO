@@ -36,7 +36,7 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                                 <Field
                                     name={`${sector}.vocabulary_uri`}
                                     textName={`${sector}.vocabulary_uri`}
-                                    type="text"
+                                    type="url"
                                     component={renderField}
                                     label="Vocabulary URI"
                                 />

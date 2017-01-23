@@ -9,10 +9,6 @@ import * as ActionTypes from '../actions/activity'
 const initialState = { }
 
 function activity(state = initialState, action) {
-    // if (action.type.startsWith('REQUEST')) {
-    //     return { ...state, submitting: true, }
-    // }
-
     switch (action.type) {
         // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
         //     return Object.assign({}, state, {
@@ -56,8 +52,19 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_SECTOR_SUCCESS:
         case ActionTypes.CREATE_POLICY_SUCCESS:
         case ActionTypes.UPDATE_POLICY_SUCCESS:
+        case ActionTypes.GET_COUNTRY_BUDGET_ITEM_SUCCESS:
+        case ActionTypes.CREATE_COUNTRY_BUDGET_ITEM_SUCCESS:
+        case ActionTypes.UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS:
+        case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
+        case ActionTypes.GET_LEGACY_DATA_SUCCESS:
+        case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
+        case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
+        case ActionTypes.GET_PERFORMANCE_CONDITION_SUCCESS:
+        case ActionTypes.CREATE_PERFORMANCE_CONDITION_SUCCESS:
+        case ActionTypes.UPDATE_PERFORMANCE_CONDITION_SUCCESS:
+        case ActionTypes.GET_TRANSACTION_SUCCESS:
         case ActionTypes.CREATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
@@ -100,6 +107,12 @@ function activity(state = initialState, action) {
                 ...state.entities,
                 'policy': _.omit(state.policy, action.id),
             }
+        case ActionTypes.DELETE_COUNTRY_BUDGET_ITEM_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'country_budget_items': _.omit(state.country_budget_items, action.id),
+            }
         case ActionTypes.DELETE_HUMANITARIAN_SCOPE_SUCCESS:
             return {
                 ...state,
@@ -129,6 +142,24 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'results': _.omit(state.related_activities, action.id),
+            }
+        case ActionTypes.DELETE_LEGACY_DATA_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'legacy_data': _.omit(state.legacy_data, action.id),
+            }
+        case ActionTypes.DELETE_PARTICIPATING_ORGANISATION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'participating_organisations': _.omit(state.participating_organisations, action.id),
+            }
+        case ActionTypes.DELETE_DOCUMENT_LINK_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'participating_organisations': _.omit(state.participating_organisations, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
@@ -161,11 +192,6 @@ export const descriptionsSelector = createSelector(
     (descriptions) => _.map(descriptions, x => x) // to array
 )
 
-export const datesSelector = createSelector(
-    state => state.activity.dates,
-    (dates) => _.map(dates, x => x) // to array
-)
-
 export const statusSelector = createSelector(
     state => state.activity.activity_status,
     (activity_status) => _.map(activity_status, x => x) // to array
@@ -181,14 +207,9 @@ export const transactionsSelector = createSelector(
     (transactions) => _.map(transactions, x => x) // to array
 )
 
-export const plannedDisbursementsSelector = createSelector(
-    state => state.activity.planned_disbursements,
-    (planned_disbursements) => _.map(planned_disbursements, x => x) // to array
-)
-
 export const documentLinksSelector = createSelector(
-    state => state.activity.documentLink,
-    (documentLink) => _.map(documentLink, x => x) // to array
+    state => state.activity.document_links,
+    (document_links) => _.map(document_links, x => x) // to array
 )
 
 export const policySelector = createSelector(
@@ -212,8 +233,8 @@ export const humanitarianScopesSelector = createSelector(
 )
 
 export const participatingOrganisationsSelector = createSelector(
-    state => state.activity.participatingOrganisations,
-    (participatingOrganisations) => _.map(participatingOrganisations, x => x) // to array
+    state => state.activity.participating_organisations,
+    (participating_organisations) => _.map(participating_organisations, x => x) // to array
 )
 
 export const recipientCountriesSelector = createSelector(
@@ -226,9 +247,9 @@ export const conditionsSelector = createSelector(
     (conditions) => _.map(conditions, x => x) // to array
 )
 
-export const resultsSelector = createSelector(
-    state => state.activity.results,
-    (results) => _.map(results, x => x) // to array
+export const legacyDataSelector = createSelector(
+    state => state.activity.legacy_data,
+    (legacy_data) => _.map(legacy_data, x => x) // to array
 )
 
 export default activity

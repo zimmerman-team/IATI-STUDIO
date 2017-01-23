@@ -100,7 +100,7 @@ export const plannedDisbursement = new Schema('planned_disbursements', {
     idAttribute: "id",
 })
 
-export const documentLink = new Schema('documentLink', {
+export const documentLink = new Schema('document_links', {
     idAttribute: "id",
 })
 
@@ -116,7 +116,7 @@ export const result = new Schema('results', {
     idAttribute: "id",
 })
 
-export const participatingOrganisation = new Schema('participatingOrganisations', {
+export const participatingOrganisation = new Schema('participating_organisations', {
     idAttribute: "id",
 })
 
@@ -132,7 +132,7 @@ export const relatedActivities = new Schema('related_activities', {
     idAttribute: "id",
 })
 
-export const comment = new Schema('comments', {
+export const legacyData = new Schema('legacy_data', {
     idAttribute: "id",
 })
 
@@ -141,20 +141,20 @@ export const activity = new Schema('activity', {
     descriptions: arrayOf(description),
     dates: arrayOf(date),
     status: status,
-    documentLink: arrayOf(documentLink),
+    document_links: arrayOf(documentLink),
     policy: arrayOf(policy),
     contact_info: arrayOf(contact),
     activity_dates: arrayOf(date),
     humanitarian_scope: arrayOf(humanitarianScope),
-    country_budget_items: arrayOf(countryBudgetItems),
+    country_budget_items: countryBudgetItems,
     budgets: arrayOf(budget),
     results: arrayOf(result),
     locations: arrayOf(location),
     transactions: arrayOf(transaction),
-    conditions: arrayOf(condition),
-    comments: arrayOf(comment),
+    conditions: condition,
+    legacy_data: legacyData,
     planned_disbursements: arrayOf(plannedDisbursement),
-    participatingOrganisations: arrayOf(participatingOrganisation),
+    participating_organisations: arrayOf(participatingOrganisation),
     date: arrayOf(date),
     related_activities: arrayOf(relatedActivities),
 })

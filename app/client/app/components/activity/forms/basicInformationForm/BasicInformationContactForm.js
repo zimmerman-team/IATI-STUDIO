@@ -31,11 +31,6 @@ const renderContactInfo = ({fields, languageOptions, contactTypes, meta: {dirty,
                                 defaultOption="Select a type"
                             />
                             <FieldArray
-                                name={`${contact}.narratives`}
-                                component={renderNarrativeFields}
-                                languageOptions={languageOptions}
-                            />
-                            <FieldArray
                                 name={`${contact}.department.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
@@ -94,7 +89,7 @@ const renderContactInfo = ({fields, languageOptions, contactTypes, meta: {dirty,
                                 <div className="columns small-6">
                                     <Field
                                         name={`${contact}.website`}
-                                        type="text"
+                                        type="url"
                                         component={renderField}
                                         label="Website"
                                     />

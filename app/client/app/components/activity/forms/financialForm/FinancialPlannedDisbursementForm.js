@@ -181,7 +181,6 @@ class FinancialPlannedDisbursement extends Component {
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
         const planned_disbursements = formData.planned_disbursements;
-        console.log('<<<handleFormSubmit planned_disbursements', planned_disbursements);
 
         handleSubmit(
             publisher.id,

@@ -67,7 +67,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                             <div className="columns small-6">
                                 <Field
                                     name={`${recipientRegion}.vocabulary_uri`}
-                                    type="text"
+                                    type="url"
                                     component={renderField}
                                     label="Vocabulary URI"
                                 />

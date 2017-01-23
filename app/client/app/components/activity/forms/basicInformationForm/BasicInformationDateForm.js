@@ -144,7 +144,6 @@ class BasicInformationDateForm extends Component {
         }
     }
 
-
     render() {
         const {codelists, submitting, handleSubmit, activity, activityId} = this.props;
 

@@ -68,7 +68,7 @@ class FinancialCapitalForm extends Component {
                             <div className="row no-margin">
                                 <div className="columns small-6">
                                     <Field
-                                        name="activity.capital_spend.percentage"
+                                        name="activity.capital_spend"
                                         type="number"
                                         component={renderField}
                                         label="Capital Spend"

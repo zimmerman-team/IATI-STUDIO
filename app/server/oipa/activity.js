@@ -109,14 +109,14 @@ export const postActivity = function (user, publisherId, activityData) {
 };
 
 export const updateActivity = function (user, publisherId, activityData) {
-    const activityDataJSON = JSON.parse(activityData);
+    const dataJSON = JSON.parse(activityData);
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(config.activities_url(publisherId), `${activityDataJSON.id}/`),
+        url: path.join(config.activities_url(publisherId), `${dataJSON.id}/`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: activityDataJSON,
+        body: dataJSON,
     };
 
     return oipaUpdate(req_options)
@@ -258,14 +258,14 @@ export const postDate = function (user, publisherId, activityId, dateData) {
 };
 
 export const updateDate = function (user, publisherId, activityId, id, dateData) {
-    const dateJSON = JSON.parse(dateData);
+    const dataJSON = JSON.parse(dateData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.date_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateJSON,
+        body: dataJSON,
     };
 
     return oipaUpdate(req_options)
@@ -685,6 +685,59 @@ export const deleteHumanitarianScope = function (user, publisherId, activityId, 
     return oipaDelete(req_options)
 };
 
+export const getCountryBudgetItem = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.country_budget_items_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const postCountryBudgetItem = function (user, publisherId, activityId, countryBudgetItemData) {
+    const dataJSON = JSON.parse(countryBudgetItemData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.country_budget_items_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateCountryBudgetItem = function (user, publisherId, activityId, id, countryBudgetItemData) {
+    const dataJSON = JSON.parse(countryBudgetItemData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.country_budget_items_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteCountryBudgetItem = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.country_budget_items_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
 export const postContact = function (user, publisherId, activityId, contactData) {
     const dataJSON = JSON.parse(contactData);
     const req_options = {
@@ -880,6 +933,61 @@ export const deleteTransaction = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.transactions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const getLegacyData = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.comments_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+
+export const postLegacyData = function (user, publisherId, activityId, legacyData) {
+    const dataJSON = JSON.parse(legacyData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.comments_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateLegacyData = function (user, publisherId, activityId, id, legacyData) {
+    const dataJSON = JSON.parse(legacyData);
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.comments_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteLegacyData = function (user, publisherId, activityId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.comments_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },

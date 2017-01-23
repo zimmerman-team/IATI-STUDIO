@@ -286,6 +286,34 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getCountryBudgetItem: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here
+        return oipaMethods.getCountryBudgetItem(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createCountryBudgetItem: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here
+        // on successful creation,
+        return oipaMethods.postCountryBudgetItem(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateCountryBudgetItem: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here
+        return oipaMethods.updateCountryBudgetItem(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteCountryBudgetItem: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here
+        return oipaMethods.deleteCountryBudgetItem(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
 
     createBudget: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here
@@ -508,6 +536,35 @@ var ActivityAPI = {
     deleteTransaction: function(user, publisherId, activityId, id, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.deleteTransaction(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getLegacyData: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getLegacyData(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createLegacyData: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.postLegacyData(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateLegacyData: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateLegacyData(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteLegacyData: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteLegacyData(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

@@ -47,7 +47,7 @@ const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, l
                             <div className="columns small-6">
                                 <Field
                                     name={`${humanitarianScope}vocabulary_uri`}
-                                    type="text"
+                                    type="url"
                                     component={renderField}
                                     label="Vocabulary URI"
                                 />

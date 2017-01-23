@@ -5,7 +5,7 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCodeListItems, getActivity} from '../../../../actions/activity'
+import {getCodeListItems, getActivity, getCountryBudgetItems, createCountryBudgetItem, updateCountryBudgetItem, deleteCountryBudgetItem,} from '../../../../actions/activity'
 import {publisherSelector, countryBudgetItemSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
@@ -23,7 +23,8 @@ const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, la
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name={`${countryBudget}vocabulary`}
+                                name={`${countryBudget}vocabulary.code`}
+                                textName={`${countryBudget}vocabulary.code`}
                                 label="Vocabulary"
                                 selectOptions={vocabularyOptions}
                                 defaultOption="Select one of the following options"
@@ -33,6 +34,7 @@ const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, la
                             <Field
                                 component={renderSelectField}
                                 name={`${countryBudget}item[code]`}
+                                textName={`${countryBudget}item[code]`}
                                 label="Budget Item Code"
                                 selectOptions={codeOptions}
                                 defaultOption="Select one of the following options"
@@ -49,7 +51,7 @@ const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, la
                         <div className="row no-margin">
                             <h2 className="page-title with-tip">Description</h2>
                             <FieldArray
-                                name="additionalTitles"
+                                name={`${countryBudget}title.narratives`}
                                 component={renderNarrativeFields}
                                 narrativeAddMore={false}
                                 languageOptions={languageOptions}
@@ -104,18 +106,18 @@ class CountryBudgetForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
 
-        const lastDates = data;
+        const lastData = data;
         let countryBudgetItems = formData.country_budget_items;
 
         handleSubmit(
             publisher.id,
             'country_budget_items',
             activityId,
-            lastDates,
+            lastData,
             countryBudgetItems,
-            this.props.createDate,
-            this.props.updateDate,
-            this.props.deleteDate,
+            this.props.createCountryBudgetItem,
+            this.props.updateCountryBudgetItem,
+            this.props.deleteCountryBudgetItem,
         ).then((result) => {
             if (!result.error) {
                 this.props.router.push(`/publisher/activities/${activityId}/classifications/humanitarian`)
@@ -123,6 +125,30 @@ class CountryBudgetForm extends Component {
         }).catch((e) => {
             console.log(e)
         })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data !== this.props.data) {
+            const oldData = this.props.data
+            const newData = nextProps.data
+
+            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
+            // this.props.change('descriptions', newData);
+
+            // change each item
+            newData.forEach((d, i) => this.props.change(`country_budget_items[${i}]`, d))
+
+            // remove any removed elements if newData < oldData
+            for (let i = newData.length; i < oldData.length; i++) {
+                this.props.array.remove('country_budget_items', i)
+            }
+        }
+
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
+            if (nextProps.publisher) {
+                this.props.getCountryBudgetItems(nextProps.publisher.id, nextProps.activityId)
+            }
+        }
     }
 
     componentWillMount() {
@@ -169,10 +195,7 @@ class CountryBudgetForm extends Component {
 
 function mapStateToProps(state, props) {
     // TODO country and financial budget are different
-    const {activityId} = props;
-    let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    let country_budget_items = currentActivity && currentActivity.country_budget_items;
-
+    const country_budget_items = [];
 
     return {
         data: country_budget_items,
@@ -193,7 +216,10 @@ CountryBudgetForm = reduxForm({
 
 CountryBudgetForm = connect(mapStateToProps, {
     getCodeListItems,
-    getActivity,
+    getCountryBudgetItems,
+    createCountryBudgetItem,
+    updateCountryBudgetItem,
+    deleteCountryBudgetItem,
 })(CountryBudgetForm);
 
 export default withRouter(CountryBudgetForm);

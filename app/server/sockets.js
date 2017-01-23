@@ -120,10 +120,10 @@ module.exports = function(app) {
         socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
         socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
 
-        socket.on('Activity.getHumanitarianScope', Activity.getHumanitarianScope.bind(null, user));
-        socket.on('Activity.createHumanitarianScope', Activity.createHumanitarianScope.bind(null, user));
-        socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
-        socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
+        socket.on('Activity.getCountryBudgetItem', Activity.getCountryBudgetItem.bind(null, user));
+        socket.on('Activity.createCountryBudgetItem', Activity.createCountryBudgetItem.bind(null, user));
+        socket.on('Activity.updateCountryBudgetItem', Activity.updateCountryBudgetItem.bind(null, user));
+        socket.on('Activity.deleteCountryBudgetItem', Activity.deleteCountryBudgetItem.bind(null, user));
 
         socket.on('Activity.createBudget', Activity.createBudget.bind(null, user));
         socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
@@ -133,6 +133,11 @@ module.exports = function(app) {
         socket.on('Activity.createTransaction', Activity.createTransaction.bind(null, user));
         socket.on('Activity.updateTransaction', Activity.updateTransaction.bind(null, user));
         socket.on('Activity.deleteTransaction', Activity.deleteTransaction.bind(null, user));
+
+        socket.on('Activity.getLegacyData', Activity.getLegacyData.bind(null, user));
+        socket.on('Activity.createLegacyData', Activity.createLegacyData.bind(null, user));
+        socket.on('Activity.updateLegacyData', Activity.updateLegacyData.bind(null, user));
+        socket.on('Activity.deleteLegacyData', Activity.deleteLegacyData.bind(null, user));
 
         socket.on('Activity.createPlannedDisbursement', Activity.createPlannedDisbursement.bind(null, user));
         socket.on('Activity.updatePlannedDisbursement', Activity.updatePlannedDisbursement.bind(null, user));

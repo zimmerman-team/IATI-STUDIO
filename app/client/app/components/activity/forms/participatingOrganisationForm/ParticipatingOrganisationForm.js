@@ -16,22 +16,20 @@ import {participatingOrganisationsSelector, publisherSelector} from '../../../..
 
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions, meta: {dirty}}) => {
+const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, languageOptions, meta: {touched, dirty}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
 
     return (
         <div>
-            <div className="field-list clearfix">
-                {fields.map((organisation, index) =>
-                    <div key={index}>
-                        <hr/>
-                        <h6 className="columns">Participating organisation</h6>
+            {fields.map((organisation, index) =>
+                <div key={index}>
+                    <div className="field-list clearfix">
                         <Field
                             component={renderSelectField}
-                            name={`${organisation}role.name`}
-                            textName={`${organisation}role.name`}
+                            name={`${organisation}role.code`}
+                            textName={`${organisation}role.code`}
                             label="Organisation role"
                             selectOptions={roleOptions}
                             defaultOption="Select an organisation role"
@@ -65,22 +63,25 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
                             component={renderNarrativeFields}
                             languageOptions={languageOptions}
                         />
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
                         <button
                             type="button"
                             title="Remove Title"
                             className="control-button remove float-right"
-                            onClick={() => fields.pop()}
-                        >Delete
+                            onClick={() => fields.remove(index)}>Delete
                         </button>
+                        {touched && error && <span className="error">{error}</span>}
                     </div>
-                )}
+                <br/><br/>
             </div>
-            <div className="columns">
-                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            </div>
+            )}
         </div>
     )
 };
+
 
 const validate = values => {
 
@@ -149,10 +150,10 @@ class ParticipatingOrganisationForm extends Component {
 
         handleSubmit(
             publisher.id,
-            'participatingOrganisations', // form key
+            'participating_organisations', // form key
             activityId,
             data,
-            formData['participatingOrganisations'],
+            formData['participating_organisations'],
             this.props.createParticipatingOrganisation,
             this.props.updateParticipatingOrganisation,
             this.props.deleteParticipatingOrganisation,
@@ -180,11 +181,11 @@ class ParticipatingOrganisationForm extends Component {
             // this.props.change('participatingOrganisations', newData);
 
             // change each item
-            newData.forEach((d, i) => this.props.change(`participatingOrganisations[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`participating_organisations[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('participatingOrganisations', i)
+                this.props.array.remove('participating_organisations', i)
             }
         }
 
@@ -207,7 +208,6 @@ class ParticipatingOrganisationForm extends Component {
                     <div className="columns small-centered small-12">
                         <h2 className="page-title with-tip">IATI activity</h2>
                         <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
-                        <hr />
                     </div>
                 </div>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)} name="participatingOrganisation">
@@ -215,7 +215,7 @@ class ParticipatingOrganisationForm extends Component {
                         <div className="columns small-12">
                             <h6>Participating organisation </h6>
                             <FieldArray
-                                name="participatingOrganisations"
+                                name="participating_organisations"
                                 component={renderParticipatingOrganisation}
                                 roleOptions={codelists["OrganisationRole"]}
                                 typeOptions={codelists["OrganisationType"]}
@@ -250,7 +250,7 @@ function mapStateToProps(state, props) {
     return {
         activity: state.activity,
         data: participatingOrganisations,
-        initialValues: {"participatingOrganisation": participatingOrganisations},  // populate initial values for redux form
+        initialValues: {"participating_organisations": participatingOrganisations},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

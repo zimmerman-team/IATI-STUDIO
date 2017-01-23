@@ -45,7 +45,7 @@ const validate = values => {
     return errors
 };
 
-const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, documentCategoryOptions, meta: {dirty}}) => {
+const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, meta: {dirty}}) => {
     if (!fields.length && !dirty) {
         fields.push({});
     }
@@ -59,7 +59,7 @@ const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, documen
                             <div className="columns small-6">
                                 <Field
                                     name={`${documentLink}url`}
-                                    type="text"
+                                    type="url"
                                     component={renderField}
                                     label="URL"
                                 />
@@ -87,15 +87,8 @@ const renderDocumentLink = ({fields, fileFormatOptions, languageOptions, documen
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name={`${documentLink}categories[0].category.name`}
-                                textName={`${documentLink}categories[0].category.name`}
-                                label='Document Category'
-                                selectOptions={documentCategoryOptions}
-                                defaultOption="Select one of the following options"/>
-                            <Field
-                                component={renderSelectField}
-                                name={`${documentLink}document_language`}
-                                textName={`${documentLink}document_language`}
+                                name={`${documentLink}language.code`}
+                                textName={`${documentLink}language.code`}
                                 label='Language'
                                 selectOptions={languageOptions}
                                 defaultOption="Select one of the following options"/>
@@ -133,7 +126,6 @@ class DocumentLinkForm extends Component {
     constructor(props) {
         super(props);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleDeleteDocumentLink = this.handleDeleteDocumentLink.bind(this);
     }
 
     componentWillMount() {
@@ -152,11 +144,11 @@ class DocumentLinkForm extends Component {
             // this.props.change('descriptions', newData);
 
             // change each item
-            newData.forEach((d, i) => this.props.change(`descriptions[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`document_links[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('descriptions', i)
+                this.props.array.remove('document_links', i)
             }
         }
 
@@ -184,22 +176,18 @@ class DocumentLinkForm extends Component {
             this.props.createDocumentLink,
             this.props.updateDocumentLink,
             this.props.deleteDocumentLink,
-        );
-        //this.context.router.push('/publisher/activities/relations')
+        ).then((result) => {
+            if (!result.error) {
+                this.props.router.push(`/publisher/activities/${activityId}/relations/relations`)
+            }
+        }).catch((e) => {
+            console.log(e)
+        });
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
-
-    //TODO remove after testing
-    handleDeleteDocumentLink(fields, index) {
-        fields.remove(index);
-        this.props.deleteDocumentLink('', this.props.activityId, index);     // publisherID and Activity ID
-    }
 
     render() {
-        const {submitting, previousPage, handleSubmit, codelists, activityId} = this.props;
+        const {submitting, handleSubmit, codelists, activityId} = this.props;
         if (!codelists['DocumentCategory'] || !codelists['FileFormat'] || !codelists['Language']) {
             return <GeneralLoader />
         }
@@ -215,12 +203,10 @@ class DocumentLinkForm extends Component {
                 </div>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FieldArray
-                        name="documentLink"
+                        name="document_links"
                         component={renderDocumentLink}
                         languageOptions={codelists["Language"]}
-                        documentCategoryOptions={codelists["DocumentCategory"]}
                         fileFormatOptions={codelists["FileFormat"]}
-                        deleteHandler={this.handleDeleteDocumentLink}
                     />
                     <div className="row no-margin">
                         <div className="columns small-12">
@@ -238,12 +224,12 @@ class DocumentLinkForm extends Component {
 
 
 function mapStateToProps(state, props) {
-    const documentLinks = documentLinksSelector(state);
+    const document_links = documentLinksSelector(state);
 
     return {
-        data: documentLinks,
+        data: document_links,
         codelists: state.codelists,
-        initialValues: {"documentLink": documentLinks},  // populate initial values for redux form
+        initialValues: {"document_links": document_links},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

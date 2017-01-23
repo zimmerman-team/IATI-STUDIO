@@ -31,7 +31,7 @@ const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignif
                             <div className="columns small-6">
                                 <Field
                                     name={`${policy}.vocabulary_uri`}
-                                    type="text"
+                                    type="url"
                                     component={renderField}
                                     label="Vocabulary URI"
                                 />

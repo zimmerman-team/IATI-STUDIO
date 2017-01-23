@@ -1062,6 +1062,77 @@ export function deleteDocumentLink(publisherId, activityId, id) {
     }
 }
 
+/*
+ * Get LegacyData
+ */
+export const GET_LEGACY_DATA_REQUEST = 'GET_LEGACY_DATA_REQUEST';
+export const GET_LEGACY_DATA_SUCCESS = 'GET_LEGACY_DATA_SUCCESS';
+export const GET_LEGACY_DATA_FAILURE = 'GET_LEGACY_DATA_FAILURE';
+
+export function getLegacyData(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [GET_LEGACY_DATA_REQUEST, GET_LEGACY_DATA_SUCCESS, GET_LEGACY_DATA_FAILURE],
+            endpoint: 'Activity.getLegacyData',
+            payload: [publisherId, activityId],
+            schema: arrayOf(Schemas.legacyData),
+        }
+    }
+}
+
+/*
+ * Create LegacyData
+ */
+export const CREATE_LEGACY_DATA_REQUEST = 'CREATE_LEGACY_DATA_REQUEST';
+export const CREATE_LEGACY_DATA_SUCCESS = 'CREATE_LEGACY_DATA_SUCCESS';
+export const CREATE_LEGACY_DATA_FAILURE = 'CREATE_LEGACY_DATA_FAILURE';
+export function createLegacyData(publisherId, activityId, legacyData) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_LEGACY_DATA_REQUEST, CREATE_LEGACY_DATA_SUCCESS, CREATE_LEGACY_DATA_FAILURE],
+            endpoint: 'Activity.createLegacyData',
+            payload: [publisherId, activityId, JSON.stringify(legacyData)],
+            schema: Schemas.legacyData,
+        }
+    }
+}
+
+/*
+ * Update LegacyData
+ */
+export const UPDATE_LEGACY_DATA_REQUEST = 'UPDATE_LEGACY_DATA_REQUEST';
+export const UPDATE_LEGACY_DATA_SUCCESS = 'UPDATE_LEGACY_DATA_SUCCESS';
+export const UPDATE_LEGACY_DATA_FAILURE = 'UPDATE_LEGACY_DATA_FAILURE';
+export function updateLegacyData(publisherId, activityId, id, legacyData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_LEGACY_DATA_REQUEST, UPDATE_LEGACY_DATA_SUCCESS, UPDATE_LEGACY_DATA_FAILURE],
+            endpoint: 'Activity.updateLegacyData',
+            payload: [publisherId, activityId, id, JSON.stringify(legacyData)],
+            schema: Schemas.legacyData,
+        }
+    }
+}
+
+
+/*
+ * Delete LegacyData
+ */
+export const DELETE_LEGACY_DATA_REQUEST = 'DELETE_LEGACY_DATA_REQUEST';
+export const DELETE_LEGACY_DATA_SUCCESS = 'DELETE_LEGACY_DATA_SUCCESS';
+export const DELETE_LEGACY_DATA_FAILURE = 'DELETE_LEGACY_DATA_FAILURE';
+export function deleteLegacyData(publisherId, activityId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_LEGACY_DATA_REQUEST, DELETE_LEGACY_DATA_SUCCESS, DELETE_LEGACY_DATA_FAILURE],
+            endpoint: 'Activity.deleteLegacyData',
+            payload: [publisherId, activityId, id]
+        }
+    }
+}
+
 
 /*
  * Get CountryBudgetItems
@@ -1076,7 +1147,7 @@ export function getCountryBudgetItems(publisherId, activityId) {
             types: [GET_COUNTRY_BUDGET_ITEM_REQUEST, GET_COUNTRY_BUDGET_ITEM_SUCCESS, GET_COUNTRY_BUDGET_ITEM_FAILURE],
             endpoint: 'Activity.getCountryBudgetItem',
             payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.countryBudgetItem),
+            schema: arrayOf(Schemas.countryBudgetItems),
         }
     }
 }
@@ -1290,7 +1361,7 @@ export function getPerformanceCondition(publisherId, activityId) {
             types: [GET_PERFORMANCE_CONDITION_REQUEST, GET_PERFORMANCE_CONDITION_SUCCESS, GET_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.getPerformanceCondition',
             payload: [ publisherId, activityId ],
-            schema: arrayOf(Schemas.condition),
+            schema: Schemas.condition,
         }
     }
 }
