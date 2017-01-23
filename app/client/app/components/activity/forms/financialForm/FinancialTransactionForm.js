@@ -237,11 +237,64 @@ const renderFinancialTransactionForm = ({
 };
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.aid_type) {
-        errors.type = 'Required'
-    }
+    const transactions = values.transactions || [];
+
+    errors.transactions = transactions.map(transactionData => {
+        let transactionErrors = {};
+
+        if (!transactionData.finance_type) {
+            transactionErrors.finance_type = {code: 'Required'}
+        }
+
+        if (!transactionData.tied_status) {
+            transactionErrors.tied_status = {code: 'Required'}
+        }
+
+        if (!transactionData.aid_type) {
+            transactionErrors.aid_type = {code: 'Required'}
+        }
+
+        if (!transactionData.flow_type) {
+            transactionErrors.flow_type = {code: 'Required'}
+        }
+
+        if (!transactionData.disbursement_channel) {
+            transactionErrors.disbursement_channel = {code: 'Required'}
+        }
+
+        if (!transactionData.humanitarian) {
+            transactionErrors.humanitarian = {code: 'Required'}
+        }
+
+        if (!transactionData.transaction_type) {
+            transactionErrors.transaction_type = {code: 'Required'}
+        }
+
+        if (!transactionData.value_date) {
+            transactionErrors.value_date = 'Required'
+        }
+
+        if (!transactionData.activity_id) {
+            transactionErrors.activity_id = 'Required'
+        }
+
+        if (!transactionData.ref) {
+            transactionErrors.ref = 'Required'
+        }
+
+        if (!transactionData.receiver_activity_id) {
+            transactionErrors.receiver_activity_id = 'Required'
+        }
+
+        if (!transactionData.transaction_date) {
+            transactionErrors.transaction_date = 'Required'
+        }
+
+        return transactionErrors
+    });
+
     return errors
 };
 

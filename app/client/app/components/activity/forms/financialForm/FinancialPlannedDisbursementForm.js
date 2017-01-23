@@ -137,11 +137,32 @@ const renderFinancialPlannedDisbursementForm = ({
 
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.type) {
-        errors.type = 'Required'
-    }
+    const plannedDisbursements = values.planned_disbursements || [];
+
+    errors.planned_disbursements = plannedDisbursements.map(disbursementData => {
+        let disbursementErrors = {};
+
+        if (!disbursementData.type) {
+            disbursementErrors.type = {code: 'Required'}
+        }
+
+        if (!disbursementData.value) {
+            disbursementErrors.value = {date: 'Required', currency: {code: 'Required'}, value: 'Required'}
+        }
+
+        if (!disbursementData.period_start) {
+            disbursementErrors.period_start = 'Required'
+        }
+
+        if (!disbursementData.period_end) {
+            disbursementErrors.period_end = 'Required'
+        }
+
+        return disbursementErrors
+    });
+
     return errors
 };
 
