@@ -27,6 +27,9 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_POLICY_SUCCESS:
         case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.GET_TRANSACTION_SUCCESS:
+        case ActionTypes.GET_COUNTRY_BUDGET_ITEM_SUCCESS:
+        case ActionTypes.GET_LEGACY_DATA_SUCCESS:
+        case ActionTypes.GET_PERFORMANCE_CONDITION_SUCCESS:
             return _.assign({}, state, action.response.entities)
 
         case ActionTypes.CREATE_BUDGET_SUCCESS:
@@ -52,19 +55,14 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_SECTOR_SUCCESS:
         case ActionTypes.CREATE_POLICY_SUCCESS:
         case ActionTypes.UPDATE_POLICY_SUCCESS:
-        case ActionTypes.GET_COUNTRY_BUDGET_ITEM_SUCCESS:
         case ActionTypes.CREATE_COUNTRY_BUDGET_ITEM_SUCCESS:
         case ActionTypes.UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS:
-        case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
-        case ActionTypes.GET_LEGACY_DATA_SUCCESS:
         case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
         case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
-        case ActionTypes.GET_PERFORMANCE_CONDITION_SUCCESS:
         case ActionTypes.CREATE_PERFORMANCE_CONDITION_SUCCESS:
         case ActionTypes.UPDATE_PERFORMANCE_CONDITION_SUCCESS:
-        case ActionTypes.GET_TRANSACTION_SUCCESS:
         case ActionTypes.CREATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
@@ -76,12 +74,6 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'descriptions': _.omit(state.descriptions, action.id),
-            }
-        case ActionTypes.DELETE_PARTICIPATING_ORGANISATION_SUCCESS:
-            return {
-                ...state,
-                ...state.entities,
-                'participatingOrganisations': _.omit(state.participatingOrganisations, action.id),
             }
         case ActionTypes.DELETE_RECIPIENT_COUNTRY_SUCCESS:
             return {
