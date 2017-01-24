@@ -14,9 +14,10 @@ import {withRouter} from 'react-router'
 const validate = values => {
     const errors = {};
 
-    if (!values.capitalSpend) {
-        errors.type = 'Required'
+    if (values.activity != null && !values.activity.capital_spend) {
+        errors.activity = {capital_spend: 'Required'}
     }
+
     return errors
 };
 
