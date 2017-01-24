@@ -202,8 +202,8 @@ export const documentLinksSelector = createSelector(
 )
 
 export const policySelector = createSelector(
-    state => state.activity.policy,
-    (policy) => _.map(policy, x => x) // to array
+    state => state.activity.policy_markers,
+    (policy_markers) => _.map(policy_markers, x => x) // to array
 )
 
 export const regionsSelector = createSelector(

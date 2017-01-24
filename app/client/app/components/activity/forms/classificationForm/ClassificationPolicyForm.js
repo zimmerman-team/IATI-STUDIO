@@ -121,11 +121,11 @@ class PolicyMakerForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
-        const policy = formData.policy;
+        const policy = formData.policy_markers;
 
         handleSubmit(
             publisher.id,
-            'policy',
+            'policy_markers',
             activityId,
             data,
             policy,
@@ -157,11 +157,11 @@ class PolicyMakerForm extends Component {
             // this.props.change('policy', newData);
 
             // change each item
-            newData.forEach((d, i) => this.props.change(`policy[${i}]`, d))
+            newData.forEach((d, i) => this.props.change(`policy_markers[${i}]`, d))
 
             // remove any removed elements if newData < oldData
             for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('policy', i)
+                this.props.array.remove('policy_markers', i)
             }
         }
 
@@ -186,7 +186,7 @@ class PolicyMakerForm extends Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <FieldArray
-                        name="policy"
+                        name="policy_markers"
                         component={renderPolicy}
                         narrativeAddMore={false}
                         languageOptions={codelists["Language"]}
@@ -213,12 +213,12 @@ class PolicyMakerForm extends Component {
 
 
 function mapStateToProps(state, props) {
-    const policy = policySelector(state);
+    const policy_markers = policySelector(state);
 
     return {
-        data: policy,
+        data: policy_markers,
         codelists: state.codelists,
-        initialValues: {"policy": policy},  // populate initial values for redux form
+        initialValues: {"policy_markers": policy_markers},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }

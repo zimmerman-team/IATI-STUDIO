@@ -769,7 +769,7 @@ export function getPolicy(publisherId, activityId) {
             types: [GET_POLICY_REQUEST, GET_POLICY_SUCCESS, GET_POLICY_FAILURE],
             endpoint: 'Activity.getPolicy',
             payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.policy),
+            schema: arrayOf(Schemas.policyMarker),
         }
     }
 }
@@ -786,7 +786,7 @@ export function createPolicy(publisherId, activityId, policy) {
             types: [CREATE_POLICY_REQUEST, CREATE_POLICY_SUCCESS, CREATE_POLICY_FAILURE],
             endpoint: 'Activity.createPolicy',
             payload: [publisherId, activityId, JSON.stringify(policy)],
-            schema: Schemas.policy,
+            schema: Schemas.policyMarker,
         }
     }
 }
@@ -804,7 +804,7 @@ export function updatePolicy(publisherId, activityId, id, policy) {
             types: [UPDATE_POLICY_REQUEST, UPDATE_POLICY_SUCCESS, UPDATE_POLICY_FAILURE],
             endpoint: 'Activity.updatePolicy',
             payload: [publisherId, activityId, id, JSON.stringify(policy)],
-            schema: Schemas.policy,
+            schema: Schemas.policyMarker,
         }
     }
 }

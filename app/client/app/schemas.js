@@ -92,7 +92,7 @@ export const location = new Schema('locations', {
     idAttribute: "id",
 })
 
-export const policy = new Schema('policy', {
+export const policyMarker = new Schema('policy_markers', {
     idAttribute: "id",
 })
 
@@ -142,7 +142,7 @@ export const activity = new Schema('activity', {
     dates: arrayOf(date),
     status: status,
     document_links: arrayOf(documentLink),
-    policy: arrayOf(policy),
+    policy_markers: arrayOf(policyMarker),
     contact_info: arrayOf(contact),
     activity_dates: arrayOf(date),
     humanitarian_scope: arrayOf(humanitarianScope),

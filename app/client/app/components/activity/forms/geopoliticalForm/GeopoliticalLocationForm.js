@@ -55,7 +55,8 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 </div>
                             </div>
                             <FieldArray
-                                name={`${location}locationRegion`}
+                                name={`${location}location_id`}
+                                textName={`${location}location_id`}
                                 component={renderRegionFields}
                                 geographicVocabularyOptions={geographicVocabularyOptions}
                             />
@@ -71,7 +72,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             <hr/>
                             <h6 className="columns">Location description</h6>
                             <FieldArray
-                                name={`${location}description.narratives`}
+                                name={`${location}.description.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="locationName"
@@ -80,7 +81,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             <hr/>
                             <h6 className="columns">Activity description</h6>
                             <FieldArray
-                                name={`${location}activity_description.narratives`}
+                                name={`${location}.activity_description.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="activeName"
@@ -95,8 +96,8 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             />
                             <hr/>
                             <FieldArray
-                                name={`${location}point`}
-                                textName={`${location}point`}
+                                name={`${location}.point`}
+                                textName={`${location}.point`}
                                 component={renderPointFields}
                                 geographicExactnessOptions={geographicExactnessOptions}
                                 geographicLocationClassOptions={geographicLocationClassOptions}
@@ -159,22 +160,22 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
     )
 };
 
-const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched, error}}) => (
+const renderRegionFields = ({fields, textName, geographicVocabularyOptions, meta: {touched, error}}) => (
     <div className="columns small-12">
         <h6>Location id</h6>
         <div className="row no-margin">
             <Field
                 component={renderSelectField}
-                name="location_vocabulary"
-                textName="location_vocabulary"
+                name={`${textName}.vocabulary.code`}
+                textName={`${textName}.vocabulary.code`}
                 label="Vocabulary"
                 selectOptions={geographicVocabularyOptions}
                 defaultOption="Select one of the following options"
             />
             <div className="columns small-6">
                 <Field
-                    name="location_code"
-                    type="text"
+                    name={`${textName}.code`}
+                    type="number"
                     component={renderField}
                     label="Code"
                 />
@@ -183,15 +184,15 @@ const renderRegionFields = ({fields, geographicVocabularyOptions, meta: {touched
                 <div key={index}>
                     <Field
                         component={renderSelectField}
-                        name={`${vocabulary}.textCode`}
-                        textName={`${vocabulary}.textCode`}
+                        name={`${textName}.${vocabulary}.textCode`}
+                        textName={`${textName}.${vocabulary}.textCode`}
                         label="Vocabulary"
                         selectOptions={geographicVocabularyOptions}
                         defaultOption="Select one of the following options"
                     />
                     <div className="columns small-6">
                         <Field
-                            name={`${vocabulary}.geographicVocabularyCode`}
+                            name={`${textName}.${vocabulary}.geographicVocabularyCode`}
                             type="text"
                             component={renderField}
                             label="Code"
@@ -228,7 +229,7 @@ const renderAdministrativeFields = ({fields, textName="", geographicVocabularyOp
             <div className="columns small-6">
                 <Field
                     name={`${textName}.code`}
-                    type="text"
+                    type="number"
                     component={renderField}
                     label="Code"
                 />
@@ -238,7 +239,7 @@ const renderAdministrativeFields = ({fields, textName="", geographicVocabularyOp
                     <div className="columns small-6">
                         <Field
                             name={`${textName}.level`}
-                            type="text"
+                            type="number"
                             component={renderField}
                             label="Level"
                         />
@@ -374,8 +375,7 @@ class LocationForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId &&  this.props.publisher) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
