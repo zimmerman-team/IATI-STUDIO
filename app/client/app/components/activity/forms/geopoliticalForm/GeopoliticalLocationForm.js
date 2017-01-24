@@ -60,7 +60,6 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 component={renderRegionFields}
                                 geographicVocabularyOptions={geographicVocabularyOptions}
                             />
-                            <hr/>
                             <h6 className="columns">Name</h6>
                             <FieldArray
                                 name={`${location}name.narratives`}
@@ -69,7 +68,6 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 textName="name"
                                 textLabel="Name"
                             />
-                            <hr/>
                             <h6 className="columns">Location description</h6>
                             <FieldArray
                                 name={`${location}.description.narratives`}
@@ -78,7 +76,6 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 textName="locationName"
                                 textLabel="Location description"
                             />
-                            <hr/>
                             <h6 className="columns">Activity description</h6>
                             <FieldArray
                                 name={`${location}.activity_description.narratives`}
@@ -87,14 +84,6 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 textName="activeName"
                                 textLabel="Activity description"
                             />
-                            <hr/>
-                            <FieldArray
-                                name={`${location}.location_id`}
-                                textName={`${location}.location_id`}
-                                component={renderAdministrativeFields}
-                                geographicVocabularyOptions={geographicVocabularyOptions}
-                            />
-                            <hr/>
                             <FieldArray
                                 name={`${location}.point`}
                                 textName={`${location}.point`}
@@ -160,7 +149,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
     )
 };
 
-const renderRegionFields = ({fields, textName, geographicVocabularyOptions, meta: {touched, error}}) => (
+const renderRegionFields = ({fields, textName="", geographicVocabularyOptions, meta: {touched, error}}) => (
     <div className="columns small-12">
         <h6>Location id</h6>
         <div className="row no-margin">
@@ -180,75 +169,67 @@ const renderRegionFields = ({fields, textName, geographicVocabularyOptions, meta
                     label="Code"
                 />
             </div>
-            {fields.map((vocabulary, index) =>
-                <div key={index}>
-                    <Field
-                        component={renderSelectField}
-                        name={`${textName}.${vocabulary}.textCode`}
-                        textName={`${textName}.${vocabulary}.textCode`}
-                        label="Vocabulary"
-                        selectOptions={geographicVocabularyOptions}
-                        defaultOption="Select one of the following options"
-                    />
-                    <div className="columns small-6">
-                        <Field
-                            name={`${textName}.${vocabulary}.geographicVocabularyCode`}
-                            type="text"
-                            component={renderField}
-                            label="Code"
-                        />
-                    </div>
-                </div>
-            )}
-        </div>
-        <div className="columns">
-            <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => fields.pop()}>Delete
-            </button>
-            {touched && error && <span className="error">{error}</span>}
         </div>
     </div>
 );
 
-const renderAdministrativeFields = ({fields, textName="", geographicVocabularyOptions, meta: {touched, error}}) => (
-    <div className="columns small-12">
-        <h6>Administrative</h6>
-        <div className="row no-margin">
-            <Field
-                component={renderSelectField}
-                name={`${textName}.vocabulary.code`}
-                textName={`${textName}.vocabulary.code`}
-                label="Vocabulary"
-                selectOptions={geographicVocabularyOptions}
-                defaultOption="Select one of the following options"
-            />
-            <div className="columns small-6">
-                <Field
-                    name={`${textName}.code`}
-                    type="number"
-                    component={renderField}
-                    label="Code"
-                />
-            </div>
-            <div className="columns small-12">
-                <div className="row no-margin">
-                    <div className="columns small-6">
-                        <Field
-                            name={`${textName}.level`}
-                            type="number"
-                            component={renderField}
-                            label="Level"
-                        />
+const renderAdministrativeFields = ({fields, textName="", geographicVocabularyOptions, meta: {touched, error}}) => {
+    if (!fields.length) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields && fields.map((title, index) =>
+                <div key={index}>
+                    <div className="columns small-12">
+                        <h6>Administrative</h6>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${title}.vocabulary.code`}
+                                textName={`${title}.vocabulary.code`}
+                                label="Vocabulary"
+                                selectOptions={geographicVocabularyOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${title}.code`}
+                                    type="number"
+                                    component={renderField}
+                                    label="Code"
+                                />
+                            </div>
+                            <div className="columns small-12">
+                                <div className="row no-margin">
+                                    <div className="columns small-6">
+                                        <Field
+                                            name={`${title}.level`}
+                                            type="number"
+                                            component={renderField}
+                                            label="Level"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            )}
+            <div className="columns">
+                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                <button
+                    type="button"
+                    title="Remove Title"
+                    className="control-button remove float-right"
+                    onClick={() => fields.pop()}>Delete
+                </button>
+                {touched && error && <span className="error">{error}</span>}
             </div>
         </div>
-    </div>
-);
+    )
+}
 
 const renderPointFields = ({fields, textName="", geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => (
     <div className="columns small-12">
