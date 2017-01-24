@@ -70,6 +70,18 @@ export const publishActivitiesUpdate = function (user, publisherId, sourceUrl, d
     return oipaUpdate(req_options)
 };
 
+export const markReadyToPublish = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: path.join(config.activities_url(publisherId), activityId, 'mark_ready_to_publish'),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaPost(req_options)
+};
+
 export const getActivities = function (user, publisherId) {
     const req_options = {
         baseUrl: config.oipa_post_url,

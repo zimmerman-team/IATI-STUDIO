@@ -32,7 +32,7 @@ var ActivityAPI = {
                         res("Can't save XML")
                     }
 
-                    const sourceUrl = url.resolve(config.fullUrl + 'arie', path.join(config.exportPath, fileName))
+                    const sourceUrl = url.resolve(config.fullUrl, path.join(config.exportPath, fileName))
 
                     // 3. POST to OIPA to sync with the IATI registry
 
@@ -51,10 +51,12 @@ var ActivityAPI = {
 
                 })
             })
-    
-        
+    },
 
-
+    markReadyToPublish: function(user, publisherId, activityId, res) {
+        return oipaMethods.markReadyToPublish(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
     },
 
     getAll: function(user, publisherId, res) {
