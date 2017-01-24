@@ -294,11 +294,39 @@ const renderPointFields = ({fields, textName="", geographicExactnessOptions, geo
 );
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.featureDesignation) {
-        errors.featureDesignation = 'Required'
-    }
+    const locations = values.locations || []
+
+    errors.locations = locations.map(location => {
+        let locationErrors = {}
+
+        if (!location.location_reach) {
+            locationErrors.location_reach = {code: 'Required'}
+        }
+
+        if (!location.feature_designation) {
+            locationErrors.feature_designation = {code: 'Required'}
+        }
+
+        if (!location.exactness) {
+            locationErrors.exactness = {code: 'Required'}
+        }
+
+        // if(location.location_id) {
+        //     if (!location.location_id.vocabulary) {
+        //         locationErrors.vocabulary = {code: 'Required'}
+        //     }
+        // }
+
+
+        if (!location.location_class) {
+            locationErrors.location_class = 'Required'
+        }
+
+        return locationErrors
+    });
+
     return errors
 };
 

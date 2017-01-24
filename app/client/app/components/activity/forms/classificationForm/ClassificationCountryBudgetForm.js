@@ -79,14 +79,27 @@ const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, la
 };
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.BudgetPercentage) {
-        errors.BudgetPercentage = 'Required'
-    }
-    if (!values.BudgetIdentifierVocabulary) {
-        errors.BudgetIdentifierVocabulary = 'Required'
-    }
+    const countryBudgetItems = values.country_budget_items || [];
+
+    errors.country_budget_items = countryBudgetItems.map(countryBudgetItem => {
+        let countryBudgetErrors = {};
+
+        if (!countryBudgetItem.vocabulary) {
+            countryBudgetErrors.vocabulary = {code:'Required'}
+        }
+
+        if (!countryBudgetItem.item) {
+            countryBudgetErrors.item = {code:'Required'}
+        }
+
+        if(!countryBudgetItem.percentage) {
+            countryBudgetErrors.percentage = 'Required'
+        }
+
+        return countryBudgetErrors
+    });
 
     return errors
 };

@@ -18,26 +18,22 @@ import handleSubmit from '../../helpers/handleSubmit'
 const validate = values => {
     let errors = {};
 
-    const documentLinks = values.documentLink || [];
+    const documentLinks = values.document_links || [];
 
-    errors.documentLink = documentLinks.map(documentLinkData => {
+    errors.document_links = documentLinks.map(documentLinkData => {
         let documentLinkErrors = {};
 
-        // if (!disbursementData.type) {
-        //     disbursementErrors.type = {code: 'Required'}
-        // }
-        //
-        // if (!disbursementData.value) {
-        //     disbursementErrors.value = {date: 'Required', currency: {code: 'Required'}, value: 'Required'}
-        // }
-        //
-        // if (!disbursementData.period_start) {
-        //     disbursementErrors.period_start = 'Required'
-        // }
-        //
-        // if (!disbursementData.period_end) {
-        //     disbursementErrors.period_end = 'Required'
-        // }
+        if (!documentLinkData.url) {
+            documentLinkErrors.url = 'Required'
+        }
+
+        if (!documentLinkData.format) {
+            documentLinkErrors.format = {code:'Required'}
+        }
+
+        if(!documentLinkData.document_date) {
+            documentLinkErrors.document_date = {iso_date:'Required'}
+        }
 
         return documentLinkErrors
     });
