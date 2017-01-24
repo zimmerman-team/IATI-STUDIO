@@ -148,7 +148,7 @@ function activity(state = initialState, action) {
             return {
                 ...state,
                 ...state.entities,
-                'participating_organisations': _.omit(state.participating_organisations, action.id),
+                'document_links': _.omit(state.document_links, action.id),
             }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
