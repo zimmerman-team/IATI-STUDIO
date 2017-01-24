@@ -35,13 +35,13 @@ class IdentificationForm extends PureComponent {
     }
 
     componentWillMount() {
-        if (this.props.publisher) {
+        if (this.props.publisher && this.props.activityId !== 'identification') {
             this.props.getActivity(this.props.publisher.id, this.props.activityId)
         }
     }
 
     componentWillUpdate(nextProps) {
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) && this.props.activityId !== 'identification') {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -80,7 +80,7 @@ class IdentificationForm extends PureComponent {
         const {submitting, activity, handleSubmit, activityId} = this.props;
         const blankIdentificationForm = (activityId !== 'identification');
 
-        if (!activity) {
+        if (blankIdentificationForm && !activity) {
             return <GeneralLoader/>
         }
 

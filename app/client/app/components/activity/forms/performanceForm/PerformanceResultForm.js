@@ -97,11 +97,23 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
 
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.ref) {
-        errors.ref = 'Required'
-    }
+    const results = values.results || []
+
+    errors.results = results.map(resultData => {
+        let resultErrors = {};
+
+        if (!resultData.type) {
+            resultErrors.type = {code:'Required'}
+        }
+
+        if (!resultData.aggregation_status) {
+            resultErrors.aggregation_status = 'Required'
+        }
+
+        return resultErrors
+    });
 
     return errors
 };

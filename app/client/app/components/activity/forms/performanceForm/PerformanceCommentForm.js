@@ -75,8 +75,25 @@ const renderPerformanceCommentForm = ({fields, meta: {touched, error,dirty}}) =>
 };
 
 const validate = values => {
-  const errors = {};
-  return errors
+    let errors = {};
+
+    const legacyData = values.legacy_data || [];
+
+    errors.legacy_data = legacyData.map(legacy => {
+        let legacyErrors = {};
+
+        if (!legacy.name) {
+            legacyErrors.name = 'Required'
+        }
+
+        if (!legacy.value) {
+            legacyErrors.value = 'Required'
+        }
+
+        return legacyErrors
+    });
+
+    return errors
 };
 
 class PerformanceCommentForm extends Component {

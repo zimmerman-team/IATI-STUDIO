@@ -67,11 +67,23 @@ const renderRelation = ({fields, relatedActivityTypeOptions, meta: {touched, dir
 };
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
 
-    if (!values.renderTitlesData) {
-        errors.type = 'Required'
-    }
+    const relations = values.related_activities || [];
+
+    errors.related_activities = relations.map(relationData => {
+        let relationErrors = {};
+
+        if (!relationData.type) {
+            relationErrors.type = {code: 'Required'}
+        }
+
+        if (!relationData.ref) {
+            relationErrors.ref = 'Required'
+        }
+
+        return relationErrors
+    });
 
     return errors
 };
