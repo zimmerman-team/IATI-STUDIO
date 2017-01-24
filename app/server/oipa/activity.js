@@ -27,7 +27,7 @@ export const getCodeListItems = function (codeListName) {
 export const getActivityXMLByPublisher = function (user, publisherId) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url(publisherId),
+        //url: config.activities_url(publisherId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken,
             'Content-type': 'application/xml'
@@ -163,14 +163,14 @@ export const postDescription = function (user, publisherId, activityId, descript
 };
 
 export const updateDescription = function (user, publisherId, activityId, id, descriptionData) {
-    const dateJSON = JSON.parse(descriptionData);
+    const dataJSON = JSON.parse(descriptionData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateJSON,
+        body: dataJSON,
     };
 
     return oipaUpdate(req_options)
@@ -283,57 +283,6 @@ export const deleteDate = function (user, publisherId, activityId, id) {
     return oipaDelete(req_options)
 };
 
-
-export const getStatus = function (user, publisherId, activityId) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.status_url(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-
-    return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
-};
-
-export const postStatus = function (user, publisherId, activityId, statusData) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.status_url(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-        body: statusData,
-    };
-
-    return oipaPost(req_options)
-};
-
-export const updateStatus = function (user, publisherId, activityId, id, statusData) {
-    const req_options = {
-        baseUrl: config.oipa_update_url,
-        url: path.join(config.status_url(publisherId, activityId), `${id}`),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-        body: statusData,
-    };
-
-    return oipaUpdate(req_options)
-};
-
-export const deleteStatus = function (user, publisherId, activityId, id) {
-    const req_options = {
-        baseUrl: config.oipa_delete_url,
-        url: path.join(config.status_url(publisherId, activityId), `${id}`),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-
-    return oipaDelete(req_options)
-};
 
 export const getRecipientCountries = function (user, publisherId, activityId) {
     const req_options = {
@@ -808,13 +757,14 @@ export const postDocumentLink = function (user, publisherId, activityId, documen
 };
 
 export const updateDocumentLink = function (user, publisherId, activityId, id, documentLinkData) {
+    const dataJSON = JSON.parse(documentLinkData);
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.document_link_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: documentLinkData,
+        body: dataJSON,
     };
 
     return oipaUpdate(req_options)

@@ -140,36 +140,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-
-    getStatus: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here
-        return oipaMethods.getStatus(user, publisherId, activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createStatus: function(user, publisherId, activityId, data, res) {
-        // TODO: update validation status here
-        // on succesful creation,
-        return oipaMethods.postStatus(user, publisherId, activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    updateStatus: function(user, publisherId, activityId, id, data, res) {
-        // TODO: update validation status here
-        return oipaMethods.updateStatus(user, publisherId, activityId, id, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    deleteStatus: function(user, publisherId, activityId, id, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deleteStatus(user, publisherId, activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
     getContact: function(user, publisherId, activityId, res) {
         // TODO: update validation status here
         return oipaMethods.getContact(user, publisherId, activityId)

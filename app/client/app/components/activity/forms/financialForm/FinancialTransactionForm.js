@@ -45,8 +45,8 @@ const renderFinancialTransactionForm = ({
                                     />
                                 </div>
                                 <Field
-                                    name={`${transaction}humanitarian.code`}
-                                    textName={`${transaction}humanitarian.code`}
+                                    name={`${transaction}humanitarian`}
+                                    textName={`${transaction}humanitarian`}
                                     component={renderSelectField}
                                     label="Humanitarian"
                                     selectOptions={[{code: "true", name: "true"}, {code: "false", name: "false"}]}
@@ -71,14 +71,6 @@ const renderFinancialTransactionForm = ({
                                         type="date"
                                         component={renderField}
                                         label="Date"
-                                    />
-                                </div>
-                                <div className="columns small-6">
-                                    <Field
-                                        name={`${transaction}activity_id`}
-                                        type="text"
-                                        component={renderField}
-                                        label="Activity ID"
                                     />
                                 </div>
                             </div>
@@ -314,14 +306,22 @@ class FinancialTransactionForm extends Component {
         const {activityId, data, publisher} = this.props
         const lastTransaction = data;
         let transactions = formData.transactions;
-        transactions.activity_id = activityId;
+
+        let formTransactions = [];
+        if (transactions && transactions.length) {
+            transactions.forEach(function (formOrg) {
+                let newFormData = Object.assign({}, formOrg);
+                newFormData.activity_id = activityId;
+                formTransactions.push(newFormData);
+            });
+        }
 
         handleSubmit(
             publisher.id,
             'transactions',
             activityId,
             lastTransaction,
-            transactions,
+            formTransactions,
             this.props.createTransaction,
             this.props.updateTransaction,
             this.props.deleteTransaction,

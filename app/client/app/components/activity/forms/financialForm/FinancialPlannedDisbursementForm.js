@@ -96,23 +96,25 @@ const renderFinancialPlannedDisbursementForm = ({
                     </div>
                     <div className="row no-margin">
                         <FieldArray
-                            name={`${plannedDisbursement}ProviderOrg`}
+                            name={`${plannedDisbursement}provider_organisation`}
+                            textName={`${plannedDisbursement}provider_organisation`}
                             component={renderOrgFields}
                             languageOptions={languageOptions}
                             organisationOptions={organisationOptions}
-                            textName={`${plannedDisbursement}receiverOrg[text]`}
                             mainLabel="Provider org"
+                            activityKey="provider_activity_id"
                             textLabel="Title"
                         />
                     </div>
                     <div className="row no-margin">
                         <FieldArray
-                            name={`${plannedDisbursement}ReceiverOrg`}
+                            name={`${plannedDisbursement}receiver_organisation`}
+                            textName={`${plannedDisbursement}receiver_organisation`}
                             component={renderOrgFields}
                             languageOptions={languageOptions}
                             organisationOptions={organisationOptions}
-                            textName={`${plannedDisbursement}receiverOrg[text]`}
                             mainLabel="Receiver org"
+                            activityKey="receiver_activity_id"
                             textLabel="Title"
                         />
                     </div>

@@ -50,14 +50,6 @@ const renderParticipatingOrganisation = ({fields, roleOptions, typeOptions, lang
                             selectOptions={typeOptions}
                             defaultOption="Select an organisation type"
                         />
-                        <div className="columns small-6">
-                            <Field
-                                component={renderField}
-                                name={`${organisation}activity_id`}
-                                label="Activity identifier"
-                                type="text"
-                            />
-                        </div>
                         <FieldArray
                             name={`${organisation}narratives`}
                             component={renderNarrativeFields}
@@ -142,14 +134,24 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     handleFormSubmit(formData) {
-        const {activityId, data, publisher} = this.props
+        const {activityId, data, publisher} = this.props;
+        const participating_organisations = formData['participating_organisations'];
+
+        let formParticipatingOrganisations = [];
+        if (participating_organisations && participating_organisations.length) {
+            participating_organisations.forEach(function (formOrg) {
+                let newformData = Object.assign({}, formOrg);
+                newformData.activity_id = activityId;
+                formParticipatingOrganisations.push(newformData);
+            });
+        }
 
         handleSubmit(
             publisher.id,
             'participating_organisations', // form key
             activityId,
             data,
-            formData['participating_organisations'],
+            formParticipatingOrganisations,
             this.props.createParticipatingOrganisation,
             this.props.updateParticipatingOrganisation,
             this.props.deleteParticipatingOrganisation,

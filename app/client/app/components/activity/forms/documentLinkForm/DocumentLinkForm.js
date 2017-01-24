@@ -152,14 +152,22 @@ class DocumentLinkForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
-        const documentLinks = formData.document_links;
+        let documentLinksData = formData.document_links;
+
+        documentLinksData = documentLinksData.map(function (documentFormData) {
+            if (documentFormData.document_date && documentFormData.document_date.iso_date) {
+                let dateObj = new Date(documentFormData.document_date.iso_date);
+                documentFormData.document_date.iso_date = dateObj.toISOString();
+            }
+            return documentFormData;
+        });
 
         handleSubmit(
             publisher.id,
             'document_links',
             activityId,
             data,
-            documentLinks,
+            documentLinksData,
             this.props.createDocumentLink,
             this.props.updateDocumentLink,
             this.props.deleteDocumentLink,
