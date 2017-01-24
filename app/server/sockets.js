@@ -149,12 +149,6 @@ module.exports = function(app) {
         socket.on('Activity.updateDate', Activity.updateDate.bind(null, user));
         socket.on('Activity.deleteDate', Activity.deleteDate.bind(null, user));
 
-        // BasicInformation Status CRUD
-        socket.on('Activity.getStatus', Activity.getStatus.bind(null, user));
-        socket.on('Activity.createStatus', Activity.createStatus.bind(null, user));
-        socket.on('Activity.updateStatus', Activity.updateStatus.bind(null, user));
-        socket.on('Activity.deleteStatus', Activity.deleteStatus.bind(null, user));
-
         // BasicInformation Contact CRUD
         socket.on('Activity.createContact', Activity.createContact.bind(null, user));
         socket.on('Activity.updateContact', Activity.updateContact.bind(null, user));

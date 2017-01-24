@@ -18,7 +18,6 @@ function activity(state = initialState, action) {
         // case ActionTypes.GET_CODE_LIST_ITEMS_SUCCESS:
         case ActionTypes.GET_ACTIVITY_SUCCESS:
         case ActionTypes.GET_DESCRIPTIONS_SUCCESS:
-        case ActionTypes.GET_STATUS_SUCCESS:
         case ActionTypes.GET_DOCUMENT_LINK_SUCCESS:
         case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_SUCCESS:
         case ActionTypes.GET_RECIPIENT_COUNTRIES_SUCCESS:
@@ -39,8 +38,6 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
         case ActionTypes.CREATE_DATE_SUCCESS:
         case ActionTypes.UPDATE_DATE_SUCCESS:
-        case ActionTypes.CREATE_STATUS_SUCCESS:
-        case ActionTypes.UPDATE_STATUS_SUCCESS:
         case ActionTypes.CREATE_CONTACT_SUCCESS:
         case ActionTypes.UPDATE_CONTACT_SUCCESS:
         case ActionTypes.CREATE_DOCUMENT_LINK_SUCCESS:
