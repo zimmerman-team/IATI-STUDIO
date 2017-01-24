@@ -7,6 +7,10 @@
 
 import { combineReducers } from 'redux'
 import _ from 'lodash'
+
+import { reducer as formReducer } from 'redux-form'
+import { routerReducer as routing } from 'react-router-redux'
+
 import activity from './reducers/createActivity'
 import codelists from './reducers/codelists'
 import sidebar from './reducers/sidebar'
@@ -584,19 +588,6 @@ function publicVisualizationPagination(state = {
     }
 }
 
-const pagination = combineReducers({
-    publicVisualizationPagination,
-    // publicVisualizations: paginate({ // keep track of pages
-    //     // mapActionToKey: action => action.page,
-    //     initialPage: 1, // TODO: get this from query params - 2016-05-19
-    //     types: [
-    //         ActionTypes.GET_ALL_VIZ_REQUEST,
-    //         ActionTypes.GET_ALL_VIZ_SUCCESS,
-    //         ActionTypes.GET_ALL_VIZ_FAILURE,
-    //     ],
-    // })
-})
-
 function activities(state={}, action) {
     switch(action.type) {
         case ActivityActionTypes.DELETE_ACTIVITY_SUCCESS:
@@ -663,9 +654,17 @@ function user(state={}, action) {
     }
 }
 
-import { reducer as formReducer } from 'redux-form'
-import { routerReducer as routing } from 'react-router-redux'
-
+// Updates the pagination data for different actions.
+const pagination = combineReducers({
+  activities: paginate({
+    mapActionToKey: action => action.login,
+    types: [
+      ActionTypes.GET_ACTIVITY_REQUEST,
+      ActionTypes.GET_ACTIVITY_SUCCESS,
+      ActionTypes.GET_ACTIVITY_FAILURE,
+    ]
+  })
+})
 
 const rootReducer = combineReducers({
     entities,

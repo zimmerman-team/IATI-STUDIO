@@ -47,7 +47,14 @@ class ActivityList extends React.Component {
         }
     }
 
+    onLoadMoreClick() {
+        this.props.getActivities()
+    }
+
     render() {
+        const { isFetching } = this.props
+
+
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState
         })
@@ -75,6 +82,12 @@ class ActivityList extends React.Component {
                                     />
                                     ))}
                                 </tbody>
+                                <button className="button" 
+                                    onClick={this.onLoadMoreClick}
+                                    disabled={isFetching}>
+                                { isFetching ? "Loading..." : "Load More" }
+                                </button>
+
                             </table>
                             <hr />
                         </div>

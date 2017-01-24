@@ -4,14 +4,11 @@ import {toggleMainMenu} from '../../actions/sync'
 
 import {
     getActivity,
-    createActivity,
-    getCodeListItems,
-    addBasicInformation,
-    addParticipatingOrganisation,
-    addDocumentLink
+    markReadyToPublishActivity
 } from '../../actions/activity'
 
 import store from '../../app'
+import {GeneralLoader} from '../general/Loaders.react.jsx'
 import IdentificationForm from './forms/identificationForm/IdentificationForm'
 import BasicInformationForm from './forms/basicInformationForm/BasicInformationForm'
 import ParticipatingOrganisationForm from './forms/participatingOrganisationForm/ParticipatingOrganisationForm'
@@ -20,8 +17,12 @@ import ClassificationsForm from './forms/classificationForm/ClassificationsForm'
 import DocumentLinkForm from './forms/documentLinkForm/DocumentLinkForm'
 import RelationsForm from './forms/relationsForm/RelationsForm'
 import FinancialForm from './forms/financialForm/FinancialForm'
-import ActivitySidebar from './ActivitySidebar'
 import PerformanceForm from './forms/performanceForm/PerformanceForm'
+
+import ActivitySidebar from './ActivitySidebar'
+import ActivityPublishState from './ActivityPublishState.js'
+
+import { publisherSelector } from '../../reducers/createActivity.js'
 
 class ActivityEdit extends React.Component {
 
@@ -42,6 +43,17 @@ class ActivityEdit extends React.Component {
         this.props.toggleMainMenu(false)
     }
 
+    componentWillMount() {
+        if (this.props.publisher) {
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+        }
+    }
     /**
      * Redirects to the specific form basis of route.
      *
@@ -78,13 +90,24 @@ class ActivityEdit extends React.Component {
     }
 
     render() {
-        const {tab, subTab, activityId} = this.props;
+        const {tab, subTab, activityId, activity } = this.props;
+
+        if (!activity) {
+            return <GeneralLoader/>
+        }
+
         const formComponent = this.getFormComponentFromRoute(tab, subTab, activityId);
 
         return (
             <div>
                 <div className="row">
                     <div className="columns small-9">
+                        <ActivityPublishState
+                            markReadyToPublish={this.props.markReadyToPublishActivity}
+                            publishedState={activity.published_state}
+                            activityId={activityId}
+                            publisherId={this.props.publisher && this.props.publisher.id}
+                        />
                         {formComponent}
                     </div>
                     <div className="columns small-3 activity-nav-col">
@@ -102,12 +125,17 @@ class ActivityEdit extends React.Component {
 
 function mapStateToProps(state, props) {
 
-    // const activityId = props.activityId
+    const activityId = props.params.activityId
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+
+    console.log(currentActivity);
 
     return {
         navState: state.navState,
         codelists: state.codelists,
-        activityId: props.params.activityId,
+        activityId,
+        activity: currentActivity,
+        publisher: publisherSelector(state),
         tab: props.params.tab,
         subTab: props.params.subTab,
 
@@ -115,9 +143,7 @@ function mapStateToProps(state, props) {
 }
 
 export default connect(mapStateToProps, {
-    getCodeListItems,
     getActivity,
-    createActivity,
-    addParticipatingOrganisation,
+    markReadyToPublishActivity,
     toggleMainMenu,
 })(ActivityEdit);

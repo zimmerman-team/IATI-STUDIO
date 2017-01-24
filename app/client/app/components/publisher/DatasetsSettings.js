@@ -19,6 +19,8 @@ class DatasetActivityPublisher extends React.Component {
     render() {
         const { dataset } = this.props
 
+        console.log(dataset);
+
         return (
             <div className="row">
                 <div className="activity-publish columns small-centered small-12">
@@ -26,7 +28,10 @@ class DatasetActivityPublisher extends React.Component {
                     { !dataset ?
                         <p>You have not yet published to the registry, click publish to publish your first IATI dataset</p>
                         :
-                        <p>Update your dataset</p>
+                        <div>
+                            <a href={dataset.source_url}>Click here to go to the activity XML</a>
+                            <p>Update your dataset</p>
+                        </div>
                     }
                     <a onClick={this.props.publish} className="button">Publish</a>
                 </div>

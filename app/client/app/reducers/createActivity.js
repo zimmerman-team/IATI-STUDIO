@@ -68,6 +68,24 @@ function activity(state = initialState, action) {
             return _.merge({}, state, action.response.entities)
 
 
+        // ew...
+        case ActionTypes.MARK_READY_TO_PUBLISH_ACTIVITY_SUCCESS:
+            return {
+                ...state,
+                'activity': {
+                    ...state.activity,
+                    [action.id]: {
+                        ...state.activity[action.id],
+                        'published_state': {
+                            ...state.activity[action.id].published_state,
+                            'ready_to_publish': action.response
+                        }
+                    }
+                }
+            }
+
+
+
         case ActionTypes.DELETE_DESCRIPTION_SUCCESS:
             return {
                 ...state,

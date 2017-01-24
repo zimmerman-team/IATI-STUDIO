@@ -7,15 +7,14 @@ import {arrayOf} from 'normalizr'
 import * as Schemas from '../schemas'
 import _ from 'lodash'
 
-
 /*
- * Get activities (Identification form)
+ * Get activities 
  */
 export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
 export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
 export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
 
-export function getActivities(publisherId) {
+export function fetchActivities(publisherId) {
     return {
         [CALL_API]: {
             types: [GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITIES_FAILURE],
@@ -24,6 +23,18 @@ export function getActivities(publisherId) {
             payload: [publisherId]
         }
     }
+}
+
+/*
+ * Get activities 
+ */
+
+export const getActivities = (publisherId) (dispatch, getState) => {
+    const {
+        pageCount,
+    } = getState().pagination.activities
+
+    return dispatch(fetchActivities(publisherId, nextPage))
 }
 
 /*
@@ -103,6 +114,23 @@ export function deleteActivity(publisherId, id) {
         [CALL_API]: {
             types: [DELETE_ACTIVITY_REQUEST, DELETE_ACTIVITY_SUCCESS, DELETE_ACTIVITY_FAILURE],
             endpoint: 'Activity.delete',
+            payload: [publisherId, id],
+        }
+    }
+}
+
+/*
+ * MarkReadyToPublish activity (Identification form)
+ */
+export const MARK_READY_TO_PUBLISH_ACTIVITY_REQUEST = 'MARK_READY_TO_PUBLISH_ACTIVITY_REQUEST';
+export const MARK_READY_TO_PUBLISH_ACTIVITY_SUCCESS = 'MARK_READY_TO_PUBLISH_ACTIVITY_SUCCESS';
+export const MARK_READY_TO_PUBLISH_ACTIVITY_FAILURE = 'MARK_READY_TO_PUBLISH_ACTIVITY_FAILURE';
+export function markReadyToPublishActivity(publisherId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [MARK_READY_TO_PUBLISH_ACTIVITY_REQUEST, MARK_READY_TO_PUBLISH_ACTIVITY_SUCCESS, MARK_READY_TO_PUBLISH_ACTIVITY_FAILURE],
+            endpoint: 'Activity.markReadyToPublish',
             payload: [publisherId, id],
         }
     }
