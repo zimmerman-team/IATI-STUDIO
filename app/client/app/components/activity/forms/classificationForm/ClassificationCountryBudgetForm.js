@@ -42,7 +42,7 @@ const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, la
                             <div className="columns small-6">
                                 <Field
                                     name={`${countryBudget}percentage`}
-                                    type="text"
+                                    type="number"
                                     component={renderField}
                                     label="Percentage"
                                 />
@@ -96,6 +96,10 @@ const validate = values => {
 
         if(!countryBudgetItem.percentage) {
             countryBudgetErrors.percentage = 'Required'
+        }
+
+        if (countryBudgetItem.percentage && countryBudgetItem.percentage > 100) {
+            countryBudgetErrors.percentage = 'Percentage should not be more than 100'
         }
 
         return countryBudgetErrors
