@@ -54,6 +54,8 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_POLICY_SUCCESS:
         case ActionTypes.CREATE_COUNTRY_BUDGET_ITEM_SUCCESS:
         case ActionTypes.UPDATE_COUNTRY_BUDGET_ITEM_SUCCESS:
+        case ActionTypes.CREATE_LOCATION_SUCCESS:
+        case ActionTypes.UPDATE_LOCATION_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
@@ -101,6 +103,12 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'country_budget_items': _.omit(state.country_budget_items, action.id),
+            }
+        case ActionTypes.DELETE_LOCATION_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'locations': _.omit(state.locations, action.id),
             }
         case ActionTypes.DELETE_HUMANITARIAN_SCOPE_SUCCESS:
             return {

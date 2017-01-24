@@ -615,24 +615,6 @@ export function deleteRegion(publisherId, activityId, id) {
 }
 
 /*
- * Get Location (Geopolitical form)
- */
-export const GET_LOCATION_REQUEST = 'GET_LOCATION_REQUEST';
-export const GET_LOCATION_SUCCESS = 'GET_LOCATION_SUCCESS';
-export const GET_LOCATION_FAILURE = 'GET_LOCATION_FAILURE';
-
-export function getLocations(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [GET_LOCATION_REQUEST, GET_LOCATION_SUCCESS, GET_LOCATION_FAILURE],
-            endpoint: 'Activity.getLocation',
-            payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.location),
-        }
-    }
-}
-
-/*
  * Create Location (Geopolitical form)
  */
 export const CREATE_LOCATION_REQUEST = 'CREATE_LOCATION_REQUEST';
