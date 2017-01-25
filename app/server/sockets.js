@@ -80,7 +80,6 @@ module.exports = function(app) {
         socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
 
         socket.on('Activity.getDescriptions', Activity.getDescriptions.bind(null, user));
-
         socket.on('Activity.createDescription', Activity.createDescription.bind(null, user));
         socket.on('Activity.updateDescription', Activity.updateDescription.bind(null, user));
         socket.on('Activity.deleteDescription', Activity.deleteDescription.bind(null, user));
@@ -159,12 +158,6 @@ module.exports = function(app) {
         socket.on('Activity.createDocumentLink', Activity.createDocumentLink.bind(null, user));
         socket.on('Activity.updateDocumentLink', Activity.updateDocumentLink.bind(null, user));
         socket.on('Activity.deleteDocumentLink', Activity.deleteDocumentLink.bind(null, user));
-
-        // Policy Form CRUD
-        socket.on('Activity.getPolicy', Activity.getPolicy.bind(null, user));
-        socket.on('Activity.createPolicy', Activity.createPolicy.bind(null, user));
-        socket.on('Activity.updatePolicy', Activity.updatePolicy.bind(null, user));
-        socket.on('Activity.deletePolicy', Activity.deletePolicy.bind(null, user));
 
         // Relations Form CRUD
         socket.on('Activity.getRelation', Activity.getRelation.bind(null, user));

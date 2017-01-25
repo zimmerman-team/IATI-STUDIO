@@ -12,6 +12,7 @@ import {
     getCodeListItems, createActivity, getActivity, createPlannedDisbursement, updatePlannedDisbursement,
     deletePlannedDisbursement
 } from '../../../../actions/activity'
+import _ from 'lodash'
 
 const renderFinancialPlannedDisbursementForm = ({
     fields, disbursementChannelOptions, currencyOptions,
@@ -257,6 +258,14 @@ function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let planned_disbursements = currentActivity && currentActivity.planned_disbursements;
+
+    if (planned_disbursements && planned_disbursements.length > 0) {
+        planned_disbursements = planned_disbursements.map(function (plannedDisbursement) {
+            plannedDisbursement.receiver_organisation = _.omitBy(plannedDisbursement.receiver_organisation, _.isNil);
+            plannedDisbursement.provider_organisation = _.omitBy(plannedDisbursement.provider_organisation, _.isNil);
+            return plannedDisbursement;
+        })
+    }
 
     return {
         data: planned_disbursements,

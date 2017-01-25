@@ -387,7 +387,7 @@ class LocationForm extends Component {
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/region`}>Back to region</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
-                            Continue to contact
+                            Continue to Sector
                         </button>
                     </div>
                 </form>
