@@ -109,14 +109,16 @@ class PerformanceCommentForm extends Component {
    * @param formData
    */
   handleFormSubmit(formData) {
-      const {activityId, data, publisher} = this.props
+      const {activityId, data, publisher} = this.props;
+      let legacy_data = formData['legacy_data'];
+      legacy_data.activity = activityId;
 
       handleSubmit(
           publisher.id,
           'legacy_data', // form key
           activityId,
           data,
-          formData['legacy_data'],
+          legacy_data,
           this.props.createLegacyData,
           this.props.updateLegacyData,
           this.props.deleteLegacyData

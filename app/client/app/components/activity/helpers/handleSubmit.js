@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from 'react'
 import { SubmissionError } from 'redux-form'
 
-function handleSubmit(publisherId, mainKey, activityId, prevData, currData, createAction, updateAction, deleteAction) {
+function    handleSubmit(publisherId, mainKey, activityId, prevData, currData, createAction, updateAction, deleteAction) {
         const oldIds = prevData.map(d => d.id).filter(d => d !== undefined)
         const newIds = currData.map(d => d.id).filter(d => d !== undefined)
 

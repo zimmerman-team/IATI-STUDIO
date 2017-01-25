@@ -1,8 +1,8 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {Field, reduxForm} from 'redux-form'
-import {renderField, renderSelectField} from '../../helpers/FormHelper'
+import {Field, FieldArray, reduxForm} from 'redux-form'
+import {renderField, renderSelectField, renderNarrativeFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {getActivity, updateActivity} from '../../../../actions/activity'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -35,6 +35,7 @@ class IdentificationForm extends PureComponent {
     }
 
     componentWillMount() {
+        this.props.getCodeListItems('Language');
         if (this.props.publisher && this.props.activityId !== 'identification') {
             this.props.getActivity(this.props.publisher.id, this.props.activityId)
         }
@@ -77,10 +78,10 @@ class IdentificationForm extends PureComponent {
     }
 
     render() {
-        const {submitting, activity, handleSubmit, activityId} = this.props;
+        const {submitting, activity, handleSubmit, activityId, codelists} = this.props;
         const blankIdentificationForm = (activityId !== 'identification');
 
-        if (blankIdentificationForm && !activity) {
+        if (blankIdentificationForm && !activity &&  !codelists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -136,6 +137,14 @@ class IdentificationForm extends PureComponent {
                         selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
                         defaultOption="Select one of the following options"
                     />
+                    <FieldArray
+                        name="activity.title.narratives"
+                        component={renderNarrativeFields}
+                        languageOptions={codelists["Language"]}
+                        narrativeLabel={false}
+                        textName="textTitle"
+                        textLabel="Title"
+                    />
                     <div className="columns small-12">
                         <button className="button" type="submit" disabled={submitting || !blankIdentificationForm}>
                             Continue to basic information
@@ -164,6 +173,7 @@ function mapStateToProps(state, props) {
     return {
         submitting: state.activity.submitting,
         activity: state.activity.activity,
+        codelists: state.codelists,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),
     }

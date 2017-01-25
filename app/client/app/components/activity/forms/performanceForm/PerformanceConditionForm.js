@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Field, FieldArray, reduxForm} from 'redux-form'
+import {Field, reduxForm} from 'redux-form'
 import Tooltip from '../../../general/Tooltip.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
@@ -11,7 +11,7 @@ import {
     updatePerformanceCondition,
     deletePerformanceCondition
 } from '../../../../actions/activity'
-import {conditionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
 import { Link } from 'react-router';
 import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
@@ -20,7 +20,7 @@ import handleSubmit from '../../helpers/handleSubmit'
 const validate = values => {
     const errors = {};
 
-    if (!values.type) {
+    if (!values.attached) {
         errors.type = 'Required'
     }
     return errors
@@ -33,10 +33,6 @@ class PerformanceConditionForm extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    static contextTypes = {
-        router: PropTypes.object,
-    };
-
     /**
      * Submit performance's comment data and redirect to result form
      *
@@ -45,13 +41,14 @@ class PerformanceConditionForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, publisher, data, router} = this.props;
         const conditions = formData.conditions;
+        conditions.activity = activityId;
 
         handleSubmit(
             publisher.id,
             'conditions',
             activityId,
-            data,
-            conditions,
+            [data],
+            [conditions],
             this.props.createPerformanceCondition,
             this.props.updatePerformanceCondition,
             this.props.deletePerformanceCondition,
@@ -69,33 +66,16 @@ class PerformanceConditionForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
-
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('descriptions', newData);
-
-            // change each item
-            newData.forEach((d, i) => this.props.change(`conditions[${i}]`, d))
-
-            // remove any removed elements if newData < oldData
-            for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('conditions', i)
-            }
-        }
-
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
-            if (nextProps.publisher) {
-                this.props.getPerformanceCondition(nextProps.publisher.id, nextProps.activityId)
-            }
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            //if (this.props.activityId && this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
     render() {
-        const {handleSubmit, submitting, codelists, activityId, data} = this.props;
+        const {handleSubmit, submitting, codelists, activityId} = this.props;
 
-        if (!codelists.ConditionType || !data) {
+        if (!codelists.ConditionType) {
             return <GeneralLoader/>
         }
 
@@ -114,9 +94,10 @@ class PerformanceConditionForm extends Component {
                                 name="conditions.attached"
                                 textName="conditions.attached"
                                 label="Condition Attached"
-                                selectOptions={[{code: '1', name: 'Yes'}, {code: '0', name: 'No'}]}
+                                selectOptions={[{code: 'True', name: 'True'}, {code: 'False', name: 'False'}]}
                                 defaultOption="Select one of the following options"
                             />
+                            {/*
                             <Field
                                 component={renderSelectField}
                                 name="conditions.type"
@@ -125,6 +106,7 @@ class PerformanceConditionForm extends Component {
                                 selectOptions={codelists.ConditionType}
                                 defaultOption="Select one of the following options"
                             />
+                            */}
                         </div>
                     </div>
                     <div className="columns small-12">
@@ -141,7 +123,13 @@ class PerformanceConditionForm extends Component {
 
 
 function mapStateToProps(state, props) {
-    const conditions = conditionsSelector(state);
+    const {activityId} = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let conditions = currentActivity && currentActivity.conditions;
+    if (currentActivity && !conditions) {
+        conditions = {};
+    }
+
     return {
         data: conditions,
         codelists: state.codelists,

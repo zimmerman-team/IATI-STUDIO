@@ -10,101 +10,15 @@ import {publisherSelector, countryBudgetItemSelector} from '../../../../reducers
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
-const renderCountryBudgetItemForm = ({fields, vocabularyOptions, codeOptions, languageOptions, meta: {touched, dirty, error}}) => {
-    if (!fields.length && !dirty) {
-        fields.push({})
-    }
-
-    return (
-        <div>
-            {fields.map((countryBudget, index) =>
-                <div key={index}>
-                    <div className="field-list">
-                        <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name={`${countryBudget}vocabulary.code`}
-                                textName={`${countryBudget}vocabulary.code`}
-                                label="Vocabulary"
-                                selectOptions={vocabularyOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                        </div>
-                        <div className="row no-margin">
-                            <Field
-                                component={renderSelectField}
-                                name={`${countryBudget}item[code]`}
-                                textName={`${countryBudget}item[code]`}
-                                label="Budget Item Code"
-                                selectOptions={codeOptions}
-                                defaultOption="Select one of the following options"
-                            />
-                            <div className="columns small-6">
-                                <Field
-                                    name={`${countryBudget}percentage`}
-                                    type="number"
-                                    component={renderField}
-                                    label="Percentage"
-                                />
-                            </div>
-                        </div>
-                        <div className="row no-margin">
-                            <h2 className="page-title with-tip">Description</h2>
-                            <FieldArray
-                                name={`${countryBudget}title.narratives`}
-                                component={renderNarrativeFields}
-                                narrativeAddMore={false}
-                                languageOptions={languageOptions}
-                                textName="textPolicyTitle"
-                                textLabel="Title"
-                            />
-                        </div>
-                    </div>
-                    <div className="columns">
-                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
-                        </button>
-                        <button
-                            type="button"
-                            title="Remove Title"
-                            className="control-button remove float-right"
-                            onClick={() => fields.remove(index)}>Delete
-                        </button>
-                        {touched && error && <span className="error">{error}</span>}
-                    </div>
-                    <br/><br/>
-                </div>
-            )}
-        </div>
-    )
-};
-
 const validate = values => {
     let errors = {};
 
-    const countryBudgetItems = values.country_budget_items || [];
+    const countryBudgetItems = values.country_budget_items || {};
+    errors.country_budget_items = {};
 
-    errors.country_budget_items = countryBudgetItems.map(countryBudgetItem => {
-        let countryBudgetErrors = {};
-
-        if (!countryBudgetItem.vocabulary) {
-            countryBudgetErrors.vocabulary = {code:'Required'}
-        }
-
-        if (!countryBudgetItem.item) {
-            countryBudgetErrors.item = {code:'Required'}
-        }
-
-        if(!countryBudgetItem.percentage) {
-            countryBudgetErrors.percentage = 'Required'
-        }
-
-        if (countryBudgetItem.percentage && countryBudgetItem.percentage > 100) {
-            countryBudgetErrors.percentage = 'Percentage should not be more than 100'
-        }
-
-        return countryBudgetErrors
-    });
-
+    if (!countryBudgetItems.vocabulary) {
+        errors.vocabulary = {code:'Required'}
+    }
     return errors
 };
 
@@ -122,16 +36,15 @@ class CountryBudgetForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
-
-        const lastData = data;
         let countryBudgetItems = formData.country_budget_items;
+        countryBudgetItems.activity = activityId;
 
         handleSubmit(
             publisher.id,
             'country_budget_items',
             activityId,
-            lastData,
-            countryBudgetItems,
+            [data],
+            [countryBudgetItems],
             this.props.createCountryBudgetItem,
             this.props.updateCountryBudgetItem,
             this.props.deleteCountryBudgetItem,
@@ -145,26 +58,9 @@ class CountryBudgetForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
-
-            // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
-            // this.props.change('descriptions', newData);
-
-            // change each item
-            newData.forEach((d, i) => this.props.change(`country_budget_items[${i}]`, d))
-
-            // remove any removed elements if newData < oldData
-            for (let i = newData.length; i < oldData.length; i++) {
-                this.props.array.remove('country_budget_items', i)
-            }
-        }
-
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
-            if (nextProps.publisher) {
-                this.props.getCountryBudgetItems(nextProps.publisher.id, nextProps.activityId)
-            }
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        //if (this.props.activityId && this.props.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
 
@@ -188,13 +84,51 @@ class CountryBudgetForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                    <FieldArray
-                        name="country_budget_items"
-                        component={renderCountryBudgetItemForm}
-                        vocabularyOptions={codelists["BudgetIdentifierVocabulary"]}
-                        codeOptions={codelists["BudgetIdentifier"]}
-                        languageOptions={codelists["Language"]}
-                    />
+
+                    <div className="field-list">
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name="country_budget_items.vocabulary.code"
+                                textName="country_budget_items.vocabulary.code"
+                                label="Vocabulary"
+                                selectOptions={codelists['BudgetIdentifierVocabulary']}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+
+                        {/* @TODO uncomment when these fields are added in API
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name="country_budget_items.item[code]"
+                                textName="country_budget_items.item[code]"
+                                label="Budget Item Code"
+                                selectOptions={codelists['BudgetIdentifier']}
+                                defaultOption="Select one of the following options"
+                            />
+                            <div className="columns small-6">
+                                <Field
+                                    name="country_budget_items.percentage"
+                                    type="number"
+                                    component={renderField}
+                                    label="Percentage"
+                                />
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <h2 className="page-title with-tip">Description</h2>
+                            <FieldArray
+                                name="country_budget_items.narratives"
+                                component={renderNarrativeFields}
+                                narrativeAddMore={false}
+                                languageOptions={codelists['Language']}
+                                textName="textPolicyTitle"
+                                textLabel="Title"
+                            />
+                        </div>
+                        */}
+                    </div>
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/classifications/select`}>
                             Back to Selection
@@ -211,8 +145,12 @@ class CountryBudgetForm extends Component {
 
 
 function mapStateToProps(state, props) {
-    // TODO country and financial budget are different
-    const country_budget_items = [];
+    const {activityId} = props;
+    let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    let country_budget_items = currentActivity && currentActivity.country_budget_items;
+    if (currentActivity && !country_budget_items) {
+        country_budget_items = {};
+    }
 
     return {
         data: country_budget_items,

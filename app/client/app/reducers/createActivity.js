@@ -78,7 +78,7 @@ function activity(state = initialState, action) {
             return {
                 ...state,
                 ...state.entities,
-                'recipientCountries': _.omit(state.recipientCountries, action.id),
+                'recipient_countries': _.omit(state.recipient_countries, action.id),
             }
         case ActionTypes.DELETE_REGION_SUCCESS:
             return {
@@ -96,13 +96,7 @@ function activity(state = initialState, action) {
             return {
                 ...state,
                 ...state.entities,
-                'policy': _.omit(state.policy, action.id),
-            }
-        case ActionTypes.DELETE_COUNTRY_BUDGET_ITEM_SUCCESS:
-            return {
-                ...state,
-                ...state.entities,
-                'country_budget_items': _.omit(state.country_budget_items, action.id),
+                'policy_markers': _.omit(state.policy_markers, action.id),
             }
         case ActionTypes.DELETE_LOCATION_SUCCESS:
             return {
@@ -126,7 +120,7 @@ function activity(state = initialState, action) {
             return {
                 ...state,
                 ...state.entities,
-                'transactions': _.omit(state.transactions, action.id),
+                    'transactions': _.omit(state.transactions, action.id),
             }
         case ActionTypes.DELETE_PERFORMANCE_RESULT_SUCCESS:
             return {
@@ -138,7 +132,7 @@ function activity(state = initialState, action) {
             return {
                 ...state,
                 ...state.entities,
-                'results': _.omit(state.related_activities, action.id),
+                'related_activities': _.omit(state.related_activities, action.id),
             }
         case ActionTypes.DELETE_LEGACY_DATA_SUCCESS:
             return {
@@ -163,6 +157,27 @@ function activity(state = initialState, action) {
                 ...state,
                 ...state.entities,
                 'activity': {},
+            }
+
+        case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
+        case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
+            return {
+                ...state,
+                'activity': {},
+                'descriptions': {},
+                'recipient_countries': {},
+                'recipient_region': {},
+                'sector': {},
+                'policy_markers': {},
+                'locations': {},
+                'humanitarian_scope': {},
+                'budgets': {},
+                'transactions': {},
+                'results': {},
+                'related_activities': {},
+                'legacy_data': {},
+                'participating_organisations': {},
+                'document_links': {},
             }
 
         // case ActionTypes.ADD_DOCUMENT_LINK_FAILURE:
@@ -235,7 +250,7 @@ export const participatingOrganisationsSelector = createSelector(
 )
 
 export const recipientCountriesSelector = createSelector(
-    state => state.activity.recipientCountries,
+    state => state.activity.recipient_countries,
     (recipient_countries) => _.map(recipient_countries, x => x) // to array
 )
 

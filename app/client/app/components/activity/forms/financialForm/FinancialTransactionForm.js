@@ -3,7 +3,7 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {
     renderNarrativeFields, renderField, renderSelectField, renderOrgFields,
-    renderSectorFields, RenderSingleSelect
+    renderSectorFields, RenderSingleSelect, renderRecipientCountries
 } from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {Link} from 'react-router';
@@ -38,7 +38,7 @@ const renderFinancialTransactionForm = ({
                             <div className="row no-margin">
                                 <div className="columns small-6">
                                     <Field
-                                        name={`${transaction}reference`}
+                                        name={`${transaction}ref`}
                                         type="text"
                                         component={renderField}
                                         label="Reference"
@@ -154,28 +154,32 @@ const renderFinancialTransactionForm = ({
                                     }
                                 </div>
                             </div>
+                            {/*
                             <FieldArray
-                                name={`${transaction}sector.code`}
-                                textName={`${transaction}sector.code`}
+                                name={`${transaction}.sector`}
+                                textName={`${transaction}.sector`}
                                 component={renderSectorFields}
                                 sectorVocabularyOptions={sectorVocabularyOptions}
                                 sectorOptions={sectorOptions}
                                 languageOptions={languageOptions}
                                 textLabel="Sector"
                             />
+                            */}
                             <div className="row no-margin">
                                 <div className="columns small-centered small-12">
                                     <h2 className="page-title with-tip">Recipient country</h2>
                                 </div>
                             </div>
                             <div className="row no-margin">
-                                <Field
-                                    name={`${transaction}country`}
-                                    textName={`${transaction}country`}
-                                    component={renderSelectField}
-                                    label="Country"
-                                    selectOptions={countryOptions}
-                                    defaultOption="Select one of the following options"
+                                <FieldArray
+                                    name={`${transaction}.recipient_countries`}
+                                    textName={`${transaction}.recipient_countries`}
+                                    component={renderRecipientCountries}
+                                    sectorVocabularyOptions={sectorVocabularyOptions}
+                                    sectorOptions={sectorOptions}
+                                    languageOptions={languageOptions}
+                                    countryOptions={countryOptions}
+                                    textLabel="Sector"
                                 />
                             </div>
                             <div className="row no-margin">

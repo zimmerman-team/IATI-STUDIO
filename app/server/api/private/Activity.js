@@ -621,35 +621,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getPerformanceComment: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getPerformanceComment(user, publisherId, activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    createPerformanceComment: function(user, publisherId, activityId, data, res) {
-        // TODO: update validation status here - 2016-12-16
-        // on succesful creation,
-        return oipaMethods.createPerformanceComment(user, publisherId, activityId, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    updatePerformanceComment: function(user, publisherId, activityId, id, data, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.updatePerformanceComment(user, publisherId, activityId, id, data)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-    deletePerformanceComment: function(user, publisherId, activityId, id, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deletePerformanceComment(user, publisherId, activityId, id)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
     getCapital: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
         return oipaMethods.getCapital(user, publisherId, activityId)

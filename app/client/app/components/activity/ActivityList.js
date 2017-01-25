@@ -12,7 +12,7 @@ import { Link } from 'react-router'
 export const ActivityListItem = ({ publisher, activity, deleteActivity }) => (
     <tr>
         <td>{ activity.iati_identifier }</td>
-        <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
+        <td>{ activity.title && activity.title.narratives && activity.title.narratives[0] && activity.title.narratives[0].text }</td>
         <td><Link 
                 to={`/publisher/activities/${activity.id}/identification/`}
                 className={'button'}
@@ -60,7 +60,7 @@ class ActivityList extends React.Component {
                             <thead>
                                 <tr>
                                     <th width="200">IATI identifier</th>
-                                    <th>Table Header</th>
+                                    <th>Title</th>
                                     <th width="150">Edit</th>
                                     <th width="150">Delete</th>
                                 </tr>

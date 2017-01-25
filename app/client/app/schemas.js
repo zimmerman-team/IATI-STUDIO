@@ -120,7 +120,7 @@ export const participatingOrganisation = new Schema('participating_organisations
     idAttribute: "id",
 })
 
-export const recipientCountry = new Schema('recipientCountries', {
+export const recipientCountry = new Schema('recipient_countries', {
     idAttribute: "id",
 })
 

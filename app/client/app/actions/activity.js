@@ -69,6 +69,18 @@ export const UPDATE_ACTIVITY_SUCCESS = 'UPDATE_ACTIVITY_SUCCESS';
 export const UPDATE_ACTIVITY_FAILURE = 'UPDATE_ACTIVITY_FAILURE';
 export function updateActivity(publisherId, activity) {
     let filterActivity = _.omitBy(activity, _.isNil);
+
+    if (filterActivity.legacy_data && filterActivity.legacy_data.length > 0) {
+        filterActivity.legacy_data = filterActivity.legacy_data.map(function (legacy_data) {
+            legacy_data.activity = activity.id
+            return legacy_data;
+        })
+    }
+
+    if (filterActivity.country_budget_items) {
+        filterActivity.country_budget_items.activity = activity.id
+    }
+
     return {
         [CALL_API]: {
             types: [UPDATE_ACTIVITY_REQUEST, UPDATE_ACTIVITY_SUCCESS, UPDATE_ACTIVITY_FAILURE],
@@ -346,24 +358,6 @@ export function deleteTransaction(publisherId, activityId, id) {
     }
 }
 
-
-/*
- * Get PlannedDisbursement (Financial form)
- */
-export const GET_PLANNED_DISBURSEMENT_REQUEST = 'GET_PLANNED_DISBURSEMENT_REQUEST';
-export const GET_PLANNED_DISBURSEMENT_SUCCESS = 'GET_PLANNED_DISBURSEMENT_SUCCESS';
-export const GET_PLANNED_DISBURSEMENT_FAILURE = 'GET_PLANNED_DISBURSEMENT_FAILURE';
-
-export function getPlannedDisbursements(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [GET_PLANNED_DISBURSEMENT_REQUEST, GET_PLANNED_DISBURSEMENT_SUCCESS, GET_PLANNED_DISBURSEMENT_FAILURE],
-            endpoint: 'Activity.getPlannedDisbursement',
-            payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.plannedDisbursement),
-        }
-    }
-}
 
 /*
  * Create plannedDisbursement (Financial form)
@@ -1342,7 +1336,7 @@ export function getPerformanceResult(publisherId, activityId) {
             types: [GET_PERFORMANCE_RESULT_REQUEST, GET_PERFORMANCE_RESULT_SUCCESS, GET_PERFORMANCE_RESULT_FAILURE],
             endpoint: 'Activity.getPerformanceResult',
             payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.related_activities),
+            schema: arrayOf(Schemas.result),
         }
     }
 }
@@ -1414,61 +1408,7 @@ export function getPerformanceComment(publisherId, activityId) {
             types: [GET_PERFORMANCE_COMMENT_REQUEST, GET_PERFORMANCE_COMMENT_SUCCESS, GET_PERFORMANCE_COMMENT_FAILURE],
             endpoint: 'Activity.getPerformanceComment',
             payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.related_activities),
-        }
-    }
-}
-
-
-/*
- * Create performance comment (Performance comment form)
- */
-export const CREATE_PERFORMANCE_COMMENT_REQUEST = 'CREATE_PERFORMANCE_COMMENT_REQUEST';
-export const CREATE_PERFORMANCE_COMMENT_SUCCESS = 'CREATE_PERFORMANCE_COMMENT_SUCCESS';
-export const CREATE_PERFORMANCE_COMMENT_FAILURE = 'CREATE_PERFORMANCE_COMMENT_FAILURE';
-export function createPerformanceComment(publisherId, activityId, commentData) {
-    return {
-        [CALL_API]: {
-            types: [CREATE_PERFORMANCE_COMMENT_REQUEST, CREATE_PERFORMANCE_COMMENT_SUCCESS, CREATE_PERFORMANCE_COMMENT_FAILURE],
-            endpoint: 'Activity.createPerformanceComment',
-            payload: [publisherId, activityId, JSON.stringify(commentData)],
-            schema: Schemas.comment,
-        }
-    }
-}
-
-/*
- * Update performance comment (Performance comment form)
- */
-export const UPDATE_PERFORMANCE_COMMENT_REQUEST = 'UPDATE_PERFORMANCE_COMMENT_REQUEST';
-export const UPDATE_PERFORMANCE_COMMENT_SUCCESS = 'UPDATE_PERFORMANCE_COMMENT_SUCCESS';
-export const UPDATE_PERFORMANCE_COMMENT_FAILURE = 'UPDATE_PERFORMANCE_COMMENT_FAILURE';
-export function updatePerformanceComment(publisherId, activityId, id, commentData) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [UPDATE_PERFORMANCE_COMMENT_REQUEST, UPDATE_PERFORMANCE_COMMENT_SUCCESS, UPDATE_PERFORMANCE_COMMENT_FAILURE],
-            endpoint: 'Activity.updatePerformanceComment',
-            payload: [publisherId, activityId, id, JSON.stringify(commentData)],
-            schema: Schemas.comment,
-        }
-    }
-}
-
-
-/*
- * Delete performance comment (Performance comment form)
- */
-export const DELETE_PERFORMANCE_COMMENT_REQUEST = 'DELETE_PERFORMANCE_COMMENT_REQUEST';
-export const DELETE_PERFORMANCE_COMMENT_SUCCESS = 'DELETE_PERFORMANCE_COMMENT_SUCCESS';
-export const DELETE_PERFORMANCE_COMMENT_FAILURE = 'DELETE_PERFORMANCE_COMMENT_FAILURE';
-export function deletePerformanceComment(publisherId, activityId, id) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [DELETE_PERFORMANCE_COMMENT_REQUEST, DELETE_PERFORMANCE_COMMENT_SUCCESS, DELETE_PERFORMANCE_COMMENT_FAILURE],
-            endpoint: 'Activity.deletePerformanceComment',
-            payload: [publisherId, activityId, id]
+            schema: arrayOf(Schemas.legacyData),
         }
     }
 }
