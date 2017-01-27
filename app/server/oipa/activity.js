@@ -82,17 +82,18 @@ export const markReadyToPublish = function (user, publisherId, activityId) {
     return oipaPost(req_options)
 };
 
-export const getActivities = function (user, publisherId) {
+export const getActivities = function (user, publisherId, page=1) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url(publisherId),
+        url: config.activities_url(publisherId) + '?page=' + page,
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
     };
 
     return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
+        // .then(parsedBody => parsedBody.results)
+        // .then(parsedBody)
 };
 
 export const getActivity = function (user, publisherId, id) {

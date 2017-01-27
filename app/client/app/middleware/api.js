@@ -11,6 +11,8 @@ export default function createSocketMiddleware(_socket) {
     return store => next => action => {
         const callAPI = action[CALL_API]
         if (typeof callAPI === "undefined") {
+            console.log('reached');
+            console.log(action);
             return next(action)
         }
 

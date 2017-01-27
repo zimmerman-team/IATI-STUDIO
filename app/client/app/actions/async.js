@@ -620,10 +620,8 @@ export function verifyApiKey(userId, apiKey) {
 export const REMOVE_API_KEY_REQUEST = 'REMOVE_API_KEY_REQUEST'
 export const REMOVE_API_KEY_SUCCESS = 'REMOVE_API_KEY_SUCCESS'
 export const REMOVE_API_KEY_FAILURE = 'REMOVE_API_KEY_FAILURE'
-export function removeApiKey(userId, apiKey) {
+export function removeApiKey() {
     return {
-        userId,
-        apiKey,
         [CALL_PUBLIC_API]: {
             method: 'POST',
             types: [ REMOVE_API_KEY_REQUEST, REMOVE_API_KEY_SUCCESS, REMOVE_API_KEY_FAILURE ],

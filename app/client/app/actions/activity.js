@@ -8,33 +8,41 @@ import * as Schemas from '../schemas'
 import _ from 'lodash'
 
 /*
- * Get activities 
+ * Get x activities 
  */
 export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
 export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
 export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
 
-export function fetchActivities(publisherId) {
+export function fetchActivities(publisherId, nextPage) {
     return {
         [CALL_API]: {
             types: [GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITIES_FAILURE],
             endpoint: 'Activity.getAll',
-            schema: arrayOf(Schemas.activity),
-            payload: [publisherId]
+            schema: {
+                results: arrayOf(Schemas.activity),
+            },
+            payload: [publisherId, nextPage]
         }
     }
 }
 
 /*
- * Get activities 
+ * Get activities (paginated)
  */
-
-export const getActivities = (publisherId) (dispatch, getState) => {
+export const getActivities = (publisherId) => (dispatch, getState) => {
     const {
-        pageCount,
+        pageCount = 1,
+        next,
     } = getState().pagination.activities
 
-    return dispatch(fetchActivities(publisherId, nextPage))
+    console.log(pageCount, next);
+
+    if (pageCount !== 1 && !next) {
+        return null
+    }
+
+    return dispatch(fetchActivities(publisherId, pageCount))
 }
 
 /*

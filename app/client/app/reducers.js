@@ -657,11 +657,11 @@ function user(state={}, action) {
 // Updates the pagination data for different actions.
 const pagination = combineReducers({
   activities: paginate({
-    mapActionToKey: action => action.login,
+    // mapActionToKey: action => 'activities',
     types: [
-      ActionTypes.GET_ACTIVITY_REQUEST,
-      ActionTypes.GET_ACTIVITY_SUCCESS,
-      ActionTypes.GET_ACTIVITY_FAILURE,
+      ActivityActionTypes.GET_ACTIVITIES_REQUEST,
+      ActivityActionTypes.GET_ACTIVITIES_SUCCESS,
+      ActivityActionTypes.GET_ACTIVITIES_FAILURE,
     ]
   })
 })

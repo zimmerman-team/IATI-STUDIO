@@ -31,6 +31,12 @@ ActivityListItem.propTypes = {
 
 class ActivityList extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.onLoadMoreClick = this.onLoadMoreClick.bind(this);
+    }
+
     componentDidMount() {
         this.props.toggleMainMenu(true)
     }
@@ -48,11 +54,11 @@ class ActivityList extends React.Component {
     }
 
     onLoadMoreClick() {
-        this.props.getActivities()
+        this.props.getActivities(this.props.publisher.id)
     }
 
     render() {
-        const { isFetching } = this.props
+        const {pagination } = this.props
 
 
         let wrapClass = classNames('pusher',{
@@ -82,11 +88,16 @@ class ActivityList extends React.Component {
                                     />
                                     ))}
                                 </tbody>
-                                <button className="button" 
-                                    onClick={this.onLoadMoreClick}
-                                    disabled={isFetching}>
-                                { isFetching ? "Loading..." : "Load More" }
-                                </button>
+                                {
+                                    pagination.pageCount === 1 || pagination.next ?
+                                        <button className="button" 
+                                            onClick={this.onLoadMoreClick}
+                                            disabled={pagination.isFetching}>
+                                        { pagination.isFetching ? "Loading..." : "Load More" }
+                                        </button>
+                                    :
+                                        null
+                                }
 
                             </table>
                             <hr />
@@ -103,6 +114,7 @@ function mapStateToProps(state, props) {
 
     return {
         navState: state.navState,
+        pagination: state.pagination.activities,
         activities: activitiesSelector(state),
         publisher: publisherSelector(state),
     } 

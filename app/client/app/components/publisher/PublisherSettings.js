@@ -241,6 +241,8 @@ const PublisherApiKeyForm = React.createClass({
 
         const buttonTxt = fetching ? "Validating..." : "Validate"
 
+        console.log(this.props);
+
         return (
             <div>
                 <form onSubmit={this.handleSubmit} className="margin-bottom-1">
