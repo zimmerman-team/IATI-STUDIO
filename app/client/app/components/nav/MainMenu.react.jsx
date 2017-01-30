@@ -7,6 +7,9 @@ import { Link } from 'react-router'
 import { withRouter } from 'react-router'
 
 import { Tooltip } from '../general/Tooltip.react.jsx'
+import { ModalButton } from '../general/Modal.react.jsx'
+import { InputText } from '../general/Input.react.jsx'
+import { createActivity } from '../../actions/activity'
 
 const defaultViz = {
     name: "",
@@ -21,10 +24,24 @@ class MainMenu extends React.Component {
         visualisations: PropTypes.array
     };
 
+    state = {
+        iatiIdentifier: '',
+    };
+
     newViz = () => {
         this.props.createVisualization(defaultViz)
             .then(action => action.response.result)
             .then(viz_id => this.props.router.push(`/chartbuilder/${viz_id}`))
+    };
+
+    newActivity = () => {
+        // just generate something random
+        this.props.createActivity(this.props.publisher.id, {
+            iati_identifier: this.state.iatiIdentifier,
+        }).then((action) => {
+            this.props.router.push(`/publisher/activities/${action.response.result}/basic-info/description`)
+            console.log(action);
+        })
     };
 
     render() {
@@ -46,7 +63,26 @@ class MainMenu extends React.Component {
                     <hr />
                     <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/settings"><i className="material-icons">settings</i>Publisher setup</Link></Tooltip></li>
                     <li><Tooltip tooltip="IATI activities"><Link to="/publisher/activities"><i className="material-icons">local_play</i>IATI activities</Link></Tooltip></li>
-                    <li><Tooltip tooltip="Create a new activity"><Link to="/publisher/activities/identification"><i className="material-icons">add</i> Create Activity</Link></Tooltip></li>
+
+                    {
+                        /*
+                         <li><Tooltip tooltip="Create a new activity"><a onClick={this.newActivity} className="charts"><i className="material-icons">add</i> Create activity</a></Tooltip></li>
+                         */
+                    }
+
+                    <li><Tooltip tooltip="Create activity">
+                        <ModalButton name="Create activity" className="not-here" actionButton="Create" action={this.newActivity} closeButton="Close">
+                            <div className="modal-inside">
+                                <h6>Create an activity</h6>
+                                <p>Fill in a unique IATI identifier</p>
+                                <InputText
+                                    onChange={(e) => this.setState({ iatiIdentifier: e.target.value })}
+                                    value={this.state.iatiIdentifier}
+                                />
+                            </div>
+                        </ModalButton>
+                    </Tooltip></li>
+
                     <li><Tooltip tooltip="Organisation settings"><Link to="/publisher/organisation"><i className="material-icons">domain</i>Organisation settings</Link></Tooltip></li>
                     <li><Tooltip tooltip="Datasets"><Link to="/publisher/datasets"><i className="material-icons">perm_data_setting</i>Datasets</Link></Tooltip></li>
                     <li><Tooltip tooltip="Team Management"><Link to="/publisher/team-management"><i className="material-icons">perm_data_setting</i>Team Management</Link></Tooltip></li>
@@ -58,4 +94,15 @@ class MainMenu extends React.Component {
     }
 }
 
-export default withRouter(MainMenu)
+MainMenu = withRouter(MainMenu);
+
+import { publisherSelector } from '../../reducers/createActivity'
+
+function mapStateToProps(state) {
+    return {
+        activity: state.activity,
+        publisher: publisherSelector(state),
+    }
+}
+export default connect(mapStateToProps, { createActivity })(MainMenu);
+
