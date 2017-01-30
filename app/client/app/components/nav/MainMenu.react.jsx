@@ -39,7 +39,7 @@ class MainMenu extends React.Component {
         this.props.createActivity(this.props.publisher.id, {
             iati_identifier: this.state.iatiIdentifier,
         }).then((action) => {
-            this.props.router.push(`/publisher/activities/${action.response.result}/basic-info/description`)
+            this.props.router.push(`/publisher/activities/${action.response.result}/identification/identification`)
             console.log(action);
         })
     };

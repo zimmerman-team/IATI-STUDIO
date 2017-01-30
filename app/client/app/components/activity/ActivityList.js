@@ -117,18 +117,17 @@ class ActivityList extends React.Component {
                                     />
                                     ))}
                                 </tbody>
-                                {
-                                    pagination.pageCount === 1 || pagination.next ?
-                                        <button className="button" 
+                            </table>
+                            {
+                                pagination.pageCount === 1 || pagination.next ?
+                                    <button className="button"
                                             onClick={this.onLoadMoreClick}
                                             disabled={pagination.isFetching}>
                                         { pagination.isFetching ? "Loading..." : "Load More" }
-                                        </button>
+                                    </button>
                                     :
-                                        null
-                                }
-
-                            </table>
+                                    null
+                            }
                             <hr />
                         </div>
                     </div>

@@ -128,8 +128,6 @@ function mapStateToProps(state, props) {
     const activityId = props.params.activityId
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
 
-    console.log(currentActivity);
-
     return {
         navState: state.navState,
         activity: currentActivity,

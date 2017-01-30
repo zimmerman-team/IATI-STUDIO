@@ -58,8 +58,6 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_LOCATION_SUCCESS:
         case ActionTypes.CREATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
-        case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
-        case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
         case ActionTypes.CREATE_PERFORMANCE_CONDITION_SUCCESS:
         case ActionTypes.UPDATE_PERFORMANCE_CONDITION_SUCCESS:
         case ActionTypes.CREATE_TRANSACTION_SUCCESS:
@@ -196,9 +194,8 @@ function activity(state = initialState, action) {
                 'legacy_data': {},
                 'participating_organisations': {},
                 'document_links': {},
-            }
-
-        // case ActionTypes.ADD_DOCUMENT_LINK_FAILURE:
+            };
+        // @TODO clearing state all activity data, so that next form doesn't auto populate
         default:
             return state
     }
@@ -270,11 +267,6 @@ export const participatingOrganisationsSelector = createSelector(
 export const recipientCountriesSelector = createSelector(
     state => state.activity.recipient_countries,
     (recipient_countries) => _.map(recipient_countries, x => x) // to array
-)
-
-export const conditionsSelector = createSelector(
-    state => state.activity.conditions,
-    (conditions) => _.map(conditions, x => x) // to array
 )
 
 export const legacyDataSelector = createSelector(

@@ -11,8 +11,6 @@ export default function createSocketMiddleware(_socket) {
     return store => next => action => {
         const callAPI = action[CALL_API]
         if (typeof callAPI === "undefined") {
-            console.log('reached');
-            console.log(action);
             return next(action)
         }
 
@@ -53,7 +51,7 @@ export default function createSocketMiddleware(_socket) {
             response => {
                 // check if a new request has been made in the meantime, then discard
                 if (preserveOrder && requestCount < store.getState().requestCount[requestType]) {
-                    console.log('discarding response......');
+                    //console.log('discarding response......');
                     return null
                 }
 
