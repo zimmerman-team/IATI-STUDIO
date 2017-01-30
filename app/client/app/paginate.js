@@ -33,7 +33,7 @@ export default function pagination({ types, mapActionToKey }) {
                     ...state,
                     isFetching: false,
                     ids: union(state.ids, action.response.result.results),
-                    pageCount: state.pageCount + 1,
+                    pageCount: action.pageCount + 1,
                     next: action.response.result.next,
                     previous: action.response.result.previous,
                     count: action.response.result.count,

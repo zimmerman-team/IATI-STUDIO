@@ -1,4 +1,5 @@
 "use strict";
+
 /*
  * Functions for communicating with activity API
  */
@@ -6,6 +7,8 @@
 import path from 'path'
 import config from '../config/config'
 import { oipaExport, oipaPost, oipaGet, oipaUpdate, oipaDelete } from '../config/request'
+
+const querystring = require('querystring')
 
 /**
  * Get all the languages form codeList.
@@ -82,10 +85,13 @@ export const markReadyToPublish = function (user, publisherId, activityId) {
     return oipaPost(req_options)
 };
 
-export const getActivities = function (user, publisherId, page=1) {
+export const getActivities = function (user, publisherId, searchValue, page=1) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.activities_url(publisherId) + '?page=' + page,
+        url: config.activities_url(publisherId) + '?' + querystring.stringify({
+            page,
+            q: searchValue,
+        }),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },

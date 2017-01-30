@@ -35,6 +35,12 @@ class ActivityList extends React.Component {
         super(props);
 
         this.onLoadMoreClick = this.onLoadMoreClick.bind(this);
+        this.handleChangeActivitySearch = this.handleChangeActivitySearch.bind(this);
+        this.onClickActivitySearch = this.onClickActivitySearch.bind(this);
+
+        this.state = {
+            activitySearch: ""
+        }
     }
 
     componentDidMount() {
@@ -54,7 +60,15 @@ class ActivityList extends React.Component {
     }
 
     onLoadMoreClick() {
-        this.props.getActivities(this.props.publisher.id)
+        this.props.getActivities(this.props.publisher.id, this.state.activitySearch)
+    }
+
+    handleChangeActivitySearch(e) {
+        this.setState({ activitySearch: e.target.value })
+    }
+
+    onClickActivitySearch() {
+        this.props.searchActivities(this.props.publisher.id, this.state.activitySearch)
     }
 
     render() {
@@ -69,6 +83,21 @@ class ActivityList extends React.Component {
                 <div className="row controls">
                     <div className="columns small-12">
                         <h2 className="page-title">List of your activities</h2>
+                        
+                        <div className="columns small-4">
+                            <input 
+                                placeholder="User ID"
+                                type="text"
+                                value={this.state.activitySearch}
+                                onChange={this.handleChangeActivitySearch}
+                                disabled={pagination.isFetching}/>
+                            <button className="button" 
+                                onClick={this.onClickActivitySearch}
+                                disabled={pagination.isFetching}>
+                                Search
+                            </button>
+                        </div>
+
                         <table>
                             <thead>
                                 <tr>
@@ -120,10 +149,11 @@ function mapStateToProps(state, props) {
     } 
 }
 
-import { getActivities, deleteActivity } from '../../actions/activity'
+import { getActivities, searchActivities, deleteActivity } from '../../actions/activity'
 
 export default connect(mapStateToProps, {
     getActivities,
+    searchActivities,
     deleteActivity,
     toggleMainMenu
 })(ActivityList)

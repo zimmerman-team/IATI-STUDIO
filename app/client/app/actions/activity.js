@@ -14,15 +14,16 @@ export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
 export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
 export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
 
-export function fetchActivities(publisherId, nextPage) {
+export function fetchActivities(publisherId, searchValue, nextPage) {
     return {
+        searchValue,
         [CALL_API]: {
             types: [GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITIES_FAILURE],
             endpoint: 'Activity.getAll',
             schema: {
                 results: arrayOf(Schemas.activity),
             },
-            payload: [publisherId, nextPage]
+            payload: [publisherId, searchValue, nextPage]
         }
     }
 }
@@ -30,19 +31,24 @@ export function fetchActivities(publisherId, nextPage) {
 /*
  * Get activities (paginated)
  */
-export const getActivities = (publisherId) => (dispatch, getState) => {
+export const getActivities = (publisherId, searchValue) => (dispatch, getState) => {
     const {
         pageCount = 1,
         next,
     } = getState().pagination.activities
 
-    console.log(pageCount, next);
-
     if (pageCount !== 1 && !next) {
         return null
     }
 
-    return dispatch(fetchActivities(publisherId, pageCount))
+    return dispatch(fetchActivities(publisherId, searchValue, pageCount))
+}
+
+/*
+ * A new search (resets pagination)
+ */
+export const searchActivities = (publisherId, searchValue) => (dispatch, getState) => {
+    return dispatch(fetchActivities(publisherId, searchValue, 1))
 }
 
 /*

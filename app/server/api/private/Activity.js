@@ -60,8 +60,8 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getAll: function(user, publisherId, page=1, res) {
-        return oipaMethods.getActivities(user, publisherId, page)
+    getAll: function(user, publisherId, searchValue, page=1, res) {
+        return oipaMethods.getActivities(user, publisherId, searchValue, page)
             .then(result => res(null, result))
             .catch(error => res(error));
     },
