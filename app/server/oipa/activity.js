@@ -683,8 +683,8 @@ export const postCountryBudgetItem = function (user, publisherId, activityId, co
 export const updateCountryBudgetItem = function (user, publisherId, activityId, id, countryBudgetItemData) {
     const dataJSON = JSON.parse(countryBudgetItemData);
     const req_options = {
-        baseUrl: config.oipa_update_url,
-        url: path.join(config.country_budget_items_url(publisherId, activityId), `${id}`),
+        baseUrl: config.oipa_post_url,
+        url: config.country_budget_items_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -1034,8 +1034,8 @@ export const createPerformanceCondition = function (user, publisherId, activityI
 
 export const updatePerformanceCondition = function (user, publisherId, activityId, id, conditionData) {
     const req_options = {
-        baseUrl: config.oipa_update_url,
-        url: path.join(config.conditions_url(publisherId, activityId), `${id}`),
+        baseUrl: config.oipa_post_url,
+        url: config.conditions_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
