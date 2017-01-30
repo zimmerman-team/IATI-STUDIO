@@ -180,9 +180,9 @@ class HumanitarianScopeForm extends Component {
 
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!codelists['HumanitarianScopeType'] || !codelists['HumanitarianScopeVocabulary'] || !codelists['Language']) {
+        if (!codeLists['HumanitarianScopeType'] || !codeLists['HumanitarianScopeVocabulary'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -196,9 +196,9 @@ class HumanitarianScopeForm extends Component {
                     <FieldArray
                         name="humanitarian_scope"
                         component={renderHumanitarianScopeForm}
-                        vocabularyOptions={codelists["HumanitarianScopeVocabulary"]}
-                        scopeOptions={codelists["HumanitarianScopeType"]}
-                        languageOptions={codelists["Language"]}
+                        vocabularyOptions={codeLists["HumanitarianScopeVocabulary"]}
+                        scopeOptions={codeLists["HumanitarianScopeType"]}
+                        languageOptions={codeLists["Language"]}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/classifications/country`}>Back to
@@ -218,7 +218,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: humanitarian_scope,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"humanitarian_scope": humanitarian_scope},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

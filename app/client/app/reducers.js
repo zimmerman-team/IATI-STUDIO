@@ -12,7 +12,7 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer as routing } from 'react-router-redux'
 
 import activity from './reducers/createActivity'
-import codelists from './reducers/codelists'
+import codeLists from './reducers/codeLists'
 import sidebar from './reducers/sidebar'
 
 
@@ -534,9 +534,6 @@ function notificationCenter(state=[], action) {
     }
 }
 
-import paginate from './paginate'
-import { LOCATION_CHANGE } from 'react-router-redux'
-
 // TODO: initial state from query params - 2016-05-19
 function publicVisualizationPagination(state = {
     isFetching: false,
@@ -682,7 +679,7 @@ const rootReducer = combineReducers({
     pagination,
     publisher,
     activity,
-    codelists,
+    codeLists,
     sidebar,
     apiKeyValidationForm,
     form: formReducer

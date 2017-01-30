@@ -78,10 +78,10 @@ class IdentificationForm extends PureComponent {
     }
 
     render() {
-        const {submitting, activity, handleSubmit, activityId, codelists} = this.props;
+        const {submitting, activity, handleSubmit, activityId, codeLists} = this.props;
         const blankIdentificationForm = (activityId !== 'identification');
 
-        if (blankIdentificationForm && !activity &&  !codelists["Language"]) {
+        if (blankIdentificationForm && !activity &&  !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -140,7 +140,7 @@ class IdentificationForm extends PureComponent {
                     <FieldArray
                         name="activity.title.narratives"
                         component={renderNarrativeFields}
-                        languageOptions={codelists["Language"]}
+                        languageOptions={codeLists["Language"]}
                         narrativeLabel={false}
                         textName="textTitle"
                         textLabel="Title"
@@ -173,7 +173,7 @@ function mapStateToProps(state, props) {
     return {
         submitting: state.activity.submitting,
         activity: state.activity.activity,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),
     }

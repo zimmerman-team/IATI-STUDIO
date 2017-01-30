@@ -198,8 +198,8 @@ class RecipientRegionForm extends React.Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId, data} = this.props;
-        if (!data || !codelists['Region'] || !codelists['RegionVocabulary'] || !codelists['Language']) {
+        const {codeLists, handleSubmit, submitting, activityId, data} = this.props;
+        if (!data || !codeLists['Region'] || !codeLists['RegionVocabulary'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -213,9 +213,9 @@ class RecipientRegionForm extends React.Component {
                     <FieldArray
                         name="recipient_region"
                         component={renderAdditionalRegion}
-                        regionOptions={codelists["Region"]}
-                        regionVocabularyOptions={codelists["RegionVocabulary"]}
-                        languageOptions={codelists["Language"]}
+                        regionOptions={codeLists["Region"]}
+                        regionVocabularyOptions={codeLists["RegionVocabulary"]}
+                        languageOptions={codeLists["Language"]}
                     />
                     <div className="columns small-12">
                         <Link className="button"
@@ -245,7 +245,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: recipient_region,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"recipient_region": recipient_region},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

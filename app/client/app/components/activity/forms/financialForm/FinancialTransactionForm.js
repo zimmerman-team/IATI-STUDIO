@@ -378,12 +378,12 @@ class FinancialTransactionForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!codelists["HumanitarianScopeType"] || !codelists["TransactionType"] || !codelists["OrganisationType"]
-            || !codelists["Currency"] || !codelists["Language"] || !codelists["DisbursementChannel"]
-            || !codelists["SectorVocabulary"] || !codelists["Sector"] || !codelists["Country"]
-            || !codelists["FlowType"] || !codelists["FinanceType"] || !codelists["AidType"] || !codelists["TiedStatus"]) {
+        if (!codeLists["HumanitarianScopeType"] || !codeLists["TransactionType"] || !codeLists["OrganisationType"]
+            || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["DisbursementChannel"]
+            || !codeLists["SectorVocabulary"] || !codeLists["Sector"] || !codeLists["Country"]
+            || !codeLists["FlowType"] || !codeLists["FinanceType"] || !codeLists["AidType"] || !codeLists["TiedStatus"]) {
             return <GeneralLoader/>
         }
 
@@ -397,19 +397,19 @@ class FinancialTransactionForm extends Component {
                     <FieldArray
                         name="transactions"
                         component={renderFinancialTransactionForm}
-                        humanitarianOptions={codelists["HumanitarianScopeType"]}
-                        organisationOptions={codelists["OrganisationType"]}
-                        languageOptions={codelists["Language"]}
-                        currencyOptions={codelists["Currency"]}
-                        disbursementOptions={codelists["DisbursementChannel"]}
-                        transactionOptions={codelists["TransactionType"]}
-                        countryOptions={codelists["Country"]}
-                        flowOptions={codelists["FlowType"]}
-                        financeOptions={codelists["FinanceType"]}
-                        aidOptions={codelists["AidType"]}
-                        tiedOptions={codelists["TiedStatus"]}
-                        sectorVocabularyOptions={codelists["SectorVocabulary"]}
-                        sectorOptions={codelists["Sector"]}
+                        humanitarianOptions={codeLists["HumanitarianScopeType"]}
+                        organisationOptions={codeLists["OrganisationType"]}
+                        languageOptions={codeLists["Language"]}
+                        currencyOptions={codeLists["Currency"]}
+                        disbursementOptions={codeLists["DisbursementChannel"]}
+                        transactionOptions={codeLists["TransactionType"]}
+                        countryOptions={codeLists["Country"]}
+                        flowOptions={codeLists["FlowType"]}
+                        financeOptions={codeLists["FinanceType"]}
+                        aidOptions={codeLists["AidType"]}
+                        tiedOptions={codeLists["TiedStatus"]}
+                        sectorVocabularyOptions={codeLists["SectorVocabulary"]}
+                        sectorOptions={codeLists["Sector"]}
                     />
                     <div className="columns small-12">
                         <Link className="button"
@@ -431,7 +431,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: transactions,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"transactions": transactions},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

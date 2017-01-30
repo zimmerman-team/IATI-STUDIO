@@ -71,9 +71,9 @@ class CountryBudgetForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!codelists['BudgetIdentifier'] || !codelists['BudgetIdentifierVocabulary'] || !codelists['Language']) {
+        if (!codeLists['BudgetIdentifier'] || !codeLists['BudgetIdentifierVocabulary'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -92,7 +92,7 @@ class CountryBudgetForm extends Component {
                                 name="country_budget_items.vocabulary.code"
                                 textName="country_budget_items.vocabulary.code"
                                 label="Vocabulary"
-                                selectOptions={codelists['BudgetIdentifierVocabulary']}
+                                selectOptions={codeLists['BudgetIdentifierVocabulary']}
                                 defaultOption="Select one of the following options"
                             />
                         </div>
@@ -104,7 +104,7 @@ class CountryBudgetForm extends Component {
                                 name="country_budget_items.item[code]"
                                 textName="country_budget_items.item[code]"
                                 label="Budget Item Code"
-                                selectOptions={codelists['BudgetIdentifier']}
+                                selectOptions={codeLists['BudgetIdentifier']}
                                 defaultOption="Select one of the following options"
                             />
                             <div className="columns small-6">
@@ -122,7 +122,7 @@ class CountryBudgetForm extends Component {
                                 name="country_budget_items.narratives"
                                 component={renderNarrativeFields}
                                 narrativeAddMore={false}
-                                languageOptions={codelists['Language']}
+                                languageOptions={codeLists['Language']}
                                 textName="textPolicyTitle"
                                 textLabel="Title"
                             />
@@ -155,7 +155,7 @@ function mapStateToProps(state, props) {
     return {
         data: country_budget_items,
         activity: state.activity.activity,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"country_budget_items": country_budget_items},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

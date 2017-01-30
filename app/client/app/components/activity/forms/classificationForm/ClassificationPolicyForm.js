@@ -172,9 +172,9 @@ class PolicyMakerForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!codelists['PolicyMarker'] || !codelists['PolicyMarkerVocabulary'] || !codelists['PolicySignificance'] || !codelists['Language']) {
+        if (!codeLists['PolicyMarker'] || !codeLists['PolicyMarkerVocabulary'] || !codeLists['PolicySignificance'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -189,10 +189,10 @@ class PolicyMakerForm extends Component {
                         name="policy_markers"
                         component={renderPolicy}
                         narrativeAddMore={false}
-                        languageOptions={codelists["Language"]}
-                        policyMakerOptions={codelists["PolicyMarker"]}
-                        policyVocabularyOptions={codelists["PolicyMarkerVocabulary"]}
-                        policySignificanceOptions={codelists["PolicySignificance"]}
+                        languageOptions={codeLists["Language"]}
+                        policyMakerOptions={codeLists["PolicyMarker"]}
+                        policyVocabularyOptions={codeLists["PolicyMarkerVocabulary"]}
+                        policySignificanceOptions={codeLists["PolicySignificance"]}
                         textName="textPolicyTitle"
                         textLabel="Title"
                     />
@@ -217,7 +217,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: policy_markers,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"policy_markers": policy_markers},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

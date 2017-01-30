@@ -37,7 +37,6 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
                                 selectOptions={dateTypeOptions}
                                 defaultOption="Select a type"
                             />
-                            <hr/>
                             <FieldArray
                                 name={`${activity_dates}.narratives`}
                                 component={renderNarrativeFields}
@@ -145,10 +144,10 @@ class BasicInformationDateForm extends Component {
     }
 
     render() {
-        const {codelists, submitting, handleSubmit, activity, activityId} = this.props;
+        const {codeLists, submitting, handleSubmit, activity, activityId} = this.props;
 
 
-        if (!activity || !codelists["ActivityDateType"] || !codelists["Language"]) {
+        if (!activity || !codeLists["ActivityDateType"] || !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -162,8 +161,8 @@ class BasicInformationDateForm extends Component {
                     <FieldArray
                         name="activity_dates"
                         component={renderDate}
-                        languageOptions={codelists["Language"]}
-                        dateTypeOptions={codelists["ActivityDateType"]}
+                        languageOptions={codeLists["Language"]}
+                        dateTypeOptions={codeLists["ActivityDateType"]}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/basic-info/status`}>Back to
@@ -186,7 +185,7 @@ function mapStateToProps(state, props) {
     return {
         data: activity_dates,
         activity: state.activity.activity,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"activity_dates": activity_dates},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

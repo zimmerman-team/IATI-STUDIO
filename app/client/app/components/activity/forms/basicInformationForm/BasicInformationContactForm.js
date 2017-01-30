@@ -184,9 +184,9 @@ class BasicInformationContactForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, data, codelists, activityId, activity} = this.props;
+        const {handleSubmit, submitting, data, codeLists, activityId, activity} = this.props;
 
-        if (!activity || !codelists["ContactType"] || !codelists["Language"]) {
+        if (!activity || !codeLists["ContactType"] || !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -203,8 +203,8 @@ class BasicInformationContactForm extends Component {
                                 <FieldArray
                                     name="contact_info"
                                     component={renderContactInfo}
-                                    languageOptions={codelists["Language"]}
-                                    contactTypes={codelists["ContactType"]}
+                                    languageOptions={codeLists["Language"]}
+                                    contactTypes={codeLists["ContactType"]}
                                 />
                             </div>
                             <div className="columns small-12">
@@ -230,7 +230,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: contact_info,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         activity: state.activity.activity,
         initialValues: {"contact_info": contact_info},  // populate initial values for redux form
         publisher: publisherSelector(state),

@@ -244,7 +244,7 @@ class ChartListFilter extends React.Component {
 
         return (
             <SearchableCheckboxList onSearch={this.onSearch}>
-                <Orderable className="order-by" orderables={["name"]} active={"name"} active={this.props.orderBy} reverse={this.props.reverse}/>
+                <Orderable className="order-by" orderables={["name"]} active={this.props.orderBy} reverse={this.props.reverse}/>
                 { !_.isEmpty(checkboxes) ? checkboxes : <p>No data found</p> }
             </SearchableCheckboxList>
         )

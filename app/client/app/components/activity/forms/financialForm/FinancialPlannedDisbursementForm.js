@@ -219,9 +219,9 @@ class FinancialPlannedDisbursement extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!codelists["DisbursementChannel"] || !codelists["Currency"] || !codelists["Language"] || !codelists["OrganisationType"]) {
+        if (!codeLists["DisbursementChannel"] || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["OrganisationType"]) {
             return <GeneralLoader/>
         }
 
@@ -235,10 +235,10 @@ class FinancialPlannedDisbursement extends Component {
                     <FieldArray
                         name="planned_disbursements"
                         component={renderFinancialPlannedDisbursementForm}
-                        currencyOptions={codelists["Currency"]}
-                        languageOptions={codelists["Language"]}
-                        disbursementChannelOptions={codelists["DisbursementChannel"]}
-                        organisationOptions={codelists["OrganisationType"]}
+                        currencyOptions={codeLists["Currency"]}
+                        languageOptions={codeLists["Language"]}
+                        disbursementChannelOptions={codeLists["DisbursementChannel"]}
+                        organisationOptions={codeLists["OrganisationType"]}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/financial/budget`}>
@@ -269,7 +269,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: planned_disbursements,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"planned_disbursements": planned_disbursements},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

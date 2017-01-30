@@ -54,10 +54,10 @@ class ClassificationSelectForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId } = this.props;
+        const {codeLists, handleSubmit, submitting, activityId } = this.props;
 
-        if (!codelists['CollaborationType'] || !codelists['FlowType'] || !codelists['FinanceType']
-                || !codelists['AidType'] || !codelists['TiedStatus']) {
+        if (!codeLists['CollaborationType'] || !codeLists['FlowType'] || !codeLists['FinanceType']
+                || !codeLists['AidType'] || !codeLists['TiedStatus']) {
             return <GeneralLoader />
         }
 
@@ -73,35 +73,35 @@ class ClassificationSelectForm extends Component {
                             name="activity.collaboration_type[code]"
                             textName="activity.collaboration_type[code]"
                             label='Collaboration Type'
-                            selectOptions={codelists['CollaborationType']}/>
+                            selectOptions={codeLists['CollaborationType']}/>
                     </div>
                     <div className="field-list">
                         <RenderSingleSelect
                             name="activity.default_flow_type[code]"
                             textName="activity.default_flow_type[code]"
                             label='Flow Type'
-                            selectOptions={codelists['FlowType']}/>
+                            selectOptions={codeLists['FlowType']}/>
                     </div>
                     <div className="field-list">
                         <RenderSingleSelect
                                 name="activity.default_finance_type[code]"
                                 textName="activity.default_finance_type[code]"
                                 label='Default Finance Type'
-                                selectOptions={codelists['FinanceType']}/>
+                                selectOptions={codeLists['FinanceType']}/>
                     </div>
                     <div className="field-list">
                         <RenderSingleSelect
                             name="activity.default_aid_type[code]"
                             textName="activity.default_aid_type[code]"
                             label='Default Aid Type'
-                            selectOptions={codelists['AidType']}/>
+                            selectOptions={codeLists['AidType']}/>
                     </div>
                     <div className="field-list">
                         <RenderSingleSelect
                             name="activity.default_tied_status[code]"
                             textName="activity.default_tied_status[code]"
                             label='Default Tied Type'
-                            selectOptions={codelists['TiedStatus']}/>
+                            selectOptions={codeLists['TiedStatus']}/>
                     </div>
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/classifications/policy`}>Back to policy</Link>
@@ -131,7 +131,7 @@ function mapStateToProps(state, props) {
         submitting: state.activity.submitting,
         activity: state.activity.activity,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         publisher: publisherSelector(state),
     }
 }

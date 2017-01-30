@@ -73,9 +73,9 @@ class PerformanceConditionForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, codelists, activityId} = this.props;
+        const {handleSubmit, submitting, codeLists, activityId} = this.props;
 
-        if (!codelists.ConditionType) {
+        if (!codeLists.ConditionType) {
             return <GeneralLoader/>
         }
 
@@ -103,7 +103,7 @@ class PerformanceConditionForm extends Component {
                                 name="conditions.type"
                                 textName="conditions.type"
                                 label="Condition Type"
-                                selectOptions={codelists.ConditionType}
+                                selectOptions={codeLists.ConditionType}
                                 defaultOption="Select one of the following options"
                             />
                             */}
@@ -132,7 +132,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: conditions,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"conditions": conditions},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

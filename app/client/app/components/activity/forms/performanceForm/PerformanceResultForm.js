@@ -170,9 +170,9 @@ class PerformanceResultForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, codelists, activityId} = this.props;
+        const {handleSubmit, submitting, codeLists, activityId} = this.props;
 
-        if (!codelists.ResultType || !codelists.Language || !codelists.IndicatorMeasure || !codelists.IndicatorVocabulary) {
+        if (!codeLists.ResultType || !codeLists.Language || !codeLists.IndicatorMeasure || !codeLists.IndicatorVocabulary) {
             return <GeneralLoader/>
         }
 
@@ -186,10 +186,10 @@ class PerformanceResultForm extends Component {
                     <FieldArray
                         name="results"
                         component={renderResult}
-                        resultOptions={codelists.ResultType}
-                        languageOptions={codelists.Language}
-                        indicatorMeasureOptions={codelists.IndicatorMeasure}
-                        indicatorVocabularyOptions={codelists.IndicatorVocabulary}
+                        resultOptions={codeLists.ResultType}
+                        languageOptions={codeLists.Language}
+                        indicatorMeasureOptions={codeLists.IndicatorMeasure}
+                        indicatorVocabularyOptions={codeLists.IndicatorVocabulary}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/performance/condition`}>
@@ -220,7 +220,7 @@ function mapStateToProps(state, props) {
     return {
         data: results,
         activity: state.activity.activity,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"results": results},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

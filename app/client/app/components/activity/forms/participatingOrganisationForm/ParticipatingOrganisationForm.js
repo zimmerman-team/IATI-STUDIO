@@ -194,9 +194,9 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, data, codelists, activityId} = this.props;
+        const {handleSubmit, submitting, data, codeLists, activityId} = this.props;
 
-        if (!data || !codelists.OrganisationRole || !codelists.OrganisationType || !codelists.Language) {
+        if (!data || !codeLists.OrganisationRole || !codeLists.OrganisationType || !codeLists.Language) {
             return <GeneralLoader/>
         }
 
@@ -215,9 +215,9 @@ class ParticipatingOrganisationForm extends Component {
                             <FieldArray
                                 name="participating_organisations"
                                 component={renderParticipatingOrganisation}
-                                roleOptions={codelists["OrganisationRole"]}
-                                typeOptions={codelists["OrganisationType"]}
-                                languageOptions={codelists["Language"]}
+                                roleOptions={codeLists["OrganisationRole"]}
+                                typeOptions={codeLists["OrganisationType"]}
+                                languageOptions={codeLists["Language"]}
                             />
                         </div>
                     </div>

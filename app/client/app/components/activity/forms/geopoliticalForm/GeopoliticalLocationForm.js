@@ -363,9 +363,9 @@ class LocationForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
-        if (!codelists['GeographicLocationReach'] || !codelists['GeographicVocabulary'] || !codelists['GeographicExactness']
-            || !codelists['GeographicLocationClass'] || !codelists['Language']) {
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        if (!codeLists['GeographicLocationReach'] || !codeLists['GeographicVocabulary'] || !codeLists['GeographicExactness']
+            || !codeLists['GeographicLocationClass'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -379,11 +379,11 @@ class LocationForm extends Component {
                     <FieldArray
                         name="locations"
                         component={renderLocation}
-                        geographicLocationReachOptions={codelists["GeographicLocationReach"]}
-                        geographicVocabularyOptions={codelists["GeographicVocabulary"]}
-                        geographicExactnessOptions={codelists["GeographicExactness"]}
-                        geographicLocationClassOptions={codelists["GeographicLocationClass"]}
-                        languageOptions={codelists["Language"]}
+                        geographicLocationReachOptions={codeLists["GeographicLocationReach"]}
+                        geographicVocabularyOptions={codeLists["GeographicVocabulary"]}
+                        geographicExactnessOptions={codeLists["GeographicExactness"]}
+                        geographicLocationClassOptions={codeLists["GeographicLocationClass"]}
+                        languageOptions={codeLists["Language"]}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/region`}>Back to region</Link>
@@ -415,7 +415,7 @@ function mapStateToProps(state, props) {
     return {
         data: formLocations,
         activity: state.activity.activity,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"locations": formLocations},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

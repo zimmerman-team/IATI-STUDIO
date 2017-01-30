@@ -182,8 +182,8 @@ class DocumentLinkForm extends Component {
 
 
     render() {
-        const {submitting, handleSubmit, codelists, activityId} = this.props;
-        if (!codelists['DocumentCategory'] || !codelists['FileFormat'] || !codelists['Language']) {
+        const {submitting, handleSubmit, codeLists, activityId} = this.props;
+        if (!codeLists['DocumentCategory'] || !codeLists['FileFormat'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -200,8 +200,8 @@ class DocumentLinkForm extends Component {
                     <FieldArray
                         name="document_links"
                         component={renderDocumentLink}
-                        languageOptions={codelists["Language"]}
-                        fileFormatOptions={codelists["FileFormat"]}
+                        languageOptions={codeLists["Language"]}
+                        fileFormatOptions={codeLists["FileFormat"]}
                     />
                     <div className="row no-margin">
                         <div className="columns small-12">
@@ -223,7 +223,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: document_links,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"document_links": document_links},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

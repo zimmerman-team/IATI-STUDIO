@@ -52,9 +52,9 @@ class BasicInformationStatusForm extends Component {
     }
 
   render() {
-    const {codelists, handleSubmit, submitting, activityId} = this.props;
+    const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-    if (!codelists["ActivityStatus"]) {
+    if (!codeLists["ActivityStatus"]) {
       return <GeneralLoader/>
     }
 
@@ -73,7 +73,7 @@ class BasicInformationStatusForm extends Component {
                   textName="activity.activity_status.code"
                   component={renderSelectField}
                   label="Status"
-                  selectOptions={codelists["ActivityStatus"]}
+                  selectOptions={codeLists["ActivityStatus"]}
                   defaultOption="Select status"
                 />
               </div>
@@ -98,7 +98,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: status,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         activity: state.activity.activity,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),

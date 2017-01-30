@@ -161,9 +161,9 @@ class RecipientCountryForm extends Component {
     }
 
     render() {
-        const {data, codelists, handleSubmit, submitting, activityId} = this.props;
+        const {data, codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!data || !codelists['Language'] || !codelists['Country']) {
+        if (!data || !codeLists['Language'] || !codeLists['Country']) {
             return <GeneralLoader />
         }
 
@@ -177,8 +177,8 @@ class RecipientCountryForm extends Component {
                     <FieldArray
                         name="recipient_countries"
                         component={renderRecipientCountry}
-                        languageOptions={codelists["Language"]}
-                        countryOptions={codelists["Country"]}
+                        languageOptions={codeLists["Language"]}
+                        countryOptions={codeLists["Country"]}
                     />
                     <div className="columns small-12">
                         <Link className="button"
@@ -207,7 +207,7 @@ function mapStateToProps(state) {
 
     return {
         data: recipient_countries,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         activity: state.activity,
         initialValues: {"recipient_countries": recipient_countries},  // populate initial values for redux form
         publisher: publisherSelector(state),

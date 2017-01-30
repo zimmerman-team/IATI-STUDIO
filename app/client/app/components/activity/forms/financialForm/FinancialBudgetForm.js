@@ -203,9 +203,9 @@ class FinancialBudgetForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activity, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activity, activityId} = this.props;
 
-        if (!activity || !codelists["BudgetType"] || !codelists["BudgetStatus"] || !codelists["Currency"]) {
+        if (!activity || !codeLists["BudgetType"] || !codeLists["BudgetStatus"] || !codeLists["Currency"]) {
             return <GeneralLoader/>
         }
 
@@ -219,9 +219,9 @@ class FinancialBudgetForm extends Component {
                     <FieldArray
                         name="budgets"
                         component={renderFinancialBudgetForm}
-                        budgetTypeOptions={codelists["BudgetType"]}
-                        budgetStatusOptions={codelists["BudgetStatus"]}
-                        currencyOptions={codelists["Currency"]}
+                        budgetTypeOptions={codeLists["BudgetType"]}
+                        budgetStatusOptions={codeLists["BudgetStatus"]}
+                        currencyOptions={codeLists["Currency"]}
                     />
                     <div className="columns small-12">
                         <Link className="button"
@@ -245,7 +245,7 @@ function mapStateToProps(state, props) {
     return {
         data: budgets,
         activity: state.activity.activity,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"budgets": budgets},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

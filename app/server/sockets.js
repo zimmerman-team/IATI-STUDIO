@@ -177,11 +177,5 @@ module.exports = function(app) {
         socket.on('Activity.createPerformanceResult', Activity.createPerformanceResult.bind(null, user));
         socket.on('Activity.updatePerformanceResult', Activity.updatePerformanceResult.bind(null, user));
         socket.on('Activity.deletePerformanceResult', Activity.deletePerformanceResult.bind(null, user));
-
-        // Capital comment Form CRUD
-        socket.on('Activity.getCapital', Activity.getCapital.bind(null, user));
-        socket.on('Activity.createCapital', Activity.createCapital.bind(null, user));
-        socket.on('Activity.updateCapital', Activity.updateCapital.bind(null, user));
-        socket.on('Activity.deleteCapital', Activity.deleteCapital.bind(null, user));
     })
 };

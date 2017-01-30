@@ -91,7 +91,7 @@ export function updateActivity(publisherId, activity) {
 
     if (filterActivity.legacy_data && filterActivity.legacy_data.length > 0) {
         filterActivity.legacy_data = filterActivity.legacy_data.map(function (legacy_data) {
-            legacy_data.activity = activity.id
+            legacy_data.activity = activity.id;
             return legacy_data;
         })
     }
@@ -1426,97 +1426,6 @@ export function deletePerformanceResult(publisherId, activityId, id) {
         [CALL_API]: {
             types: [DELETE_PERFORMANCE_RESULT_REQUEST, DELETE_PERFORMANCE_RESULT_SUCCESS, DELETE_PERFORMANCE_RESULT_FAILURE],
             endpoint: 'Activity.deletePerformanceResult',
-            payload: [publisherId, activityId, id]
-        }
-    }
-}
-
-/*
- * Get performance comment (Performance comment form)
- */
-export const GET_PERFORMANCE_COMMENT_REQUEST = 'GET_PERFORMANCE_COMMENT_REQUEST';
-export const GET_PERFORMANCE_COMMENT_SUCCESS = 'GET_PERFORMANCE_COMMENT_SUCCESS';
-export const GET_PERFORMANCE_COMMENT_FAILURE = 'GET_PERFORMANCE_COMMENT_FAILURE';
-
-export function getPerformanceComment(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [GET_PERFORMANCE_COMMENT_REQUEST, GET_PERFORMANCE_COMMENT_SUCCESS, GET_PERFORMANCE_COMMENT_FAILURE],
-            endpoint: 'Activity.getPerformanceComment',
-            payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.legacyData),
-        }
-    }
-}
-
-
-/*
- * Get financial capital  (Financial capital form)
- */
-export const GET_FINANCIAL_CAPITAL_REQUEST = 'GET_FINANCIAL_CAPITAL_REQUEST';
-export const GET_FINANCIAL_CAPITAL_SUCCESS = 'GET_FINANCIAL_CAPITAL_SUCCESS';
-export const GET_FINANCIAL_CAPITAL_FAILURE = 'GET_FINANCIAL_CAPITAL_FAILURE';
-
-export function getCapital(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [GET_FINANCIAL_CAPITAL_REQUEST, GET_FINANCIAL_CAPITAL_SUCCESS, GET_FINANCIAL_CAPITAL_FAILURE],
-            endpoint: 'Activity.getCapital',
-            payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.capital),
-        }
-    }
-}
-
-
-/*
- * Create financial capital  (Financial capital form)
- */
-export const CREATE_FINANCIAL_CAPITAL_REQUEST = 'CREATE_FINANCIAL_CAPITAL_REQUEST';
-export const CREATE_FINANCIAL_CAPITAL_SUCCESS = 'CREATE_FINANCIAL_CAPITAL_SUCCESS';
-export const CREATE_FINANCIAL_CAPITAL_FAILURE = 'CREATE_FINANCIAL_CAPITAL_FAILURE';
-export function createCapital(publisherId, activityId, capitalData) {
-    return {
-        [CALL_API]: {
-            types: [CREATE_FINANCIAL_CAPITAL_REQUEST, CREATE_FINANCIAL_CAPITAL_SUCCESS, CREATE_FINANCIAL_CAPITAL_FAILURE],
-            endpoint: 'Activity.createCapital',
-            payload: [publisherId, activityId, capitalData],
-            schema: Schemas.capital,
-        }
-    }
-}
-
-/*
- * Update financial capital  (Financial capital form)
- */
-export const UPDATE_FINANCIAL_CAPITAL_REQUEST = 'UPDATE_FINANCIAL_CAPITAL_REQUEST';
-export const UPDATE_FINANCIAL_CAPITAL_SUCCESS = 'UPDATE_FINANCIAL_CAPITAL_SUCCESS';
-export const UPDATE_FINANCIAL_CAPITAL_FAILURE = 'UPDATE_FINANCIAL_CAPITAL_FAILURE';
-export function updateCapital(publisherId, activityId, id, capitalData) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [UPDATE_FINANCIAL_CAPITAL_REQUEST, UPDATE_FINANCIAL_CAPITAL_SUCCESS, UPDATE_FINANCIAL_CAPITAL_FAILURE],
-            endpoint: 'Activity.updatePerformanceComment',
-            payload: [publisherId, activityId, id, capitalData],
-            schema: Schemas.capital,
-        }
-    }
-}
-
-
-/*
- * Delete financial capital  (Financial capital form)
- */
-export const DELETE_FINANCIAL_CAPITAL_REQUEST = 'DELETE_FINANCIAL_CAPITAL_REQUEST';
-export const DELETE_FINANCIAL_CAPITAL_SUCCESS = 'DELETE_FINANCIAL_CAPITAL_SUCCESS';
-export const DELETE_FINANCIAL_CAPITAL_FAILURE = 'DELETE_FINANCIAL_CAPITAL_FAILURE';
-export function deleteCapital(publisherId, activityId, id) {
-    return {
-        id,
-        [CALL_API]: {
-            types: [DELETE_FINANCIAL_CAPITAL_REQUEST, DELETE_FINANCIAL_CAPITAL_SUCCESS, DELETE_FINANCIAL_CAPITAL_FAILURE],
-            endpoint: 'Activity.deletePerformanceComment',
             payload: [publisherId, activityId, id]
         }
     }

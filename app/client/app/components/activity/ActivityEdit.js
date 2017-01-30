@@ -132,10 +132,10 @@ function mapStateToProps(state, props) {
 
     return {
         navState: state.navState,
-        codelists: state.codelists,
-        activityId,
         activity: currentActivity,
         publisher: publisherSelector(state),
+        codeLists: state.codeLists,
+        activityId: props.params.activityId,
         tab: props.params.tab,
         subTab: props.params.subTab,
 

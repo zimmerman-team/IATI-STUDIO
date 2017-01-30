@@ -202,9 +202,9 @@ class SectorForm extends Component {
     }
 
     render() {
-        const {codelists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!codelists['SectorVocabulary'] || !codelists['Sector'] || !codelists['Language']) {
+        if (!codeLists['SectorVocabulary'] || !codeLists['Sector'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -218,9 +218,9 @@ class SectorForm extends Component {
                     <FieldArray
                         name="sector"
                         component={renderSector}
-                        languageOptions={codelists["Language"]}
-                        sectorVocabularyOptions={codelists["SectorVocabulary"]}
-                        sectorOptions={codelists["Sector"]}
+                        languageOptions={codeLists["Language"]}
+                        sectorVocabularyOptions={codeLists["SectorVocabulary"]}
+                        sectorOptions={codeLists["Sector"]}
                     />
                     <div className="columns small-12">
                         <Link className="button"
@@ -249,7 +249,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: sector,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"sector": sector},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

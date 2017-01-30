@@ -36,7 +36,6 @@ const renderDescription = ({fields, languageOptions, descriptionTypes, meta: {to
                                 selectOptions={descriptionTypes}
                                 defaultOption="Select one of the following options"
                             />
-                            <hr/>
                             <FieldArray
                                 name={`${description}.narratives`}
                                 component={renderNarrativeFields}
@@ -165,9 +164,9 @@ class BasicInformationDescriptionForm extends Component {
     }
 
     render() {
-        const {data, codelists, handleSubmit, submitting, activityId} = this.props;
+        const {data, codeLists, handleSubmit, submitting, activityId} = this.props;
 
-        if (!data || !codelists.DescriptionType || !codelists.Language) {
+        if (!data || !codeLists.DescriptionType || !codeLists.Language) {
             return <GeneralLoader/>
         }
 
@@ -182,8 +181,8 @@ class BasicInformationDescriptionForm extends Component {
                         <FieldArray
                             name="descriptions"
                             component={renderDescription}
-                            languageOptions={codelists["Language"]}
-                            descriptionTypes={codelists["DescriptionType"]}
+                            languageOptions={codeLists["Language"]}
+                            descriptionTypes={codeLists["DescriptionType"]}
                         />
 
                         <div className="columns small-12">
@@ -213,7 +212,7 @@ function mapStateToProps(state, props) {
     return {
         // initialValues: descriptions.length ? { descriptions } : null,
         data: descriptions,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"descriptions": descriptions},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,

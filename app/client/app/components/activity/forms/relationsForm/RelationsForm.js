@@ -137,9 +137,9 @@ class RelationsForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, previousPage, codelists, activityId} = this.props;
+        const {handleSubmit, submitting, previousPage, codeLists, activityId} = this.props;
 
-        if (!codelists['RelatedActivityType']) {
+        if (!codeLists['RelatedActivityType']) {
             return <GeneralLoader />
         }
 
@@ -159,7 +159,7 @@ class RelationsForm extends Component {
                     <FieldArray
                         name="related_activities"
                         component={renderRelation}
-                        relatedActivityTypeOptions={codelists["RelatedActivityType"]}
+                        relatedActivityTypeOptions={codeLists["RelatedActivityType"]}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/document-link/document-link`}>Back
@@ -181,7 +181,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: related_activities,
-        codelists: state.codelists,
+        codeLists: state.codeLists,
         initialValues: {"related_activities": related_activities},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
