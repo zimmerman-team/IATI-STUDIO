@@ -16,6 +16,7 @@ var ActivityAPI = {
     },
 
     publish: function(user, publisherId, datasetId, res) {
+
         // 1. get an XML export from OIPA
         console.log('called publish...', publisherId);
         oipaMethods.getActivityXMLByPublisher(user, publisherId)

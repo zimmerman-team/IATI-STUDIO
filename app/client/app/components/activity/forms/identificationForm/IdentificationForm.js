@@ -4,7 +4,7 @@ import {withRouter} from 'react-router'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {renderField, renderSelectField, renderNarrativeFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {getActivity, updateActivity} from '../../../../actions/activity'
+import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import ActivityTooltip from '../../ActivityTooltip'
 
@@ -182,6 +182,7 @@ function mapStateToProps(state, props) {
 IdentificationForm = connect(mapStateToProps, {
     getActivity,
     updateActivity,
+    getCodeListItems
 })(IdentificationForm);
 
 export default withRouter(IdentificationForm)

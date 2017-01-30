@@ -592,6 +592,8 @@ function activities(state={}, action) {
     switch(action.type) {
         case ActivityActionTypes.DELETE_ACTIVITY_SUCCESS:
             return _.omit(state, action.id)
+        case ActionTypes.REMOVE_API_KEY_SUCCESS:
+            return []
         default:
             if (action.response && action.response.entities && action.response.entities.activity) {
                 return _.merge({}, state, action.response.entities.activity)
@@ -623,13 +625,16 @@ function errorMessage(state = null, action) {
 
 function user(state={}, action) {
     switch(action.type) {
+
+        case ActionTypes.UPDATE_USER_UI_SUCCESS:
+            return action.response
+        case ActionTypes.UPDATE_USER_PROFILE_SUCCESS:
+            return action.response
+
         case ActionTypes.VERIFY_API_KEY_SUCCESS:
             return {
                 ...state,
-                oipaUser: {
-                    ...state.oipaUser,
-                    is_validated: true
-                },
+                oipaUser: action.response
             }
         case ActionTypes.REMOVE_API_KEY_SUCCESS:
             return {
@@ -639,11 +644,6 @@ function user(state={}, action) {
                     is_validated: false,
                 }
             }
-
-        case ActionTypes.UPDATE_USER_UI_SUCCESS:
-            return action.response
-        case ActionTypes.UPDATE_USER_PROFILE_SUCCESS:
-            return action.response
         case ActionTypes.GET_OIPA_USER_SUCCESS:
             return {
                 ...state,
