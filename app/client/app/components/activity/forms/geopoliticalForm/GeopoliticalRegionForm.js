@@ -73,6 +73,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                                 />
                             </div>
                         </div>
+                        {/* @TODO uncomment when issue #949 is fixed
                         <div className="row no-margin">
                             <FieldArray
                                 name={`${recipientRegion}.narratives`}
@@ -80,6 +81,7 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                                 languageOptions={languageOptions}
                             />
                         </div>
+                        */}
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More

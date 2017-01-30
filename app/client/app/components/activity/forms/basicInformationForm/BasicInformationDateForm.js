@@ -37,6 +37,7 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
                                 selectOptions={dateTypeOptions}
                                 defaultOption="Select a type"
                             />
+                            {/* @TODO uncomment when issue #949 is fixed
                             <FieldArray
                                 name={`${activity_dates}.narratives`}
                                 component={renderNarrativeFields}
@@ -44,6 +45,7 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
                                 textName="textTitle"
                                 textLabel="Text"
                             />
+                            */}
                         </div>
                     </div>
                     <div className="columns">

@@ -103,6 +103,7 @@ const renderFinancialTransactionForm = ({
                                     defaultOption="Select one of the following options"
                                 />
                             </div>
+                            {/*
                             <div className="row no-margin">
                                 <FieldArray
                                     name={`${transaction}transaction`}
@@ -113,6 +114,7 @@ const renderFinancialTransactionForm = ({
                                     narrativeLabel="Description"
                                 />
                             </div>
+                            */}
                             <div className="row no-margin">
                                 <FieldArray
                                     name={`${transaction}provider_organisation`}
@@ -154,7 +156,7 @@ const renderFinancialTransactionForm = ({
                                     }
                                 </div>
                             </div>
-                            {/*
+                            {/* @TODO uncomment when issue #949 is fixed
                             <FieldArray
                                 name={`${transaction}.sector`}
                                 textName={`${transaction}.sector`}
@@ -182,6 +184,7 @@ const renderFinancialTransactionForm = ({
                                     textLabel="Sector"
                                 />
                             </div>
+                            {/* @TODO uncomment when issue #949 is fixed
                             <div className="row no-margin">
                                 <FieldArray
                                     name={`${transaction}description.narratives`}
@@ -192,6 +195,7 @@ const renderFinancialTransactionForm = ({
                                     narrativeLabel="Description"
                                 />
                             </div>
+                            */}
                             <RenderSingleSelect
                                 name={`${transaction}flow_type.code`}
                                 textName={`${transaction}flow_type.code`}

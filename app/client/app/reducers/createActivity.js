@@ -33,7 +33,6 @@ function activity(state = initialState, action) {
 
         case ActionTypes.CREATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_BUDGET_SUCCESS:
-        case ActionTypes.CREATE_ACTIVITY_SUCCESS:
         case ActionTypes.CREATE_DESCRIPTION_SUCCESS:
         case ActionTypes.UPDATE_DESCRIPTION_SUCCESS:
         case ActionTypes.CREATE_DATE_SUCCESS:
@@ -62,6 +61,8 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_PERFORMANCE_CONDITION_SUCCESS:
         case ActionTypes.CREATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_TRANSACTION_SUCCESS:
+        case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
+        case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
             return _.merge({}, state, action.response.entities)
 
@@ -174,9 +175,8 @@ function activity(state = initialState, action) {
                 ...state.entities,
                 'activity': {},
             }
-
-        case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
-        case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
+        case ActionTypes.CREATE_ACTIVITY_SUCCESS:
+            // @TODO clearing state all activity data, so that next form doesn't auto populate
             return {
                 ...state,
                 'activity': {},
@@ -195,7 +195,6 @@ function activity(state = initialState, action) {
                 'participating_organisations': {},
                 'document_links': {},
             };
-        // @TODO clearing state all activity data, so that next form doesn't auto populate
         default:
             return state
     }

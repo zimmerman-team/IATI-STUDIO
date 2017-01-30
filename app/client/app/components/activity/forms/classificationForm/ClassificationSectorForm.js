@@ -72,6 +72,7 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                                 </div>
                             </div>
                         </div>
+                        {/* @TODO uncomment when issue #949 is fixed
                         <div className="row no-margin">
                             <FieldArray
                                 name={`${sector}.narratives`}
@@ -79,6 +80,7 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                                 languageOptions={languageOptions}
                             />
                         </div>
+                        */}
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More

@@ -45,6 +45,7 @@ const renderRecipientCountry = ({fields, languageOptions, countryOptions, meta: 
                                 />
                             </div>
                         </div>
+                        {/* @TODO uncomment when issue #949 is fixed
                         <div className="row no-margin">
                             <FieldArray
                                 name={`${recipientCountry}.narratives`}
@@ -54,6 +55,7 @@ const renderRecipientCountry = ({fields, languageOptions, countryOptions, meta: 
                                 textLabel="Title"
                             />
                         </div>
+                        */}
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More

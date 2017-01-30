@@ -61,6 +61,7 @@ const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, l
                                 />
                             </div>
                         </div>
+                        {/* @TODO uncomment when issue #949 is fixed
                         <div className="row no-margin">
                             <FieldArray
                                 name={`${humanitarianScope}.narratives`}
@@ -68,6 +69,7 @@ const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, l
                                 languageOptions={languageOptions}
                             />
                         </div>
+                        */}
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
