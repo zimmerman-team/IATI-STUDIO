@@ -1341,7 +1341,7 @@ export function updatePerformanceCondition(publisherId, activityId, id, conditio
         [CALL_API]: {
             types: [UPDATE_PERFORMANCE_CONDITION_REQUEST, UPDATE_PERFORMANCE_CONDITION_SUCCESS, UPDATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.updatePerformanceCondition',
-            payload: [ publisherId, activityId, id, JSON.stringify(conditionData) ],
+            payload: [ publisherId, activityId, id, conditionData ],
             schema: Schemas.condition,
         }
     }

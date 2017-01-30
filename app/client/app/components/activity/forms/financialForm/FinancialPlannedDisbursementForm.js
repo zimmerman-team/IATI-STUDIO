@@ -35,7 +35,7 @@ const renderFinancialPlannedDisbursementForm = ({
                                     name={`${plannedDisbursement}type.code`}
                                     textName={`${plannedDisbursement}type.code`}
                                     label="Type"
-                                    selectOptions={disbursementChannelOptions}
+                                    selectOptions={[{code: '1', name: 'Original'}, {code: '2', name: 'Revised'}]}
                                     defaultOption="Select one of the following options"
                                 />
                         }
@@ -103,7 +103,7 @@ const renderFinancialPlannedDisbursementForm = ({
                             languageOptions={languageOptions}
                             organisationOptions={organisationOptions}
                             mainLabel="Provider org"
-                            activityKey="provider_activity_id"
+                            activityKey="provider_activity"
                             textLabel="Title"
                         />
                     </div>
@@ -115,7 +115,7 @@ const renderFinancialPlannedDisbursementForm = ({
                             languageOptions={languageOptions}
                             organisationOptions={organisationOptions}
                             mainLabel="Receiver org"
-                            activityKey="receiver_activity_id"
+                            activityKey="receiver_activity"
                             textLabel="Title"
                         />
                     </div>
