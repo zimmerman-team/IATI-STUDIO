@@ -665,7 +665,8 @@ const pagination = combineReducers({
       ActivityActionTypes.GET_ACTIVITIES_SUCCESS,
       ActivityActionTypes.GET_ACTIVITIES_FAILURE,
     ]
-  })
+  }),
+  publicVisualizationPagination,
 })
 
 const rootReducer = combineReducers({
