@@ -71,6 +71,8 @@ module.exports = function(app) {
         // TODO: different url - 2017-01-13
         socket.on('Activity.publish', Activity.publish.bind(null, user));
         socket.on('Activity.markReadyToPublish', Activity.markReadyToPublish.bind(null, user));
+        socket.on('Activity.getModified', Activity.getModified.bind(null, user));
+        socket.on('Activity.getReadyToPublish', Activity.getReadyToPublish.bind(null, user));
 
         socket.on('Activity.getAll', Activity.getAll.bind(null, user));
         socket.on('Activity.get', Activity.get.bind(null, user));

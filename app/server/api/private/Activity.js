@@ -60,8 +60,28 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+    getModified: function(user, publisherId, res) {
+            return oipaMethods.getActivities(user, publisherId, {
+                modified_ready_to_publish: true,
+            })
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getReadyToPublish: function(user, publisherId, res) {
+            return oipaMethods.getActivities(user, publisherId, {
+                ready_to_publish: true,
+            })
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
     getAll: function(user, publisherId, searchValue, page=1, res) {
-        return oipaMethods.getActivities(user, publisherId, searchValue, page)
+            return oipaMethods.getActivities(user, publisherId, {
+                q: searchValue,
+                page: page,
+            })
             .then(result => res(null, result))
             .catch(error => res(error));
     },

@@ -85,12 +85,11 @@ export const markReadyToPublish = function (user, publisherId, activityId) {
     return oipaPost(req_options)
 };
 
-export const getActivities = function (user, publisherId, searchValue, page=1) {
+export const getActivities = function (user, publisherId, getArgs={}) {
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.activities_url(publisherId) + '?' + querystring.stringify({
-            page,
-            q: searchValue,
+            ...getArgs,
         }),
         headers: {
             'Authorization': 'Token ' + user.oipaToken

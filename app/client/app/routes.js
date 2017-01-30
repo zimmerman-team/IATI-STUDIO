@@ -19,7 +19,7 @@ import PublisherSettings from "./components/publisher/PublisherSettings"
 import ActivityList from "./components/activity/ActivityList"
 import ActivityEdit from "./components/activity/ActivityEdit"
 import OrgSettings from "./components/publisher/OrgSettings"
-import DatasetsSettings from "./components/publisher/DatasetsSettings"
+import DatasetsSettings from "./containers/publisher/DatasetsSettings"
 import TeamManagement from "./components/publisher/TeamManagement"
 
 import {ErrorPage} from "./containers/ErrorPage.react.jsx";

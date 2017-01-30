@@ -28,6 +28,38 @@ export function fetchActivities(publisherId, searchValue, nextPage) {
     }
 }
 
+export const GET_MODIFIED_ACTIVITIES_REQUEST = 'GET_MODIFIED_ACTIVITIES_REQUEST';
+export const GET_MODIFIED_ACTIVITIES_SUCCESS = 'GET_MODIFIED_ACTIVITIES_SUCCESS';
+export const GET_MODIFIED_ACTIVITIES_FAILURE = 'GET_MODIFIED_ACTIVITIES_FAILURE';
+export function getModifiedActivities(publisherId) {
+    return {
+        [CALL_API]: {
+            types: [GET_MODIFIED_ACTIVITIES_REQUEST, GET_MODIFIED_ACTIVITIES_SUCCESS, GET_MODIFIED_ACTIVITIES_FAILURE],
+            endpoint: 'Activity.getModified',
+            // schema: {
+            //     results: arrayOf(Schemas.activity),
+            // },
+            payload: [ publisherId ]
+        }
+    }
+}
+
+export const GET_READY_TO_PUBLISH_ACTIVITIES_REQUEST = 'GET_READY_TO_PUBLISH_ACTIVITIES_REQUEST';
+export const GET_READY_TO_PUBLISH_ACTIVITIES_SUCCESS = 'GET_READY_TO_PUBLISH_ACTIVITIES_SUCCESS';
+export const GET_READY_TO_PUBLISH_ACTIVITIES_FAILURE = 'GET_READY_TO_PUBLISH_ACTIVITIES_FAILURE';
+export function getReadyToPublishActivities(publisherId) {
+    return {
+        [CALL_API]: {
+            types: [GET_READY_TO_PUBLISH_ACTIVITIES_REQUEST, GET_READY_TO_PUBLISH_ACTIVITIES_SUCCESS, GET_READY_TO_PUBLISH_ACTIVITIES_FAILURE],
+            endpoint: 'Activity.getReadyToPublish',
+            // schema: {
+            //     results: arrayOf(Schemas.activity),
+            // },
+            payload: [ publisherId ]
+        }
+    }
+}
+
 /*
  * Get activities (paginated)
  */

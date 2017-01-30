@@ -5,7 +5,6 @@ import { connect }              from 'react-redux'
 import _                        from 'lodash'
 import classNames               from 'classnames'
 import { browserHistory }       from 'react-router'
-import { toggleMainMenu }       from '../../actions/sync'
 import { Link }                 from 'react-router'
 import moment                   from 'moment'
 import {Tooltip } from '../general/Tooltip.react.jsx'
@@ -17,9 +16,7 @@ class DatasetActivityPublisher extends React.Component {
     }
 
     render() {
-        const { dataset } = this.props
-
-        console.log(dataset);
+        const { dataset, modifiedActivities, publishCount, isFetching } = this.props
 
         return (
             <div className="row">
@@ -30,10 +27,24 @@ class DatasetActivityPublisher extends React.Component {
                         :
                         <div>
                             <a href={dataset.source_url}>Click here to go to the activity XML</a>
-                            <p>Update your dataset</p>
                         </div>
                     }
-                    <a onClick={this.props.publish} className="button">Publish</a>
+                    {
+                        modifiedActivities && modifiedActivities.length === 0 ?
+                            <h4>No changes to be published</h4>
+                            :
+                            <div>
+                                <p>You will publish { publishCount } activities</p>
+                                <p>{ modifiedActivities.length } activities have been added or modified</p>
+                                <p>Update your dataset</p>
+                                <a 
+                                    onClick={this.props.publish}
+                                    className="button"
+                                    disabled={isFetching}
+                                >
+                                    Publish</a>
+                            </div>
+                    }
                 </div>
             </div>
         )
@@ -66,26 +77,6 @@ class DatasetOrganisationPublisher extends React.Component {
 
 let DatasetsSettings = React.createClass({ // A stateful container all children are stateless
 
-    publishDataset: function (name, title, filetype){
-        this.props.publishDataset(this.props.publisher, name, title, filetype)
-    },
-
-    deleteDataset: function (dataset){
-        this.props.deleteDataset(this.props.publisher, dataset)
-    },
-
-    updateDataset: function (dataset){
-        this.props.updateDataset(this.props.publisher, dataset)
-    },
-
-    generateXmlFile: function (dataset){
-        this.props.generateXmlFile(this.props.publisher, dataset)
-    },
-
-    componentWillMount: function() {
-        this.props.toggleMainMenu(true)
-    },
-
     render: function() {
         const { publisher } = this.props
 
@@ -96,20 +87,20 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
         let datasetsPublisher;
 
         if(this.props.publisher){
-            console.log(publisher.datasets);
             const activityDataset = _.find(publisher.datasets, (p) => p.id && p.filetype === 'Activity' && p.added_manually)
             const organisationDataset = _.find(publisher.datasets, (p) => p.id && p.filetype === 'Organisation' && p.added_manually)
-
-            console.log(activityDataset);
-            console.log(organisationDataset);
 
             datasetsPublisher = 
                 <div>
                     <DatasetActivityPublisher
+                        isFetching={publisher.isFetching}
                         dataset={activityDataset}
                         publish={() => this.props.publishActivities(publisher.id, activityDataset && activityDataset.id)}
+                        modifiedActivities={this.props.modifiedActivities}
+                        publishCount={this.props.publishCount}
                     />
                     <DatasetOrganisationPublisher
+                        isFetching={publisher.isFetching}
                         dataset={organisationDataset}
                         publish={() => this.props.publishActivities(publisher.id, organisationDataset && organisationDataset.id)}
                     />
@@ -142,21 +133,4 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
 })
 
-import { publisherSelector } from '../../reducers/createActivity'
-
-function mapStateToProps(state, props) {
-    return {
-        navState: state.navState,
-        publisher: publisherSelector(state),
-    }
-}
-
-import { publishActivities, generateXmlFile } from '../../actions/async'
-
-export default connect(mapStateToProps, {
-    toggleMainMenu,
-    publishActivities,
-    generateXmlFile
-})(DatasetsSettings)
-
-
+export default DatasetsSettings

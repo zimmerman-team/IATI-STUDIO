@@ -400,49 +400,32 @@ function apiKeyValidationForm(state={}, action) {
 }
 
 const initialPublisherState = {
-  validationStatus: false,
-  datasets: [],
-  autoPublish: false
+  // validationStatus: false,
+  // autoPublish: false,
+  isFetching: false,
 }
 
 function publisher(state=initialPublisherState, action) {
     switch(action.type) {
-        case ActionTypes.GET_PUBLISHER_SUCCESS:
-            if(action.response.result === undefined)
-                return state
+        case ActionTypes.GET_OIPA_USER_SUCCESS:
+            return {
+                ...state,
+                ...action.response.admin_groups[0] && action.response.admin_groups[0].publisher,
+            // TODO: change behaviour in OIPA to represent this behaviour - 2017-01-30
+            activityDataset: _.find(action.response.admin_groups[0] && action.response.admin_groups[0].publisher && action.response.admin_groups[0].publisher.datasets, (p) => p.id && p.filetype === 'Activity' && p.added_manually ),
+            organisationDataset: _.find(action.response.admin_groups[0] && action.response.admin_groups[0].publisher && action.response.admin_groups[0].publisher.datasets, (p) => p.id && p.filetype === 'Organisation' && p.added_manually ),
 
-            return {
-              ...state,
-              ...action.response.entities.publisher[action.response.result]
             }
-        case ActionTypes.GET_API_KEY_VALIDATION_SUCCESS:
+        case ActionTypes.PUBLISH_ACTIVITIES_REQUEST:
             return {
-              ...state,
-              ...action.response
+                ...state,
+            isFetching: true,
             }
-        case ActionTypes.GET_API_KEY_UNLINK_SUCCESS:
+        case ActionTypes.PUBLISH_ACTIVITIES_SUCCESS:
             return {
-              ...initialPublisherState
-            }
-        case ActionTypes.UPDATE_PUBLISHER_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.PUBLISH_DATASET_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.DELETE_DATASET_SUCCESS:
-            return {
-              ...state,
-              ...action.response
-            }
-        case ActionTypes.UPDATE_DATASET_SUCCESS:
-            return {
-              ...state,
-              ...action.response
+                ...state,
+                isFetching: false,
+                activityDataset: action.response
             }
         default:
             return state

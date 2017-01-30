@@ -209,7 +209,7 @@ export const publisherSelector = createSelector(
     /*
      * Select the publisher object from the first admin_group (if the user is in one)
     */
-    state => state.user.oipaUser && state.user.oipaUser.admin_groups[0] && state.user.oipaUser.admin_groups[0].publisher,
+    state => state.publisher,
     (p) => p
 )
 
