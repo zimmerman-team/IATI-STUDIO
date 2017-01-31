@@ -44,7 +44,7 @@ class ActivityEdit extends React.Component {
     }
 
     componentWillMount() {
-        if (this.props.publisher) {
+        if (this.props.publisher && this.props.publisher.id) {
             this.props.getActivity(this.props.publisher.id, this.props.activityId)
         }
     }
@@ -90,9 +90,9 @@ class ActivityEdit extends React.Component {
     }
 
     render() {
-        const {tab, subTab, activityId, activity } = this.props;
+        const {tab, subTab, activityId, activity, publisher } = this.props;
 
-        if (!activity) {
+        if (!activity || !publisher || !publisher.id) {
             return <GeneralLoader/>
         }
 
