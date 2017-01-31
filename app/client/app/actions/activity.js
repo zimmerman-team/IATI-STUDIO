@@ -14,7 +14,7 @@ export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
 export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
 export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
 
-export function fetchActivities(publisherId, searchValue, nextPage, reset) {
+export function fetchActivities(publisherId, searchValue, nextPage=1, reset) {
     return {
         searchValue,
         pageCount: nextPage,
@@ -42,6 +42,8 @@ export const getActivities = (publisherId, searchValue) => (dispatch, getState) 
     if (pageCount !== 1 && !next) {
         return null
     }
+
+    console.log('reached...');
 
     return dispatch(fetchActivities(publisherId, searchValue, pageCount, false))
 }

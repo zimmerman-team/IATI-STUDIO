@@ -43,12 +43,10 @@ class ActivityList extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.toggleMainMenu(true)
-    }
-
     componentWillMount() {
-        if (this.props.publisher) {
+        this.props.toggleMainMenu(true)
+
+        if (this.props.publisher.id) {
             this.props.getActivities(this.props.publisher.id)
         }
     }
@@ -72,8 +70,7 @@ class ActivityList extends React.Component {
     }
 
     render() {
-        const {pagination } = this.props
-
+        const { pagination } = this.props
 
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState

@@ -14,17 +14,22 @@ class DatasetsSettingsContainer extends React.Component {
         this.state = {
             'modifiedActivities': [],
             'publishCount': null,
+            'totalCount': null,
         }
+
+        this.publishActivities = this.publishActivities.bind(this)
+        this.publishOrganisations = this.publishOrganisations.bind(this)
     }
 
     componentWillMount() {
         this.props.toggleMainMenu(true)
 
         if (this.props.publisher.id) {
-            console.log('componentWillMount');
+            // console.log(this.props.fetchActivities(this.props.publisher.id))
+            this.props.fetchActivities(this.props.publisher.id)
+                .then(action => this.setState({ totalCount: action.response.count }))
             this.props.getModifiedActivities(this.props.publisher.id)
-                .then(action => this.setState({ modifiedActivities: action.response }))
-
+                .then(action => this.setState({ modifiedActivities: action.response.results }))
             this.props.getReadyToPublishActivities(this.props.publisher.id)
                 .then(action => this.setState({ publishCount: action.response.count }))
         }
@@ -32,23 +37,40 @@ class DatasetsSettingsContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.publisher.id !== nextProps.publisher.id) {
-
+            this.props.fetchActivities(nextProps.publisher.id)
+                .then(action => this.setState({ totalCount: action.response.result.count }))
             this.props.getModifiedActivities(nextProps.publisher.id)
                 .then(action => this.setState({ modifiedActivities: action.response.results }))
-
             this.props.getReadyToPublishActivities(nextProps.publisher.id)
                 .then(action => this.setState({ publishCount: action.response.count }))
         }
     }
 
-    render() {
-        console.log(this.state);
+    publishActivities() {
+        const { publisher } = this.props
+        this.props.publishActivities(publisher.id, publisher.activityDataset.id)
+            .then(() => {
+                this.setState({
+                    modifiedActivities: [],
+                    publishCount: 0,
+                    totalCount: 0,
+                })
+            }) 
+    }
 
+    publishOrganisations() {
+        const { publisher } = this.props
+        this.props.publishOrganisations(publisher.id, publisher.activityDataset.id)
+    }
+
+    render() {
         return (
             <DatasetsSettings 
                 {...this.props}
                 modifiedActivities={this.state.modifiedActivities}
+                totalCount={this.state.totalCount}
                 publishCount={this.state.publishCount}
+                publishActivities={this.publishActivities}
             />
         )
     }
@@ -64,12 +86,13 @@ function mapStateToProps(state, props) {
 
 import { publishActivities, generateXmlFile } from '../../actions/async'
 import { toggleMainMenu }       from '../../actions/sync'
-import { getModifiedActivities, getReadyToPublishActivities } from '../../actions/activity'
+import { fetchActivities, getModifiedActivities, getReadyToPublishActivities } from '../../actions/activity'
 
 export default connect(mapStateToProps, {
     toggleMainMenu,
     publishActivities,
     generateXmlFile,
+    fetchActivities,
     getModifiedActivities,
     getReadyToPublishActivities
 })(DatasetsSettingsContainer)

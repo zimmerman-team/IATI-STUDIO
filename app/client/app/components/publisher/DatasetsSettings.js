@@ -16,7 +16,7 @@ class DatasetActivityPublisher extends React.Component {
     }
 
     render() {
-        const { dataset, modifiedActivities, publishCount, isFetching } = this.props
+        const { dataset, modifiedActivities, publishCount, totalCount, isFetching } = this.props
 
         return (
             <div className="row">
@@ -34,7 +34,7 @@ class DatasetActivityPublisher extends React.Component {
                             <h4>No changes to be published</h4>
                             :
                             <div>
-                                <p>You will publish { publishCount } activities</p>
+                                <p>You will publish { publishCount } of a total of { totalCount } activities</p>
                                 <p>{ modifiedActivities.length } activities have been added or modified</p>
                                 <p>Update your dataset</p>
                                 <a 
@@ -86,23 +86,24 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
 
         let datasetsPublisher;
 
-        if(this.props.publisher){
-            const activityDataset = _.find(publisher.datasets, (p) => p.id && p.filetype === 'Activity' && p.added_manually)
-            const organisationDataset = _.find(publisher.datasets, (p) => p.id && p.filetype === 'Organisation' && p.added_manually)
+        if(publisher){
+            const activityDataset = publisher.activityDataset
+            const organisationDataset = publisher.organisationDataset
 
             datasetsPublisher = 
                 <div>
                     <DatasetActivityPublisher
                         isFetching={publisher.isFetching}
                         dataset={activityDataset}
-                        publish={() => this.props.publishActivities(publisher.id, activityDataset && activityDataset.id)}
+                        publish={ this.props.publishActivities }
                         modifiedActivities={this.props.modifiedActivities}
                         publishCount={this.props.publishCount}
+                        totalCount={this.props.totalCount}
                     />
                     <DatasetOrganisationPublisher
                         isFetching={publisher.isFetching}
                         dataset={organisationDataset}
-                        publish={() => this.props.publishActivities(publisher.id, organisationDataset && organisationDataset.id)}
+                        publish={this.props.publishOrganisations}
                     />
                 </div>
 
