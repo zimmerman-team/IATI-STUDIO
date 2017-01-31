@@ -114,6 +114,10 @@ export const getActivity = function (user, publisherId, id) {
 };
 
 export const postActivity = function (user, publisherId, activityData) {
+    if (activityData.conditions) {
+        activityData.conditions.activity = activityData.id;
+    }
+
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.activities_url(publisherId),
@@ -127,7 +131,12 @@ export const postActivity = function (user, publisherId, activityData) {
 };
 
 export const updateActivity = function (user, publisherId, activityData) {
-    const dataJSON = JSON.parse(activityData);
+
+    let dataJSON = JSON.parse(activityData);
+    if (dataJSON.conditions) {
+        dataJSON.conditions.activity = dataJSON.id;
+    }
+
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.activities_url(publisherId), `${dataJSON.id}/`),
