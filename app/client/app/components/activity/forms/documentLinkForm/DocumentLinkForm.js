@@ -14,6 +14,7 @@ import {
 import {documentLinksSelector, publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
+import moment from 'moment'
 
 const validate = values => {
     let errors = {};
@@ -119,7 +120,6 @@ class DocumentLinkForm extends Component {
         this.props.dispatch(getCodeListItems('DocumentCategory'));
         this.props.dispatch(getCodeListItems('FileFormat'));
         this.props.dispatch(getCodeListItems('Language'));
-        //this.props.getDocumentLinks((this.props.publisher && this.props.publisher.id), this.props.activityId);     // publisherID and Activity ID
     }
 
     componentWillReceiveProps(nextProps) {
@@ -139,7 +139,8 @@ class DocumentLinkForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
+            || !(this.props.data && this.props.data.length))) {
             this.props.getDocumentLinks(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -219,7 +220,15 @@ class DocumentLinkForm extends Component {
 
 
 function mapStateToProps(state, props) {
-    const document_links = documentLinksSelector(state);
+    let document_links = documentLinksSelector(state);
+
+    document_links = document_links.map(function (documentFormData) {
+        if (documentFormData.document_date && documentFormData.document_date.iso_date) {
+            let updateDate = moment(documentFormData.document_date.iso_date).format("YYYY-MM-DD");
+            documentFormData.document_date.iso_date = updateDate;
+        }
+        return documentFormData;
+    });
 
     return {
         data: document_links,
