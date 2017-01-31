@@ -9,16 +9,33 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import ActivityTooltip from '../../ActivityTooltip'
 
 const validate = values => {
-    const activity = {};
+    const errors = {};
     if (values.activity) {
         const activityData = values.activity;
 
         if (!activityData.iati_identifier) {
-            activity.iati_identifier = 'Required'
+            errors.iati_identifier = 'Required'
         }
+
+        const narratives = (activityData.title && activityData.title.narratives) || [];
+
+        errors.title = {};
+        errors.title.narratives = narratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors
+        });
     }
 
-    return {activity};
+    return {activity: errors};
 };
 
 
