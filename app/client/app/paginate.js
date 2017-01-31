@@ -21,6 +21,7 @@ export default function pagination({ types, mapActionToKey }) {
         nextPage: undefined,
         pageCount: 1,
         ids: [],
+        searchValue: "",
     }, action) {
         switch(action.type) {
             case requestType:
@@ -32,6 +33,7 @@ export default function pagination({ types, mapActionToKey }) {
                 return {
                     ...state,
                     isFetching: false,
+                    searchValue: action.searchValue,
                     ids: union(state.ids, action.response.result.results),
                     pageCount: action.pageCount + 1,
                     next: action.response.result.next,

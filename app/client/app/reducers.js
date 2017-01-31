@@ -574,7 +574,10 @@ function publicVisualizationPagination(state = {
 function activities(state={}, action) {
     switch(action.type) {
         case ActivityActionTypes.GET_ACTIVITIES_SUCCESS:
-            return action.response.entities.activity || []
+            if (action.reset) {
+                return action.response.entities.activity || []
+            }
+            return _.merge({}, state, action.response.entities.activity)
         case ActivityActionTypes.DELETE_ACTIVITY_SUCCESS:
             return _.omit(state, action.id)
         case ActionTypes.REMOVE_API_KEY_SUCCESS:

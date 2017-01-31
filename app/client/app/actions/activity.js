@@ -14,9 +14,11 @@ export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
 export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
 export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
 
-export function fetchActivities(publisherId, searchValue, nextPage) {
+export function fetchActivities(publisherId, searchValue, nextPage, reset) {
     return {
         searchValue,
+        pageCount: nextPage,
+        reset,
         [CALL_API]: {
             types: [GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITIES_FAILURE],
             endpoint: 'Activity.getAll',
@@ -27,6 +29,30 @@ export function fetchActivities(publisherId, searchValue, nextPage) {
         }
     }
 }
+
+/*
+ * Get activities (paginated)
+ */
+export const getActivities = (publisherId, searchValue) => (dispatch, getState) => {
+    const {
+        pageCount = 1,
+        next,
+    } = getState().pagination.activities
+
+    if (pageCount !== 1 && !next) {
+        return null
+    }
+
+    return dispatch(fetchActivities(publisherId, searchValue, pageCount, false))
+}
+
+/*
+ * A new search (resets pagination)
+ */
+export const searchActivities = (publisherId, searchValue) => (dispatch, getState) => {
+    return dispatch(fetchActivities(publisherId, searchValue, 1, true))
+}
+
 
 export const GET_MODIFIED_ACTIVITIES_REQUEST = 'GET_MODIFIED_ACTIVITIES_REQUEST';
 export const GET_MODIFIED_ACTIVITIES_SUCCESS = 'GET_MODIFIED_ACTIVITIES_SUCCESS';
@@ -58,29 +84,6 @@ export function getReadyToPublishActivities(publisherId) {
             payload: [ publisherId ]
         }
     }
-}
-
-/*
- * Get activities (paginated)
- */
-export const getActivities = (publisherId, searchValue) => (dispatch, getState) => {
-    const {
-        pageCount = 1,
-        next,
-    } = getState().pagination.activities
-
-    if (pageCount !== 1 && !next) {
-        return null
-    }
-
-    return dispatch(fetchActivities(publisherId, searchValue, pageCount))
-}
-
-/*
- * A new search (resets pagination)
- */
-export const searchActivities = (publisherId, searchValue) => (dispatch, getState) => {
-    return dispatch(fetchActivities(publisherId, searchValue, 1))
 }
 
 /*
