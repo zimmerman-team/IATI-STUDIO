@@ -120,6 +120,9 @@ class DocumentLinkForm extends Component {
         this.props.dispatch(getCodeListItems('DocumentCategory'));
         this.props.dispatch(getCodeListItems('FileFormat'));
         this.props.dispatch(getCodeListItems('Language'));
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getDocumentLinks(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -139,8 +142,7 @@ class DocumentLinkForm extends Component {
             }
         }
 
-        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-            || !(this.props.data && this.props.data.length))) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getDocumentLinks(nextProps.publisher.id, nextProps.activityId)
         }
     }

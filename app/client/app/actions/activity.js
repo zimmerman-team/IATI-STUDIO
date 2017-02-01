@@ -431,7 +431,7 @@ export function deleteTransaction(publisherId, activityId, id) {
         id,
         [CALL_API]: {
             types: [DELETE_TRANSACTION_REQUEST, DELETE_TRANSACTION_SUCCESS, DELETE_TRANSACTION_FAILURE],
-            endpoint: 'Activity.deleteLocation',
+            endpoint: 'Activity.deleteTransaction',
             payload: [publisherId, activityId, id]
         }
     }

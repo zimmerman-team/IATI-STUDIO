@@ -209,11 +209,13 @@ class FinancialPlannedDisbursement extends Component {
         this.props.getCodeListItems('Currency');
         this.props.getCodeListItems('Language');
         this.props.getCodeListItems('OrganisationType');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId && this.props.publisher) {
+    componentWillUpdate(nextProps) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }

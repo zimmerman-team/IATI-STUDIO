@@ -137,6 +137,9 @@ class BasicInformationDescriptionForm extends Component {
     componentWillMount() {
         this.props.getCodeListItems('DescriptionType');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getDescriptions(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -156,10 +159,8 @@ class BasicInformationDescriptionForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
-            if (nextProps.publisher) {
-                this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)
-            }
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getDescriptions(nextProps.publisher.id, nextProps.activityId)
         }
     }
 

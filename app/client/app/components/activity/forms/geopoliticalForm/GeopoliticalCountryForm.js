@@ -137,6 +137,9 @@ class RecipientCountryForm extends Component {
     componentWillMount() {
         this.props.getCodeListItems('Country');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getRecipientCountries(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -156,8 +159,7 @@ class RecipientCountryForm extends Component {
             }
         }
 
-        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-            || !(this.props.data && this.props.data.length))) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getRecipientCountries(nextProps.publisher.id, nextProps.activityId)
         }
     }

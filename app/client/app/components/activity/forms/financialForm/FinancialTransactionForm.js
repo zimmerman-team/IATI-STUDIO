@@ -139,6 +139,7 @@ const renderFinancialTransactionForm = ({
                                     textLabel="Title"
                                 />
                             </div>
+                            {/*
                             <div>
                                 <div className=""><h6>Disbursement channel</h6></div>
                                 <div className="row no-margin">
@@ -156,6 +157,8 @@ const renderFinancialTransactionForm = ({
                                     }
                                 </div>
                             </div>
+                            */}
+
                             {/*
                             <FieldArray
                                 name={`${transaction}.sector`}
@@ -167,6 +170,9 @@ const renderFinancialTransactionForm = ({
                                 textLabel="Sector"
                             />
                             */}
+
+
+
                             <div className="row no-margin">
                                 <div className="columns small-centered small-12">
                                     <h2 className="page-title with-tip">Recipient country</h2>
@@ -174,8 +180,8 @@ const renderFinancialTransactionForm = ({
                             </div>
                             <div className="row no-margin">
                                 <FieldArray
-                                    name={`${transaction}.recipient_countries`}
-                                    textName={`${transaction}.recipient_countries`}
+                                    name={`${transaction}.recipient_country`}
+                                    textName={`${transaction}.recipient_country`}
                                     component={renderRecipientCountries}
                                     sectorVocabularyOptions={sectorVocabularyOptions}
                                     sectorOptions={sectorOptions}
@@ -184,6 +190,8 @@ const renderFinancialTransactionForm = ({
                                     textLabel="Sector"
                                 />
                             </div>
+
+                            {/* @TODO uncomment when issue #949 is fixed
                             <div className="row no-margin">
                                 <FieldArray
                                     name={`${transaction}description.narratives`}
@@ -194,6 +202,8 @@ const renderFinancialTransactionForm = ({
                                     narrativeLabel="Description"
                                 />
                             </div>
+                             */}
+
                             <RenderSingleSelect
                                 name={`${transaction}flow_type.code`}
                                 textName={`${transaction}flow_type.code`}
@@ -258,14 +268,6 @@ const validate = values => {
             transactionErrors.flow_type = {code: 'Required'}
         }
 
-        if (!transactionData.disbursement_channel) {
-            transactionErrors.disbursement_channel = {code: 'Required'}
-        }
-
-        if (!transactionData.humanitarian) {
-            transactionErrors.humanitarian = {code: 'Required'}
-        }
-
         if (!transactionData.transaction_type) {
             transactionErrors.transaction_type = {code: 'Required'}
         }
@@ -313,21 +315,30 @@ class FinancialTransactionForm extends Component {
         const lastTransaction = data;
         let transactions = formData.transactions;
 
-        let formTransactions = [];
-        if (transactions && transactions.length) {
-            transactions.forEach(function (formOrg) {
-                let newFormData = Object.assign({}, formOrg);
-                newFormData.activity_id = activityId;
-                formTransactions.push(newFormData);
-            });
-        }
+        transactions = transactions.map(function (transactionData) {
+            transactionData.activity_id = activityId;
+            transactionData.humanitarian = 1;
+            transactionData.description = {narratives: []};
+            transactionData.disbursement_channel = {};
+
+            if (transactionData.receiver_organisation) {
+                transactionData.receiver_organisation.receiver_activity_id = activityId;
+            }
+            if (transactionData.provider_organisation) {
+                transactionData.provider_organisation.provider_activity_id = activityId;
+            }
+            transactionData.ref = activityId;
+            return transactionData;
+        });
+
+
 
         handleSubmit(
             publisher.id,
             'transactions',
             activityId,
             lastTransaction,
-            formTransactions,
+            transactions,
             this.props.createTransaction,
             this.props.updateTransaction,
             this.props.deleteTransaction,
@@ -355,12 +366,15 @@ class FinancialTransactionForm extends Component {
         this.props.getCodeListItems('FinanceType');
         this.props.getCodeListItems('AidType');
         this.props.getCodeListItems('TiedStatus');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getTransactions(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
-            const oldData = this.props.data
-            const newData = nextProps.data
+            const oldData = this.props.data;
+            const newData = nextProps.data;
 
             // TODO: is a bug in redux-form, check https://github.com/erikras/redux-form/issues/2058 - 2016-12-22
             // this.props.change('transactions', newData);
@@ -383,9 +397,9 @@ class FinancialTransactionForm extends Component {
         const {codeLists, handleSubmit, submitting, activityId} = this.props;
 
         if (!codeLists["HumanitarianScopeType"] || !codeLists["TransactionType"] || !codeLists["OrganisationType"]
-            || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["DisbursementChannel"]
-            || !codeLists["SectorVocabulary"] || !codeLists["Sector"] || !codeLists["Country"]
-            || !codeLists["FlowType"] || !codeLists["FinanceType"] || !codeLists["AidType"] || !codeLists["TiedStatus"]) {
+                || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["DisbursementChannel"]
+                || !codeLists["SectorVocabulary"] || !codeLists["Sector"] || !codeLists["Country"]
+                || !codeLists["FlowType"] || !codeLists["FinanceType"] || !codeLists["AidType"] || !codeLists["TiedStatus"]) {
             return <GeneralLoader/>
         }
 
@@ -429,7 +443,20 @@ class FinancialTransactionForm extends Component {
 }
 
 function mapStateToProps(state, props) {
-    const transactions = transactionsSelector(state);
+    let transactions = transactionsSelector(state);
+
+    const {activityId} = props
+
+    transactions = transactions.map(function (transactionData) {
+        if (transactionData.receiver_organisation) {
+            transactionData.receiver_organisation.receiver_activity_id = activityId;
+        }
+        if (transactionData.provider_organisation) {
+            transactionData.provider_organisation.provider_activity_id = activityId;
+        }
+        transactionData.ref = activityId;
+        return transactionData;
+    });
 
     return {
         data: transactions,

@@ -5,8 +5,8 @@ import {renderNarrativeFields, renderField, renderSelectField} from '../../helpe
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import {getCodeListItems, getActivity, getCountryBudgetItems, createCountryBudgetItem, updateCountryBudgetItem, deleteCountryBudgetItem,} from '../../../../actions/activity'
-import {publisherSelector, countryBudgetItemSelector} from '../../../../reducers/createActivity.js'
+import {getCodeListItems, getActivity, createCountryBudgetItem, updateCountryBudgetItem, deleteCountryBudgetItem} from '../../../../actions/activity'
+import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
@@ -57,17 +57,19 @@ class CountryBudgetForm extends Component {
         })
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-        //if (this.props.activityId && this.props.publisher) {
-            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
-        }
-    }
-
     componentWillMount() {
         this.props.getCodeListItems('BudgetIdentifier');
         this.props.getCodeListItems('BudgetIdentifierVocabulary');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+        }
+    }
+
+    componentWillUpdate(nextProps) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+        }
     }
 
     render() {
@@ -171,7 +173,7 @@ CountryBudgetForm = reduxForm({
 
 CountryBudgetForm = connect(mapStateToProps, {
     getCodeListItems,
-    getCountryBudgetItems,
+    getActivity,
     createCountryBudgetItem,
     updateCountryBudgetItem,
     deleteCountryBudgetItem,

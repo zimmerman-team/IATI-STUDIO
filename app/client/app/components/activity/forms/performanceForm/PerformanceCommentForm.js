@@ -131,6 +131,12 @@ class PerformanceCommentForm extends Component {
       })
   }
 
+    componentWillMount() {
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getLegacyData(this.props.publisher.id, this.props.activityId)
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data) {
             const oldData = this.props.data
@@ -148,10 +154,8 @@ class PerformanceCommentForm extends Component {
             }
         }
 
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher || !(this.props.data && this.props.data.length)) {
-            if (nextProps.publisher) {
-                this.props.getLegacyData(nextProps.publisher.id, nextProps.activityId)
-            }
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
+            this.props.getLegacyData(nextProps.publisher.id, nextProps.activityId)
         }
     }
 

@@ -41,11 +41,14 @@ class BasicInformationStatusForm extends Component {
     }
 
 
-  componentWillMount() {
-    this.props.getCodeListItems('ActivityStatus');
-  }
+    componentWillMount() {
+        this.props.getCodeListItems('ActivityStatus');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+        }
+    }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillUpdate(nextProps) {
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }

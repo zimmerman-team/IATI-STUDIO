@@ -13,6 +13,7 @@ export const ActivityListItem = ({ publisher, activity, deleteActivity }) => (
     <tr>
         <td>{ activity.iati_identifier }</td>
         <td>{ activity.title && activity.title.narratives && activity.title.narratives[0] && activity.title.narratives[0].text }</td>
+        <td>{ (activity.published_state && activity.published_state.published) ? 'Published': 'Not Published' }</td>
         <td><Link 
                 to={`/publisher/activities/${activity.id}/identification/`}
                 className={'button'}
@@ -100,6 +101,7 @@ class ActivityList extends React.Component {
                                 <tr>
                                     <th width="200">IATI identifier</th>
                                     <th>Title</th>
+                                    <th>Published Status</th>
                                     <th width="150">Edit</th>
                                     <th width="150">Delete</th>
                                 </tr>

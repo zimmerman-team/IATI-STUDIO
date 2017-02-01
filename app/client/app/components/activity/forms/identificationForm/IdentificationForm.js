@@ -53,13 +53,13 @@ class IdentificationForm extends PureComponent {
 
     componentWillMount() {
         this.props.getCodeListItems('Language');
-        if (this.props.publisher && this.props.activityId !== 'identification') {
+        if (this.props.publisher && this.props.publisher.id) {
             this.props.getActivity(this.props.publisher.id, this.props.activityId)
         }
     }
 
     componentWillUpdate(nextProps) {
-        if ((this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) && this.props.activityId !== 'identification') {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
@@ -186,6 +186,7 @@ import {publisherSelector} from '../../../../reducers/createActivity'
 function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    console.log('<<<currentActivity', currentActivity);
 
     return {
         submitting: state.activity.submitting,

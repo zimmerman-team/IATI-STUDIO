@@ -155,6 +155,9 @@ class HumanitarianScopeForm extends Component {
         this.props.getCodeListItems('HumanitarianScopeType');
         this.props.getCodeListItems('HumanitarianScopeVocabulary');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getHumanitarianScopes(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -174,8 +177,7 @@ class HumanitarianScopeForm extends Component {
             }
         }
 
-        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-                || !(this.props.data && this.props.data.length))) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getHumanitarianScopes(nextProps.publisher.id, nextProps.activityId)
         }
     }

@@ -136,11 +136,13 @@ class BasicInformationDateForm extends Component {
     componentWillMount() {
         this.props.getCodeListItems('ActivityDateType');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        //if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher)
-        if (this.props.activityId && this.props.publisher) {
+    componentWillUpdate(nextProps) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }

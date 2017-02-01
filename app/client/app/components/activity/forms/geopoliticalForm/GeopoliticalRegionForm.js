@@ -174,6 +174,9 @@ class RecipientRegionForm extends React.Component {
         this.props.getCodeListItems('Region');
         this.props.getCodeListItems('RegionVocabulary');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getRegions(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -193,8 +196,7 @@ class RecipientRegionForm extends React.Component {
             }
         }
 
-        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-            || !(this.props.data && this.props.data.length))) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getRegions(nextProps.publisher.id, nextProps.activityId)
         }
     }

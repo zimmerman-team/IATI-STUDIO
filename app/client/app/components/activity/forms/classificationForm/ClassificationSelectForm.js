@@ -23,7 +23,18 @@ class ClassificationSelectForm extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillMount() {
+        this.props.getCodeListItems('CollaborationType');
+        this.props.getCodeListItems('FlowType');
+        this.props.getCodeListItems('FinanceType');
+        this.props.getCodeListItems('AidType');
+        this.props.getCodeListItems('TiedStatus');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+        }
+    }
+
+    componentWillUpdate(nextProps) {
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
@@ -43,14 +54,6 @@ class ClassificationSelectForm extends Component {
                 this.props.router.push(`/publisher/activities/${activityId}/classifications/country`);
             }
         })
-    }
-
-    componentWillMount() {
-        this.props.getCodeListItems('CollaborationType');
-        this.props.getCodeListItems('FlowType');
-        this.props.getCodeListItems('FinanceType');
-        this.props.getCodeListItems('AidType');
-        this.props.getCodeListItems('TiedStatus');
     }
 
     render() {

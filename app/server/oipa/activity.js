@@ -888,7 +888,6 @@ export const postTransaction = function (user, publisherId, activityId, transact
         },
         body: dataJSON,
     };
-
     return oipaPost(req_options)
 };
 

@@ -178,6 +178,9 @@ class SectorForm extends Component {
         this.props.getCodeListItems('SectorVocabulary');
         this.props.getCodeListItems('Sector');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getSectors(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -196,9 +199,7 @@ class SectorForm extends Component {
             }
         }
 
-        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-            || !(this.props.data && this.props.data.length))) {
-            console.log('getSectors again');
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getSectors(nextProps.publisher.id, nextProps.activityId)
         }
     }

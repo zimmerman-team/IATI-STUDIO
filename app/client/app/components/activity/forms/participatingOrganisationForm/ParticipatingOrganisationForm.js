@@ -140,9 +140,9 @@ class ParticipatingOrganisationForm extends Component {
         let formParticipatingOrganisations = [];
         if (participating_organisations && participating_organisations.length) {
             participating_organisations.forEach(function (formOrg) {
-                let newformData = Object.assign({}, formOrg);
-                newformData.activity_id = activityId;
-                formParticipatingOrganisations.push(newformData);
+                let newFormData = Object.assign({}, formOrg);
+                newFormData.activity_id = activityId;
+                formParticipatingOrganisations.push(newFormData);
             });
         }
 
@@ -168,6 +168,9 @@ class ParticipatingOrganisationForm extends Component {
         this.props.getCodeListItems('OrganisationRole');
         this.props.getCodeListItems('OrganisationType');
         this.props.getCodeListItems('Language');
+        if (this.props.publisher && this.props.publisher.id) {
+            this.props.getParticipatingOrganisations(this.props.publisher.id, this.props.activityId)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -187,8 +190,7 @@ class ParticipatingOrganisationForm extends Component {
             }
         }
 
-        if ((nextProps.publisher && nextProps.publisher.id) && (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher
-            || !(this.props.data && this.props.data.length))) {
+        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
             this.props.getParticipatingOrganisations(nextProps.publisher.id, nextProps.activityId)
         }
     }
