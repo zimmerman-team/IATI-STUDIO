@@ -149,56 +149,45 @@ export const RenderSingleSelect = ({name, textName = "", label, selectOptions, d
  * @param touched
  * @param error
  */
-export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
-      textName, mainLabel, organisationOptions, activityKey = "provider_activity_id", textLabel, meta: {touched, error}}) => (
-  <div>
-    {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Provider org"}
-    <div className="row no-margin">
-      <div className="columns small-6">
-        <Field
-          name={`${textName}.ref`}
-          type="text"
-          component={renderField}
-          label="Ref"
+export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true, textName, mainLabel, organisationOptions, activityKey = "provider_activity_id", textLabel, meta: {touched, error}})  => (
+    <div>
+        {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Provider org"}
+        <div className="row no-margin">
+            <div className="columns small-6">
+                <Field
+                    name={`${textName}.ref`}
+                    type="text"
+                    component={renderField}
+                    label="Ref"
+                />
+            </div>
+            <div className="columns small-6">
+                <Field
+                    name={`${textName}.${activityKey}`}
+                    type="text"
+                    component={renderField}
+                    label="Activity id"
+                />
+            </div>
+        </div>
+        <div className="row no-margin">
+            <Field
+                component={renderSelectField}
+                name={`${textName}.type.code`}
+                textName={`${textName}.type.code`}
+                label="Type"
+                selectOptions={organisationOptions}
+                defaultOption="Select a type"
+            />
+        </div>
+        <FieldArray
+            name={`${textName}.narratives`}
+            component={renderNarrativeFields}
+            languageOptions={languageOptions}
+            textName="textTitle"
+            textLabel="Text"
         />
-      </div>
-      <div className="columns small-6">
-        <Field
-          name={`${textName}.${activityKey}`}
-          type="text"
-          component={renderField}
-          label="Activity id"
-        />
-      </div>
     </div>
-    <div className="row no-margin">
-      <Field
-        component={renderSelectField}
-        name={`${textName}.type.code`}
-        textName={`${textName}.type.code`}
-        label="Type"
-        selectOptions={organisationOptions}
-        defaultOption="Select a type"
-      />
-    </div>
-      <FieldArray
-          name={`${textName}.narratives`}
-          component={renderNarrativeFields}
-          languageOptions={languageOptions}
-          textName="textTitle"
-          textLabel="Text"
-      />
-    <div className="columns">
-      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-      <button
-        type="button"
-        title="Remove Title"
-        className="control-button remove float-right"
-        onClick={() => fields.pop()}>Delete
-      </button>
-      {touched && error && <span className="error">{error}</span>}
-    </div>
-  </div>
 );
 
 
@@ -214,8 +203,8 @@ export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true,
  * @param error
  */
 export const renderSectorFields = ({fields, languageOptions, narrativeLabel = true,
-      textName, mainLabel, sectorVocabularyOptions, sectorOptions, textLabel,
-      meta: {touched, error}}) => {
+        textName, mainLabel, sectorVocabularyOptions, sectorOptions, textLabel,
+        meta: {touched, error}}) => {
     if (!fields.length) {
         fields.push({})
     }
@@ -320,11 +309,12 @@ export const renderRecipientCountries = ({fields, languageOptions,  textName, ma
         <div>
             {fields && fields.map((title, index) =>
                 <div key={index}>
+                    <div className="row no-margin">
+                        <div className="columns small-centered small-12">
+                            <h2 className="page-title with-tip">Recipient country</h2>
+                        </div>
+                    </div>
                     <div className="columns small-centered small-12">
-                        <h2 className="page-title with-tip">Sector</h2>
-                        <Tooltip className="inline" tooltip="Description text goes here">
-                            <i className="material-icons">info</i>
-                        </Tooltip>
                         <div className="field-list">
                             <div className="row no-margin">
                                 <Field

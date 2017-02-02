@@ -101,7 +101,7 @@ class ActivityList extends React.Component {
                                 <tr>
                                     <th width="200">IATI identifier</th>
                                     <th>Title</th>
-                                    <th>Published Status</th>
+                                    <th>Publish Status</th>
                                     <th width="150">Edit</th>
                                     <th width="150">Delete</th>
                                 </tr>

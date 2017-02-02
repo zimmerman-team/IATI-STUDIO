@@ -116,7 +116,7 @@ const renderFinancialTransactionForm = ({
                             </div>
                             */}
                             <div className="row no-margin">
-                                <FieldArray
+                                <Field
                                     name={`${transaction}provider_organisation`}
                                     textName={`${transaction}provider_organisation`}
                                     component={renderOrgFields}
@@ -139,7 +139,6 @@ const renderFinancialTransactionForm = ({
                                     textLabel="Title"
                                 />
                             </div>
-                            {/*
                             <div>
                                 <div className=""><h6>Disbursement channel</h6></div>
                                 <div className="row no-margin">
@@ -157,8 +156,6 @@ const renderFinancialTransactionForm = ({
                                     }
                                 </div>
                             </div>
-                            */}
-
                             {/*
                             <FieldArray
                                 name={`${transaction}.sector`}
@@ -170,18 +167,10 @@ const renderFinancialTransactionForm = ({
                                 textLabel="Sector"
                             />
                             */}
-
-
-
-                            <div className="row no-margin">
-                                <div className="columns small-centered small-12">
-                                    <h2 className="page-title with-tip">Recipient country</h2>
-                                </div>
-                            </div>
                             <div className="row no-margin">
                                 <FieldArray
-                                    name={`${transaction}.recipient_country`}
-                                    textName={`${transaction}.recipient_country`}
+                                    name={`${transaction}.recipient_countries`}
+                                    textName={`${transaction}.recipient_countries`}
                                     component={renderRecipientCountries}
                                     sectorVocabularyOptions={sectorVocabularyOptions}
                                     sectorOptions={sectorOptions}
@@ -317,21 +306,17 @@ class FinancialTransactionForm extends Component {
 
         transactions = transactions.map(function (transactionData) {
             transactionData.activity_id = activityId;
-            transactionData.humanitarian = 1;
             transactionData.description = {narratives: []};
-            transactionData.disbursement_channel = {};
-
+            /*
             if (transactionData.receiver_organisation) {
                 transactionData.receiver_organisation.receiver_activity_id = activityId;
             }
             if (transactionData.provider_organisation) {
                 transactionData.provider_organisation.provider_activity_id = activityId;
             }
-            transactionData.ref = activityId;
+            */
             return transactionData;
         });
-
-
 
         handleSubmit(
             publisher.id,
@@ -444,9 +429,8 @@ class FinancialTransactionForm extends Component {
 
 function mapStateToProps(state, props) {
     let transactions = transactionsSelector(state);
-
-    const {activityId} = props
-
+/*
+    const {activityId} = props;
     transactions = transactions.map(function (transactionData) {
         if (transactionData.receiver_organisation) {
             transactionData.receiver_organisation.receiver_activity_id = activityId;
@@ -454,9 +438,9 @@ function mapStateToProps(state, props) {
         if (transactionData.provider_organisation) {
             transactionData.provider_organisation.provider_activity_id = activityId;
         }
-        transactionData.ref = activityId;
         return transactionData;
     });
+*/
 
     return {
         data: transactions,

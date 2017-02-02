@@ -223,14 +223,17 @@ class DocumentLinkForm extends Component {
 
 function mapStateToProps(state, props) {
     let document_links = documentLinksSelector(state);
-
-    document_links = document_links.map(function (documentFormData) {
-        if (documentFormData.document_date && documentFormData.document_date.iso_date) {
-            let updateDate = moment(documentFormData.document_date.iso_date).format("YYYY-MM-DD");
-            documentFormData.document_date.iso_date = updateDate;
-        }
-        return documentFormData;
-    });
+    if (document_links && document_links.length) {
+        /*
+        document_links = document_links.map(function (documentFormData) {
+            if (documentFormData.document_date && documentFormData.document_date.iso_date) {
+                let updateDate = moment(documentFormData.document_date.iso_date).format("YYYY-MM-DD");
+                documentFormData.document_date.iso_date = updateDate;
+            }
+            return documentFormData;
+        });
+        */
+    }
 
     return {
         data: document_links,

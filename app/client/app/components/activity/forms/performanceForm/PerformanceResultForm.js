@@ -42,7 +42,7 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
                                 name={`${result}.aggregation_status`}
                                 textName={`${result}.aggregation_status`}
                                 label="Condition Attached"
-                                selectOptions={[{code: '1', name: 'True'}, {code: '0', name: 'False'}]}
+                                selectOptions={[{code: 'true', name: 'True'}, {code: 'false', name: 'False'}]}
                                 defaultOption="Select one of the following options"
                             />
                         </div>

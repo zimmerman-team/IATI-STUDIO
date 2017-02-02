@@ -96,7 +96,7 @@ const renderFinancialPlannedDisbursementForm = ({
                         </div>
                     </div>
                     <div className="row no-margin">
-                        <FieldArray
+                        <Field
                             name={`${plannedDisbursement}provider_organisation`}
                             textName={`${plannedDisbursement}provider_organisation`}
                             component={renderOrgFields}
@@ -108,7 +108,7 @@ const renderFinancialPlannedDisbursementForm = ({
                         />
                     </div>
                     <div className="row no-margin">
-                        <FieldArray
+                        <Field
                             name={`${plannedDisbursement}receiver_organisation`}
                             textName={`${plannedDisbursement}receiver_organisation`}
                             component={renderOrgFields}

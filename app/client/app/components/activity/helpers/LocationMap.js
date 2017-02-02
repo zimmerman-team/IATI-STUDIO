@@ -25,9 +25,7 @@ class LocationMap extends Component {
     }
 
     updateMap() {
-        console.log('<<<updateMap')
         this.map.removeLayer(this.circles);
-        console.log('<<<removeLayer')
         this.circles.clearLayers();
 
         const {results, mapKey} = this.props;
@@ -102,6 +100,30 @@ class LocationMap extends Component {
                     transitionLeaveTimeout={500}>
                     {loading ? loadingDiv : null}
                 </ReactCSSTransitionGroup>
+
+                <div className="columns small-12">
+                    <div id="iati-map">
+                        <div id="map" style={{height: '100%'}}></div>
+                        <ReactCSSTransitionGroup
+                            transitionName="fade"
+                            transitionEnterTimeout={500}
+                            transitionLeaveTimeout={500}>
+                        </ReactCSSTransitionGroup>
+
+                    </div>
+
+                    <Map center={[51.505, -0.09]} zoom={4}>
+                        <TileLayer
+                            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        <Marker position={[51.505, -0.09]}>
+                            <Popup>
+                                <span>Current Location</span>
+                            </Popup>
+                        </Marker>
+                    </Map>
+                </div>
 
 			</div>
         )

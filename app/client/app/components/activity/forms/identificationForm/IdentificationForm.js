@@ -5,7 +5,6 @@ import {Field, FieldArray, reduxForm} from 'redux-form'
 import {renderField, renderSelectField, renderNarrativeFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import ActivityTooltip from '../../ActivityTooltip'
 
 const validate = values => {
@@ -48,7 +47,6 @@ class IdentificationForm extends PureComponent {
             iatiIdentifier: ''
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.createActivity = this.createActivity.bind(this);
     }
 
     componentWillMount() {
@@ -83,22 +81,10 @@ class IdentificationForm extends PureComponent {
 
     }
 
-    createActivity() {
-        // just generate something random
-        if (this.state.iatiIdentifier !== '') {
-            this.props.createActivity(this.props.publisher.id, {
-                iati_identifier: this.state.iatiIdentifier,
-            }).then((action) => {
-                this.props.router.push(`/publisher/activities/${action.response.result}/identification`)
-            });
-        }
-    }
-
     render() {
-        const {submitting, activity, handleSubmit, activityId, codeLists} = this.props;
-        const blankIdentificationForm = (activityId !== 'identification');
+        const {submitting, activity, handleSubmit, codeLists} = this.props;
 
-        if (blankIdentificationForm && !activity &&  !codeLists["Language"]) {
+        if (!activity && !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -107,34 +93,6 @@ class IdentificationForm extends PureComponent {
                 <ActivityTooltip
                     text="An IATI Activity"
                 />
-                {!blankIdentificationForm ?
-                    <div className="createActivityModal">
-                        <ReactCSSTransitionGroup transitionName="fade-slow" transitionEnterTimeout={400}
-                                                 transitionLeaveTimeout={400}>
-                            <div className="modal-overlay createActivityModalOverlay"></div>
-                        </ReactCSSTransitionGroup>
-                        <ReactCSSTransitionGroup transitionName="zoom" transitionEnterTimeout={600}
-                                                 transitionLeaveTimeout={600}>
-                            <div className="modal-container createActivityModal">
-                                <div className="modal ignore-react-onclickoutside">
-                                    <div className="modal-inside">
-                                        <h6>Create an activity</h6>
-                                        <p>Fill in a unique IATI identifier</p>
-                                        <input name="createIatiIdentifier"
-                                               type="text"
-                                               onChange={(e) => this.setState({iatiIdentifier: e.target.value})}
-                                               value={this.state.iatiIdentifier}
-                                               required="required"
-                                        />
-                                        <button className="button" type="submit" onClick={this.createActivity}>
-                                            Create
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </ReactCSSTransitionGroup>
-                    </div>
-                    : ''}
                 <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
                     <div className="columns small-6">
                         <Field
@@ -143,7 +101,6 @@ class IdentificationForm extends PureComponent {
                             id="iati_identifier"
                             component={renderField}
                             label="IATI Identifier"
-                            disabled={!blankIdentificationForm}
                         />
                     </div>
                     <Field
@@ -163,7 +120,7 @@ class IdentificationForm extends PureComponent {
                         textLabel="Title"
                     />
                     <div className="columns small-12">
-                        <button className="button" type="submit" disabled={submitting || !blankIdentificationForm}>
+                        <button className="button" type="submit" disabled={submitting}>
                             Continue to basic information
                         </button>
                     </div>
@@ -186,7 +143,6 @@ import {publisherSelector} from '../../../../reducers/createActivity'
 function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    console.log('<<<currentActivity', currentActivity);
 
     return {
         submitting: state.activity.submitting,

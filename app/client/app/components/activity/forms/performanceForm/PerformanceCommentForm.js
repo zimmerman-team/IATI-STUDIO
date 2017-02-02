@@ -173,15 +173,10 @@ class PerformanceCommentForm extends Component {
           <i className="material-icons">info</i>
         </Tooltip>
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-            <div className="row no-margin">
-                <div className="columns small-12">
-                    <h6>Participating organisation </h6>
-                    <FieldArray
-                        name="legacy_data"
-                        component={renderPerformanceCommentForm}
-                    />
-                </div>
-            </div>
+            <FieldArray
+                name="legacy_data"
+                component={renderPerformanceCommentForm}
+            />
             <div className="columns small-12">
                 <Link className="button" to={`/publisher/activities/${activityId}/performance/result`}>Back to performance result</Link>
                 <button className="button float-right" type="submit" disabled={submitting}>
