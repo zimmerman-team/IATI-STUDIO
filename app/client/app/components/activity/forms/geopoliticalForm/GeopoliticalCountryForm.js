@@ -165,9 +165,9 @@ class RecipientCountryForm extends Component {
     }
 
     render() {
-        const {data, codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {data, codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!data || !codeLists['Language'] || !codeLists['Country']) {
+        if (!data || isFetching || !codeLists['Language'] || !codeLists['Country']) {
             return <GeneralLoader />
         }
 
@@ -208,9 +208,11 @@ RecipientCountryForm = reduxForm({
 
 function mapStateToProps(state) {
     const recipient_countries = recipientCountriesSelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         data: recipient_countries,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         activity: state.activity,
         initialValues: {"recipient_countries": recipient_countries},  // populate initial values for redux form

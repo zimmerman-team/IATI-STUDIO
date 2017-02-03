@@ -185,8 +185,8 @@ class DocumentLinkForm extends Component {
 
 
     render() {
-        const {submitting, handleSubmit, codeLists, activityId} = this.props;
-        if (!codeLists['DocumentCategory'] || !codeLists['FileFormat'] || !codeLists['Language']) {
+        const {submitting, handleSubmit, codeLists, activityId, isFetching} = this.props;
+        if (!codeLists['DocumentCategory'] || isFetching || !codeLists['FileFormat'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -223,6 +223,7 @@ class DocumentLinkForm extends Component {
 
 function mapStateToProps(state, props) {
     let document_links = documentLinksSelector(state);
+    const isFetching = state.activity.isFetching;
     if (document_links && document_links.length) {
         /*
         document_links = document_links.map(function (documentFormData) {
@@ -237,6 +238,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: document_links,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"document_links": document_links},  // populate initial values for redux form
         publisher: publisherSelector(state),

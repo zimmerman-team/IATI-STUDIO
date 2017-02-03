@@ -205,9 +205,9 @@ class FinancialBudgetForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activity, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activity, activityId, isFetching} = this.props;
 
-        if (!activity || !codeLists["BudgetType"] || !codeLists["BudgetStatus"] || !codeLists["Currency"]) {
+        if (!activity || isFetching || !codeLists["BudgetType"] || !codeLists["BudgetStatus"] || !codeLists["Currency"]) {
             return <GeneralLoader/>
         }
 
@@ -243,9 +243,11 @@ function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let budgets = currentActivity && currentActivity.budgets;
+    const isFetching = state.activity.isFetching;
 
     return {
         data: budgets,
+        isFetching: isFetching,
         activity: state.activity.activity,
         codeLists: state.codeLists,
         initialValues: {"budgets": budgets},  // populate initial values for redux form

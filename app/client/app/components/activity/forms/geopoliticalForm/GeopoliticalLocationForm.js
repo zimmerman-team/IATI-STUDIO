@@ -365,8 +365,8 @@ class LocationForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
-        if (!codeLists['GeographicLocationReach'] || !codeLists['GeographicVocabulary'] || !codeLists['GeographicExactness']
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
+        if (isFetching || !codeLists['GeographicLocationReach'] || !codeLists['GeographicVocabulary'] || !codeLists['GeographicExactness']
             || !codeLists['GeographicLocationClass'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
@@ -403,6 +403,7 @@ function mapStateToProps(state, props) {
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let locations = currentActivity && currentActivity.locations;
+    const isFetching = state.activity.isFetching;
 
     // @TODO remove this when feature_designation is fixed on location form
     let formLocations = [];
@@ -416,6 +417,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: formLocations,
+        isFetching: isFetching,
         activity: state.activity.activity,
         codeLists: state.codeLists,
         initialValues: {"locations": formLocations},  // populate initial values for redux form

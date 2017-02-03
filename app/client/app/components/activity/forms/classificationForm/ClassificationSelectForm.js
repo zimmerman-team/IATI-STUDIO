@@ -57,9 +57,9 @@ class ClassificationSelectForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId } = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching } = this.props;
 
-        if (!codeLists['CollaborationType'] || !codeLists['FlowType'] || !codeLists['FinanceType']
+        if (!codeLists['CollaborationType'] || isFetching || !codeLists['FlowType'] || !codeLists['FinanceType']
                 || !codeLists['AidType'] || !codeLists['TiedStatus']) {
             return <GeneralLoader />
         }
@@ -118,26 +118,27 @@ class ClassificationSelectForm extends Component {
     }
 }
 
-ClassificationSelectForm = reduxForm({
-    form: 'classifications-select',     // a unique identifier for this form
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    validate
-})(ClassificationSelectForm);
-
-
 function mapStateToProps(state, props) {
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    const isFetching = state.activity.isFetching;
 
     return {
         submitting: state.activity.submitting,
+        isFetching: isFetching,
         activity: state.activity.activity,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
         codeLists: state.codeLists,
         publisher: publisherSelector(state),
     }
 }
+
+ClassificationSelectForm = reduxForm({
+    form: 'classifications-select',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    enableReinitialize: true,
+    validate
+})(ClassificationSelectForm);
 
 ClassificationSelectForm = connect(mapStateToProps, {
     getCodeListItems,

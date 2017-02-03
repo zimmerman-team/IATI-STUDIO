@@ -184,9 +184,9 @@ class HumanitarianScopeForm extends Component {
 
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!codeLists['HumanitarianScopeType'] || !codeLists['HumanitarianScopeVocabulary'] || !codeLists['Language']) {
+        if (!codeLists['HumanitarianScopeType'] || isFetching || !codeLists['HumanitarianScopeVocabulary'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -219,9 +219,11 @@ class HumanitarianScopeForm extends Component {
 
 function mapStateToProps(state, props) {
     const humanitarian_scope = humanitarianScopesSelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         data: humanitarian_scope,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"humanitarian_scope": humanitarian_scope},  // populate initial values for redux form
         publisher: publisherSelector(state),

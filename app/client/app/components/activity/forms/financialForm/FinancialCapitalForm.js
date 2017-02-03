@@ -59,7 +59,11 @@ class FinancialCapitalForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, activityId} = this.props;
+        const {handleSubmit, submitting, activityId, isFetching} = this.props;
+
+        if (isFetching) {
+            return <GeneralLoader/>
+        }
 
         return (
             <div>
@@ -108,8 +112,10 @@ FinancialCapitalForm = reduxForm({
 function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    const isFetching = state.activity.isFetching;
 
     return {
+        isFetching: isFetching,
         submitting: state.activity.submitting,
         activity: state.activity.activity,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form

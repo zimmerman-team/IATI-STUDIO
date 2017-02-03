@@ -73,9 +73,9 @@ class CountryBudgetForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!codeLists['BudgetIdentifier'] || !codeLists['BudgetIdentifierVocabulary'] || !codeLists['Language']) {
+        if (!codeLists['BudgetIdentifier'] || isFetching || !codeLists['BudgetIdentifierVocabulary'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -148,6 +148,7 @@ class CountryBudgetForm extends Component {
 
 function mapStateToProps(state, props) {
     const {activityId} = props;
+    const isFetching = state.activity.isFetching;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let country_budget_items = currentActivity && currentActivity.country_budget_items;
     if (currentActivity && !country_budget_items) {
@@ -156,6 +157,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: country_budget_items,
+        isFetching: isFetching,
         activity: state.activity.activity,
         codeLists: state.codeLists,
         initialValues: {"country_budget_items": country_budget_items},  // populate initial values for redux form

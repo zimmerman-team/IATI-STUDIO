@@ -148,10 +148,10 @@ class BasicInformationDateForm extends Component {
     }
 
     render() {
-        const {codeLists, submitting, handleSubmit, activity, activityId} = this.props;
+        const {codeLists, isFetching, submitting, handleSubmit, activity, activityId} = this.props;
 
 
-        if (!activity || !codeLists["ActivityDateType"] || !codeLists["Language"]) {
+        if (!activity || isFetching || !codeLists["ActivityDateType"] || !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -183,11 +183,13 @@ class BasicInformationDateForm extends Component {
 
 function mapStateToProps(state, props) {
     const {activityId} = props;
+    const isFetching = state.activity.isFetching;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let activity_dates = currentActivity && currentActivity.activity_dates;
 
     return {
         data: activity_dates,
+        isFetching: isFetching,
         activity: state.activity.activity,
         codeLists: state.codeLists,
         initialValues: {"activity_dates": activity_dates},  // populate initial values for redux form

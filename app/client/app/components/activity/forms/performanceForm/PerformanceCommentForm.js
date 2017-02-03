@@ -160,9 +160,9 @@ class PerformanceCommentForm extends Component {
     }
 
   render() {
-    const {handleSubmit, submitting, activityId, data} = this.props;
+    const {handleSubmit, submitting, activityId, data, isFetching} = this.props;
 
-      if (!data) {
+      if (!data || isFetching) {
           return <GeneralLoader/>
       }
 
@@ -199,9 +199,11 @@ PerformanceCommentForm = reduxForm({
 
 function mapStateToProps(state, props) {
     const legacy_data = legacyDataSelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         activity: state.activity,
+        isFetching: isFetching,
         data: legacy_data,
         initialValues: {"legacy_data": legacy_data},  // populate initial values for redux form
         publisher: publisherSelector(state),

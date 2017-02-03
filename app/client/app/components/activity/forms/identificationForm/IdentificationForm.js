@@ -82,9 +82,9 @@ class IdentificationForm extends PureComponent {
     }
 
     render() {
-        const {submitting, activity, handleSubmit, codeLists} = this.props;
+        const {submitting, activity, handleSubmit, codeLists, isFetching} = this.props;
 
-        if (!activity && !codeLists["Language"]) {
+        if (isFetching || !activity && !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -142,9 +142,11 @@ import {publisherSelector} from '../../../../reducers/createActivity'
 
 function mapStateToProps(state, props) {
     const {activityId} = props;
+    const isFetching = state.activity.isFetching;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
 
     return {
+        isFetching: isFetching,
         submitting: state.activity.submitting,
         activity: state.activity.activity,
         codeLists: state.codeLists,

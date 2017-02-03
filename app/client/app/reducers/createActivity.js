@@ -6,7 +6,9 @@ import _ from 'lodash'
 import { createSelector } from 'reselect'
 import * as ActionTypes from '../actions/activity'
 
-const initialState = { }
+const initialState = {
+    isFetching: false
+};
 
 function activity(state = initialState, action) {
     switch (action.type) {
@@ -29,7 +31,7 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_COUNTRY_BUDGET_ITEM_SUCCESS:
         case ActionTypes.GET_LEGACY_DATA_SUCCESS:
         case ActionTypes.GET_PERFORMANCE_CONDITION_SUCCESS:
-            return _.assign({}, state, action.response.entities)
+            return _.assign({}, state, action.response.entities, {isFetching: false})
 
         case ActionTypes.CREATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_BUDGET_SUCCESS:
@@ -64,7 +66,7 @@ function activity(state = initialState, action) {
         case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
         case ActionTypes.UPDATE_LEGACY_DATA_SUCCESS:
         case ActionTypes.UPDATE_ACTIVITY_SUCCESS:
-            return _.merge({}, state, action.response.entities)
+            return _.merge({}, state, action.response.entities, {isFetching: false});
 
 
         // ew...
@@ -195,6 +197,87 @@ function activity(state = initialState, action) {
                 'participating_organisations': {},
                 'document_links': {},
             };
+
+        case ActionTypes.GET_ACTIVITIES_REQUEST:
+        case ActionTypes.CREATE_ACTIVITY_REQUEST:
+        case ActionTypes.UPDATE_ACTIVITY_REQUEST:
+        case ActionTypes.DELETE_ACTIVITY_REQUEST:
+        case ActionTypes.GET_DESCRIPTIONS_REQUEST:
+        case ActionTypes.CREATE_DESCRIPTION_REQUEST:
+        case ActionTypes.UPDATE_DESCRIPTION_REQUEST:
+        case ActionTypes.DELETE_DESCRIPTION_REQUEST:
+        case ActionTypes.CREATE_DATE_REQUEST:
+        case ActionTypes.UPDATE_DATE_REQUEST:
+        case ActionTypes.DELETE_DATE_REQUEST:
+        case ActionTypes.CREATE_CONTACT_REQUEST:
+        case ActionTypes.UPDATE_CONTACT_REQUEST:
+        case ActionTypes.DELETE_CONTACT_REQUEST:
+        case ActionTypes.GET_TRANSACTION_REQUEST:
+        case ActionTypes.CREATE_TRANSACTION_REQUEST:
+        case ActionTypes.UPDATE_TRANSACTION_REQUEST:
+        case ActionTypes.DELETE_TRANSACTION_REQUEST:
+        case ActionTypes.CREATE_PLANNED_DISBURSEMENT_REQUEST:
+        case ActionTypes.UPDATE_PLANNED_DISBURSEMENT_REQUEST:
+        case ActionTypes.DELETE_PLANNED_DISBURSEMENT_REQUEST:
+        case ActionTypes.CREATE_BUDGET_REQUEST:
+        case ActionTypes.UPDATE_BUDGET_REQUEST:
+        case ActionTypes.DELETE_BUDGET_REQUEST:
+        case ActionTypes.GET_RECIPIENT_COUNTRIES_REQUEST:
+        case ActionTypes.CREATE_RECIPIENT_COUNTRY_REQUEST:
+        case ActionTypes.UPDATE_RECIPIENT_COUNTRY_REQUEST:
+        case ActionTypes.DELETE_RECIPIENT_COUNTRY_REQUEST:
+        case ActionTypes.GET_REGION_REQUEST:
+        case ActionTypes.CREATE_REGION_REQUEST:
+        case ActionTypes.UPDATE_REGION_REQUEST:
+        case ActionTypes.DELETE_REGION_REQUEST:
+        case ActionTypes.CREATE_LOCATION_REQUEST:
+        case ActionTypes.UPDATE_LOCATION_REQUEST:
+        case ActionTypes.DELETE_LOCATION_REQUEST:
+        case ActionTypes.GET_SECTOR_REQUEST:
+        case ActionTypes.CREATE_SECTOR_REQUEST:
+        case ActionTypes.UPDATE_SECTOR_REQUEST:
+        case ActionTypes.DELETE_SECTOR_REQUEST:
+        case ActionTypes.GET_POLICY_REQUEST:
+        case ActionTypes.CREATE_POLICY_REQUEST:
+        case ActionTypes.UPDATE_POLICY_REQUEST:
+        case ActionTypes.DELETE_POLICY_REQUEST:
+        case ActionTypes.GET_CODE_LIST_ITEMS_REQUEST:
+        case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_REQUEST:
+        case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_REQUEST:
+        case ActionTypes.UPDATE_PARTICIPATING_ORGANISATION_REQUEST:
+        case ActionTypes.DELETE_PARTICIPATING_ORGANISATION_REQUEST:
+        case ActionTypes.GET_DOCUMENT_LINK_REQUEST:
+        case ActionTypes.CREATE_DOCUMENT_LINK_REQUEST:
+        case ActionTypes.UPDATE_DOCUMENT_LINK_REQUEST:
+        case ActionTypes.DELETE_DOCUMENT_LINK_REQUEST:
+        case ActionTypes.GET_LEGACY_DATA_REQUEST:
+        case ActionTypes.CREATE_LEGACY_DATA_REQUEST:
+        case ActionTypes.UPDATE_LEGACY_DATA_REQUEST:
+        case ActionTypes.DELETE_LEGACY_DATA_REQUEST:
+        case ActionTypes.GET_COUNTRY_BUDGET_ITEM_REQUEST:
+        case ActionTypes.CREATE_COUNTRY_BUDGET_ITEM_REQUEST:
+        case ActionTypes.UPDATE_COUNTRY_BUDGET_ITEM_REQUEST:
+        case ActionTypes.DELETE_COUNTRY_BUDGET_ITEM_REQUEST:
+        case ActionTypes.GET_HUMANITARIAN_SCOPE_REQUEST:
+        case ActionTypes.CREATE_HUMANITARIAN_SCOPE_REQUEST:
+        case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_REQUEST:
+        case ActionTypes.DELETE_HUMANITARIAN_SCOPE_REQUEST:
+        case ActionTypes.GET_RELATION_REQUEST:
+        case ActionTypes.CREATE_RELATION_REQUEST:
+        case ActionTypes.UPDATE_RELATION_REQUEST:
+        case ActionTypes.DELETE_RELATION_REQUEST:
+        case ActionTypes.GET_PERFORMANCE_CONDITION_REQUEST:
+        case ActionTypes.CREATE_PERFORMANCE_CONDITION_REQUEST:
+        case ActionTypes.UPDATE_PERFORMANCE_CONDITION_REQUEST:
+        case ActionTypes.DELETE_PERFORMANCE_CONDITION_REQUEST:
+        case ActionTypes.GET_PERFORMANCE_RESULT_REQUEST:
+        case ActionTypes.CREATE_PERFORMANCE_RESULT_REQUEST:
+        case ActionTypes.UPDATE_PERFORMANCE_RESULT_REQUEST:
+        case ActionTypes.DELETE_PERFORMANCE_RESULT_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
+
         default:
             return state
     }

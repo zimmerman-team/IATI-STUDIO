@@ -202,8 +202,8 @@ class RecipientRegionForm extends React.Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId, data} = this.props;
-        if (!data || !codeLists['Region'] || !codeLists['RegionVocabulary'] || !codeLists['Language']) {
+        const {codeLists, handleSubmit, submitting, activityId, data, isFetching} = this.props;
+        if (isFetching || !data || !codeLists['Region'] || !codeLists['RegionVocabulary'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -246,9 +246,11 @@ RecipientRegionForm = reduxForm({
 
 function mapStateToProps(state, props) {
     const recipient_region = regionsSelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         data: recipient_region,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"recipient_region": recipient_region},  // populate initial values for redux form
         publisher: publisherSelector(state),

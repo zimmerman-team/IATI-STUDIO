@@ -75,9 +75,9 @@ class PerformanceConditionForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, codeLists, activityId} = this.props;
+        const {handleSubmit, submitting, codeLists, activityId, isFetching} = this.props;
 
-        if (!codeLists.ConditionType) {
+        if (!codeLists.ConditionType || isFetching) {
             return <GeneralLoader/>
         }
 
@@ -128,12 +128,14 @@ function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let conditions = currentActivity && currentActivity.conditions;
+    const isFetching = state.activity.isFetching;
     if (currentActivity && !conditions) {
         conditions = {};
     }
 
     return {
         data: conditions,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"conditions": conditions},  // populate initial values for redux form
         publisher: publisherSelector(state),

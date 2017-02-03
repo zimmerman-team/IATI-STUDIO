@@ -55,9 +55,9 @@ class BasicInformationStatusForm extends Component {
     }
 
   render() {
-    const {codeLists, handleSubmit, submitting, activityId} = this.props;
+    const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-    if (!codeLists["ActivityStatus"]) {
+    if (!codeLists["ActivityStatus"] || isFetching) {
       return <GeneralLoader/>
     }
 
@@ -96,11 +96,13 @@ class BasicInformationStatusForm extends Component {
 
 function mapStateToProps(state, props) {
     const status = statusSelector(state);
+    const isFetching = state.activity.isFetching;
     const { activityId } = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
 
     return {
         data: status,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         activity: state.activity.activity,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form

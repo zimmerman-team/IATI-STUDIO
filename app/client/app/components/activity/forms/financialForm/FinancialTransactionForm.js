@@ -379,9 +379,9 @@ class FinancialTransactionForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!codeLists["HumanitarianScopeType"] || !codeLists["TransactionType"] || !codeLists["OrganisationType"]
+        if (isFetching || !codeLists["HumanitarianScopeType"] || !codeLists["TransactionType"] || !codeLists["OrganisationType"]
                 || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["DisbursementChannel"]
                 || !codeLists["SectorVocabulary"] || !codeLists["Sector"] || !codeLists["Country"]
                 || !codeLists["FlowType"] || !codeLists["FinanceType"] || !codeLists["AidType"] || !codeLists["TiedStatus"]) {
@@ -429,6 +429,7 @@ class FinancialTransactionForm extends Component {
 
 function mapStateToProps(state, props) {
     let transactions = transactionsSelector(state);
+    const isFetching = state.activity.isFetching;
 /*
     const {activityId} = props;
     transactions = transactions.map(function (transactionData) {
@@ -444,6 +445,7 @@ function mapStateToProps(state, props) {
 
     return {
         data: transactions,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"transactions": transactions},  // populate initial values for redux form
         publisher: publisherSelector(state),

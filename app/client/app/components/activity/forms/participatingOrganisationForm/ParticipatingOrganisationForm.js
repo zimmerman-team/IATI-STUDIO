@@ -196,9 +196,9 @@ class ParticipatingOrganisationForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, data, codeLists, activityId} = this.props;
+        const {handleSubmit, submitting, data, codeLists, activityId, isFetching} = this.props;
 
-        if (!data || !codeLists.OrganisationRole || !codeLists.OrganisationType || !codeLists.Language) {
+        if (isFetching || !data || !codeLists.OrganisationRole || !codeLists.OrganisationType || !codeLists.Language) {
             return <GeneralLoader/>
         }
 
@@ -246,9 +246,11 @@ ParticipatingOrganisationForm = reduxForm({
 
 function mapStateToProps(state, props) {
     const participatingOrganisations = participatingOrganisationsSelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         activity: state.activity,
+        isFetching: isFetching,
         data: participatingOrganisations,
         initialValues: {"participating_organisations": participatingOrganisations},  // populate initial values for redux form
         publisher: publisherSelector(state),

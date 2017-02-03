@@ -165,9 +165,9 @@ class BasicInformationDescriptionForm extends Component {
     }
 
     render() {
-        const {data, codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {data, codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!data || !codeLists.DescriptionType || !codeLists.Language) {
+        if (!data || isFetching || !codeLists.DescriptionType || !codeLists.Language) {
             return <GeneralLoader/>
         }
 
@@ -201,6 +201,19 @@ class BasicInformationDescriptionForm extends Component {
     }
 }
 
+function mapStateToProps(state, props) {
+    const descriptions = descriptionsSelector(state);
+    const isFetching = state.activity.isFetching;
+    return {
+        data: descriptions,
+        isFetching: isFetching,
+        codeLists: state.codeLists,
+        initialValues: {"descriptions": descriptions},  // populate initial values for redux form
+        publisher: publisherSelector(state),
+        ...props,
+    }
+}
+
 BasicInformationDescriptionForm = reduxForm({
     form: 'basic-info-description',     // a unique identifier for this form
     destroyOnUnmount: false,
@@ -208,17 +221,6 @@ BasicInformationDescriptionForm = reduxForm({
     validate
 })(BasicInformationDescriptionForm);
 
-function mapStateToProps(state, props) {
-    const descriptions = descriptionsSelector(state);
-    return {
-        // initialValues: descriptions.length ? { descriptions } : null,
-        data: descriptions,
-        codeLists: state.codeLists,
-        initialValues: {"descriptions": descriptions},  // populate initial values for redux form
-        publisher: publisherSelector(state),
-        ...props,
-    }
-}
 
 BasicInformationDescriptionForm = connect(mapStateToProps, {
     getCodeListItems,

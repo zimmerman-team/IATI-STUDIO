@@ -139,9 +139,9 @@ class RelationsForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, previousPage, codeLists, activityId} = this.props;
+        const {handleSubmit, submitting, previousPage, codeLists, activityId, isFetching} = this.props;
 
-        if (!codeLists['RelatedActivityType']) {
+        if (isFetching || !codeLists['RelatedActivityType']) {
             return <GeneralLoader />
         }
 
@@ -180,9 +180,11 @@ function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let related_activities = currentActivity && currentActivity.related_activities;
+    const isFetching = state.activity.isFetching;
 
     return {
         data: related_activities,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"related_activities": related_activities},  // populate initial values for redux form
         publisher: publisherSelector(state),

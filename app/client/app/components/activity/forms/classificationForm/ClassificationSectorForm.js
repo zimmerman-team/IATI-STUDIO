@@ -205,9 +205,9 @@ class SectorForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!codeLists['SectorVocabulary'] || !codeLists['Sector'] || !codeLists['Language']) {
+        if (!codeLists['SectorVocabulary'] || isFetching || !codeLists['Sector'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -239,25 +239,26 @@ class SectorForm extends Component {
     }
 }
 
-SectorForm = reduxForm({
-    form: 'classifications-sector',     // a unique identifier for this form
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    validate
-})(SectorForm);
-
-
 function mapStateToProps(state, props) {
     const sector = sectorsSelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         data: sector,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"sector": sector},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
     }
 }
+
+SectorForm = reduxForm({
+    form: 'classifications-sector',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    enableReinitialize: true,
+    validate
+})(SectorForm);
 
 SectorForm = connect(mapStateToProps, {
     getCodeListItems,

@@ -174,9 +174,9 @@ class PolicyMakerForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!codeLists['PolicyMarker'] || !codeLists['PolicyMarkerVocabulary'] || !codeLists['PolicySignificance'] || !codeLists['Language']) {
+        if (!codeLists['PolicyMarker'] || isFetching || !codeLists['PolicyMarkerVocabulary'] || !codeLists['PolicySignificance'] || !codeLists['Language']) {
             return <GeneralLoader />
         }
 
@@ -216,9 +216,11 @@ class PolicyMakerForm extends Component {
 
 function mapStateToProps(state, props) {
     const policy_markers = policySelector(state);
+    const isFetching = state.activity.isFetching;
 
     return {
         data: policy_markers,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         initialValues: {"policy_markers": policy_markers},  // populate initial values for redux form
         publisher: publisherSelector(state),

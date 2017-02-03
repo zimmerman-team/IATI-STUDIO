@@ -186,9 +186,9 @@ class BasicInformationContactForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, data, codeLists, activityId, activity} = this.props;
+        const {handleSubmit, submitting, data, codeLists, activityId, activity, isFetching} = this.props;
 
-        if (!activity || !codeLists["ContactType"] || !codeLists["Language"]) {
+        if (!activity || isFetching || !codeLists["ContactType"] || !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
@@ -226,12 +226,14 @@ class BasicInformationContactForm extends Component {
 
 function mapStateToProps(state, props) {
     const {activityId} = props;
+    const isFetching = state.activity.isFetching;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let contact_info = currentActivity && currentActivity.contact_info;
 
 
     return {
         data: contact_info,
+        isFetching: isFetching,
         codeLists: state.codeLists,
         activity: state.activity.activity,
         initialValues: {"contact_info": contact_info},  // populate initial values for redux form

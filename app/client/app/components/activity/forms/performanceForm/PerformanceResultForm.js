@@ -171,9 +171,9 @@ class PerformanceResultForm extends Component {
     }
 
     render() {
-        const {handleSubmit, submitting, codeLists, activityId} = this.props;
+        const {handleSubmit, submitting, codeLists, activityId, isFetching} = this.props;
 
-        if (!codeLists.ResultType || !codeLists.Language || !codeLists.IndicatorMeasure || !codeLists.IndicatorVocabulary) {
+        if (isFetching || !codeLists.ResultType || !codeLists.Language || !codeLists.IndicatorMeasure || !codeLists.IndicatorVocabulary) {
             return <GeneralLoader/>
         }
 
@@ -217,9 +217,11 @@ function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let results = currentActivity && currentActivity.results;
+    const isFetching = state.activity.isFetching;
 
     return {
         data: results,
+        isFetching: isFetching,
         activity: state.activity.activity,
         codeLists: state.codeLists,
         initialValues: {"results": results},  // populate initial values for redux form

@@ -221,9 +221,9 @@ class FinancialPlannedDisbursement extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
 
-        if (!codeLists["DisbursementChannel"] || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["OrganisationType"]) {
+        if (!codeLists["DisbursementChannel"] || isFetching || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["OrganisationType"]) {
             return <GeneralLoader/>
         }
 
@@ -256,10 +256,18 @@ class FinancialPlannedDisbursement extends Component {
     }
 }
 
+FinancialPlannedDisbursement = reduxForm({
+    form: 'financial-planned-disbursement',     // a unique identifier for this form
+    destroyOnUnmount: false,
+    enableReinitialize: true,
+    validate
+})(FinancialPlannedDisbursement);
+
 function mapStateToProps(state, props) {
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
     let planned_disbursements = currentActivity && currentActivity.planned_disbursements;
+    const isFetching = state.activity.isFetching;
 
     if (planned_disbursements && planned_disbursements.length > 0) {
         planned_disbursements = planned_disbursements.map(function (plannedDisbursement) {
@@ -270,6 +278,7 @@ function mapStateToProps(state, props) {
     }
 
     return {
+        isFetching: isFetching,
         data: planned_disbursements,
         codeLists: state.codeLists,
         initialValues: {"planned_disbursements": planned_disbursements},  // populate initial values for redux form
@@ -277,14 +286,6 @@ function mapStateToProps(state, props) {
         ...props,
     }
 }
-
-FinancialPlannedDisbursement = reduxForm({
-    form: 'financial-planned-disbursement',     // a unique identifier for this form
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    validate
-})(FinancialPlannedDisbursement);
-
 
 FinancialPlannedDisbursement = connect(mapStateToProps, {
     getCodeListItems,
