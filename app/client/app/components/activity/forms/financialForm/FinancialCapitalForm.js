@@ -7,6 +7,7 @@ import {renderField} from '../../helpers/FormHelper'
 import {getActivity, updateActivity} from '../../../../actions/activity'
 import {publisherSelector} from '../../../../reducers/createActivity'
 import {reduxForm} from  'redux-form'
+import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 
 import {withRouter} from 'react-router'
 

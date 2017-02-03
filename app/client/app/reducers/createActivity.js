@@ -306,11 +306,6 @@ export const statusSelector = createSelector(
     (activity_status) => _.map(activity_status, x => x) // to array
 )
 
-export const countryBudgetItemSelector = createSelector(
-    state => state.activity.country_budget_items,
-    (country_budget_items) => _.map(country_budget_items, x => x) // to array
-)
-
 export const transactionsSelector = createSelector(
     state => state.activity.transactions,
     (transactions) => _.map(transactions, x => x) // to array
