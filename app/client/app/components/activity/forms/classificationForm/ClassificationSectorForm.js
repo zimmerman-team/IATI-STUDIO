@@ -61,16 +61,6 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                                     label="Percentage"
                                 />
                             </div>
-                            <div className="row no-margin">
-                                <div className="columns small-6">
-                                    <Field
-                                        name={`${sector}.sector[name]`}
-                                        type="text"
-                                        component={renderField}
-                                        label="Sector Name"
-                                    />
-                                </div>
-                            </div>
                         </div>
                         {/* @TODO uncomment when issue #949 is fixed
                         <div className="row no-margin">
@@ -154,14 +144,21 @@ class SectorForm extends Component {
      */
     handleFormSubmit(formData) {
         const {activityId, data, publisher} = this.props;
-        const sectors = formData.sector;
+        let sectorData = formData.sector;
+
+        sectorData = sectorData.map(function (sectorFormData) {
+            if (sectorFormData.sector && sectorFormData.sector.code) {
+                sectorFormData.sector.name = sectorFormData.sector.code
+            }
+            return sectorFormData;
+        });
 
         handleSubmit(
             publisher.id,
             'sector',
             activityId,
             data,
-            sectors,
+            sectorData,
             this.props.createSector,
             this.props.updateSector,
             this.props.deleteSector,

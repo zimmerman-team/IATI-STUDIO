@@ -108,7 +108,7 @@ const validate = values => {
             resultErrors.type = {code:'Required'}
         }
 
-        if (!resultData.aggregation_status) {
+        if (!resultData.aggregation_status && resultData.aggregation_status !== false) {
             resultErrors.aggregation_status = 'Required'
         }
 
