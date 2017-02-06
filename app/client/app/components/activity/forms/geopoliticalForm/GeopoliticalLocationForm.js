@@ -270,7 +270,7 @@ const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOp
                 </div>
                 <div className="columns small-12">
                     <h6>Position</h6>
-                    <div id="iati-map" style={{height: '400px', width: '1000px'}}>
+                    <div id="iati-map" style={{height: '400px'}}>
                         <div id="map" style={{height: '22rem'}}>
                             <Map center={[40.7, 45.1]} zoom={3} style={{height: '22rem'}} onClick={handleMapClick}>
                                 <TileLayer
