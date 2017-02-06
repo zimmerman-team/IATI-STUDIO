@@ -15,9 +15,10 @@ import {
 import handleSubmit from '../../helpers/handleSubmit'
 import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 const renderLocation = ({fields, geographicLocationReachOptions, geographicVocabularyOptions, geographicExactnessOptions,
-        geographicLocationClassOptions, languageOptions, meta: {touched, dirty, error}}) => {
+        geographicLocationClassOptions, languageOptions, dispatch, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -88,6 +89,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                                 name={`${location}.point`}
                                 textName={`${location}.point`}
                                 component={renderPointFields}
+                                dispatch={dispatch}
                                 geographicExactnessOptions={geographicExactnessOptions}
                                 geographicLocationClassOptions={geographicLocationClassOptions}
                             />
@@ -231,49 +233,82 @@ const renderAdministrativeFields = ({fields, textName="", geographicVocabularyOp
     )
 }
 
-const renderPointFields = ({fields, textName="", geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => (
-    <div className="columns small-12">
-        <h6>Point</h6>
-        <div className="row no-margin">
-            <div className="columns small-12">
-                <div className="row no-margin">
-                    <div className="columns small-6">
-                        <Field
-                            name={`${textName}.srsName`}
-                            type="text"
-                            component={renderField}
-                            label="Srs name"
-                        />
+const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOptions, geographicLocationClassOptions, meta: {touched, error}}) => {
+
+    function handleMapClick(data) {
+        const lat = data.latlng.lat;
+        const lng = data.latlng.lng;
+        //@TODO: Use props instead for redux-form/Change check https://github.com/erikras/redux-form/issues/152
+        const actionType = "@@redux-form/CHANGE";
+        const metaCommon = {
+            form: "geopolitical-information-location",
+            persistentSubmitErrors: false,
+            touch: false
+        };
+
+        let metaLat = Object.assign({field: `${fields.name}.pos.latitude`}, metaCommon);
+        let metaLng = Object.assign({field: `${fields.name}.pos.longitude`}, metaCommon);
+        dispatch({meta: metaLat, payload: lat, type: actionType});
+        dispatch({meta: metaLng, payload: lng, type: actionType});
+    }
+
+    return(
+        <div className="columns small-12">
+            <h6>Point</h6>
+            <div className="row no-margin">
+                <div className="columns small-12">
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${textName}.srsName`}
+                                type="text"
+                                component={renderField}
+                                label="Srs name"
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="columns small-12">
-                <h6>Position</h6>
-                <div className="row no-margin">
-                    <div className="columns small-6">
-                        <Field
-                            name={`${textName}.pos.latitude`}
-                            type="number"
-                            component={renderField}
-                            label="Latitude"
-                        />
+                <div className="columns small-12">
+                    <h6>Position</h6>
+                    <div id="iati-map" style={{height: '400px', width: '1000px'}}>
+                        <div id="map" style={{height: '22rem'}}>
+                            <Map center={[40.7, 45.1]} zoom={3} style={{height: '22rem'}} onClick={handleMapClick}>
+                                <TileLayer
+                                    url='https://api.mapbox.com/styles/v1/zimmerman2014/ciwgiium3000u2pnv87enxt4y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemltbWVybWFuMjAxNCIsImEiOiJhNUhFM2YwIn0.sedQBdUN7PJ1AjknVVyqZw'
+                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                <Marker position={[40.7, 45.1]}>
+                                    <Popup>
+                                        <span>Current Location</span>
+                                    </Popup>
+                                </Marker>
+                            </Map>
+                        </div>
                     </div>
-                    <div className="columns small-6">
-                        <Field
-                            name={`${textName}.pos.longitude`}
-                            type="number"
-                            component={renderField}
-                            label="Longitude"
-                        />
+
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <Field
+                                name={`${textName}.pos.latitude`}
+                                type="number"
+                                component={renderField}
+                                label="Latitude"
+                            />
+                        </div>
+                        <div className="columns small-6">
+                            <Field
+                                name={`${textName}.pos.longitude`}
+                                type="number"
+                                component={renderField}
+                                label="Longitude"
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="columns small-12">
-                {/*@TODO Map here*/}
             </div>
         </div>
-    </div>
-);
+    )
+};
 
 const validate = values => {
     let errors = {};
@@ -346,7 +381,6 @@ class LocationForm extends Component {
         })
     }
 
-
     componentWillMount() {
         this.props.getCodeListItems('GeographicLocationReach');
         this.props.getCodeListItems('GeographicVocabulary');
@@ -386,6 +420,7 @@ class LocationForm extends Component {
                         geographicExactnessOptions={codeLists["GeographicExactness"]}
                         geographicLocationClassOptions={codeLists["GeographicLocationClass"]}
                         languageOptions={codeLists["Language"]}
+                        dispatch={this.props.dispatch}
                     />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/geopolitical-information/region`}>Back to region</Link>
