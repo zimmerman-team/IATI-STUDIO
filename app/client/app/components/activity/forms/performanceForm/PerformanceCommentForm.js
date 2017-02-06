@@ -22,10 +22,9 @@ const renderPerformanceCommentForm = ({fields, meta: {touched, error,dirty}}) =>
 
     return (
         <div>
-          <div className="field-list clearfix">
               {fields.map((legacyData, index) =>
-                  <div key={index}>
-                      <div className="field-list">
+              <div key={index}>
+                  <div className="field-list">
                         <div className="row no-margin">
                           <div className="columns small-6">
                             <Field
@@ -43,7 +42,6 @@ const renderPerformanceCommentForm = ({fields, meta: {touched, error,dirty}}) =>
                                 label="Value"
                             />
                           </div>
-                        </div>
                         <div className="row no-margin">
                           <div className="columns small-6">
                             <Field
@@ -55,22 +53,22 @@ const renderPerformanceCommentForm = ({fields, meta: {touched, error,dirty}}) =>
                           </div>
                         </div>
                       </div>
-                    <div className="columns">
-                      <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
-                      </button>
-                      <button
-                          type="button"
-                          title="Remove Title"
-                          className="control-button remove float-right"
-                          onClick={() => fields.remove(index)}>Delete
-                      </button>
-                        {touched && error && <span className="error">{error}</span>}
-                    </div>
-                    <br/><br/>
                   </div>
+                <div className="columns">
+                  <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                  </button>
+                  <button
+                      type="button"
+                      title="Remove Title"
+                      className="control-button remove float-right"
+                      onClick={() => fields.remove(index)}>Delete
+                  </button>
+                    {touched && error && <span className="error">{error}</span>}
+                </div>
+                <br/><br/>
+              </div>
               )}
           </div>
-        </div>
     )
 };
 

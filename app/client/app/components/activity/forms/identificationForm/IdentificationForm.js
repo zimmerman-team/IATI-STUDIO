@@ -1,11 +1,13 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
+import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {renderField, renderSelectField, renderNarrativeFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
 import ActivityTooltip from '../../ActivityTooltip'
+import {publisherSelector} from '../../../../reducers/createActivity'
 
 const validate = values => {
     const errors = {};
@@ -93,32 +95,44 @@ class IdentificationForm extends PureComponent {
                 <ActivityTooltip
                     text="An IATI Activity"
                 />
+                <div className="columns small-centered small-12">
+                    <h2 className="page-title with-tip">Identification</h2>
+                    <Tooltip className="inline" tooltip="Description text goes here">
+                        <i className="material-icons">info</i>
+                    </Tooltip>
+                </div>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)} name="identification">
-                    <div className="columns small-6">
-                        <Field
-                            name="activity.iati_identifier"
-                            type="text"
-                            id="iati_identifier"
-                            component={renderField}
-                            label="IATI Identifier"
-                        />
+                    <div className="field-list">
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name="activity.iati_identifier"
+                                    type="text"
+                                    id="iati_identifier"
+                                    component={renderField}
+                                    label="IATI Identifier"
+                                />
+                            </div>
+                            <Field
+                                component={renderSelectField}
+                                name="activity.hierarchy"
+                                textName="activity.hierarchy"
+                                label="Hierarchy"
+                                selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name="activity.title.narratives"
+                                component={renderNarrativeFields}
+                                languageOptions={codeLists["Language"]}
+                                narrativeLabel={false}
+                                textName="textTitle"
+                                textLabel="Title"
+                            />
+                        </div>
                     </div>
-                    <Field
-                        component={renderSelectField}
-                        name="activity.hierarchy"
-                        textName="activity.hierarchy"
-                        label="Hierarchy"
-                        selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
-                        defaultOption="Select one of the following options"
-                    />
-                    <FieldArray
-                        name="activity.title.narratives"
-                        component={renderNarrativeFields}
-                        languageOptions={codeLists["Language"]}
-                        narrativeLabel={false}
-                        textName="textTitle"
-                        textLabel="Title"
-                    />
                     <div className="columns small-12">
                         <button className="button" type="submit" disabled={submitting}>
                             Continue to basic information
@@ -137,8 +151,6 @@ IdentificationForm = reduxForm({
     validate
 })(IdentificationForm);
 
-
-import {publisherSelector} from '../../../../reducers/createActivity'
 
 function mapStateToProps(state, props) {
     const {activityId} = props;

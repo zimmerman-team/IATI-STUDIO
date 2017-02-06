@@ -19,7 +19,7 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
         <div>
             {fields.map((budget, index) =>
                 <div key={index}>
-                    <div className="field-list" key={index}>
+                    <div className="field-list">
                         <div className="row no-margin">
                             {
                                 !budgetTypeOptions ?

@@ -101,18 +101,18 @@ export const renderNarrativeFields = ({fields, languageOptions, narrativeLabel =
                         defaultOption="Select one of the following options"
                     />
                 </div>
-                )}
-                <div className="columns">
-                    <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-                    <button
-                        type="button"
-                        title="Remove Title"
-                        className="control-button remove float-right"
-                        onClick={() => fields.pop()}>Delete
-                    </button>
-                    {touched && error && <span className="error">{error}</span>}
-                </div>
+            )}
+            <div className="columns">
+                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
+                <button
+                    type="button"
+                    title="Remove Title"
+                    className="control-button remove float-right"
+                    onClick={() => fields.pop()}>Delete
+                </button>
+                {touched && error && <span className="error">{error}</span>}
             </div>
+        </div>
     )
 };
 

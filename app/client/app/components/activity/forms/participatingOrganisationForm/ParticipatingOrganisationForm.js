@@ -100,10 +100,10 @@ const validate = values => {
             participatingOrganisationErrors.activity_id = 'Required'
         }
 
-        const narratives = participatingOrganisation.narratives || []
+        const narratives = participatingOrganisation.narratives || [];
 
         participatingOrganisationErrors.narratives = narratives.map(narrative => {
-            let narrativeErrors = {}
+            let narrativeErrors = {};
 
             if (!narrative.text) {
                 narrativeErrors.text = 'Required'
@@ -114,10 +114,10 @@ const validate = values => {
             }
 
             return narrativeErrors
-        })
+        });
 
         return participatingOrganisationErrors
-    })
+    });
 
     if (!participatingOrganisations.length) {
         errors.participating_organisations._error = 'At least one participatingOrganisation must be entered'

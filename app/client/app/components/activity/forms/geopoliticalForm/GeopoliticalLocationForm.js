@@ -63,7 +63,7 @@ const renderLocation = ({fields, geographicLocationReachOptions, geographicVocab
                             />
                             <h6 className="columns">Name</h6>
                             <FieldArray
-                                name={`${location}name.narratives`}
+                                name={`${location}.name.narratives`}
                                 component={renderNarrativeFields}
                                 languageOptions={languageOptions}
                                 textName="name"
@@ -253,24 +253,26 @@ const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOp
     }
 
     return(
-        <div className="columns small-12">
-            <h6>Point</h6>
+        <div>
             <div className="row no-margin">
-                <div className="columns small-12">
-                    <div className="row no-margin">
-                        <div className="columns small-6">
-                            <Field
-                                name={`${textName}.srsName`}
-                                type="text"
-                                component={renderField}
-                                label="Srs name"
-                            />
-                        </div>
-                    </div>
+                <div className="columns small-6">
+                    <h6>Point</h6>
                 </div>
-                <div className="columns small-12">
-                    <h6>Position</h6>
-                    <div className="row no-margin">
+            </div>
+
+            <div className="row no-margin">
+                <div className="columns small-6">
+                    <Field
+                        name={`${textName}.srsName`}
+                        type="text"
+                        component={renderField}
+                        label="Srs name"
+                    />
+                </div>
+
+                <div className="row no-margin">
+                    <div className="columns small-12">
+                        <h6>Position</h6>
                         <div className="columns small-6">
                             <Field
                                 name={`${textName}.pos.latitude`}
@@ -288,14 +290,18 @@ const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOp
                             />
                         </div>
                     </div>
+                </div>
 
-                    <div id="iati-map" style={{height: '400px'}}>
-                        <div id="map" style={{height: '22rem'}}>
-                            <Map center={[40.7, 45.1]} zoom={3} style={{height: '22rem'}} onClick={handleMapClick}>
-                                <TileLayer
-                                    url='https://api.mapbox.com/styles/v1/zimmerman2014/ciwgiium3000u2pnv87enxt4y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemltbWVybWFuMjAxNCIsImEiOiJhNUhFM2YwIn0.sedQBdUN7PJ1AjknVVyqZw'
-                                />
-                            </Map>
+                <div className="row no-margin">
+                    <div className="columns small-12">
+                        <div id="iati-map" style={{height: '400px'}}>
+                            <div id="map" style={{height: '22rem'}}>
+                                <Map center={[40.7, 45.1]} zoom={3} style={{height: '22rem'}} onClick={handleMapClick}>
+                                    <TileLayer
+                                        url='https://api.mapbox.com/styles/v1/zimmerman2014/ciwgiium3000u2pnv87enxt4y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemltbWVybWFuMjAxNCIsImEiOiJhNUhFM2YwIn0.sedQBdUN7PJ1AjknVVyqZw'
+                                    />
+                                </Map>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -307,10 +313,10 @@ const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOp
 const validate = values => {
     let errors = {};
 
-    const locations = values.locations || []
+    const locations = values.locations || [];
 
     errors.locations = locations.map(location => {
-        let locationErrors = {}
+        let locationErrors = {};
 
         if (!location.location_reach) {
             locationErrors.location_reach = {code: 'Required'}
@@ -324,12 +330,55 @@ const validate = values => {
             locationErrors.exactness = {code: 'Required'}
         }
 
-        // if(location.location_id) {
-        //     if (!location.location_id.vocabulary) {
-        //         locationErrors.vocabulary = {code: 'Required'}
-        //     }
-        // }
+        const nameNarratives = (location.name && location.name.narratives) || [];
+        const descriptionNarratives = (location.description && location.description.narratives) || [];
+        const activityDescriptionNarratives = (location.activity_description && location.activity_description.narratives) || [];
 
+        locationErrors.name = {};
+        locationErrors.description = {};
+        locationErrors.activity_description = {};
+
+        locationErrors.name.narratives = nameNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+        locationErrors.description.narratives = descriptionNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+        locationErrors.activity_description.narratives = activityDescriptionNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
 
         if (!location.location_class) {
             locationErrors.location_class = 'Required'

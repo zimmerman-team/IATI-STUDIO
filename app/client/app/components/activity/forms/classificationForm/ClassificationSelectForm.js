@@ -72,39 +72,37 @@ class ClassificationSelectForm extends Component {
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     <div className="field-list">
-                        <RenderSingleSelect
-                            name="activity.collaboration_type[code]"
-                            textName="activity.collaboration_type[code]"
-                            label='Collaboration Type'
-                            selectOptions={codeLists['CollaborationType']}/>
-                    </div>
-                    <div className="field-list">
-                        <RenderSingleSelect
-                            name="activity.default_flow_type[code]"
-                            textName="activity.default_flow_type[code]"
-                            label='Flow Type'
-                            selectOptions={codeLists['FlowType']}/>
-                    </div>
-                    <div className="field-list">
-                        <RenderSingleSelect
-                                name="activity.default_finance_type[code]"
-                                textName="activity.default_finance_type[code]"
-                                label='Default Finance Type'
-                                selectOptions={codeLists['FinanceType']}/>
-                    </div>
-                    <div className="field-list">
-                        <RenderSingleSelect
-                            name="activity.default_aid_type[code]"
-                            textName="activity.default_aid_type[code]"
-                            label='Default Aid Type'
-                            selectOptions={codeLists['AidType']}/>
-                    </div>
-                    <div className="field-list">
-                        <RenderSingleSelect
-                            name="activity.default_tied_status[code]"
-                            textName="activity.default_tied_status[code]"
-                            label='Default Tied Type'
-                            selectOptions={codeLists['TiedStatus']}/>
+                        <div className="row no-margin">
+                            <RenderSingleSelect
+                                name="activity.collaboration_type[code]"
+                                textName="activity.collaboration_type[code]"
+                                label='Collaboration Type'
+                                selectOptions={codeLists['CollaborationType']}/>
+                            <RenderSingleSelect
+                                name="activity.default_flow_type[code]"
+                                textName="activity.default_flow_type[code]"
+                                label='Flow Type'
+                                selectOptions={codeLists['FlowType']}/>
+                        </div>
+                        <div className="row no-margin">
+                            <RenderSingleSelect
+                                    name="activity.default_finance_type[code]"
+                                    textName="activity.default_finance_type[code]"
+                                    label='Default Finance Type'
+                                    selectOptions={codeLists['FinanceType']}/>
+                            <RenderSingleSelect
+                                name="activity.default_aid_type[code]"
+                                textName="activity.default_aid_type[code]"
+                                label='Default Aid Type'
+                                selectOptions={codeLists['AidType']}/>
+                        </div>
+                        <div className="row no-margin">
+                            <RenderSingleSelect
+                                name="activity.default_tied_status[code]"
+                                textName="activity.default_tied_status[code]"
+                                label='Default Tied Type'
+                                selectOptions={codeLists['TiedStatus']}/>
+                        </div>
                     </div>
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/classifications/policy`}>Back to policy</Link>

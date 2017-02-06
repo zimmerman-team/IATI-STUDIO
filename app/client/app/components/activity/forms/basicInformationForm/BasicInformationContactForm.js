@@ -20,7 +20,7 @@ const renderContactInfo = ({fields, languageOptions, contactTypes, meta: {dirty,
         <div>
             {fields.map((contact, index) =>
                 <div key={index}>
-                    <div className="field-list" key={index}>
+                    <div className="field-list">
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
@@ -118,16 +118,100 @@ const renderContactInfo = ({fields, languageOptions, contactTypes, meta: {dirty,
 const validate = values => {
     let errors = {};
 
-    const activityDates = values.contact_info || []
+    const contactInfo = values.contact_info || [];
 
-    errors.contact_info = activityDates.map(dateData => {
-        let descriptionErrors = {}
+    errors.contact_info = contactInfo.map(formData => {
+        let contactErrors = {};
 
-        if (!dateData.type) {
-            descriptionErrors.type = {code: 'Required'}
+        if (!formData.type) {
+            contactErrors.type = {code: 'Required'}
         }
 
-        return descriptionErrors
+        const departmentNarratives = (formData.department && formData.department.narratives) || [];
+        const organisationNarratives = (formData.organisation && formData.organisation.narratives) || [];
+        const personNameNarratives = (formData.person_name && formData.person_name.narratives) || [];
+        const jobTitleNarratives = (formData.job_title && formData.job_title.narratives) || [];
+        const mailingAddressNarratives = (formData.mailing_address && formData.mailing_address.narratives) || [];
+
+        contactErrors.department = {};
+        contactErrors.organisation = {};
+        contactErrors.person_name = {};
+        contactErrors.job_title = {};
+        contactErrors.mailing_address = {};
+
+        contactErrors.department.narratives = departmentNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+        contactErrors.organisation.narratives = organisationNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+        contactErrors.person_name.narratives = personNameNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+
+        contactErrors.job_title.narratives = jobTitleNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+
+        contactErrors.mailing_address.narratives = mailingAddressNarratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language) {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors;
+        });
+
+        return contactErrors
     });
 
     return errors
@@ -201,14 +285,12 @@ class BasicInformationContactForm extends Component {
                             <i className="material-icons">info</i>
                         </Tooltip>
                         <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-                            <div className="field-list">
-                                <FieldArray
-                                    name="contact_info"
-                                    component={renderContactInfo}
-                                    languageOptions={codeLists["Language"]}
-                                    contactTypes={codeLists["ContactType"]}
-                                />
-                            </div>
+                            <FieldArray
+                                name="contact_info"
+                                component={renderContactInfo}
+                                languageOptions={codeLists["Language"]}
+                                contactTypes={codeLists["ContactType"]}
+                            />
                             <div className="columns small-12">
                                 <Link className="button" to={`/publisher/activities/${activityId}/basic-info/date`}>Back
                                     to date</Link>
