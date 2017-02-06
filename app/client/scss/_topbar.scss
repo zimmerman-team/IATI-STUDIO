@@ -2,7 +2,7 @@
 	position:fixed;
 	width:100%;
 	line-height: 3rem;
-	z-index:99;
+	z-index:1001;		//note: leftlet has 1000 z-index, external css
 	top:0;
 	.columns {
 		float:none;

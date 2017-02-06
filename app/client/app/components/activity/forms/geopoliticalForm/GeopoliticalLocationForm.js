@@ -270,22 +270,6 @@ const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOp
                 </div>
                 <div className="columns small-12">
                     <h6>Position</h6>
-                    <div id="iati-map" style={{height: '400px'}}>
-                        <div id="map" style={{height: '22rem'}}>
-                            <Map center={[40.7, 45.1]} zoom={3} style={{height: '22rem'}} onClick={handleMapClick}>
-                                <TileLayer
-                                    url='https://api.mapbox.com/styles/v1/zimmerman2014/ciwgiium3000u2pnv87enxt4y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemltbWVybWFuMjAxNCIsImEiOiJhNUhFM2YwIn0.sedQBdUN7PJ1AjknVVyqZw'
-                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                />
-                                <Marker position={[40.7, 45.1]}>
-                                    <Popup>
-                                        <span>Current Location</span>
-                                    </Popup>
-                                </Marker>
-                            </Map>
-                        </div>
-                    </div>
-
                     <div className="row no-margin">
                         <div className="columns small-6">
                             <Field
@@ -302,6 +286,16 @@ const renderPointFields = ({fields, textName="", dispatch, geographicExactnessOp
                                 component={renderField}
                                 label="Longitude"
                             />
+                        </div>
+                    </div>
+
+                    <div id="iati-map" style={{height: '400px'}}>
+                        <div id="map" style={{height: '22rem'}}>
+                            <Map center={[40.7, 45.1]} zoom={3} style={{height: '22rem'}} onClick={handleMapClick}>
+                                <TileLayer
+                                    url='https://api.mapbox.com/styles/v1/zimmerman2014/ciwgiium3000u2pnv87enxt4y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemltbWVybWFuMjAxNCIsImEiOiJhNUhFM2YwIn0.sedQBdUN7PJ1AjknVVyqZw'
+                                />
+                            </Map>
                         </div>
                     </div>
                 </div>
