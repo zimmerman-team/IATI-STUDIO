@@ -43,7 +43,7 @@ export const getActivities = (publisherId, searchValue) => (dispatch, getState) 
         return null
     }
 
-    console.log('reached...');
+    //console.log('reached...');
 
     return dispatch(fetchActivities(publisherId, searchValue, pageCount, false))
 }
