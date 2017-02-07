@@ -64,7 +64,6 @@ const renderFinancialPlannedDisbursementForm = ({
                             <strong>Value</strong>
                         </div>
                     </div>
-
                     <div className="row no-margin">
                         <div className="columns small-6">
                             <Field
@@ -150,6 +149,19 @@ const validate = values => {
 
         if (!disbursementData.value) {
             disbursementErrors.value = {date: 'Required', currency: {code: 'Required'}, value: 'Required'}
+        } else {
+            disbursementErrors.value = {};
+            if (!disbursementData.value.date) {
+                disbursementErrors.value.date = 'Required'
+            }
+
+            if (!disbursementData.value.currency || disbursementData.value.currency.code == "Select one of the following options") {
+                disbursementErrors.value.currency = {code: 'Required'}
+            }
+
+            if (!disbursementData.value.value) {
+                disbursementErrors.value.value = 'Required'
+            }
         }
 
         if (!disbursementData.period_start) {
@@ -158,6 +170,75 @@ const validate = values => {
 
         if (!disbursementData.period_end) {
             disbursementErrors.period_end = 'Required'
+        }
+
+
+        if (disbursementData.provider_organisation) {
+            const narrativesProviderOrganisation = (disbursementData.provider_organisation && disbursementData.provider_organisation.narratives) || [];
+
+            disbursementErrors.provider_organisation = {};
+            disbursementErrors.provider_organisation.narratives = narrativesProviderOrganisation.map(narrative => {
+                let narrativeErrors = {};
+
+                if (!narrative.text) {
+                    narrativeErrors.text = 'Required'
+                }
+
+                if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                    narrativeErrors.language = {code: 'Required'}
+                }
+
+                return narrativeErrors
+            });
+
+            if (!narrativesProviderOrganisation.length) {
+                disbursementErrors.provider_organisation.narratives._error = 'At least one narrative must be entered'
+            }
+
+            if (!disbursementData.provider_organisation || !disbursementData.provider_organisation.type) {
+                disbursementErrors.provider_organisation.type = {code: 'Required'}
+            }
+
+            if (!disbursementData.provider_organisation || !disbursementData.provider_organisation.ref) {
+                disbursementErrors.provider_organisation.ref = 'Required'
+            }
+        }
+
+        if (disbursementData.receiver_organisation) {
+            const narrativesReceiverOrganisation = (disbursementData.receiver_organisation && disbursementData.receiver_organisation.narratives) || [];
+            disbursementErrors.receiver_organisation = {};
+            disbursementErrors.receiver_organisation.narratives = narrativesReceiverOrganisation.map(narrative => {
+                let narrativeErrors = {};
+
+                if (!narrative.text) {
+                    narrativeErrors.text = 'Required'
+                }
+
+                if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                    narrativeErrors.language = {code: 'Required'}
+                }
+
+                return narrativeErrors
+            });
+
+            if (!narrativesReceiverOrganisation.length) {
+                disbursementErrors.receiver_organisation.narratives._error = 'At least one narrative must be entered'
+            }
+
+            if (!disbursementData.receiver_organisation || !disbursementData.receiver_organisation.type) {
+                disbursementErrors.receiver_organisation.type = {code: 'Required'}
+            }
+
+            if (!disbursementData.receiver_organisation || !disbursementData.receiver_organisation.ref) {
+                disbursementErrors.receiver_organisation.ref = 'Required'
+            }
+        }
+
+        if (!disbursementErrors.provider_organisation || _.isEmpty(disbursementErrors.provider_organisation.narratives) || _.isEmpty(disbursementErrors.provider_organisation.narratives[0])) {
+            disbursementErrors.provider_organisation = null;
+        }
+        if (!disbursementErrors.receiver_organisation || _.isEmpty(disbursementErrors.receiver_organisation.narratives) || _.isEmpty(disbursementErrors.receiver_organisation.narratives[0])) {
+            disbursementErrors.receiver_organisation = null;
         }
         return disbursementErrors
     });

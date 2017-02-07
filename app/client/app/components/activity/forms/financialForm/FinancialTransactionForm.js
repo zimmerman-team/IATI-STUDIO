@@ -145,18 +145,20 @@ const renderFinancialTransactionForm = ({
                                     textLabel="Title"
                                 />
                             </div>
-                            <div>
-                                <div className=""><h6>Disbursement channel</h6></div>
-                                <div className="row no-margin">
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${transaction}disbursement_channel.code`}
-                                        textName={`${transaction}disbursement_channel.code`}
-                                        label="Type"
-                                        selectOptions={disbursementOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
+                            <div className="row no-margin">
+                                <div className="columns small-6">
+                                    <strong>Disbursement channel</strong>
                                 </div>
+                            </div>
+                            <div className="row no-margin">
+                                <Field
+                                    component={renderSelectField}
+                                    name={`${transaction}disbursement_channel.code`}
+                                    textName={`${transaction}disbursement_channel.code`}
+                                    label="Type"
+                                    selectOptions={disbursementOptions}
+                                    defaultOption="Select one of the following options"
+                                />
                             </div>
                             {/*
                             <FieldArray
@@ -281,6 +283,108 @@ const validate = values => {
 
         if (!transactionData.transaction_date) {
             transactionErrors.transaction_date = 'Required'
+        }
+
+        if (!transactionData.value) {
+            transactionErrors.value = 'Required'
+        }
+
+        if (!transactionData.humanitarian) {
+            transactionErrors.humanitarian = 'Required'
+        }
+
+        if (!transactionData.currency) {
+            transactionErrors.currency = {code: 'Required'}
+        }
+
+        if (!transactionData.disbursement_channel) {
+            transactionErrors.disbursement_channel = {code: 'Required'}
+        }
+
+        const recipientCountries = transactionData.recipient_countries || [];
+        transactionErrors.recipient_countries = {};
+        transactionErrors.recipient_countries = recipientCountries.map(recipientCountry => {
+            let recipientCountriesErrors = {};
+
+            if (!recipientCountry.country || recipientCountry.country.code == "Select one of the following options") {
+                recipientCountriesErrors.country = {code: 'Required'}
+            }
+
+            return recipientCountriesErrors
+        });
+
+        if (!recipientCountries.length) {
+            transactionErrors.recipient_countries._error = 'At least one narrative must be entered'
+        }
+
+
+        if (transactionData.provider_organisation) {
+            const narrativesProviderOrganisation = (transactionData.provider_organisation && transactionData.provider_organisation.narratives) || [];
+
+            transactionErrors.provider_organisation = {};
+            transactionErrors.provider_organisation.narratives = narrativesProviderOrganisation.map(narrative => {
+                let narrativeErrors = {};
+
+                if (!narrative.text) {
+                    narrativeErrors.text = 'Required'
+                }
+
+                if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                    narrativeErrors.language = {code: 'Required'}
+                }
+
+                return narrativeErrors
+            });
+
+            if (!narrativesProviderOrganisation.length) {
+                transactionErrors.provider_organisation.narratives._error = 'At least one narrative must be entered'
+            }
+
+            if (!transactionData.provider_organisation || !transactionData.provider_organisation.type) {
+                transactionErrors.provider_organisation.type = {code: 'Required'}
+            }
+
+            if (!transactionData.provider_organisation || !transactionData.provider_organisation.ref) {
+                transactionErrors.provider_organisation.ref = 'Required'
+            }
+
+            if (!transactionData.provider_organisation || !transactionData.provider_organisation.provider_activity_id) {
+                transactionErrors.provider_organisation.provider_activity_id = 'Required'
+            }
+        }
+
+        if (transactionData.receiver_organisation) {
+            const narrativesReceiverOrganisation = (transactionData.receiver_organisation && transactionData.receiver_organisation.narratives) || [];
+            transactionErrors.receiver_organisation = {};
+            transactionErrors.receiver_organisation.narratives = narrativesReceiverOrganisation.map(narrative => {
+                let narrativeErrors = {};
+
+                if (!narrative.text) {
+                    narrativeErrors.text = 'Required'
+                }
+
+                if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                    narrativeErrors.language = {code: 'Required'}
+                }
+
+                return narrativeErrors
+            });
+
+            if (!narrativesReceiverOrganisation.length) {
+                transactionErrors.receiver_organisation.narratives._error = 'At least one narrative must be entered'
+            }
+
+            if (!transactionData.receiver_organisation || !transactionData.receiver_organisation.type) {
+                transactionErrors.receiver_organisation.type = {code: 'Required'}
+            }
+
+            if (!transactionData.receiver_organisation || !transactionData.receiver_organisation.ref) {
+                transactionErrors.receiver_organisation.ref = 'Required'
+            }
+
+            if (!transactionData.receiver_organisation || !transactionData.receiver_organisation.receiver_activity_id) {
+                transactionErrors.receiver_organisation.receiver_activity_id = 'Required'
+            }
         }
 
         return transactionErrors
