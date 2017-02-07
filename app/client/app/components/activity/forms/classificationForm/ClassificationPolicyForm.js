@@ -99,11 +99,35 @@ const validate = values => {
         }
 
         if (!policyData.vocabulary) {
-            policyErrors.vocabulary = 'Required'
+            policyErrors.vocabulary = {code: 'Required'}
+        }
+
+        const narratives = policyData.narratives || [];
+
+        policyErrors.narratives = narratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors
+        });
+
+        if (!narratives.length) {
+            policyErrors.narratives._error = 'At least one narrative must be entered'
         }
 
         return policyErrors
     });
+
+    if (!policies.length) {
+        errors.policy_markers._error = 'At least one description must be entered'
+    }
 
     return errors
 };

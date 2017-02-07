@@ -99,7 +99,7 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
 const validate = values => {
     let errors = {};
 
-    const results = values.results || []
+    const results = values.results || [];
 
     errors.results = results.map(resultData => {
         let resultErrors = {};
@@ -110,6 +110,48 @@ const validate = values => {
 
         if (!resultData.aggregation_status && resultData.aggregation_status !== false) {
             resultErrors.aggregation_status = 'Required'
+        }
+
+        const narrativesTitle = (resultData.title && resultData.title.narratives) || [];
+
+        resultErrors.title = {};
+        resultErrors.title.narratives = narrativesTitle.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors
+        });
+
+        if (!narrativesTitle.length) {
+            resultErrors.title.narratives._error = 'At least one narrative must be entered'
+        }
+
+        const narrativesDescription = (resultData.description && resultData.description.narratives) || [];
+
+        resultErrors.description = {};
+        resultErrors.description.narratives = narrativesDescription.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors
+        });
+
+        if (!narrativesDescription.length) {
+            resultErrors.description.narratives._error = 'At least one narrative must be entered'
         }
 
         return resultErrors

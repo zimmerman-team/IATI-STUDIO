@@ -10,11 +10,27 @@ import { publisherSelector } from '../../../../reducers/createActivity'
 import {RenderSingleSelect, renderSelectField} from '../../helpers/FormHelper'
 
 const validate = values => {
-    const errors = {};
-    if (!values.collaborationType) {
-        errors.collaborationType = 'Required'
+    let errors = {};
+
+    if (values.activity) {
+        const activityData = values.activity;
+        if (!activityData.collaboration_type || !activityData.collaboration_type.code || activityData.collaboration_type.code == 'Select one of the following options') {
+            errors.collaboration_type = {code: 'Required'}
+        }
+        if (!activityData.default_flow_type || !activityData.default_flow_type.code || activityData.default_flow_type.code == 'Select one of the following options') {
+            errors.default_flow_type = {code: 'Required'}
+        }
+        if (!activityData.default_finance_type || !activityData.default_finance_type.code || activityData.default_finance_type.code == 'Select one of the following options') {
+            errors.default_finance_type = {code: 'Required'}
+        }
+        if (!activityData.default_aid_type || !activityData.default_aid_type.code || activityData.default_aid_type.code == 'Select one of the following options') {
+            errors.default_aid_type = {code: 'Required'}
+        }
+        if (!activityData.default_tied_status || !activityData.default_tied_status.code || activityData.default_tied_status.code == 'Select one of the following options') {
+            errors.default_tied_status = {code: 'Required'}
+        }
     }
-    return errors
+    return {activity: errors};
 };
 
 class ClassificationSelectForm extends Component {

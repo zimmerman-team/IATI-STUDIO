@@ -36,6 +36,27 @@ const validate = values => {
             documentLinkErrors.document_date = {iso_date:'Required'}
         }
 
+        const narratives = (documentLinkData.title && documentLinkData.title.narratives) || [];
+
+        documentLinkErrors.title = {};
+        documentLinkErrors.title.narratives = narratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                narrativeErrors.language = {code: 'Required'}
+            }
+
+            return narrativeErrors
+        });
+
+        if (!narratives.length) {
+            documentLinkErrors.title.narratives._error = 'At least one narrative must be entered'
+        }
+
         return documentLinkErrors
     });
 

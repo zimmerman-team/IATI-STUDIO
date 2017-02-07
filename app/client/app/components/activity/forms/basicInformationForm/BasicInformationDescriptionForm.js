@@ -64,7 +64,7 @@ const renderDescription = ({fields, languageOptions, descriptionTypes, meta: {to
 const validate = (values) => {
     let errors = {};
 
-    const descriptions = values.descriptions || []
+    const descriptions = values.descriptions || [];
 
     errors.descriptions = descriptions.map(description => {
         let descriptionErrors = {};

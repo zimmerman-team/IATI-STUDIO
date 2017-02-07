@@ -11,15 +11,15 @@ import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const validate = values => {
-    let errors = {};
+    let errors = {country_budget_items: {}};
 
-    const countryBudgetItems = values.country_budget_items || {};
-    errors.country_budget_items = {};
+    const countryBudgetItems = values.country_budget_items;
 
-    if (!countryBudgetItems.vocabulary) {
-        errors.vocabulary = {code:'Required'}
+    if (!countryBudgetItems.vocabulary || !countryBudgetItems.vocabulary.code || countryBudgetItems.vocabulary.code == 'Select one of the following options') {
+        errors.country_budget_items.vocabulary = {code:'Required'}
     }
-    return errors
+
+    return errors;
 };
 
 class CountryBudgetForm extends Component {

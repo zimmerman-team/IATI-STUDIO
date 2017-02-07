@@ -139,7 +139,6 @@ const renderFinancialPlannedDisbursementForm = ({
 
 const validate = values => {
     let errors = {};
-
     const plannedDisbursements = values.planned_disbursements || [];
 
     errors.planned_disbursements = plannedDisbursements.map(disbursementData => {
@@ -160,7 +159,6 @@ const validate = values => {
         if (!disbursementData.period_end) {
             disbursementErrors.period_end = 'Required'
         }
-
         return disbursementErrors
     });
 

@@ -18,12 +18,12 @@ import handleSubmit from '../../helpers/handleSubmit'
 
 
 const validate = values => {
-    const errors = {};
+    let errors = {};
+    if (!values.conditions.attached || values.conditions.attached == "Select one of the following options") {
+        errors.attached = 'Required'
 
-    if (!values.attached) {
-        errors.type = 'Required'
     }
-    return errors
+    return {conditions: errors}
 };
 
 class PerformanceConditionForm extends Component {
