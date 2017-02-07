@@ -20,30 +20,22 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
                 <div key={index}>
                     <div className="field-list">
                         <div className="row no-margin">
-                            {
-                                !regionOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${recipientRegion}.region[code]`}
-                                        textName={`${recipientRegion}.region[code]`}
-                                        label="Region code"
-                                        selectOptions={regionOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
-                            {
-                                !regionVocabularyOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${recipientRegion}.vocabulary[code]`}
-                                        textName={`${recipientRegion}.vocabulary[code]`}
-                                        label="Region vocabulary"
-                                        selectOptions={regionVocabularyOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
+                            <Field
+                                component={renderSelectField}
+                                name={`${recipientRegion}.region[code]`}
+                                textName={`${recipientRegion}.region[code]`}
+                                label="Region code"
+                                selectOptions={regionOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                            <Field
+                                component={renderSelectField}
+                                name={`${recipientRegion}.vocabulary[code]`}
+                                textName={`${recipientRegion}.vocabulary[code]`}
+                                label="Region vocabulary"
+                                selectOptions={regionVocabularyOptions}
+                                defaultOption="Select one of the following options"
+                            />
                         </div>
                         <div className="row no-margin">
                             <div className="columns small-6">
@@ -104,32 +96,36 @@ const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionV
 const validate = values => {
     let errors = {};
 
-    const regions = values.recipient_region || []
+    const regions = values.recipient_region || [];
 
     errors.recipient_region = regions.map(regionData => {
-        let descriptionErrors = {}
+        let regionErrors = {};
 
-        if (!regionData.percentage) {
-            descriptionErrors.percentage = 'Required'
+        if (!regionData.region  || !regionData.region.code || regionData.region.code == "Select one of the following options") {
+            regionErrors.region = {code: 'Required'}
         }
 
-        if (regionData.percentage && regionData.percentage > 100) {
-            descriptionErrors.percentage = 'Percentage should not be more than 100'
+        if (!regionData.percentage) {
+            regionErrors.percentage = 'Required'
+        }
+
+        if (regionData.percentage && regionData.percentage > 100 || regionData.percentage < 0) {
+            regionErrors.percentage = 'Percentage should be between 0 and 100'
         }
 
         if (!regionData.region) {
-            descriptionErrors.region = {code: 'Required'}
+            regionErrors.region = {code: 'Required'}
         }
 
         if (!regionData.vocabulary) {
-            descriptionErrors.vocabulary = {code: 'Required'}
+            regionErrors.vocabulary = {code: 'Required'}
         }
 
         if (!regionData.region) {
-            descriptionErrors.region = {name: 'Required'}
+            regionErrors.region = {name: 'Required'}
         }
 
-        return descriptionErrors
+        return regionErrors
     });
 
     return errors

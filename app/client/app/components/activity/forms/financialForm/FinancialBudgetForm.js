@@ -21,30 +21,22 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                 <div key={index}>
                     <div className="field-list">
                         <div className="row no-margin">
-                            {
-                                !budgetTypeOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${budget}type.code`}
-                                        textName={`${budget}type.code`}
-                                        label="Budget Type Options"
-                                        selectOptions={budgetTypeOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
-                            {
-                                !budgetStatusOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${budget}status.code`}
-                                        textName={`${budget}status.code`}
-                                        label="Budget Status Options"
-                                        selectOptions={budgetStatusOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
+                            <Field
+                                component={renderSelectField}
+                                name={`${budget}type.code`}
+                                textName={`${budget}type.code`}
+                                label="Budget Type Options"
+                                selectOptions={budgetTypeOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                            <Field
+                                component={renderSelectField}
+                                name={`${budget}status.code`}
+                                textName={`${budget}status.code`}
+                                label="Budget Status Options"
+                                selectOptions={budgetStatusOptions}
+                                defaultOption="Select one of the following options"
+                            />
                         </div>
                         <div className="row no-margin">
                             <div className="columns small-6">
@@ -68,7 +60,11 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                                 />
                             </div>
                         </div>
-                        Value
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <strong>Value</strong>
+                            </div>
+                        </div>
                         <div className="row no-margin">
                             <div className="columns small-6">
                                 <Field
@@ -78,18 +74,14 @@ const renderFinancialBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptio
                                     label="Amount"
                                 />
                             </div>
-                            {
-                                !currencyOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${budget}value.currency.code`}
-                                        textName={`${budget}value.currency.code`}
-                                        label="Currency"
-                                        selectOptions={currencyOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
+                            <Field
+                                component={renderSelectField}
+                                name={`${budget}value.currency.code`}
+                                textName={`${budget}value.currency.code`}
+                                label="Currency"
+                                selectOptions={currencyOptions}
+                                defaultOption="Select one of the following options"
+                            />
                         </div>
                         <div className="row no-margin">
                             <div className="columns small-6">

@@ -318,6 +318,10 @@ const validate = values => {
     errors.locations = locations.map(location => {
         let locationErrors = {};
 
+        if (!location.ref) {
+            locationErrors.ref = 'Required';
+        }
+
         if (!location.location_reach) {
             locationErrors.location_reach = {code: 'Required'}
         }
@@ -328,6 +332,48 @@ const validate = values => {
 
         if (!location.exactness) {
             locationErrors.exactness = {code: 'Required'}
+        }
+
+
+        if (location.location_id) {
+            locationErrors.location_id = {};
+            if (!location.location_id.vocabulary) {
+                locationErrors.location_id.vocabulary = {code: 'Required'}
+            }
+
+            if (!location.location_id.code) {
+                locationErrors.location_id.code = 'Required'
+            }
+        } else {
+            locationErrors.location_id = {code: 'Required', vocabulary: {code: 'Required'}};
+        }
+
+        if (!location.location_class) {
+            locationErrors.location_class = {code: 'Required'}
+        }
+
+        locationErrors.point = {pos: {}};
+        if (location.point && location.point.pos) {
+            if (!location.point || !location.point.pos || !location.point.pos.latitude) {
+                locationErrors.point.pos.latitude = 'Required'
+            }
+
+            if (!location.point || !location.point.pos || !location.point.pos.longitude) {
+                locationErrors.point.pos.longitude = 'Required'
+            }
+        } else {
+            locationErrors.point = {pos: {latitude: 'Required', longitude: 'Required'}};
+        }
+
+        if (location.point && location.point.pos && (location.point.pos.longitude < -180 || location.point.pos.longitude > 180)) {
+            locationErrors.point.pos.longitude = 'Longitude should be between -180 and +180'
+        }
+        if (location.point && location.point.pos && (location.point.pos.latitude < -90 || location.point.pos.latitude > 90)) {
+            locationErrors.point.pos.latitude = 'Latitude should be between -90 and +90'
+        }
+
+        if (!location.point || !location.point.srsName) {
+            locationErrors.point.srsName = 'Required'
         }
 
         const nameNarratives = (location.name && location.name.narratives) || [];
@@ -381,7 +427,7 @@ const validate = values => {
         });
 
         if (!location.location_class) {
-            locationErrors.location_class = 'Required'
+            locationErrors.location_class = {code: 'Required'}
         }
 
         return locationErrors

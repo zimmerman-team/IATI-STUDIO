@@ -79,7 +79,7 @@ const renderContactInfo = ({fields, languageOptions, contactTypes, meta: {dirty,
                                 <div className="columns small-6">
                                     <Field
                                         name={`${contact}.email`}
-                                        type="text"
+                                        type="email"
                                         component={renderField}
                                         label="Email"
                                     />
@@ -123,8 +123,15 @@ const validate = values => {
     errors.contact_info = contactInfo.map(formData => {
         let contactErrors = {};
 
-        if (!formData.type) {
+        if (!formData.type || !formData.type.code || formData.type.code == "Select a type") {
             contactErrors.type = {code: 'Required'}
+        }
+        if (formData.telephone) {
+            let str = formData.telephone;
+            let intCount = str.replace(/\D/g, '').length;
+            if (intCount < 10 || intCount > 12 ) {
+                contactErrors.telephone = 'Enter valid phone number';
+            }
         }
 
         const departmentNarratives = (formData.department && formData.department.narratives) || [];

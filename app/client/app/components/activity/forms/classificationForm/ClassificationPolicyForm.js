@@ -81,28 +81,28 @@ const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignif
 const validate = values => {
     let errors = {};
 
-    const policies = values.policy || []
+    const policies = values.policy_markers || [];
 
-    errors.policy = policies.map(policyData => {
-        let descriptionErrors = {}
+    errors.policy_markers = policies.map(policyData => {
+        let policyErrors = {};
 
         if (!policyData.policy_marker) {
-            descriptionErrors.policy_marker = {code: 'Required'}
+            policyErrors.policy_marker = {code: 'Required'}
         }
 
         if (!policyData.significance) {
-            descriptionErrors.significance = {code: 'Required'}
+            policyErrors.significance = {code: 'Required'}
         }
 
         if (!policyData.vocabulary_uri) {
-            descriptionErrors.vocabulary_uri = 'Required'
+            policyErrors.vocabulary_uri = 'Required'
         }
 
         if (!policyData.vocabulary) {
-            descriptionErrors.vocabulary = 'Required'
+            policyErrors.vocabulary = 'Required'
         }
 
-        return descriptionErrors
+        return policyErrors
     });
 
     return errors

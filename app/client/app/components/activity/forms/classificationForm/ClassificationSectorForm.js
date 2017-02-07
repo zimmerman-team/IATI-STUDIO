@@ -20,18 +20,14 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                 <div key={index}>
                     <div className="field-list">
                         <div className="row no-margin">
-                            {
-                                !sectorVocabularyOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${sector}.vocabulary[code]`}
-                                        textName={`${sector}.vocabulary[code]`}
-                                        label="Sector vocabulary"
-                                        selectOptions={sectorVocabularyOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
+                            <Field
+                                component={renderSelectField}
+                                name={`${sector}.vocabulary[code]`}
+                                textName={`${sector}.vocabulary[code]`}
+                                label="Sector vocabulary"
+                                selectOptions={sectorVocabularyOptions}
+                                defaultOption="Select one of the following options"
+                            />
                             <div className="columns small-6">
                                 <Field
                                     name={`${sector}.vocabulary_uri`}
@@ -41,18 +37,14 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
                                     label="Vocabulary URI"
                                 />
                             </div>
-                            {
-                                !sectorOptions ?
-                                    <GeneralLoader/> :
-                                    <Field
-                                        component={renderSelectField}
-                                        name={`${sector}.sector[code]`}
-                                        textName={`${sector}.sector[code]`}
-                                        label="Sector"
-                                        selectOptions={sectorOptions}
-                                        defaultOption="Select one of the following options"
-                                    />
-                            }
+                            <Field
+                                component={renderSelectField}
+                                name={`${sector}.sector[code]`}
+                                textName={`${sector}.sector[code]`}
+                                label="Sector"
+                                selectOptions={sectorOptions}
+                                defaultOption="Select one of the following options"
+                            />
                             <div className="columns small-6">
                                 <Field
                                     name={`${sector}.percentage`}
@@ -93,37 +85,37 @@ const validate = values => {
     const regions = values.sector || []
 
     errors.sector = regions.map(regionData => {
-        let descriptionErrors = {}
+        let sectorErrors = {}
 
         if (!regionData.percentage) {
-            descriptionErrors.percentage = 'Required'
+            sectorErrors.percentage = 'Required'
         }
 
         if (!regionData.vocabulary_uri) {
-            descriptionErrors.vocabulary_uri = 'Required'
+            sectorErrors.vocabulary_uri = 'Required'
         }
 
         if (!regionData.sector) {
-            descriptionErrors.sector = {code: 'Required'}
+            sectorErrors.sector = {code: 'Required'}
         }
 
         if (!regionData.vocabulary) {
-            descriptionErrors.vocabulary = {code: 'Required'}
+            sectorErrors.vocabulary = {code: 'Required'}
         }
 
         if (!regionData.sector) {
-            descriptionErrors.sector = {name: 'Required'}
+            sectorErrors.sector = {name: 'Required'}
         }
 
         if (!regionData.sector) {
-            descriptionErrors.sector = {code: 'Required'}
+            sectorErrors.sector = {code: 'Required'}
         }
 
-        if (regionData.percentage && regionData.percentage > 100) {
-            descriptionErrors.percentage = 'Percentage should not be more than 100'
+        if (regionData.percentage && regionData.percentage > 100 || regionData.percentage < 0) {
+            sectorErrors.percentage = 'Percentage should be between 0 and 100'
         }
 
-        return descriptionErrors
+        return sectorErrors
     });
 
     return errors

@@ -27,18 +27,14 @@ const renderFinancialPlannedDisbursementForm = ({
                 <div key={index}>
                 <div className="field-list">
                     <div className="row no-margin">
-                        {
-                            !disbursementChannelOptions ?
-                                <GeneralLoader/> :
-                                <Field
-                                    component={renderSelectField}
-                                    name={`${plannedDisbursement}type.code`}
-                                    textName={`${plannedDisbursement}type.code`}
-                                    label="Type"
-                                    selectOptions={[{code: '1', name: 'Original'}, {code: '2', name: 'Revised'}]}
-                                    defaultOption="Select one of the following options"
-                                />
-                        }
+                        <Field
+                            component={renderSelectField}
+                            name={`${plannedDisbursement}type.code`}
+                            textName={`${plannedDisbursement}type.code`}
+                            label="Type"
+                            selectOptions={[{code: '1', name: 'Original'}, {code: '2', name: 'Revised'}]}
+                            defaultOption="Select one of the following options"
+                        />
                     </div>
                     <div className="row no-margin">
                         <div className="columns small-6">
@@ -62,7 +58,13 @@ const renderFinancialPlannedDisbursementForm = ({
                             />
                         </div>
                     </div>
-                    Value
+
+                    <div className="row no-margin">
+                        <div className="columns small-6">
+                            <strong>Value</strong>
+                        </div>
+                    </div>
+
                     <div className="row no-margin">
                         <div className="columns small-6">
                             <Field
@@ -72,18 +74,14 @@ const renderFinancialPlannedDisbursementForm = ({
                                 label="Amount"
                             />
                         </div>
-                        {
-                            !currencyOptions ?
-                                <GeneralLoader/> :
-                                <Field
-                                    component={renderSelectField}
-                                    name={`${plannedDisbursement}.value.currency.code`}
-                                    textName={`${plannedDisbursement}.value.currency.code`}
-                                    label="Currency"
-                                    selectOptions={currencyOptions}
-                                    defaultOption="Select one of the following options"
-                                />
-                        }
+                        <Field
+                            component={renderSelectField}
+                            name={`${plannedDisbursement}.value.currency.code`}
+                            textName={`${plannedDisbursement}.value.currency.code`}
+                            label="Currency"
+                            selectOptions={currencyOptions}
+                            defaultOption="Select one of the following options"
+                        />
                     </div>
                     <div className="row no-margin">
                         <div className="columns small-6">

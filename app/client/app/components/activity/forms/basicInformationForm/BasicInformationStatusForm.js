@@ -9,13 +9,16 @@ import { getCodeListItems, getActivity, updateActivity, } from '../../../../acti
 import { statusSelector, publisherSelector } from '../../../../reducers/createActivity.js'
 import { withRouter } from 'react-router'
 
-const validate = values => {
-  const errors = {};
+const validate = (values) => {
+    let errors = {};
 
-  if (!values.status) {
-    errors.type = 'Required'
-  }
-  return errors
+    if (values.activity) {
+        const activityData = values.activity;
+        if (!activityData.activity_status || !activityData.activity_status.code || activityData.activity_status.code == "Select status") {
+            errors.activity_status = {code: 'Required'}
+        }
+    }
+    return {activity: errors};
 };
 
 class BasicInformationStatusForm extends Component {

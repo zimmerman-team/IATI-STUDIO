@@ -74,7 +74,13 @@ const renderFinancialTransactionForm = ({
                                     />
                                 </div>
                             </div>
-                            Value
+
+                            <div className="row no-margin">
+                                <div className="columns small-6">
+                                    <strong>Value</strong>
+                                </div>
+                            </div>
+
                             <div className="row no-margin">
                                 <div className="columns small-6">
                                     <Field
@@ -142,18 +148,14 @@ const renderFinancialTransactionForm = ({
                             <div>
                                 <div className=""><h6>Disbursement channel</h6></div>
                                 <div className="row no-margin">
-                                    {
-                                        !disbursementOptions ?
-                                            <GeneralLoader/> :
-                                            <Field
-                                                component={renderSelectField}
-                                                name={`${transaction}disbursement_channel.code`}
-                                                textName={`${transaction}disbursement_channel.code`}
-                                                label="Type"
-                                                selectOptions={disbursementOptions}
-                                                defaultOption="Select one of the following options"
-                                            />
-                                    }
+                                    <Field
+                                        component={renderSelectField}
+                                        name={`${transaction}disbursement_channel.code`}
+                                        textName={`${transaction}disbursement_channel.code`}
+                                        label="Type"
+                                        selectOptions={disbursementOptions}
+                                        defaultOption="Select one of the following options"
+                                    />
                                 </div>
                             </div>
                             {/*

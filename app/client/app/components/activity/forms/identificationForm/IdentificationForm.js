@@ -13,9 +13,12 @@ const validate = values => {
     const errors = {};
     if (values.activity) {
         const activityData = values.activity;
-
         if (!activityData.iati_identifier) {
             errors.iati_identifier = 'Required'
+        }
+
+        if (!activityData.hierarchy || activityData.hierarchy == "Select one of the following options") {
+            errors.hierarchy = 'Required';
         }
 
         const narratives = (activityData.title && activityData.title.narratives) || [];

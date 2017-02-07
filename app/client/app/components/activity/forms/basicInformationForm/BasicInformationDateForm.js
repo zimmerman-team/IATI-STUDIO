@@ -69,20 +69,20 @@ const renderDate = ({fields, languageOptions, dateTypeOptions, meta: {touched, d
 const validate = values => {
     let errors = {};
 
-    const activityDates = values.activity_dates || []
+    const activityDates = values.activity_dates || [];
 
     errors.activity_dates = activityDates.map(dateData => {
-        let descriptionErrors = {}
+        let dateErrors = {};
 
-        if (!dateData.type) {
-            descriptionErrors.type = {code: 'Required'}
+        if (!dateData.type || !dateData.type.code || dateData.type.code == "Select a type") {
+            dateErrors.type = {code: 'Required'}
         }
 
         if (!dateData.iso_date) {
-            descriptionErrors.iso_date = 'Required'
+            dateErrors.iso_date = 'Required'
         }
 
-        return descriptionErrors
+        return dateErrors
     });
 
     return errors

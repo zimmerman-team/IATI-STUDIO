@@ -61,40 +61,40 @@ const renderDescription = ({fields, languageOptions, descriptionTypes, meta: {to
     )
 };
 
-const validate = (values, dispatch) => {
+const validate = (values) => {
     let errors = {};
 
     const descriptions = values.descriptions || []
 
     errors.descriptions = descriptions.map(description => {
-        let descriptionErrors = {}
+        let descriptionErrors = {};
 
-        if (!description.type) {
+        if (!description.type || description.type.code == "Select one of the following options") {
             descriptionErrors.type = {code: 'Required'}
         }
 
-        const narratives = description.narratives || []
+        const narratives = description.narratives || [];
 
         descriptionErrors.narratives = narratives.map(narrative => {
-            let narrativeErrors = {}
+            let narrativeErrors = {};
 
             if (!narrative.text) {
                 narrativeErrors.text = 'Required'
             }
 
-            if (!narrative.language) {
+            if (!narrative.language || narrative.language.code == "Select one of the following options") {
                 narrativeErrors.language = {code: 'Required'}
             }
 
             return narrativeErrors
-        })
+        });
 
         if (!narratives.length) {
             descriptionErrors.narratives._error = 'At least one narrative must be entered'
         }
 
         return descriptionErrors
-    })
+    });
 
     if (!descriptions.length) {
         errors.descriptions._error = 'At least one description must be entered'

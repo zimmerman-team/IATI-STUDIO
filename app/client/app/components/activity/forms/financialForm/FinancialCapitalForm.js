@@ -69,13 +69,12 @@ class FinancialCapitalForm extends Component {
         return (
             <div>
                 <div className="columns small-centered small-12">
-                    <h2 className="page-title with-tip">Status</h2>
+                    <h2 className="page-title with-tip">Capital Spend</h2>
                     <Tooltip className="inline" tooltip="Description text goes here">
                         <i className="material-icons">info</i>
                     </Tooltip>
                     <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                         <div className="field-list">
-                            <div className=""><h6>Capital Spend</h6></div>
                             <div className="row no-margin">
                                 <div className="columns small-6">
                                     <Field

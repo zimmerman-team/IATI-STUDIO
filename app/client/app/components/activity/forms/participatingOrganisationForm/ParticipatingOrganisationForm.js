@@ -79,17 +79,21 @@ const validate = values => {
 
     let errors = {};
 
-    const participatingOrganisations = values.participating_organisations || []
+    const participatingOrganisations = values.participating_organisations || [];
 
     errors.participating_organisations = participatingOrganisations.map(participatingOrganisation => {
-        let participatingOrganisationErrors = {}
+        let participatingOrganisationErrors = {};
 
         if (!participatingOrganisation.type) {
             participatingOrganisationErrors.type = {code: 'Required'}
         }
 
+        if (!participatingOrganisation.role  || !participatingOrganisation.role.code || participatingOrganisation.role.code == "Select an organisation role") {
+            participatingOrganisationErrors.role = {code: 'Required'}
+        }
+
         if (!participatingOrganisation.role) {
-            participatingOrganisationErrors.role = {name: 'Required'}
+            participatingOrganisationErrors.role = {code: 'Required'}
         }
 
         if(!participatingOrganisation.ref) {
@@ -122,7 +126,6 @@ const validate = values => {
     if (!participatingOrganisations.length) {
         errors.participating_organisations._error = 'At least one participatingOrganisation must be entered'
     }
-
     return errors
 };
 

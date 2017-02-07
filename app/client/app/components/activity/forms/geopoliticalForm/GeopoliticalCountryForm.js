@@ -81,21 +81,21 @@ const validate = values => {
     const countries = values.recipient_countries || []
 
     errors.recipient_countries = countries.map(countryData => {
-        let descriptionErrors = {}
+        let countryErrors = {}
 
         if (!countryData.percentage) {
-            descriptionErrors.percentage = 'Required'
+            countryErrors.percentage = 'Required'
         }
 
-        if (countryData.percentage && countryData.percentage > 100) {
-            descriptionErrors.percentage = 'Percentage should not be more than 100'
+        if (countryData.percentage && countryData.percentage > 100 || countryData.percentage < 0) {
+            countryErrors.percentage = 'Percentage should be between 0 and 100'
         }
 
         if (!countryData.country) {
-            descriptionErrors.country = {code: 'Required'}
+            countryErrors.country = {code: 'Required'}
         }
 
-        return descriptionErrors
+        return countryErrors
     });
 
     return errors
