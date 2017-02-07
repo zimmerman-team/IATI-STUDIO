@@ -27,7 +27,7 @@ class DatasetsSettingsContainer extends React.Component {
         if (this.props.publisher.id) {
             // console.log(this.props.fetchActivities(this.props.publisher.id))
             this.props.fetchActivities(this.props.publisher.id)
-                .then(action => this.setState({ totalCount: action.response.count }))
+                .then(action => this.setState({ totalCount: action.response.result.count }))
             this.props.getModifiedActivities(this.props.publisher.id)
                 .then(action => this.setState({ modifiedActivities: action.response.results }))
             this.props.getReadyToPublishActivities(this.props.publisher.id)
@@ -48,7 +48,8 @@ class DatasetsSettingsContainer extends React.Component {
 
     publishActivities() {
         const { publisher } = this.props
-        this.props.publishActivities(publisher.id, publisher.activityDataset.id)
+
+        this.props.publishActivities(publisher.id, publisher.activityDataset && publisher.activityDataset.id)
             .then(() => {
                 this.setState({
                     modifiedActivities: [],
