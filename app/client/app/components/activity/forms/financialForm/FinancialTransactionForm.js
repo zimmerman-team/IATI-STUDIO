@@ -387,6 +387,12 @@ const validate = values => {
             }
         }
 
+        if (!transactionErrors.provider_organisation || _.isEmpty(transactionErrors.provider_organisation.narratives) || _.isEmpty(transactionErrors.provider_organisation.narratives[0])) {
+            transactionErrors.provider_organisation = null;
+        }
+        if (!transactionErrors.receiver_organisation || _.isEmpty(transactionErrors.receiver_organisation.narratives) || _.isEmpty(transactionErrors.receiver_organisation.narratives[0])) {
+            transactionErrors.receiver_organisation = null;
+        }
         return transactionErrors
     });
 
