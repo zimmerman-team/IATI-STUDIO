@@ -408,6 +408,7 @@ const initialPublisherState = {
 function publisher(state=initialPublisherState, action) {
     switch(action.type) {
         case ActionTypes.GET_OIPA_USER_SUCCESS:
+        case ActionTypes.VERIFY_API_KEY_SUCCESS:
             return {
                 ...state,
                 ...action.response.admin_groups[0] && action.response.admin_groups[0].publisher,
