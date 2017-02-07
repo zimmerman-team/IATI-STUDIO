@@ -299,54 +299,33 @@ export const renderSectorFields = ({fields, languageOptions, narrativeLabel = tr
  * @param touched
  * @param error
  */
-export const renderRecipientCountries = ({fields, languageOptions,  textName, mainLabel, countryOptions, textLabel,
-        meta: {touched, error}}) => {
-    if (!fields.length) {
-        fields.push({})
-    }
-
-    return (
-        <div>
-            {fields && fields.map((title, index) =>
-                <div key={index}>
-                    <div className="row no-margin">
-                        <div className="columns small-centered small-12">
-                            <h2 className="page-title with-tip">Recipient country</h2>
-                        </div>
-                    </div>
-                    <div className="columns small-centered small-12">
-                        <div className="field-list">
-                            <div className="row no-margin">
-                                <Field
-                                    name={`${title}country.code`}
-                                    textName={`${title}country.code`}
-                                    component={renderSelectField}
-                                    label="Country"
-                                    selectOptions={countryOptions}
-                                    defaultOption="Select one of the following options"
-                                />
-                                <FieldArray
-                                    name={`${title}narratives`}
-                                    component={renderNarrativeFields}
-                                    languageOptions={languageOptions}
-                                    textName="textSectorTitle"
-                                    textLabel="Title"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-            <div className="columns">
-                <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More</button>
-                <button
-                    type="button"
-                    title="Remove Title"
-                    className="control-button remove float-right"
-                    onClick={() => fields.pop()}>Delete
-                </button>
-                {touched && error && <span className="error">{error}</span>}
+export const renderRecipientCountries = ({fields, languageOptions,  textName, mainLabel, countryOptions, textLabel, meta: {touched, error}}) => (
+    <div>
+        <div className="row no-margin">
+            <div className="columns small-centered small-12">
+                <h2 className="page-title with-tip">Recipient country</h2>
             </div>
         </div>
-    )
-};
+        <div className="columns small-centered small-12">
+            <div className="field-list">
+                <div className="row no-margin">
+                    <Field
+                        name={`${textName}.country.code`}
+                        textName={`${textName}.country.code`}
+                        component={renderSelectField}
+                        label="Country"
+                        selectOptions={countryOptions}
+                        defaultOption="Select one of the following options"
+                    />
+                    <FieldArray
+                        name={`${textName}.narratives`}
+                        component={renderNarrativeFields}
+                        languageOptions={languageOptions}
+                        textName="textSectorTitle"
+                        textLabel="Title"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+);

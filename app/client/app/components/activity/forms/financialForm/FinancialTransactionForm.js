@@ -173,8 +173,8 @@ const renderFinancialTransactionForm = ({
                             */}
                             <div className="row no-margin">
                                 <FieldArray
-                                    name={`${transaction}.recipient_countries`}
-                                    textName={`${transaction}.recipient_countries`}
+                                    name={`${transaction}.recipient_country`}
+                                    textName={`${transaction}.recipient_country`}
                                     component={renderRecipientCountries}
                                     sectorVocabularyOptions={sectorVocabularyOptions}
                                     sectorOptions={sectorOptions}
@@ -301,22 +301,10 @@ const validate = values => {
             transactionErrors.disbursement_channel = {code: 'Required'}
         }
 
-        const recipientCountries = transactionData.recipient_countries || [];
-        transactionErrors.recipient_countries = {};
-        transactionErrors.recipient_countries = recipientCountries.map(recipientCountry => {
-            let recipientCountriesErrors = {};
-
-            if (!recipientCountry.country || recipientCountry.country.code == "Select one of the following options") {
-                recipientCountriesErrors.country = {code: 'Required'}
-            }
-
-            return recipientCountriesErrors
-        });
-
-        if (!recipientCountries.length) {
-            transactionErrors.recipient_countries._error = 'At least one narrative must be entered'
+        if (!transactionData.recipient_country || !transactionData.recipient_country.country ||
+                transactionData.recipient_country.country.code == "Select one of the following options") {
+            transactionErrors.recipient_country= {country: {code: 'Required'}}
         }
-
 
         if (transactionData.provider_organisation) {
             const narrativesProviderOrganisation = (transactionData.provider_organisation && transactionData.provider_organisation.narratives) || [];
