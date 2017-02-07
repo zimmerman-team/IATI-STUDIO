@@ -26,6 +26,7 @@ const config = {
 
     "codelists": "/api/codelists/",
     "publishActivitiesUrl": (pid) => `/api/datasets/${pid}/publish_activities/`,
+    "publishActivitiesUpdateUrl": (pid, datasetId) => `/api/datasets/${pid}/publish_activities/${datasetId}`,
     "publisherUrl": (pid) => `/api/publishers/${pid}/`,
     "activities_url": (pid) => `/api/publishers/${pid}/activities/`,
     "aggregation_url": "/api/transactions/aggregations/",
