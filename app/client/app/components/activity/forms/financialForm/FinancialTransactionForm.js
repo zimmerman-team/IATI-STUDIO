@@ -186,7 +186,15 @@ const renderFinancialTransactionForm = ({
                                         textLabel="Sector"
                                     />
                                 </div>
-                                : <div></div>
+                                :
+                                <div className="row no-margin">
+                                    <div className="columns small-centered small-12">
+                                        <h2 className="page-title with-tip">Recipient country</h2>
+                                    </div>
+                                    <div className="columns small-centered small-12">
+                                        Geopolitical Recipient Countries has already been filled
+                                    </div>
+                                </div>
                             }
 
                             {/* @TODO uncomment when issue #949 is fixed
