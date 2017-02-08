@@ -43,7 +43,6 @@ class BasicInformationStatusForm extends Component {
         this.props.router.push(`/publisher/activities/${activityId}/basic-info/date`)
     }
 
-
     componentWillMount() {
         this.props.getCodeListItems('ActivityStatus');
         if (this.props.publisher && this.props.publisher.id) {

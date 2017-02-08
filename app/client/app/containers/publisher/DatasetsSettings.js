@@ -6,6 +6,7 @@ import { connect }              from 'react-redux'
 import DatasetsSettings from '../../components/publisher/DatasetsSettings'
 
 import { publisherSelector } from '../../reducers/createActivity'
+import {GeneralLoader} from '../../components/general/Loaders.react.jsx'
 
 class DatasetsSettingsContainer extends React.Component {
     constructor(props) {
@@ -65,6 +66,10 @@ class DatasetsSettingsContainer extends React.Component {
     }
 
     render() {
+        if (this.props.isFetching) {
+            return <GeneralLoader/>
+        }
+
         return (
             <DatasetsSettings 
                 {...this.props}
@@ -82,6 +87,7 @@ function mapStateToProps(state, props) {
     return {
         navState: state.navState,
         publisher: publisherSelector(state),
+        isFetching: state.activity.isFetching,
     }
 }
 

@@ -317,6 +317,7 @@ export const renderRecipientCountries = ({fields, languageOptions,  textName, ma
                         selectOptions={countryOptions}
                         defaultOption="Select one of the following options"
                     />
+                    {/* @TODO uncomment when issue #949 is fixed
                     <FieldArray
                         name={`${textName}.narratives`}
                         component={renderNarrativeFields}
@@ -324,6 +325,7 @@ export const renderRecipientCountries = ({fields, languageOptions,  textName, ma
                         textName="textSectorTitle"
                         textLabel="Title"
                     />
+                    */}
                 </div>
             </div>
         </div>

@@ -1,5 +1,3 @@
-"use strict"
-
 import React, { PropTypes }     from 'react'
 import { connect }              from 'react-redux'
 import _                        from 'lodash'
@@ -11,6 +9,7 @@ import SplashScreen             from './PublisherSplash'
 import { Link }                 from 'react-router'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import {Tooltip} from '../general/Tooltip.react.jsx'
+import {GeneralLoader} from '../general/Loaders.react.jsx'
 
 let PublisherSettings = React.createClass({ // A stateful container all children are stateless
 
@@ -35,8 +34,9 @@ let PublisherSettings = React.createClass({ // A stateful container all children
         })
 
         const isValidated = oipaUser && oipaUser.is_validated
-
-        console.log(isValidated);
+        if (typeof isValidated === 'undefined') {
+            return <GeneralLoader/>
+        }
 
         return (
             <div className={wrapClass}>

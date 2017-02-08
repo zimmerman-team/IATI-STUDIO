@@ -17,7 +17,6 @@ class DatasetActivityPublisher extends React.Component {
 
     render() {
         const { dataset, modifiedActivities, publishCount, totalCount, isFetching } = this.props
-
         return (
             <div className="row">
                 <div className="activity-publish columns small-centered small-12">

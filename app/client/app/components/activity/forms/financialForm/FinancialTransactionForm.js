@@ -13,7 +13,8 @@ import {
     getTransactions,
     createTransaction,
     updateTransaction,
-    deleteTransaction
+    deleteTransaction,
+    getActivity
 } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
 import {transactionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
@@ -23,7 +24,7 @@ const renderFinancialTransactionForm = ({
     fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
     disbursementOptions, sectorVocabularyOptions, sectorOptions, countryOptions,
-    flowOptions, financeOptions, aidOptions, tiedOptions, meta: {touched, dirty, error}
+    flowOptions, financeOptions, aidOptions, tiedOptions, showRecipientCountry, meta: {touched, dirty, error}
 }) => {
     if (!fields.length && !dirty) {
         fields.push({})
@@ -171,18 +172,22 @@ const renderFinancialTransactionForm = ({
                                 textLabel="Sector"
                             />
                             */}
-                            <div className="row no-margin">
-                                <FieldArray
-                                    name={`${transaction}.recipient_country`}
-                                    textName={`${transaction}.recipient_country`}
-                                    component={renderRecipientCountries}
-                                    sectorVocabularyOptions={sectorVocabularyOptions}
-                                    sectorOptions={sectorOptions}
-                                    languageOptions={languageOptions}
-                                    countryOptions={countryOptions}
-                                    textLabel="Sector"
-                                />
-                            </div>
+
+                            { showRecipientCountry ?
+                                <div className="row no-margin">
+                                    <FieldArray
+                                        name={`${transaction}.recipient_country`}
+                                        textName={`${transaction}.recipient_country`}
+                                        component={renderRecipientCountries}
+                                        sectorVocabularyOptions={sectorVocabularyOptions}
+                                        sectorOptions={sectorOptions}
+                                        languageOptions={languageOptions}
+                                        countryOptions={countryOptions}
+                                        textLabel="Sector"
+                                    />
+                                </div>
+                                : <div></div>
+                            }
 
                             {/* @TODO uncomment when issue #949 is fixed
                             <div className="row no-margin">
@@ -453,6 +458,7 @@ class FinancialTransactionForm extends Component {
         this.props.getCodeListItems('TiedStatus');
         if (this.props.publisher && this.props.publisher.id) {
             this.props.getTransactions(this.props.publisher.id, this.props.activityId)
+            this.props.getActivity(this.props.publisher.id, this.props.activityId)
         }
     }
 
@@ -479,7 +485,11 @@ class FinancialTransactionForm extends Component {
     }
 
     render() {
-        const {codeLists, handleSubmit, submitting, activityId, isFetching} = this.props;
+        const {codeLists, handleSubmit, submitting, activityId, isFetching, activity} = this.props;
+        let showRecipientCountry = true;
+        if (activity && activity.recipient_countries && activity.recipient_countries.length > 0) {
+            showRecipientCountry = false;
+        }
 
         if (isFetching || !codeLists["HumanitarianScopeType"] || !codeLists["TransactionType"] || !codeLists["OrganisationType"]
                 || !codeLists["Currency"] || !codeLists["Language"] || !codeLists["DisbursementChannel"]
@@ -511,6 +521,7 @@ class FinancialTransactionForm extends Component {
                         tiedOptions={codeLists["TiedStatus"]}
                         sectorVocabularyOptions={codeLists["SectorVocabulary"]}
                         sectorOptions={codeLists["Sector"]}
+                        showRecipientCountry={showRecipientCountry}
                     />
                     <div className="columns small-12">
                         <Link className="button"
@@ -530,6 +541,8 @@ class FinancialTransactionForm extends Component {
 function mapStateToProps(state, props) {
     let transactions = transactionsSelector(state);
     const isFetching = state.activity.isFetching;
+    const { activityId } = props;
+
 /*
     const {activityId} = props;
     transactions = transactions.map(function (transactionData) {
@@ -547,6 +560,7 @@ function mapStateToProps(state, props) {
         data: transactions,
         isFetching: isFetching,
         codeLists: state.codeLists,
+        activity: state.activity.activity,
         initialValues: {"transactions": transactions},  // populate initial values for redux form
         publisher: publisherSelector(state),
         ...props,
@@ -562,6 +576,7 @@ FinancialTransactionForm = reduxForm({
 
 FinancialTransactionForm = connect(mapStateToProps, {
     getCodeListItems,
+    getActivity,
     getTransactions,
     createTransaction,
     updateTransaction,
