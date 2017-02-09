@@ -46,8 +46,8 @@ export const RenderErrors = (props) => {
     return <noscript />
   }
 
-  let errorList = errors.map(error => (
-    <li>{error}</li>
+  let errorList = errors.map((error, index) => (
+    <li key={index}>{error}</li>
   ))
 
   return (

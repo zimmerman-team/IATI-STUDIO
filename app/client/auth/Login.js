@@ -23,13 +23,15 @@ export class Login extends React.Component {
   state = {
       errors: [],
       validationErrors: {},
+      isSubmitting: false
   };
 
   handleResponse = (json, response) => {
       this.setState({
         errors: [],
         validationErrors: {},
-      })
+        isSubmitting: false
+      });
       if (Object.keys(json.errfor).length) {
         return this.setState({validationErrors: json.errfor})
       }
@@ -40,8 +42,17 @@ export class Login extends React.Component {
   };
 
   handleError = (error) => {
-    throw error
+      this.setState({
+          isSubmitting: false
+      });
+      throw error
   };
+
+    handleFieldChange = (field) => {
+        let validationErrors = this.state.validationErrors;
+        validationErrors[field] = '';
+        this.setState({validationErrors: validationErrors});
+    };
 
   render() {
       const {
@@ -71,6 +82,7 @@ export class Login extends React.Component {
               handleResponse={this.handleResponse}
               validationErrors={validationErrors}
               renderErrors={errors}
+              handleFieldChange={this.handleFieldChange}
             />
             <ForgotPassword />
 
@@ -102,7 +114,10 @@ export class LoginForm extends React.Component {
   };
 
   handleSubmit = (e) => {
-      e.preventDefault()
+      e.preventDefault();
+
+      this.setState({isSubmitting: true});
+      const {handleResponse, handleError} = this.props;
 
       fetchJSON('/auth/login', {
           method: 'POST',
@@ -112,32 +127,38 @@ export class LoginForm extends React.Component {
             password: this._password.value,
           })
       })
-      .then(this.props.handleResponse)
-      .catch(this.props.handleError)
+      .then(handleResponse)
+      .catch(handleError);
   };
 
   render() {
+      const {validationErrors, isSubmitting, renderErrors, handleError, handleFieldChange} = this.props;
+      const hasValidationError = ((validationErrors.email && validationErrors.email.length)
+            || (validationErrors.password && validationErrors.password.length) || (validationErrors.username && validationErrors.username.length));
 
-    return (
+
+      return (
         <form id="signup-form" ref={c => this._form = c}>
             <input 
                 type="text" 
                 name="username"
                 ref={c => this._username = c}
                 placeholder="Username or e-mail address"
+                onChange={() => handleFieldChange("username")}
             />
-            { this.props.validationErrors.username ? <ValidationErrors errors={this.props.validationErrors.username} /> : null }
+            { validationErrors.username ? <ValidationErrors errors={validationErrors.username} /> : null }
             <input 
                 type="password" 
                 name="password"
                 ref={c => this._password = c}
                 placeholder="Password"
+                onChange={() => handleFieldChange("password")}
             />
-            { this.props.validationErrors.password ? <ValidationErrors errors={this.props.validationErrors.password} /> : null }
+            { validationErrors.password ? <ValidationErrors errors={validationErrors.password} /> : null }
 
-            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+            { renderErrors ? <RenderErrors errors={renderErrors} /> : null }
             
-          <button className="button input-height" onClick={this.handleSubmit}>Log In</button>
+          <button className="button input-height" disabled={isSubmitting || hasValidationError}  onClick={this.handleSubmit}>Log In</button>
         </form>
     )
   }
