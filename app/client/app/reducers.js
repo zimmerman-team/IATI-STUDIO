@@ -578,14 +578,14 @@ function activities(state={}, action) {
             if (action.reset) {
                 return action.response.entities.activity || []
             }
-            return _.merge({}, state, action.response.entities.activity)
+            return _.merge({}, state, action.response.entities.activity, {isFetching: false});
         case ActivityActionTypes.DELETE_ACTIVITY_SUCCESS:
-            return _.omit(state, action.id)
+            return _.omit(state, action.id);
         case ActionTypes.REMOVE_API_KEY_SUCCESS:
-            return []
+            return [];
         default:
             if (action.response && action.response.entities && action.response.entities.activity) {
-                return _.merge({}, state, action.response.entities.activity)
+                return _.merge({}, state, action.response.entities.activity, {isFetching: false});
             }
 
             return state
