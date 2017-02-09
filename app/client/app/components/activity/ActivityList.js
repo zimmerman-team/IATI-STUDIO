@@ -109,9 +109,8 @@ class ActivityList extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                { this.props.activities.map(a => (
-                                    <ActivityListItem 
-                                        key={a.id}
+                                { this.props.activities.map((a, index) => (
+                                    <ActivityListItem key={index}
                                         activity={a}
                                         publisher={this.props.publisher}
                                         deleteActivity={this.props.deleteActivity}

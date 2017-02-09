@@ -277,7 +277,10 @@ function activity(state = initialState, action) {
             return Object.assign({}, state, {
                 isFetching: true,
             });
-
+        case ActionTypes.GET_ACTIVITIES_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+            });
         default:
             return state
     }
