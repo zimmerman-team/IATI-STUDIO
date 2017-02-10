@@ -77,10 +77,10 @@ var ActivityAPI = {
     },
 
 
-    getAll: function(user, publisherId, searchValue, page=1, res) {
+    getAll: function(user, publisherId, filters={}, page=1, res) {
             return oipaMethods.getActivities(user, publisherId, {
-                q: searchValue,
                 page: page,
+                ...filters
             })
             .then(result => res(null, result))
             .catch(error => res(error));

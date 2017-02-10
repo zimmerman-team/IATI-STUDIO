@@ -14,9 +14,9 @@ export const GET_ACTIVITIES_REQUEST = 'GET_ACTIVITIES_REQUEST';
 export const GET_ACTIVITIES_SUCCESS = 'GET_ACTIVITIES_SUCCESS';
 export const GET_ACTIVITIES_FAILURE = 'GET_ACTIVITIES_FAILURE';
 
-export function fetchActivities(publisherId, searchValue, nextPage=1, reset) {
+export function fetchActivities(publisherId, filters={}, nextPage=1, reset) {
     return {
-        searchValue,
+        filters,
         pageCount: nextPage,
         reset,
         [CALL_API]: {
@@ -25,11 +25,12 @@ export function fetchActivities(publisherId, searchValue, nextPage=1, reset) {
             schema: {
                 results: arrayOf(Schemas.activity),
             },
-            payload: [publisherId, searchValue, nextPage]
+            payload: [publisherId, filters, nextPage]
         }
     }
 }
 
+/*
 /*
  * Get activities (paginated)
  */
@@ -51,8 +52,8 @@ export const getActivities = (publisherId, searchValue) => (dispatch, getState) 
 /*
  * A new search (resets pagination)
  */
-export const searchActivities = (publisherId, searchValue) => (dispatch, getState) => {
-    return dispatch(fetchActivities(publisherId, searchValue, 1, true))
+export const filterActivities = (publisherId, filter) => (dispatch) => {
+    return dispatch(fetchActivities(publisherId, filter, 1, true))
 }
 
 

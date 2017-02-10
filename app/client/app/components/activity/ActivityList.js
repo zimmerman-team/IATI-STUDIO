@@ -5,6 +5,7 @@ import { connect }            from 'react-redux'
 import _                      from 'lodash'
 import classNames             from 'classnames'
 import { toggleMainMenu }     from '../../actions/sync'
+import { Radiobutton } from '../../components/general/List.react.jsx'
 
 import { Link } from 'react-router'
 
@@ -31,6 +32,125 @@ ActivityListItem.propTypes = {
 
 }
 
+
+export const ActivityTypeSelector = props => {
+    return  (
+        <div>
+            <Radiobutton
+                value=""
+                id="all"
+                onChange={props.onChange}
+                checked={props.value == '' ? true : false }
+                name="publishedStatus"
+                labelName="All"
+                className="with-gap"
+            />
+            <Radiobutton
+                value="published"
+                id="published"
+                onChange={props.onChange}
+                checked={props.value == 'published' ? true : false }
+                name="publishedStatus"
+                labelName="Published"
+                className="with-gap"
+            />
+            <Radiobutton
+                value="not-published"
+                id="not-published"
+                onChange={props.onChange}
+                checked={props.value == 'not-published' ? true : false }
+                name="publishedStatus"
+                labelName="Not published"
+                className="with-gap"
+            />
+        </div>
+    )
+}
+
+class OrderBySelector extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.onOrderClick = this.onOrderClick.bind(this)
+        this.isSelected = this.isSelected.bind(this)
+        this.isReversed = this.isReversed.bind(this)
+    }
+
+    isSelected(option) {
+        return this.props.orderBy.indexOf(option) >= 0
+    }
+
+    isReversed() {
+        return this.props.orderBy.charAt(0) === '-'
+    }
+
+    onOrderClick(value, e) {
+        // to query param
+        e.preventDefault()
+
+        if (this.isSelected(value)) {
+            return this.props.onChange((this.isReversed() ? '' : '-') + value)
+        }
+        else {
+            //return this.props.onChange('-' + value)
+            return this.props.onChange(value)
+        }
+    }
+
+    render() {
+        const { options } = this.props
+
+        const orderByButtons = options.map( (option, index, array) => (
+            <span key={index}>
+                <button
+                    className={classNames({
+                        active: this.isSelected(option.value),
+                        reverse: this.isReversed()
+                    })}
+                    onClick={this.onOrderClick.bind(this, option.value)}>
+                    {option.name}
+                </button>
+                { index === array.length-1 ? null : <span className="separator">|</span> }
+            </span>
+        ))
+
+        return (
+            <div className="order-by">
+                <span className="label">Sort by</span>
+                { orderByButtons }
+            </div>
+
+        )
+    }
+}
+
+OrderBySelector.propTypes = {
+    options: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        value: PropTypes.string,
+    })).isRequired, // the available order by's
+    orderBy: PropTypes.string.isRequired, // the query param
+}
+
+const ActivityOrder = (props) => {
+    return (
+        <OrderBySelector
+            orderBy={props.orderBy}
+            options={[
+                { name: 'name', value: 'title' },
+                { name: 'created', value: 'created' },
+                { name: 'modified', value: 'last_updated' },
+            ]}
+            onChange={(value) => props.handleActivitySearch({ ordering: value })}
+        />
+    )
+}
+ActivityOrder.propTypes = {
+    orderBy: PropTypes.string.isRequired,
+    handleActivitySearch: PropTypes.func.isRequired,
+}
+
+
 class ActivityList extends React.Component {
 
     constructor(props) {
@@ -38,7 +158,8 @@ class ActivityList extends React.Component {
 
         this.onLoadMoreClick = this.onLoadMoreClick.bind(this);
         this.handleChangeActivitySearch = this.handleChangeActivitySearch.bind(this);
-        this.onClickActivitySearch = this.onClickActivitySearch.bind(this);
+        this.handleActivitySearch = this.handleActivitySearch.bind(this);
+        this.handleActivityFilter = this.handleActivityFilter.bind(this);
 
         this.state = {
             activitySearch: ""
@@ -59,6 +180,12 @@ class ActivityList extends React.Component {
         }
     }
 
+    onTypeChange(e) {
+        this.setState({
+            'type': e.target.value,
+        })
+    }
+
     onLoadMoreClick() {
         this.props.getActivities(this.props.publisher.id, this.state.activitySearch)
     }
@@ -67,8 +194,12 @@ class ActivityList extends React.Component {
         this.setState({ activitySearch: e.target.value })
     }
 
-    onClickActivitySearch() {
-        this.props.searchActivities(this.props.publisher.id, this.state.activitySearch)
+    handleActivitySearch() {
+        this.props.filterActivities(this.props.publisher.id, {q: this.state.activitySearch})
+    }
+
+    handleActivityFilter(filters = {ordering: 'end_date'}) {
+        this.props.filterActivities(this.props.publisher.id, filters)
     }
 
     render() {
@@ -81,21 +212,49 @@ class ActivityList extends React.Component {
             <div className={wrapClass}>
                 <div className="row controls">
                     <div className="columns small-12">
-                        <h2 className="page-title">List of your activities</h2>
-                        
-                        <div className="columns small-4">
-                            <input 
-                                placeholder="User ID"
-                                type="text"
-                                value={this.state.activitySearch}
-                                onChange={this.handleChangeActivitySearch}
-                                disabled={pagination.isFetching}/>
-                            <button className="button" 
-                                onClick={this.onClickActivitySearch}
-                                disabled={pagination.isFetching}>
-                                Search
-                            </button>
+
+                        <div className="row controls">
+                            <div className="columns small-3">
+                                <h2 className="page-title">List of your activities</h2>
+                            </div>
+
+                            <div className="columns small-3">
+                                <input
+                                    placeholder="User ID"
+                                    type="text"
+                                    value={this.state.activitySearch}
+                                    onChange={this.handleChangeActivitySearch}
+                                    disabled={pagination.isFetching}/>
+                            </div>
+                            <div className="columns small-1">
+                                <button className="button large"
+                                    onClick={this.handleActivitySearch}
+                                    disabled={pagination.isFetching}>
+                                    Search
+                                </button>
+                            </div>
+
+                            <div className="columns small-3">
+                                <ActivityOrder
+                                    //orderBy={this.props.orderBy}
+                                    orderBy='start_date'
+                                    options={[
+                                        { name: 'name', value: 'title' },
+                                        { name: 'Start Date', value: 'start_date' },
+                                        { name: 'End Date', value: 'end_date' },
+                                    ]}
+                                    handleActivitySearch={this.handleActivityFilter}
+                                />
+                            </div>
+
+                            <div className="columns small-2">
+                                <ActivityTypeSelector
+                                    value={""}
+                                    onChange={this.onTypeChange }
+                                />
+                            </div>
                         </div>
+                        <hr/>
 
                         <table>
                             <thead>
@@ -148,11 +307,11 @@ function mapStateToProps(state, props) {
     } 
 }
 
-import { getActivities, searchActivities, deleteActivity } from '../../actions/activity'
+import { getActivities, filterActivities, deleteActivity } from '../../actions/activity'
 
 export default connect(mapStateToProps, {
     getActivities,
-    searchActivities,
+    filterActivities,
     deleteActivity,
     toggleMainMenu
 })(ActivityList)
