@@ -2,7 +2,6 @@
 
 import React, { PropTypes }   from 'react'
 import { connect }            from 'react-redux'
-import _                      from 'lodash'
 import classNames             from 'classnames'
 import { toggleMainMenu }     from '../../actions/sync'
 import { Radiobutton } from '../../components/general/List.react.jsx'
@@ -27,11 +26,7 @@ export const ActivityListItem = ({ publisher, activity, deleteActivity }) => (
             >Delete</a></td>
     </tr>
 
-)
-ActivityListItem.propTypes = {
-
-}
-
+);
 
 export const ActivityTypeSelector = props => {
     return  (
@@ -49,7 +44,7 @@ export const ActivityTypeSelector = props => {
                 value="published"
                 id="published"
                 onChange={props.onChange}
-                checked={props.value == 'published' ? true : false }
+                checked={props.value == 'published'}
                 name="publishedStatus"
                 labelName="Published"
                 className="with-gap"
@@ -58,7 +53,7 @@ export const ActivityTypeSelector = props => {
                 value="not-published"
                 id="not-published"
                 onChange={props.onChange}
-                checked={props.value == 'not-published' ? true : false }
+                checked={props.value == 'not-published'}
                 name="publishedStatus"
                 labelName="Not published"
                 className="with-gap"
@@ -69,11 +64,10 @@ export const ActivityTypeSelector = props => {
 
 class OrderBySelector extends React.Component {
     constructor(props) {
-        super(props)
-
-        this.onOrderClick = this.onOrderClick.bind(this)
-        this.isSelected = this.isSelected.bind(this)
-        this.isReversed = this.isReversed.bind(this)
+        super(props);
+        this.onOrderClick = this.onOrderClick.bind(this);
+        this.isSelected = this.isSelected.bind(this);
+        this.isReversed = this.isReversed.bind(this);
     }
 
     isSelected(option) {
@@ -85,20 +79,16 @@ class OrderBySelector extends React.Component {
     }
 
     onOrderClick(value, e) {
-        // to query param
-        e.preventDefault()
-
+        e.preventDefault();
         if (this.isSelected(value)) {
-            return this.props.onChange((this.isReversed() ? '' : '-') + value)
-        }
-        else {
-            //return this.props.onChange('-' + value)
-            return this.props.onChange(value)
+            return this.props.handleActivityFilter((this.isReversed() ? '' : '-') + value)
+        } else {
+            return this.props.handleActivityFilter(value);
         }
     }
 
     render() {
-        const { options } = this.props
+        const { options } = this.props;
 
         const orderByButtons = options.map( (option, index, array) => (
             <span key={index}>
@@ -112,7 +102,7 @@ class OrderBySelector extends React.Component {
                 </button>
                 { index === array.length-1 ? null : <span className="separator">|</span> }
             </span>
-        ))
+        ));
 
         return (
             <div className="order-by">
@@ -132,25 +122,6 @@ OrderBySelector.propTypes = {
     orderBy: PropTypes.string.isRequired, // the query param
 }
 
-const ActivityOrder = (props) => {
-    return (
-        <OrderBySelector
-            orderBy={props.orderBy}
-            options={[
-                { name: 'name', value: 'title' },
-                { name: 'created', value: 'created' },
-                { name: 'modified', value: 'last_updated' },
-            ]}
-            onChange={(value) => props.handleActivitySearch({ ordering: value })}
-        />
-    )
-}
-ActivityOrder.propTypes = {
-    orderBy: PropTypes.string.isRequired,
-    handleActivitySearch: PropTypes.func.isRequired,
-}
-
-
 class ActivityList extends React.Component {
 
     constructor(props) {
@@ -162,12 +133,13 @@ class ActivityList extends React.Component {
         this.handleActivityFilter = this.handleActivityFilter.bind(this);
 
         this.state = {
-            activitySearch: ""
+            activitySearch: '',
+            activeFilter: 'title'
         }
     }
 
     componentWillMount() {
-        this.props.toggleMainMenu(true)
+        this.props.toggleMainMenu(true);
 
         if (this.props.publisher.id) {
             this.props.getActivities(this.props.publisher.id)
@@ -198,12 +170,13 @@ class ActivityList extends React.Component {
         this.props.filterActivities(this.props.publisher.id, {q: this.state.activitySearch})
     }
 
-    handleActivityFilter(filters = {ordering: 'end_date'}) {
-        this.props.filterActivities(this.props.publisher.id, filters)
+    handleActivityFilter(filter) {
+        this.setState({activeFilter: filter});
+        this.props.filterActivities(this.props.publisher.id, {ordering: filter})
     }
 
     render() {
-        const { pagination } = this.props
+        const { pagination } = this.props;
 
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState
@@ -214,7 +187,7 @@ class ActivityList extends React.Component {
                     <div className="columns small-12">
 
                         <div className="row controls">
-                            <div className="columns small-3">
+                            <div className="columns small-2">
                                 <h2 className="page-title">List of your activities</h2>
                             </div>
 
@@ -234,16 +207,15 @@ class ActivityList extends React.Component {
                                 </button>
                             </div>
 
-                            <div className="columns small-3">
-                                <ActivityOrder
-                                    //orderBy={this.props.orderBy}
-                                    orderBy='start_date'
+                            <div className="columns small-4">
+                                <OrderBySelector
+                                    orderBy={this.state.activeFilter}
                                     options={[
-                                        { name: 'name', value: 'title' },
-                                        { name: 'Start Date', value: 'start_date' },
-                                        { name: 'End Date', value: 'end_date' },
+                                        { name: 'Title', value: 'title', asc: true },
+                                        { name: 'Start Date', value: 'start_date', asc: true  },
+                                        { name: 'End Date', value: 'end_date', asc: true  },
                                     ]}
-                                    handleActivitySearch={this.handleActivityFilter}
+                                    handleActivityFilter={(value) => this.handleActivityFilter(value)}
                                 />
                             </div>
 
@@ -297,7 +269,7 @@ class ActivityList extends React.Component {
 
 import { activitiesSelector, publisherSelector } from '../../reducers/createActivity'
 
-function mapStateToProps(state, props) { 
+function mapStateToProps(state) {
 
     return {
         navState: state.navState,
