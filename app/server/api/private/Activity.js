@@ -279,13 +279,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getCountryBudgetItem: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here
-        return oipaMethods.getCountryBudgetItem(user, publisherId, activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
     createCountryBudgetItem: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here
         // on successful creation,

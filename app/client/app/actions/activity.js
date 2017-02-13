@@ -1117,25 +1117,6 @@ export function deleteLegacyData(publisherId, activityId, id) {
     }
 }
 
-
-/*
- * Get CountryBudgetItems
- */
-export const GET_COUNTRY_BUDGET_ITEM_REQUEST = 'GET_COUNTRY_BUDGET_ITEM_REQUEST';
-export const GET_COUNTRY_BUDGET_ITEM_SUCCESS = 'GET_COUNTRY_BUDGET_ITEM_SUCCESS';
-export const GET_COUNTRY_BUDGET_ITEM_FAILURE = 'GET_COUNTRY_BUDGET_ITEM_FAILURE';
-
-export function getCountryBudgetItems(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [GET_COUNTRY_BUDGET_ITEM_REQUEST, GET_COUNTRY_BUDGET_ITEM_SUCCESS, GET_COUNTRY_BUDGET_ITEM_FAILURE],
-            endpoint: 'Activity.getCountryBudgetItem',
-            payload: [publisherId, activityId],
-            schema: arrayOf(Schemas.countryBudgetItems),
-        }
-    }
-}
-
 /*
  * Create CountryBudgetItem
  */

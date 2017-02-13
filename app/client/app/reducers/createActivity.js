@@ -281,6 +281,87 @@ function activity(state = initialState, action) {
             return Object.assign({}, state, {
                 isFetching: false,
             });
+        case ActionTypes.GET_ACTIVITIES_FAILURE:
+        case ActionTypes.GET_MODIFIED_ACTIVITIES_FAILURE:
+        case ActionTypes.GET_READY_TO_PUBLISH_ACTIVITIES_FAILURE:
+        case ActionTypes.GET_ACTIVITY_FAILURE:
+        case ActionTypes.CREATE_ACTIVITY_FAILURE:
+        case ActionTypes.UPDATE_ACTIVITY_FAILURE:
+        case ActionTypes.DELETE_ACTIVITY_FAILURE:
+        case ActionTypes.MARK_READY_TO_PUBLISH_ACTIVITY_FAILURE:
+        case ActionTypes.GET_DESCRIPTIONS_FAILURE:
+        case ActionTypes.CREATE_DESCRIPTION_FAILURE:
+        case ActionTypes.UPDATE_DESCRIPTION_FAILURE:
+        case ActionTypes.DELETE_DESCRIPTION_FAILURE:
+        case ActionTypes.CREATE_DATE_FAILURE:
+        case ActionTypes.UPDATE_DATE_FAILURE:
+        case ActionTypes.DELETE_DATE_FAILURE:
+        case ActionTypes.CREATE_CONTACT_FAILURE:
+        case ActionTypes.UPDATE_CONTACT_FAILURE:
+        case ActionTypes.DELETE_CONTACT_FAILURE:
+        case ActionTypes.GET_TRANSACTION_FAILURE:
+        case ActionTypes.CREATE_TRANSACTION_FAILURE:
+        case ActionTypes.UPDATE_TRANSACTION_FAILURE:
+        case ActionTypes.DELETE_TRANSACTION_FAILURE:
+        case ActionTypes.CREATE_PLANNED_DISBURSEMENT_FAILURE:
+        case ActionTypes.UPDATE_PLANNED_DISBURSEMENT_FAILURE:
+        case ActionTypes.DELETE_PLANNED_DISBURSEMENT_FAILURE:
+        case ActionTypes.CREATE_BUDGET_FAILURE:
+        case ActionTypes.UPDATE_BUDGET_FAILURE:
+        case ActionTypes.DELETE_BUDGET_FAILURE:
+        case ActionTypes.GET_RECIPIENT_COUNTRIES_FAILURE:
+        case ActionTypes.CREATE_RECIPIENT_COUNTRY_FAILURE:
+        case ActionTypes.UPDATE_RECIPIENT_COUNTRY_FAILURE:
+        case ActionTypes.DELETE_RECIPIENT_COUNTRY_FAILURE:
+        case ActionTypes.GET_REGION_FAILURE:
+        case ActionTypes.CREATE_REGION_FAILURE:
+        case ActionTypes.UPDATE_REGION_FAILURE:
+        case ActionTypes.DELETE_REGION_FAILURE:
+        case ActionTypes.CREATE_LOCATION_FAILURE:
+        case ActionTypes.UPDATE_LOCATION_FAILURE:
+        case ActionTypes.DELETE_LOCATION_FAILURE:
+        case ActionTypes.GET_SECTOR_FAILURE:
+        case ActionTypes.CREATE_SECTOR_FAILURE:
+        case ActionTypes.UPDATE_SECTOR_FAILURE:
+        case ActionTypes.DELETE_SECTOR_FAILURE:
+        case ActionTypes.GET_POLICY_FAILURE:
+        case ActionTypes.CREATE_POLICY_FAILURE:
+        case ActionTypes.UPDATE_POLICY_FAILURE:
+        case ActionTypes.DELETE_POLICY_FAILURE:
+        case ActionTypes.GET_CODE_LIST_ITEMS_FAILURE:
+        case ActionTypes.GET_PARTICIPATING_ORGANISATIONS_FAILURE:
+        case ActionTypes.CREATE_PARTICIPATING_ORGANISATION_FAILURE:
+        case ActionTypes.DELETE_PARTICIPATING_ORGANISATION_FAILURE:
+        case ActionTypes.GET_DOCUMENT_LINK_FAILURE:
+        case ActionTypes.CREATE_DOCUMENT_LINK_FAILURE:
+        case ActionTypes.UPDATE_DOCUMENT_LINK_FAILURE:
+        case ActionTypes.DELETE_DOCUMENT_LINK_FAILURE:
+        case ActionTypes.GET_LEGACY_DATA_FAILURE:
+        case ActionTypes.CREATE_LEGACY_DATA_FAILURE:
+        case ActionTypes.UPDATE_LEGACY_DATA_FAILURE:
+        case ActionTypes.DELETE_LEGACY_DATA_FAILURE:
+        case ActionTypes.CREATE_COUNTRY_BUDGET_ITEM_FAILURE:
+        case ActionTypes.UPDATE_COUNTRY_BUDGET_ITEM_FAILURE:
+        case ActionTypes.DELETE_COUNTRY_BUDGET_ITEM_FAILURE:
+        case ActionTypes.GET_HUMANITARIAN_SCOPE_FAILURE:
+        case ActionTypes.CREATE_HUMANITARIAN_SCOPE_FAILURE:
+        case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_FAILURE:
+        case ActionTypes.DELETE_HUMANITARIAN_SCOPE_FAILURE:
+        case ActionTypes.GET_RELATION_FAILURE:
+        case ActionTypes.CREATE_RELATION_FAILURE:
+        case ActionTypes.UPDATE_RELATION_FAILURE:
+        case ActionTypes.DELETE_RELATION_FAILURE:
+        case ActionTypes.GET_PERFORMANCE_CONDITION_FAILURE:
+        case ActionTypes.CREATE_PERFORMANCE_CONDITION_FAILURE:
+        case ActionTypes.UPDATE_PERFORMANCE_CONDITION_FAILURE:
+        case ActionTypes.DELETE_PERFORMANCE_CONDITION_FAILURE:
+        case ActionTypes.GET_PERFORMANCE_RESULT_FAILURE:
+        case ActionTypes.CREATE_PERFORMANCE_RESULT_FAILURE:
+        case ActionTypes.UPDATE_PERFORMANCE_RESULT_FAILURE:
+        case ActionTypes.DELETE_PERFORMANCE_RESULT_FAILURE:
+            return Object.assign({}, state, {
+                isFetching: false,
+            });
         default:
             return state
     }

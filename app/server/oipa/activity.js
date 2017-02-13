@@ -661,19 +661,6 @@ export const deleteHumanitarianScope = function (user, publisherId, activityId, 
     return oipaDelete(req_options)
 };
 
-export const getCountryBudgetItem = function (user, publisherId, activityId) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.country_budget_items_url(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-
-    return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
-};
-
 export const postCountryBudgetItem = function (user, publisherId, activityId, countryBudgetItemData) {
     const dataJSON = JSON.parse(countryBudgetItemData);
     const req_options = {
