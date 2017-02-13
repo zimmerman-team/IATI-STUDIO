@@ -4,7 +4,6 @@ import React, { PropTypes }   from 'react'
 import { connect }            from 'react-redux'
 import classNames             from 'classnames'
 import { toggleMainMenu }     from '../../actions/sync'
-import { Radiobutton } from '../../components/general/List.react.jsx'
 
 import { Link } from 'react-router'
 
@@ -31,33 +30,11 @@ export const ActivityListItem = ({ publisher, activity, deleteActivity }) => (
 export const ActivityTypeSelector = props => {
     return  (
         <div>
-            <Radiobutton
-                value=""
-                id="all"
-                onChange={props.onChange}
-                checked={props.value == ''}
-                name="publishedStatus"
-                labelName="All"
-                className="with-gap"
-            />
-            <Radiobutton
-                value="true"
-                id="published"
-                onChange={props.onChange}
-                checked={props.value == 'true'}
-                name="publishedStatus"
-                labelName="Published"
-                className="with-gap"
-            />
-            <Radiobutton
-                value="false"
-                id="not-published"
-                onChange={props.onChange}
-                checked={props.value == 'false'}
-                name="publishedStatus"
-                labelName="Not published"
-                className="with-gap"
-            />
+            <select onChange={props.onChange}>
+                <option value="">All</option>
+                <option value="true">Published</option>
+                <option value="false">Not published</option>
+            </select>
         </div>
     )
 };
