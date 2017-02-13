@@ -35,32 +35,32 @@ export const ActivityTypeSelector = props => {
                 value=""
                 id="all"
                 onChange={props.onChange}
-                checked={props.value == '' ? true : false }
+                checked={props.value == ''}
                 name="publishedStatus"
                 labelName="All"
                 className="with-gap"
             />
             <Radiobutton
-                value="published"
+                value="true"
                 id="published"
                 onChange={props.onChange}
-                checked={props.value == 'published'}
+                checked={props.value == 'true'}
                 name="publishedStatus"
                 labelName="Published"
                 className="with-gap"
             />
             <Radiobutton
-                value="not-published"
+                value="false"
                 id="not-published"
                 onChange={props.onChange}
-                checked={props.value == 'not-published'}
+                checked={props.value == 'false'}
                 name="publishedStatus"
                 labelName="Not published"
                 className="with-gap"
             />
         </div>
     )
-}
+};
 
 class OrderBySelector extends React.Component {
     constructor(props) {
@@ -131,10 +131,12 @@ class ActivityList extends React.Component {
         this.handleChangeActivitySearch = this.handleChangeActivitySearch.bind(this);
         this.handleActivitySearch = this.handleActivitySearch.bind(this);
         this.handleActivityFilter = this.handleActivityFilter.bind(this);
+        this.onTypeChange = this.onTypeChange.bind(this);
 
         this.state = {
             activitySearch: '',
-            activeFilter: 'title'
+            activeFilter: 'title',
+            publishedStatusFilter: '',
         }
     }
 
@@ -153,9 +155,9 @@ class ActivityList extends React.Component {
     }
 
     onTypeChange(e) {
-        this.setState({
-            'type': e.target.value,
-        })
+        const publishedStatus = e.target.value;
+        this.setState({publishedStatusFilter: publishedStatus});
+        this.props.filterActivities(this.props.publisher.id, {published: publishedStatus})
     }
 
     onLoadMoreClick() {
@@ -180,7 +182,7 @@ class ActivityList extends React.Component {
 
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState
-        })
+        });
         return (
             <div className={wrapClass}>
                 <div className="row controls">
@@ -221,7 +223,7 @@ class ActivityList extends React.Component {
 
                             <div className="columns small-2">
                                 <ActivityTypeSelector
-                                    value={""}
+                                    value={this.state.publishedStatusFilter}
                                     onChange={this.onTypeChange }
                                 />
                             </div>
