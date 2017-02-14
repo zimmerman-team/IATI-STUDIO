@@ -318,6 +318,7 @@ const validate = values => {
                 transactionData.recipient_country.country.code == "Select one of the following options") {
             transactionErrors.recipient_country= {country: {code: 'Required'}}
         }
+/*
 
         if (transactionData.provider_organisation) {
             const narrativesProviderOrganisation = (transactionData.provider_organisation && transactionData.provider_organisation.narratives) || [];
@@ -387,6 +388,7 @@ const validate = values => {
                 transactionErrors.receiver_organisation.receiver_activity_id = 'Required'
             }
         }
+*/
 
         if (!transactionErrors.provider_organisation || _.isEmpty(transactionErrors.provider_organisation.narratives) || _.isEmpty(transactionErrors.provider_organisation.narratives[0])) {
             transactionErrors.provider_organisation = null;
@@ -413,7 +415,7 @@ class FinancialTransactionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, data, publisher} = this.props
+        const {activityId, data, publisher} = this.props;
         const lastTransaction = data;
         let transactions = formData.transactions;
 
@@ -428,6 +430,13 @@ class FinancialTransactionForm extends Component {
                 transactionData.provider_organisation.provider_activity_id = activityId;
             }
             */
+
+            if (!transactionData.provider_organisation || _.isEmpty(transactionData.provider_organisation.narratives) || _.isEmpty(transactionData.provider_organisation.narratives[0])) {
+                delete transactionData.provider_organisation;
+            }
+            if (!transactionData.receiver_organisation || _.isEmpty(transactionData.receiver_organisation.narratives) || _.isEmpty(transactionData.receiver_organisation.narratives[0])) {
+                delete transactionData.receiver_organisation;
+            }
             return transactionData;
         });
 

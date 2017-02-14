@@ -18,7 +18,7 @@ export const renderSelectField = ({name, textName = "", label, selectOptions, de
       <label>{label}</label>
       <div>
         <Field name={textName} component="select">
-          <option>{defaultOption}</option>
+          <option value=''>{defaultOption}</option>
           {
             selectOptions && selectOptions.map((value, index) => <option key={index} value={value.code}>{value.name}</option>)
           }
