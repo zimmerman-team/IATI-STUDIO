@@ -149,7 +149,7 @@ export const RenderSingleSelect = ({name, textName = "", label, selectOptions, d
  * @param touched
  * @param error
  */
-export const renderOrgFields = ({fields, formName, languageOptions, narrativeLabel = true, textName, mainLabel, organisationOptions, handleDeleteFormData, activityKey = "provider_activity_id", textLabel, meta: {touched, error}})  => (
+export const renderOrgFields = ({fields, languageOptions, narrativeLabel = true, textName, mainLabel, organisationOptions, activityKey = "provider_activity_id", textLabel, meta: {touched, error}})  => (
     <div>
         {mainLabel ? <div className="columns"><h6>{mainLabel}</h6></div> : "Provider org"}
         <div className="row no-margin">
@@ -187,14 +187,6 @@ export const renderOrgFields = ({fields, formName, languageOptions, narrativeLab
             textName="textTitle"
             textLabel="Text"
         />
-        <div className="columns">
-            <button
-                type="button"
-                title="Remove Title"
-                className="control-button remove float-right"
-                onClick={() => handleDeleteFormData(formName, textName)}>Clear Organization
-            </button>
-        </div>
     </div>
 );
 

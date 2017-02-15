@@ -132,9 +132,15 @@ const renderFinancialTransactionForm = ({
                                     mainLabel="Provider org"
                                     activityKey="provider_activity_id"
                                     textLabel="Title"
-                                    handleDeleteFormData={handleDeleteFormData}
-                                    formName="financial-transaction"
                                 />
+                                <div className="columns">
+                                    <button
+                                        type="button"
+                                        title="Remove Title"
+                                        className="control-button remove float-right"
+                                        onClick={() => handleDeleteFormData("financial-transaction", `${transaction}provider_organisation`)}>Clear Organization
+                                    </button>
+                                </div>
                             </div>
                             <div className="row no-margin">
                                 <FieldArray
@@ -146,9 +152,15 @@ const renderFinancialTransactionForm = ({
                                     mainLabel="Receiver org"
                                     activityKey="receiver_activity_id"
                                     textLabel="Title"
-                                    handleDeleteFormData={handleDeleteFormData}
-                                    formName="financial-transaction"
                                 />
+                                <div className="columns">
+                                    <button
+                                        type="button"
+                                        title="Remove Title"
+                                        className="control-button remove float-right"
+                                        onClick={() => handleDeleteFormData("financial-transaction", `${transaction}receiver_organisation`)}>Clear Organization
+                                    </button>
+                                </div>
                             </div>
                             <div className="row no-margin">
                                 <div className="columns small-6">

@@ -67,11 +67,42 @@ const renderCondition = ({fields, conditionOptions, languageOptions, meta: {touc
 };
 
 const validate = values => {
-    let errors = {};
-    if (!values.conditions || !values.conditions.attached || values.conditions.attached == "Select one of the following options") {
-        errors.attached = 'Required'
+    let errorsCondition = {};
+    const conditions = values.conditions || [];
+
+    let errorsConditions = conditions.map(conditionData => {
+        let conditionErrors = {};
+
+        if (!conditionData.type || !conditionData.type.code) {
+            conditionErrors.type = {code: 'Required'}
+        }
+
+        const narratives = conditionData.narratives || [];
+        conditionErrors.narratives = narratives.map(narrative => {
+            let narrativeErrors = {};
+
+            if (!narrative.text) {
+                narrativeErrors.text = 'Required'
+            }
+
+            if (!narrative.language || narrative.language.code == "Select one of the following options") {
+                narrativeErrors.language = {code: 'Required'}
+            }
+            return narrativeErrors
+        });
+
+        if (!narratives.length) {
+            conditionErrors.narratives._error = 'At least one narrative must be entered'
+        }
+
+        return conditionErrors
+    });
+
+    if (!values.condition || !values.condition.attached || values.condition.attached == "Select one of the following options") {
+        errorsCondition.attached = 'Required'
     }
-    return {conditions: errors}
+
+    return {conditions: errorsConditions, condition: errorsCondition}
 };
 
 class PerformanceConditionForm extends Component {

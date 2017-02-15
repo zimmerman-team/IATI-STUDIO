@@ -172,6 +172,12 @@ function activity(state = initialState, action) {
                 ...state.entities,
                 'document_links': _.omit(state.document_links, action.id),
             }
+        case ActionTypes.DELETE_PERFORMANCE_CONDITIONS_SUCCESS:
+            return {
+                ...state,
+                ...state.entities,
+                'condition': _.omit(state.condition, action.id),
+            }
         case ActionTypes.DELETE_ACTIVITY_SUCCESS:
             return {
                 ...state,
