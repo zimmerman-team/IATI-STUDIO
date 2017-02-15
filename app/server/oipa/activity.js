@@ -999,24 +999,10 @@ export const deletePlannedDisbursement = function (user, publisherId, activityId
     return oipaDelete(req_options)
 };
 
-export const getPerformanceCondition = function (user, publisherId, activityId) {
-    const req_options = {
-        baseUrl: config.oipa_post_url,
-        url: config.conditions_url(publisherId, activityId),
-        headers: {
-            'Authorization': 'Token ' + user.oipaToken
-        },
-    };
-
-    return oipaGet(req_options)
-        .then(parsedBody => parsedBody.results)
-};
-
-
 export const createPerformanceCondition = function (user, publisherId, activityId, conditionData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.conditions_url(publisherId, activityId),
+        url: config.condition_url(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -1029,7 +1015,7 @@ export const createPerformanceCondition = function (user, publisherId, activityI
 export const updatePerformanceCondition = function (user, publisherId, activityId, id, conditionData) {
     const req_options = {
         baseUrl: config.oipa_post_url,
-        url: config.conditions_url(publisherId, activityId),
+        url: path.join(config.condition_url(publisherId, activityId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -1039,7 +1025,48 @@ export const updatePerformanceCondition = function (user, publisherId, activityI
     return oipaUpdate(req_options)
 };
 
-export const deletePerformanceCondition = function (user, publisherId, activityId, id) {
+export const getPerformanceConditions = function (user, publisherId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.conditions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createPerformanceConditions = function (user, publisherId, activityId, conditionsData) {
+    const dataJSON = JSON.parse(conditionsData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.conditions_url(publisherId, activityId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updatePerformanceConditions = function (user, publisherId, activityId, id, conditionsData) {
+    const dataJSON = JSON.parse(conditionsData);
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: path.join(config.conditions_url(publisherId, activityId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deletePerformanceConditions = function (user, publisherId, activityId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(config.conditions_url(publisherId, activityId), `${id}`),

@@ -577,14 +577,6 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getPerformanceCondition: function(user, publisherId, activityId, res) {
-        // TODO: update validation status here - 2016-12-16
-        return oipaMethods.getPerformanceCondition(user, publisherId, activityId)
-            .then(result => res(null, result))
-            .catch(error => res(error));
-    },
-
-
     createPerformanceCondition: function(user, publisherId, activityId, data, res) {
         // TODO: update validation status here - 2016-12-16
         // on succesful creation,
@@ -600,10 +592,31 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-
-    deletePerformanceCondition: function(user, publisherId, activityId, id, res) {
+    getPerformanceConditions: function(user, publisherId, activityId, res) {
         // TODO: update validation status here - 2016-12-16
-        return oipaMethods.deletePerformanceCondition(user, publisherId, activityId, id)
+        return oipaMethods.getPerformanceConditions(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createPerformanceConditions: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createPerformanceConditions(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updatePerformanceConditions: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updatePerformanceConditions(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deletePerformanceConditions: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deletePerformanceConditions(user, publisherId, activityId, id)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

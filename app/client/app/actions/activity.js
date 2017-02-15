@@ -1314,24 +1314,6 @@ export function deleteRelation(publisherId, activityId, id) {
 }
 
 /*
- * Get performance condition (Performance condition form)
- */
-export const GET_PERFORMANCE_CONDITION_REQUEST = 'GET_PERFORMANCE_CONDITION_REQUEST';
-export const GET_PERFORMANCE_CONDITION_SUCCESS = 'GET_PERFORMANCE_CONDITION_SUCCESS';
-export const GET_PERFORMANCE_CONDITION_FAILURE = 'GET_PERFORMANCE_CONDITION_FAILURE';
-
-export function getPerformanceCondition(publisherId, activityId) {
-    return {
-        [CALL_API]: {
-            types: [GET_PERFORMANCE_CONDITION_REQUEST, GET_PERFORMANCE_CONDITION_SUCCESS, GET_PERFORMANCE_CONDITION_FAILURE],
-            endpoint: 'Activity.getPerformanceCondition',
-            payload: [ publisherId, activityId ],
-            schema: Schemas.condition,
-        }
-    }
-}
-
-/*
  * Create performance condition (Performance condition form)
  */
 export const CREATE_PERFORMANCE_CONDITION_REQUEST = 'CREATE_PERFORMANCE_CONDITION_REQUEST';
@@ -1342,7 +1324,7 @@ export function createPerformanceCondition(publisherId, activityId, conditionDat
         [CALL_API]: {
             types: [CREATE_PERFORMANCE_CONDITION_REQUEST, CREATE_PERFORMANCE_CONDITION_SUCCESS, CREATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.createPerformanceCondition',
-            payload: [ publisherId, activityId, conditionData ],
+            payload: [ publisherId, activityId, conditionData],
             schema: Schemas.condition,
         }
     }
@@ -1360,25 +1342,77 @@ export function updatePerformanceCondition(publisherId, activityId, id, conditio
         [CALL_API]: {
             types: [UPDATE_PERFORMANCE_CONDITION_REQUEST, UPDATE_PERFORMANCE_CONDITION_SUCCESS, UPDATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.updatePerformanceCondition',
-            payload: [ publisherId, activityId, id, conditionData ],
+            payload: [ publisherId, activityId, id, conditionData],
             schema: Schemas.condition,
         }
     }
 }
 
+/*
+ * Get performance condition (Performance condition form)
+ */
+export const GET_PERFORMANCE_CONDITIONS_REQUEST = 'GET_PERFORMANCE_CONDITIONS_REQUEST';
+export const GET_PERFORMANCE_CONDITIONS_SUCCESS = 'GET_PERFORMANCE_CONDITIONS_SUCCESS';
+export const GET_PERFORMANCE_CONDITIONS_FAILURE = 'GET_PERFORMANCE_CONDITIONS_FAILURE';
+
+export function getPerformanceConditions(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [GET_PERFORMANCE_CONDITIONS_REQUEST, GET_PERFORMANCE_CONDITIONS_SUCCESS, GET_PERFORMANCE_CONDITIONS_FAILURE],
+            endpoint: 'Activity.getPerformanceConditions',
+            payload: [ publisherId, activityId ],
+            schema: arrayOf(Schemas.condition),
+        }
+    }
+}
+
+/*
+ * Create performance condition (Performance condition form)
+ */
+export const CREATE_PERFORMANCE_CONDITIONS_REQUEST = 'CREATE_PERFORMANCE_CONDITIONS_REQUEST';
+export const CREATE_PERFORMANCE_CONDITIONS_SUCCESS = 'CREATE_PERFORMANCE_CONDITIONS_SUCCESS';
+export const CREATE_PERFORMANCE_CONDITIONS_FAILURE = 'CREATE_PERFORMANCE_CONDITIONS_FAILURE';
+export function createPerformanceConditions(publisherId, activityId, conditionsData) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_PERFORMANCE_CONDITIONS_REQUEST, CREATE_PERFORMANCE_CONDITIONS_SUCCESS, CREATE_PERFORMANCE_CONDITIONS_FAILURE],
+            endpoint: 'Activity.createPerformanceConditions',
+            payload: [ publisherId, activityId, JSON.stringify(conditionsData) ],
+            schema: Schemas.condition,
+        }
+    }
+}
+
+/*
+ * Update performance condition (Performance condition form)
+ */
+export const UPDATE_PERFORMANCE_CONDITIONS_REQUEST = 'UPDATE_PERFORMANCE_CONDITIONS_REQUEST';
+export const UPDATE_PERFORMANCE_CONDITIONS_SUCCESS = 'UPDATE_PERFORMANCE_CONDITIONS_SUCCESS';
+export const UPDATE_PERFORMANCE_CONDITIONS_FAILURE = 'UPDATE_PERFORMANCE_CONDITIONS_FAILURE';
+export function updatePerformanceConditions(publisherId, activityId, id, conditionsData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_PERFORMANCE_CONDITIONS_REQUEST, UPDATE_PERFORMANCE_CONDITIONS_SUCCESS, UPDATE_PERFORMANCE_CONDITIONS_FAILURE],
+            endpoint: 'Activity.updatePerformanceConditions',
+            payload: [ publisherId, activityId, id, JSON.stringify(conditionsData) ],
+            schema: Schemas.condition,
+        }
+    }
+}
 
 /*
  * Delete performance condition (Performance condition form)
  */
-export const DELETE_PERFORMANCE_CONDITION_REQUEST = 'DELETE_PERFORMANCE_CONDITION_REQUEST';
-export const DELETE_PERFORMANCE_CONDITION_SUCCESS = 'DELETE_PERFORMANCE_CONDITION_SUCCESS';
-export const DELETE_PERFORMANCE_CONDITION_FAILURE = 'DELETE_PERFORMANCE_CONDITION_FAILURE';
-export function deletePerformanceCondition(publisherId, activityId, id) {
+export const DELETE_PERFORMANCE_CONDITIONS_REQUEST = 'DELETE_PERFORMANCE_CONDITIONS_REQUEST';
+export const DELETE_PERFORMANCE_CONDITIONS_SUCCESS = 'DELETE_PERFORMANCE_CONDITIONS_SUCCESS';
+export const DELETE_PERFORMANCE_CONDITIONS_FAILURE = 'DELETE_PERFORMANCE_CONDITIONS_FAILURE';
+export function deletePerformanceConditions(publisherId, activityId, id) {
     return {
         id,
         [CALL_API]: {
-            types: [DELETE_PERFORMANCE_CONDITION_REQUEST, DELETE_PERFORMANCE_CONDITION_SUCCESS, DELETE_PERFORMANCE_CONDITION_FAILURE],
-            endpoint: 'Activity.deletePerformanceCondition',
+            types: [DELETE_PERFORMANCE_CONDITIONS_REQUEST, DELETE_PERFORMANCE_CONDITIONS_SUCCESS, DELETE_PERFORMANCE_CONDITIONS_FAILURE],
+            endpoint: 'Activity.deletePerformanceConditions',
             payload: [publisherId, activityId, id]
         }
     }

@@ -167,11 +167,15 @@ module.exports = function(app) {
         socket.on('Activity.updateRelation', Activity.updateRelation.bind(null, user));
         socket.on('Activity.deleteRelation', Activity.deleteRelation.bind(null, user));
 
-        // Performance condition Form CRUD
-        socket.on('Activity.getPerformanceCondition', Activity.getPerformanceCondition.bind(null, user));
+        // Performance parent condition Form CRUD
         socket.on('Activity.createPerformanceCondition', Activity.createPerformanceCondition.bind(null, user));
         socket.on('Activity.updatePerformanceCondition', Activity.updatePerformanceCondition.bind(null, user));
-        socket.on('Activity.deletePerformanceCondition', Activity.deletePerformanceCondition.bind(null, user));
+
+        // Performance child conditions Form CRUD
+        socket.on('Activity.getPerformanceConditions', Activity.getPerformanceConditions.bind(null, user));
+        socket.on('Activity.createPerformanceConditions', Activity.createPerformanceConditions.bind(null, user));
+        socket.on('Activity.updatePerformanceConditions', Activity.updatePerformanceConditions.bind(null, user));
+        socket.on('Activity.deletePerformanceConditions', Activity.deletePerformanceConditions.bind(null, user));
 
         // Performance result Form CRUD
         socket.on('Activity.getPerformanceResult', Activity.getPerformanceResult.bind(null, user));

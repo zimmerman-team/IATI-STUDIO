@@ -1,27 +1,75 @@
 import React, {Component, PropTypes} from 'react';
-import {Field, reduxForm} from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import Tooltip from '../../../general/Tooltip.react.jsx'
-import {renderSelectField} from '../../helpers/FormHelper'
+import {renderSelectField, renderField, renderNarrativeFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {
     getCodeListItems,
-    getPerformanceCondition,
+    getPerformanceConditions,
     createPerformanceCondition,
     updatePerformanceCondition,
-    deletePerformanceCondition
+    deletePerformanceConditions,
+    createPerformanceConditions,
+    updatePerformanceConditions,
 } from '../../../../actions/activity'
-import {publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector, conditionSelector} from '../../../../reducers/createActivity.js'
 import { Link } from 'react-router';
 import { withRouter } from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 
 
+const renderCondition = ({fields, conditionOptions, languageOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((conditions, index) =>
+                <div key={index}>
+                    <div className="field-list clearfix">
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${conditions}type.code`}
+                                textName={`${conditions}type.code`}
+                                label="Condition Type"
+                                selectOptions={conditionOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <FieldArray
+                            name={`${conditions}.narratives`}
+                            component={renderNarrativeFields}
+                            languageOptions={languageOptions}
+                        />
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>
+                            Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}
+                        >
+                            Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
 const validate = values => {
     let errors = {};
-    if (!values.conditions.attached || values.conditions.attached == "Select one of the following options") {
+    if (!values.conditions || !values.conditions.attached || values.conditions.attached == "Select one of the following options") {
         errors.attached = 'Required'
-
     }
     return {conditions: errors}
 };
@@ -39,38 +87,89 @@ class PerformanceConditionForm extends Component {
      * @param formData
      */
     handleFormSubmit(formData) {
-        const {activityId, publisher, data, router} = this.props;
-        const conditions = formData.conditions;
-        conditions.activity = activityId;
+        const {activityId, publisher, data, router, parentCondition} = this.props;
+        let formParentConditionData = formData.condition;
+        let conditions = formData.conditions;
+        formParentConditionData.activity = activityId;
 
-        handleSubmit(
-            publisher.id,
-            'conditions',
-            activityId,
-            [data],
-            [conditions],
-            this.props.createPerformanceCondition,
-            this.props.updatePerformanceCondition,
-            this.props.deletePerformanceCondition,
-        ).then((result) => {
-            if (!result.error) {
-                router.push(`/publisher/activities/${activityId}/performance/result`)
-            }
-        }).catch((e) => {
-            console.log(e)
-        })
+        if (parentCondition && parentCondition.id) {
+            conditions = conditions.map(function (conditionsFormData) {
+                conditionsFormData.conditions = parentCondition.id;
+                return conditionsFormData;
+            });
+
+            handleSubmit(
+                publisher.id,
+                'conditions',
+                activityId,
+                data,
+                conditions,
+                this.props.createPerformanceConditions,
+                this.props.updatePerformanceConditions,
+                this.props.deletePerformanceConditions,
+            ).then((result) => {
+                if (!result.error) {
+                    router.push(`/publisher/activities/${activityId}/performance/result`)
+                }
+            }).catch((e) => {
+                console.log(e)
+            })
+        } else {
+            handleSubmit(
+                publisher.id,
+                'conditions',
+                activityId,
+                [data],
+                [formParentConditionData],
+                this.props.createPerformanceCondition,
+                this.props.updatePerformanceCondition,
+                this.props.deletePerformanceConditions,
+            ).then((result) => {
+                conditions = conditions.map(function (conditionsFormData) {
+                    conditionsFormData.conditions = result[0].response.result;
+                    return conditionsFormData;
+                });
+                handleSubmit(
+                    publisher.id,
+                    'conditions',
+                    activityId,
+                    data,
+                    conditions,
+                    this.props.createPerformanceConditions,
+                    this.props.updatePerformanceConditions,
+                    this.props.deletePerformanceConditions,
+                ).then((result) => {
+                    if (!result.error) {
+                        router.push(`/publisher/activities/${activityId}/performance/result`)
+                    }
+                }).catch((e) => {
+                    console.log(e)
+                });
+            }).catch((e) => {
+                console.log(e)
+            })
+        }
     }
 
     componentWillMount() {
         this.props.getCodeListItems('ConditionType');
+        this.props.getCodeListItems('Language');
         if (this.props.publisher && this.props.publisher.id) {
-            this.props.getActivity(this.props.publisher.id, this.props.activityId)
+            this.props.getActivity(this.props.publisher.id, this.props.activityId);
+
+            if (this.props.parentCondition && this.props.parentCondition.id) {
+                this.props.getPerformanceConditions(this.props.publisher.id, this.props.activityId)
+            }
         }
     }
 
     componentWillUpdate(nextProps) {
         if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
+            this.props.getActivity(this.props.publisher.id, this.props.activityId);
+
+            if (this.props.parentCondition && this.props.parentCondition.id) {
+                this.props.getPerformanceConditions(this.props.publisher.id, this.props.activityId)
+            }
         }
     }
 
@@ -88,29 +187,25 @@ class PerformanceConditionForm extends Component {
                     <i className="material-icons">info</i>
                 </Tooltip>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-
                     <div className="field-list clearfix">
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
-                                name="conditions.attached"
-                                textName="conditions.attached"
+                                name="condition.attached"
+                                textName="condition.attached"
                                 label="Condition Attached"
                                 selectOptions={[{code: 'True', name: 'True'}, {code: 'False', name: 'False'}]}
                                 defaultOption="Select one of the following options"
                             />
-                            {/*
-                            <Field
-                                component={renderSelectField}
-                                name="conditions.type"
-                                textName="conditions.type"
-                                label="Condition Type"
-                                selectOptions={codeLists.ConditionType}
-                                defaultOption="Select one of the following options"
-                            />
-                            */}
                         </div>
                     </div>
+                    <h2 className="page-title with-tip">Conditions</h2>
+                    <FieldArray
+                        name="conditions"
+                        component={renderCondition}
+                        conditionOptions={codeLists.ConditionType}
+                        languageOptions={codeLists["Language"]}
+                    />
                     <div className="columns small-12">
                         <Link className="button" to={`/publisher/activities/${activityId}/relations/relations`}>Back to relation</Link>
                         <button className="button float-right" type="submit" disabled={submitting}>
@@ -125,19 +220,25 @@ class PerformanceConditionForm extends Component {
 
 
 function mapStateToProps(state, props) {
+
     const {activityId} = props;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    let conditions = currentActivity && currentActivity.conditions;
-    const isFetching = state.activity.isFetching;
-    if (currentActivity && !conditions) {
-        conditions = {};
+    let parentCondition = currentActivity && currentActivity.conditions;
+    let conditions = [];
+
+    if (currentActivity && !parentCondition) {
+        parentCondition = {};
+    } else {
+        conditions = conditionSelector(state);
     }
+    const isFetching = state.activity.isFetching;
 
     return {
         data: conditions,
         isFetching: isFetching,
+        parentCondition: parentCondition,
         codeLists: state.codeLists,
-        initialValues: {"conditions": conditions},  // populate initial values for redux form
+        initialValues: {"conditions": conditions, "condition": parentCondition},  // populate initial values for redux form for both child and parent conditions
         publisher: publisherSelector(state),
         ...props,
     }
@@ -152,10 +253,12 @@ PerformanceConditionForm = reduxForm({
 
 PerformanceConditionForm = connect(mapStateToProps, {
     getCodeListItems,
-    getPerformanceCondition,
+    getPerformanceConditions,
     createPerformanceCondition,
     updatePerformanceCondition,
-    deletePerformanceCondition
+    deletePerformanceConditions,
+    createPerformanceConditions,
+    updatePerformanceConditions,
 })(PerformanceConditionForm);
 
 export default withRouter(PerformanceConditionForm);

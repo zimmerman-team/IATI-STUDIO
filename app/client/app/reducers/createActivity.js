@@ -28,10 +28,9 @@ function activity(state = initialState, action) {
         case ActionTypes.GET_POLICY_SUCCESS:
         case ActionTypes.GET_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.GET_TRANSACTION_SUCCESS:
-        case ActionTypes.GET_COUNTRY_BUDGET_ITEM_SUCCESS:
         case ActionTypes.GET_LEGACY_DATA_SUCCESS:
-        case ActionTypes.GET_PERFORMANCE_CONDITION_SUCCESS:
-            return _.assign({}, state, action.response.entities, {isFetching: false})
+        case ActionTypes.GET_PERFORMANCE_CONDITIONS_SUCCESS:
+            return _.assign({}, state, action.response.entities, {isFetching: false});
 
         case ActionTypes.CREATE_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_BUDGET_SUCCESS:
@@ -61,6 +60,8 @@ function activity(state = initialState, action) {
         case ActionTypes.UPDATE_HUMANITARIAN_SCOPE_SUCCESS:
         case ActionTypes.CREATE_PERFORMANCE_CONDITION_SUCCESS:
         case ActionTypes.UPDATE_PERFORMANCE_CONDITION_SUCCESS:
+        case ActionTypes.CREATE_PERFORMANCE_CONDITIONS_SUCCESS:
+        case ActionTypes.UPDATE_PERFORMANCE_CONDITIONS_SUCCESS:
         case ActionTypes.CREATE_TRANSACTION_SUCCESS:
         case ActionTypes.UPDATE_TRANSACTION_SUCCESS:
         case ActionTypes.CREATE_LEGACY_DATA_SUCCESS:
@@ -254,7 +255,6 @@ function activity(state = initialState, action) {
         case ActionTypes.CREATE_LEGACY_DATA_REQUEST:
         case ActionTypes.UPDATE_LEGACY_DATA_REQUEST:
         case ActionTypes.DELETE_LEGACY_DATA_REQUEST:
-        case ActionTypes.GET_COUNTRY_BUDGET_ITEM_REQUEST:
         case ActionTypes.CREATE_COUNTRY_BUDGET_ITEM_REQUEST:
         case ActionTypes.UPDATE_COUNTRY_BUDGET_ITEM_REQUEST:
         case ActionTypes.DELETE_COUNTRY_BUDGET_ITEM_REQUEST:
@@ -266,10 +266,12 @@ function activity(state = initialState, action) {
         case ActionTypes.CREATE_RELATION_REQUEST:
         case ActionTypes.UPDATE_RELATION_REQUEST:
         case ActionTypes.DELETE_RELATION_REQUEST:
-        case ActionTypes.GET_PERFORMANCE_CONDITION_REQUEST:
         case ActionTypes.CREATE_PERFORMANCE_CONDITION_REQUEST:
         case ActionTypes.UPDATE_PERFORMANCE_CONDITION_REQUEST:
-        case ActionTypes.DELETE_PERFORMANCE_CONDITION_REQUEST:
+        case ActionTypes.GET_PERFORMANCE_CONDITIONS_REQUEST:
+        case ActionTypes.CREATE_PERFORMANCE_CONDITIONS_REQUEST:
+        case ActionTypes.UPDATE_PERFORMANCE_CONDITIONS_REQUEST:
+        case ActionTypes.DELETE_PERFORMANCE_CONDITIONS_REQUEST:
         case ActionTypes.GET_PERFORMANCE_RESULT_REQUEST:
         case ActionTypes.CREATE_PERFORMANCE_RESULT_REQUEST:
         case ActionTypes.UPDATE_PERFORMANCE_RESULT_REQUEST:
@@ -351,10 +353,12 @@ function activity(state = initialState, action) {
         case ActionTypes.CREATE_RELATION_FAILURE:
         case ActionTypes.UPDATE_RELATION_FAILURE:
         case ActionTypes.DELETE_RELATION_FAILURE:
-        case ActionTypes.GET_PERFORMANCE_CONDITION_FAILURE:
         case ActionTypes.CREATE_PERFORMANCE_CONDITION_FAILURE:
         case ActionTypes.UPDATE_PERFORMANCE_CONDITION_FAILURE:
-        case ActionTypes.DELETE_PERFORMANCE_CONDITION_FAILURE:
+        case ActionTypes.GET_PERFORMANCE_CONDITIONS_FAILURE:
+        case ActionTypes.CREATE_PERFORMANCE_CONDITIONS_FAILURE:
+        case ActionTypes.UPDATE_PERFORMANCE_CONDITIONS_FAILURE:
+        case ActionTypes.DELETE_PERFORMANCE_CONDITIONS_FAILURE:
         case ActionTypes.GET_PERFORMANCE_RESULT_FAILURE:
         case ActionTypes.CREATE_PERFORMANCE_RESULT_FAILURE:
         case ActionTypes.UPDATE_PERFORMANCE_RESULT_FAILURE:
@@ -433,6 +437,11 @@ export const recipientCountriesSelector = createSelector(
 export const legacyDataSelector = createSelector(
     state => state.activity.legacy_data,
     (legacy_data) => _.map(legacy_data, x => x) // to array
+)
+
+export const conditionSelector = createSelector(
+    state => state.activity.condition,
+    (condition) => _.map(condition, x => x) // to array
 )
 
 export default activity

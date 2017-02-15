@@ -17,7 +17,7 @@ const config = {
 
     /*
      * OIPA URLs
-    */
+     */
 
     "oipa_url": OIPA_URL,
     "oipa_post_url": OIPA_URL,
@@ -46,7 +46,8 @@ const config = {
     "budgets_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/budgets/`,
     "comments_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/legacy_data/`,
     "results_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/results/`,
-    "conditions_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/conditions/`,
+    "condition_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/conditions/`,
+    "conditions_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/conditions/condition/`,
     "related_activities_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/related_activities/`,
     "country_budget_items_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/country_budget_items/`,
     "humanitarian_scopes_url": (pid, activityId) => `/api/publishers/${pid}/activities/${activityId}/humanitarian_scopes/`,
