@@ -24,7 +24,7 @@ const renderFinancialTransactionForm = ({
     fields, humanitarianOptions,
     transactionOptions, organisationOptions, languageOptions, currencyOptions,
     disbursementOptions, sectorVocabularyOptions, sectorOptions, countryOptions,
-    flowOptions, financeOptions, aidOptions, tiedOptions, showRecipientCountry, meta: {touched, dirty, error}
+    flowOptions, financeOptions, aidOptions, tiedOptions, showRecipientCountry, handleDeleteFormData, meta: {touched, dirty, error}
 }) => {
     if (!fields.length && !dirty) {
         fields.push({})
@@ -132,6 +132,8 @@ const renderFinancialTransactionForm = ({
                                     mainLabel="Provider org"
                                     activityKey="provider_activity_id"
                                     textLabel="Title"
+                                    handleDeleteFormData={handleDeleteFormData}
+                                    formName="financial-transaction"
                                 />
                             </div>
                             <div className="row no-margin">
@@ -144,6 +146,8 @@ const renderFinancialTransactionForm = ({
                                     mainLabel="Receiver org"
                                     activityKey="receiver_activity_id"
                                     textLabel="Title"
+                                    handleDeleteFormData={handleDeleteFormData}
+                                    formName="financial-transaction"
                                 />
                             </div>
                             <div className="row no-margin">
@@ -250,6 +254,7 @@ const renderFinancialTransactionForm = ({
     )
 };
 
+
 const validate = values => {
     let errors = {};
 
@@ -314,88 +319,6 @@ const validate = values => {
             transactionErrors.disbursement_channel = {code: 'Required'}
         }
 
-        if (!transactionData.recipient_country || !transactionData.recipient_country.country ||
-                transactionData.recipient_country.country.code == "Select one of the following options") {
-            transactionErrors.recipient_country= {country: {code: 'Required'}}
-        }
-/*
-
-        if (transactionData.provider_organisation) {
-            const narrativesProviderOrganisation = (transactionData.provider_organisation && transactionData.provider_organisation.narratives) || [];
-
-            transactionErrors.provider_organisation = {};
-            transactionErrors.provider_organisation.narratives = narrativesProviderOrganisation.map(narrative => {
-                let narrativeErrors = {};
-
-                if (!narrative.text) {
-                    narrativeErrors.text = 'Required'
-                }
-
-                if (!narrative.language || narrative.language.code == "Select one of the following options") {
-                    narrativeErrors.language = {code: 'Required'}
-                }
-
-                return narrativeErrors
-            });
-
-            if (!narrativesProviderOrganisation.length) {
-                transactionErrors.provider_organisation.narratives._error = 'At least one narrative must be entered'
-            }
-
-            if (!transactionData.provider_organisation || !transactionData.provider_organisation.type) {
-                transactionErrors.provider_organisation.type = {code: 'Required'}
-            }
-
-            if (!transactionData.provider_organisation || !transactionData.provider_organisation.ref) {
-                transactionErrors.provider_organisation.ref = 'Required'
-            }
-
-            if (!transactionData.provider_organisation || !transactionData.provider_organisation.provider_activity_id) {
-                transactionErrors.provider_organisation.provider_activity_id = 'Required'
-            }
-        }
-
-        if (transactionData.receiver_organisation) {
-            const narrativesReceiverOrganisation = (transactionData.receiver_organisation && transactionData.receiver_organisation.narratives) || [];
-            transactionErrors.receiver_organisation = {};
-            transactionErrors.receiver_organisation.narratives = narrativesReceiverOrganisation.map(narrative => {
-                let narrativeErrors = {};
-
-                if (!narrative.text) {
-                    narrativeErrors.text = 'Required'
-                }
-
-                if (!narrative.language || narrative.language.code == "Select one of the following options") {
-                    narrativeErrors.language = {code: 'Required'}
-                }
-
-                return narrativeErrors
-            });
-
-            if (!narrativesReceiverOrganisation.length) {
-                transactionErrors.receiver_organisation.narratives._error = 'At least one narrative must be entered'
-            }
-
-            if (!transactionData.receiver_organisation || !transactionData.receiver_organisation.type) {
-                transactionErrors.receiver_organisation.type = {code: 'Required'}
-            }
-
-            if (!transactionData.receiver_organisation || !transactionData.receiver_organisation.ref) {
-                transactionErrors.receiver_organisation.ref = 'Required'
-            }
-
-            if (!transactionData.receiver_organisation || !transactionData.receiver_organisation.receiver_activity_id) {
-                transactionErrors.receiver_organisation.receiver_activity_id = 'Required'
-            }
-        }
-*/
-
-        if (!transactionErrors.provider_organisation || _.isEmpty(transactionErrors.provider_organisation.narratives) || _.isEmpty(transactionErrors.provider_organisation.narratives[0])) {
-            transactionErrors.provider_organisation = null;
-        }
-        if (!transactionErrors.receiver_organisation || _.isEmpty(transactionErrors.receiver_organisation.narratives) || _.isEmpty(transactionErrors.receiver_organisation.narratives[0])) {
-            transactionErrors.receiver_organisation = null;
-        }
         return transactionErrors
     });
 
@@ -407,6 +330,18 @@ class FinancialTransactionForm extends Component {
     constructor(props) {
         super(props);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleDeleteFormData = this.handleDeleteFormData.bind(this);
+    }
+
+    handleDeleteFormData(formName, fieldName) {
+        //@TODO: Use props instead for redux-form/Change check https://github.com/erikras/redux-form/issues/152
+        const metaData = {
+            field: fieldName,
+            form: formName,
+            persistentSubmitErrors: false,
+            touch: false
+        };
+        this.props.dispatch({meta: metaData, payload: {}, type: "@@redux-form/CHANGE"});
     }
 
     /**
@@ -539,6 +474,7 @@ class FinancialTransactionForm extends Component {
                         sectorVocabularyOptions={codeLists["SectorVocabulary"]}
                         sectorOptions={codeLists["Sector"]}
                         showRecipientCountry={showRecipientCountry}
+                        handleDeleteFormData={this.handleDeleteFormData}
                     />
                     <div className="columns small-12">
                         <Link className="button"
