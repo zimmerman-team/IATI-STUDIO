@@ -27,7 +27,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
     },
 
     render: function() {
-        const { oipaUser } = this.props
+        const { oipaUser, publisher } = this.props
 
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState
@@ -37,6 +37,8 @@ let PublisherSettings = React.createClass({ // A stateful container all children
         if (typeof isValidated === 'undefined') {
             return <GeneralLoader/>
         }
+
+        console.log(isValidated, publisher);
 
         return (
             <div className={wrapClass}>
@@ -74,7 +76,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
                             <h6 className="with-tip">Datasets on the IATI Registry</h6>
                             <Tooltip className="inline" tooltip="Info text goes here"><i className="material-icons">info</i></Tooltip>
                             { isValidated ? 
-                                <p>We found {this.props.publisher.datasets.length} datasets on the IATI Registry linked to your account. Please go to the <Link to="/publisher/datasets/">datasets page</Link> to view your existing activities.</p>
+                                <p>We found datasets on the IATI Registry linked to your account. Please go to the <Link to="/publisher/datasets/">datasets page</Link> to view your existing activities.</p>
                                 :
                                     <p>Please validate your IATI Registry settings first.</p>
                                     }

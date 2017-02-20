@@ -9,6 +9,27 @@ import * as oipaMethods from '../../oipa/activity'
 
 import config from '../../config/config'
 
+const handleActivityExport = function(user, publisherId, jobId) {
+
+    function getResult() {
+        return oipaMethods.getActivityXMLByPublisherResult(user, publisherId, jobId)
+            .then(response => {
+                if (response.status === 'failed') {
+                    return false
+                }
+                else if (response.status !== 'completed') {
+                    // TODO: back-off - 2017-02-20
+                    return getResult()
+                }
+                else {
+                    return response.result
+                }
+            })
+    }
+
+    return getResult()
+}
+
 var ActivityAPI = {
 
     getValidationStatus: function() {
@@ -20,37 +41,45 @@ var ActivityAPI = {
         // 1. get an XML export from OIPA
         console.log('called publish...', publisherId);
         oipaMethods.getActivityXMLByPublisher(user, publisherId)
-            .then((xml) => {
-                console.log("GOT XML");
-                console.log(xml);
+            .then((job) => {
+                handleActivityExport(user, publisherId, job.job)
+                    .then(xml => {
 
-                // 2. Serve this xml export in IATI Studio
-                const fileName = `${publisherId}-activities.xml`
+                        if (!xml) {
+                            return res("Error when exporting")
+                        }
 
-                fs.writeFile(path.join(config.publishDirectory, fileName), xml, (error) => {
-                    if (error) {
-                        console.error(error)
-                        res("Can't save XML")
-                    }
+                        console.log("GOT XML");
+                        console.log(xml);
 
-                    const sourceUrl = url.resolve(config.fullUrl, path.join(config.exportPath, fileName))
+                        // 2. Serve this xml export in IATI Studio
+                        const fileName = `${publisherId}-activities.xml`
 
-                    // 3. POST to OIPA to sync with the IATI registry
+                        fs.writeFile(path.join(config.publishDirectory, fileName), xml, (error) => {
+                            if (error) {
+                                console.error(error)
+                                return res("Can't save XML")
+                            }
 
-                    // push nothing to IATI registry, just update activity states
-                    if (datasetId) {
-                        return oipaMethods.publishActivitiesUpdate(user, publisherId, sourceUrl, datasetId)
-                            .then(result => res(null, result))
-                            .catch(error => res(error));
-                    } 
-                    // push to IATI registry
-                    else {
-                        return oipaMethods.publishActivities(user, publisherId, sourceUrl)
-                            .then(result => res(null, result))
-                            .catch(error => res(error));
-                    }
+                            const sourceUrl = url.resolve(config.fullUrl, path.join(config.exportPath, fileName))
 
-                })
+                            // 3. POST to OIPA to sync with the IATI registry
+
+                            // push nothing to IATI registry, just update activity states
+                            if (datasetId) {
+                                return oipaMethods.publishActivitiesUpdate(user, publisherId, sourceUrl, datasetId)
+                                    .then(result => res(null, result))
+                                    .catch(error => res(error));
+                            } 
+                            // push to IATI registry
+                            else {
+                                return oipaMethods.publishActivities(user, publisherId, sourceUrl)
+                                    .then(result => res(null, result))
+                                    .catch(error => res(error));
+                            }
+
+                        })
+                    }) 
             })
     },
 

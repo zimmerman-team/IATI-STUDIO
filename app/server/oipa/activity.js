@@ -33,13 +33,26 @@ export const getActivityXMLByPublisher = function (user, publisherId) {
         //url: config.activities_url(publisherId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken,
-            'Content-type': 'application/xml'
         },
         // get all activities that are ready-to-publish and published
-        url: path.join(config.publisherUrl(publisherId), 'next_published_activities')
+        url: path.join(config.publisherUrl(publisherId), 'next_published_activities/')
     };
 
-    return oipaExport(req_options)
+    return oipaPost(req_options)
+};
+
+export const getActivityXMLByPublisherResult = function (user, publisherId, jobId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        //url: config.activities_url(publisherId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken,
+        },
+        // get all activities that are ready-to-publish and published
+        url: path.join(config.publisherUrl(publisherId), 'next_published_activities', jobId)
+    };
+
+    return oipaGet(req_options)
 };
 
 export const publishActivities = function (user, publisherId, sourceUrl) {
