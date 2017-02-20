@@ -18,8 +18,11 @@ const handleActivityExport = function(user, publisherId, jobId) {
                     return false
                 }
                 else if (response.status !== 'completed') {
-                    // TODO: back-off - 2017-02-20
-                    return getResult()
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            return resolve(getResult())
+                        }, 3000)
+                    })
                 }
                 else {
                     return response.result

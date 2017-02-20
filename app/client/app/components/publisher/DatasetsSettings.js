@@ -17,6 +17,8 @@ class DatasetActivityPublisher extends React.Component {
 
     render() {
         const { dataset, modifiedActivities, publishCount, totalCount, isFetching } = this.props
+
+        console.log(dataset);
         return (
             <div className="row">
                 <div className="activity-publish columns small-centered small-12">
@@ -35,13 +37,19 @@ class DatasetActivityPublisher extends React.Component {
                             <div>
                                 <p>You will publish { publishCount } of a total of { totalCount } activities</p>
                                 <p>{ modifiedActivities.length } activities have been added or modified</p>
-                                <p>Update your dataset</p>
-                                <a 
-                                    onClick={this.props.publish}
-                                    className="button"
-                                    disabled={isFetching}
-                                >
-                                    Publish</a>
+                                { dataset.export_in_progress ?
+                                    <p>Export is currently in progress...</p>
+                                    :
+                                    <div>
+                                        <p>Update your dataset</p>
+                                        <a 
+                                            onClick={this.props.publish}
+                                            className="button"
+                                            disabled={isFetching || dataset.export_in_progress}
+                                        >
+                                            Publish</a>
+                                    </div>
+                                }
                             </div>
                     }
                 </div>
