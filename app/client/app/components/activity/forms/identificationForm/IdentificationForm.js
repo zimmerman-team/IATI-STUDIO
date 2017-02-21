@@ -87,7 +87,7 @@ class IdentificationForm extends PureComponent {
     }
 
     render() {
-        const {submitting, activity, handleSubmit, codeLists, isFetching} = this.props;
+        const {submitting, activity, handleSubmit, codeLists, activityId, isFetching} = this.props;
 
         if (isFetching || !activity && !codeLists["Language"]) {
             return <GeneralLoader/>
@@ -113,8 +113,21 @@ class IdentificationForm extends PureComponent {
                                     type="text"
                                     id="iati_identifier"
                                     component={renderField}
-                                    label="IATI Identifier"
+                                    label="*Activity Identifier"
                                 />
+                            </div>
+                            <div className="columns small-6" style={{"paddingTop": "5px"}}>
+                                IATI Identifier
+                                <div style={{"paddingTop": "7px"}}>
+                                    {activity[activityId] && `NL-KVK-51018586-${activity[activityId].iati_identifier}`}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                Enter your own unique activity identifier, or Project number. It is up to you to
+                                ensure it is unique across all the activities. Aidstream will concatenate this to your
+                                organization identifier to make an IATI Acitivity Identifier that is globally unique.
                             </div>
                             <Field
                                 component={renderSelectField}
@@ -124,7 +137,7 @@ class IdentificationForm extends PureComponent {
                                 selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
                                 defaultOption="Select one of the following options"
                             />
-                        </div>
+                        </div> <br/>
                         <div className="row no-margin">
                             <FieldArray
                                 name="activity.title.narratives"
