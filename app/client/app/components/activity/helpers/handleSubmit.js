@@ -10,8 +10,15 @@ function handleSubmit(publisherId, mainKey, activityId, prevData, currData, crea
         const newIds = currData.map(d => d.id).filter(d => d !== undefined)
 
         const toCreate = _.filter(currData, (d) => !('id' in d))
-        const toUpdate = _.filter(currData, (d) => 'id' in d)
+        let toUpdate = _.filter(currData, (d) => 'id' in d)
         const toDelete = _.difference(oldIds, newIds)
+
+        toUpdate = toUpdate.map(function (data, index) {
+            return (
+                _.isEqual(prevData[index], data) ? null : data
+            )
+        });
+        toUpdate = _.reject(toUpdate, _.isNull);
 
         const createPromises = toCreate.map(data => (
             createAction(publisherId, activityId, {
@@ -19,7 +26,6 @@ function handleSubmit(publisherId, mainKey, activityId, prevData, currData, crea
                 ...data,
             })
         ));
-
 
         const updatePromises = toUpdate.map(data => (
             updateAction(publisherId, activityId, data.id, {
