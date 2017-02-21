@@ -2,7 +2,7 @@ import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 import {Tooltip} from '../../../general/Tooltip.react.jsx'
-import {Field, FieldArray, reduxForm} from 'redux-form'
+import {Field, FieldArray, reduxForm, formValueSelector} from 'redux-form'
 import {renderField, renderSelectField, renderNarrativeFields} from '../../helpers/FormHelper'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
@@ -87,7 +87,7 @@ class IdentificationForm extends PureComponent {
     }
 
     render() {
-        const {submitting, activity, handleSubmit, codeLists, activityId, isFetching} = this.props;
+        const {submitting, activity, handleSubmit, codeLists, activityId, isFetching, currentIATIIdentifier} = this.props;
 
         if (isFetching || !activity && !codeLists["Language"]) {
             return <GeneralLoader/>
@@ -119,7 +119,7 @@ class IdentificationForm extends PureComponent {
                             <div className="columns small-6" style={{"paddingTop": "5px"}}>
                                 IATI Identifier
                                 <div style={{"paddingTop": "7px"}}>
-                                    {activity[activityId] && `NL-KVK-51018586-${activity[activityId].iati_identifier}`}
+                                    {activity[activityId] && (`NL-KVK-51018586-${currentIATIIdentifier}` || `NL-KVK-51018586-${activity[activityId].iati_identifier}`)}
                                 </div>
                             </div>
                         </div>
@@ -168,16 +168,20 @@ IdentificationForm = reduxForm({
 })(IdentificationForm);
 
 
+const selector = formValueSelector('identification');
+
 function mapStateToProps(state, props) {
     const {activityId} = props;
     const isFetching = state.activity.isFetching;
     let currentActivity = state.activity.activity && state.activity.activity[activityId];
+    const currentIATIIdentifier = selector(state, 'activity.iati_identifier');
 
     return {
         isFetching: isFetching,
         submitting: state.activity.submitting,
         activity: state.activity.activity,
         codeLists: state.codeLists,
+        currentIATIIdentifier: currentIATIIdentifier,
         initialValues: {"activity": currentActivity},  // populate initial values for redux form
         publisher: publisherSelector(state),
     }
