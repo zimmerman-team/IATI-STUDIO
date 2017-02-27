@@ -51,7 +51,7 @@ class SplashScreen extends React.Component {
           <div className="columns small-12 medium-4 large-4">
             <h5>Published IATI before?</h5>
                 <p>
-                User alessandrozimmermanzimmermannl 3a965a26-6302-4f8d-b69d-26e7605bbfc4 bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus.
+                Some instructions here.
                 </p>
 						<a className="button" onClick={this.importSettings}>Import your settings</a>
 					</div>
@@ -59,15 +59,15 @@ class SplashScreen extends React.Component {
 					<div className="columns small-12 medium-4 large-4">
 						<h5>Want to start out with IATI?</h5>
 								<p>
-                User zimmzimm 42664fcd-2494-4bab-92fe-5af6113d55a6 elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
+                Some instructions there.
                 </p>
 						<a className="button" onClick={this.setupOrganisation}>Set up your organisation</a>
 					</div>
 
 					<div className="columns small-12 medium-4 large-4">
-						<h5>What's IATI all about?</h5>
+						<h5>What is IATI?</h5>
 								<p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus sagittis lacus vel.
+                Some instructions here as well.
 								</p>
 						<a className="button" onClick={this.goToFAQ}>Read the FAQ</a>
 					</div>
