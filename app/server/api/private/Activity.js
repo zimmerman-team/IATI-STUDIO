@@ -52,9 +52,6 @@ var ActivityAPI = {
                             return res("Error when exporting")
                         }
 
-                        console.log("GOT XML");
-                        console.log(xml);
-
                         // 2. Serve this xml export in IATI Studio
                         const fileName = `${publisherId}-activities.xml`
 

@@ -87,7 +87,7 @@ class IdentificationForm extends PureComponent {
     }
 
     render() {
-        const {submitting, activity, handleSubmit, codeLists, activityId, isFetching, currentIATIIdentifier} = this.props;
+        const {submitting, activity, handleSubmit, codeLists, activityId, isFetching, currentIATIIdentifier, publisher} = this.props;
 
         if (isFetching || !activity && !codeLists["Language"]) {
             return <GeneralLoader/>
@@ -114,20 +114,23 @@ class IdentificationForm extends PureComponent {
                                     id="iati_identifier"
                                     component={renderField}
                                     label="*Activity Identifier"
+                                    format={(value) => {
+                                        return value.replace(publisher.publisher_iati_id + '-', "")
+                                    }}
+                                    normalize={(value) => {
+                                        return `${publisher.publisher_iati_id}-${value}`
+                                    }}
                                 />
                             </div>
                             <div className="columns small-6" style={{"paddingTop": "5px"}}>
                                 IATI Identifier
                                 <div style={{"paddingTop": "7px"}}>
-                                    {activity[activityId] && (`NL-KVK-51018586-${currentIATIIdentifier}` || `NL-KVK-51018586-${activity[activityId].iati_identifier}`)}
+                                    { currentIATIIdentifier }
                                 </div>
                             </div>
                         </div>
                         <div className="row no-margin">
                             <div className="columns small-6">
-                                Enter your own unique activity identifier, or Project number. It is up to you to
-                                ensure it is unique across all the activities. Aidstream will concatenate this to your
-                                organization identifier to make an IATI Acitivity Identifier that is globally unique.
                             </div>
                             <Field
                                 component={renderSelectField}
