@@ -7,6 +7,7 @@
 import path from 'path'
 import config from '../config/config'
 import { oipaExport, oipaPost, oipaGet, oipaUpdate, oipaDelete } from '../config/request'
+import _ from 'lodash'
 
 const querystring = require('querystring')
 
@@ -189,21 +190,30 @@ export const getDescriptions = function (user, publisherId, activityId) {
 };
 
 export const postDescription = function (user, publisherId, activityId, descriptionData) {
-    const dateJSON = JSON.parse(descriptionData);
+    const dataJSON = JSON.parse(descriptionData);
+    if (!dataJSON.narratives || _.isEmpty(dataJSON.narratives) || _.isEmpty(dataJSON.narratives[0])) {
+        delete dataJSON.narratives;
+    }
+
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.descriptionUrl(publisherId, activityId),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
-        body: dateJSON,
+        body: dataJSON,
     };
+
 
     return oipaPost(req_options)
 };
 
 export const updateDescription = function (user, publisherId, activityId, id, descriptionData) {
     const dataJSON = JSON.parse(descriptionData);
+    if (!dataJSON.narratives || _.isEmpty(dataJSON.narratives) || _.isEmpty(dataJSON.narratives[0])) {
+        delete dataJSON.narratives;
+    }
+
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.descriptionUrl(publisherId, activityId), `${id}`),
@@ -243,6 +253,10 @@ export const getParticipatingOrganisations = function (user, publisherId, activi
 
 export const postParticipatingOrganisation = function (user, publisherId, activityId, participating_organisationData) {
     const dataJSON = JSON.parse(participating_organisationData);
+    if (!dataJSON.narratives || _.isEmpty(dataJSON.narratives) || _.isEmpty(dataJSON.narratives[0])) {
+        delete dataJSON.narratives;
+    }
+
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.participatingOrganisationUrl(publisherId, activityId),
@@ -257,6 +271,9 @@ export const postParticipatingOrganisation = function (user, publisherId, activi
 
 export const updateParticipatingOrganisation = function (user, publisherId, activityId, id, participating_organisationData) {
     const dataJSON = JSON.parse(participating_organisationData);
+    if (!dataJSON.narratives || _.isEmpty(dataJSON.narratives) || _.isEmpty(dataJSON.narratives[0])) {
+        delete dataJSON.narratives;
+    }
     const req_options = {
         baseUrl: config.oipa_update_url,
         url: path.join(config.participatingOrganisationUrl(publisherId, activityId), `${id}`),
@@ -716,6 +733,10 @@ export const deleteCountryBudgetItem = function (user, publisherId, activityId, 
 
 export const postContact = function (user, publisherId, activityId, contactData) {
     const dataJSON = JSON.parse(contactData);
+    if (!dataJSON.narratives || _.isEmpty(dataJSON.narratives) || _.isEmpty(dataJSON.narratives[0])) {
+        delete dataJSON.narratives;
+    }
+
     const req_options = {
         baseUrl: config.oipa_post_url,
         url: config.contact_url(publisherId, activityId),

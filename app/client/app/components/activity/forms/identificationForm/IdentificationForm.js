@@ -129,9 +129,7 @@ class IdentificationForm extends PureComponent {
                                 </div>
                             </div>
                         </div>
-                        <div className="row no-margin">
-                            <div className="columns small-6">
-                            </div>
+                        <div>
                             <Field
                                 component={renderSelectField}
                                 name="activity.hierarchy"

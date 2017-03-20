@@ -117,7 +117,6 @@ BasicInformationStatusForm = reduxForm({
   form: 'basic-info-status',     // a unique identifier for this form
   destroyOnUnmount: false,
   enableReinitialize: true,
-  validate
 })(BasicInformationStatusForm);
 
 BasicInformationStatusForm = connect(mapStateToProps, {
