@@ -322,34 +322,14 @@ const validate = values => {
             locationErrors.ref = 'Required';
         }
 
-        if (!location.location_reach) {
-            locationErrors.location_reach = {code: 'Required'}
-        }
-
-        if (!location.feature_designation) {
-            locationErrors.feature_designation = {code: 'Required'}
-        }
-
-        if (!location.exactness) {
-            locationErrors.exactness = {code: 'Required'}
-        }
-
-
         if (location.location_id) {
             locationErrors.location_id = {};
-            if (!location.location_id.vocabulary) {
-                locationErrors.location_id.vocabulary = {code: 'Required'}
-            }
 
             if (!location.location_id.code) {
                 locationErrors.location_id.code = 'Required'
             }
         } else {
-            locationErrors.location_id = {code: 'Required', vocabulary: {code: 'Required'}};
-        }
-
-        if (!location.location_class) {
-            locationErrors.location_class = {code: 'Required'}
+            locationErrors.location_id = {code: 'Required'};
         }
 
         locationErrors.point = {pos: {}};
@@ -374,60 +354,6 @@ const validate = values => {
 
         if (!location.point || !location.point.srsName) {
             locationErrors.point.srsName = 'Required'
-        }
-
-        const nameNarratives = (location.name && location.name.narratives) || [];
-        const descriptionNarratives = (location.description && location.description.narratives) || [];
-        const activityDescriptionNarratives = (location.activity_description && location.activity_description.narratives) || [];
-
-        locationErrors.name = {};
-        locationErrors.description = {};
-        locationErrors.activity_description = {};
-
-        locationErrors.name.narratives = nameNarratives.map(narrative => {
-            let narrativeErrors = {};
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language) {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors;
-        });
-
-        locationErrors.description.narratives = descriptionNarratives.map(narrative => {
-            let narrativeErrors = {};
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language) {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors;
-        });
-
-        locationErrors.activity_description.narratives = activityDescriptionNarratives.map(narrative => {
-            let narrativeErrors = {};
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language) {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors;
-        });
-
-        if (!location.location_class) {
-            locationErrors.location_class = {code: 'Required'}
         }
 
         return locationErrors

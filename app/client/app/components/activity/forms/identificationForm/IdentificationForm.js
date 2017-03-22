@@ -16,27 +16,6 @@ const validate = values => {
         if (!activityData.iati_identifier) {
             errors.iati_identifier = 'Required'
         }
-
-        if (!activityData.hierarchy || activityData.hierarchy == "Select one of the following options") {
-            errors.hierarchy = 'Required';
-        }
-
-        const narratives = (activityData.title && activityData.title.narratives) || [];
-
-        errors.title = {};
-        errors.title.narratives = narratives.map(narrative => {
-            let narrativeErrors = {};
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language) {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors
-        });
     }
 
     return {activity: errors};

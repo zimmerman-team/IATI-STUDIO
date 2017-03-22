@@ -90,38 +90,6 @@ const validate = values => {
             policyErrors.policy_marker = {code: 'Required'}
         }
 
-        if (!policyData.significance) {
-            policyErrors.significance = {code: 'Required'}
-        }
-
-        if (!policyData.vocabulary_uri) {
-            policyErrors.vocabulary_uri = 'Required'
-        }
-
-        if (!policyData.vocabulary) {
-            policyErrors.vocabulary = {code: 'Required'}
-        }
-
-        const narratives = policyData.narratives || [];
-
-        policyErrors.narratives = narratives.map(narrative => {
-            let narrativeErrors = {};
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language || narrative.language.code == "Select one of the following options") {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors
-        });
-
-        if (!narratives.length) {
-            policyErrors.narratives._error = 'At least one narrative must be entered'
-        }
-
         return policyErrors
     });
 

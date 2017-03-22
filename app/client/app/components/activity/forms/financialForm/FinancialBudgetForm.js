@@ -121,16 +121,8 @@ const validate = values => {
     errors.budgets = financialBudgets.map(budgetData => {
         let budgetErrors = {};
 
-        if (!budgetData.status) {
-            budgetErrors.status = {code: 'Required'}
-        }
-
         if (!budgetData.value || !budgetData.value.currency || !budgetData.value.currency.code || budgetData.value.currency.code == 'Select one of the following options') {
             budgetErrors.value = {currency: {code: 'Required'}}
-        }
-
-        if (!budgetData.type) {
-            budgetErrors.type = {code: 'Required'}
         }
 
         if (!budgetData.value) {

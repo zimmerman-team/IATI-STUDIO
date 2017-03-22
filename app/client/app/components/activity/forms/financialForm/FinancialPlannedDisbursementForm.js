@@ -174,27 +174,7 @@ const validate = values => {
 
 
         if (disbursementData.provider_organisation) {
-            const narrativesProviderOrganisation = (disbursementData.provider_organisation && disbursementData.provider_organisation.narratives) || [];
-
             disbursementErrors.provider_organisation = {};
-            disbursementErrors.provider_organisation.narratives = narrativesProviderOrganisation.map(narrative => {
-                let narrativeErrors = {};
-
-                if (!narrative.text) {
-                    narrativeErrors.text = 'Required'
-                }
-
-                if (!narrative.language || narrative.language.code == "Select one of the following options") {
-                    narrativeErrors.language = {code: 'Required'}
-                }
-
-                return narrativeErrors
-            });
-
-            if (!narrativesProviderOrganisation.length) {
-                disbursementErrors.provider_organisation.narratives._error = 'At least one narrative must be entered'
-            }
-
             if (!disbursementData.provider_organisation || !disbursementData.provider_organisation.type) {
                 disbursementErrors.provider_organisation.type = {code: 'Required'}
             }
@@ -205,26 +185,7 @@ const validate = values => {
         }
 
         if (disbursementData.receiver_organisation) {
-            const narrativesReceiverOrganisation = (disbursementData.receiver_organisation && disbursementData.receiver_organisation.narratives) || [];
             disbursementErrors.receiver_organisation = {};
-            disbursementErrors.receiver_organisation.narratives = narrativesReceiverOrganisation.map(narrative => {
-                let narrativeErrors = {};
-
-                if (!narrative.text) {
-                    narrativeErrors.text = 'Required'
-                }
-
-                if (!narrative.language || narrative.language.code == "Select one of the following options") {
-                    narrativeErrors.language = {code: 'Required'}
-                }
-
-                return narrativeErrors
-            });
-
-            if (!narrativesReceiverOrganisation.length) {
-                disbursementErrors.receiver_organisation.narratives._error = 'At least one narrative must be entered'
-            }
-
             if (!disbursementData.receiver_organisation || !disbursementData.receiver_organisation.type) {
                 disbursementErrors.receiver_organisation.type = {code: 'Required'}
             }
@@ -234,12 +195,6 @@ const validate = values => {
             }
         }
 
-        if (!disbursementErrors.provider_organisation || _.isEmpty(disbursementErrors.provider_organisation.narratives) || _.isEmpty(disbursementErrors.provider_organisation.narratives[0])) {
-            disbursementErrors.provider_organisation = null;
-        }
-        if (!disbursementErrors.receiver_organisation || _.isEmpty(disbursementErrors.receiver_organisation.narratives) || _.isEmpty(disbursementErrors.receiver_organisation.narratives[0])) {
-            disbursementErrors.receiver_organisation = null;
-        }
         return disbursementErrors
     });
 

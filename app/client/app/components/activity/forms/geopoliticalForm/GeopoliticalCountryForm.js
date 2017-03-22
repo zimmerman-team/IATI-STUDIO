@@ -78,14 +78,10 @@ const renderRecipientCountry = ({fields, languageOptions, countryOptions, meta: 
 const validate = values => {
     let errors = {};
 
-    const countries = values.recipient_countries || []
+    const countries = values.recipient_countries || [];
 
     errors.recipient_countries = countries.map(countryData => {
-        let countryErrors = {}
-
-        if (!countryData.percentage) {
-            countryErrors.percentage = 'Required'
-        }
+        let countryErrors = {};
 
         if (countryData.percentage && countryData.percentage > 100 || countryData.percentage < 0) {
             countryErrors.percentage = 'Percentage should be between 0 and 100'

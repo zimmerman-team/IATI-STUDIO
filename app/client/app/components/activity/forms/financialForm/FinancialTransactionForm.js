@@ -275,22 +275,6 @@ const validate = values => {
     errors.transactions = transactions.map(transactionData => {
         let transactionErrors = {};
 
-        if (!transactionData.finance_type) {
-            transactionErrors.finance_type = {code: 'Required'}
-        }
-
-        if (!transactionData.tied_status) {
-            transactionErrors.tied_status = {code: 'Required'}
-        }
-
-        if (!transactionData.aid_type) {
-            transactionErrors.aid_type = {code: 'Required'}
-        }
-
-        if (!transactionData.flow_type) {
-            transactionErrors.flow_type = {code: 'Required'}
-        }
-
         if (!transactionData.transaction_type) {
             transactionErrors.transaction_type = {code: 'Required'}
         }
@@ -317,10 +301,6 @@ const validate = values => {
 
         if (!transactionData.value) {
             transactionErrors.value = 'Required'
-        }
-
-        if (!transactionData.humanitarian) {
-            transactionErrors.humanitarian = 'Required'
         }
 
         if (!transactionData.currency) {
@@ -506,20 +486,6 @@ class FinancialTransactionForm extends Component {
 function mapStateToProps(state, props) {
     let transactions = transactionsSelector(state);
     const isFetching = state.activity.isFetching;
-    const { activityId } = props;
-
-/*
-    const {activityId} = props;
-    transactions = transactions.map(function (transactionData) {
-        if (transactionData.receiver_organisation) {
-            transactionData.receiver_organisation.receiver_activity_id = activityId;
-        }
-        if (transactionData.provider_organisation) {
-            transactionData.provider_organisation.provider_activity_id = activityId;
-        }
-        return transactionData;
-    });
-*/
 
     return {
         data: transactions,

@@ -82,18 +82,10 @@ const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorO
 const validate = values => {
     const errors = {};
 
-    const regions = values.sector || []
+    const regions = values.sector || [];
 
     errors.sector = regions.map(regionData => {
-        let sectorErrors = {}
-
-        if (!regionData.percentage) {
-            sectorErrors.percentage = 'Required'
-        }
-
-        if (!regionData.vocabulary_uri) {
-            sectorErrors.vocabulary_uri = 'Required'
-        }
+        let sectorErrors = {};
 
         if (!regionData.sector) {
             sectorErrors.sector = {code: 'Required'}
@@ -101,14 +93,6 @@ const validate = values => {
 
         if (!regionData.vocabulary) {
             sectorErrors.vocabulary = {code: 'Required'}
-        }
-
-        if (!regionData.sector) {
-            sectorErrors.sector = {name: 'Required'}
-        }
-
-        if (!regionData.sector) {
-            sectorErrors.sector = {code: 'Required'}
         }
 
         if (regionData.percentage && regionData.percentage > 100 || regionData.percentage < 0) {

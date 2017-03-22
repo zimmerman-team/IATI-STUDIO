@@ -4,10 +4,10 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import { withRouter } from 'react-router'
-import {Field, reduxForm} from 'redux-form'
+import {reduxForm} from 'redux-form'
 import {getCodeListItems, getActivity, updateActivity} from '../../../../actions/activity'
 import { publisherSelector } from '../../../../reducers/createActivity'
-import {RenderSingleSelect, renderSelectField} from '../../helpers/FormHelper'
+import {RenderSingleSelect} from '../../helpers/FormHelper'
 
 const validate = values => {
     let errors = {};

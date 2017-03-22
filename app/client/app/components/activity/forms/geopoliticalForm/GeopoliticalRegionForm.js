@@ -103,26 +103,11 @@ const validate = values => {
 
         if (!regionData.region  || !regionData.region.code || regionData.region.code == "Select one of the following options") {
             regionErrors.region = {code: 'Required'}
-        }
-
-        if (!regionData.percentage) {
-            regionErrors.percentage = 'Required'
+            regionErrors.region = {name: 'Required'}
         }
 
         if (regionData.percentage && regionData.percentage > 100 || regionData.percentage < 0) {
             regionErrors.percentage = 'Percentage should be between 0 and 100'
-        }
-
-        if (!regionData.region) {
-            regionErrors.region = {code: 'Required'}
-        }
-
-        if (!regionData.vocabulary) {
-            regionErrors.vocabulary = {code: 'Required'}
-        }
-
-        if (!regionData.region) {
-            regionErrors.region = {name: 'Required'}
         }
 
         return regionErrors

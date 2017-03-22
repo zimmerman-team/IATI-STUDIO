@@ -78,10 +78,6 @@ const validate = values => {
             dateErrors.type = {code: 'Required'}
         }
 
-        if (!dateData.iso_date) {
-            dateErrors.iso_date = 'Required'
-        }
-
         return dateErrors
     });
 

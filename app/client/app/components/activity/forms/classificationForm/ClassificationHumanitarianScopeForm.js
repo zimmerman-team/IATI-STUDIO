@@ -103,10 +103,6 @@ const validate = values => {
             scopeErrors.vocabulary = {code: 'Required'}
         }
 
-        if (!scopeData.vocabulary_uri) {
-            scopeErrors.vocabulary_uri = 'Required'
-        }
-
         if (!scopeData.code) {
             scopeErrors.code = 'Required'
         }

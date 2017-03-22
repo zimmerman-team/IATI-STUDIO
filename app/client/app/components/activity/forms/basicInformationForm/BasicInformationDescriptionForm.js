@@ -73,26 +73,6 @@ const validate = (values) => {
             descriptionErrors.type = {code: 'Required'}
         }
 
-        const narratives = description.narratives || [];
-
-        descriptionErrors.narratives = narratives.map(narrative => {
-            let narrativeErrors = {};
-
-            if (!narrative.text) {
-                narrativeErrors.text = 'Required'
-            }
-
-            if (!narrative.language || narrative.language.code == "Select one of the following options") {
-                narrativeErrors.language = {code: 'Required'}
-            }
-
-            return narrativeErrors
-        });
-
-        if (!narratives.length) {
-            descriptionErrors.narratives._error = 'At least one narrative must be entered'
-        }
-
         return descriptionErrors
     });
 

@@ -84,10 +84,6 @@ const validate = values => {
     errors.participating_organisations = participatingOrganisations.map(participatingOrganisation => {
         let participatingOrganisationErrors = {};
 
-        if (!participatingOrganisation.type) {
-            participatingOrganisationErrors.type = {code: 'Required'}
-        }
-
         if (!participatingOrganisation.role  || !participatingOrganisation.role.code || participatingOrganisation.role.code == "Select an organisation role") {
             participatingOrganisationErrors.role = {code: 'Required'}
         }
@@ -96,11 +92,11 @@ const validate = values => {
             participatingOrganisationErrors.role = {code: 'Required'}
         }
 
-        if(!participatingOrganisation.ref) {
+        if (!participatingOrganisation.ref) {
             participatingOrganisationErrors.ref = 'Required'
         }
 
-        if(!participatingOrganisation.activity_id) {
+        if (!participatingOrganisation.activity_id) {
             participatingOrganisationErrors.activity_id = 'Required'
         }
 
