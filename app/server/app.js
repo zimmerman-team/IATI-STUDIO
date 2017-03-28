@@ -141,9 +141,6 @@ require('./models/auth/AdminGroup')(app, mongoose);
 require('./models/auth/Account')(app, mongoose);
 require('./models/auth/LoginAttempt')(app, mongoose);
 
-// console.log(require('mongoose').model('User'));
-
-
 connection.once('open', function() {
 
     // TODO: pass these around explicitly instead - 2016-05-10

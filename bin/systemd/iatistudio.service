@@ -5,7 +5,8 @@ Description=iati-studio
 WorkingDirectory=/home/oipa/IATI-STUDIO/app
 User=oipa
 Group=oipa
-ExecStart=PORT=3000 /usr/bin/node index.js
+Environment="PORT=3000"
+ExecStart=/usr/bin/node index.js
 Restart=always
 
 [Install]
