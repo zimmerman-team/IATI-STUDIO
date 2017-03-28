@@ -22,7 +22,7 @@ let PublisherSettings = React.createClass({ // A stateful container all children
     componentWillMount: function() {
         this.props.toggleMainMenu(false)
 
-        console.log("here we need to fetch the correct publisher?");
+        console.log("fetch and matching to correct publisher.");
         // this.props.fetchPublisher()
     },
 
