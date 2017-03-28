@@ -37,7 +37,7 @@ class DatasetActivityPublisher extends React.Component {
                             <div>
                                 <p>You will publish { publishCount } of a total of { totalCount } activities</p>
                                 <p>{ modifiedActivities.length } activities have been added or modified</p>
-                                { dataset.export_in_progress ?
+                                { dataset && dataset.export_in_progress ?
                                     <p>Export is currently in progress...</p>
                                     :
                                     <div>
@@ -45,7 +45,7 @@ class DatasetActivityPublisher extends React.Component {
                                         <a 
                                             onClick={this.props.publish}
                                             className="button"
-                                            disabled={isFetching || dataset.export_in_progress}
+                                            disabled={isFetching || (dataset && dataset.export_in_progress)}
                                         >
                                             Publish</a>
                                     </div>
