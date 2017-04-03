@@ -10,11 +10,427 @@ import {
     getCodeListItems,
     createPerformanceResult,
     updatePerformanceResult,
-    deletePerformanceResult
+    deletePerformanceResult,
+    createResultIndicator,
+    updateResultIndicator,
+    deleteResultIndicator,
 } from '../../../../actions/activity'
 import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
+
+const renderLocation = ({fields, meta: {touched, dirty, error}}) => {
+    if (fields && !fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((location, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="columns"><h6>Location</h6></div>
+                         <div className="row no-margin">
+                             <div className="columns">
+                                <Field
+                                    name={`${location}.ref`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Location Ref"
+                                />
+                            </div>
+                         </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Location"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
+
+const renderDimension = ({fields, meta: {touched, dirty, error}}) => {
+    if (fields && !fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((dimension, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="columns"><h6>Dimension</h6></div>
+                         <div className="row no-margin">
+                             <div className="columns small-6">
+                                <Field
+                                    name={`${dimension}.name`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Dimension Name"
+                                />
+                            </div>
+                             <div className="columns small-6">
+                                <Field
+                                    name={`${dimension}.value`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Dimension Value"
+                                />
+                            </div>
+                         </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Dimension"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
+const renderPeriodTarget = ({name, textLabel, languageOptions, meta: {touched, error}}) => (
+    <div>
+        <div className="columns"><h6>{ textLabel }</h6></div>
+        <div className="columns">
+            <Field
+                name={`${name}.value`}
+                type="text"
+                component={renderField}
+                label="Value"
+            />
+        </div>
+        <FieldArray
+            component={renderLocation}
+            name={`${name}.locations`}
+            textName={`${name}.locations`}
+            textLabel="Locations"
+        />
+        <FieldArray
+            component={renderDimension}
+            name={`${name}.dimensions`}
+            textName={`${name}.dimensions`}
+            textLabel="Dimensions"
+        />
+        <FieldArray
+            name={`${name}.comment[narratives]`}
+            component={renderNarrativeFields}
+            languageOptions={languageOptions}
+            textLabel="Comment"
+            narrativeLabel={false}
+        />
+        {touched && error && <span className="error">{error}</span>}
+    </div>
+);
+
+const renderPeriodActual = ({name, textLabel, languageOptions, meta: {touched, error}}) => (
+    <div>
+        <div className="columns"><h6>{ textLabel }</h6></div>
+        <div className="columns">
+            <Field
+                name={`${name}.value`}
+                type="text"
+                component={renderField}
+                label="Value"
+            />
+        </div>
+        <FieldArray
+            component={renderLocation}
+            name={`${name}.locations`}
+            textName={`${name}.locations`}
+            textLabel="Locations"
+        />
+        <FieldArray
+            component={renderDimension}
+            name={`${name}.dimensions`}
+            textName={`${name}.dimensions`}
+            textLabel="Dimensions"
+        />
+        <FieldArray
+            name={`${name}.comment[narratives]`}
+            component={renderNarrativeFields}
+            languageOptions={languageOptions}
+            textLabel="Comment"
+            narrativeLabel={false}
+        />
+        {touched && error && <span className="error">{error}</span>}
+    </div>
+);
+
+
+const renderPeriod = ({fields, languageOptions, meta: {touched, dirty, error}}) => {
+    if (fields && !fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((period, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="columns"><h6>Period</h6></div>
+                         <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${period}.period_start`}
+                                    type="date"
+                                    component={renderField}
+                                    label="Period Start"
+                                />
+                                <Field
+                                    name={`${period}.period_end`}
+                                    type="date"
+                                    component={renderField}
+                                    label="Period End"
+                                />
+                            </div>
+                         </div>
+                         <div className="row no-margin">
+                             <div className="columns">
+                                 <Field
+                                     name={`${period}.target`}
+                                     component={renderPeriodTarget}
+                                     textLabel="Target"
+                                     languageOptions={languageOptions}
+                                 />
+                            </div>
+                         </div>
+                         <div className="row no-margin">
+                             <div className="columns">
+                                 <Field
+                                     name={`${period}.actual`}
+                                     component={renderPeriodActual}
+                                     textLabel="Actual"
+                                     languageOptions={languageOptions}
+                                 />
+                            </div>
+                         </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Period"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
+const renderReference = ({fields, indicatorVocabularyOptions, meta: {touched, dirty, error}}) => {
+    if (fields && !fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((reference, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="columns"><h6>Reference</h6></div>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${reference}.vocabulary[code]`}
+                                textName={`${reference}vocabulary.code`}
+                                label="Vocabulary"
+                                selectOptions={indicatorVocabularyOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                         <div className="row no-margin">
+                            <div className="columns small-6">
+                                 <Field
+                                     name={`${reference}.code`}
+                                     type="text"
+                                     component={renderField}
+                                     label="Code"
+                                 />
+                            </div>
+                            <div className="columns small-6">
+                                 <Field
+                                     name={`${reference}.indicatorUri`}
+                                     type="url"
+                                     component={renderField}
+                                     label="Indicator uri"
+                                 />
+                             </div>
+                         </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Reference"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
+const renderBaseline = ({name, textLabel, languageOptions, meta: {touched, error}}) => (
+    <div>
+        <div className="columns"><h6>{ textLabel }</h6></div>
+        <div className="columns small-6">
+            <Field
+                name={`${name}.year`}
+                type="text"
+                component={renderField}
+                label="Year"
+            />
+        </div>
+        <div className="columns small-6">
+            <Field
+                name={`${name}.value`}
+                type="text"
+                component={renderField}
+                label="Value"
+            />
+        </div>
+        <FieldArray
+            name={`${name}.comment[narratives]`}
+            component={renderNarrativeFields}
+            languageOptions={languageOptions}
+            textLabel="Comment"
+            narrativeLabel={false}
+        />
+        {touched && error && <span className="error">{error}</span>}
+    </div>
+);
+
+const renderIndicator = ({fields, languageOptions, indicatorMeasureOptions, indicatorVocabularyOptions, meta: {touched, dirty, error}}) => {
+    if (fields && !fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((indicator, index) =>
+                <div key={index}>
+                    <div className="field-list" key={index}>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${indicator}.measure[code]`}
+                                textName={`${indicator}measure.code`}
+                                label="Measure"
+                                selectOptions={indicatorMeasureOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <Field
+                                component={renderSelectField}
+                                name={`${indicator}.ascending`}
+                                textName={`${indicator}ascending`}
+                                label="Ascending"
+                                selectOptions={[{code: 'True', name: 'True'}, {code: 'False', name: 'False'}]}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${indicator}.title[narratives]`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textLabel="Title"
+                                narrativeLabel={false}
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${indicator}.description[narratives]`}
+                                component={renderNarrativeFields}
+                                languageOptions={languageOptions}
+                                textLabel="Description"
+                                narrativeLabel={false}
+                            />
+                        </div>
+                         <div className="row no-margin">
+                             <div className="columns">
+                                 <FieldArray
+                                     component={renderReference}
+                                     name={`${indicator}.reference`}
+                                     textName={`${indicator}.reference`}
+                                     textLabel="Reference"
+                                     indicatorVocabularyOptions={indicatorVocabularyOptions}
+                                     defaultOption="Select one of the following options"
+                                 />
+                             </div>
+                         </div>
+                         <div className="row no-margin">
+                             <div className="columns">
+                                 <Field
+                                     name={`${indicator}.baseline`}
+                                     component={renderBaseline}
+                                     textLabel="Baseline"
+                                     languageOptions={languageOptions}
+                                 />
+                            </div>
+                         </div>
+                         <div className="row no-margin">
+                             <div className="columns">
+                                 <FieldArray
+                                     component={renderPeriod}
+                                     name={`${indicator}.period`}
+                                     textName={`${indicator}.period`}
+                                     textLabel="Period"
+                                     languageOptions={languageOptions}
+                                     defaultOption="Select one of the following options"
+                                 />
+                             </div>
+                         </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Indicator"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
 
 const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureOptions, indicatorVocabularyOptions, meta: {touched, dirty, error}}) => {
     if (fields && !fields.length && !dirty) {
@@ -64,18 +480,17 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
                                 narrativeLabel={false}
                             />
                         </div>
-                        {/*
                          <div className="row no-margin">
-                         <FieldArray
-                         component={renderIndicator}
-                         name={`${result}.indicator`}
-                         textName={`${result}.indicator`}
-                         textLabel="Measure"
-                         indicatorMeasureOptions={indicatorMeasureOptions}
-                         indicatorVocabularyOptions={indicatorVocabularyOptions}
-                         defaultOption="Select one of the following options"
-                         />
-                         </div>*/}
+                             <FieldArray
+                                 component={renderIndicator}
+                                 name={`${result}.indicators`}
+                                 textName={`${result}.indicators`}
+                                 textLabel="Measure"
+                                 indicatorMeasureOptions={indicatorMeasureOptions}
+                                 indicatorVocabularyOptions={indicatorVocabularyOptions}
+                                 defaultOption="Select one of the following options"
+                             />
+                         </div>
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
@@ -121,6 +536,27 @@ class PerformanceResultForm extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
+    saveIndicators(resultId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        console.log(resultId, prevFormData, formData);
+
+        handleSubmit(
+            publisher.id,
+            'results.indicators',
+            [ activityId, resultId],
+            prevFormData,
+            formData,
+            this.props.createResultIndicator,
+            this.props.updateResultIndicator,
+            this.props.deleteResultIndicator,
+            'result'
+        ).then((result) => {
+            console.log('in indicator callback...');
+            console.log(result);
+        })
+    }
+
     /**
      * Submit performance's result data and redirect to comment form
      *
@@ -132,6 +568,8 @@ class PerformanceResultForm extends Component {
         const lastResults = data;
         let results = formData.results;
 
+        console.log(lastResults, results);
+
         handleSubmit(
             publisher.id,
             'results',
@@ -142,9 +580,29 @@ class PerformanceResultForm extends Component {
             this.props.updatePerformanceResult,
             this.props.deletePerformanceResult
         ).then((result) => {
-            if (!result.error) {
-                this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
-            }
+            // if (!result.error) {
+            //     this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
+            // }
+
+            const indicatorPromises = result.map((action, i) => {
+                let prevIndicators = []
+                if (lastResults && lastResults[i].indicators) {
+                    prevIndicators = lastResults[i].indicators
+                }
+                const indicators = results[i].indicators
+
+                console.log(prevIndicators, indicators);
+
+                return this.saveIndicators(
+                    action.response.result,
+                    prevIndicators,
+                    indicators
+                )
+            })
+
+            return Promise.all(indicatorPromises)
+
+
         }).catch((e) => {
             console.log(e)
         })
@@ -230,7 +688,10 @@ PerformanceResultForm = connect(mapStateToProps, {
     getCodeListItems,
     createPerformanceResult,
     updatePerformanceResult,
-    deletePerformanceResult
+    deletePerformanceResult,
+    createResultIndicator,
+    updateResultIndicator,
+    deleteResultIndicator,
 })(PerformanceResultForm);
 export default withRouter(PerformanceResultForm);
 

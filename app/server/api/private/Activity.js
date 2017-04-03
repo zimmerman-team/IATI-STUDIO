@@ -679,6 +679,65 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
+
+    getPerformanceResult: function(user, publisherId, activityId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getPerformanceResult(user, publisherId, activityId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createPerformanceResult: function(user, publisherId, activityId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createPerformanceResult(user, publisherId, activityId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updatePerformanceResult: function(user, publisherId, activityId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updatePerformanceResult(user, publisherId, activityId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deletePerformanceResult: function(user, publisherId, activityId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deletePerformanceResult(user, publisherId, activityId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getResultIndicator: function(user, publisherId, activityId, resultId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getResultIndicator(user, publisherId, activityId, resultId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createResultIndicator: function(user, publisherId, activityId, resultId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createResultIndicator(user, publisherId, activityId, resultId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateResultIndicator: function(user, publisherId, activityId, resultId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateResultIndicator(user, publisherId, activityId, resultId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteResultIndicator: function(user, publisherId, activityId, resultId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteResultIndicator(user, publisherId, activityId, resultId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
     getCodeListItems: function(user, codeListType, res) {
         // TODO: update validation status here - 2016-12-16
         return getCodeListItems(codeListType)

@@ -151,6 +151,7 @@ class PerformanceConditionForm extends Component {
                     this.props.createPerformanceConditions,
                     this.props.updatePerformanceConditions,
                     this.props.deletePerformanceConditions,
+                    'result',
                 ).then((result) => {
                     if (!result.error) {
                         router.push(`/publisher/activities/${activityId}/performance/result`)

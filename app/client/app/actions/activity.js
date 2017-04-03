@@ -1489,3 +1489,75 @@ export function deletePerformanceResult(publisherId, activityId, id) {
         }
     }
 }
+
+
+/*
+ * Get  result_indicator ( result_indicator form)
+ */
+export const GET_RESULT_INDICATOR_REQUEST = 'GET_RESULT_INDICATOR_REQUEST';
+export const GET_RESULT_INDICATOR_SUCCESS = 'GET_RESULT_INDICATOR_SUCCESS';
+export const GET_RESULT_INDICATOR_FAILURE = 'GET_RESULT_INDICATOR_FAILURE';
+
+export function getResultIndicator(publisherId, activityId) {
+    return {
+        [CALL_API]: {
+            types: [GET_RESULT_INDICATOR_REQUEST, GET_RESULT_INDICATOR_SUCCESS, GET_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.getResultIndicator',
+            payload: [publisherId, activityId],
+            schema: arrayOf(Schemas.result_indicator),
+        }
+    }
+}
+
+/*
+ * Create  result_indicator ( result_indicator form)
+ */
+export const CREATE_RESULT_INDICATOR_REQUEST = 'CREATE_RESULT_INDICATOR_REQUEST';
+export const CREATE_RESULT_INDICATOR_SUCCESS = 'CREATE_RESULT_INDICATOR_SUCCESS';
+export const CREATE_RESULT_INDICATOR_FAILURE = 'CREATE_RESULT_INDICATOR_FAILURE';
+export function createResultIndicator(publisherId, activityId, resultId, conditionData) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_RESULT_INDICATOR_REQUEST, CREATE_RESULT_INDICATOR_SUCCESS, CREATE_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.createResultIndicator',
+            payload: [publisherId, activityId, resultId, JSON.stringify(conditionData)],
+            schema: Schemas.result_indicator,
+        }
+    }
+}
+
+/*
+ * Update  result_indicator ( result_indicator form)
+ */
+export const UPDATE_RESULT_INDICATOR_REQUEST = 'UPDATE_RESULT_INDICATOR_REQUEST';
+export const UPDATE_RESULT_INDICATOR_SUCCESS = 'UPDATE_RESULT_INDICATOR_SUCCESS';
+export const UPDATE_RESULT_INDICATOR_FAILURE = 'UPDATE_RESULT_INDICATOR_FAILURE';
+export function updateResultIndicator(publisherId, activityId, resultId, id, conditionData) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_RESULT_INDICATOR_REQUEST, UPDATE_RESULT_INDICATOR_SUCCESS, UPDATE_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.updateResultIndicator',
+            payload: [publisherId, activityId, resultId, id, JSON.stringify(conditionData)],
+            schema: Schemas.result_indicator,
+        }
+    }
+}
+
+
+/*
+ * Delete  result_indicator ( result_indicator form)
+ */
+export const DELETE_RESULT_INDICATOR_REQUEST = 'DELETE_RESULT_INDICATOR_REQUEST';
+export const DELETE_RESULT_INDICATOR_SUCCESS = 'DELETE_RESULT_INDICATOR_SUCCESS';
+export const DELETE_RESULT_INDICATOR_FAILURE = 'DELETE_RESULT_INDICATOR_FAILURE';
+export function deleteResultIndicator(publisherId, activityId, resultId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_RESULT_INDICATOR_REQUEST, DELETE_RESULT_INDICATOR_SUCCESS, DELETE_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.deleteResultIndicator',
+            payload: [publisherId, activityId, resultId, id]
+        }
+    }
+}

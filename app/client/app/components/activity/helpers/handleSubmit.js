@@ -5,7 +5,15 @@
 import React, {Component, PropTypes} from 'react'
 import { SubmissionError } from 'redux-form'
 
-function handleSubmit(publisherId, mainKey, activityId, prevData, currData, createAction, updateAction, deleteAction) {
+import _ from 'lodash'
+
+function handleSubmit(publisherId, mainKey, parentIds, prevData, currData, createAction, updateAction, deleteAction, parentId='activity') {
+        if (!_.isArray(parentIds)) {
+            parentIds = [ parentIds ]
+        }
+
+
+        // here ids, can be a single id or a list of ids
         const oldIds = prevData.map(d => d.id).filter(d => d !== undefined)
         const newIds = currData.map(d => d.id).filter(d => d !== undefined)
 
@@ -21,21 +29,21 @@ function handleSubmit(publisherId, mainKey, activityId, prevData, currData, crea
         toUpdate = _.reject(toUpdate, _.isNull);
 
         const createPromises = toCreate.map(data => (
-            createAction(publisherId, activityId, {
-                activity: activityId,
+            createAction(publisherId, ...parentIds, {
+                [parentId]: parentIds[parentIds.length - 1],
                 ...data,
             })
         ));
 
         const updatePromises = toUpdate.map(data => (
-            updateAction(publisherId, activityId, data.id, {
-                activity: activityId,
+            updateAction(publisherId, ...parentIds, data.id, {
+                [parentId]: parentIds[parentIds.length - 1],
                     ...data,
             })
         ));
 
         toDelete.map(dataID => (
-            deleteAction(publisherId, activityId, dataID)
+            deleteAction(publisherId, ...parentIds, dataID)
         ));
 
         return Promise.all(_.flatten([createPromises, updatePromises])).then(actions => {

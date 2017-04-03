@@ -1166,3 +1166,58 @@ export const deletePerformanceResult = function (user, publisherId, activityId, 
 
     return oipaDelete(req_options)
 };
+
+export const getResultIndicator = function (user, publisherId, resultId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.results_url(publisherId, activityId, resultId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createResultIndicator = function (user, publisherId, activityId, resultId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.result_indicators_url(publisherId, activityId, resultId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateResultIndicator = function (user, publisherId, activityId, resultId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.result_indicators_url(publisherId, activityId, resultId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteResultIndicator = function (user, publisherId, activityId, resultId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.result_indicators_url(publisherId, activityId, resultId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};

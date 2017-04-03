@@ -182,5 +182,10 @@ module.exports = function(app) {
         socket.on('Activity.createPerformanceResult', Activity.createPerformanceResult.bind(null, user));
         socket.on('Activity.updatePerformanceResult', Activity.updatePerformanceResult.bind(null, user));
         socket.on('Activity.deletePerformanceResult', Activity.deletePerformanceResult.bind(null, user));
+
+        socket.on('Activity.getResultIndicator', Activity.getResultIndicator.bind(null, user));
+        socket.on('Activity.createResultIndicator', Activity.createResultIndicator.bind(null, user));
+        socket.on('Activity.updateResultIndicator', Activity.updateResultIndicator.bind(null, user));
+        socket.on('Activity.deleteResultIndicator', Activity.deleteResultIndicator.bind(null, user));
     })
 };
