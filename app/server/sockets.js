@@ -182,5 +182,40 @@ module.exports = function(app) {
         socket.on('Activity.createPerformanceResult', Activity.createPerformanceResult.bind(null, user));
         socket.on('Activity.updatePerformanceResult', Activity.updatePerformanceResult.bind(null, user));
         socket.on('Activity.deletePerformanceResult', Activity.deletePerformanceResult.bind(null, user));
+
+        socket.on('Activity.getResultIndicator', Activity.getResultIndicator.bind(null, user));
+        socket.on('Activity.createResultIndicator', Activity.createResultIndicator.bind(null, user));
+        socket.on('Activity.updateResultIndicator', Activity.updateResultIndicator.bind(null, user));
+        socket.on('Activity.deleteResultIndicator', Activity.deleteResultIndicator.bind(null, user));
+
+        socket.on('Activity.getIndicatorPeriod', Activity.getIndicatorPeriod.bind(null, user));
+        socket.on('Activity.createIndicatorPeriod', Activity.createIndicatorPeriod.bind(null, user));
+        socket.on('Activity.updateIndicatorPeriod', Activity.updateIndicatorPeriod.bind(null, user));
+        socket.on('Activity.deleteIndicatorPeriod', Activity.deleteIndicatorPeriod.bind(null, user));
+
+        socket.on('Activity.getIndicatorReference', Activity.getIndicatorReference.bind(null, user));
+        socket.on('Activity.createIndicatorReference', Activity.createIndicatorReference.bind(null, user));
+        socket.on('Activity.updateIndicatorReference', Activity.updateIndicatorReference.bind(null, user));
+        socket.on('Activity.deleteIndicatorReference', Activity.deleteIndicatorReference.bind(null, user));
+
+        socket.on('Activity.getIndicatorTargetLocation', Activity.getIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.createIndicatorTargetLocation', Activity.createIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.updateIndicatorTargetLocation', Activity.updateIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.deleteIndicatorTargetLocation', Activity.deleteIndicatorTargetLocation.bind(null, user));
+
+        socket.on('Activity.getIndicatorActualLocation', Activity.getIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.createIndicatorActualLocation', Activity.createIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.updateIndicatorActualLocation', Activity.updateIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.deleteIndicatorActualLocation', Activity.deleteIndicatorActualLocation.bind(null, user));
+
+        socket.on('Activity.getIndicatorTargetDimension', Activity.getIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.createIndicatorTargetDimension', Activity.createIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.updateIndicatorTargetDimension', Activity.updateIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.deleteIndicatorTargetDimension', Activity.deleteIndicatorTargetDimension.bind(null, user));
+
+        socket.on('Activity.getIndicatorActualDimension', Activity.getIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.createIndicatorActualDimension', Activity.createIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.updateIndicatorActualDimension', Activity.updateIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.deleteIndicatorActualDimension', Activity.deleteIndicatorActualDimension.bind(null, user));
     })
 };

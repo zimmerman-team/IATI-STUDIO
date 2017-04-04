@@ -1166,3 +1166,397 @@ export const deletePerformanceResult = function (user, publisherId, activityId, 
 
     return oipaDelete(req_options)
 };
+
+export const getResultIndicator = function (user, publisherId, resultId, activityId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.results_url(publisherId, activityId, resultId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createResultIndicator = function (user, publisherId, activityId, resultId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.result_indicators_url(publisherId, activityId, resultId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateResultIndicator = function (user, publisherId, activityId, resultId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.result_indicators_url(publisherId, activityId, resultId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteResultIndicator = function (user, publisherId, activityId, resultId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.result_indicators_url(publisherId, activityId, resultId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+
+export const getIndicatorPeriod = function (user, activityId, publisherId, resultId, indicatorId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.results_url(publisherId, activityId, resultId, indicatorId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createIndicatorPeriod = function (user, publisherId, activityId, resultId, indicatorId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_periods_url(publisherId, activityId, resultId, indicatorId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateIndicatorPeriod = function (user, publisherId, activityId, resultId, indicatorId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.indicator_periods_url(publisherId, activityId, resultId, indicatorId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteIndicatorPeriod = function (user, publisherId, activityId, resultId, indicatorId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.indicator_periods_url(publisherId, activityId, resultId, indicatorId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const getIndicatorReference = function (user, activityId, publisherId, resultId, indicatorId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.results_url(publisherId, activityId, resultId, indicatorId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createIndicatorReference = function (user, publisherId, activityId, resultId, indicatorId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_references_url(publisherId, activityId, resultId, indicatorId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateIndicatorReference = function (user, publisherId, activityId, resultId, indicatorId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.indicator_references_url(publisherId, activityId, resultId, indicatorId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteIndicatorReference = function (user, publisherId, activityId, resultId, indicatorId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.indicator_references_url(publisherId, activityId, resultId, indicatorId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const getIndicatorTargetLocation = function (user, activityId, publisherId, resultId, indicatorId, periodId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_target_location_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createIndicatorTargetLocation = function (user, publisherId, activityId, resultId, indicatorId, periodId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_target_location_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateIndicatorTargetLocation = function (user, publisherId, activityId, resultId, indicatorId, periodId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.indicator_period_target_location_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteIndicatorTargetLocation = function (user, publisherId, activityId, resultId, indicatorId, periodId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.indicator_period_target_location_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+
+export const getIndicatorActualLocation = function (user, activityId, publisherId, resultId, indicatorId, periodId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_actual_location_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createIndicatorActualLocation = function (user, publisherId, activityId, resultId, indicatorId, periodId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_actual_location_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateIndicatorActualLocation = function (user, publisherId, activityId, resultId, indicatorId, periodId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.indicator_period_actual_location_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteIndicatorActualLocation = function (user, publisherId, activityId, resultId, indicatorId, periodId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.indicator_period_actual_location_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const getIndicatorTargetDimension = function (user, activityId, publisherId, resultId, indicatorId, periodId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_target_dimension_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createIndicatorTargetDimension = function (user, publisherId, activityId, resultId, indicatorId, periodId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_target_dimension_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateIndicatorTargetDimension = function (user, publisherId, activityId, resultId, indicatorId, periodId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.indicator_period_target_dimension_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteIndicatorTargetDimension = function (user, publisherId, activityId, resultId, indicatorId, periodId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.indicator_period_target_dimension_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+
+export const getIndicatorActualDimension = function (user, activityId, publisherId, resultId, indicatorId, periodId) {
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_actual_dimension_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaGet(req_options)
+        .then(parsedBody => parsedBody.results)
+};
+
+export const createIndicatorActualDimension = function (user, publisherId, activityId, resultId, indicatorId, periodId, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: config.indicator_period_actual_dimension_url(publisherId, activityId, resultId, indicatorId, periodId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaPost(req_options)
+};
+
+export const updateIndicatorActualDimension = function (user, publisherId, activityId, resultId, indicatorId, periodId, id, resultData) {
+    const dataJSON = JSON.parse(resultData);
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(config.indicator_period_actual_dimension_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: dataJSON,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteIndicatorActualDimension = function (user, publisherId, activityId, resultId, indicatorId, periodId, id) {
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(config.indicator_period_actual_dimension_url(publisherId, activityId, resultId, indicatorId, periodId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};

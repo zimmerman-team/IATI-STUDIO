@@ -1319,12 +1319,12 @@ export function deleteRelation(publisherId, activityId, id) {
 export const CREATE_PERFORMANCE_CONDITION_REQUEST = 'CREATE_PERFORMANCE_CONDITION_REQUEST';
 export const CREATE_PERFORMANCE_CONDITION_SUCCESS = 'CREATE_PERFORMANCE_CONDITION_SUCCESS';
 export const CREATE_PERFORMANCE_CONDITION_FAILURE = 'CREATE_PERFORMANCE_CONDITION_FAILURE';
-export function createPerformanceCondition(publisherId, activityId, conditionData) {
+export function createPerformanceCondition(publisherId, activityId, data) {
     return {
         [CALL_API]: {
             types: [CREATE_PERFORMANCE_CONDITION_REQUEST, CREATE_PERFORMANCE_CONDITION_SUCCESS, CREATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.createPerformanceCondition',
-            payload: [ publisherId, activityId, conditionData],
+            payload: [ publisherId, activityId, data],
             schema: Schemas.condition,
         }
     }
@@ -1336,13 +1336,13 @@ export function createPerformanceCondition(publisherId, activityId, conditionDat
 export const UPDATE_PERFORMANCE_CONDITION_REQUEST = 'UPDATE_PERFORMANCE_CONDITION_REQUEST';
 export const UPDATE_PERFORMANCE_CONDITION_SUCCESS = 'UPDATE_PERFORMANCE_CONDITION_SUCCESS';
 export const UPDATE_PERFORMANCE_CONDITION_FAILURE = 'UPDATE_PERFORMANCE_CONDITION_FAILURE';
-export function updatePerformanceCondition(publisherId, activityId, id, conditionData) {
+export function updatePerformanceCondition(publisherId, activityId, id, data) {
     return {
         id,
         [CALL_API]: {
             types: [UPDATE_PERFORMANCE_CONDITION_REQUEST, UPDATE_PERFORMANCE_CONDITION_SUCCESS, UPDATE_PERFORMANCE_CONDITION_FAILURE],
             endpoint: 'Activity.updatePerformanceCondition',
-            payload: [ publisherId, activityId, id, conditionData],
+            payload: [ publisherId, activityId, id, data],
             schema: Schemas.condition,
         }
     }
@@ -1443,12 +1443,12 @@ export function getPerformanceResult(publisherId, activityId) {
 export const CREATE_PERFORMANCE_RESULT_REQUEST = 'CREATE_PERFORMANCE_RESULT_REQUEST';
 export const CREATE_PERFORMANCE_RESULT_SUCCESS = 'CREATE_PERFORMANCE_RESULT_SUCCESS';
 export const CREATE_PERFORMANCE_RESULT_FAILURE = 'CREATE_PERFORMANCE_RESULT_FAILURE';
-export function createPerformanceResult(publisherId, activityId, conditionData) {
+export function createPerformanceResult(publisherId, activityId, data) {
     return {
         [CALL_API]: {
             types: [CREATE_PERFORMANCE_RESULT_REQUEST, CREATE_PERFORMANCE_RESULT_SUCCESS, CREATE_PERFORMANCE_RESULT_FAILURE],
             endpoint: 'Activity.createPerformanceResult',
-            payload: [publisherId, activityId, JSON.stringify(conditionData)],
+            payload: [publisherId, activityId, JSON.stringify(data)],
             schema: Schemas.result,
         }
     }
@@ -1460,13 +1460,13 @@ export function createPerformanceResult(publisherId, activityId, conditionData) 
 export const UPDATE_PERFORMANCE_RESULT_REQUEST = 'UPDATE_PERFORMANCE_RESULT_REQUEST';
 export const UPDATE_PERFORMANCE_RESULT_SUCCESS = 'UPDATE_PERFORMANCE_RESULT_SUCCESS';
 export const UPDATE_PERFORMANCE_RESULT_FAILURE = 'UPDATE_PERFORMANCE_RESULT_FAILURE';
-export function updatePerformanceResult(publisherId, activityId, id, conditionData) {
+export function updatePerformanceResult(publisherId, activityId, id, data) {
     return {
         id,
         [CALL_API]: {
             types: [UPDATE_PERFORMANCE_RESULT_REQUEST, UPDATE_PERFORMANCE_RESULT_SUCCESS, UPDATE_PERFORMANCE_RESULT_FAILURE],
             endpoint: 'Activity.updatePerformanceResult',
-            payload: [publisherId, activityId, id, JSON.stringify(conditionData)],
+            payload: [publisherId, activityId, id, JSON.stringify(data)],
             schema: Schemas.result,
         }
     }
@@ -1486,6 +1486,516 @@ export function deletePerformanceResult(publisherId, activityId, id) {
             types: [DELETE_PERFORMANCE_RESULT_REQUEST, DELETE_PERFORMANCE_RESULT_SUCCESS, DELETE_PERFORMANCE_RESULT_FAILURE],
             endpoint: 'Activity.deletePerformanceResult',
             payload: [publisherId, activityId, id]
+        }
+    }
+}
+
+
+/*
+ * Get  result_indicator ( result_indicator form)
+ */
+export const GET_RESULT_INDICATOR_REQUEST = 'GET_RESULT_INDICATOR_REQUEST';
+export const GET_RESULT_INDICATOR_SUCCESS = 'GET_RESULT_INDICATOR_SUCCESS';
+export const GET_RESULT_INDICATOR_FAILURE = 'GET_RESULT_INDICATOR_FAILURE';
+
+export function getResultIndicator(publisherId, activityId, resultId) {
+    return {
+        [CALL_API]: {
+            types: [GET_RESULT_INDICATOR_REQUEST, GET_RESULT_INDICATOR_SUCCESS, GET_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.getResultIndicator',
+            payload: [publisherId, activityId, resultId],
+            schema: arrayOf(Schemas.result_indicator),
+        }
+    }
+}
+
+/*
+ * Create  result_indicator ( result_indicator form)
+ */
+export const CREATE_RESULT_INDICATOR_REQUEST = 'CREATE_RESULT_INDICATOR_REQUEST';
+export const CREATE_RESULT_INDICATOR_SUCCESS = 'CREATE_RESULT_INDICATOR_SUCCESS';
+export const CREATE_RESULT_INDICATOR_FAILURE = 'CREATE_RESULT_INDICATOR_FAILURE';
+export function createResultIndicator(publisherId, activityId, resultId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_RESULT_INDICATOR_REQUEST, CREATE_RESULT_INDICATOR_SUCCESS, CREATE_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.createResultIndicator',
+            payload: [publisherId, activityId, resultId, JSON.stringify(data)],
+            schema: Schemas.result_indicator,
+        }
+    }
+}
+
+/*
+ * Update  result_indicator ( result_indicator form)
+ */
+export const UPDATE_RESULT_INDICATOR_REQUEST = 'UPDATE_RESULT_INDICATOR_REQUEST';
+export const UPDATE_RESULT_INDICATOR_SUCCESS = 'UPDATE_RESULT_INDICATOR_SUCCESS';
+export const UPDATE_RESULT_INDICATOR_FAILURE = 'UPDATE_RESULT_INDICATOR_FAILURE';
+export function updateResultIndicator(publisherId, activityId, resultId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_RESULT_INDICATOR_REQUEST, UPDATE_RESULT_INDICATOR_SUCCESS, UPDATE_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.updateResultIndicator',
+            payload: [publisherId, activityId, resultId, id, JSON.stringify(data)],
+            schema: Schemas.result_indicator,
+        }
+    }
+}
+
+
+/*
+ * Delete  result_indicator ( result_indicator form)
+ */
+export const DELETE_RESULT_INDICATOR_REQUEST = 'DELETE_RESULT_INDICATOR_REQUEST';
+export const DELETE_RESULT_INDICATOR_SUCCESS = 'DELETE_RESULT_INDICATOR_SUCCESS';
+export const DELETE_RESULT_INDICATOR_FAILURE = 'DELETE_RESULT_INDICATOR_FAILURE';
+export function deleteResultIndicator(publisherId, activityId, resultId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_RESULT_INDICATOR_REQUEST, DELETE_RESULT_INDICATOR_SUCCESS, DELETE_RESULT_INDICATOR_FAILURE],
+            endpoint: 'Activity.deleteResultIndicator',
+            payload: [publisherId, activityId, resultId, id]
+        }
+    }
+}
+
+
+
+
+
+
+/*
+ * Get  indicator_period ( indicator_period form)
+ */
+export const GET_INDICATOR_PERIOD_REQUEST = 'GET_INDICATOR_PERIOD_REQUEST';
+export const GET_INDICATOR_PERIOD_SUCCESS = 'GET_INDICATOR_PERIOD_SUCCESS';
+export const GET_INDICATOR_PERIOD_FAILURE = 'GET_INDICATOR_PERIOD_FAILURE';
+
+export function getIndicatorPeriod(publisherId, activityId, resultId, indicatorId) {
+    return {
+        [CALL_API]: {
+            types: [GET_INDICATOR_PERIOD_REQUEST, GET_INDICATOR_PERIOD_SUCCESS, GET_INDICATOR_PERIOD_FAILURE],
+            endpoint: 'Activity.getIndicatorPeriod',
+            payload: [publisherId, activityId, resultId, indicatorId],
+            schema: arrayOf(Schemas.indicator_period),
+        }
+    }
+}
+
+/*
+ * Create  indicator_period ( indicator_period form)
+ */
+export const CREATE_INDICATOR_PERIOD_REQUEST = 'CREATE_INDICATOR_PERIOD_REQUEST';
+export const CREATE_INDICATOR_PERIOD_SUCCESS = 'CREATE_INDICATOR_PERIOD_SUCCESS';
+export const CREATE_INDICATOR_PERIOD_FAILURE = 'CREATE_INDICATOR_PERIOD_FAILURE';
+export function createIndicatorPeriod(publisherId, activityId, resultId, indicatorId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_INDICATOR_PERIOD_REQUEST, CREATE_INDICATOR_PERIOD_SUCCESS, CREATE_INDICATOR_PERIOD_FAILURE],
+            endpoint: 'Activity.createIndicatorPeriod',
+            payload: [publisherId, activityId, resultId, indicatorId, JSON.stringify(data)],
+            schema: Schemas.indicator_period,
+        }
+    }
+}
+
+/*
+ * Update  indicator_period ( indicator_period form)
+ */
+export const UPDATE_INDICATOR_PERIOD_REQUEST = 'UPDATE_INDICATOR_PERIOD_REQUEST';
+export const UPDATE_INDICATOR_PERIOD_SUCCESS = 'UPDATE_INDICATOR_PERIOD_SUCCESS';
+export const UPDATE_INDICATOR_PERIOD_FAILURE = 'UPDATE_INDICATOR_PERIOD_FAILURE';
+export function updateIndicatorPeriod(publisherId, activityId, resultId, indicatorId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_INDICATOR_PERIOD_REQUEST, UPDATE_INDICATOR_PERIOD_SUCCESS, UPDATE_INDICATOR_PERIOD_FAILURE],
+            endpoint: 'Activity.updateIndicatorPeriod',
+            payload: [publisherId, activityId, resultId, indicatorId, id, JSON.stringify(data)],
+            schema: Schemas.indicator_period,
+        }
+    }
+}
+
+
+/*
+ * Delete  indicator_period ( indicator_period form)
+ */
+export const DELETE_INDICATOR_PERIOD_REQUEST = 'DELETE_INDICATOR_PERIOD_REQUEST';
+export const DELETE_INDICATOR_PERIOD_SUCCESS = 'DELETE_INDICATOR_PERIOD_SUCCESS';
+export const DELETE_INDICATOR_PERIOD_FAILURE = 'DELETE_INDICATOR_PERIOD_FAILURE';
+export function deleteIndicatorPeriod(publisherId, activityId, resultId, indicatorId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_INDICATOR_PERIOD_REQUEST, DELETE_INDICATOR_PERIOD_SUCCESS, DELETE_INDICATOR_PERIOD_FAILURE],
+            endpoint: 'Activity.deleteIndicatorPeriod',
+            payload: [publisherId, activityId, resultId, indicatorId, id]
+        }
+    }
+}
+
+
+
+/*
+ * Get  indicator_reference ( indicator_reference form)
+ */
+export const GET_INDICATOR_REFERENCE_REQUEST = 'GET_INDICATOR_REFERENCE_REQUEST';
+export const GET_INDICATOR_REFERENCE_SUCCESS = 'GET_INDICATOR_REFERENCE_SUCCESS';
+export const GET_INDICATOR_REFERENCE_FAILURE = 'GET_INDICATOR_REFERENCE_FAILURE';
+
+export function getIndicatorReference(publisherId, activityId, resultId, indicatorId) {
+    return {
+        [CALL_API]: {
+            types: [GET_INDICATOR_REFERENCE_REQUEST, GET_INDICATOR_REFERENCE_SUCCESS, GET_INDICATOR_REFERENCE_FAILURE],
+            endpoint: 'Activity.getIndicatorReference',
+            payload: [publisherId, activityId, resultId, indicatorId],
+            schema: arrayOf(Schemas.indicator_reference),
+        }
+    }
+}
+
+/*
+ * Create  indicator_reference ( indicator_reference form)
+ */
+export const CREATE_INDICATOR_REFERENCE_REQUEST = 'CREATE_INDICATOR_REFERENCE_REQUEST';
+export const CREATE_INDICATOR_REFERENCE_SUCCESS = 'CREATE_INDICATOR_REFERENCE_SUCCESS';
+export const CREATE_INDICATOR_REFERENCE_FAILURE = 'CREATE_INDICATOR_REFERENCE_FAILURE';
+export function createIndicatorReference(publisherId, activityId, resultId, indicatorId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_INDICATOR_REFERENCE_REQUEST, CREATE_INDICATOR_REFERENCE_SUCCESS, CREATE_INDICATOR_REFERENCE_FAILURE],
+            endpoint: 'Activity.createIndicatorReference',
+            payload: [publisherId, activityId, resultId, indicatorId, JSON.stringify(data)],
+            schema: Schemas.indicator_reference,
+        }
+    }
+}
+
+/*
+ * Update  indicator_reference ( indicator_reference form)
+ */
+export const UPDATE_INDICATOR_REFERENCE_REQUEST = 'UPDATE_INDICATOR_REFERENCE_REQUEST';
+export const UPDATE_INDICATOR_REFERENCE_SUCCESS = 'UPDATE_INDICATOR_REFERENCE_SUCCESS';
+export const UPDATE_INDICATOR_REFERENCE_FAILURE = 'UPDATE_INDICATOR_REFERENCE_FAILURE';
+export function updateIndicatorReference(publisherId, activityId, resultId, indicatorId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_INDICATOR_REFERENCE_REQUEST, UPDATE_INDICATOR_REFERENCE_SUCCESS, UPDATE_INDICATOR_REFERENCE_FAILURE],
+            endpoint: 'Activity.updateIndicatorReference',
+            payload: [publisherId, activityId, resultId, indicatorId, id, JSON.stringify(data)],
+            schema: Schemas.indicator_reference,
+        }
+    }
+}
+
+
+/*
+ * Delete  indicator_reference ( indicator_reference form)
+ */
+export const DELETE_INDICATOR_REFERENCE_REQUEST = 'DELETE_INDICATOR_REFERENCE_REQUEST';
+export const DELETE_INDICATOR_REFERENCE_SUCCESS = 'DELETE_INDICATOR_REFERENCE_SUCCESS';
+export const DELETE_INDICATOR_REFERENCE_FAILURE = 'DELETE_INDICATOR_REFERENCE_FAILURE';
+export function deleteIndicatorReference(publisherId, activityId, resultId, indicatorId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_INDICATOR_REFERENCE_REQUEST, DELETE_INDICATOR_REFERENCE_SUCCESS, DELETE_INDICATOR_REFERENCE_FAILURE],
+            endpoint: 'Activity.deleteIndicatorReference',
+            payload: [publisherId, activityId, resultId, indicatorId, id]
+        }
+    }
+}
+
+
+
+/*
+ * Get  indicator_target_location ( indicator_target_location form)
+ */
+export const GET_INDICATOR_TARGET_LOCATION_REQUEST = 'GET_INDICATOR_TARGET_LOCATION_REQUEST';
+export const GET_INDICATOR_TARGET_LOCATION_SUCCESS = 'GET_INDICATOR_TARGET_LOCATION_SUCCESS';
+export const GET_INDICATOR_TARGET_LOCATION_FAILURE = 'GET_INDICATOR_TARGET_LOCATION_FAILURE';
+
+export function getIndicatorTargetLocation(publisherId, activityId, resultId, indicatorId) {
+    return {
+        [CALL_API]: {
+            types: [GET_INDICATOR_TARGET_LOCATION_REQUEST, GET_INDICATOR_TARGET_LOCATION_SUCCESS, GET_INDICATOR_TARGET_LOCATION_FAILURE],
+            endpoint: 'Activity.getIndicatorTargetLocation',
+            payload: [publisherId, activityId, resultId, indicatorId],
+            schema: arrayOf(Schemas.indicator_target_location),
+        }
+    }
+}
+
+/*
+ * Create  indicator_target_location ( indicator_target_location form)
+ */
+export const CREATE_INDICATOR_TARGET_LOCATION_REQUEST = 'CREATE_INDICATOR_TARGET_LOCATION_REQUEST';
+export const CREATE_INDICATOR_TARGET_LOCATION_SUCCESS = 'CREATE_INDICATOR_TARGET_LOCATION_SUCCESS';
+export const CREATE_INDICATOR_TARGET_LOCATION_FAILURE = 'CREATE_INDICATOR_TARGET_LOCATION_FAILURE';
+export function createIndicatorTargetLocation(publisherId, activityId, resultId, indicatorId, periodId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_INDICATOR_TARGET_LOCATION_REQUEST, CREATE_INDICATOR_TARGET_LOCATION_SUCCESS, CREATE_INDICATOR_TARGET_LOCATION_FAILURE],
+            endpoint: 'Activity.createIndicatorTargetLocation',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, JSON.stringify(data)],
+            schema: Schemas.indicator_target_location,
+        }
+    }
+}
+
+/*
+ * Update  indicator_target_location ( indicator_target_location form)
+ */
+export const UPDATE_INDICATOR_TARGET_LOCATION_REQUEST = 'UPDATE_INDICATOR_TARGET_LOCATION_REQUEST';
+export const UPDATE_INDICATOR_TARGET_LOCATION_SUCCESS = 'UPDATE_INDICATOR_TARGET_LOCATION_SUCCESS';
+export const UPDATE_INDICATOR_TARGET_LOCATION_FAILURE = 'UPDATE_INDICATOR_TARGET_LOCATION_FAILURE';
+export function updateIndicatorTargetLocation(publisherId, activityId, resultId, indicatorId, periodId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_INDICATOR_TARGET_LOCATION_REQUEST, UPDATE_INDICATOR_TARGET_LOCATION_SUCCESS, UPDATE_INDICATOR_TARGET_LOCATION_FAILURE],
+            endpoint: 'Activity.updateIndicatorTargetLocation',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id, JSON.stringify(data)],
+            schema: Schemas.indicator_target_location,
+        }
+    }
+}
+
+
+/*
+ * Delete  indicator_target_location ( indicator_target_location form)
+ */
+export const DELETE_INDICATOR_TARGET_LOCATION_REQUEST = 'DELETE_INDICATOR_TARGET_LOCATION_REQUEST';
+export const DELETE_INDICATOR_TARGET_LOCATION_SUCCESS = 'DELETE_INDICATOR_TARGET_LOCATION_SUCCESS';
+export const DELETE_INDICATOR_TARGET_LOCATION_FAILURE = 'DELETE_INDICATOR_TARGET_LOCATION_FAILURE';
+export function deleteIndicatorTargetLocation(publisherId, activityId, resultId, indicatorId, periodId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_INDICATOR_TARGET_LOCATION_REQUEST, DELETE_INDICATOR_TARGET_LOCATION_SUCCESS, DELETE_INDICATOR_TARGET_LOCATION_FAILURE],
+            endpoint: 'Activity.deleteIndicatorTargetLocation',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id]
+        }
+    }
+}
+
+
+/*
+ * Get  indicator_actual_location ( indicator_actual_location form)
+ */
+export const GET_INDICATOR_ACTUAL_LOCATION_REQUEST = 'GET_INDICATOR_ACTUAL_LOCATION_REQUEST';
+export const GET_INDICATOR_ACTUAL_LOCATION_SUCCESS = 'GET_INDICATOR_ACTUAL_LOCATION_SUCCESS';
+export const GET_INDICATOR_ACTUAL_LOCATION_FAILURE = 'GET_INDICATOR_ACTUAL_LOCATION_FAILURE';
+
+export function getIndicatorActualLocation(publisherId, activityId, resultId, indicatorId) {
+    return {
+        [CALL_API]: {
+            types: [GET_INDICATOR_ACTUAL_LOCATION_REQUEST, GET_INDICATOR_ACTUAL_LOCATION_SUCCESS, GET_INDICATOR_ACTUAL_LOCATION_FAILURE],
+            endpoint: 'Activity.getIndicatorActualLocation',
+            payload: [publisherId, activityId, resultId, indicatorId],
+            schema: arrayOf(Schemas.indicator_actual_location),
+        }
+    }
+}
+
+/*
+ * Create  indicator_actual_location ( indicator_actual_location form)
+ */
+export const CREATE_INDICATOR_ACTUAL_LOCATION_REQUEST = 'CREATE_INDICATOR_ACTUAL_LOCATION_REQUEST';
+export const CREATE_INDICATOR_ACTUAL_LOCATION_SUCCESS = 'CREATE_INDICATOR_ACTUAL_LOCATION_SUCCESS';
+export const CREATE_INDICATOR_ACTUAL_LOCATION_FAILURE = 'CREATE_INDICATOR_ACTUAL_LOCATION_FAILURE';
+export function createIndicatorActualLocation(publisherId, activityId, resultId, indicatorId, periodId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_INDICATOR_ACTUAL_LOCATION_REQUEST, CREATE_INDICATOR_ACTUAL_LOCATION_SUCCESS, CREATE_INDICATOR_ACTUAL_LOCATION_FAILURE],
+            endpoint: 'Activity.createIndicatorActualLocation',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, JSON.stringify(data)],
+            schema: Schemas.indicator_actual_location,
+        }
+    }
+}
+
+/*
+ * Update  indicator_actual_location ( indicator_actual_location form)
+ */
+export const UPDATE_INDICATOR_ACTUAL_LOCATION_REQUEST = 'UPDATE_INDICATOR_ACTUAL_LOCATION_REQUEST';
+export const UPDATE_INDICATOR_ACTUAL_LOCATION_SUCCESS = 'UPDATE_INDICATOR_ACTUAL_LOCATION_SUCCESS';
+export const UPDATE_INDICATOR_ACTUAL_LOCATION_FAILURE = 'UPDATE_INDICATOR_ACTUAL_LOCATION_FAILURE';
+export function updateIndicatorActualLocation(publisherId, activityId, resultId, indicatorId, periodId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_INDICATOR_ACTUAL_LOCATION_REQUEST, UPDATE_INDICATOR_ACTUAL_LOCATION_SUCCESS, UPDATE_INDICATOR_ACTUAL_LOCATION_FAILURE],
+            endpoint: 'Activity.updateIndicatorActualLocation',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id, JSON.stringify(data)],
+            schema: Schemas.indicator_actual_location,
+        }
+    }
+}
+
+
+/*
+ * Delete  indicator_actual_location ( indicator_actual_location form)
+ */
+export const DELETE_INDICATOR_ACTUAL_LOCATION_REQUEST = 'DELETE_INDICATOR_ACTUAL_LOCATION_REQUEST';
+export const DELETE_INDICATOR_ACTUAL_LOCATION_SUCCESS = 'DELETE_INDICATOR_ACTUAL_LOCATION_SUCCESS';
+export const DELETE_INDICATOR_ACTUAL_LOCATION_FAILURE = 'DELETE_INDICATOR_ACTUAL_LOCATION_FAILURE';
+export function deleteIndicatorActualLocation(publisherId, activityId, resultId, indicatorId, periodId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_INDICATOR_ACTUAL_LOCATION_REQUEST, DELETE_INDICATOR_ACTUAL_LOCATION_SUCCESS, DELETE_INDICATOR_ACTUAL_LOCATION_FAILURE],
+            endpoint: 'Activity.deleteIndicatorActualLocation',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id]
+        }
+    }
+}
+
+
+/*
+ * Get  indicator_target_dimension ( indicator_target_dimension form)
+ */
+export const GET_INDICATOR_TARGET_DIMENSION_REQUEST = 'GET_INDICATOR_TARGET_DIMENSION_REQUEST';
+export const GET_INDICATOR_TARGET_DIMENSION_SUCCESS = 'GET_INDICATOR_TARGET_DIMENSION_SUCCESS';
+export const GET_INDICATOR_TARGET_DIMENSION_FAILURE = 'GET_INDICATOR_TARGET_DIMENSION_FAILURE';
+
+export function getIndicatorTargetDimension(publisherId, activityId, resultId, indicatorId) {
+    return {
+        [CALL_API]: {
+            types: [GET_INDICATOR_TARGET_DIMENSION_REQUEST, GET_INDICATOR_TARGET_DIMENSION_SUCCESS, GET_INDICATOR_TARGET_DIMENSION_FAILURE],
+            endpoint: 'Activity.getIndicatorTargetDimension',
+            payload: [publisherId, activityId, resultId, indicatorId],
+            schema: arrayOf(Schemas.indicator_target_dimension),
+        }
+    }
+}
+
+/*
+ * Create  indicator_target_dimension ( indicator_target_dimension form)
+ */
+export const CREATE_INDICATOR_TARGET_DIMENSION_REQUEST = 'CREATE_INDICATOR_TARGET_DIMENSION_REQUEST';
+export const CREATE_INDICATOR_TARGET_DIMENSION_SUCCESS = 'CREATE_INDICATOR_TARGET_DIMENSION_SUCCESS';
+export const CREATE_INDICATOR_TARGET_DIMENSION_FAILURE = 'CREATE_INDICATOR_TARGET_DIMENSION_FAILURE';
+export function createIndicatorTargetDimension(publisherId, activityId, resultId, indicatorId, periodId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_INDICATOR_TARGET_DIMENSION_REQUEST, CREATE_INDICATOR_TARGET_DIMENSION_SUCCESS, CREATE_INDICATOR_TARGET_DIMENSION_FAILURE],
+            endpoint: 'Activity.createIndicatorTargetDimension',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, JSON.stringify(data)],
+            schema: Schemas.indicator_target_dimension,
+        }
+    }
+}
+
+/*
+ * Update  indicator_target_dimension ( indicator_target_dimension form)
+ */
+export const UPDATE_INDICATOR_TARGET_DIMENSION_REQUEST = 'UPDATE_INDICATOR_TARGET_DIMENSION_REQUEST';
+export const UPDATE_INDICATOR_TARGET_DIMENSION_SUCCESS = 'UPDATE_INDICATOR_TARGET_DIMENSION_SUCCESS';
+export const UPDATE_INDICATOR_TARGET_DIMENSION_FAILURE = 'UPDATE_INDICATOR_TARGET_DIMENSION_FAILURE';
+export function updateIndicatorTargetDimension(publisherId, activityId, resultId, indicatorId, periodId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_INDICATOR_TARGET_DIMENSION_REQUEST, UPDATE_INDICATOR_TARGET_DIMENSION_SUCCESS, UPDATE_INDICATOR_TARGET_DIMENSION_FAILURE],
+            endpoint: 'Activity.updateIndicatorTargetDimension',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id, JSON.stringify(data)],
+            schema: Schemas.indicator_target_dimension,
+        }
+    }
+}
+
+
+/*
+ * Delete  indicator_target_dimension ( indicator_target_dimension form)
+ */
+export const DELETE_INDICATOR_TARGET_DIMENSION_REQUEST = 'DELETE_INDICATOR_TARGET_DIMENSION_REQUEST';
+export const DELETE_INDICATOR_TARGET_DIMENSION_SUCCESS = 'DELETE_INDICATOR_TARGET_DIMENSION_SUCCESS';
+export const DELETE_INDICATOR_TARGET_DIMENSION_FAILURE = 'DELETE_INDICATOR_TARGET_DIMENSION_FAILURE';
+export function deleteIndicatorTargetDimension(publisherId, activityId, resultId, indicatorId, periodId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_INDICATOR_TARGET_DIMENSION_REQUEST, DELETE_INDICATOR_TARGET_DIMENSION_SUCCESS, DELETE_INDICATOR_TARGET_DIMENSION_FAILURE],
+            endpoint: 'Activity.deleteIndicatorTargetDimension',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id]
+        }
+    }
+}
+
+
+/*
+ * Get  indicator_actual_dimension ( indicator_actual_dimension form)
+ */
+export const GET_INDICATOR_ACTUAL_DIMENSION_REQUEST = 'GET_INDICATOR_ACTUAL_DIMENSION_REQUEST';
+export const GET_INDICATOR_ACTUAL_DIMENSION_SUCCESS = 'GET_INDICATOR_ACTUAL_DIMENSION_SUCCESS';
+export const GET_INDICATOR_ACTUAL_DIMENSION_FAILURE = 'GET_INDICATOR_ACTUAL_DIMENSION_FAILURE';
+
+export function getIndicatorActualDimension(publisherId, activityId, resultId, indicatorId) {
+    return {
+        [CALL_API]: {
+            types: [GET_INDICATOR_ACTUAL_DIMENSION_REQUEST, GET_INDICATOR_ACTUAL_DIMENSION_SUCCESS, GET_INDICATOR_ACTUAL_DIMENSION_FAILURE],
+            endpoint: 'Activity.getIndicatorActualDimension',
+            payload: [publisherId, activityId, resultId, indicatorId],
+            schema: arrayOf(Schemas.indicator_actual_dimension),
+        }
+    }
+}
+
+/*
+ * Create  indicator_actual_dimension ( indicator_actual_dimension form)
+ */
+export const CREATE_INDICATOR_ACTUAL_DIMENSION_REQUEST = 'CREATE_INDICATOR_ACTUAL_DIMENSION_REQUEST';
+export const CREATE_INDICATOR_ACTUAL_DIMENSION_SUCCESS = 'CREATE_INDICATOR_ACTUAL_DIMENSION_SUCCESS';
+export const CREATE_INDICATOR_ACTUAL_DIMENSION_FAILURE = 'CREATE_INDICATOR_ACTUAL_DIMENSION_FAILURE';
+export function createIndicatorActualDimension(publisherId, activityId, resultId, indicatorId, periodId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_INDICATOR_ACTUAL_DIMENSION_REQUEST, CREATE_INDICATOR_ACTUAL_DIMENSION_SUCCESS, CREATE_INDICATOR_ACTUAL_DIMENSION_FAILURE],
+            endpoint: 'Activity.createIndicatorActualDimension',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, JSON.stringify(data)],
+            schema: Schemas.indicator_actual_dimension,
+        }
+    }
+}
+
+/*
+ * Update  indicator_actual_dimension ( indicator_actual_dimension form)
+ */
+export const UPDATE_INDICATOR_ACTUAL_DIMENSION_REQUEST = 'UPDATE_INDICATOR_ACTUAL_DIMENSION_REQUEST';
+export const UPDATE_INDICATOR_ACTUAL_DIMENSION_SUCCESS = 'UPDATE_INDICATOR_ACTUAL_DIMENSION_SUCCESS';
+export const UPDATE_INDICATOR_ACTUAL_DIMENSION_FAILURE = 'UPDATE_INDICATOR_ACTUAL_DIMENSION_FAILURE';
+export function updateIndicatorActualDimension(publisherId, activityId, resultId, indicatorId, periodId, id, data) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [UPDATE_INDICATOR_ACTUAL_DIMENSION_REQUEST, UPDATE_INDICATOR_ACTUAL_DIMENSION_SUCCESS, UPDATE_INDICATOR_ACTUAL_DIMENSION_FAILURE],
+            endpoint: 'Activity.updateIndicatorActualDimension',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id, JSON.stringify(data)],
+            schema: Schemas.indicator_actual_dimension,
+        }
+    }
+}
+
+
+/*
+ * Delete  indicator_actual_dimension ( indicator_actual_dimension form)
+ */
+export const DELETE_INDICATOR_ACTUAL_DIMENSION_REQUEST = 'DELETE_INDICATOR_ACTUAL_DIMENSION_REQUEST';
+export const DELETE_INDICATOR_ACTUAL_DIMENSION_SUCCESS = 'DELETE_INDICATOR_ACTUAL_DIMENSION_SUCCESS';
+export const DELETE_INDICATOR_ACTUAL_DIMENSION_FAILURE = 'DELETE_INDICATOR_ACTUAL_DIMENSION_FAILURE';
+export function deleteIndicatorActualDimension(publisherId, activityId, resultId, indicatorId, periodId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_INDICATOR_ACTUAL_DIMENSION_REQUEST, DELETE_INDICATOR_ACTUAL_DIMENSION_SUCCESS, DELETE_INDICATOR_ACTUAL_DIMENSION_FAILURE],
+            endpoint: 'Activity.deleteIndicatorActualDimension',
+            payload: [publisherId, activityId, resultId, indicatorId, periodId, id]
         }
     }
 }
