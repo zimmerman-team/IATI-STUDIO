@@ -83,6 +83,13 @@ var ActivityAPI = {
             })
     },
 
+    getCodeListItems: function(user, codeListType, res) {
+        // TODO: update validation status here - 2016-12-16
+        return getCodeListItems(codeListType)
+            .then(languages => res(null, languages))
+            .catch((error) => res(error));
+    },
+
     markReadyToPublish: function(user, publisherId, activityId, res) {
         return oipaMethods.markReadyToPublish(user, publisherId, activityId)
             .then(result => res(null, result))
@@ -738,13 +745,185 @@ var ActivityAPI = {
             .catch(error => res(error));
     },
 
-    getCodeListItems: function(user, codeListType, res) {
+
+    getIndicatorPeriod: function(user, publisherId, activityId, resultId, indicatorId, res) {
         // TODO: update validation status here - 2016-12-16
-        return getCodeListItems(codeListType)
-            .then(languages => res(null, languages))
-            .catch((error) => res(error));
+        return oipaMethods.getIndicatorPeriod(user, publisherId, activityId, resultId, indicatorId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
     },
 
+    createIndicatorPeriod: function(user, publisherId, activityId, resultId, indicatorId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createIndicatorPeriod(user, publisherId, activityId, resultId, indicatorId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateIndicatorPeriod: function(user, publisherId, activityId, resultId, indicatorId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateIndicatorPeriod(user, publisherId, activityId, resultId, indicatorId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteIndicatorPeriod: function(user, publisherId, activityId, resultId, indicatorId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteIndicatorPeriod(user, publisherId, activityId, resultId, indicatorId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
+    getIndicatorReference: function(user, publisherId, activityId, resultId, indicatorId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getIndicatorReference(user, publisherId, activityId, resultId, indicatorId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createIndicatorReference: function(user, publisherId, activityId, resultId, indicatorId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createIndicatorReference(user, publisherId, activityId, resultId, indicatorId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateIndicatorReference: function(user, publisherId, activityId, resultId, indicatorId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateIndicatorReference(user, publisherId, activityId, resultId, indicatorId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteIndicatorReference: function(user, publisherId, activityId, resultId, indicatorId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteIndicatorReference(user, publisherId, activityId, resultId, indicatorId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
+    getIndicatorTargetLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getIndicatorTargetLocation(user, publisherId, activityId, resultId, indicatorId, periodId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createIndicatorTargetLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createIndicatorTargetLocation(user, publisherId, activityId, resultId, indicatorId, periodId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateIndicatorTargetLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateIndicatorTargetLocation(user, publisherId, activityId, resultId, indicatorId, periodId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteIndicatorTargetLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteIndicatorTargetLocation(user, publisherId, activityId, resultId, indicatorId, periodId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
+    getIndicatorActualLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getIndicatorActualLocation(user, publisherId, activityId, resultId, indicatorId, periodId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createIndicatorActualLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createIndicatorActualLocation(user, publisherId, activityId, resultId, indicatorId, periodId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateIndicatorActualLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateIndicatorActualLocation(user, publisherId, activityId, resultId, indicatorId, periodId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteIndicatorActualLocation: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteIndicatorActualLocation(user, publisherId, activityId, resultId, indicatorId, periodId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
+    getIndicatorTargetDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getIndicatorTargetDimension(user, publisherId, activityId, resultId, indicatorId, periodId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createIndicatorTargetDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createIndicatorTargetDimension(user, publisherId, activityId, resultId, indicatorId, periodId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateIndicatorTargetDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateIndicatorTargetDimension(user, publisherId, activityId, resultId, indicatorId, periodId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteIndicatorTargetDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteIndicatorTargetDimension(user, publisherId, activityId, resultId, indicatorId, periodId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+
+    getIndicatorActualDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getIndicatorActualDimension(user, publisherId, activityId, resultId, indicatorId, periodId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createIndicatorActualDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        return oipaMethods.createIndicatorActualDimension(user, publisherId, activityId, resultId, indicatorId, periodId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateIndicatorActualDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.updateIndicatorActualDimension(user, publisherId, activityId, resultId, indicatorId, periodId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteIndicatorActualDimension: function(user, publisherId, activityId, resultId, indicatorId, periodId, id, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.deleteIndicatorActualDimension(user, publisherId, activityId, resultId, indicatorId, periodId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
 };
 
 module.exports = ActivityAPI;

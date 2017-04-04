@@ -14,6 +14,25 @@ import {
     createResultIndicator,
     updateResultIndicator,
     deleteResultIndicator,
+    createIndicatorPeriod,
+    updateIndicatorPeriod,
+    deleteIndicatorPeriod,
+    createIndicatorReference,
+    updateIndicatorReference,
+    deleteIndicatorReference,
+    createIndicatorTargetLocation,
+    updateIndicatorTargetLocation,
+    deleteIndicatorTargetLocation,
+    createIndicatorActualLocation,
+    updateIndicatorActualLocation,
+    deleteIndicatorActualLocation,
+    createIndicatorTargetDimension,
+    updateIndicatorTargetDimension,
+    deleteIndicatorTargetDimension,
+    createIndicatorActualDimension,
+    updateIndicatorActualDimension,
+    deleteIndicatorActualDimension,
+
 } from '../../../../actions/activity'
 import {publisherSelector} from '../../../../reducers/createActivity.js'
 import {withRouter} from 'react-router'
@@ -83,7 +102,7 @@ const renderDimension = ({fields, meta: {touched, dirty, error}}) => {
                              <div className="columns small-6">
                                 <Field
                                     name={`${dimension}.value`}
-                                    type="text"
+                                    type="number"
                                     component={renderField}
                                     label="Dimension Value"
                                 />
@@ -114,7 +133,7 @@ const renderPeriodTarget = ({name, textLabel, languageOptions, meta: {touched, e
         <div className="columns">
             <Field
                 name={`${name}.value`}
-                type="text"
+                type="number"
                 component={renderField}
                 label="Value"
             />
@@ -148,7 +167,7 @@ const renderPeriodActual = ({name, textLabel, languageOptions, meta: {touched, e
         <div className="columns">
             <Field
                 name={`${name}.value`}
-                type="text"
+                type="number"
                 component={renderField}
                 label="Value"
             />
@@ -315,7 +334,7 @@ const renderBaseline = ({name, textLabel, languageOptions, meta: {touched, error
         <div className="columns small-6">
             <Field
                 name={`${name}.value`}
-                type="text"
+                type="number"
                 component={renderField}
                 label="Value"
             />
@@ -341,6 +360,7 @@ const renderIndicator = ({fields, languageOptions, indicatorMeasureOptions, indi
             {fields.map((indicator, index) =>
                 <div key={index}>
                     <div className="field-list" key={index}>
+                        <div className="row no-margin"><h6>Indicators</h6></div>
                         <div className="row no-margin">
                             <Field
                                 component={renderSelectField}
@@ -383,9 +403,9 @@ const renderIndicator = ({fields, languageOptions, indicatorMeasureOptions, indi
                              <div className="columns">
                                  <FieldArray
                                      component={renderReference}
-                                     name={`${indicator}.reference`}
-                                     textName={`${indicator}.reference`}
-                                     textLabel="Reference"
+                                     name={`${indicator}.references`}
+                                     textName={`${indicator}.references`}
+                                     textLabel="References"
                                      indicatorVocabularyOptions={indicatorVocabularyOptions}
                                      defaultOption="Select one of the following options"
                                  />
@@ -405,9 +425,9 @@ const renderIndicator = ({fields, languageOptions, indicatorMeasureOptions, indi
                              <div className="columns">
                                  <FieldArray
                                      component={renderPeriod}
-                                     name={`${indicator}.period`}
-                                     textName={`${indicator}.period`}
-                                     textLabel="Period"
+                                     name={`${indicator}.periods`}
+                                     textName={`${indicator}.periods`}
+                                     textLabel="Periods"
                                      languageOptions={languageOptions}
                                      defaultOption="Select one of the following options"
                                  />
@@ -485,7 +505,8 @@ const renderResult = ({fields, resultOptions, languageOptions, indicatorMeasureO
                                  component={renderIndicator}
                                  name={`${result}.indicators`}
                                  textName={`${result}.indicators`}
-                                 textLabel="Measure"
+                                 textLabel="Indicators"
+                                 languageOptions={languageOptions}
                                  indicatorMeasureOptions={indicatorMeasureOptions}
                                  indicatorVocabularyOptions={indicatorVocabularyOptions}
                                  defaultOption="Select one of the following options"
@@ -536,14 +557,209 @@ class PerformanceResultForm extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    saveIndicators(resultId, prevFormData, formData) {
-        const { activityId, publisher } = this.props;
 
-        console.log(resultId, prevFormData, formData);
+    saveTargetLocations(resultId, indicatorId, periodId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
 
         handleSubmit(
             publisher.id,
-            'results.indicators',
+            'results',
+            [ activityId, resultId, indicatorId, periodId ],
+            prevFormData,
+            formData,
+            this.props.createIndicatorTargetLocation,
+            this.props.updateIndicatorTargetLocation,
+            this.props.deleteIndicatorTargetLocation,
+            'result_indicator_period'
+        ).then((result) => {
+            console.log('in target_locations callback...');
+            console.log(result);
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
+    saveActualLocations(resultId, indicatorId, periodId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        handleSubmit(
+            publisher.id,
+            'results',
+            [ activityId, resultId, indicatorId, periodId ],
+            prevFormData,
+            formData,
+            this.props.createIndicatorActualLocation,
+            this.props.updateIndicatorActualLocation,
+            this.props.deleteIndicatorActualLocation,
+            'result_indicator_period'
+        ).then((result) => {
+            console.log('in actual_locations callback...');
+            console.log(result);
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
+
+    saveTargetDimensions(resultId, indicatorId, periodId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        handleSubmit(
+            publisher.id,
+            'results',
+            [ activityId, resultId, indicatorId, periodId ],
+            prevFormData,
+            formData,
+            this.props.createIndicatorTargetDimension,
+            this.props.updateIndicatorTargetDimension,
+            this.props.deleteIndicatorTargetDimension,
+            'result_indicator_period'
+        ).then((result) => {
+            console.log('in target_dimensions callback...');
+            console.log(result);
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
+    saveActualDimensions(resultId, indicatorId, periodId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        handleSubmit(
+            publisher.id,
+            'results',
+            [ activityId, resultId, indicatorId, periodId ],
+            prevFormData,
+            formData,
+            this.props.createIndicatorActualDimension,
+            this.props.updateIndicatorActualDimension,
+            this.props.deleteIndicatorActualDimension,
+            'result_indicator_period'
+        ).then((result) => {
+            console.log('in actual_dimensions callback...');
+            console.log(result);
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
+    savePeriods(resultId, indicatorId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        handleSubmit(
+            publisher.id,
+            'results',
+            [ activityId, resultId, indicatorId ],
+            prevFormData,
+            formData,
+            this.props.createIndicatorPeriod,
+            this.props.updateIndicatorPeriod,
+            this.props.deleteIndicatorPeriod,
+            'result_indicator'
+        ).then((result) => {
+            console.log('in periods callback...', result);
+            // console.log(result);
+
+            const targetLocationPromises = result.map((action, i) => {
+                let prevTargetLocations = []
+                if (prevFormData && prevFormData[i] && prevFormData[i].target.locations) {
+                    prevTargetLocations = prevFormData[i].target.locations
+                }
+                const targetLocations = formData[i].target.locations
+
+                return this.saveTargetLocations(
+                    resultId,
+                    indicatorId,
+                    action.response.id,
+                    prevTargetLocations,
+                    targetLocations
+                )
+            })
+
+            const actualLocationPromises = result.map((action, i) => {
+                let prevActualLocations = []
+                if (prevFormData && prevFormData[i] && prevFormData[i].actual.locations) {
+                    prevActualLocations = prevFormData[i].actual.locations
+                }
+                const actualLocations = formData[i].actual.locations
+
+                return this.saveActualLocations(
+                    resultId,
+                    indicatorId,
+                    action.response.id,
+                    prevActualLocations,
+                    actualLocations
+                )
+            })
+
+            const targetDimensionPromises = result.map((action, i) => {
+                let prevTargetDimensions = []
+                if (prevFormData && prevFormData[i] && prevFormData[i].target.dimensions) {
+                    prevTargetDimensions = prevFormData[i].target.dimensions
+                }
+                const targetDimensions = formData[i].target.dimensions
+
+                return this.saveTargetDimensions(
+                    resultId,
+                    indicatorId,
+                    action.response.id,
+                    prevTargetDimensions,
+                    targetDimensions
+                )
+            })
+
+            const actualDimensionPromises = result.map((action, i) => {
+                let prevActualDimensions = []
+                if (prevFormData && prevFormData[i] && prevFormData[i].actual.dimensions) {
+                    prevActualDimensions = prevFormData[i].actual.dimensions
+                }
+                const actualDimensions = formData[i].actual.dimensions
+
+                return this.saveActualDimensions(
+                    resultId,
+                    indicatorId,
+                    action.response.id,
+                    prevActualDimensions,
+                    actualDimensions
+                )
+            })
+
+            return Promise.all(_.flatten(targetLocationPromises, actualLocationPromises, targetDimensionPromises, actualDimensionPromises))
+
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
+    saveReferences(resultId, indicatorId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        console.log(indicatorId, prevFormData, formData);
+
+        handleSubmit(
+            publisher.id,
+            'results',
+            [ activityId, resultId, indicatorId ],
+            prevFormData,
+            formData,
+            this.props.createIndicatorReference,
+            this.props.updateIndicatorReference,
+            this.props.deleteIndicatorReference,
+            'result_indicator'
+        ).then((result) => {
+            console.log('in references callback...');
+            console.log(result);
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
+    saveIndicators(resultId, prevFormData, formData) {
+        const { activityId, publisher } = this.props;
+
+        handleSubmit(
+            publisher.id,
+            'results',
             [ activityId, resultId],
             prevFormData,
             formData,
@@ -552,8 +768,46 @@ class PerformanceResultForm extends Component {
             this.props.deleteResultIndicator,
             'result'
         ).then((result) => {
-            console.log('in indicator callback...');
-            console.log(result);
+            console.log('in indicator callback...', formData);
+
+            const periodPromises = result.map((action, i) => {
+                let prevPeriods = []
+                if (prevFormData && prevFormData[i] && prevFormData[i].periods) {
+                    prevPeriods = prevFormData[i].periods
+                }
+                const periods = formData[i].periods
+
+                return this.savePeriods(
+                    resultId,
+                    action.response.id,
+                    prevPeriods,
+                    periods
+                )
+            })
+
+            const referencePromises = result.map((action, i) => {
+                let prevReferences = []
+                if (prevFormData && prevFormData[i] && prevFormData[i].references) {
+                    prevReferences = prevFormData[i].references
+                }
+                const references = formData[i].references
+
+                console.log(action);
+                console.log(prevReferences, references);
+
+                return this.saveReferences(
+                    resultId,
+                    action.response.id,
+                    prevReferences,
+                    references
+                )
+            })
+
+            return Promise.all(_.flatten(periodPromises, referencePromises))
+
+
+        }).catch(e => {
+            console.error(e)
         })
     }
 
@@ -565,16 +819,14 @@ class PerformanceResultForm extends Component {
     handleFormSubmit(formData) {
         const {activityId, publisher, data} = this.props;
 
-        const lastResults = data;
+        const prevFormData = data;
         let results = formData.results;
-
-        console.log(lastResults, results);
 
         handleSubmit(
             publisher.id,
             'results',
             activityId,
-            lastResults,
+            prevFormData,
             results,
             this.props.createPerformanceResult,
             this.props.updatePerformanceResult,
@@ -583,15 +835,15 @@ class PerformanceResultForm extends Component {
             // if (!result.error) {
             //     this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
             // }
-
+            //
             const indicatorPromises = result.map((action, i) => {
                 let prevIndicators = []
-                if (lastResults && lastResults[i].indicators) {
-                    prevIndicators = lastResults[i].indicators
+                if (prevFormData && prevFormData[i].indicators) {
+                    prevIndicators = prevFormData[i].indicators
                 }
                 const indicators = results[i].indicators
 
-                console.log(prevIndicators, indicators);
+                // console.log(prevIndicators, indicators);
 
                 return this.saveIndicators(
                     action.response.result,
@@ -604,7 +856,7 @@ class PerformanceResultForm extends Component {
 
 
         }).catch((e) => {
-            console.log(e)
+            console.error(e)
         })
     }
 
@@ -692,6 +944,24 @@ PerformanceResultForm = connect(mapStateToProps, {
     createResultIndicator,
     updateResultIndicator,
     deleteResultIndicator,
+    createIndicatorPeriod,
+    updateIndicatorPeriod,
+    deleteIndicatorPeriod,
+    createIndicatorReference,
+    updateIndicatorReference,
+    deleteIndicatorReference,
+    createIndicatorTargetLocation,
+    updateIndicatorTargetLocation,
+    deleteIndicatorTargetLocation,
+    createIndicatorActualLocation,
+    updateIndicatorActualLocation,
+    deleteIndicatorActualLocation,
+    createIndicatorTargetDimension,
+    updateIndicatorTargetDimension,
+    deleteIndicatorTargetDimension,
+    createIndicatorActualDimension,
+    updateIndicatorActualDimension,
+    deleteIndicatorActualDimension,
 })(PerformanceResultForm);
 export default withRouter(PerformanceResultForm);
 
