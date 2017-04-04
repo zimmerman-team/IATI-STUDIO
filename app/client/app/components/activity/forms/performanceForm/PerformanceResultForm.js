@@ -151,7 +151,7 @@ const renderPeriodTarget = ({name, textLabel, languageOptions, meta: {touched, e
             textLabel="Dimensions"
         />
         <FieldArray
-            name={`${name}.comment[narratives]`}
+            name={`${name}.comments[narratives]`}
             component={renderNarrativeFields}
             languageOptions={languageOptions}
             textLabel="Comment"
@@ -185,7 +185,7 @@ const renderPeriodActual = ({name, textLabel, languageOptions, meta: {touched, e
             textLabel="Dimensions"
         />
         <FieldArray
-            name={`${name}.comment[narratives]`}
+            name={`${name}.comments[narratives]`}
             component={renderNarrativeFields}
             languageOptions={languageOptions}
             textLabel="Comment"
@@ -855,9 +855,14 @@ class PerformanceResultForm extends Component {
             return Promise.all(indicatorPromises)
 
 
-        }).catch((e) => {
+        })
+        .then(() => {
+            this.props.router.push(`/publisher/activities/${activityId}/performance/comment`)
+        })
+        .catch((e) => {
             console.error(e)
         })
+    
     }
 
     componentWillMount() {
