@@ -151,7 +151,7 @@ const renderPeriodTarget = ({name, textLabel, languageOptions, meta: {touched, e
             textLabel="Dimensions"
         />
         <FieldArray
-            name={`${name}.comments[narratives]`}
+            name={`${name}.comment[narratives]`}
             component={renderNarrativeFields}
             languageOptions={languageOptions}
             textLabel="Comment"
@@ -185,7 +185,7 @@ const renderPeriodActual = ({name, textLabel, languageOptions, meta: {touched, e
             textLabel="Dimensions"
         />
         <FieldArray
-            name={`${name}.comments[narratives]`}
+            name={`${name}.comment[narratives]`}
             component={renderNarrativeFields}
             languageOptions={languageOptions}
             textLabel="Comment"
