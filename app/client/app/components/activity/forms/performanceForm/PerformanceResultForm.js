@@ -838,7 +838,7 @@ class PerformanceResultForm extends Component {
             //
             const indicatorPromises = result.map((action, i) => {
                 let prevIndicators = []
-                if (prevFormData && prevFormData[i].indicators) {
+                if (prevFormData && prevFormData[i] && prevFormData[i].indicators) {
                     prevIndicators = prevFormData[i].indicators
                 }
                 const indicators = results[i].indicators
