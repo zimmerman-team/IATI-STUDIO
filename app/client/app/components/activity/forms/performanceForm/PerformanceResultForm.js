@@ -377,7 +377,7 @@ const renderIndicator = ({fields, languageOptions, indicatorMeasureOptions, indi
                                 name={`${indicator}.ascending`}
                                 textName={`${indicator}ascending`}
                                 label="Ascending"
-                                selectOptions={[{code: 'True', name: 'True'}, {code: 'False', name: 'False'}]}
+                                selectOptions={[{code: 'true', name: 'true'}, {code: 'false', name: 'false'}]}
                                 defaultOption="Select one of the following options"
                             />
                         </div>
