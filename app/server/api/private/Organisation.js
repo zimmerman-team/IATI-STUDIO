@@ -103,9 +103,9 @@ var OrganisationAPI = {
             .catch(error => res(error));
     },
 
-    update: function(user, publisherId, form, res) {
+    update: function(user, publisherId, id, form, res) {
         // TODO: update validation status here - 2016-12-16
-        return updateOrganisation(user, publisherId, form)
+        return updateOrganisation(user, publisherId, id, form)
             .then(result => res(null, result))
             .catch(error => res(error));
     },

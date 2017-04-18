@@ -40,12 +40,12 @@ class IdentificationForm extends PureComponent {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    // componentWillMount() {
-    //     this.props.getCodeListItems('Language');
+    componentWillMount() {
+        this.props.getCodeListItems('Language');
     //     if (this.props.publisher && this.props.publisher.id) {
     //         this.props.getOrganisation(this.props.publisher.id, this.props.organisationId)
     //     }
-    // }
+    }
 
     // componentWillUpdate(nextProps) {
     //     if (this.props.organisationId !== nextProps.organisationId || this.props.publisher !== nextProps.publisher) {
@@ -60,10 +60,11 @@ class IdentificationForm extends PureComponent {
     handleFormSubmit(data) {
         const { publisher, organisation } = this.props;
 
-        this.props.updateOrganisation(publisher.id, {
-            id: organisation.id,
-            ...data.organisation,
-        }).then((result) => {
+        this.props.updateOrganisation(
+            publisher.id,
+            organisation.id,
+            _.pickBy(data.organisation, (val) => val !== null),
+        ).then((result) => {
             if (!result.error) {
                 // this.props.router.push(`/publisher/organisation/basic-info/description`)
             }
@@ -109,12 +110,12 @@ class IdentificationForm extends PureComponent {
                         </div>
                         <div className="row no-margin">
                             <FieldArray
-                                name="organisation.title.narratives"
+                                name="organisation.name.narratives"
                                 component={renderNarrativeFields}
                                 languageOptions={codeLists["Language"]}
                                 narrativeLabel={false}
-                                textName="textTitle"
-                                textLabel="Title"
+                                textName="textName"
+                                textLabel="Name"
                             />
                         </div>
                     </div>

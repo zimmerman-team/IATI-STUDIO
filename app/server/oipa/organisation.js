@@ -111,7 +111,7 @@ export const updateOrganisation = function (user, publisherId, id, organisationD
 
     const req_options = {
         baseUrl: config.oipa_update_url,
-        url: path.join(urls.organisationsUrl(publisherId), id) + '/',
+        url: path.join(urls.organisationsUrl(publisherId), `${id}`) + '/',
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },
@@ -124,7 +124,7 @@ export const updateOrganisation = function (user, publisherId, id, organisationD
 export const deleteOrganisation = function (user, publisherId, id) {
     const req_options = {
         baseUrl: config.oipa_delete_url,
-        url: path.join(urls.organisationsUrl(publisherId), id) + '/',
+        url: path.join(urls.organisationsUrl(publisherId), `${id}`) + '/',
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },

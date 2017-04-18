@@ -62,25 +62,15 @@ export function createOrganisation(publisherId, organisation) {
 export const UPDATE_ORGANISATION_REQUEST = 'UPDATE_ORGANISATION_REQUEST';
 export const UPDATE_ORGANISATION_SUCCESS = 'UPDATE_ORGANISATION_SUCCESS';
 export const UPDATE_ORGANISATION_FAILURE = 'UPDATE_ORGANISATION_FAILURE';
-export function updateOrganisation(publisherId, organisation) {
-    let filterOrganisation = _.omitBy(organisation, _.isNil);
+export function updateOrganisation(publisherId, organisationId, data) {
 
-    if (filterOrganisation.legacy_data && filterOrganisation.legacy_data.length > 0) {
-        filterOrganisation.legacy_data = filterOrganisation.legacy_data.map(function (legacy_data) {
-            legacy_data.organisation = organisation.id;
-            return legacy_data;
-        })
-    }
-
-    if (filterOrganisation.country_budget_items) {
-        filterOrganisation.country_budget_items.organisation = organisation.id
-    }
+    console.log(data);
 
     return {
         [CALL_API]: {
             types: [UPDATE_ORGANISATION_REQUEST, UPDATE_ORGANISATION_SUCCESS, UPDATE_ORGANISATION_FAILURE],
             endpoint: 'Organisation.update',
-            payload: [publisherId, JSON.stringify(filterOrganisation)],
+            payload: [publisherId, organisationId, data ],
             schema: Schemas.organisation,
         }
     }
