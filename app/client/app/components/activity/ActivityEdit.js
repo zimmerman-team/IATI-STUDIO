@@ -22,7 +22,7 @@ import PerformanceForm from './forms/performanceForm/PerformanceForm'
 import ActivitySidebar from './ActivitySidebar'
 import ActivityPublishState from './ActivityPublishState.js'
 
-import { publisherSelector } from '../../reducers/createActivity.js'
+import { publisherSelector } from '../../reducers/publisher.js'
 
 class ActivityEdit extends React.Component {
 
@@ -33,12 +33,6 @@ class ActivityEdit extends React.Component {
 
     }
 
-    /**
-     * Submit participating organisation data and redirect
-     * to geopolitical information form.
-     *
-     * @param data
-     */
     componentDidMount() {
         this.props.toggleMainMenu(false)
     }
@@ -54,6 +48,7 @@ class ActivityEdit extends React.Component {
             this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
         }
     }
+
     /**
      * Redirects to the specific form basis of route.
      *

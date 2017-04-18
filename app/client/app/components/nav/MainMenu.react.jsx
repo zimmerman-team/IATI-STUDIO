@@ -63,6 +63,7 @@ class MainMenu extends React.Component {
                     <hr />
                     <li><Tooltip tooltip="Publisher settings"><Link to="/publisher/settings"><i className="material-icons">settings</i>Publisher setup</Link></Tooltip></li>
                     <li><Tooltip tooltip="IATI activities"><Link to="/publisher/activities"><i className="material-icons">local_play</i>IATI activities</Link></Tooltip></li>
+                    <li><Tooltip tooltip="IATI organisation"><Link to="/publisher/organisation"><i className="material-icons">local_play</i>IATI organisation</Link></Tooltip></li>
 
                     {
                         /*
@@ -98,7 +99,7 @@ class MainMenu extends React.Component {
 
 MainMenu = withRouter(MainMenu);
 
-import { publisherSelector } from '../../reducers/createActivity'
+import { publisherSelector } from '../../reducers/publisher'
 
 function mapStateToProps(state) {
     return {

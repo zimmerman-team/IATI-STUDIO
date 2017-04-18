@@ -11,7 +11,8 @@ import {
     updateDocumentLink,
     deleteDocumentLink
 } from '../../../../actions/activity'
-import {documentLinksSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {documentLinksSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 import handleSubmit from '../../helpers/handleSubmit'
 import moment from 'moment'

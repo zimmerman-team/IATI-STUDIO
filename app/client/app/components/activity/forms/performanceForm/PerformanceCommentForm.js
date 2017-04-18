@@ -12,7 +12,8 @@ import {
     updateLegacyData,
     deleteLegacyData
 } from '../../../../actions/activity'
-import {legacyDataSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {legacyDataSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import handleSubmit from '../../helpers/handleSubmit'
 
 const renderPerformanceCommentForm = ({fields, meta: {touched, error,dirty}}) => {

@@ -13,7 +13,7 @@ import {
     deleteLocation
 } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 

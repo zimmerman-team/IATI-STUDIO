@@ -12,6 +12,7 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer as routing } from 'react-router-redux'
 
 import activity from './reducers/createActivity'
+import organisation from './reducers/organisation'
 import codeLists from './reducers/codeLists'
 import sidebar from './reducers/sidebar'
 
@@ -399,40 +400,6 @@ function apiKeyValidationForm(state={}, action) {
     }
 }
 
-const initialPublisherState = {
-  // validationStatus: false,
-  // autoPublish: false,
-  isFetching: false,
-}
-
-function publisher(state=initialPublisherState, action) {
-    switch(action.type) {
-        case ActionTypes.GET_OIPA_USER_SUCCESS:
-        case ActionTypes.VERIFY_API_KEY_SUCCESS:
-            return {
-                ...state,
-                ...action.response.admin_groups[0] && action.response.admin_groups[0].publisher,
-            // TODO: change behaviour in OIPA to represent this behaviour - 2017-01-30
-            activityDataset: _.find(action.response.admin_groups[0] && action.response.admin_groups[0].publisher && action.response.admin_groups[0].publisher.datasets, (p) => p.id && p.filetype === 'Activity' && p.added_manually ),
-            organisationDataset: _.find(action.response.admin_groups[0] && action.response.admin_groups[0].publisher && action.response.admin_groups[0].publisher.datasets, (p) => p.id && p.filetype === 'Organisation' && p.added_manually ),
-
-            }
-        case ActionTypes.PUBLISH_ACTIVITIES_REQUEST:
-            return {
-                ...state,
-            isFetching: true,
-            }
-        case ActionTypes.PUBLISH_ACTIVITIES_SUCCESS:
-            return {
-                ...state,
-                isFetching: false,
-                activityDataset: action.response
-            }
-        default:
-            return state
-    }
-}
-
 // TODO: separate this - 2016-03-31
 function notificationCenter(state=[], action) {
 
@@ -656,6 +623,8 @@ const pagination = combineReducers({
   publicVisualizationPagination,
 })
 
+import publisher from './reducers/publisher.js'
+
 const rootReducer = combineReducers({
     entities,
     activeVisualization,
@@ -672,6 +641,7 @@ const rootReducer = combineReducers({
     pagination,
     publisher,
     activity,
+    organisation,
     codeLists,
     sidebar,
     apiKeyValidationForm,

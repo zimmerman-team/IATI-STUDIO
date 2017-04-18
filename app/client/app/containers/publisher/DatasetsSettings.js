@@ -5,7 +5,7 @@ import { connect }              from 'react-redux'
 
 import DatasetsSettings from '../../components/publisher/DatasetsSettings'
 
-import { publisherSelector } from '../../reducers/createActivity'
+import { publisherSelector } from '../../reducers/publisher'
 import {GeneralLoader} from '../../components/general/Loaders.react.jsx'
 
 class DatasetsSettingsContainer extends React.Component {

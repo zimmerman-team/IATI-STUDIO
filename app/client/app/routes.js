@@ -18,7 +18,7 @@ import ChartViewEmbed from "./containers/public/ChartViewEmbed.react.jsx";
 import PublisherSettings from "./components/publisher/PublisherSettings"
 import ActivityList from "./components/activity/ActivityList"
 import ActivityEdit from "./components/activity/ActivityEdit"
-import OrgSettings from "./components/publisher/OrgSettings"
+import OrgSettings from "./components/organisation/OrgSettings"
 import DatasetsSettings from "./containers/publisher/DatasetsSettings"
 import TeamManagement from "./components/publisher/TeamManagement"
 
@@ -52,6 +52,8 @@ export default (
             <Route path="publisher/activities/:activityId/:tab/:subTab" component={ActivityEdit}/>
             <Route path="publisher/settings" component={PublisherSettings}/>
             <Route path="publisher/organisation" component={OrgSettings}/>
+            <Route path="publisher/organisation/:tab" component={OrgSettings}/>
+            <Route path="publisher/organisation/:tab/:subTab" component={OrgSettings}/>
             <Route path="publisher/datasets" component={DatasetsSettings}/>
             <Route path="publisher/team-management" component={TeamManagement}/>
 

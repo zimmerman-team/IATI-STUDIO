@@ -6,7 +6,8 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {getCodeListItems, getPolicy, createPolicy, updatePolicy, deletePolicy} from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {policySelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import { policySelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import {withRouter, Link} from 'react-router'
 
 const renderPolicy = ({fields, languageOptions, policyMakerOptions, policySignificanceOptions, policyVocabularyOptions, meta: {touched, dirty, error}}) => {

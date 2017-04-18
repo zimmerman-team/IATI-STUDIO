@@ -17,7 +17,8 @@ import {
     getActivity
 } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {transactionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import { transactionsSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 
 const renderFinancialTransactionForm = ({

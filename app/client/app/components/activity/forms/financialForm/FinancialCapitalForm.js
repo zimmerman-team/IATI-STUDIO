@@ -5,7 +5,7 @@ import {Tooltip} from '../../../general/Tooltip.react.jsx'
 import {Link} from 'react-router';
 import {renderField} from '../../helpers/FormHelper'
 import {getActivity, updateActivity} from '../../../../actions/activity'
-import {publisherSelector} from '../../../../reducers/createActivity'
+import {publisherSelector} from '../../../../reducers/publisher'
 import {reduxForm} from  'redux-form'
 import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 

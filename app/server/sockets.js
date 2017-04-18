@@ -6,6 +6,7 @@ const OipaMeta = require('./api/private/OipaMeta')
 const IatiRegistryMeta = require('./api/private/IatiRegistryMeta')
 const Publisher = require('./api/private/Publisher')
 const createActivityApi = require('./api/private/Activity')
+const Organisation = require('./api/private/Organisation')
 
 const User = require('./api/private/User')
 // import Visualization from "./api/private/Visualizations"
@@ -219,5 +220,13 @@ module.exports = function(app) {
         socket.on('Activity.createIndicatorActualDimension', ActivityApi.createIndicatorActualDimension.bind(null, user));
         socket.on('Activity.updateIndicatorActualDimension', ActivityApi.updateIndicatorActualDimension.bind(null, user));
         socket.on('Activity.deleteIndicatorActualDimension', ActivityApi.deleteIndicatorActualDimension.bind(null, user));
+
+        socket.on('Organisation.publish', Organisation.publish.bind(null, user));
+        socket.on('Organisation.markReadyToPublish', Organisation.markReadyToPublish.bind(null, user));
+
+        socket.on('Organisation.get', Organisation.get.bind(null, user));
+        socket.on('Organisation.create', Organisation.create.bind(null, user));
+        socket.on('Organisation.update', Organisation.update.bind(null, user));
+        socket.on('Organisation.delete', Organisation.delete.bind(null, user));
     })
 };

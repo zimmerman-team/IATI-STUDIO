@@ -12,7 +12,8 @@ import {
     deleteParticipatingOrganisation
 } from '../../../../actions/activity'
 import {renderField, renderNarrativeFields, renderSelectField} from '../../helpers/FormHelper'
-import {participatingOrganisationsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import { participatingOrganisationsSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 
 import handleSubmit from '../../helpers/handleSubmit'
 

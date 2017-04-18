@@ -246,7 +246,8 @@ class ActivityList extends React.Component {
     }
 }
 
-import { activitiesSelector, publisherSelector } from '../../reducers/createActivity'
+import { activitiesSelector } from '../../reducers/createActivity'
+import { publisherSelector } from '../../reducers/publisher'
 
 function mapStateToProps(state) {
 

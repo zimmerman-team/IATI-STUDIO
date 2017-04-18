@@ -1,24 +1,34 @@
 import React, {PropTypes, PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {Tooltip} from '../../../general/Tooltip.react.jsx'
+import {Tooltip} from '../../general/Tooltip.react.jsx'
+import {GeneralLoader} from '../../general/Loaders.react.jsx'
 import {Field, FieldArray, reduxForm, formValueSelector} from 'redux-form'
-import {renderField, renderSelectField, renderNarrativeFields} from '../../helpers/FormHelper'
-import {GeneralLoader} from '../../../general/Loaders.react.jsx'
-import {getActivity, updateActivity, getCodeListItems} from '../../../../actions/activity'
-import ActivityTooltip from '../../ActivityTooltip'
-import {publisherSelector} from '../../../../reducers/publisher'
+import {renderField, renderSelectField, renderNarrativeFields} from '../../activity/helpers/FormHelper'
+import { getOrganisation, updateOrganisation } from '../../../actions/organisation'
+import { getCodeListItems } from '../../../actions/activity'
+import { publisherSelector } from '../../../reducers/publisher'
 
 const validate = values => {
     const errors = {};
-    if (values.activity) {
-        const activityData = values.activity;
-        if (!activityData.iati_identifier) {
-            errors.iati_identifier = 'Required'
+
+    if (values.organisation) {
+        const organisationData = values.organisation;
+
+        if (!organisationData.organisation_identifier) {
+            errors.organisation_identifier = 'Required'
+        }
+
+        if (!organisationData.title || !organisationData.title.narratives.length || !organisationData.title.narratives[0].text) {
+            errors.title = {
+                narratives: {
+                    _error: 'Required'
+                }
+            }
         }
     }
 
-    return {activity: errors};
+    return { organisation: errors };
 };
 
 
@@ -27,55 +37,50 @@ class IdentificationForm extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            iatiIdentifier: ''
-        };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    componentWillMount() {
-        this.props.getCodeListItems('Language');
-        if (this.props.publisher && this.props.publisher.id) {
-            this.props.getActivity(this.props.publisher.id, this.props.activityId)
-        }
-    }
+    // componentWillMount() {
+    //     this.props.getCodeListItems('Language');
+    //     if (this.props.publisher && this.props.publisher.id) {
+    //         this.props.getOrganisation(this.props.publisher.id, this.props.organisationId)
+    //     }
+    // }
 
-    componentWillUpdate(nextProps) {
-        if (this.props.activityId !== nextProps.activityId || this.props.publisher !== nextProps.publisher) {
-            this.props.getActivity(nextProps.publisher.id, nextProps.activityId)
-        }
-    }
+    // componentWillUpdate(nextProps) {
+    //     if (this.props.organisationId !== nextProps.organisationId || this.props.publisher !== nextProps.publisher) {
+    //         this.props.getOrganisation(nextProps.publisher.id, nextProps.organisationId)
+    //     }
+    // }
 
     /*
      * Submit identification data and redirect
      * to basic information form.
      */
     handleFormSubmit(data) {
-        const {activityId, publisher} = this.props;
+        const { publisher, organisation } = this.props;
 
-        this.props.updateActivity(publisher.id, {
-            id: activityId,
-            ...data.activity,
+        this.props.updateOrganisation(publisher.id, {
+            id: organisation.id,
+            ...data.organisation,
         }).then((result) => {
             if (!result.error) {
-                this.props.router.push(`/publisher/activities/${activityId}/basic-info/description`)
+                // this.props.router.push(`/publisher/organisation/basic-info/description`)
             }
         });
-
-
     }
 
     render() {
-        const {submitting, activity, handleSubmit, codeLists, activityId, isFetching, currentIATIIdentifier, publisher} = this.props;
+        const {submitting, organisation, handleSubmit, codeLists, organisationId, isFetching, currentIATIIdentifier, publisher} = this.props;
 
-        if (isFetching || !activity && !codeLists["Language"]) {
+        if (isFetching || !organisation && !codeLists["Language"]) {
             return <GeneralLoader/>
         }
 
         return (
             <div>
-                <ActivityTooltip
-                    text="An IATI Activity"
+                <Tooltip
+                    text="An IATI Organisation"
                 />
                 <div className="columns small-centered small-12">
                     <h2 className="page-title with-tip">Identification</h2>
@@ -88,17 +93,11 @@ class IdentificationForm extends PureComponent {
                         <div className="row no-margin">
                             <div className="columns small-6">
                                 <Field
-                                    name="activity.iati_identifier"
+                                    name="organisation.organisation_identifier"
                                     type="text"
-                                    id="iati_identifier"
+                                    id="organisation_identifier"
                                     component={renderField}
-                                    label="*Activity Identifier"
-                                    format={(value) => {
-                                        return value.replace(publisher.publisher_iati_id + '-', "")
-                                    }}
-                                    normalize={(value) => {
-                                        return `${publisher.publisher_iati_id}-${value}`
-                                    }}
+                                    label="*Organisation Identifier"
                                 />
                             </div>
                             <div className="columns small-6" style={{"paddingTop": "5px"}}>
@@ -108,19 +107,9 @@ class IdentificationForm extends PureComponent {
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <Field
-                                component={renderSelectField}
-                                name="activity.hierarchy"
-                                textName="activity.hierarchy"
-                                label="Hierarchy"
-                                selectOptions={[{code: "1", name: "1"}, {code: "2", name: "2"}]}
-                                defaultOption="Select one of the following options"
-                            />
-                        </div> <br/>
                         <div className="row no-margin">
                             <FieldArray
-                                name="activity.title.narratives"
+                                name="organisation.title.narratives"
                                 component={renderNarrativeFields}
                                 languageOptions={codeLists["Language"]}
                                 narrativeLabel={false}
@@ -151,25 +140,23 @@ IdentificationForm = reduxForm({
 const selector = formValueSelector('identification');
 
 function mapStateToProps(state, props) {
-    const {activityId} = props;
-    const isFetching = state.activity.isFetching;
-    let currentActivity = state.activity.activity && state.activity.activity[activityId];
-    const currentIATIIdentifier = selector(state, 'activity.iati_identifier');
+    const isFetching = state.organisation.isFetching;
+    const currentIATIIdentifier = selector(state, 'organisation.organisation_identifier');
 
     return {
         isFetching: isFetching,
-        submitting: state.activity.submitting,
-        activity: state.activity.activity,
+        submitting: state.organisation.submitting,
+        organisation: state.organisation.organisation,
         codeLists: state.codeLists,
         currentIATIIdentifier: currentIATIIdentifier,
-        initialValues: {"activity": currentActivity},  // populate initial values for redux form
+        initialValues: { "organisation": state.organisation.organisation },  // populate initial values for redux form
         publisher: publisherSelector(state),
     }
 }
 
 IdentificationForm = connect(mapStateToProps, {
-    getActivity,
-    updateActivity,
+    getOrganisation,
+    updateOrganisation,
     getCodeListItems
 })(IdentificationForm);
 

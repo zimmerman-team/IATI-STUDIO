@@ -301,7 +301,7 @@ const SubNavItem = ({isValid, hasData, navValidationClass, canNavigate, title, l
     </li>
 )
 
-import {publisherSelector} from '../../reducers/createActivity'
+import { publisherSelector } from '../../reducers/publisher'
 
 function mapStateToProps(state, props) {
     const {activityId} = props;

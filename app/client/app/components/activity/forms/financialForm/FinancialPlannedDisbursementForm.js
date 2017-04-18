@@ -7,7 +7,7 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux'
 import handleSubmit from '../../helpers/handleSubmit'
 import {withRouter} from 'react-router'
-import {publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/publisher.js'
 import {
     getCodeListItems, createActivity, getActivity, createPlannedDisbursement, updatePlannedDisbursement,
     deletePlannedDisbursement

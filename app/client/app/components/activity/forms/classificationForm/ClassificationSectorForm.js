@@ -7,7 +7,8 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {getCodeListItems, getSectors, createSector, updateSector, deleteSector} from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {sectorsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {sectorsSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 
 const renderSector = ({fields, languageOptions, sectorVocabularyOptions, sectorOptions, meta: {touched, error, dirty}}) => {

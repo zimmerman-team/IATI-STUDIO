@@ -6,7 +6,7 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import handleSubmit from '../../helpers/handleSubmit'
-import {publisherSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/publisher.js'
 import {getCodeListItems, getActivity, createBudget, updateBudget, deleteBudget} from '../../../../actions/activity'
 import {withRouter} from 'react-router'
 

@@ -6,7 +6,8 @@ import {GeneralLoader} from '../../../general/Loaders.react.jsx'
 import {renderSelectField} from '../../helpers/FormHelper'
 import { Link } from 'react-router';
 import { getCodeListItems, getActivity, updateActivity, } from '../../../../actions/activity'
-import { statusSelector, publisherSelector } from '../../../../reducers/createActivity.js'
+import { statusSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import { withRouter } from 'react-router'
 
 class BasicInformationStatusForm extends Component {
