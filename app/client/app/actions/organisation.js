@@ -229,3 +229,54 @@ export function deleteTotalBudget(publisherId, organisationId, id) {
         }
     }
 }
+
+/*
+ * Create total_budget_budget_line (Identification form)
+ */
+export const CREATE_TOTAL_BUDGET_BUDGET_LINE_REQUEST = 'CREATE_TOTAL_BUDGET_BUDGET_LINE_REQUEST';
+export const CREATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS = 'CREATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS';
+export const CREATE_TOTAL_BUDGET_BUDGET_LINE_FAILURE = 'CREATE_TOTAL_BUDGET_BUDGET_LINE_FAILURE';
+export function createTotalBudgetBudgetLine(publisherId, organisationId, budgetId, data) {
+    return {
+        [CALL_API]: {
+            types: [CREATE_TOTAL_BUDGET_BUDGET_LINE_REQUEST, CREATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS, CREATE_TOTAL_BUDGET_BUDGET_LINE_FAILURE],
+            endpoint: 'Organisation.createTotalBudgetBudgetLine',
+            payload: [publisherId, organisationId, budgetId, data],
+            schema: Schemas.organisationTotalBudgetBudgetLine,
+        }
+    }
+}
+
+/*
+ * Update total_budget_budget_line (Identification form)
+ */
+export const UPDATE_TOTAL_BUDGET_BUDGET_LINE_REQUEST = 'UPDATE_TOTAL_BUDGET_BUDGET_LINE_REQUEST';
+export const UPDATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS = 'UPDATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS';
+export const UPDATE_TOTAL_BUDGET_BUDGET_LINE_FAILURE = 'UPDATE_TOTAL_BUDGET_BUDGET_LINE_FAILURE';
+export function updateTotalBudgetBudgetLine(publisherId, organisationId, budgetId, id, data) {
+    return {
+        [CALL_API]: {
+            types: [UPDATE_TOTAL_BUDGET_BUDGET_LINE_REQUEST, UPDATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS, UPDATE_TOTAL_BUDGET_BUDGET_LINE_FAILURE],
+            endpoint: 'Organisation.updateTotalBudgetBudgetLine',
+            payload: [publisherId, organisationId, budgetId, id, data ],
+            schema: Schemas.organisationTotalBudgetBudgetLine,
+        }
+    }
+}
+
+/*
+ * Delete total_budget_budget_line (Identification form)
+ */
+export const DELETE_TOTAL_BUDGET_BUDGET_LINE_REQUEST = 'DELETE_TOTAL_BUDGET_BUDGET_LINE_REQUEST';
+export const DELETE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS = 'DELETE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS';
+export const DELETE_TOTAL_BUDGET_BUDGET_LINE_FAILURE = 'DELETE_TOTAL_BUDGET_BUDGET_LINE_FAILURE';
+export function deleteTotalBudgetBudgetLine(publisherId, organisationId, budgetId, id) {
+    return {
+        id,
+        [CALL_API]: {
+            types: [DELETE_TOTAL_BUDGET_BUDGET_LINE_REQUEST, DELETE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS, DELETE_TOTAL_BUDGET_BUDGET_LINE_FAILURE],
+            endpoint: 'Organisation.deleteTotalBudgetBudgetLine',
+            payload: [publisherId, organisationId, budgetId, id],
+        }
+    }
+}

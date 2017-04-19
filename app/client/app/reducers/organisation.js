@@ -25,10 +25,13 @@ function organisation(state = initialState, action) {
             }
 
         case ActionTypes.GET_TOTAL_BUDGETS_SUCCESS:
+        case ActionTypes.GET_TOTAL_BUDGET_BUDGET_LINES_SUCCESS:
             return _.assign({}, state, action.response.entities, {isFetching: false});
 
         case ActionTypes.CREATE_TOTAL_BUDGET_SUCCESS:
         case ActionTypes.UPDATE_TOTAL_BUDGET_SUCCESS:
+        case ActionTypes.CREATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS:
+        case ActionTypes.UPDATE_TOTAL_BUDGET_BUDGET_LINE_SUCCESS:
             return _.merge({}, state, action.response.entities, {isFetching: false});
 
         case ActionTypes.GET_ORGANISATION_SUCCESS:

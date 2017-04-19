@@ -18,6 +18,7 @@ const urls = {
     "organisationsUrl": (pid) => `/api/publishers/${pid}/organisations/`,
     "reportingOrganisationUrl": (pid, oid) => `/api/publishers/${pid}/organisations/${oid}/reporting_organisations/`,
     "totalBudgetUrl": (pid, oid) => `/api/publishers/${pid}/organisations/${oid}/total_budgets/`,
+    "totalBudgetBudgetLineUrl": (pid, oid, bid) => `/api/publishers/${pid}/organisations/${oid}/total_budgets/${bid}/budget_lines/`,
 
 }
 
@@ -240,6 +241,49 @@ export const deleteTotalBudget = function (user, publisherId, organisationId, id
     const req_options = {
         baseUrl: config.oipa_delete_url,
         url: path.join(urls.totalBudgetUrl(publisherId, organisationId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+    };
+
+    return oipaDelete(req_options)
+};
+
+
+export const postTotalBudgetBudgetLine = function (user, publisherId, organisationId, budgetId, data) {
+
+    const req_options = {
+        baseUrl: config.oipa_post_url,
+        url: urls.totalBudgetBudgetLineUrl(publisherId, organisationId, budgetId),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: data,
+    };
+
+
+    return oipaPost(req_options)
+};
+
+export const updateTotalBudgetBudgetLine = function (user, publisherId, organisationId, budgetId, id, data) {
+
+    const req_options = {
+        baseUrl: config.oipa_update_url,
+        url: path.join(urls.totalBudgetBudgetLineUrl(publisherId, organisationId, budgetId), `${id}`),
+        headers: {
+            'Authorization': 'Token ' + user.oipaToken
+        },
+        body: data,
+    };
+
+    return oipaUpdate(req_options)
+};
+
+export const deleteTotalBudgetBudgetLine = function (user, publisherId, organisationId, budgetId, id) {
+
+    const req_options = {
+        baseUrl: config.oipa_delete_url,
+        url: path.join(urls.totalBudgetBudgetLineUrl(publisherId, organisationId, budgetId), `${id}`),
         headers: {
             'Authorization': 'Token ' + user.oipaToken
         },

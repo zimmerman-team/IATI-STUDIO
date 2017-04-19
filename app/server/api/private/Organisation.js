@@ -175,6 +175,28 @@ var OrganisationAPI = {
             .then(result => res(null, result))
             .catch(error => res(error));
     },
+
+    createTotalBudgetBudgetLine: function(user, publisherId, organisationId, budgetId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        console.log('called createTotalBudgetBudgetLine');
+        return oipaMethods.postTotalBudgetBudgetLine(user, publisherId, organisationId, budgetId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+    updateTotalBudgetBudgetLine: function(user, publisherId, organisationId, budgetId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        console.log('called updateTotalBudgetBudgetLine');
+        return oipaMethods.updateTotalBudgetBudgetLine(user, publisherId, organisationId, budgetId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+    deleteTotalBudgetBudgetLine: function(user, publisherId, organisationId, budgetId, id, res) {
+        // TODO: delete validation status here - 2016-12-16
+        return oipaMethods.deleteTotalBudgetBudgetLine(user, publisherId, organisationId, budgetId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
 };
 
 module.exports = OrganisationAPI;

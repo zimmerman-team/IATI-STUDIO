@@ -7,6 +7,7 @@ import {GeneralLoader} from '../../general/Loaders.react.jsx'
 import {Field, FieldArray, reduxForm, formValueSelector} from 'redux-form'
 import {renderField, renderSelectField, renderNarrativeFields} from '../../activity/helpers/FormHelper'
 import { getTotalBudgets, createTotalBudget, updateTotalBudget, deleteTotalBudget } from '../../../actions/organisation'
+import { createTotalBudgetBudgetLine, updateTotalBudgetBudgetLine, deleteTotalBudgetBudgetLine } from '../../../actions/organisation'
 import { getCodeListItems } from '../../../actions/activity'
 import { publisherSelector } from '../../../reducers/publisher'
 import { totalBudgetSelector } from '../../../reducers/organisation'
@@ -50,7 +51,94 @@ const validate = values => {
     return errors;
 };
 
-const renderTotalBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, meta: {touched, dirty, error}}) => {
+const renderBudgetLineForm = ({fields, currencyOptions, languageOptions, meta: {touched, dirty, error}}) => {
+    if (!fields.length && !dirty) {
+        fields.push({})
+    }
+
+    return (
+        <div>
+            {fields.map((budget_line, index) =>
+                <div key={index}>
+                    <div className="field-list">
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <strong>Budget Line</strong>
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${budget_line}ref`}
+                                    type="text"
+                                    component={renderField}
+                                    label="Ref"
+                                />
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <strong>Value</strong>
+                            </div>
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${budget_line}value.value`}
+                                    type="number"
+                                    component={renderField}
+                                    label="Amount"
+                                />
+                            </div>
+                            <Field
+                                component={renderSelectField}
+                                name={`${budget_line}value.currency.code`}
+                                textName={`${budget_line}value.currency.code`}
+                                label="Currency"
+                                selectOptions={currencyOptions}
+                                defaultOption="Select one of the following options"
+                            />
+                        </div>
+                        <div className="row no-margin">
+                            <div className="columns small-6">
+                                <Field
+                                    name={`${budget_line}value.date`}
+                                    type="date"
+                                    component={renderField}
+                                    label="Value date"
+                                />
+                            </div>
+                        </div>
+                        <div className="field-list">
+                            <div className="row no-margin">
+                                <FieldArray
+                                    name={`${budget_line}narratives`}
+                                    component={renderNarrativeFields}
+                                    languageOptions={languageOptions}
+                                    textLabel="Text"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="columns">
+                        <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
+                        </button>
+                        <button
+                            type="button"
+                            title="Remove Title"
+                            className="control-button remove float-right"
+                            onClick={() => fields.remove(index)}>Delete
+                        </button>
+                        {touched && error && <span className="error">{error}</span>}
+                    </div>
+                    <br/><br/>
+                </div>
+            )}
+        </div>
+    )
+};
+
+const renderTotalBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, currencyOptions, languageOptions, meta: {touched, dirty, error}}) => {
     if (!fields.length && !dirty) {
         fields.push({})
     }
@@ -125,6 +213,14 @@ const renderTotalBudgetForm = ({fields, budgetTypeOptions, budgetStatusOptions, 
                                 />
                             </div>
                         </div>
+                        <div className="row no-margin">
+                            <FieldArray
+                                name={`${budget}budget_lines`}
+                                component={renderBudgetLineForm}
+                                currencyOptions={currencyOptions}
+                                languageOptions={languageOptions}
+                            />
+                        </div>
                     </div>
                     <div className="columns">
                         <button className="control-button add" type="button" onClick={() => fields.push({})}>Add More
@@ -151,11 +247,13 @@ class TotalBudgetForm extends PureComponent {
         super(props);
 
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.saveBudgetLines = this.saveBudgetLines.bind(this);
     }
 
     componentWillMount() {
         this.props.getCodeListItems('BudgetStatus');
         this.props.getCodeListItems('Currency');
+        this.props.getCodeListItems('Language');
 
         if (this.props.publisher && this.props.publisher.id) {
             this.props.getTotalBudgets(this.props.publisher.id, this.props.organisation.id)
@@ -168,6 +266,32 @@ class TotalBudgetForm extends PureComponent {
         }
     }
 
+    saveBudgetLines(budgetId, prevFormData, formData) {
+        const { organisation, publisher } = this.props;
+
+        console.log('saving budget lines...');
+
+        handleSubmit(
+            publisher.id,
+            'total_budgets',
+            [ organisation.id, budgetId],
+            prevFormData,
+            formData,
+            this.props.createTotalBudgetBudgetLine,
+            this.props.updateTotalBudgetBudgetLine,
+            this.props.deleteTotalBudgetBudgetLine,
+            'total_budget'
+        ).then((result) => {
+            console.log('in budget_line callback...', formData);
+                if (!result.error) {
+                    // this.props.router.push(`/publisher/activities/${activityId}/financial/planned-disbursement`)
+                }
+
+        }).catch(e => {
+            console.error(e)
+        })
+    }
+
     /*
      * Submit total_budget data and redirect
      * to basic information form.
@@ -175,6 +299,7 @@ class TotalBudgetForm extends PureComponent {
     handleFormSubmit(formData) {
         const { publisher, organisation, data } = this.props;
 
+        const prevFormData = data;
         const total_budgets = formData.total_budgets;
 
         console.log('called handleSubmit');
@@ -197,6 +322,23 @@ class TotalBudgetForm extends PureComponent {
                     // this.props.router.push(`/publisher/activities/${activityId}/financial/planned-disbursement`)
 
                     // TODO: also create budget-line objects - 2017-04-19
+                    const budgetLinePromises = result.map((action, i) => {
+                        let prevBudgetLines = []
+                        if (prevFormData && prevFormData[i] && prevFormData[i].budget_lines) {
+                            prevBudgetLines = prevFormData[i].budget_lines
+                        }
+                        const budget_lines = total_budgets[i].budget_lines
+
+                        console.log(prevBudgetLines, budget_lines);
+
+                        return this.saveBudgetLines(
+                            action.response.result,
+                            prevBudgetLines,
+                            budget_lines
+                        )
+                    })
+
+                    return Promise.all(budgetLinePromises)
                 }
             }).catch((e) => {
                 console.log(e)
@@ -209,7 +351,7 @@ class TotalBudgetForm extends PureComponent {
     render() {
         const {submitting, organisation, handleSubmit, codeLists, organisationId, isFetching, currentIATIIdentifier, publisher} = this.props;
 
-        if (isFetching || !organisation || !codeLists["Currency"] || !codeLists['BudgetStatus']) {
+        if (isFetching || !organisation || !codeLists["Currency"] || !codeLists['BudgetStatus'] || !codeLists['Language']) {
             return <GeneralLoader/>
         }
 
@@ -232,6 +374,7 @@ class TotalBudgetForm extends PureComponent {
                                 component={renderTotalBudgetForm}
                                 budgetStatusOptions={codeLists["BudgetStatus"]}
                                 currencyOptions={codeLists["Currency"]}
+                                languageOptions={codeLists["Language"]}
                             />
                         </div>
                     </div>
@@ -275,6 +418,7 @@ TotalBudgetForm = connect(mapStateToProps, {
     updateTotalBudget,
     deleteTotalBudget,
     getCodeListItems,
+    createTotalBudgetBudgetLine, updateTotalBudgetBudgetLine, deleteTotalBudgetBudgetLine,
 })(TotalBudgetForm);
 
 export default withRouter(TotalBudgetForm)

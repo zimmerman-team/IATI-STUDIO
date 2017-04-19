@@ -238,5 +238,8 @@ module.exports = function(app) {
         socket.on('Organisation.updateTotalBudget', Organisation.updateTotalBudget.bind(null, user));
         socket.on('Organisation.deleteTotalBudget', Organisation.deleteTotalBudget.bind(null, user));
 
+        socket.on('Organisation.createTotalBudgetBudgetLine', Organisation.createTotalBudgetBudgetLine.bind(null, user));
+        socket.on('Organisation.updateTotalBudgetBudgetLine', Organisation.updateTotalBudgetBudgetLine.bind(null, user));
+        socket.on('Organisation.deleteTotalBudgetBudgetLine', Organisation.deleteTotalBudgetBudgetLine.bind(null, user));
     })
 };
