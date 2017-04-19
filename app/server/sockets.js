@@ -228,5 +228,15 @@ module.exports = function(app) {
         socket.on('Organisation.create', Organisation.create.bind(null, user));
         socket.on('Organisation.update', Organisation.update.bind(null, user));
         socket.on('Organisation.delete', Organisation.delete.bind(null, user));
+
+        socket.on('Organisation.createReportingOrganisation', Organisation.createReportingOrganisation.bind(null, user));
+        socket.on('Organisation.updateReportingOrganisation', Organisation.updateReportingOrganisation.bind(null, user));
+        socket.on('Organisation.deleteReportingOrganisation', Organisation.deleteReportingOrganisation.bind(null, user));
+
+        socket.on('Organisation.getTotalBudgets', Organisation.getTotalBudgets.bind(null, user));
+        socket.on('Organisation.createTotalBudget', Organisation.createTotalBudget.bind(null, user));
+        socket.on('Organisation.updateTotalBudget', Organisation.updateTotalBudget.bind(null, user));
+        socket.on('Organisation.deleteTotalBudget', Organisation.deleteTotalBudget.bind(null, user));
+
     })
 };

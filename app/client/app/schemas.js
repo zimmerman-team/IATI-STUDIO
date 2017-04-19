@@ -159,6 +159,9 @@ export const activity = new Schema('activity', {
     related_activities: arrayOf(relatedActivities),
 })
 
+export const organisationTotalBudget = new Schema('total_budgets', {
+    idAttribute: "id",
+})
 
 export const Schemas = {
     PUBLISHER: publisherSchema,

@@ -115,6 +115,66 @@ var OrganisationAPI = {
             .then(result => res(null, result))
             .catch(error => res(error));
     },
+
+    // getReportingOrganisations: function(user, publisherId, organisationId, res) {
+    //     // TODO: update validation status here - 2016-12-16
+    //     return oipaMethods.getReportingOrganisations(user, publisherId, organisationId)
+    //         .then(result => res(null, result))
+    //         .catch(error => res(error));
+    // },
+
+    createReportingOrganisation: function(user, publisherId, organisationId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        console.log('called createReportingOrganisation');
+        return oipaMethods.postReportingOrganisation(user, publisherId, organisationId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    updateReportingOrganisation: function(user, publisherId, organisationId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        console.log('called updateReportingOrganisation');
+        return oipaMethods.updateReportingOrganisation(user, publisherId, organisationId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    deleteReportingOrganisation: function(user, publisherId, organisationId, id, res) {
+        // TODO: delete validation status here - 2016-12-16
+        return oipaMethods.deleteReportingOrganisation(user, publisherId, organisationId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    getTotalBudgets: function(user, publisherId, organisationId, res) {
+        // TODO: update validation status here - 2016-12-16
+        return oipaMethods.getTotalBudgets(user, publisherId, organisationId)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+
+    createTotalBudget: function(user, publisherId, organisationId, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        // on succesful creation,
+        console.log('called createTotalBudget');
+        return oipaMethods.postTotalBudget(user, publisherId, organisationId, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+    updateTotalBudget: function(user, publisherId, organisationId, id, data, res) {
+        // TODO: update validation status here - 2016-12-16
+        console.log('called updateTotalBudget');
+        return oipaMethods.updateTotalBudget(user, publisherId, organisationId, id, data)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
+    deleteTotalBudget: function(user, publisherId, organisationId, id, res) {
+        // TODO: delete validation status here - 2016-12-16
+        return oipaMethods.deleteTotalBudget(user, publisherId, organisationId, id)
+            .then(result => res(null, result))
+            .catch(error => res(error));
+    },
 };
 
 module.exports = OrganisationAPI;

@@ -20,6 +20,8 @@ import OrganisationPublishState from './OrganisationPublishState.js'
 import { publisherSelector } from '../../reducers/publisher.js'
 
 import IdentificationForm from './forms/IdentificationForm'
+import ReportingOrganisationForm from './forms/ReportingOrganisationForm'
+import TotalBudgetForm from './forms/TotalBudgetForm'
 
 class OrgSettings extends React.Component {
 
@@ -53,22 +55,10 @@ class OrgSettings extends React.Component {
         switch (subTab) {
             case 'identification':
                 return <IdentificationForm { ...this.props } />;
-            case 'basic-info':
-                return <BasicInformationForm subTab={subTab} { ...this.props }/>;
-            case 'participating-organisation':
-                return <ParticipatingOrganisationForm { ...this.props }/>;
-            case 'geopolitical-information':
-                return <GeopoliticalInformationForm subTab={subTab} { ...this.props }/>;
-            case 'classifications':
-                return <ClassificationsForm subTab={subTab} { ...this.props }/>;
-            case 'document-link':
-                return <DocumentLinkForm subTab={subTab} { ...this.props }/>;
-            case 'relations':
-                return <RelationsForm subTab={subTab} { ...this.props }/>;
-            case 'financial':
-                return <FinancialForm subTab={subTab} { ...this.props }/>;
-            case 'performance':
-                return <PerformanceForm subTab={subTab} { ...this.props }/>;
+            case 'reporting-organisation':
+                return <ReportingOrganisationForm { ...this.props } />;
+            case 'total-budget':
+                return <TotalBudgetForm { ...this.props } />;
             default:
                 return <h1>Not Found!</h1>;
         }

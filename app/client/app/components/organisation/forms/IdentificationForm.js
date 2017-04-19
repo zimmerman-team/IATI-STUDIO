@@ -42,16 +42,7 @@ class IdentificationForm extends PureComponent {
 
     componentWillMount() {
         this.props.getCodeListItems('Language');
-    //     if (this.props.publisher && this.props.publisher.id) {
-    //         this.props.getOrganisation(this.props.publisher.id, this.props.organisationId)
-    //     }
     }
-
-    // componentWillUpdate(nextProps) {
-    //     if (this.props.organisationId !== nextProps.organisationId || this.props.publisher !== nextProps.publisher) {
-    //         this.props.getOrganisation(nextProps.publisher.id, nextProps.organisationId)
-    //     }
-    // }
 
     /*
      * Submit identification data and redirect
