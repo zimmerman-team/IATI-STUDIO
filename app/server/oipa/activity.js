@@ -43,6 +43,8 @@ export const getActivityXMLByPublisher = function (user, publisherId) {
 };
 
 export const getActivityXMLByPublisherResult = function (user, publisherId, jobId) {
+
+    console.log(config.publisherUrl(publisherId), jobId);
     const req_options = {
         baseUrl: config.oipa_post_url,
         //url: config.activities_url(publisherId),

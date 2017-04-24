@@ -133,7 +133,7 @@ exports.signup = function(req, res){
   });
 
   workflow.on('sendWelcomeEmail', function() {
-    req.app.utility.sendmail(req, res, {
+    req.app.utility.sendmail(req.app, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: req.body.email,
       subject: 'Your '+ req.app.config.projectName +' Account',

@@ -57,7 +57,7 @@ export const forgot = function(req, res, next){
   });
 
   workflow.on('sendEmail', function(token, user) {
-    sendmail(req, res, {
+    sendmail(req.app, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: user.email,
       subject: 'Reset your '+ req.app.config.projectName +' password',

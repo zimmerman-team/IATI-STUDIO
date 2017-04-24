@@ -4,7 +4,7 @@ import workflowMiddleware from './util/workflow'
 import sendmail from './util/sendmail'
 
 export function sendVerificationEmail(req, res, options) {
-  sendmail(req, res, {
+  sendmail(req.app, {
     from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
     to: options.email,
     subject: 'Verify Your '+ req.app.config.projectName +' Account',

@@ -5,7 +5,7 @@ const Visualization = require('./api/private/Visualizations')
 const OipaMeta = require('./api/private/OipaMeta')
 const IatiRegistryMeta = require('./api/private/IatiRegistryMeta')
 const Publisher = require('./api/private/Publisher')
-const Activity = require('./api/private/Activity')
+const createActivityApi = require('./api/private/Activity')
 
 const User = require('./api/private/User')
 // import Visualization from "./api/private/Visualizations"
@@ -13,6 +13,8 @@ const User = require('./api/private/User')
 // import User from "./api/private/User"
 
 module.exports = function(app) {
+
+    const ActivityApi = createActivityApi(app)
 
     app.io.on('connection', function(socket) {
         // bind API events here
@@ -69,153 +71,153 @@ module.exports = function(app) {
         socket.on('IatiRegistryMeta.updateDataset', IatiRegistryMeta.updateDataset.bind(null, user));
 
         // TODO: different url - 2017-01-13
-        socket.on('Activity.publish', Activity.publish.bind(null, user));
-        socket.on('Activity.markReadyToPublish', Activity.markReadyToPublish.bind(null, user));
-        socket.on('Activity.getModified', Activity.getModified.bind(null, user));
-        socket.on('Activity.getReadyToPublish', Activity.getReadyToPublish.bind(null, user));
+        socket.on('Activity.publish', ActivityApi.publish.bind(null, user));
+        socket.on('Activity.markReadyToPublish', ActivityApi.markReadyToPublish.bind(null, user));
+        socket.on('Activity.getModified', ActivityApi.getModified.bind(null, user));
+        socket.on('Activity.getReadyToPublish', ActivityApi.getReadyToPublish.bind(null, user));
 
-        socket.on('Activity.getAll', Activity.getAll.bind(null, user));
-        socket.on('Activity.get', Activity.get.bind(null, user));
-        socket.on('Activity.create', Activity.create.bind(null, user));
-        socket.on('Activity.update', Activity.update.bind(null, user));
-        socket.on('Activity.delete', Activity.delete.bind(null, user));
+        socket.on('Activity.getAll', ActivityApi.getAll.bind(null, user));
+        socket.on('Activity.get', ActivityApi.get.bind(null, user));
+        socket.on('Activity.create', ActivityApi.create.bind(null, user));
+        socket.on('Activity.update', ActivityApi.update.bind(null, user));
+        socket.on('Activity.delete', ActivityApi.delete.bind(null, user));
 
-        socket.on('Activity.getCodeListItems', Activity.getCodeListItems.bind(null, user));
+        socket.on('Activity.getCodeListItems', ActivityApi.getCodeListItems.bind(null, user));
 
-        socket.on('Activity.getDescriptions', Activity.getDescriptions.bind(null, user));
-        socket.on('Activity.createDescription', Activity.createDescription.bind(null, user));
-        socket.on('Activity.updateDescription', Activity.updateDescription.bind(null, user));
-        socket.on('Activity.deleteDescription', Activity.deleteDescription.bind(null, user));
+        socket.on('Activity.getDescriptions', ActivityApi.getDescriptions.bind(null, user));
+        socket.on('Activity.createDescription', ActivityApi.createDescription.bind(null, user));
+        socket.on('Activity.updateDescription', ActivityApi.updateDescription.bind(null, user));
+        socket.on('Activity.deleteDescription', ActivityApi.deleteDescription.bind(null, user));
 
-        socket.on('Activity.getParticipatingOrganisations', Activity.getParticipatingOrganisations.bind(null, user));
-        socket.on('Activity.createParticipatingOrganisation', Activity.createParticipatingOrganisation.bind(null, user));
-        socket.on('Activity.updateParticipatingOrganisation', Activity.updateParticipatingOrganisation.bind(null, user));
-        socket.on('Activity.deleteParticipatingOrganisation', Activity.deleteParticipatingOrganisation.bind(null, user));
+        socket.on('Activity.getParticipatingOrganisations', ActivityApi.getParticipatingOrganisations.bind(null, user));
+        socket.on('Activity.createParticipatingOrganisation', ActivityApi.createParticipatingOrganisation.bind(null, user));
+        socket.on('Activity.updateParticipatingOrganisation', ActivityApi.updateParticipatingOrganisation.bind(null, user));
+        socket.on('Activity.deleteParticipatingOrganisation', ActivityApi.deleteParticipatingOrganisation.bind(null, user));
 
-        socket.on('Activity.getRecipientCountries', Activity.getRecipientCountries.bind(null, user));
-        socket.on('Activity.createRecipientCountry', Activity.createRecipientCountry.bind(null, user));
-        socket.on('Activity.updateRecipientCountry', Activity.updateRecipientCountry.bind(null, user));
-        socket.on('Activity.deleteRecipientCountry', Activity.deleteRecipientCountry.bind(null, user));
+        socket.on('Activity.getRecipientCountries', ActivityApi.getRecipientCountries.bind(null, user));
+        socket.on('Activity.createRecipientCountry', ActivityApi.createRecipientCountry.bind(null, user));
+        socket.on('Activity.updateRecipientCountry', ActivityApi.updateRecipientCountry.bind(null, user));
+        socket.on('Activity.deleteRecipientCountry', ActivityApi.deleteRecipientCountry.bind(null, user));
 
-        socket.on('Activity.getRegions', Activity.getRegions.bind(null, user));
-        socket.on('Activity.createRegion', Activity.createRegion.bind(null, user));
-        socket.on('Activity.updateRegion', Activity.updateRegion.bind(null, user));
-        socket.on('Activity.deleteRegion', Activity.deleteRegion.bind(null, user));
+        socket.on('Activity.getRegions', ActivityApi.getRegions.bind(null, user));
+        socket.on('Activity.createRegion', ActivityApi.createRegion.bind(null, user));
+        socket.on('Activity.updateRegion', ActivityApi.updateRegion.bind(null, user));
+        socket.on('Activity.deleteRegion', ActivityApi.deleteRegion.bind(null, user));
 
-        socket.on('Activity.getLocations', Activity.getLocations.bind(null, user));
-        socket.on('Activity.createLocation', Activity.createLocation.bind(null, user));
-        socket.on('Activity.updateLocation', Activity.updateLocation.bind(null, user));
-        socket.on('Activity.deleteLocation', Activity.deleteLocation.bind(null, user));
+        socket.on('Activity.getLocations', ActivityApi.getLocations.bind(null, user));
+        socket.on('Activity.createLocation', ActivityApi.createLocation.bind(null, user));
+        socket.on('Activity.updateLocation', ActivityApi.updateLocation.bind(null, user));
+        socket.on('Activity.deleteLocation', ActivityApi.deleteLocation.bind(null, user));
 
-        socket.on('Activity.getSectors', Activity.getSectors.bind(null, user));
-        socket.on('Activity.createSector', Activity.createSector.bind(null, user));
-        socket.on('Activity.updateSector', Activity.updateSector.bind(null, user));
-        socket.on('Activity.deleteSector', Activity.deleteSector.bind(null, user));
+        socket.on('Activity.getSectors', ActivityApi.getSectors.bind(null, user));
+        socket.on('Activity.createSector', ActivityApi.createSector.bind(null, user));
+        socket.on('Activity.updateSector', ActivityApi.updateSector.bind(null, user));
+        socket.on('Activity.deleteSector', ActivityApi.deleteSector.bind(null, user));
 
-        socket.on('Activity.getPolicy', Activity.getPolicy.bind(null, user));
-        socket.on('Activity.createPolicy', Activity.createPolicy.bind(null, user));
-        socket.on('Activity.updatePolicy', Activity.updatePolicy.bind(null, user));
-        socket.on('Activity.deletePolicy', Activity.deletePolicy.bind(null, user));
+        socket.on('Activity.getPolicy', ActivityApi.getPolicy.bind(null, user));
+        socket.on('Activity.createPolicy', ActivityApi.createPolicy.bind(null, user));
+        socket.on('Activity.updatePolicy', ActivityApi.updatePolicy.bind(null, user));
+        socket.on('Activity.deletePolicy', ActivityApi.deletePolicy.bind(null, user));
 
-        socket.on('Activity.getHumanitarianScope', Activity.getHumanitarianScope.bind(null, user));
-        socket.on('Activity.createHumanitarianScope', Activity.createHumanitarianScope.bind(null, user));
-        socket.on('Activity.updateHumanitarianScope', Activity.updateHumanitarianScope.bind(null, user));
-        socket.on('Activity.deleteHumanitarianScope', Activity.deleteHumanitarianScope.bind(null, user));
+        socket.on('Activity.getHumanitarianScope', ActivityApi.getHumanitarianScope.bind(null, user));
+        socket.on('Activity.createHumanitarianScope', ActivityApi.createHumanitarianScope.bind(null, user));
+        socket.on('Activity.updateHumanitarianScope', ActivityApi.updateHumanitarianScope.bind(null, user));
+        socket.on('Activity.deleteHumanitarianScope', ActivityApi.deleteHumanitarianScope.bind(null, user));
 
-        socket.on('Activity.createCountryBudgetItem', Activity.createCountryBudgetItem.bind(null, user));
-        socket.on('Activity.updateCountryBudgetItem', Activity.updateCountryBudgetItem.bind(null, user));
-        socket.on('Activity.deleteCountryBudgetItem', Activity.deleteCountryBudgetItem.bind(null, user));
+        socket.on('Activity.createCountryBudgetItem', ActivityApi.createCountryBudgetItem.bind(null, user));
+        socket.on('Activity.updateCountryBudgetItem', ActivityApi.updateCountryBudgetItem.bind(null, user));
+        socket.on('Activity.deleteCountryBudgetItem', ActivityApi.deleteCountryBudgetItem.bind(null, user));
 
-        socket.on('Activity.createBudget', Activity.createBudget.bind(null, user));
-        socket.on('Activity.updateBudget', Activity.updateBudget.bind(null, user));
-        socket.on('Activity.deleteBudget', Activity.deleteBudget.bind(null, user));
+        socket.on('Activity.createBudget', ActivityApi.createBudget.bind(null, user));
+        socket.on('Activity.updateBudget', ActivityApi.updateBudget.bind(null, user));
+        socket.on('Activity.deleteBudget', ActivityApi.deleteBudget.bind(null, user));
 
-        socket.on('Activity.getTransaction', Activity.getTransactions.bind(null, user));
-        socket.on('Activity.createTransaction', Activity.createTransaction.bind(null, user));
-        socket.on('Activity.updateTransaction', Activity.updateTransaction.bind(null, user));
-        socket.on('Activity.deleteTransaction', Activity.deleteTransaction.bind(null, user));
+        socket.on('Activity.getTransaction', ActivityApi.getTransactions.bind(null, user));
+        socket.on('Activity.createTransaction', ActivityApi.createTransaction.bind(null, user));
+        socket.on('Activity.updateTransaction', ActivityApi.updateTransaction.bind(null, user));
+        socket.on('Activity.deleteTransaction', ActivityApi.deleteTransaction.bind(null, user));
 
-        socket.on('Activity.getLegacyData', Activity.getLegacyData.bind(null, user));
-        socket.on('Activity.createLegacyData', Activity.createLegacyData.bind(null, user));
-        socket.on('Activity.updateLegacyData', Activity.updateLegacyData.bind(null, user));
-        socket.on('Activity.deleteLegacyData', Activity.deleteLegacyData.bind(null, user));
+        socket.on('Activity.getLegacyData', ActivityApi.getLegacyData.bind(null, user));
+        socket.on('Activity.createLegacyData', ActivityApi.createLegacyData.bind(null, user));
+        socket.on('Activity.updateLegacyData', ActivityApi.updateLegacyData.bind(null, user));
+        socket.on('Activity.deleteLegacyData', ActivityApi.deleteLegacyData.bind(null, user));
 
-        socket.on('Activity.createPlannedDisbursement', Activity.createPlannedDisbursement.bind(null, user));
-        socket.on('Activity.updatePlannedDisbursement', Activity.updatePlannedDisbursement.bind(null, user));
-        socket.on('Activity.deletePlannedDisbursement', Activity.deletePlannedDisbursement.bind(null, user));
+        socket.on('Activity.createPlannedDisbursement', ActivityApi.createPlannedDisbursement.bind(null, user));
+        socket.on('Activity.updatePlannedDisbursement', ActivityApi.updatePlannedDisbursement.bind(null, user));
+        socket.on('Activity.deletePlannedDisbursement', ActivityApi.deletePlannedDisbursement.bind(null, user));
 
         // BasicInformation Date CRUD
-        //socket.on('Activity.getDates', Activity.getDates.bind(null, user));   //Date endpoint not working using activity data
-        socket.on('Activity.createDate', Activity.createDate.bind(null, user));
-        socket.on('Activity.updateDate', Activity.updateDate.bind(null, user));
-        socket.on('Activity.deleteDate', Activity.deleteDate.bind(null, user));
+        //socket.on('Activity.getDates', ActivityApi.getDates.bind(null, user));   //Date endpoint not working using activity data
+        socket.on('Activity.createDate', ActivityApi.createDate.bind(null, user));
+        socket.on('Activity.updateDate', ActivityApi.updateDate.bind(null, user));
+        socket.on('Activity.deleteDate', ActivityApi.deleteDate.bind(null, user));
 
         // BasicInformation Contact CRUD
-        socket.on('Activity.createContact', Activity.createContact.bind(null, user));
-        socket.on('Activity.updateContact', Activity.updateContact.bind(null, user));
-        socket.on('Activity.deleteContact', Activity.deleteContact.bind(null, user));
+        socket.on('Activity.createContact', ActivityApi.createContact.bind(null, user));
+        socket.on('Activity.updateContact', ActivityApi.updateContact.bind(null, user));
+        socket.on('Activity.deleteContact', ActivityApi.deleteContact.bind(null, user));
 
         // DocumentLink Form CRUD
-        socket.on('Activity.getDocumentLinks', Activity.getDocumentLinks.bind(null, user));
-        socket.on('Activity.createDocumentLink', Activity.createDocumentLink.bind(null, user));
-        socket.on('Activity.updateDocumentLink', Activity.updateDocumentLink.bind(null, user));
-        socket.on('Activity.deleteDocumentLink', Activity.deleteDocumentLink.bind(null, user));
+        socket.on('Activity.getDocumentLinks', ActivityApi.getDocumentLinks.bind(null, user));
+        socket.on('Activity.createDocumentLink', ActivityApi.createDocumentLink.bind(null, user));
+        socket.on('Activity.updateDocumentLink', ActivityApi.updateDocumentLink.bind(null, user));
+        socket.on('Activity.deleteDocumentLink', ActivityApi.deleteDocumentLink.bind(null, user));
 
         // Relations Form CRUD
-        socket.on('Activity.getRelation', Activity.getRelation.bind(null, user));
-        socket.on('Activity.createRelation', Activity.createRelation.bind(null, user));
-        socket.on('Activity.updateRelation', Activity.updateRelation.bind(null, user));
-        socket.on('Activity.deleteRelation', Activity.deleteRelation.bind(null, user));
+        socket.on('Activity.getRelation', ActivityApi.getRelation.bind(null, user));
+        socket.on('Activity.createRelation', ActivityApi.createRelation.bind(null, user));
+        socket.on('Activity.updateRelation', ActivityApi.updateRelation.bind(null, user));
+        socket.on('Activity.deleteRelation', ActivityApi.deleteRelation.bind(null, user));
 
         // Performance parent condition Form CRUD
-        socket.on('Activity.createPerformanceCondition', Activity.createPerformanceCondition.bind(null, user));
-        socket.on('Activity.updatePerformanceCondition', Activity.updatePerformanceCondition.bind(null, user));
+        socket.on('Activity.createPerformanceCondition', ActivityApi.createPerformanceCondition.bind(null, user));
+        socket.on('Activity.updatePerformanceCondition', ActivityApi.updatePerformanceCondition.bind(null, user));
 
         // Performance child conditions Form CRUD
-        socket.on('Activity.getPerformanceConditions', Activity.getPerformanceConditions.bind(null, user));
-        socket.on('Activity.createPerformanceConditions', Activity.createPerformanceConditions.bind(null, user));
-        socket.on('Activity.updatePerformanceConditions', Activity.updatePerformanceConditions.bind(null, user));
-        socket.on('Activity.deletePerformanceConditions', Activity.deletePerformanceConditions.bind(null, user));
+        socket.on('Activity.getPerformanceConditions', ActivityApi.getPerformanceConditions.bind(null, user));
+        socket.on('Activity.createPerformanceConditions', ActivityApi.createPerformanceConditions.bind(null, user));
+        socket.on('Activity.updatePerformanceConditions', ActivityApi.updatePerformanceConditions.bind(null, user));
+        socket.on('Activity.deletePerformanceConditions', ActivityApi.deletePerformanceConditions.bind(null, user));
 
         // Performance result Form CRUD
-        socket.on('Activity.getPerformanceResult', Activity.getPerformanceResult.bind(null, user));
-        socket.on('Activity.createPerformanceResult', Activity.createPerformanceResult.bind(null, user));
-        socket.on('Activity.updatePerformanceResult', Activity.updatePerformanceResult.bind(null, user));
-        socket.on('Activity.deletePerformanceResult', Activity.deletePerformanceResult.bind(null, user));
+        socket.on('Activity.getPerformanceResult', ActivityApi.getPerformanceResult.bind(null, user));
+        socket.on('Activity.createPerformanceResult', ActivityApi.createPerformanceResult.bind(null, user));
+        socket.on('Activity.updatePerformanceResult', ActivityApi.updatePerformanceResult.bind(null, user));
+        socket.on('Activity.deletePerformanceResult', ActivityApi.deletePerformanceResult.bind(null, user));
 
-        socket.on('Activity.getResultIndicator', Activity.getResultIndicator.bind(null, user));
-        socket.on('Activity.createResultIndicator', Activity.createResultIndicator.bind(null, user));
-        socket.on('Activity.updateResultIndicator', Activity.updateResultIndicator.bind(null, user));
-        socket.on('Activity.deleteResultIndicator', Activity.deleteResultIndicator.bind(null, user));
+        socket.on('Activity.getResultIndicator', ActivityApi.getResultIndicator.bind(null, user));
+        socket.on('Activity.createResultIndicator', ActivityApi.createResultIndicator.bind(null, user));
+        socket.on('Activity.updateResultIndicator', ActivityApi.updateResultIndicator.bind(null, user));
+        socket.on('Activity.deleteResultIndicator', ActivityApi.deleteResultIndicator.bind(null, user));
 
-        socket.on('Activity.getIndicatorPeriod', Activity.getIndicatorPeriod.bind(null, user));
-        socket.on('Activity.createIndicatorPeriod', Activity.createIndicatorPeriod.bind(null, user));
-        socket.on('Activity.updateIndicatorPeriod', Activity.updateIndicatorPeriod.bind(null, user));
-        socket.on('Activity.deleteIndicatorPeriod', Activity.deleteIndicatorPeriod.bind(null, user));
+        socket.on('Activity.getIndicatorPeriod', ActivityApi.getIndicatorPeriod.bind(null, user));
+        socket.on('Activity.createIndicatorPeriod', ActivityApi.createIndicatorPeriod.bind(null, user));
+        socket.on('Activity.updateIndicatorPeriod', ActivityApi.updateIndicatorPeriod.bind(null, user));
+        socket.on('Activity.deleteIndicatorPeriod', ActivityApi.deleteIndicatorPeriod.bind(null, user));
 
-        socket.on('Activity.getIndicatorReference', Activity.getIndicatorReference.bind(null, user));
-        socket.on('Activity.createIndicatorReference', Activity.createIndicatorReference.bind(null, user));
-        socket.on('Activity.updateIndicatorReference', Activity.updateIndicatorReference.bind(null, user));
-        socket.on('Activity.deleteIndicatorReference', Activity.deleteIndicatorReference.bind(null, user));
+        socket.on('Activity.getIndicatorReference', ActivityApi.getIndicatorReference.bind(null, user));
+        socket.on('Activity.createIndicatorReference', ActivityApi.createIndicatorReference.bind(null, user));
+        socket.on('Activity.updateIndicatorReference', ActivityApi.updateIndicatorReference.bind(null, user));
+        socket.on('Activity.deleteIndicatorReference', ActivityApi.deleteIndicatorReference.bind(null, user));
 
-        socket.on('Activity.getIndicatorTargetLocation', Activity.getIndicatorTargetLocation.bind(null, user));
-        socket.on('Activity.createIndicatorTargetLocation', Activity.createIndicatorTargetLocation.bind(null, user));
-        socket.on('Activity.updateIndicatorTargetLocation', Activity.updateIndicatorTargetLocation.bind(null, user));
-        socket.on('Activity.deleteIndicatorTargetLocation', Activity.deleteIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.getIndicatorTargetLocation', ActivityApi.getIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.createIndicatorTargetLocation', ActivityApi.createIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.updateIndicatorTargetLocation', ActivityApi.updateIndicatorTargetLocation.bind(null, user));
+        socket.on('Activity.deleteIndicatorTargetLocation', ActivityApi.deleteIndicatorTargetLocation.bind(null, user));
 
-        socket.on('Activity.getIndicatorActualLocation', Activity.getIndicatorActualLocation.bind(null, user));
-        socket.on('Activity.createIndicatorActualLocation', Activity.createIndicatorActualLocation.bind(null, user));
-        socket.on('Activity.updateIndicatorActualLocation', Activity.updateIndicatorActualLocation.bind(null, user));
-        socket.on('Activity.deleteIndicatorActualLocation', Activity.deleteIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.getIndicatorActualLocation', ActivityApi.getIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.createIndicatorActualLocation', ActivityApi.createIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.updateIndicatorActualLocation', ActivityApi.updateIndicatorActualLocation.bind(null, user));
+        socket.on('Activity.deleteIndicatorActualLocation', ActivityApi.deleteIndicatorActualLocation.bind(null, user));
 
-        socket.on('Activity.getIndicatorTargetDimension', Activity.getIndicatorTargetDimension.bind(null, user));
-        socket.on('Activity.createIndicatorTargetDimension', Activity.createIndicatorTargetDimension.bind(null, user));
-        socket.on('Activity.updateIndicatorTargetDimension', Activity.updateIndicatorTargetDimension.bind(null, user));
-        socket.on('Activity.deleteIndicatorTargetDimension', Activity.deleteIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.getIndicatorTargetDimension', ActivityApi.getIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.createIndicatorTargetDimension', ActivityApi.createIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.updateIndicatorTargetDimension', ActivityApi.updateIndicatorTargetDimension.bind(null, user));
+        socket.on('Activity.deleteIndicatorTargetDimension', ActivityApi.deleteIndicatorTargetDimension.bind(null, user));
 
-        socket.on('Activity.getIndicatorActualDimension', Activity.getIndicatorActualDimension.bind(null, user));
-        socket.on('Activity.createIndicatorActualDimension', Activity.createIndicatorActualDimension.bind(null, user));
-        socket.on('Activity.updateIndicatorActualDimension', Activity.updateIndicatorActualDimension.bind(null, user));
-        socket.on('Activity.deleteIndicatorActualDimension', Activity.deleteIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.getIndicatorActualDimension', ActivityApi.getIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.createIndicatorActualDimension', ActivityApi.createIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.updateIndicatorActualDimension', ActivityApi.updateIndicatorActualDimension.bind(null, user));
+        socket.on('Activity.deleteIndicatorActualDimension', ActivityApi.deleteIndicatorActualDimension.bind(null, user));
     })
 };

@@ -18,40 +18,59 @@ class DatasetActivityPublisher extends React.Component {
     render() {
         const { dataset, modifiedActivities, publishCount, totalCount, isFetching } = this.props
 
-        console.log(dataset);
+        let messageComponent;
+
+        if (!dataset) {
+            messageComponent = (
+                <div>
+                    <h4>Create dataset</h4>
+                    <p>You have not yet published to the registry, click publish to publish your first IATI dataset</p>
+                    <a 
+                        onClick={this.props.publish}
+                        className="button"
+                    >Publish</a>
+                </div>
+            )
+        }
+        else if(isFetching || (dataset && dataset.export_in_progress)) {
+            messageComponent = <p>Export is currently in progress... We will send you an email upon completion</p>
+        }
+        else if (modifiedActivities && modifiedActivities.length === 0) {
+            messageComponent = (
+                <div>
+                    <h4>Dataset</h4>
+                    <a href={dataset.source_url}>Click here to go to the activity XML</a>
+                    <h4>Update dataset</h4>
+                    <p>No changes to be published</p>
+                </div>
+            )
+        }
+        else {
+            messageComponent = (
+                <div>
+                    <h4>Dataset</h4>
+                    <a href={dataset.source_url}>Click here to go to the activity XML</a>
+
+                    <h4>Update dataset</h4>
+                    <p>You will publish { publishCount } of a total of { totalCount } activities</p>
+                    <p>{ modifiedActivities.length } activities have been added or modified</p>
+                    <a 
+                        onClick={this.props.publish}
+                        className="button"
+                    >Publish</a>
+                </div>
+            )
+        }
+
+        console.log(<messageComponent />);
+
+
+        console.log('called dataset', dataset);
         return (
             <div className="row">
                 <div className="activity-publish columns small-centered small-12">
                     <h3>Activity Dataset</h3>
-                    { !dataset ?
-                        <p>You have not yet published to the registry, click publish to publish your first IATI dataset</p>
-                        :
-                        <div>
-                            <a href={dataset.source_url}>Click here to go to the activity XML</a>
-                        </div>
-                    }
-                    {
-                        modifiedActivities && modifiedActivities.length === 0 ?
-                            <h4>No changes to be published</h4>
-                            :
-                            <div>
-                                <p>You will publish { publishCount } of a total of { totalCount } activities</p>
-                                <p>{ modifiedActivities.length } activities have been added or modified</p>
-                                { dataset && dataset.export_in_progress ?
-                                    <p>Export is currently in progress...</p>
-                                    :
-                                    <div>
-                                        <p>Update your dataset</p>
-                                        <a 
-                                            onClick={this.props.publish}
-                                            className="button"
-                                            disabled={isFetching || (dataset && dataset.export_in_progress)}
-                                        >
-                                            Publish</a>
-                                    </div>
-                                }
-                            </div>
-                    }
+                    { messageComponent }
                 </div>
             </div>
         )
@@ -96,6 +115,8 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
         if(publisher){
             const activityDataset = publisher.activityDataset
             const organisationDataset = publisher.organisationDataset
+
+            console.log(activityDataset, 'called');
 
             datasetsPublisher = 
                 <div>

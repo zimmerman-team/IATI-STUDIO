@@ -162,7 +162,7 @@ export function signupSocial(req, res, next) {
   });
 
   workflow.on('sendWelcomeEmail', function() {
-    sendmail(req, res, {
+    sendmail(req.app, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: req.body.email,
       subject: 'Your '+ req.app.config.projectName +' Account',
