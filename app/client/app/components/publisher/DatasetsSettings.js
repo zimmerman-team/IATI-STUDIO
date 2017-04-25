@@ -110,6 +110,18 @@ let DatasetsSettings = React.createClass({ // A stateful container all children 
             'pushed' : this.props.navState.menuState
         })
 
+        if (!this.props.publisher.id) {
+            return (
+                <div className={wrapClass}>
+                    <div className="row controls">
+                        <div className="columns small-12">
+                            <h1>First do the publisher setup!</h1>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
         let datasetsPublisher;
 
         if(publisher){

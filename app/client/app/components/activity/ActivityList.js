@@ -126,7 +126,7 @@ class ActivityList extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.publisher !== nextProps.publisher) {
+        if (this.props.publisher !== nextProps.publisher && nextProps.publisher.id) {
             this.props.getActivities(nextProps.publisher.id)
         }
     }
@@ -160,6 +160,22 @@ class ActivityList extends React.Component {
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState
         });
+
+        if (pagination.isFetching) {
+            return <GeneralLoader/>
+        }
+
+        if (!this.props.publisher.id) {
+            return (
+                <div className={wrapClass}>
+                    <div className="row controls">
+                        <div className="columns small-12">
+                            <h1>First do the publisher setup!</h1>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
 
         return (
             <div className={wrapClass}>
