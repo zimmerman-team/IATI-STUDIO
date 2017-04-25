@@ -160,6 +160,7 @@ class ActivityList extends React.Component {
         let wrapClass = classNames('pusher',{
             'pushed' : this.props.navState.menuState
         });
+
         return (
             <div className={wrapClass}>
                 <div className="row controls">
