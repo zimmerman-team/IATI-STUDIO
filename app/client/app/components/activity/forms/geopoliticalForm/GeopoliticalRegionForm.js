@@ -7,7 +7,8 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import {getCodeListItems, getRegions, createRegion, updateRegion, deleteRegion} from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {regionsSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {regionsSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 
 const renderAdditionalRegion = ({fields, languageOptions, regionOptions, regionVocabularyOptions, meta: {touched, error, dirty}}) => {

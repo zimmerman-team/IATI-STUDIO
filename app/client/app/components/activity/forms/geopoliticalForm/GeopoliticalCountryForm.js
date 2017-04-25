@@ -12,7 +12,8 @@ import {
     updateRecipientCountry,
     deleteRecipientCountry
 } from '../../../../actions/activity'
-import {recipientCountriesSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import {recipientCountriesSelector} from '../../../../reducers/createActivity.js'
+import {publisherSelector} from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 
 import handleSubmit from '../../helpers/handleSubmit'

@@ -13,7 +13,8 @@ import {
     deleteHumanitarianScope
 } from '../../../../actions/activity'
 import handleSubmit from '../../helpers/handleSubmit'
-import {humanitarianScopesSelector, publisherSelector} from '../../../../reducers/createActivity.js'
+import { humanitarianScopesSelector } from '../../../../reducers/createActivity.js'
+import { publisherSelector } from '../../../../reducers/publisher.js'
 import {withRouter} from 'react-router'
 
 const renderHumanitarianScopeForm = ({fields, vocabularyOptions, scopeOptions, languageOptions, meta: {touched, error, dirty}}) => {
