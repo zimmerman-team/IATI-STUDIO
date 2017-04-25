@@ -20,7 +20,10 @@ class DatasetActivityPublisher extends React.Component {
 
         let messageComponent;
 
-        if (!dataset) {
+        if(isFetching || (dataset && dataset.export_in_progress)) {
+            messageComponent = <p>Export is currently in progress... We will send you an email upon completion</p>
+        }
+        else if (!dataset) {
             messageComponent = (
                 <div>
                     <h4>Create dataset</h4>
@@ -31,9 +34,6 @@ class DatasetActivityPublisher extends React.Component {
                     >Publish</a>
                 </div>
             )
-        }
-        else if(isFetching || (dataset && dataset.export_in_progress)) {
-            messageComponent = <p>Export is currently in progress... We will send you an email upon completion</p>
         }
         else if (modifiedActivities && modifiedActivities.length === 0) {
             messageComponent = (
