@@ -8,16 +8,15 @@ import _ from 'lodash'
 import { currencies } from 'country-data'
 import BaseChart, { updateBaseChart } from './BaseChart'
 
-const BarChart = React.createClass({
-
-    propTypes: {
+class BarChart extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(),
         items: PropTypes.object,
         currency: PropTypes.string,
         noTimeline: PropTypes.bool
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { data, attributes, noTimeline } = this.props
 
         // var data = this.state.data;
@@ -54,22 +53,22 @@ const BarChart = React.createClass({
             .tooltip(["x", "y", "count", "activity_count"])
             .draw()
 
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, attributes } = this.props
 
         updateBaseChart(this.visualization, this.props)
             .data(data)
             .draw();
 
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id={`chart-${this.props.vizId}`} className="chart"></div>
         )
-    },
-})
+    }
+}
 
 module.exports = BarChart

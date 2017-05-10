@@ -8,8 +8,16 @@
 import { combineReducers } from 'redux'
 import _ from 'lodash'
 
+import { reducer as formReducer } from 'redux-form'
+import { routerReducer as routing } from 'react-router-redux'
+
+import activity from './reducers/createActivity'
+import codeLists from './reducers/codeLists'
+import sidebar from './reducers/sidebar'
+
+
 // TODO: just import everything - 2016-03-23
-import { 
+import {
     ADD_VIZ,
     DELETE_VIZ,
     UPDATE_VIZ,
@@ -37,6 +45,7 @@ import {
 } from './actions/sync'
 
 import * as ActionTypes from './actions/async'
+import * as ActivityActionTypes from './actions/activity'
 
 // items array of Id's
 // // TODO: Should be handled by normalizr - 2016-02-16
@@ -72,7 +81,7 @@ function contextArray(state, action) {
         case ActionTypes.REPLACE_CONTEXT_SUCCESS:
             return _.without(state, action.contextId)
 
-        default: 
+        default:
             return state
     }
 }
@@ -353,6 +362,76 @@ function context(state={}, action) {
     }
 }
 
+function apiKeyValidationForm(state={}, action) {
+    switch(action.type) {
+        case ActionTypes.VERIFY_API_KEY_REQUEST:
+            return Object.assign({}, state, {
+                fetchingResponse: true,
+                message: {},
+            })
+        case ActionTypes.VERIFY_API_KEY_FAILURE:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: action,
+            })
+        case ActionTypes.VERIFY_API_KEY_SUCCESS:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: {},
+            })
+        case ActionTypes.REMOVE_API_KEY_REQUEST:
+            return Object.assign({}, state, {
+                fetchingResponse: true,
+                message: {},
+            })
+        case ActionTypes.REMOVE_API_KEY_ERROR:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: action,
+            })
+        case ActionTypes.REMOVE_API_KEY_SUCCESS:
+            return Object.assign({}, state, {
+                fetchingResponse: false,
+                message: {},
+            })
+        default:
+            return state
+    }
+}
+
+const initialPublisherState = {
+  // validationStatus: false,
+  // autoPublish: false,
+  isFetching: false,
+}
+
+function publisher(state=initialPublisherState, action) {
+    switch(action.type) {
+        case ActionTypes.GET_OIPA_USER_SUCCESS:
+        case ActionTypes.VERIFY_API_KEY_SUCCESS:
+            return {
+                ...state,
+                ...action.response.admin_groups[0] && action.response.admin_groups[0].publisher,
+            // TODO: change behaviour in OIPA to represent this behaviour - 2017-01-30
+            activityDataset: _.find(action.response.admin_groups[0] && action.response.admin_groups[0].publisher && action.response.admin_groups[0].publisher.datasets, (p) => p.id && p.filetype === 'Activity' && p.added_manually ),
+            organisationDataset: _.find(action.response.admin_groups[0] && action.response.admin_groups[0].publisher && action.response.admin_groups[0].publisher.datasets, (p) => p.id && p.filetype === 'Organisation' && p.added_manually ),
+
+            }
+        case ActionTypes.PUBLISH_ACTIVITIES_REQUEST:
+            return {
+                ...state,
+            isFetching: true,
+            }
+        case ActionTypes.PUBLISH_ACTIVITIES_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                activityDataset: action.response
+            }
+        default:
+            return state
+    }
+}
 
 // TODO: separate this - 2016-03-31
 function notificationCenter(state=[], action) {
@@ -462,7 +541,7 @@ function publicVisualizationPagination(state = {
         case INITIAL_PARAMS:
             return _.merge({},  state, {
                 filters: _.pick(
-                    action.params, 
+                    action.params,
                     Object.keys(state.filters),
                 ),
                 pageCount: parseInt(action.params.pageCount) || state.pageCount,
@@ -493,25 +572,32 @@ function publicVisualizationPagination(state = {
     }
 }
 
-const pagination = combineReducers({
-    publicVisualizationPagination,
-    // publicVisualizations: paginate({ // keep track of pages
-    //     // mapActionToKey: action => action.page,
-    //     initialPage: 1, // TODO: get this from query params - 2016-05-19
-    //     types: [
-    //         ActionTypes.GET_ALL_VIZ_REQUEST,
-    //         ActionTypes.GET_ALL_VIZ_SUCCESS,
-    //         ActionTypes.GET_ALL_VIZ_FAILURE,
-    //     ],
-    // })
-})
+function activities(state={}, action) {
+    switch(action.type) {
+        case ActivityActionTypes.GET_ACTIVITIES_SUCCESS:
+            if (action.reset) {
+                return action.response.entities.activity || []
+            }
+            return _.merge({}, state, action.response.entities.activity);
+        case ActivityActionTypes.DELETE_ACTIVITY_SUCCESS:
+            return _.omit(state, action.id);
+        case ActionTypes.REMOVE_API_KEY_SUCCESS:
+            return [];
+        default:
+            if (action.response && action.response.entities && action.response.entities.activity) {
+                return _.merge({}, state, action.response.entities.activity);
+            }
 
+            return state
+    }
+}
 
 const entities = combineReducers({
     visualizations,
     items,
     context,
-    itemFilters
+    itemFilters,
+    activities
 })
 
 // error handling, for displaying to user
@@ -528,16 +614,47 @@ function errorMessage(state = null, action) {
 
 function user(state={}, action) {
     switch(action.type) {
+
         case ActionTypes.UPDATE_USER_UI_SUCCESS:
             return action.response
         case ActionTypes.UPDATE_USER_PROFILE_SUCCESS:
             return action.response
+
+        case ActionTypes.VERIFY_API_KEY_SUCCESS:
+            return {
+                ...state,
+                oipaUser: action.response
+            }
+        case ActionTypes.REMOVE_API_KEY_SUCCESS:
+            return {
+                ...state,
+                oipaUser: {
+                    ...state.oipaUser,
+                    is_validated: false,
+                }
+            }
+        case ActionTypes.GET_OIPA_USER_SUCCESS:
+            return {
+                ...state,
+                oipaUser: action.response
+            }
         default:
             return state
     }
 }
 
-import { routerReducer as routing } from 'react-router-redux'
+// Updates the pagination data for different actions.
+const pagination = combineReducers({
+  activities: paginate({
+    // mapActionToKey: action => 'activities',
+    types: [
+      ActivityActionTypes.GET_ACTIVITIES_REQUEST,
+      ActivityActionTypes.GET_ACTIVITIES_SUCCESS,
+      ActivityActionTypes.GET_ACTIVITIES_FAILURE,
+    ]
+  }),
+  publicVisualizationPagination,
+})
 
 const rootReducer = combineReducers({
     entities,
@@ -553,6 +670,12 @@ const rootReducer = combineReducers({
     errorMessage,
     user,
     pagination,
+    publisher,
+    activity,
+    codeLists,
+    sidebar,
+    apiKeyValidationForm,
+    form: formReducer
 })
 
 export default rootReducer
@@ -652,7 +775,7 @@ export const visualizationItemSelector = createSelector(
     (activeVisualization, items) => {
         if (!activeVisualization) {
             return null
-        } 
+        }
 
         return getItemsByVizId(
             activeVisualization,
@@ -667,7 +790,7 @@ export const visualizationContextSelector = createSelector(
     (activeVisualization, context) => {
         if (!activeVisualization) {
             return null
-        } 
+        }
 
         return getContextByVizId(
             activeVisualization,
@@ -675,4 +798,3 @@ export const visualizationContextSelector = createSelector(
         )
     }
 )
-

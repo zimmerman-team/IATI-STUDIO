@@ -4,6 +4,7 @@ import sendmail from '../util/sendmail'
 import { sendVerificationEmail } from '../verification'
 import { postUserCreate } from './postUserCreate'
 import request from 'request'
+import { oipaPost } from '../../config/request'
 
 export function signupView(req, res) {
   if (req.isAuthenticated()) {
@@ -79,11 +80,36 @@ export function signup(req, res, next) {
         return workflow.emit('response');
       }
 
-      workflow.emit('createUser');
+      workflow.emit('createOIPAUser');
     });
   });
 
-  workflow.on('createUser', function() {
+  workflow.on('createOIPAUser', function() {
+      const req_options = {
+          url: '/api/auth/registration/',
+          body: {
+              username: req.body.username,
+              password1: req.body.password,
+              password2: req.body.password,
+              email: req.body.email.toLowerCase(),
+          }
+      };
+
+      return oipaPost(req_options)
+          .then(
+              parsedBody => {
+                  const token = parsedBody.key
+
+                  if (typeof(token) !== 'string') {
+                      return workflow.emit('exception', new Error("OIPA didn't return a token"));
+                  }
+
+                  workflow.emit('createUser', token)
+          })
+          .catch(error => workflow.emit('exception', error))
+  })
+
+  workflow.on('createUser', function(oipaToken) {
     req.app.db.models.User.encryptPassword(req.body.password, function(err, hash) {
       if (err) {
         return workflow.emit('exception', err);
@@ -97,7 +123,8 @@ export function signup(req, res, next) {
         search: [
           req.body.username,
           req.body.email
-        ]
+        ],
+        oipaToken: oipaToken,
       };
       req.app.db.models.User.create(fieldsToSet, function(err, user) {
         if (err) {
@@ -144,7 +171,7 @@ export function signup(req, res, next) {
   });
 
   workflow.on('sendWelcomeEmail', function() {
-    sendmail(req, res, {
+    sendmail(req.app, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: req.body.email,
       subject: 'Your '+ req.app.config.projectName +' Account',
@@ -167,6 +194,9 @@ export function signup(req, res, next) {
   });
 
   workflow.on('signUpNewsletter', function() {
+      if (! req.app.config.oauth.newsletter) {
+          return workflow.emit('logUserIn')
+      }
     request.post(
       'https://api.createsend.com/api/v3.1/subscribers/'+req.app.config.oauth.newsletter.listId+'.json',
       {
@@ -180,7 +210,7 @@ export function signup(req, res, next) {
       },
       function (err, httpResponse, body) {
         if (err) { 
-          console.log('Error subscribing to newsletter: ' + err)
+          console.error('Error subscribing to newsletter: ' + err)
         }
         workflow.emit('logUserIn');
       }
@@ -262,177 +292,6 @@ export function signup(req, res, next) {
   })
 
   workflow.emit('validate');
-};
-
-
-exports.signupSocial = function(req, res){
-
-  workflow.on('validate', function() {
-    if (!req.body.email) {
-      workflow.outcome.errfor.email = 'required';
-    }
-    else if (!/^[a-zA-Z0-9\-\_\.\+]+@[a-zA-Z0-9\-\_\.]+\.[a-zA-Z0-9\-\_]+$/.test(req.body.email)) {
-      workflow.outcome.errfor.email = 'invalid email format';
-    }
-
-    if (workflow.hasErrors()) {
-      return workflow.emit('response');
-    }
-
-    workflow.emit('duplicateUsernameCheck');
-  });
-
-  workflow.on('duplicateUsernameCheck', function() {
-    workflow.username = req.session.socialProfile.username || req.session.socialProfile.id;
-    if (!/^[a-zA-Z0-9\-\_]+$/.test(workflow.username)) {
-      workflow.username = workflow.username.replace(/[^a-zA-Z0-9\-\_]/g, '');
-    }
-
-    req.app.db.models.User.findOne({ username: workflow.username }, function(err, user) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      if (user) {
-        workflow.username = workflow.username + req.session.socialProfile.id;
-      }
-      else {
-        workflow.username = workflow.username;
-      }
-
-      workflow.emit('duplicateEmailCheck');
-    });
-  });
-
-  workflow.on('duplicateEmailCheck', function() {
-    req.app.db.models.User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      if (user) {
-        workflow.outcome.errfor.email = 'email already registered';
-        return workflow.emit('response');
-      }
-
-      workflow.emit('createUser');
-    });
-  });
-
-  workflow.on('createUser', function() {
-    var fieldsToSet = {
-      isActive: 'yes',
-      username: workflow.username,
-      email: req.body.email.toLowerCase(),
-      search: [
-        workflow.username,
-        req.body.email
-      ]
-    };
-    fieldsToSet[req.session.socialProfile.provider] = { id: req.session.socialProfile.id };
-
-    req.app.db.models.User.create(fieldsToSet, function(err, user) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      workflow.user = user;
-      workflow.emit('createAccount');
-    });
-  });
-
-  workflow.on('createAccount', function() {
-    var displayName = req.session.socialProfile.displayName || '';
-    var nameParts = displayName.split(' ');
-    var fieldsToSet = {
-      isVerified: 'yes',
-      'name.first': nameParts[0],
-      'name.last': nameParts[1] || '',
-      'name.full': displayName,
-      user: {
-        id: workflow.user._id,
-        name: workflow.user.username
-      },
-      search: [
-        nameParts[0],
-        nameParts[1] || ''
-      ]
-    };
-    req.app.db.models.Account.create(fieldsToSet, function(err, account) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      //update user with account
-      workflow.user.roles.account = account._id;
-      workflow.user.save(function(err, user) {
-        if (err) {
-          return workflow.emit('exception', err);
-        }
-
-        workflow.emit('sendWelcomeEmail');
-      });
-    });
-  });
-
-  workflow.on('sendWelcomeEmail', function() {
-    sendmail(req, res, {
-      from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
-      to: req.body.email,
-      subject: 'Your '+ req.app.config.projectName +' Account',
-      textPath: 'email/signup-text',
-      htmlPath: 'email/signup-html',
-      locals: {
-        username: workflow.user.username,
-        email: req.body.email,
-        loginURL: req.protocol +'://'+ req.headers.host +'/login/',
-        projectName: req.app.config.projectName
-      },
-      success: function(message) {
-        workflow.emit('signUpNewsletter');
-      },
-      error: function(err) {
-        console.error('Error Sending Welcome Email: '+ err);
-        workflow.emit('signUpNewsletter');
-      }
-    });
-  });
-
-  workflow.on('signUpNewsletter', function() {
-    request.post(
-      'https://api.createsend.com/api/v3.1/subscribers/'+req.app.config.oauth.newsletter.listId+'.json',
-      {
-        'auth': {
-          'user': req.app.config.oauth.newsletter.apiKey,
-          'pass': ''
-        },
-        'json': {
-          'emailAddress': req.body.email
-        }
-      },
-      function (err, httpResponse, body) {
-        if (err) { 
-          console.log('Error subscribing to newsletter: ' + err)
-        }
-        workflow.emit('logUserIn');
-      }
-    );
-  });
-
-  workflow.on('logUserIn', function() {
-    req.login(workflow.user, function(err) {
-      if (err) {
-        return workflow.emit('exception', err);
-      }
-
-      delete req.session.socialProfile;
-      workflow.outcome.defaultReturnUrl = workflow.user.defaultReturnUrl();
-      workflow.emit('response');
-    });
-  });
-
-  workflow.emit('validate');
-
 };
 
 export default signup

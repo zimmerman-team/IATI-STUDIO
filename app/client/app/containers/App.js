@@ -16,9 +16,8 @@ import classNames from 'classnames'
 
 import sadChart from '../../img/sad-chart.svg'
 
-const App = React.createClass({
-
-    renderError: function() {
+class App extends React.Component {
+    renderError = () => {
         const { errorMessage } = this.props
         if (!errorMessage) {
             return null
@@ -34,9 +33,9 @@ const App = React.createClass({
                 </div>
             </div>
         )
-    },
+    };
 
-    render: function() {
+    render() {
         const { isLoggedIn } = this.props
         //still to nicefy
         let publicClass = classNames({
@@ -69,7 +68,7 @@ const App = React.createClass({
             </DocumentTitle>
         )   
     }
-})
+}
 
 function mapStateToProps(state, props) {
     return {

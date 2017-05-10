@@ -7,14 +7,13 @@ import _ from 'lodash'
 
 import BaseChart, { updateBaseChart } from './BaseChart'
 
-const TreeMap = React.createClass({
-
-    propTypes: {
+class TreeMap extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(),
         items: PropTypes.object
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { data, attributes } = this.props
 
         this.visualization = BaseChart(this.props)
@@ -30,21 +29,21 @@ const TreeMap = React.createClass({
             })
             .draw()
 
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, attributes } = this.props
 
         updateBaseChart(this.visualization, this.props)
             .data(data)
             .draw();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id={`chart-${this.props.vizId}`} className="chart"></div>
         )
-    },
-})
+    }
+}
 
 module.exports = TreeMap

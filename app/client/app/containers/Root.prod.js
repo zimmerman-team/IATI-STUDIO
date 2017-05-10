@@ -4,6 +4,7 @@ import routes from '../routes'
 import { Router, applyRouterMiddleware } from 'react-router'
 import useScroll from 'react-router-scroll'
 
+
 export default class Root extends Component {
   render() {
     const { store, history } = this.props

@@ -13,26 +13,25 @@ function loadData(props) {
     props.loadVisualization(id)
 }
 
-let ChartViewEmbed = React.createClass({
-
+class ChartViewEmbed extends React.Component {
     // componentWillMount: function() {
     //     loadData(this.props)
     // },
 
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.id !== this.props.id) {
             loadData(this.props)
         }
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <ChartView
                 {...this.props}
             />
         )
     }
-})
+}
 
 import { 
     activeVisualizationSelector,

@@ -8,21 +8,12 @@ import classNames from 'classnames'
 import store from '../../app'
 import { Tooltip } from '../general/Tooltip.react.jsx'
 
-export const CollectionCard = React.createClass({
-
-    PropTypes: {
-        id: PropTypes.string,
-        title: PropTypes.string,
-        description: PropTypes.string,
-        forkVisualization: PropTypes.func.isRequired,
-    },
-
-
-    forkVisualization: function(id) {
+export class CollectionCard extends React.Component {
+    forkVisualization = (id) => {
         this.props.forkVisualization(id)
-    },
+    };
 
-    render: function() {
+    render() {
         const {
             id,
             title,
@@ -59,19 +50,10 @@ export const CollectionCard = React.createClass({
             </div>
         )
     }
-})
+}
 
-export const CollectionCardArchive = React.createClass({
-
-    PropTypes: {
-        id: PropTypes.string,
-        title: PropTypes.string,
-        description: PropTypes.string,
-        deleteViz: PropTypes.func.isRequired,
-        updateViz: PropTypes.func.isRequired,
-    },
-
-    render: function() {
+export class CollectionCardArchive extends React.Component {
+    render() {
         const {
             id,
             title,
@@ -102,17 +84,19 @@ export const CollectionCardArchive = React.createClass({
             </div>
         )
     }
-})
+}
 
-export const CollectionSwitch = React.createClass({
-	propTypes: {
+export class CollectionSwitch extends React.Component {
+    static propTypes = {
         type: PropTypes.string,
-    },
-    handleToggleChange: function(name,e) {
+    };
+
+    handleToggleChange = (name, e) => {
         this.props.switchState = e;
         this.props.toggleType(this.props.switchState);
-    },
-	render: function() {
+    };
+
+    render() {
 		let cardType
 		if (this.props.type == 'charts') cardType = 'Charts'
 		if (this.props.type == 'themes') cardType = 'Data themes'
@@ -128,14 +112,14 @@ export const CollectionSwitch = React.createClass({
 			</div>
         )
     }
-})
+}
 
-export const OrderButton = React.createClass({
-    render: function() {
+export class OrderButton extends React.Component {
+    render() {
         return (
-            <button 
+            <button
                 onClick={this.props.onClick}
                 className={this.props.className}>{this.props.name}</button>
         )
     }
-})
+}

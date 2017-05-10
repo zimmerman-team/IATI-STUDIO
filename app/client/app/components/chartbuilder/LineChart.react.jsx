@@ -7,15 +7,14 @@ import _ from 'lodash'
 
 import BaseChart, { updateBaseChart } from './BaseChart'
 
-const LineChart = React.createClass({
-
-    propTypes: {
+class LineChart extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(),
         items: PropTypes.object,
         noTimeline: PropTypes.bool
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { id, data, chartProps, attributes, noTimeline } = this.props
 
         // var data = this.state.data;
@@ -54,9 +53,9 @@ const LineChart = React.createClass({
             })
             .tooltip(["x", "y", "count", "activity_count"])
             .draw()
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, chartProps, attributes } = this.props
 
 
@@ -66,13 +65,13 @@ const LineChart = React.createClass({
             })
             .data(data)
             .draw();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div id={`chart-${this.props.vizId}`} className="chart"></div>
         )
-    },
-})
+    }
+}
 
 module.exports = LineChart

@@ -10,22 +10,29 @@ import getHeaders from './headers'
 import { RenderErrors, ValidationErrors } from './Error'
 import { ForgotPassword } from './Forgot'
 
-const Signup  = React.createClass({
-
-  propTypes: {
+class Signup extends React.Component {
+  static propTypes = {
       oauthMessage: PropTypes.string,
       oauthTwitter: PropTypes.bool.isRequired,
       oauthGitHub: PropTypes.bool.isRequired,
       oauthFacebook: PropTypes.bool.isRequired,
       oauthGoogle: PropTypes.bool.isRequired,
       oauthTumblr: PropTypes.bool.isRequired,
-  },
+  };
 
-  handleResponse: function(json, response) {
+  state = {
+      errors: [],
+      validationErrors: {},
+      isSubmitting: false
+  };
+
+  handleResponse = (json, response) => {
       this.setState({
         errors: [],
         validationErrors: {},
-      })
+        isSubmitting: false
+      });
+
       if (Object.keys(json.errfor).length) {
           return this.setState({validationErrors: json.errfor})
       }
@@ -40,32 +47,34 @@ const Signup  = React.createClass({
 
       // this.props.router.push('/auth/login/forgot/success')
       // this.props.router.push('/auth/login/forgot/success')
-  },
+  };
 
-  handleError: function(error) {
+    handleFieldChange = (field) => {
+        let validationErrors = this.state.validationErrors;
+        validationErrors[field] = '';
+        this.setState({validationErrors: validationErrors});
+    };
+
+  handleError = (error) => {
+      this.setState({
+          isSubmitting: false
+      });
       console.error(error);
-  },
+  };
 
-  getInitialState: function() {
-      return {
-          errors: [],
-          validationErrors: {},
-      }
-  },
-
-  render: function() {
+  render() {
     const {
       oauthTwitter,
       oauthGitHub,
       oauthFacebook,
       oauthGoogle,
       oauthTumblr,
-    } = this.props
+    } = this.props;
 
     const {
         errors,
         validationErrors,
-    } = this.state
+    } = this.state;
 
     return (
 
@@ -82,6 +91,8 @@ const Signup  = React.createClass({
                 handleResponse={this.handleResponse}
                 validationErrors={validationErrors}
                 renderErrors={errors}
+                isSubmitting={this.state.isSubmitting}
+                handleFieldChange={this.handleFieldChange}
               />
               <p>By signing up, you agree to our <a href="https://www.iatistudio.com/terms-of-use/" target="_blank">terms & conditions</a></p>
               <ForgotPassword />
@@ -95,29 +106,29 @@ const Signup  = React.createClass({
 
     )
   }
-})
+}
 
 export default withRouter(Signup)
 
-export const SignupForm = React.createClass({
-
-  propTypes: {
+export class SignupForm extends React.Component {
+  static propTypes = {
         handleError: PropTypes.func.isRequired,
         handleResponse: PropTypes.func.isRequired,
         validationErrors: PropTypes.object,
         renderErrors: PropTypes.array,
-  },
+  };
 
-  getInitialState: function() {
-    return {
-      email: '',
-      username: '',
-      password: '',
-    }
-  },
+  state = {
+    email: '',
+    username: '',
+    password: '',
+  };
 
-  handleSubmit: function(e) {
-      e.preventDefault()
+  handleSubmit = (e) => {
+      e.preventDefault();
+
+      this.setState({isSubmitting: true});
+      const {handleResponse, handleError} = this.props;
 
       fetchJSON('/auth/signup', {
           method: 'POST',
@@ -128,41 +139,47 @@ export const SignupForm = React.createClass({
               password: this._password.value,
           })
       })
-      .then(this.props.handleResponse)
-      .catch(this.props.handleError)
-  },
+      .then(handleResponse)
+      .catch(handleError);
+  };
 
-  render: function() {
-    
+  render() {
+      const {validationErrors, isSubmitting, renderErrors, handleError, handleFieldChange} = this.props;
+      const hasValidationError = ((validationErrors.email && validationErrors.email.length)
+            || (validationErrors.password && validationErrors.password.length) || (validationErrors.username && validationErrors.username.length));
+
     return (
         <form id="signup-form" ref={c => this._form = c}>
             <input 
                 type="email" 
                 ref={c => this._email = c}
                 placeholder="Email"
+                onChange={() => handleFieldChange("email")}
             />
-            { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
+            { validationErrors.email ? <ValidationErrors errors={validationErrors.email} /> : null }
             <input 
                 type="text" 
                 ref={c => this._username = c}
                 placeholder="User name"
+                onChange={() => handleFieldChange("username")}
             />
-            { this.props.validationErrors.username ? <ValidationErrors errors={this.props.validationErrors.username} /> : null }
+            { validationErrors.username ? <ValidationErrors errors={validationErrors.username} /> : null }
             <input 
                 type="password" 
                 ref={c => this._password = c}
                 placeholder="Password"
+                onChange={() => handleFieldChange("password")}
             />
-            { this.props.validationErrors.password ? <ValidationErrors errors={this.props.validationErrors.password} /> : null }
+            { validationErrors.password ? <ValidationErrors errors={validationErrors.password} /> : null }
 
-            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+            { renderErrors ? <RenderErrors errors={renderErrors} /> : null }
             
-          <button className="button input-height" onClick={this.handleSubmit}>Create Account</button>
+          <button className="button input-height" disabled={isSubmitting || hasValidationError} onClick={this.handleSubmit}>Create Account</button>
         </form>
 
     )
   }
-})
+}
 
 export const SignupVerificationSuccess = (props) => (
       <div className="interact panel with-logo">

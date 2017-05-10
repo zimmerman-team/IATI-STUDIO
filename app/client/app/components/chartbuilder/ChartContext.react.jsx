@@ -97,28 +97,28 @@ ChartDateFilter.propTypes = {
     maxDate: React.PropTypes.object, // momentjs
 }
 
-const ChartContext = React.createClass({
+class ChartContext extends React.Component {
     /*
      * Chart context
      */
 
     // TODO: Let parent handle dispatches? - 2016-01-29
-    propTypes: {
+    static propTypes = {
         context: PropTypes.array.isRequired,
         filters: PropTypes.object.isRequired,
         onContextChange: PropTypes.func,
-    },
+    };
 
-    onSuccess: function(selected) {
-        // TODO: Call Set context(s) action here - 2016-01-28 
-    },
+    onSuccess = (selected) => {
+        // TODO: Call Set context(s) action here - 2016-01-28
+    };
 
     // remove by id when removing
-    onToggle: function(filter, checked, type) {
+    onToggle = (filter, checked, type) => {
         this.props.onContextChange(filter, checked, type);
-    },
+    };
 
-    render: function() {
+    render() {
         const { context, filters, loadState } = this.props
 
         const chartListFilters = _.map(this.props.filters, (filters, key) => {
@@ -132,9 +132,9 @@ const ChartContext = React.createClass({
                     length={<span className="length">{filters.length}</span>}
                     key={key}
                     tooltip={oipaKeyToDesc[key]}>
-                    <ChartListFilter 
-                        key={key} 
-                        type={key} 
+                    <ChartListFilter
+                        key={key}
+                        type={key}
                         contextFilters={filters}
                         selected={selectedForThisType}
                         onChange={this.onToggle}
@@ -159,7 +159,7 @@ const ChartContext = React.createClass({
                     title={"Transaction Date"}
                     key={'transaction_date'}
                     tooltip={oipaKeyToDesc['transaction_date']}>
-                    <ChartDateFilter 
+                    <ChartDateFilter
                         removeContext={this.props.removeContext}
                         replaceContext={this.props.replaceContext}
                         minId={minDateObj ? minDateObj._id : null}
@@ -171,7 +171,7 @@ const ChartContext = React.createClass({
             </FoundationButtonList>
         )
     }
-})
+}
 
 function mapStateToProps(state, props) {
     const { loadState } = state
@@ -184,36 +184,34 @@ function mapStateToProps(state, props) {
 export default connect(mapStateToProps)(ChartContext)
 
 
-let ChartListFilter = React.createClass({
+class ChartListFilter extends React.Component {
     /*
      * Chart context by type
      * A filterable list of checkboxes
     */
 
-    propTypes: {
+    static propTypes = {
         type: PropTypes.string, // the type being contained here
         contextFilters: PropTypes.array.isRequired, // by type
         selected: PropTypes.array,
         onChange: PropTypes.func, // selecting checkbox
         onSubmit: PropTypes.func,
-    },
+    };
 
-    getInitialState: function() {
-        return {
-            searchTerm: ''
-        }
-    },
+    state = {
+        searchTerm: ''
+    };
 
-    onChange: function(filter, event) {
+    onChange = (filter, event) => {
         let checked = event.target.checked;
         this.props.onChange(filter, checked, this.props.type)
-    },
+    };
 
-    onSearch: function(searchValue){
+    onSearch = (searchValue) => {
         this.setState({searchTerm: searchValue})
-    },
+    };
 
-    render: function() {
+    render() {
         const { contextFilters, selected, type } = this.props
 
         // TODO: This should be done outside of render, in connect - 2016-03-15
@@ -221,7 +219,7 @@ let ChartListFilter = React.createClass({
 
         let checkboxes = _.map(orderedContextFilters, (filter, i) => {
 
-            // filter by searchInput value 
+            // filter by searchInput value
             if (filter.name.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) == -1)
                 return false
 
@@ -233,9 +231,9 @@ let ChartListFilter = React.createClass({
                 filter._id = selectedItem._id
 
             return (
-                <Checkbox 
+                <Checkbox
                     id={filter.id + i}
-                    key={filter.id + i} 
+                    key={filter.id + i}
                     onChange={this.onChange.bind(this, filter)} // selected checkbox
                     checked={checked}
                     name={filter.name}
@@ -246,12 +244,12 @@ let ChartListFilter = React.createClass({
 
         return (
             <SearchableCheckboxList onSearch={this.onSearch}>
-                <Orderable className="order-by" orderables={["name"]} active={"name"} active={this.props.orderBy} reverse={this.props.reverse}/>
+                <Orderable className="order-by" orderables={["name"]} active={this.props.orderBy} reverse={this.props.reverse}/>
                 { !_.isEmpty(checkboxes) ? checkboxes : <p>No data found</p> }
             </SearchableCheckboxList>
         )
     }
-})
+}
 
 // TODO: Should this connect here? - 2016-03-15
 ChartListFilter = connect(function(state, props) {

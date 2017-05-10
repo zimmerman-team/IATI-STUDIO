@@ -10,29 +10,28 @@ import getHeaders from './headers'
 import { RenderErrors, ValidationErrors } from './Error'
 import { ForgotPassword } from './Forgot'
 
-export const Login = React.createClass({
-
-  propTypes: {
+export class Login extends React.Component {
+  static propTypes = {
       oauthMessage: PropTypes.string,
       oauthTwitter: PropTypes.bool.isRequired,
       oauthGitHub: PropTypes.bool.isRequired,
       oauthFacebook: PropTypes.bool.isRequired,
       oauthGoogle: PropTypes.bool.isRequired,
       oauthTumblr: PropTypes.bool.isRequired,
-  },
+  };
 
-  getInitialState: function() {
-      return {
-          errors: [],
-          validationErrors: {},
-      }
-  },
+  state = {
+      errors: [],
+      validationErrors: {},
+      isSubmitting: false
+  };
 
-  handleResponse: function(json, response) {
+  handleResponse = (json, response) => {
       this.setState({
         errors: [],
         validationErrors: {},
-      })
+        isSubmitting: false
+      });
       if (Object.keys(json.errfor).length) {
         return this.setState({validationErrors: json.errfor})
       }
@@ -40,13 +39,22 @@ export const Login = React.createClass({
         return this.setState({errors: json.errors})
       }
       window.location = '/auth/login'
-  },
+  };
 
-  handleError: function(error) {
-    throw error
-  },
+  handleError = (error) => {
+      this.setState({
+          isSubmitting: false
+      });
+      throw error
+  };
 
-  render: function() {
+    handleFieldChange = (field) => {
+        let validationErrors = this.state.validationErrors;
+        validationErrors[field] = '';
+        this.setState({validationErrors: validationErrors});
+    };
+
+  render() {
       const {
           oauthTwitter,
           oauthGitHub,
@@ -74,6 +82,7 @@ export const Login = React.createClass({
               handleResponse={this.handleResponse}
               validationErrors={validationErrors}
               renderErrors={errors}
+              handleFieldChange={this.handleFieldChange}
             />
             <ForgotPassword />
 
@@ -87,28 +96,28 @@ export const Login = React.createClass({
 
     )
   }
-})
+}
 
 export default Login
 
-export const LoginForm = React.createClass({
-
-  propTypes: {
+export class LoginForm extends React.Component {
+  static propTypes = {
       handleError: PropTypes.func.isRequired,
       handleResponse: PropTypes.func.isRequired,
       validationErrors: PropTypes.object,
       renderErrors: PropTypes.array,
-  },
+  };
 
-  getInitialState: function() {
-    return {
-      username: '',
-      password: '',
-    }
-  },
+  state = {
+    username: '',
+    password: '',
+  };
 
-  handleSubmit: function(e) {
-      e.preventDefault()
+  handleSubmit = (e) => {
+      e.preventDefault();
+
+      this.setState({isSubmitting: true});
+      const {handleResponse, handleError} = this.props;
 
       fetchJSON('/auth/login', {
           method: 'POST',
@@ -118,36 +127,42 @@ export const LoginForm = React.createClass({
             password: this._password.value,
           })
       })
-      .then(this.props.handleResponse)
-      .catch(this.props.handleError)
-  },
+      .then(handleResponse)
+      .catch(handleError);
+  };
 
-  render: function() {
+  render() {
+      const {validationErrors, isSubmitting, renderErrors, handleError, handleFieldChange} = this.props;
+      const hasValidationError = ((validationErrors.email && validationErrors.email.length)
+            || (validationErrors.password && validationErrors.password.length) || (validationErrors.username && validationErrors.username.length));
 
-    return (
+
+      return (
         <form id="signup-form" ref={c => this._form = c}>
             <input 
                 type="text" 
                 name="username"
                 ref={c => this._username = c}
                 placeholder="Username or e-mail address"
+                onChange={() => handleFieldChange("username")}
             />
-            { this.props.validationErrors.username ? <ValidationErrors errors={this.props.validationErrors.username} /> : null }
+            { validationErrors.username ? <ValidationErrors errors={validationErrors.username} /> : null }
             <input 
                 type="password" 
                 name="password"
                 ref={c => this._password = c}
                 placeholder="Password"
+                onChange={() => handleFieldChange("password")}
             />
-            { this.props.validationErrors.password ? <ValidationErrors errors={this.props.validationErrors.password} /> : null }
+            { validationErrors.password ? <ValidationErrors errors={validationErrors.password} /> : null }
 
-            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+            { renderErrors ? <RenderErrors errors={renderErrors} /> : null }
             
-          <button className="button input-height" onClick={this.handleSubmit}>Log In</button>
+          <button className="button input-height" disabled={isSubmitting || hasValidationError}  onClick={this.handleSubmit}>Log In</button>
         </form>
     )
   }
-})
+}
 
 
 

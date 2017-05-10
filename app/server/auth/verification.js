@@ -4,7 +4,7 @@ import workflowMiddleware from './util/workflow'
 import sendmail from './util/sendmail'
 
 export function sendVerificationEmail(req, res, options) {
-  sendmail(req, res, {
+  sendmail(req.app, {
     from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
     to: options.email,
     subject: 'Verify Your '+ req.app.config.projectName +' Account',
@@ -191,19 +191,25 @@ export function resendVerification(req, res, next) {
 
 
 export function verify(req, res, next) {
-  req.app.db.models.User.validatePassword(req.params.token, req.user.roles.account.verificationToken, function(err, isValid) {
-    if (!isValid) {
-      return res.redirect(req.user.defaultReturnUrl());
-    }
-
-    var fieldsToSet = { isVerified: 'yes', verificationToken: '' };
-    var options = { new: true };
-    req.app.db.models.Account.findByIdAndUpdate(req.user.roles.account._id, fieldsToSet, options, function(err, account) {
-      if (err) {
-        return next(err);
+  //temporary fix, check if user is logged in, otherwise redirect to login page, to prevent user getting an error. Actual verification still has to be fixed/created, as it has no consequences atm.
+  if (req.hasOwnProperty('user')) {
+    req.app.db.models.User.validatePassword(req.params.token, req.user.roles.account.verificationToken, function(err, isValid) {
+      if (!isValid) {
+        return res.redirect(req.user.defaultReturnUrl());
       }
 
-      return res.redirect(req.user.defaultReturnUrl());
+      var fieldsToSet = { isVerified: 'yes', verificationToken: '' };
+      var options = { new: true };
+      req.app.db.models.Account.findByIdAndUpdate(req.user.roles.account._id, fieldsToSet, options, function(err, account) {
+        if (err) {
+          return next(err);
+        }
+
+        return res.redirect(req.user.defaultReturnUrl());
+      });
     });
-  });
+  }
+  else {
+    return res.redirect('/auth/login');
+  }
 };

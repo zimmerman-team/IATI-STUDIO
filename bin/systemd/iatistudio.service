@@ -1,0 +1,13 @@
+[Unit]
+Description=iati-studio
+
+[Service]
+WorkingDirectory=/home/oipa/IATI-STUDIO/app
+User=oipa
+Group=oipa
+Environment="PORT=3000"
+ExecStart=/usr/bin/node index.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

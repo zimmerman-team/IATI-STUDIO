@@ -11,132 +11,126 @@ import getHeaders from './headers'
 import { RenderErrors, ValidationErrors } from './Error'
 import { ForgotPassword } from './Forgot'
 
-const AccountVerification  = React.createClass({
+class AccountVerification extends React.Component {
+    static propTypes = {
+        oauthMessage: PropTypes.string,
+        oauthTwitter: PropTypes.bool.isRequired,
+        oauthGitHub: PropTypes.bool.isRequired,
+        oauthFacebook: PropTypes.bool.isRequired,
+        oauthGoogle: PropTypes.bool.isRequired,
+        oauthTumblr: PropTypes.bool.isRequired,
+    };
 
-  propTypes: {
-      oauthMessage: PropTypes.string,
-      oauthTwitter: PropTypes.bool.isRequired,
-      oauthGitHub: PropTypes.bool.isRequired,
-      oauthFacebook: PropTypes.bool.isRequired,
-      oauthGoogle: PropTypes.bool.isRequired,
-      oauthTumblr: PropTypes.bool.isRequired,
-  },
-
-  handleResponse: function(json, response) {
-      this.setState({
+    state = {
         errors: [],
         validationErrors: {},
-      })
-      if (Object.keys(json.errfor).length) {
-          return this.setState({validationErrors: json.errfor})
-      }
-      if (json.errors.length) {
-          return this.setState({errors: json.errors})
-      }
+    };
 
-      // console.log('called...');
-      // // TODO: account verification - 2016-05-10
-      window.location = '/'
-      // this.props.router.push('/auth/account/verification/success')
-
-      // this.props.router.push('/auth/login/forgot/success')
-      // this.props.router.push('/auth/login/forgot/success')
-  },
-
-  handleError: function(error) {
-      console.error(error);
-  },
-
-  getInitialState: function() {
-      return {
+    handleResponse = (json, response) => {
+        this.setState({
           errors: [],
           validationErrors: {},
-      }
-  },
+        })
+        if (Object.keys(json.errfor).length) {
+            return this.setState({validationErrors: json.errfor})
+        }
+        if (json.errors.length) {
+            return this.setState({errors: json.errors})
+        }
 
-  render: function() {
-    const {
-      oauthTwitter,
-      oauthGitHub,
-      oauthFacebook,
-      oauthGoogle,
-      oauthTumblr,
-    } = this.props
+        // console.log('called...');
+        // // TODO: account verification - 2016-05-10
+        window.location = '/'
+        // this.props.router.push('/auth/account/verification/success')
 
-    const {
-        errors,
-        validationErrors,
-    } = this.state
+        // this.props.router.push('/auth/login/forgot/success')
+        // this.props.router.push('/auth/login/forgot/success')
+    };
 
-    return (
+    handleError = (error) => {
+        console.error(error);
+    };
 
-      <div>
-        <h3>An email has been sent to your email adress, follow the instructions in the mail to complete your sign-up</h3>
-        <VerificationForm 
-          handleError={this.handleError}
-          handleResponse={this.handleResponse}
-          validationErrors={validationErrors}
-          renderErrors={errors}
-        />
+    render() {
+      const {
+        oauthTwitter,
+        oauthGitHub,
+        oauthFacebook,
+        oauthGoogle,
+        oauthTumblr,
+      } = this.props
 
-        { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null*/ }
-        { /*errors ? <RenderErrors errors={errors} /> : null */}
-      </div>
+      const {
+          errors,
+          validationErrors,
+      } = this.state
 
-    )
-  }
-})
+      return (
+
+        <div>
+          <h3>An email has been sent to your email adress, follow the instructions in the mail to complete your sign-up</h3>
+          <VerificationForm 
+            handleError={this.handleError}
+            handleResponse={this.handleResponse}
+            validationErrors={validationErrors}
+            renderErrors={errors}
+          />
+
+          { /*validationErrors ? <ValidationErrors errors={validationErrors} /> : null*/ }
+          { /*errors ? <RenderErrors errors={errors} /> : null */}
+        </div>
+
+      )
+    }
+}
 
 export default withRouter(AccountVerification)
 
-export const VerificationForm = React.createClass({
+export class VerificationForm extends React.Component {
+    static propTypes = {
+          handleError: PropTypes.func.isRequired,
+          handleResponse: PropTypes.func.isRequired,
+          validationErrors: PropTypes.object,
+          renderErrors: PropTypes.array,
+    };
 
-  propTypes: {
-        handleError: PropTypes.func.isRequired,
-        handleResponse: PropTypes.func.isRequired,
-        validationErrors: PropTypes.object,
-        renderErrors: PropTypes.array,
-  },
-
-  getInitialState: function() {
-    return {
+    state = {
       email: '',
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+
+        fetchJSON('/auth/account/verification', {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify({
+                email: this._email.value,
+            })
+        })
+        .then(this.props.handleResponse)
+        .catch(this.props.handleError)
+    };
+
+    render() {
+      
+      return (
+          <form id="verification-form" ref={c => this._form = c}>
+              <input 
+                  type="email" 
+                  ref={c => this._email = c}
+                  placeholder="Email"
+              />
+              { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
+              
+              { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
+
+            <button className="button input-height" onClick={this.handleSubmit}>Resend email</button>
+          </form>
+
+      )
     }
-  },
-
-  handleSubmit: function(e) {
-      e.preventDefault()
-
-      fetchJSON('/auth/account/verification', {
-          method: 'POST',
-          headers: getHeaders(),
-          body: JSON.stringify({
-              email: this._email.value,
-          })
-      })
-      .then(this.props.handleResponse)
-      .catch(this.props.handleError)
-  },
-
-  render: function() {
-    
-    return (
-        <form id="verification-form" ref={c => this._form = c}>
-            <input 
-                type="email" 
-                ref={c => this._email = c}
-                placeholder="Email"
-            />
-            { this.props.validationErrors.email ? <ValidationErrors errors={this.props.validationErrors.email} /> : null }
-            
-            { this.props.renderErrors ? <RenderErrors errors={this.props.renderErrors} /> : null }
-
-          <button className="button input-height" onClick={this.handleSubmit}>Resend email</button>
-        </form>
-
-    )
-  }
-})
+}
 
 export const VerificationResendSuccess = (props) => (
       <div className="interact panel with-logo">

@@ -10,43 +10,37 @@ function getLoginState() {
 
 
 var Authenticated = function(ComposedComponent) {
-    return React.createClass({
-
-        statics: {
-            willTransitionTo: function(transition) {
-                if (!LoginStore.isLoggedIn()) {
-                    transition.redirect('/login');
-                }
+    return class extends React.Component {
+        static willTransitionTo(transition) {
+            if (!LoginStore.isLoggedIn()) {
+                transition.redirect('/login');
             }
-        },
+        }
 
-        getInitialState: function() {
-            return getLoginState();
-        },
+        state = getLoginState();
 
-        componentDidMount: function() {
+        componentDidMount() {
             LoginStore.addChangeListener(this._onChange);
-        },
+        }
 
-        componentWillUnmount: function() {
+        componentWillUnmount() {
             LoginStore.removeChangeListener(this._onChange);
-        },
+        }
 
-        render: function() {
+        render() {
             return (
             <ComposedComponent
                 {...this.props}
                 user={this.state.user}
                 userLoggedIn={this.state.userLoggedIn} />
             )
-        },
-
-        _onChange: function() {
-            console.log(getLoginState());
-            this.setState(getLoginState());
         }
 
-    })
+        _onChange = () => {
+            console.log(getLoginState());
+            this.setState(getLoginState());
+        };
+    };
 } 
 
 module.exports = Authenticated

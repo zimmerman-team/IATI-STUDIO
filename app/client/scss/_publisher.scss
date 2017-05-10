@@ -1,0 +1,81 @@
+.field-list {
+  list-style: none;
+  margin:0 0 1rem 0;
+  background:$white;
+  @include card(1);
+  li {
+    padding:1rem;
+    border-top:1px solid $light-gray;
+    &:first-of-type {
+      border-top:0;
+    }
+  }
+}
+
+.control-button {
+  &:hover {
+
+  }
+  &:before {
+    @extend .mi-cb;
+    float:left;
+    margin-right: .2rem;
+    font-size: 1rem !important;
+  }
+  &.add {
+    color:$primary-color;
+    &:before {
+      content: '\e147';
+    }
+  }
+  &.remove {
+    color:$alert-color;
+    &:before {
+      content: '\e15c';
+    }
+  }
+}
+
+.validation-status {
+  font-weight: 700;
+  &.valid {
+    color:$success-color;
+  }
+  &.invalid {
+    color:$alert-color;
+  }
+}
+
+.nav-field-list {
+  padding: 10px;
+  background:$white;
+  @include card(1);
+}
+
+.activity-nav-col {
+  padding: 58px 30px 0 15px;
+}
+
+.valid-nav {
+  color: lawngreen;
+}
+
+.invalid-nav {
+  color: red;
+}
+
+.nodata-nav {
+  color: yellow;
+}
+
+.nav-list {
+  list-style: none;
+}
+
+.activity-publish {
+    height: 400px;
+}
+
+.organisation-publish {
+    height: 400px;
+}

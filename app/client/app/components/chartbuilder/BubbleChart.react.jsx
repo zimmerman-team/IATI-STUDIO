@@ -6,14 +6,13 @@ import _ from 'lodash'
 
 import BaseChart, { updateBaseChart } from './BaseChart'
 
-const BubbleChart = React.createClass({
-
-    propTypes: {
+class BubbleChart extends React.Component {
+    static propTypes = {
         data: PropTypes.arrayOf(),
         items: PropTypes.object
-    },
+    };
 
-    componentDidMount: function() {
+    componentDidMount() {
         let { data, attributes } = this.props
 
         // var data = this.state.data;
@@ -44,23 +43,23 @@ const BubbleChart = React.createClass({
                 "padding": 10
             })
             .draw()
-    },
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         let { data, attributes } = this.props
 
         updateBaseChart(this.visualization, this.props)
             .data(data)
             .draw();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div>
                 <div id={`chart-${this.props.vizId}`} className="chart"></div>
             </div>
         )
-    },
-})
+    }
+}
 
 module.exports = BubbleChart

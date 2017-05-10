@@ -3,9 +3,8 @@
  * Async actions
  */
 
-import fetchJSON from '../utils/fetch'
-import { normalize, Schema, arrayOf } from 'normalizr'
-import querystring from 'querystring' 
+import { Schema } from 'normalizr'
+import querystring from 'querystring'
 
 import Schemas from '../schemas'
 import { CALL_API } from '../middleware/api'
@@ -537,7 +536,6 @@ export function updateUserProfile(newProfile) {
 /*
  * Admin
 */
-
 export const HIDE_VISUALIZATION_FROM_FEED_REQUEST = 'HIDE_VISUALIZATION_FROM_FEED_REQUEST'
 export const HIDE_VISUALIZATION_FROM_FEED_SUCCESS = 'HIDE_VISUALIZATION_FROM_FEED_SUCCESS'
 export const HIDE_VISUALIZATION_FROM_FEED_FAILURE = 'HIDE_VISUALIZATION_FROM_FEED_FAILURE'
@@ -553,3 +551,81 @@ export function hideVisualizationFromFeed(id) {
     }
 }
 
+
+// (Create and ) publish Dataset
+export const PUBLISH_ACTIVITIES_REQUEST = 'PUBLISH_ACTIVITIES_REQUEST'
+export const PUBLISH_ACTIVITIES_SUCCESS = 'PUBLISH_ACTIVITIES_SUCCESS'
+export const PUBLISH_ACTIVITIES_FAILURE = 'PUBLISH_ACTIVITIES_FAILURE'
+export function publishActivities(publisherId, datasetId) {
+    return {
+        [CALL_API]: {
+            types: [ PUBLISH_ACTIVITIES_REQUEST, PUBLISH_ACTIVITIES_SUCCESS, PUBLISH_ACTIVITIES_FAILURE ],
+            endpoint: 'Activity.publish',
+            payload: [ publisherId, datasetId ]
+        }
+    }
+}
+
+
+// GET_OIPA_USER
+export const GET_OIPA_USER_REQUEST = 'GET_OIPA_USER_REQUEST'
+export const GET_OIPA_USER_SUCCESS = 'GET_OIPA_USER_SUCCESS'
+export const GET_OIPA_USER_FAILURE = 'GET_OIPA_USER_FAILURE'
+export function getOIPAUser() {
+    return {
+        [CALL_PUBLIC_API]: {
+            types: [ GET_OIPA_USER_REQUEST, GET_OIPA_USER_SUCCESS, GET_OIPA_USER_FAILURE ],
+            endpoint: 'oipa/api/auth/user',
+        }
+    }
+}
+
+// GET_ORGANISATION_GROUP_USERS
+export const GET_ORGANISATION_GROUP_USERS_REQUEST = 'GET_ORGANISATION_GROUP_USERS_REQUEST'
+export const GET_ORGANISATION_GROUP_USERS_SUCCESS = 'GET_ORGANISATION_GROUP_USERS_SUCCESS'
+export const GET_ORGANISATION_GROUP_USERS_FAILURE = 'GET_ORGANISATION_GROUP_USERS_FAILURE'
+export function getOrganisationGroupUsers(publisherId) {
+    return {
+        [CALL_PUBLIC_API]: {
+            types: [ GET_ORGANISATION_GROUP_USERS_REQUEST, GET_ORGANISATION_GROUP_USERS_SUCCESS, GET_ORGANISATION_GROUP_USERS_FAILURE ],
+            endpoint: `oipa/api/publisher/${publisherId}/group`,
+        }
+    }
+}
+
+
+// VERIFY_API_KEY
+export const VERIFY_API_KEY_REQUEST = 'VERIFY_API_KEY_REQUEST'
+export const VERIFY_API_KEY_SUCCESS = 'VERIFY_API_KEY_SUCCESS'
+export const VERIFY_API_KEY_FAILURE = 'VERIFY_API_KEY_FAILURE'
+export function verifyApiKey(userId, apiKey) {
+
+    return {
+        userId,
+        apiKey,
+        [CALL_PUBLIC_API]: {
+            method: 'POST',
+            body: JSON.stringify({
+                userId,
+                apiKey,
+            }),
+            types: [ VERIFY_API_KEY_REQUEST, VERIFY_API_KEY_SUCCESS, VERIFY_API_KEY_FAILURE ],
+            endpoint: `oipa/api/publishers/api_key/verify/`,
+        }
+    }
+}
+
+
+// REMOVE_API_KEY
+export const REMOVE_API_KEY_REQUEST = 'REMOVE_API_KEY_REQUEST'
+export const REMOVE_API_KEY_SUCCESS = 'REMOVE_API_KEY_SUCCESS'
+export const REMOVE_API_KEY_FAILURE = 'REMOVE_API_KEY_FAILURE'
+export function removeApiKey() {
+    return {
+        [CALL_PUBLIC_API]: {
+            method: 'POST',
+            types: [ REMOVE_API_KEY_REQUEST, REMOVE_API_KEY_SUCCESS, REMOVE_API_KEY_FAILURE ],
+            endpoint: `oipa/api/publishers/api_key/remove/`,
+        }
+    }
+}

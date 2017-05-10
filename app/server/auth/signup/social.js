@@ -6,6 +6,7 @@ import { postUserCreate } from './postUserCreate'
 
 import UserApi from '../../api/private/User'
 import request from 'request'
+import { oipaPost } from '../../config/request'
 
 export function signupSocial(req, res, next) {
 
@@ -60,11 +61,36 @@ export function signupSocial(req, res, next) {
         return workflow.emit('response');
       }
 
-      workflow.emit('createUser');
+      workflow.emit('createOIPAUser');
     });
   });
 
-  workflow.on('createUser', function() {
+  workflow.on('createOIPAUser', function() {
+      const req_options = {
+          url: '/api/auth/registration/',
+          body: {
+              username: req.body.username,
+              password1: req.body.password,
+              password2: req.body.password,
+              email: req.body.email.toLowerCase(),
+          }
+      };
+
+      return oipaPost(req_options)
+          .then(
+              parsedBody => {
+                  const token = parsedBody.key
+
+                  if (typeof(token) !== 'string') {
+                      return workflow.emit('exception', new Error("OIPA didn't return a token"));
+                  }
+
+                  workflow.emit('createUser', token)
+          })
+          .catch(error => workflow.emit('exception', error))
+  })
+
+  workflow.on('createUser', function(oipaToken) {
     //console.log(req.session.socialProfile)
     var avatarSocial
     if (req.session.socialProfile.provider == 'twitter') { avatarSocial = req.session.socialProfile._json.profile_image_url_https }
@@ -83,7 +109,8 @@ export function signupSocial(req, res, next) {
       ],
       firstName: nameParts[0],
       lastName: nameParts[1] || '',
-      avatar: avatarSocial
+      avatar: avatarSocial,
+      oipaToken: oipaToken,
     };
     fieldsToSet[req.session.socialProfile.provider] = { id: req.session.socialProfile.id };
 
@@ -135,7 +162,7 @@ export function signupSocial(req, res, next) {
   });
 
   workflow.on('sendWelcomeEmail', function() {
-    sendmail(req, res, {
+    sendmail(req.app, {
       from: req.app.config.smtp.from.name +' <'+ req.app.config.smtp.from.address +'>',
       to: req.body.email,
       subject: 'Your '+ req.app.config.projectName +' Account',

@@ -6,16 +6,15 @@ import classNames from 'classnames'
 
 import { changeLevel } from '../../actions/sync'
 
-export const SideBarHeader = React.createClass({
-
-	propTypes: {
+export class SideBarHeader extends React.Component {
+    static propTypes = {
 		title: React.PropTypes.string,
 		links: React.PropTypes.bool,
 		toLevel: React.PropTypes.string,
 		changeLevel: React.PropTypes.func,
-	},
+	};
 
-	render: function() {
+    render() {
 		let links = this.props.links
 
 		return (
@@ -27,4 +26,4 @@ export const SideBarHeader = React.createClass({
             </div>
 	    )
 	}
-});
+}

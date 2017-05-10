@@ -3,6 +3,7 @@
 //
 //  Table of Contents:
 //
+//   0. Colours
 //   1. Global
 //   2. Breakpoints
 //   3. The Grid
@@ -41,6 +42,7 @@
 
 //@import 'util/util';
 
+// 0. Colours
 // 1. Global
 // ---------
 
@@ -80,6 +82,7 @@ $theme-color:#689f38;
 $data-color:#B45324;
 
 $blue: #3A99D8;
+$red: #D50920;
 
 // 2. Breakpoints
 // --------------
@@ -190,7 +193,7 @@ $stat-font-size: 2.5rem;
 
 $abide-inputs: true;
 $abide-labels: true;
-$input-background-invalid: $alert-color;
+$input-background-invalid: $white;
 $form-label-color-invalid: $alert-color;
 $input-error-color: $alert-color;
 $input-error-font-size: rem-calc(12);
@@ -223,6 +226,7 @@ $badge-color: foreground($badge-background);
 $badge-padding: 0.3em;
 $badge-minwidth: 2.1em;
 $badge-font-size: 0.6rem;
+$badge-palette: $foundation-palette;
 
 // 10. Breadcrumbs
 // ---------------
@@ -557,4 +561,3 @@ $topbar-padding: 0;
 $topbar-background: $menu-black;
 $topbar-link-color: $white;
 $topbar-input-width: 200px;
-

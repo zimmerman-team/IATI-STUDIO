@@ -1,9 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { persistState } from 'redux-devtools';
 import rootReducer from '../reducers';
-import DevTools from '../containers/DevTools';
-
-
 import thunkMiddleware from 'redux-thunk'
 import createSocketMiddleware from '../middleware/api'
 import apiMiddleware from '../middleware/publicApi'
@@ -29,9 +25,11 @@ export default function configureStore(initialState) {
     // applyMiddleware(d1, d2, d3),
     applyMiddleware(thunkMiddleware, socketMiddleware, apiMiddleware),
     // Required! Enable Redux DevTools with the monitors you chose
-    DevTools.instrument(),
+    //DevTools.instrument(),
     // Optional. Lets you write ?debug_session=<key> in address bar to persist debug sessions
-    persistState(getDebugSessionKey())
+    //persistState(getDebugSessionKey()),
+    // Uncomment to enable Redux dev tool browser extension
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   );
   const store = createStore(
       rootReducer,

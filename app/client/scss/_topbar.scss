@@ -2,7 +2,7 @@
 	position:fixed;
 	width:100%;
 	line-height: 3rem;
-	z-index:99;
+	z-index:1001;		//note: leftlet has 1000 z-index, external css
 	top:0;
 	.columns {
 		float:none;
@@ -192,7 +192,7 @@
 	font-weight:700;
 	@include card(1);
 	width:13.2rem;
-	z-index:2;
+	z-index:99999;
 	transform:translate(-10.2rem,0);
 	transition:transform .2s ease;
 	height:100%;

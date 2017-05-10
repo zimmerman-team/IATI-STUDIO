@@ -5,73 +5,66 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import onClickOutside from 'react-onclickoutside'
 import classNames from 'classnames'
 
-const RenderInBody = React.createClass({
+class RenderInBody extends React.Component {
+    componentDidMount() {
+      this.popup = document.createElement("div")
+      document.body.appendChild(this.popup)
+      this._renderLayer()
+    }
 
-  componentDidMount: function() {
-    this.popup = document.createElement("div")
-    document.body.appendChild(this.popup)
-    this._renderLayer()
-  },
+    componentDidUpdate() {
+      this._renderLayer()
+    }
 
+    componentWillUnmount() {
+      ReactDOM.unmountComponentAtNode(this.popup)
+      document.body.removeChild(this.popup)
+    }
 
-  componentDidUpdate: function() {
-    this._renderLayer()
-  },
+    _renderLayer = () => {
+      ReactDOM.render(this.props.children, this.popup)
+    };
 
+    render() {
+      // Render a placeholder
+      //return React.DOM.div(this.props);
+      return null
+    }
+}
 
-  componentWillUnmount: function() {
-    ReactDOM.unmountComponentAtNode(this.popup)
-    document.body.removeChild(this.popup)
-  },
-
-
-  _renderLayer: function() {
-    ReactDOM.render(this.props.children, this.popup)
-  },
-
-  render: function() {
-    // Render a placeholder
-    //return React.DOM.div(this.props);
-    return null
-  }
-
-});
-
-export const ModalButton = React.createClass({
-    /*
-     * A button with its own Modal container
-     * Has state w.r.t the Modal being open or closed
-    */
-
-    getInitialState: function() {
-        return {
-            opened: false
-        }
-    },
-
-    propTypes: {
+export class ModalButton extends React.Component {
+    static propTypes = {
         children: React.PropTypes.element.isRequired,
         name: React.PropTypes.string.isRequired,
         buttonProps: React.PropTypes.element, // TODO: Allow spread on button - 2016-01-28
         minWidth: React.PropTypes.string,
         extraClass: React.PropTypes.string,
         closeTop: React.PropTypes.bool,
-    },
+    };
 
-    toggleModal: function() {
+    /*
+     * A button with its own Modal container
+     * Has state w.r.t the Modal being open or closed
+    */
+
+    state = {
+        opened: false
+    };
+
+    toggleModal = () => {
         this.setState({ opened: !this.state.opened })
-    },
+    };
 
-    closeModal: function() {
+    closeModal = () => {
         this.setState({ opened: false })
-    },
+    };
 
-    performAction: function(){
+    performAction = () => {
         this.props.action()
         this.setState({opened: false})
-    },
+    };
 
-    render: function() {
+    render() {
         var modalClass = classNames('modal-container', this.props.extraClass)
         return (
             <div style={{float: this.props.float}}>
@@ -102,30 +95,30 @@ export const ModalButton = React.createClass({
             </div>
         )
     }
-})
+}
 
-const Modal = onClickOutside(React.createClass({
+const Modal = onClickOutside(class extends React.Component {
     /*
      * Overlay container
      */
 
-    propTypes: {
+    static propTypes = {
         children: React.PropTypes.element.isRequired,
         opened: React.PropTypes.bool,
-    },
+    };
 
-    handleClickOutside: function(e) {
+    handleClickOutside = (e) => {
         this.props.handleClickOutside(e)
-    },
+    };
 
-    render: function() {
+    render() {
         return (
             <div className="modal ignore-react-onclickoutside" style={{minWidth: this.props.minWidth}}>
                 {this.props.children}
             </div>
         )
     }
-}))
+})
 
 const ModalOverlay = props => {
     return (
