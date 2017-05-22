@@ -44,10 +44,10 @@ let SplashScreen = React.createClass({
 						    {this.props.uiState.splashScreen ? null :
 							<div>
 								<ul>
-								    <li>Produce custom charts based on +550K activities from the IATI registry</li>
-								    <li>Build IATI MicroSites (coming soon)</li>
-								    <li>Produce IATI activities and report your projects online (coming soon)</li>
-								    <li>Share with the International DevAid community</li>
+								    <li>Produce custom charts based on +600K activities from the IATI registry</li>
+				
+								    <li>Produce IATI activities and report your projects online (May 2017)</li>
+								    <li>Build IATI MicroSites (2017)</li>
 								</ul>
 							</div>
 							}
