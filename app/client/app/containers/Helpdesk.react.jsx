@@ -16,11 +16,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const faq = [{
 	question: 'What is IATI Studio?',
-	answer: '<p>IATI Studio provides you with direct access to the all the data published to the <a href="http://www.iatiregistry.org/" target="_blank">IATI Registry</a> and enables you to visualise and analyse those data.</p>'
+	answer: '<p>IATI Studio provides you with direct access to the all the data published to the <a href="http://www.iatiregistry.org/" target="_blank">IATI Registry</a> and enables you to visualise and analyse data. Data that is not validated is now shown in IATI Studio.</p>'
 	},
 	{
 	question: 'Can I access all data published in the IATI Registry?',
-	answer: '<p>Yes. IATI Studio pulls data directly from the registry using the <a href="https://www.oipa.nl/" target="_blank">OIPA data engine</a> every night, so the data in IATI Studio is always up to date.</p>'
+	answer: '<p>Yes. IATI Studio pulls data directly from the registry using the <a href="https://www.oipa.nl/" target="_blank">OIPA data engine</a> every night, so the data in IATI Studio is always up to date. Data that is not validated is now shown in IATI Studio.</p>'
 	},
 	{
 	question: 'Can I publish my own IATI data using IATI Studio?',
@@ -28,11 +28,11 @@ const faq = [{
 	},
 	{
 		question:'I can not find my organisation',
-		answer:'If your organisation is not listed, your IATI data is probably not up to date. IATI Studio can only show and use validated data. Please check the list or organisations that we can not process in IATI Studio and see if your organisation is on that list. Once you have fixed the issue - usually invalid transaction dates- IATI will pick up your data. If you are not on that list and not listed in IATI Studio either, please contact us for information at: <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a>.'
+		answer:'If your organisation is not listed, your IATI data is probably not up to date or not validated. IATI Studio can only show and use validated data. Please check the list or organisations that we can not process in IATI Studio and see if your organisation is on that list. Once you have fixed the issue - usually invalid transaction dates- IATI will pick up your data. If you are not on that list and not listed in IATI Studio either, please contact us for information at: <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a>. or use the support button right bottom.'
 	},
 	{
 		question:'When will your Microsite Builder be ready?',
-		answer:'IATI Studio aims for a release early 2017.'
+		answer:'IATI Studio aims for a release in 2017.'
 	},
 	{
 	question: 'Is there a limit to how many charts I can build?',
@@ -52,7 +52,7 @@ const faq = [{
 	},
 	{
 	question: 'Something is not working!',
-	answer: '<p>Oh no! Good thing IATI Studio is still in Beta. Please let us know what happened and when it happened, what you were doing, and anything else you might find relevant, on <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a> and we\'ll try and fix it as soon as possible.</p>'
+	answer: '<p>Oh no! Good thing IATI Studio is still in Beta. Please let us know what happened and when it happened, what you were doing, and anything else you might find relevant, on <a href="mailto:enquiry@iatistudio.com">enquiry@iatistudio.com</a> and we\'ll try and fix it as soon as possible. You could also use the support button right bottom. </p>'
 	},
 ]
 
