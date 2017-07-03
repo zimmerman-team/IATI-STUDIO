@@ -4,6 +4,10 @@
   </a>
 </div>
 
+--------
+[![License: AGPLv3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://github.com/zimmerman-zimmerman/ZOOM/blob/master/LICENSE.MD)
+--------
+
 
 #### IATI Studio
 --------
