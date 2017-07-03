@@ -23,7 +23,7 @@ IATI is a global aid transparency standard and it makes information about aid sp
 * Web Site:         [IATI Studio](https://www.iatistudio.com/)
 * OIPA:             [OIPA] (https://github.com/zimmerman-zimmerman/OIPA)
 * Authors:          [Zimmerman & Zimmerman ](https://www.zimmermanzimmerman.nl/)
-* License:          [Needs Thinking]
+* License:          AGPLV3
 * Github Repo:      https://github.com/zimmerman-zimmerman/IATI-STUDIO//
 * Bug Tracker:      https://github.com/zimmerman-zimmerman/IATI-STUDIO//issues
 * Documentation:    https://github.com/zimmerman-zimmerman/IATI-STUDIO//wiki
@@ -40,9 +40,6 @@ Yes! We are mainly looking for coders to help on the project. If you are a coder
 --------
 
 AGPL Version 3
-
-
-
 
 
 
