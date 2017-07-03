@@ -30,9 +30,16 @@ IATI is a global aid transparency standard and it makes information about aid sp
 
 
 
-#### Licensing
+## Can I contribute?
 --------
-Needs thinking
+
+Yes! We are mainly looking for coders to help on the project. If you are a coder feel free to *Fork* the repository and send us Pull requests!
+
+
+## License
+--------
+
+AGPL Version 3
 
 
 
