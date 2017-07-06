@@ -173,10 +173,13 @@ export const Checkbox = (props) => (
 )
 
 export const Radiobutton = (props) => {
-    //console.log(props)
+ 
+    let inputProps = {...props}
+    delete inputProps['labelName']
+
     return (
         <div>
-            <input type="radio" id={props.id} {...props} />
+            <input type="radio" id={props.id} {...inputProps} />
             <label htmlFor={props.id}>{props.labelName}</label>
         </div>
     )

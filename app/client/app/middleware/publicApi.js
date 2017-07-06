@@ -81,7 +81,7 @@ function callApi(method, body, endpoint, schema) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
-
+    //console.log(fullUrl)
     return fetch(fullUrl, { method, body, credentials: 'same-origin', headers })
         .then(response =>
             response.json().then(json => ({ json, response }))

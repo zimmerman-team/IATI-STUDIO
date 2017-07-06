@@ -315,8 +315,26 @@ class ChartBuilder extends React.Component {
     };
 
     render() {
+
+        const joyride = (
+            <Joyride 
+                ref="joyride"
+                steps={this.state.steps}
+                showSkipButton={true}
+                showOverlay={true}
+                type='continuous'
+                completeCallback={this.completeCallback}
+                locale={{back: "Back", close: 'Close', last: 'Ok, I got it', next: 'Next', skip: 'Skip tour' }}
+                showStepsProgress={false} />
+        )
+
         if (!this.props.visualization) {
-            return <YetAnotherLoader />
+            return (
+                <div>
+                    <YetAnotherLoader />
+                    {joyride}
+                </div>
+            )
         }
 
         const { visualization, items, context, contextFilters, itemFilters, menuState, loadingChart, id } = this.props
@@ -327,15 +345,7 @@ class ChartBuilder extends React.Component {
 
         return (
             <div>
-                <Joyride 
-                    ref="joyride"
-                    steps={this.state.steps}
-                    showSkipButton={true}
-                    showOverlay={true}
-                    type='continuous'
-                    completeCallback={this.completeCallback}
-                    locale={{back: "Back", close: 'Close', last: 'Ok, I got it', next: 'Next', skip: 'Skip tour' }}
-                    showStepsProgress={false} />
+                {joyride}
                 <section id="chart-builder-wrapper" className={loadClass}>
                     <ReactCSSTransitionGroup transitionName="fade" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
                         {loadingChart ? <ChartLoader className="overlay white"/> : null}

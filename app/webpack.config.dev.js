@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack')
 
 module.exports = {
-    devtool: 'inline-eval-cheap-source-map',
+    devtool: 'inline-source-map',
     entry: {
         app: [ 
             'webpack-dev-server/client?http://0.0.0.0:2001', // WebpackDevServer host and port
