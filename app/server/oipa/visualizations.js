@@ -137,6 +137,8 @@ export const getResultItem = function(visualization, item, cb) {
  
    let query = composeOipaQuery(visualization, item);
 
+   console.log('---- getResultItem ----', query);
+
    return getResult(query)
       .then(result => {
          return _.map(result, single => composeResultObject(single, item, visualization.base_group))
@@ -156,7 +158,6 @@ export const getVisualizationResult = function(visualization) {
 
     // list of promises
     let results = _(visualization.items)
-      
         .map(item => {
             return getResultItem(visualization, item)
         })

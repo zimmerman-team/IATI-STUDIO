@@ -73,7 +73,7 @@ const getItemFilterOption = function(groupBy, context, currencyType, currency){
         ))
         .value()
 
-    console.log(context_query);
+    console.log("---- getItemFilterOption.context_query -----", context_query);
 
     // TODO: add transaction_type filter when passing items - 2016-05-17
 
@@ -92,7 +92,7 @@ const getItemFilterOption = function(groupBy, context, currencyType, currency){
 
     const req_options = { url: query }
 
-    console.log(query);
+    console.log("---- getItemFilterOption.query -----", query);
 
     return oipaGet(req_options)
         .then(body => {
@@ -153,7 +153,7 @@ const getContextFilterOption = function(groupBy, items, currencyType, currency){
 
     const req_options = { url: query }
 
-    console.log(query);
+    console.log('---- getContextFilterOption ----', query);
 
     return oipaGet(req_options)
         .then(body => {

@@ -58,7 +58,7 @@ export const ChartViewList = connect(null, { hideVisualizationFromFeed })(class 
     render() {
         const { id, visualization, items, context } = this.props
         let updateDate = moment(visualization.last_updated).format("D MMM YYYY")
-
+        
         return (
             <div className="columns small-12 large-6 end">
                 <div className="chart-list-item public-chart">

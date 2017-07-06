@@ -124,7 +124,6 @@ class ChartBuilder extends React.Component {
 
     onItemChange = (filter, aggregation, added, type) => {
         let { visualization, items, contextFilters } = this.props
-
         // let filter = contextFilters[type][i];
 
         if (added) {
