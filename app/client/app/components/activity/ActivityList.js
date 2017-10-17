@@ -4,6 +4,7 @@ import React, { PropTypes }   from 'react'
 import { connect }            from 'react-redux'
 import classNames             from 'classnames'
 import { toggleMainMenu }     from '../../actions/sync'
+import { GeneralLoader } from '../general/Loaders.react.jsx'
 
 import { Link } from 'react-router'
 

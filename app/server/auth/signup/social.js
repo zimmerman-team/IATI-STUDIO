@@ -7,6 +7,8 @@ import { postUserCreate } from './postUserCreate'
 import UserApi from '../../api/private/User'
 import request from 'request'
 import { oipaPost } from '../../config/request'
+import randomstring from 'randomstring'
+
 
 export function signupSocial(req, res, next) {
 
@@ -28,6 +30,7 @@ export function signupSocial(req, res, next) {
   });
 
   workflow.on('duplicateUsernameCheck', function() {
+
     workflow.username = req.session.socialProfile.username || req.session.socialProfile.id;
 
     if (!/^[a-zA-Z0-9\-\_]+$/.test(workflow.username)) {
@@ -66,33 +69,41 @@ export function signupSocial(req, res, next) {
   });
 
   workflow.on('createOIPAUser', function() {
-      const req_options = {
-          url: '/api/auth/registration/',
-          body: {
-              username: req.body.username,
-              password1: req.body.password,
-              password2: req.body.password,
-              email: req.body.email.toLowerCase(),
-          }
-      };
 
-      return oipaPost(req_options)
-          .then(
-              parsedBody => {
-                  const token = parsedBody.key
+    const user = req.session.socialProfile
+    const randomPw = randomstring.generate()
 
-                  if (typeof(token) !== 'string') {
-                      return workflow.emit('exception', new Error("OIPA didn't return a token"));
-                  }
+    console.log(randomPw)
 
-                  workflow.emit('createUser', token)
-          })
-          .catch(error => workflow.emit('exception', error))
+    // Store hash in your password DB.
+    const req_options = {
+      url: '/api/auth/registration/',
+      body: {
+            username: user.username,
+            password1: randomPw,
+            password2: randomPw,
+            email: req.body.email.toLowerCase(),
+        }
+    };
+
+    return oipaPost(req_options)
+        .then(
+            parsedBody => {
+                const token = parsedBody.key
+
+                if (typeof(token) !== 'string') {
+                    return workflow.emit('exception', new Error("OIPA didn't return a token"));
+                }
+
+                workflow.emit('createUser', token)
+        })
+        .catch(error => workflow.emit('exception', error))
+
   })
 
   workflow.on('createUser', function(oipaToken) {
-    //console.log(req.session.socialProfile)
     var avatarSocial
+
     if (req.session.socialProfile.provider == 'twitter') { avatarSocial = req.session.socialProfile._json.profile_image_url_https }
     else if (req.session.socialProfile.provider == 'github') { avatarSocial = req.session.socialProfile._json.avatar_url }
     else if (req.session.socialProfile.provider == 'facebook') { avatarSocial = req.session.socialProfile.photos[0].value }
@@ -113,7 +124,6 @@ export function signupSocial(req, res, next) {
       oipaToken: oipaToken,
     };
     fieldsToSet[req.session.socialProfile.provider] = { id: req.session.socialProfile.id };
-
     req.app.db.models.User.create(fieldsToSet, function(err, user) {
       if (err) {
         return workflow.emit('exception', err);
@@ -123,6 +133,8 @@ export function signupSocial(req, res, next) {
       workflow.emit('createAccount');
     });
   });
+
+
 
   workflow.on('createAccount', function() {
     var displayName = req.session.socialProfile.displayName || '';
