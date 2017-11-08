@@ -1,3 +1,6 @@
 npm-debug.log
 .idea
 .DS_Store
+app/server/config/config.js
+app/server/config/oauth.js
+
