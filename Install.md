@@ -1,7 +1,3 @@
-installation instructions for IATI Studio are published to the WIKI: https://github.com/zimmerman-zimmerman/IATI-STUDIO/wiki/How-to-install-IATI-Studio
-
-Or:
-
 ### Prerequisites
 Before you can install IATI Studio, be sure to have the following installed on your machine:
 * Node (5.8.0)
