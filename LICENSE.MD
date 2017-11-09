@@ -629,7 +629,7 @@ to attach them to the start of each source file to most effectively
 state the exclusion of warranty; and each file should have at least
 the "copyright" line and a pointer to where the full notice is found.
 
-    IATI Studio is an online do it yourself data platform, enabling you to visualise all open data published to the IATI Registry.
+    <Extracts and models IATI XML data for fast visualisation>
     Copyright (C) 2016  Zimmerman & Zimmerman
 
     This program is free software: you can redistribute it and/or modify
