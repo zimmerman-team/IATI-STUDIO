@@ -21,6 +21,7 @@
     "d3plus": "git+https://github.com/alexandersimoes/d3plus.git#v1.9.4",
     "draft-js": "0.7.*",
     "draft-js-export-html": "0.2.*",
+    "ecstatic": "^3.2.0",
     "emailjs": "^1.0.4",
     "express": "~4.13.4",
     "express-handlebars": "~3.0.0",
