@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "description": "IATI Studio",
   "repository": "https://github.com/zimmerman-zimmerman/IATI-STUDIO",
-  "license": "NPOSL-3.0",
+  "license": "APGL-3.0",
   "dependencies": {
     "async": "~1.5.2",
     "babel-core": "^6.7.4",
@@ -147,8 +147,8 @@
     "build:drywall": "grunt build",
     "build:scss": "cat client/scss/app.scss | node-sass --include-path public/ --include-path client/scss --output-style expanded > public/css/app.css",
     "watch:client": "webpack --progress --colors --watch",
-    "watch:server": "NODE_ENV=development nodemon --debug --watch server index.js",
-    "webpack-dev-server": "NODE_ENV=development node webpack-dev-server",
+    "watch:server": "NODE_ENV=development nodemon --inspect --watch server index.js",
+    "webpack-dev-server": "NODE_ENV=development nodemon --inspect --watch server index.js",
     "dev": "parallelshell 'npm run webpack-dev-server' 'npm run watch:server'"
   },
   "babel": {
