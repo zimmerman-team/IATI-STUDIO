@@ -12,7 +12,7 @@
 #### IATI Studio
 --------
 
-IATI Studio is an online platform enabling you to chart IATI data.No coding involved!
+IATI Studio is an online platform enabling you to chart IATI data. No coding involved!
 
 A revolutionary data platform enabling development aid workers and data consumers use to manage [IATI data](http://iatiregistry.org/). With IATI Studio anyone can publish open data in IATI and create beautiful webinterfaces with that data. Non IATI publishers are also able to extract IATI data from any publisher on the [IATI registry](http://iatiregistry.org/) and create real-time visualisation based on their filter selection.
 
