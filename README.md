@@ -1,9 +1,5 @@
-<div align="center">
-  <a href="https://www.iatistudio.com/">
-    <img src="https://www.zimmermanzimmerman.nl/wp-content/uploads/2015/10/IATI-studio-logo.png"/>
-  </a>
-</div>
 
+As of January 2019 this project is no longer being maintained.
 --------
 [![License: AGPLv3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://github.com/zimmerman-zimmerman/ZOOM/blob/master/LICENSE.MD)
 --------
